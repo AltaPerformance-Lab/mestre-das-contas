@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { 
-  Landmark, TrendingDown, TrendingUp, History, X, CalendarClock
+  Landmark, TrendingDown, TrendingUp, History, X, CalendarClock, Share2, Download, CheckCircle2
 } from "lucide-react";
 
 // Tipos Internos
@@ -29,12 +29,11 @@ type TimelineStep = {
 };
 
 // --- PROPS PARA PSEO (SEO PROGRAMÁTICO) ---
-// Isso permite que a página dinâmica injete dados específicos na calculadora
 interface TaxReformCalculatorProps {
-  initialCategory?: string;     // Ex: 'servico'
-  initialValue?: number;        // Ex: 5000
-  initialCargaAtual?: number;   // Ex: 14.5 (Para sobrepor o padrão do preset)
-  hideTitle?: boolean;          // True para esconder o título do Card (usar o H1 da página)
+  initialCategory?: string;
+  initialValue?: number;
+  initialCargaAtual?: number;
+  hideTitle?: boolean;
 }
 
 export default function TaxReformCalculator({ 
@@ -57,11 +56,13 @@ export default function TaxReformCalculator({
   // FUNCIONALIDADES
   const [historico, setHistorico] = useState<HistoricoTax[]>([]);
   const [linkCopiado, setLinkCopiado] = useState(false);
+  
+  // CORREÇÃO 2: Adicionado o state que faltava
   const [embedCopiado, setEmbedCopiado] = useState(false);
   const [showEmbedModal, setShowEmbedModal] = useState(false);
 
   const contentRef = useRef<HTMLDivElement>(null);
-  const reactToPrintFn = useReactToPrint({ contentRef, documentTitle: "Simulacao_Reforma_Tributaria_Timeline" });
+  const reactToPrintFn = useReactToPrint({ contentRef, documentTitle: "Simulacao_Reforma_Tributaria" });
 
   // FORMATADORES
   const formatarMoedaInput = (valor: string) => {
@@ -78,7 +79,10 @@ export default function TaxReformCalculator({
     setValorNum(value);
   };
 
-  const formatBRL = (val: number) => new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(val);
+  const formatBRL = (val: number) => {
+    if (isNaN(val)) return "R$ 0,00";
+    return new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(val);
+  };
 
   // PRESETS DE CARGA TRIBUTÁRIA ATUAL (Estimativas médias IBPT)
   const presets: any = {
@@ -92,9 +96,6 @@ export default function TaxReformCalculator({
 
   // --- EFEITO 1: GESTÃO DE PRESETS E PSEO ---
   useEffect(() => {
-    // Lógica inteligente: 
-    // Se a categoria selecionada for igual à inicial injetada E tivermos uma carga customizada (ex: Advogado 14.5%),
-    // usamos a carga customizada. Se o usuário mudar a categoria manualmente, usamos o preset padrão.
     if (initialCategory && categoria === initialCategory && initialCargaAtual) {
         setCargaAtual(initialCargaAtual.toString());
     } else if (presets[categoria]) {
@@ -109,18 +110,18 @@ export default function TaxReformCalculator({
     const salvo = localStorage.getItem("historico_tax");
     if (salvo) setHistorico(JSON.parse(salvo));
 
-    // 1. Prioridade: Props do pSEO
-    if (initialCategory) {
-        setCategoria(initialCategory);
-    }
+    if (initialCategory) setCategoria(initialCategory);
 
+    // Inicialização segura
     if (initialValue) {
         setValorNum(initialValue);
         setValorProduto(formatBRL(initialValue));
-        // Dispara cálculo automático com pequeno delay para garantir que states assentaram
-        setTimeout(() => calcular(initialValue, initialCategory || "padrao"), 300);
+        
+        const cargaInicial = initialCargaAtual || presets[initialCategory || "padrao"].atual;
+        setCargaAtual(cargaInicial.toString());
+
+        setTimeout(() => calcular(initialValue, initialCategory || "padrao", cargaInicial), 300);
     } else {
-        // 2. Fallback: URL Params (compartilhamento)
         const urlValor = searchParams.get("valor");
         const urlCat = searchParams.get("cat");
 
@@ -136,12 +137,26 @@ export default function TaxReformCalculator({
   }, [searchParams, initialCategory, initialValue]);
 
   // --- LÓGICA DE CÁLCULO E TIMELINE ---
-  const calcular = (V = valorNum, Cat = categoria) => {
-    if (!V) return;
+  const calcular = (V = valorNum, Cat = categoria, cargaOpcional?: number) => {
+    if (!V || isNaN(V)) return;
 
-    const regra = presets[Cat];
-    // Se tivermos cargaAtual no state (pode ter vindo do preset ou do pSEO), usamos ela
-    const taxaAntigaPct = parseFloat(cargaAtual); 
+    // Garante que o preset existe (fallback para padrao)
+    const regra = presets[Cat] || presets["padrao"];
+    
+    // CORREÇÃO 1: Lógica robusta para definir taxaAntigaPct (nunca será undefined)
+    let taxaAntigaPct: number;
+    
+    if (cargaOpcional !== undefined) {
+        taxaAntigaPct = cargaOpcional;
+    } else {
+        const parsed = parseFloat(cargaAtual);
+        if (!isNaN(parsed)) {
+            taxaAntigaPct = parsed;
+        } else {
+            taxaAntigaPct = regra.atual || 0;
+        }
+    }
+
     const taxaNovaPct = regra.iva;
 
     // Valores Base
@@ -206,7 +221,7 @@ export default function TaxReformCalculator({
         atual: { taxa: taxaAntigaPct, valor: formatBRL(impostoAtual) },
         novo: { taxa: taxaNovaPct, valor: formatBRL(impostoNovo) },
         diferencaValor: formatBRL(Math.abs(diferenca)),
-        diferencaPercent: variacao.toFixed(1) + "%",
+        diferencaPercent: isNaN(variacao) ? "0%" : variacao.toFixed(1) + "%",
         situacao: diferenca > 0 ? "Aumento" : "Redução",
         categoriaLabel: regra.label,
         rawValor: V,
@@ -251,7 +266,6 @@ export default function TaxReformCalculator({
   };
 
   return (
-    // LAYOUT RESPONSIVO: max-w-[100vw] evita scroll lateral no mobile
     <div className="w-full max-w-[100vw] overflow-x-hidden">
       
       <div className="grid md:grid-cols-12 gap-4 md:gap-8 w-full print:hidden">
@@ -260,7 +274,6 @@ export default function TaxReformCalculator({
         <div className="md:col-span-5 space-y-6">
             <Card className="border-0 shadow-sm ring-1 ring-slate-200 bg-white sticky top-24">
                 
-                {/* HEADER: Só mostra se hideTitle for falso (padrão) */}
                 {!hideTitle && (
                     <CardHeader className="bg-slate-900 text-white p-4 md:p-6 rounded-t-xl">
                         <CardTitle className="text-lg flex items-center gap-2">
@@ -373,9 +386,15 @@ export default function TaxReformCalculator({
                                 </div>
                             </div>
 
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
-                                <Button className="w-full" variant="outline" onClick={() => handleAction("share")}>{linkCopiado ? "Link Copiado!" : "Compartilhar Resultado"}</Button>
-                                <Button className="w-full" variant="outline" onClick={() => handleAction("pdf")}>Baixar PDF</Button>
+                            <div className="flex flex-col sm:flex-row gap-3 pt-2">
+                                <Button className="flex-1" variant="outline" onClick={() => handleAction("share")}>
+                                    <Share2 size={16} className="mr-2"/>
+                                    {linkCopiado ? "Link Copiado!" : "Compartilhar"}
+                                </Button>
+                                <Button className="flex-1" variant="outline" onClick={() => handleAction("pdf")}>
+                                    <Download size={16} className="mr-2"/>
+                                    Baixar PDF
+                                </Button>
                             </div>
                         </div>
                     )}
@@ -421,9 +440,11 @@ export default function TaxReformCalculator({
                 <button onClick={() => setShowEmbedModal(false)} className="absolute top-4 right-4"><X size={20}/></button>
                 <h3 className="font-bold mb-2">Incorporar Calculadora</h3>
                 <code className="text-xs bg-slate-100 p-3 block mb-4 rounded border border-slate-200 text-slate-600 break-all">
-                    {`<iframe src="https://mestredascontas.com.br/financeiro/reforma-tributaria?embed=true" width="100%" height="800" frameborder="0" style="border:0; border-radius:12px;" title="Calculadora Reforma Tributária"></iframe>`}
+                    {`<iframe src="https://mestredascontas.com.br/financeiro/reforma-tributaria?embed=true" width="100%" height="750" frameborder="0" style="border:0; border-radius:12px;" title="Calculadora Reforma Tributária"></iframe>`}
                 </code>
-                <Button onClick={copiarEmbedCode} className="w-full">Copiar Código</Button>
+                <Button onClick={copiarEmbedCode} className="w-full">
+                    {embedCopiado ? <span className="flex items-center gap-2"><CheckCircle2 size={16}/> Copiado!</span> : "Copiar Código"}
+                </Button>
             </div>
         </div>
       )}
