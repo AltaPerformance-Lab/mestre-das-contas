@@ -1,10 +1,14 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { GoogleAnalytics } from "@next/third-parties/google";
+import Script from "next/script";
 import "./globals.css";
-import Sidebar from "@/components/layout/Sidebar"; // Vamos garantir que esse componente exista abaixo
-import HeaderMobile from "@/components/layout/HeaderMobile"; // Header só para mobile
+import Sidebar from "@/components/layout/Sidebar";
+import RightSidebar from "@/components/layout/RightSidebar";
+import HeaderMobile from "@/components/layout/Header"; // Header Mobile (Só aparece < XL)
+import HeaderDesktop from "@/components/layout/HeaderDesktop"; // NOVO: Header Desktop (Só aparece >= XL)
 import Footer from "@/components/layout/Footer";
-import { Toaster } from "@/components/ui/toaster"; // Para avisos/toasts se usar
+import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -13,11 +17,8 @@ export const metadata: Metadata = {
     template: "%s | Mestre das Contas",
     default: "Mestre das Contas - Calculadoras Financeiras e Trabalhistas",
   },
-  description: "Simplifique sua vida financeira. Calculadoras gratuitas de Rescisão, Férias, Décimo Terceiro, Juros Compostos e muito mais.",
+  description: "Simplifique sua vida financeira. Calculadoras gratuitas e atualizadas.",
   metadataBase: new URL("https://mestredascontas.com.br"),
-  icons: {
-    icon: "/favicon.ico",
-  },
 };
 
 export default function RootLayout({
@@ -26,40 +27,60 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-BR" className="scroll-smooth">
-      <body className={`${inter.className} bg-slate-50 text-slate-900 antialiased`}>
+    <html lang="pt-BR" className="scroll-smooth" data-scroll-behavior="smooth">
+      <body className={`${inter.className} bg-slate-100 text-slate-900 antialiased`}>
         
-        {/* WRAPPER GERAL - Centraliza em telas ultra-wide */}
-        <div className="mx-auto max-w-[1600px] min-h-screen bg-slate-50 shadow-2xl shadow-slate-200/50 flex flex-col lg:flex-row">
+        {/* HEADER MOBILE (Visível apenas em telas pequenas < XL) */}
+        <div className="xl:hidden sticky top-0 z-50 bg-white border-b border-slate-200">
+           <HeaderMobile />
+        </div>
+
+        {/* WRAPPER GERAL (GRID DE 3 COLUNAS) */}
+        <div className="mx-auto max-w-7xl min-h-screen bg-slate-50 shadow-2xl shadow-slate-200/50 xl:grid xl:grid-cols-[260px_1fr_320px]">
           
-          {/* --- SIDEBAR (Desktop) --- */}
-          {/* Fixamos em 260px. Flex-none impede que ela encolha ou estique. */}
-          <aside className="hidden lg:block w-[260px] flex-none border-r border-slate-200 bg-white min-h-screen sticky top-0 h-screen overflow-y-auto z-20">
-            <Sidebar />
+          {/* --- COLUNA 1: SIDEBAR NAVEGAÇÃO (Esquerda) --- */}
+          <aside className="hidden xl:block border-r border-slate-200 bg-white relative z-20">
+            <div className="sticky top-0 h-screen overflow-y-auto scrollbar-thin scrollbar-thumb-slate-200">
+               <Sidebar />
+            </div>
           </aside>
 
-          {/* --- CONTEÚDO PRINCIPAL --- */}
-          <div className="flex-1 flex flex-col min-w-0">
+          {/* --- COLUNA 2: CONTEÚDO PRINCIPAL (Meio) --- */}
+          <div className="flex flex-col min-w-0 bg-white xl:bg-slate-50/30">
             
-            {/* Header Mobile (Só aparece em telas pequenas) */}
-            <div className="lg:hidden sticky top-0 z-50">
-               <HeaderMobile />
-            </div>
+            {/* HEADER DESKTOP (Novo: Fixo no topo da coluna do meio) */}
+            <HeaderDesktop />
 
-            {/* MAIN - Onde as páginas são renderizadas */}
-            {/* Removemos paddings globais (p-4/p-8) para evitar o "aperto" */}
             <main className="flex-1 w-full">
               {children}
             </main>
-
-            {/* Footer Global */}
-            <Footer />
             
+            <Footer />
           </div>
+
+          {/* --- COLUNA 3: SIDEBAR PUBLICIDADE (Direita) --- */}
+          <aside className="hidden xl:block border-l border-slate-200 bg-white relative z-20">
+            <div className="sticky top-0 h-screen overflow-y-auto scrollbar-thin scrollbar-thumb-slate-200">
+               <RightSidebar />
+            </div>
+          </aside>
+
         </div>
         
         <Toaster />
       </body>
+      {process.env.NEXT_PUBLIC_ANALYTICS_ID && (
+        <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_ANALYTICS_ID} />
+      )}
+      {process.env.NEXT_PUBLIC_ADSENSE_ID && (
+  <Script
+    id="adsense-init"
+    async
+    src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${process.env.NEXT_PUBLIC_ADSENSE_ID}`}
+    crossOrigin="anonymous"
+    strategy="afterInteractive"
+  />
+)}
     </html>
   );
 }

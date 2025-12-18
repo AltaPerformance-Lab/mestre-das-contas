@@ -15,7 +15,7 @@ export default function Footer() {
               <div className="bg-blue-600 p-1.5 rounded-lg text-white">
                 <Calculator size={20} />
               </div>
-              <span>Conta<span className="text-blue-600">Rápida</span></span>
+              <span>Mestre das<span className="text-blue-600">Contas</span></span>
             </div>
             <p className="text-slate-500 text-sm leading-relaxed mx-auto md:mx-0 max-w-xs">
               Simplificamos a matemática da vida real. Ferramentas gratuitas para você tomar as melhores decisões financeiras.
@@ -40,7 +40,7 @@ export default function Footer() {
               <li><Link href="/trabalhista" className="hover:text-blue-600 transition-colors block py-1">Trabalhista</Link></li>
               <li><Link href="/financeiro" className="hover:text-blue-600 transition-colors block py-1">Financeiro & Investimentos</Link></li>
               <li><Link href="/saude" className="hover:text-blue-600 transition-colors block py-1">Saúde e Bem-estar</Link></li>
-              <li><Link href="/conversor" className="hover:text-blue-600 transition-colors block py-1">Conversores de Medidas</Link></li>
+              <li><Link href="/financeiro/reforma-tributaria" className="hover:text-blue-600 transition-colors block py-1">Reforma Tributária</Link></li>
             </ul>
           </div>
 
@@ -75,9 +75,9 @@ export default function Footer() {
 
         {/* Copyright Bar */}
         <div className="border-t border-slate-100 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-400">
-          <p>&copy; {new Date().getFullYear()} ContaRápida App. Todos os direitos reservados.</p>
+          <p>&copy; {new Date().getFullYear()} Mestre das Contas. Todos os direitos reservados.</p>
           <p className="flex items-center gap-1">
-            Feito com <span className="text-red-400">❤</span> para facilitar sua vida.
+            Desenvolvido com <span className="text-red-400">❤</span> por <a href="https://altaperformance.dev.br" target="_blank" rel="nofollow noreferrer" className="font-bold text-slate-600 hover:text-blue-600 transition-colors">Alta Performance Web</a>
           </p>
         </div>
 

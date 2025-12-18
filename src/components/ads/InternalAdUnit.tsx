@@ -5,14 +5,14 @@ import {
 } from "lucide-react";
 
 // --- CONFIGURAÇÃO ---
-const WHATSAPP_NUMBER = "556498296245"; 
+const WHATSAPP_NUMBER = "5564981296245"; 
 const BASE_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=`;
 
 interface InternalAdUnitProps {
   format?: "horizontal" | "vertical" | "rectangle" | "auto" | string;
-  // AQUI ESTAVA O ERRO DA SEGUNDA IMAGEM: Permitimos string e number para flexibilidade
   variant?: "speed" | "software" | "agency" | "auto" | string | number; 
   className?: string;
+  slot?: string; // ADICIONADO: Fundamental para variar os anúncios
 }
 
 type AdModel = {
@@ -237,7 +237,6 @@ const adsConfig: AdModel[] = [
   },
 ];
 
-// --- HELPER DE TEXTURA ---
 const TextureLayer = ({ type }: { type: AdModel["texture"] }) => {
     if (type === "noise") return <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10 pointer-events-none"></div>;
     if (type?.startsWith("blur")) {
@@ -256,34 +255,40 @@ const TextureLayer = ({ type }: { type: AdModel["texture"] }) => {
     return null;
 }
 
-export default function InternalAdUnit({ format = "horizontal", variant = "auto", className = "" }: InternalAdUnitProps) {
+export default function InternalAdUnit({ 
+  format = "horizontal", 
+  variant = "auto", 
+  className = "", 
+  slot = "default" 
+}: InternalAdUnitProps) {
   
-  // 1. SELEÇÃO DO MODELO DO ANÚNCIO
   let selectedAd: AdModel;
 
-  // Mapeia os nomes antigos (para compatibilidade)
   const legacyMap: Record<string, number> = { "agency": 1, "speed": 2, "software": 3 };
 
   if (variant && legacyMap[variant as string]) {
-      // Se passou "agency", "speed" ou "software", pega o ID fixo
       selectedAd = adsConfig.find(ad => ad.id === legacyMap[variant as string]) || adsConfig[0];
   } else if (variant === "auto" || !variant) {
-      // Se for AUTO, pega um randômico baseado no minuto atual (para variar)
-      const index = typeof window !== 'undefined' ? new Date().getMinutes() % adsConfig.length : 0;
-      selectedAd = adsConfig[index] || adsConfig[0];
+      // --- LÓGICA CORRIGIDA ---
+      // Usamos o nome do 'slot' para gerar um número único.
+      // Assim, 'header_top' sempre mostrará o anúncio A, e 'sidebar_right' mostrará o anúncio B.
+      let hash = 0;
+      const seed = slot || "random";
+      for (let i = 0; i < seed.length; i++) {
+          hash = seed.charCodeAt(i) + ((hash << 5) - hash);
+      }
+      // O Math.abs garante positivo, o % adsConfig.length garante que está dentro da lista
+      const index = Math.abs(hash) % adsConfig.length;
+      selectedAd = adsConfig[index];
   } else {
-      // Se passou um ID numérico ou string desconhecida
       selectedAd = adsConfig.find(ad => String(ad.id) === String(variant)) || adsConfig[0];
   }
 
-  // Prepara o link do WhatsApp
   const waMessage = encodeURIComponent(`Olá! Vi o banner "${selectedAd.category}" no Mestre dos Cálculos e quero saber mais.`);
   const finalLink = `${BASE_URL}${waMessage}`;
   const Icon = selectedAd.icon;
 
-  // =========================================================
-  // RENDERIZAÇÃO VERTICAL (SIDEBAR)
-  // =========================================================
+  // LAYOUT VERTICAL / RETÂNGULO
   if (format === "vertical" || format === "rectangle") {
     return (
       <a 
@@ -315,9 +320,7 @@ export default function InternalAdUnit({ format = "horizontal", variant = "auto"
     );
   }
 
-  // =========================================================
-  // RENDERIZAÇÃO HORIZONTAL (MEIO DO TEXTO)
-  // =========================================================
+  // LAYOUT HORIZONTAL
   return (
     <a 
       href={finalLink} target="_blank" rel="noopener noreferrer"
@@ -332,7 +335,6 @@ export default function InternalAdUnit({ format = "horizontal", variant = "auto"
         <h3 className="text-lg sm:text-2xl font-bold text-white leading-tight">
            {selectedAd.title}
         </h3>
-        {/* Subtítulo apenas em desktop para não poluir mobile */}
         <p className="text-slate-400 text-sm mt-1 hidden sm:block">
             {selectedAd.subtitle}
         </p>

@@ -7,15 +7,18 @@ import {
 export default function Sidebar() {
   return (
     <div className="flex flex-col h-full py-6 px-4">
-      {/* LOGO */}
-      <div className="mb-8 px-2 flex items-center gap-2">
-        <div className="bg-blue-600 text-white p-2 rounded-lg">
-          <Calculator size={24} strokeWidth={2.5} />
-        </div>
-        <div>
-          <h1 className="font-bold text-lg leading-tight text-slate-900">Mestre das<br/>Contas</h1>
-        </div>
+    
+    {/* LOGO COM LINK PARA HOME */}
+    <Link href="/" className="mb-8 px-2 flex items-center gap-2 group cursor-pointer transition-opacity hover:opacity-90">
+      <div className="bg-blue-600 text-white p-2 rounded-lg group-hover:bg-blue-700 transition-colors shadow-sm">
+        <Calculator size={24} strokeWidth={2.5} />
       </div>
+      <div>
+        <h1 className="font-bold text-lg leading-tight text-slate-900 group-hover:text-blue-700 transition-colors">
+          Mestre das<br/>Contas
+        </h1>
+      </div>
+    </Link>
 
       {/* MENU NAV */}
       <nav className="flex-1 space-y-8">
@@ -73,7 +76,7 @@ export default function Sidebar() {
             </li>
             <li>
               <Link href="/financeiro/reforma-tributaria" className="flex items-center gap-3 px-3 py-2 text-sm font-medium text-slate-600 rounded-lg hover:bg-green-50 hover:text-green-600 transition-colors">
-                <Landmark size={18} /> Reforma Tributária
+                <Landmark size={18} /> Reforma Tributária 2026
               </Link>
             </li>
           </ul>

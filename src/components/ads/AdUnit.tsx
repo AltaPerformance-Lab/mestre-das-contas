@@ -2,51 +2,55 @@ import InternalAdUnit from "./InternalAdUnit";
 
 interface AdUnitProps {
   slot: string;
-  format?: "auto" | "rectangle" | "horizontal" | "vertical";
-  // AQUI ESTAVA O ERRO DA PRIMEIRA IMAGEM: Faltava definir que variant é permitido
-  variant?: "speed" | "software" | "agency" | "auto" | string; 
+  format?: "auto" | "rectangle" | "horizontal" | "vertical" | string;
+  variant?: "speed" | "software" | "agency" | "auto" | string | number; 
   className?: string;
 }
 
 export default function AdUnit({ 
   slot, 
   format = "auto", 
-  variant, 
+  variant = "auto", 
   className = "" 
 }: AdUnitProps) {
   
-  // 1. LÓGICA DE FORMATO
+  // 1. LÓGICA DE FORMATO (Mantém a inteligência de layout)
   let finalFormat = format;
 
-  if (slot.includes("sidebar")) {
-      finalFormat = "vertical";
-  } else if (format === "auto") {
-      finalFormat = "horizontal";
+  if (format === "auto") {
+      if (slot.includes("sidebar") || slot.includes("sticky")) {
+          finalFormat = "vertical";
+      } else {
+          finalFormat = "horizontal";
+      }
   }
 
-  // 2. LÓGICA DE VARIANTE (TEMA)
-  let finalVariant = variant;
-  
-  // Se não foi escolhido manual, adivinha pelo slot
-  if (!finalVariant || finalVariant === "auto") {
-      if (slot.includes("sidebar")) finalVariant = "agency";
-      else if (slot.includes("mid")) finalVariant = "software";
-      else finalVariant = "speed";
-  }
-
-  // 3. ESTILOS DO CONTAINER
-  const containerClasses = finalFormat === "vertical"
+  // 2. ESTILOS DO CONTAINER
+  const containerClasses = finalFormat === "vertical" || finalFormat === "rectangle"
     ? "w-full"
     : "w-full flex justify-center items-center my-8";
 
   return (
     <div className={`print:hidden ${containerClasses} ${className}`}>
       <div className={finalFormat === "vertical" ? "w-full" : "w-full max-w-4xl"}>
-          <span className="block text-[10px] text-slate-300 text-center mb-2 uppercase tracking-widest w-full">
+          
+          {/* Label "Publicidade" discreto */}
+          <span className="block text-[10px] text-slate-300 text-center mb-2 uppercase tracking-widest w-full opacity-60">
             Publicidade
           </span>
-          {/* Agora o InternalAdUnit vai receber o tipo correto */}
-          <InternalAdUnit format={finalFormat} variant={finalVariant} />
+          
+          {/* CORREÇÃO CRÍTICA:
+             1. Passamos o 'slot' para baixo.
+             2. Passamos 'variant' (que padrão é "auto").
+             
+             Isso permite que o InternalAdUnit use o nome do slot (ex: "home_feed")
+             para calcular qual dos 15 anúncios mostrar.
+          */}
+          <InternalAdUnit 
+             format={finalFormat} 
+             variant={variant} 
+             slot={slot} 
+          />
       </div>
     </div>
   );
