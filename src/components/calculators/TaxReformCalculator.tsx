@@ -12,7 +12,7 @@ import {
   Landmark, TrendingDown, TrendingUp, History, X, CalendarClock, Share2, Download, CheckCircle2
 } from "lucide-react";
 
-// Tipos Internos
+// --- TIPOS ---
 type HistoricoTax = {
   data: string;
   produto: string;
@@ -28,7 +28,6 @@ type TimelineStep = {
   descricao: string;
 };
 
-// --- PROPS PARA PSEO (SEO PROGRAMÁTICO) ---
 interface TaxReformCalculatorProps {
   initialCategory?: string;
   initialValue?: number;
@@ -46,25 +45,20 @@ export default function TaxReformCalculator({
   const searchParams = useSearchParams();
   const [isIframe, setIsIframe] = useState(false);
 
-  // DADOS
   const [valorProduto, setValorProduto] = useState("");
   const [valorNum, setValorNum] = useState(0);
   const [categoria, setCategoria] = useState("padrao");
   const [cargaAtual, setCargaAtual] = useState(""); 
   const [resultado, setResultado] = useState<any>(null);
 
-  // FUNCIONALIDADES
   const [historico, setHistorico] = useState<HistoricoTax[]>([]);
   const [linkCopiado, setLinkCopiado] = useState(false);
-  
-  // CORREÇÃO 2: Adicionado o state que faltava
   const [embedCopiado, setEmbedCopiado] = useState(false);
   const [showEmbedModal, setShowEmbedModal] = useState(false);
 
   const contentRef = useRef<HTMLDivElement>(null);
   const reactToPrintFn = useReactToPrint({ contentRef, documentTitle: "Simulacao_Reforma_Tributaria" });
 
-  // FORMATADORES
   const formatarMoedaInput = (valor: string) => {
     const apenasNumeros = valor.replace(/\D/g, "");
     if (apenasNumeros === "") return { display: "", value: 0 };
@@ -79,12 +73,11 @@ export default function TaxReformCalculator({
     setValorNum(value);
   };
 
-  const formatBRL = (val: number) => {
-    if (isNaN(val)) return "R$ 0,00";
+  const formatBRL = (val: number | undefined | null) => {
+    if (val === undefined || val === null || isNaN(val)) return "R$ 0,00";
     return new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(val);
   };
 
-  // PRESETS DE CARGA TRIBUTÁRIA ATUAL (Estimativas médias IBPT)
   const presets: any = {
     padrao: { label: "Produto Geral (Varejo)", atual: 34, iva: 26.5 },
     servico: { label: "Serviços Gerais", atual: 16, iva: 26.5 }, 
@@ -94,7 +87,6 @@ export default function TaxReformCalculator({
     imovel: { label: "Compra de Imóvel", atual: 8, iva: 15.9 }
   };
 
-  // --- EFEITO 1: GESTÃO DE PRESETS E PSEO ---
   useEffect(() => {
     if (initialCategory && categoria === initialCategory && initialCargaAtual) {
         setCargaAtual(initialCargaAtual.toString());
@@ -104,7 +96,6 @@ export default function TaxReformCalculator({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [categoria, initialCategory, initialCargaAtual]);
 
-  // --- EFEITO 2: INICIALIZAÇÃO E URL PARAMS ---
   useEffect(() => {
     setIsIframe(window.self !== window.top);
     const salvo = localStorage.getItem("historico_tax");
@@ -112,19 +103,15 @@ export default function TaxReformCalculator({
 
     if (initialCategory) setCategoria(initialCategory);
 
-    // Inicialização segura
     if (initialValue) {
         setValorNum(initialValue);
         setValorProduto(formatBRL(initialValue));
-        
         const cargaInicial = initialCargaAtual || presets[initialCategory || "padrao"].atual;
         setCargaAtual(cargaInicial.toString());
-
         setTimeout(() => calcular(initialValue, initialCategory || "padrao", cargaInicial), 300);
     } else {
         const urlValor = searchParams.get("valor");
         const urlCat = searchParams.get("cat");
-
         if (urlValor) {
             const val = parseFloat(urlValor);
             setValorNum(val);
@@ -136,14 +123,10 @@ export default function TaxReformCalculator({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams, initialCategory, initialValue]);
 
-  // --- LÓGICA DE CÁLCULO E TIMELINE ---
   const calcular = (V = valorNum, Cat = categoria, cargaOpcional?: number) => {
     if (!V || isNaN(V)) return;
 
-    // Garante que o preset existe (fallback para padrao)
     const regra = presets[Cat] || presets["padrao"];
-    
-    // CORREÇÃO 1: Lógica robusta para definir taxaAntigaPct (nunca será undefined)
     let taxaAntigaPct: number;
     
     if (cargaOpcional !== undefined) {
@@ -158,62 +141,32 @@ export default function TaxReformCalculator({
     }
 
     const taxaNovaPct = regra.iva;
-
-    // Valores Base
     const impostoAtual = V * (taxaAntigaPct / 100);
     const impostoNovo = V * (taxaNovaPct / 100);
-    
-    // Diferença Final
     const diferenca = impostoNovo - impostoAtual;
-    const variacao = ((impostoNovo - impostoAtual) / impostoAtual) * 100;
+    const variacao = impostoAtual > 0 ? ((impostoNovo - impostoAtual) / impostoAtual) * 100 : 0;
 
-    // --- GERAÇÃO DO PANORAMA 2026-2033 ---
     const timeline: TimelineStep[] = [];
-
-    // 2025 (Base)
     timeline.push({
-        ano: "2025 (Hoje)",
-        fase: "Sistema Antigo",
-        impostoEstimado: impostoAtual,
-        valorTotal: formatBRL(impostoAtual),
+        ano: "2025 (Hoje)", fase: "Sistema Antigo", impostoEstimado: impostoAtual, valorTotal: formatBRL(impostoAtual),
         descricao: `Carga cheia de PIS, COFINS, ICMS, ISS e IPI (~${taxaAntigaPct}%).`
     });
-
-    // 2026 (Teste)
     timeline.push({
-        ano: "2026",
-        fase: "Fase de Testes",
-        impostoEstimado: impostoAtual, 
-        valorTotal: formatBRL(impostoAtual),
+        ano: "2026", fase: "Fase de Testes", impostoEstimado: impostoAtual, valorTotal: formatBRL(impostoAtual),
         descricao: "Início da cobrança de 1% (IVA) compensável. Carga inalterada."
     });
-
-    // 2027 (CBS Cheia)
     const step2027 = impostoAtual + ((impostoNovo - impostoAtual) * 0.30);
     timeline.push({
-        ano: "2027",
-        fase: "Entra a CBS",
-        impostoEstimado: step2027,
-        valorTotal: formatBRL(step2027),
+        ano: "2027", fase: "Entra a CBS", impostoEstimado: step2027, valorTotal: formatBRL(step2027),
         descricao: "Fim do PIS/COFINS. Entra a CBS federal completa."
     });
-
-    // 2030 (Transição)
     const step2030 = impostoAtual + ((impostoNovo - impostoAtual) * 0.65);
     timeline.push({
-        ano: "2030",
-        fase: "Transição Gradual",
-        impostoEstimado: step2030,
-        valorTotal: formatBRL(step2030),
+        ano: "2030", fase: "Transição Gradual", impostoEstimado: step2030, valorTotal: formatBRL(step2030),
         descricao: "Redução do ICMS/ISS e aumento proporcional do IBS."
     });
-
-    // 2033 (Final)
     timeline.push({
-        ano: "2033",
-        fase: "Implementação Total",
-        impostoEstimado: impostoNovo,
-        valorTotal: formatBRL(impostoNovo),
+        ano: "2033", fase: "Implementação Total", impostoEstimado: impostoNovo, valorTotal: formatBRL(impostoNovo),
         descricao: `Vigência integral do novo sistema (${taxaNovaPct}% IVA).`
     });
 
@@ -224,9 +177,7 @@ export default function TaxReformCalculator({
         diferencaPercent: isNaN(variacao) ? "0%" : variacao.toFixed(1) + "%",
         situacao: diferenca > 0 ? "Aumento" : "Redução",
         categoriaLabel: regra.label,
-        rawValor: V,
-        rawCat: Cat,
-        timeline: timeline 
+        rawValor: V, rawCat: Cat, timeline: timeline 
     };
 
     setResultado(novoResultado);
@@ -267,13 +218,11 @@ export default function TaxReformCalculator({
 
   return (
     <div className="w-full max-w-[100vw] overflow-x-hidden">
-      
       <div className="grid md:grid-cols-12 gap-4 md:gap-8 w-full print:hidden">
         
         {/* INPUTS */}
         <div className="md:col-span-5 space-y-6">
             <Card className="border-0 shadow-sm ring-1 ring-slate-200 bg-white sticky top-24">
-                
                 {!hideTitle && (
                     <CardHeader className="bg-slate-900 text-white p-4 md:p-6 rounded-t-xl">
                         <CardTitle className="text-lg flex items-center gap-2">
@@ -282,13 +231,11 @@ export default function TaxReformCalculator({
                         </CardTitle>
                     </CardHeader>
                 )}
-
                 <CardContent className="p-4 md:p-6 space-y-4">
                     <div className="space-y-2">
                         <Label>Valor do Produto/Serviço</Label>
                         <Input placeholder="R$ 0,00" value={valorProduto} onChange={handleValorChange} className="h-12 text-lg font-bold pl-4" />
                     </div>
-                    
                     <div className="space-y-2">
                         <Label>Categoria do Item</Label>
                         <Select value={categoria} onValueChange={setCategoria}>
@@ -303,15 +250,12 @@ export default function TaxReformCalculator({
                             </SelectContent>
                         </Select>
                     </div>
-
                     <div className="bg-slate-50 p-3 rounded-lg border border-slate-200 text-xs text-slate-500">
                         <p><strong>Carga Atual:</strong> {cargaAtual}% (Estimativa PIS/COFINS/ICMS/ISS)</p>
                     </div>
-
                     <Button onClick={() => calcular()} className="w-full bg-blue-600 hover:bg-blue-700 h-12 text-lg font-bold">
                         Calcular Impacto
                     </Button>
-
                     {!isIframe && historico.length > 0 && (
                         <div className="mt-6 pt-4 border-t border-slate-100">
                              <h4 className="text-xs font-bold text-slate-400 uppercase mb-3 flex items-center gap-2"><History size={14}/> Recentes</h4>
@@ -340,25 +284,24 @@ export default function TaxReformCalculator({
                     ) : (
                         <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
                             
-                            {/* Bloco de Destaque */}
-                            <div className={`p-4 md:p-6 rounded-2xl border relative overflow-hidden ${resultado.situacao === 'Redução' ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'}`}>
+                            {/* CORREÇÃO DO LAYOUT DE RESULTADO (Corte de texto) */}
+                            <div className={`p-4 md:p-6 rounded-2xl border relative ${resultado.situacao === 'Redução' ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'}`}>
                                 <div className="flex flex-col sm:flex-row justify-between items-start gap-4">
-                                    <div>
+                                    <div className="flex-1 min-w-0"> {/* min-w-0 ajuda no shrink */}
                                         <p className="text-xs font-bold uppercase tracking-wider mb-1 text-slate-500">Resultado Final (2033)</p>
-                                        <p className={`text-2xl md:text-3xl font-extrabold flex items-center gap-2 ${resultado.situacao === 'Redução' ? 'text-green-700' : 'text-red-700'}`}>
+                                        <p className={`text-2xl md:text-3xl font-extrabold flex flex-wrap items-center gap-2 ${resultado.situacao === 'Redução' ? 'text-green-700' : 'text-red-700'}`}>
                                             {resultado.situacao === 'Redução' ? <TrendingDown size={24}/> : <TrendingUp size={24}/>}
-                                            {resultado.diferencaValor}
+                                            <span className="break-words">{resultado.diferencaValor}</span>
                                         </p>
                                         <p className="text-sm font-medium mt-1 opacity-80">de impostos a {resultado.situacao === 'Redução' ? 'menos' : 'mais'} por operação.</p>
                                     </div>
-                                    <div className="text-left sm:text-right">
+                                    <div className="text-left sm:text-right shrink-0">
                                         <p className="text-xs text-slate-500 uppercase">Alíquota IVA</p>
                                         <p className="text-2xl font-bold text-slate-900">{resultado.novo.taxa}%</p>
                                     </div>
                                 </div>
                             </div>
 
-                            {/* Timeline Visual */}
                             <div>
                                 <h3 className="font-bold text-slate-900 mb-4 flex items-center gap-2">
                                     <CalendarClock className="text-blue-600" size={20}/> Cronograma
@@ -367,17 +310,15 @@ export default function TaxReformCalculator({
                                     {resultado.timeline.map((step: TimelineStep, idx: number) => (
                                         <div key={idx} className="relative pl-6 md:pl-8 pb-6 last:pb-0 group">
                                             <div className={`absolute left-0 w-4 h-4 rounded-full border-2 bg-white mt-1.5 transition-colors ${idx === 0 || idx === resultado.timeline.length -1 ? 'border-blue-600 bg-blue-50' : 'border-slate-300'}`}></div>
-                                            
                                             <div className="flex flex-col gap-1">
                                                 <div className="flex flex-wrap items-center gap-2">
                                                     <span className={`text-sm font-bold ${idx === resultado.timeline.length -1 ? 'text-blue-700' : 'text-slate-900'}`}>{step.ano}</span>
                                                     <span className="text-[10px] font-medium text-slate-500 px-2 py-0.5 bg-slate-100 rounded-full">{step.fase}</span>
                                                 </div>
-                                                
                                                 <div className="flex justify-between items-end border-b border-slate-50 pb-2 mb-1 border-dashed">
                                                     <p className="text-xs text-slate-500 mt-1 max-w-[70%] leading-relaxed">{step.descricao}</p>
                                                     <div className="text-right ml-2">
-                                                        <span className="block font-bold text-slate-700 text-sm">{step.valorTotal}</span>
+                                                        <span className="block font-bold text-slate-700 text-sm whitespace-nowrap">{step.valorTotal}</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -386,14 +327,15 @@ export default function TaxReformCalculator({
                                 </div>
                             </div>
 
-                            <div className="flex flex-col sm:flex-row gap-3 pt-2">
-                                <Button className="flex-1" variant="outline" onClick={() => handleAction("share")}>
+                            {/* CORREÇÃO DOS BOTÕES DE AÇÃO (Espremidos) */}
+                            <div className="flex flex-col gap-3 pt-2">
+                                <Button className="w-full h-12" variant="outline" onClick={() => handleAction("share")}>
                                     <Share2 size={16} className="mr-2"/>
-                                    {linkCopiado ? "Link Copiado!" : "Compartilhar"}
+                                    {linkCopiado ? "Link Copiado!" : "Compartilhar Resultado"}
                                 </Button>
-                                <Button className="flex-1" variant="outline" onClick={() => handleAction("pdf")}>
+                                <Button className="w-full h-12" variant="outline" onClick={() => handleAction("pdf")}>
                                     <Download size={16} className="mr-2"/>
-                                    Baixar PDF
+                                    Baixar PDF do Relatório
                                 </Button>
                             </div>
                         </div>

@@ -7,15 +7,21 @@ import { reformData } from "@/data/reform-data";
 import TaxReformCalculator from "@/components/calculators/TaxReformCalculator";
 
 export async function generateStaticParams() {
-  return reformData.map((item) => ({ slug: item.slug }));
+  return reformData.map((item) => ({
+    slug: item.slug,
+  }));
 }
 
-type Props = { params: Promise<{ slug: string }> };
+type Props = {
+  params: Promise<{ slug: string }>;
+};
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { slug } = await params;
+  const resolvedParams = await params;
+  const slug = resolvedParams.slug;
   const data = reformData.find((p) => p.slug === slug);
   if (!data) return {};
+
   return {
     title: `${data.title} - Simulação 2026 (Oficial)`,
     description: `Veja o cálculo exato do imposto para ${data.jobTitle} com a Reforma Tributária. Carga atual vs Nova alíquota.`,
@@ -33,36 +39,32 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function ReformPage({ params }: Props) {
-  const { slug } = await params;
+  const resolvedParams = await params;
+  const slug = resolvedParams.slug;
   const data = reformData.find((p) => p.slug === slug);
+
   if (!data) return notFound();
 
   const simulationValue = data.category === 'seletivo' || data.category === 'cesta' ? 100 : 10000;
 
-  // Schema Markup (JSON-LD)
   const jsonLd = {
     "@context": "https://schema.org", "@type": "FAQPage",
     "mainEntity": data.faq.map(f => ({ "@type": "Question", "name": f.question, "acceptedAnswer": { "@type": "Answer", "text": f.answer } }))
   };
 
   const articleJsonLd = {
-      "@context": "https://schema.org",
-      "@type": "Article",
+      "@context": "https://schema.org", "@type": "Article",
       "headline": data.title,
       "datePublished": "2024-01-15",
       "dateModified": new Date().toISOString(),
-      "author": [{
-          "@type": "Organization",
-          "name": "Mestre das Contas",
-          "url": "https://mestredascontas.com.br"
-      }]
+      "author": [{ "@type": "Organization", "name": "Mestre das Contas", "url": "https://mestredascontas.com.br" }]
   };
 
   return (
     <div className="min-h-screen bg-slate-50 py-10 px-4 md:px-8">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }} />
-      
+
       <div className="max-w-6xl mx-auto">
         
         {/* Breadcrumb */}
@@ -83,11 +85,11 @@ export default async function ReformPage({ params }: Props) {
                 {data.title}
             </h1>
             <p className="text-lg md:text-xl text-slate-600 leading-relaxed">
-                Descubra o impacto exato do novo IVA Dual (IBS + CBS) para <strong>{data.jobTitle}</strong> e veja como preparar seu planejamento tributário para 2026.
+                Descubra o impacto exato do novo IVA Dual (IBS + CBS) para <strong>{data.jobTitle}</strong>.
             </p>
         </div>
 
-        {/* CALCULADORA (Largura Total) */}
+        {/* CALCULADORA */}
         <div className="bg-white rounded-2xl shadow-xl border border-blue-100 overflow-hidden mb-12 ring-1 ring-slate-900/5">
             <div className="bg-blue-600 p-4 flex items-center justify-center gap-2 text-white text-sm font-bold uppercase tracking-widest">
                 <Calculator size={18} /> Simulação: {data.jobTitle}
@@ -104,7 +106,7 @@ export default async function ReformPage({ params }: Props) {
             </div>
         </div>
 
-        {/* CONTEÚDO RICO (Largura Total, 2 colunas no desktop) */}
+        {/* CONTEÚDO RICO */}
         <div className="grid md:grid-cols-2 gap-8 mb-16">
             <section className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm h-full">
                 <h2 className="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
@@ -153,15 +155,15 @@ export default async function ReformPage({ params }: Props) {
             </div>
         </section>
 
-        {/* NOVA SEÇÃO DE NAVEGAÇÃO (Horizontal no Desktop / Vertical no Mobile) */}
+        {/* NAVEGAÇÃO CORRIGIDA - BOTÕES NUNCA MAIS CORTAM */}
         <section className="border-t border-slate-200 pt-10">
             <h3 className="font-bold text-lg mb-6 text-slate-900 flex items-center gap-2">
                 Comparar com outras profissões <ArrowRight size={16} className="text-blue-500"/>
             </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                 {reformData.filter(i => i.slug !== slug).map((item) => (
                     <Link key={item.slug} href={`/reforma-tributaria/${item.slug}`} 
-                        className="block bg-white hover:bg-blue-50 border border-slate-200 hover:border-blue-200 p-3 rounded-lg text-sm text-slate-600 hover:text-blue-700 transition-all truncate shadow-sm hover:shadow-md">
+                        className="flex items-center justify-center bg-white hover:bg-blue-50 border border-slate-200 hover:border-blue-200 p-3 rounded-lg text-sm text-slate-600 hover:text-blue-700 transition-all shadow-sm hover:shadow-md h-auto min-h-[60px] whitespace-normal text-center leading-tight break-words">
                         {item.title.replace("Reforma Tributária para ", "").replace("Reforma ", "")}
                     </Link>
                 ))}
