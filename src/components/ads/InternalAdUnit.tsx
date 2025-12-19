@@ -1,8 +1,11 @@
+"use client";
+
 import { 
   Zap, ArrowRight, Code2, Calculator, Rocket, CheckCircle2, 
   Search, Smartphone, Magnet, TrendingUp, ShieldAlert, Palette, 
-  MonitorSmartphone, Database, LineChart 
+  MonitorSmartphone, Database, LineChart, LucideIcon 
 } from "lucide-react";
+import React from "react";
 
 // --- CONFIGURAÇÃO ---
 const WHATSAPP_NUMBER = "5564981296245"; 
@@ -10,9 +13,9 @@ const BASE_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=`;
 
 interface InternalAdUnitProps {
   format?: "horizontal" | "vertical" | "rectangle" | "auto" | string;
-  variant?: "speed" | "software" | "agency" | "auto" | string | number; 
+  variant?: string | number; 
   className?: string;
-  slot?: string; // ADICIONADO: Fundamental para variar os anúncios
+  slot?: string; // Fundamental para variar os anúncios de forma estável
 }
 
 type AdModel = {
@@ -20,7 +23,7 @@ type AdModel = {
   themeBg: string;
   themeBorder: string;
   accentColor: string;
-  icon: React.ElementType;
+  icon: LucideIcon;
   category: string;
   title: React.ReactNode;
   subtitle: string;
@@ -39,7 +42,7 @@ const adsConfig: AdModel[] = [
     accentColor: "text-purple-400",
     icon: Code2,
     category: "Desenvolvimento Web",
-    title: <>Gostou deste site? <span className="text-slate-400 block text-sm md:text-base font-normal mt-1">Nós criamos a tecnologia por trás do Mestre dos Cálculos.</span></>,
+    title: <>Gostou deste site? <span className="text-slate-400 block text-sm md:text-base font-normal mt-1">Nós criamos a tecnologia por trás do Mestre das Contas.</span></>,
     subtitle: "Desenvolvemos sistemas de alta performance e calculadoras.",
     ctaText: "Conhecer a Agência",
     ctaBtnClasses: "bg-white text-slate-950 hover:bg-purple-50",
@@ -263,84 +266,87 @@ export default function InternalAdUnit({
 }: InternalAdUnitProps) {
   
   let selectedAd: AdModel;
-
   const legacyMap: Record<string, number> = { "agency": 1, "speed": 2, "software": 3 };
 
-  if (variant && legacyMap[variant as string]) {
-      selectedAd = adsConfig.find(ad => ad.id === legacyMap[variant as string]) || adsConfig[0];
+  // --- LÓGICA DE SELEÇÃO DE ANÚNCIO ---
+  if (variant && typeof variant === "string" && legacyMap[variant]) {
+      // Se passar "agency" manualmente, usa o ID 1
+      selectedAd = adsConfig.find(ad => ad.id === legacyMap[variant]) || adsConfig[0];
   } else if (variant === "auto" || !variant) {
-      // --- LÓGICA CORRIGIDA ---
-      // Usamos o nome do 'slot' para gerar um número único.
-      // Assim, 'header_top' sempre mostrará o anúncio A, e 'sidebar_right' mostrará o anúncio B.
+      // --- ALGORITMO DETERMINÍSTICO ---
+      // Converte a string 'slot' em um número único (hash).
+      // Isso garante que no Server Side e no Client Side o número seja IGUAL.
+      // Ex: slot="sidebar" sempre vai dar o anúncio X.
       let hash = 0;
-      const seed = slot || "random";
+      const seed = slot || "default_slot";
       for (let i = 0; i < seed.length; i++) {
           hash = seed.charCodeAt(i) + ((hash << 5) - hash);
       }
-      // O Math.abs garante positivo, o % adsConfig.length garante que está dentro da lista
+      
       const index = Math.abs(hash) % adsConfig.length;
       selectedAd = adsConfig[index];
   } else {
+      // Se passar um ID numérico direto
       selectedAd = adsConfig.find(ad => String(ad.id) === String(variant)) || adsConfig[0];
   }
 
-  const waMessage = encodeURIComponent(`Olá! Vi o banner "${selectedAd.category}" no Mestre dos Cálculos e quero saber mais.`);
+  const waMessage = encodeURIComponent(`Olá! Vi o banner "${selectedAd.category}" no Mestre das Contas e gostaria de saber mais sobre esse serviço.`);
   const finalLink = `${BASE_URL}${waMessage}`;
   const Icon = selectedAd.icon;
 
-  // LAYOUT VERTICAL / RETÂNGULO
+  // --- RENDERIZAÇÃO VERTICAL / RETÂNGULO ---
   if (format === "vertical" || format === "rectangle") {
     return (
       <a 
         href={finalLink} target="_blank" rel="noopener noreferrer"
-        className={`group relative flex w-full flex-col overflow-hidden rounded-xl ${selectedAd.themeBg} p-6 text-center shadow-xl border ${selectedAd.themeBorder} min-h-[420px] justify-between ${className}`}
+        className={`group relative flex w-full flex-col overflow-hidden rounded-2xl ${selectedAd.themeBg} p-8 text-center shadow-xl border ${selectedAd.themeBorder} min-h-[400px] justify-between ${className} hover:ring-2 ring-white/10 transition-all`}
       >
         <TextureLayer type={selectedAd.texture} />
 
         <div className="relative z-10 flex flex-col items-center">
-            <div className={`mx-auto flex h-14 w-14 items-center justify-center rounded-xl bg-white/10 backdrop-blur-sm shadow-sm mb-5 group-hover:scale-110 transition-transform ${selectedAd.accentColor}`}>
-                <Icon size={28} />
+            <div className={`mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-white/5 backdrop-blur-md border border-white/10 mb-6 group-hover:scale-110 transition-transform duration-300 ${selectedAd.accentColor}`}>
+                <Icon size={32} strokeWidth={1.5} />
             </div>
             
-            <span className={`text-[10px] font-bold uppercase tracking-wider mb-2 ${selectedAd.accentColor}`}>{selectedAd.category}</span>
+            <span className={`text-[10px] font-bold uppercase tracking-widest mb-3 px-3 py-1 rounded-full bg-white/5 ${selectedAd.accentColor}`}>{selectedAd.category}</span>
 
-            <h3 className="text-xl font-bold text-white mb-3 leading-tight">
+            <h3 className="text-xl font-bold text-white mb-4 leading-snug">
                 {selectedAd.title}
             </h3>
             
-            <p className="text-sm text-slate-300 leading-relaxed opacity-90 border-t border-white/10 pt-3 mt-2">
+            <p className="text-sm text-slate-300 leading-relaxed opacity-80 border-t border-white/5 pt-4">
                 {selectedAd.subtitle}
             </p>
         </div>
 
-        <div className={`relative z-10 w-full rounded-lg py-3 text-sm font-bold transition-all shadow-lg group-hover:shadow-xl group-hover:scale-[1.02] ${selectedAd.ctaBtnClasses}`}>
+        <div className={`relative z-10 w-full rounded-xl py-4 text-sm font-bold transition-all shadow-lg group-hover:shadow-2xl group-hover:-translate-y-1 ${selectedAd.ctaBtnClasses}`}>
             {selectedAd.ctaText} <ArrowRight size={16} className="inline-block ml-1" />
         </div>
       </a>
     );
   }
 
-  // LAYOUT HORIZONTAL
+  // --- RENDERIZAÇÃO HORIZONTAL ---
   return (
     <a 
       href={finalLink} target="_blank" rel="noopener noreferrer"
-      className={`group relative flex w-full flex-col sm:flex-row overflow-hidden rounded-xl px-6 py-6 shadow-lg items-center justify-between border ${selectedAd.themeBg} ${selectedAd.themeBorder} ${className}`}
+      className={`group relative flex w-full flex-col sm:flex-row overflow-hidden rounded-2xl px-6 py-8 sm:py-6 shadow-lg items-center justify-between border ${selectedAd.themeBg} ${selectedAd.themeBorder} ${className} hover:shadow-2xl transition-all`}
     >
       <TextureLayer type={selectedAd.texture} />
 
-      <div className="relative z-10 mb-5 sm:mb-0 text-center sm:text-left flex-1 sm:pr-8">
-        <div className={`flex items-center justify-center sm:justify-start gap-2 text-xs font-bold uppercase tracking-wider mb-2 ${selectedAd.accentColor}`}>
+      <div className="relative z-10 mb-6 sm:mb-0 text-center sm:text-left flex-1 sm:pr-8">
+        <div className={`flex items-center justify-center sm:justify-start gap-2 text-[10px] font-bold uppercase tracking-widest mb-2 ${selectedAd.accentColor}`}>
            <Icon size={14} /> {selectedAd.category}
         </div>
-        <h3 className="text-lg sm:text-2xl font-bold text-white leading-tight">
+        <h3 className="text-xl sm:text-2xl font-bold text-white leading-tight mb-2">
            {selectedAd.title}
         </h3>
-        <p className="text-slate-400 text-sm mt-1 hidden sm:block">
+        <p className="text-slate-400 text-sm hidden sm:block">
             {selectedAd.subtitle}
         </p>
       </div>
 
-      <div className={`relative z-10 flex shrink-0 items-center justify-center rounded-full px-6 py-3 text-sm font-bold transition-transform group-hover:scale-105 shadow-md whitespace-nowrap ${selectedAd.ctaBtnClasses}`}>
+      <div className={`relative z-10 flex shrink-0 items-center justify-center rounded-xl px-8 py-4 text-sm font-bold transition-all group-hover:scale-105 shadow-lg whitespace-nowrap ${selectedAd.ctaBtnClasses}`}>
          {selectedAd.ctaText} <ArrowRight size={16} className="ml-2" />
       </div>
     </a>

@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useSearchParams } from "next/navigation";
 import { useReactToPrint } from "react-to-print";
-import { differenceInMonths, differenceInYears, addDays, differenceInDays } from "date-fns";
+import { differenceInMonths, differenceInYears, addDays, differenceInDays, parseISO } from "date-fns";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -12,7 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Switch } from "@/components/ui/switch";
 import { 
   Calculator, DollarSign, Briefcase, Info, 
-  Share2, Download, History, Code2, ExternalLink, CheckCircle2, Copy, X, Calendar 
+  Share2, Printer, History, Code2, CheckCircle2, X, Calendar, Link as LinkIcon 
 } from "lucide-react";
 
 // Tipo para o histórico
@@ -22,7 +22,6 @@ type HistoricoRescisao = {
   motivo: string;
   periodo: string;
   salario: string;
-  // Guardamos os parametros RAW para restaurar o calculo ao clicar
   raw: {
     salario: number;
     inicio: string;
@@ -34,6 +33,23 @@ type HistoricoRescisao = {
     diasFerias: string;
   }
 };
+
+type ResultadoRescisao = {
+    saldoSalario: string;
+    decimo: string;
+    feriasProp: string;
+    feriasVencidas: string;
+    aviso: string;
+    multaFgts: string;
+    saqueFgts: string;
+    descontosEst: string;
+    totalLiquido: string;
+    diasAviso: number;
+    mesesDecimo: number;
+    mesesFerias: number;
+    bloqueadoSaqueAniversario: boolean;
+    raw: any;
+} | null;
 
 export default function TerminationCalculator() {
   const searchParams = useSearchParams();
@@ -53,13 +69,13 @@ export default function TerminationCalculator() {
   const [diasFeriasVencidas, setDiasFeriasVencidas] = useState("30");
   const [saqueAniversario, setSaqueAniversario] = useState(false);
 
-  const [resultado, setResultado] = useState<any>(null);
+  const [resultado, setResultado] = useState<ResultadoRescisao>(null);
 
   // --- STATES DE FUNCIONALIDADES ---
   const [historico, setHistorico] = useState<HistoricoRescisao[]>([]);
-  const [linkCopiado, setLinkCopiado] = useState(false);
-  const [embedCopiado, setEmbedCopiado] = useState(false);
+  const [copiado, setCopiado] = useState<"link" | "embed" | null>(null);
   const [showEmbedModal, setShowEmbedModal] = useState(false);
+  const [dataAtual, setDataAtual] = useState("");
 
   const contentRef = useRef<HTMLDivElement>(null);
 
@@ -67,6 +83,10 @@ export default function TerminationCalculator() {
   const reactToPrintFn = useReactToPrint({
     contentRef,
     documentTitle: "Rescisao_Simulada_MestreDasContas",
+    pageStyle: `
+      @page { size: A4; margin: 10mm; } 
+      @media print { body { -webkit-print-color-adjust: exact; } }
+    `
   });
 
   // --- FORMATADORES ---
@@ -89,19 +109,17 @@ export default function TerminationCalculator() {
   // --- EFEITOS (Load & URL) ---
   useEffect(() => {
     setIsIframe(window.self !== window.top);
+    setDataAtual(new Date().toLocaleDateString("pt-BR"));
     
-    // Carregar Histórico
     const salvo = localStorage.getItem("historico_rescisao");
     if (salvo) setHistorico(JSON.parse(salvo));
 
-    // Ler URL
     const urlSalario = searchParams.get("salario");
     const urlInicio = searchParams.get("inicio");
     const urlFim = searchParams.get("fim");
     const urlMotivo = searchParams.get("motivo");
     
     if (urlSalario && urlInicio && urlFim) {
-        // Popula os campos
         const valSalario = parseFloat(urlSalario);
         setSalarioValue(valSalario);
         setSalarioBruto(new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(valSalario));
@@ -109,14 +127,13 @@ export default function TerminationCalculator() {
         setDataFim(urlFim);
         if (urlMotivo) setMotivo(urlMotivo);
 
-        // Auto-calcula
         setTimeout(() => {
             calcular(valSalario, urlInicio, urlFim, urlMotivo || "sem_justa_causa");
         }, 200);
     }
   }, [searchParams]);
 
-  // --- CÁLCULO (Lógica Corrigida) ---
+  // --- CÁLCULO ---
   const calcular = (
       pSalario = salarioValue, 
       pInicio = dataInicio, 
@@ -125,19 +142,19 @@ export default function TerminationCalculator() {
   ) => {
     if (!pSalario || !pInicio || !pFim) return;
 
-    const inicio = new Date(pInicio);
-    const fim = new Date(pFim);
+    const inicio = parseISO(pInicio);
+    const fim = parseISO(pFim);
     
     // 1. Tempos
     const anosTrabalhados = differenceInYears(fim, inicio);
     
-    // Lei 12.506 (Aviso Prévio Proporcional)
-    let diasAviso = 30;
+    // Lei 12.506 (Aviso Prévio Proporcional) - Adiciona 3 dias por ano completo, até 60 dias (total 90)
+    let diasAviso = 30; 
     if (anosTrabalhados > 0 && pMotivo === "sem_justa_causa") {
       diasAviso += Math.min(anosTrabalhados * 3, 60);
     }
 
-    // Data Projetada
+    // Data Projetada (Se indenizado, projeta o tempo. Se trabalhado, o tempo já passou)
     const dataProjetada = (avisoPrevio === "indenizado" && pMotivo === "sem_justa_causa")
       ? addDays(fim, diasAviso) 
       : fim;
@@ -146,19 +163,18 @@ export default function TerminationCalculator() {
     const diaDesligamento = fim.getDate();
     const vlrSaldoSalario = (pSalario / 30) * diaDesligamento;
 
-    // 3. 13º Proporcional
+    // 3. 13º Proporcional (conta avos até a data projetada)
     let mesesDecimo = dataProjetada.getMonth() + 1; 
     if (dataProjetada.getDate() < 15) mesesDecimo -= 1;
-    // Se entrou no mesmo ano
+    
     if (inicio.getFullYear() === fim.getFullYear()) {
         mesesDecimo = mesesDecimo - inicio.getMonth();
-        if (inicio.getDate() > 15) mesesDecimo -= 1; // Ajuste se entrou depois do dia 15
+        if (inicio.getDate() > 15) mesesDecimo -= 1;
     }
     if (mesesDecimo < 0) mesesDecimo = 0;
     const vlrDecimo = (pSalario / 12) * mesesDecimo;
 
-    // 4. Férias Proporcionais + 1/3 (CORREÇÃO DE LÓGICA APLICADA)
-    // Encontrar o início do último período aquisitivo
+    // 4. Férias Proporcionais + 1/3
     let inicioPeriodoAquisitivo = new Date(inicio);
     // Avança os anos até chegar no período atual
     while (addDays(inicioPeriodoAquisitivo, 365) <= dataProjetada) {
@@ -166,13 +182,10 @@ export default function TerminationCalculator() {
     }
 
     let mesesFerias = differenceInMonths(dataProjetada, inicioPeriodoAquisitivo);
-
-    // Ajuste para fração de 15 dias no último mês
     const dataAux = new Date(inicioPeriodoAquisitivo);
-    dataAux.setMonth(dataAux.getMonth() + mesesFerias); // Avança os meses cheios
+    dataAux.setMonth(dataAux.getMonth() + mesesFerias);
 
-    // Se sobrou 14 dias ou mais (regra de arredondamento de férias é > 14 dias), conta mais 1 avo
-    // Usando differenceInDays absoluto para garantir precisão
+    // Regra de >14 dias para ganhar 1/12
     if (differenceInDays(dataProjetada, dataAux) >= 14) { 
         mesesFerias += 1;
     }
@@ -183,15 +196,16 @@ export default function TerminationCalculator() {
     const vlrFeriasProp = (pSalario / 12) * mesesFerias;
     const vlrTercoFeriasProp = vlrFeriasProp / 3;
 
-    // 5. Férias Vencidas
+    // 5. Férias Vencidas (Input do Usuário)
     let vlrFeriasVencidasTotal = 0;
     if (temFeriasVencidas) {
         const dias = parseInt(diasFeriasVencidas) || 0;
+        // Cálculo padrão: (Salário / 30) * Dias * 1/3 constitucional
         const valorBase = (pSalario / 30) * dias;
         vlrFeriasVencidasTotal = valorBase + (valorBase / 3);
     }
 
-    // 6. Aviso Prévio Indenizado
+    // 6. Aviso Prévio Indenizado (Apenas se o motivo for dispensa sem justa causa e indenizado)
     let vlrAvisoIndenizado = 0;
     if (pMotivo === "sem_justa_causa" && avisoPrevio === "indenizado") {
       vlrAvisoIndenizado = (pSalario / 30) * diasAviso;
@@ -203,6 +217,7 @@ export default function TerminationCalculator() {
     
     if (pMotivo === "sem_justa_causa") {
       const saldoAtualInput = parseFloat(saldoFgts.replace(/\D/g, "") || "0") / 100;
+      // Estima o FGTS da rescisão (sobre aviso, 13º e saldo)
       const baseFgtsRescisao = vlrAvisoIndenizado + vlrDecimo + vlrSaldoSalario;
       const fgtsRescisao = baseFgtsRescisao * 0.08;
       const saldoTotalFgts = saldoAtualInput + fgtsRescisao;
@@ -210,14 +225,14 @@ export default function TerminationCalculator() {
       vlrMultaFgts = saldoTotalFgts * 0.40;
 
       if (saqueAniversario) {
-          vlrSaqueFgts = vlrMultaFgts; 
+          vlrSaqueFgts = vlrMultaFgts; // Só saca a multa
       } else {
-          vlrSaqueFgts = saldoTotalFgts + vlrMultaFgts; 
+          vlrSaqueFgts = saldoTotalFgts + vlrMultaFgts; // Saca tudo
       }
     }
 
     const totalVerbasEmpresa = vlrSaldoSalario + vlrDecimo + vlrFeriasProp + vlrTercoFeriasProp + vlrAvisoIndenizado + vlrFeriasVencidasTotal;
-    const estimativaDescontos = (vlrSaldoSalario + vlrDecimo) * 0.09; // Estimativa média INSS
+    const estimativaDescontos = (vlrSaldoSalario + vlrDecimo) * 0.09; // Estimativa média INSS (simplificada para simulação)
     const totalLiquidoReceber = totalVerbasEmpresa - estimativaDescontos + vlrSaqueFgts;
 
     const novoResultado = {
@@ -234,7 +249,6 @@ export default function TerminationCalculator() {
       mesesDecimo: mesesDecimo,
       mesesFerias: mesesFerias,
       bloqueadoSaqueAniversario: saqueAniversario && pMotivo === "sem_justa_causa",
-      // Raw data para histórico
       raw: {
           salario: pSalario,
           inicio: pInicio,
@@ -277,16 +291,13 @@ export default function TerminationCalculator() {
       setTemFeriasVencidas(item.raw.feriasVencidas);
       setDiasFeriasVencidas(item.raw.diasFerias);
       
-      // Recalcula
       setTimeout(() => calcular(item.raw.salario, item.raw.inicio, item.raw.fim, item.raw.motivo), 100);
   };
 
-  const handleAction = (action: "share" | "pdf" | "embed") => {
-    if (isIframe) { 
-        window.open(`https://mestredascontas.com.br/trabalhista/rescisao`, '_blank'); 
-        return; 
-    }
-    if (action === "share") {
+  const handleShare = (type: "link" | "embed") => {
+    const baseUrl = `${window.location.origin}${window.location.pathname}`;
+    
+    if (type === "link") {
         const params = new URLSearchParams();
         if (resultado?.raw) {
             params.set("salario", resultado.raw.salario.toString());
@@ -294,75 +305,74 @@ export default function TerminationCalculator() {
             params.set("fim", resultado.raw.fim);
             params.set("motivo", resultado.raw.motivo);
         }
-        const url = `${window.location.origin}${window.location.pathname}?${params.toString()}`;
-        navigator.clipboard.writeText(url);
-        setLinkCopiado(true);
-        setTimeout(() => setLinkCopiado(false), 2000);
-    } else if (action === "pdf") { 
-        reactToPrintFn(); 
-    } else if (action === "embed") { 
-        setShowEmbedModal(true); 
+        navigator.clipboard.writeText(`${baseUrl}?${params.toString()}`);
+    } else {
+        navigator.clipboard.writeText(`<iframe src="https://mestredascontas.com.br/trabalhista/rescisao?embed=true" width="100%" height="800" frameborder="0" style="border:0; overflow:hidden; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.1);" title="Calculadora de Rescisão"></iframe>`);
     }
+
+    setCopiado(type);
+    setTimeout(() => setCopiado(null), 2000);
   };
 
-  const copiarEmbedCode = () => {
-    const code = `<iframe src="https://mestredascontas.com.br/trabalhista/rescisao?embed=true" width="100%" height="800" frameborder="0" style="border:0; overflow:hidden; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.1);" title="Calculadora de Rescisão"></iframe>`;
-    navigator.clipboard.writeText(code);
-    setEmbedCopiado(true);
-    setTimeout(() => setEmbedCopiado(false), 2000);
+  const handlePrint = () => {
+    if (reactToPrintFn) reactToPrintFn();
   };
 
   return (
-    <div className="w-full">
-      <div className="grid md:grid-cols-12 gap-6 md:gap-8 w-full print:hidden">
+    <div className="w-full font-sans">
+      <div className="grid lg:grid-cols-12 gap-6 lg:gap-8 w-full print:hidden">
       
-      {/* --- FORMULÁRIO (Coluna Esquerda/Topo) --- */}
-      <div className="md:col-span-7 w-full space-y-6">
-        <Card className="border-0 shadow-sm ring-1 ring-slate-200 w-full overflow-hidden bg-white">
-          <CardHeader className="bg-slate-50/50 border-b border-slate-100 p-4 md:p-6">
+      {/* --- FORMULÁRIO (Coluna Esquerda) --- */}
+      <div className="lg:col-span-7 w-full space-y-6">
+        <Card className="border-0 shadow-lg shadow-slate-200/50 ring-1 ring-slate-200 w-full overflow-hidden bg-white rounded-2xl">
+          <CardHeader className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-6">
             <div className="flex flex-row items-center justify-between gap-2">
-                <CardTitle className="text-lg md:text-xl flex items-center gap-2 text-slate-800">
-                    <div className="bg-blue-100 p-1.5 md:p-2 rounded-lg"><Briefcase className="text-blue-600 w-4 h-4 md:w-5 md:h-5" /></div> 
+                <CardTitle className="text-xl flex items-center gap-3">
+                    <div className="bg-white/20 p-2 rounded-xl backdrop-blur-sm"><Briefcase size={22} strokeWidth={2.5} /></div> 
                     Dados do Contrato
                 </CardTitle>
                 {!isIframe && (
-                    <button onClick={() => handleAction("embed")} className="flex items-center gap-1.5 text-[10px] md:text-xs font-medium text-slate-500 hover:text-blue-600 bg-white border border-slate-200 hover:border-blue-200 px-2 py-1 md:px-3 md:py-1.5 rounded-full transition-all group shrink-0">
-                        <Code2 size={14} className="text-slate-400 group-hover:text-blue-600"/> Incorporar
-                    </button>
+                    <Button 
+                        variant="ghost" 
+                        size="sm" 
+                        onClick={() => setShowEmbedModal(true)} 
+                        className="text-white hover:text-white hover:bg-white/20 h-8 px-2 rounded-lg"
+                        title="Incorporar no seu site"
+                    >
+                        <Code2 size={18} />
+                    </Button>
                 )}
             </div>
           </CardHeader>
           
-          <CardContent className="space-y-4 md:space-y-5 p-4 md:p-6">
+          <CardContent className="space-y-5 p-6">
             <div className="space-y-2">
-              <Label className="text-slate-600 font-medium text-sm md:text-base">Salário Bruto</Label>
+              <Label className="text-slate-600 font-medium">Salário Bruto</Label>
               <div className="relative">
-                <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
-                <Input placeholder="R$ 0,00" value={salarioBruto} onChange={handleSalarioChange} className="pl-9 h-12 text-lg font-medium border-slate-200 input-mode-numeric" inputMode="numeric"/>
+                <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400" />
+                <Input placeholder="R$ 0,00" value={salarioBruto} onChange={handleSalarioChange} className="pl-10 h-12 text-lg font-medium bg-slate-50 border-slate-200 focus:bg-white transition-colors" inputMode="numeric"/>
               </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
               <div className="space-y-2">
-                <Label className="text-slate-600 font-medium text-sm">Data de Admissão</Label>
+                <Label className="text-slate-600 font-medium">Data de Admissão</Label>
                 <div className="relative">
-                    <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 pointer-events-none" />
-                    <Input type="date" value={dataInicio} onChange={e => setDataInicio(e.target.value)} className="h-12 pl-9 text-slate-600 border-slate-200" />
+                    <Input type="date" value={dataInicio} onChange={e => setDataInicio(e.target.value)} className="h-12 bg-slate-50 border-slate-200 focus:bg-white transition-colors" />
                 </div>
               </div>
               <div className="space-y-2">
-                <Label className="text-slate-600 font-medium text-sm">Data de Afastamento</Label>
+                <Label className="text-slate-600 font-medium">Data de Afastamento</Label>
                 <div className="relative">
-                    <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 pointer-events-none" />
-                    <Input type="date" value={dataFim} onChange={e => setDataFim(e.target.value)} className="h-12 pl-9 text-slate-600 border-slate-200" />
+                    <Input type="date" value={dataFim} onChange={e => setDataFim(e.target.value)} className="h-12 bg-slate-50 border-slate-200 focus:bg-white transition-colors" />
                 </div>
               </div>
             </div>
 
             <div className="space-y-2">
-              <Label className="text-slate-600 font-medium text-sm">Motivo da Rescisão</Label>
+              <Label className="text-slate-600 font-medium">Motivo da Rescisão</Label>
               <Select value={motivo} onValueChange={setMotivo}>
-                <SelectTrigger className="h-12 bg-slate-50 border-slate-200"><SelectValue /></SelectTrigger>
+                <SelectTrigger className="h-12 bg-slate-50 border-slate-200 text-base"><SelectValue /></SelectTrigger>
                 <SelectContent>
                   <SelectItem value="sem_justa_causa">Dispensa sem Justa Causa</SelectItem>
                   <SelectItem value="pedido_demissao">Pedido de Demissão</SelectItem>
@@ -371,9 +381,9 @@ export default function TerminationCalculator() {
             </div>
 
             <div className="space-y-2">
-              <Label className="text-slate-600 font-medium text-sm">Aviso Prévio</Label>
+              <Label className="text-slate-600 font-medium">Aviso Prévio</Label>
               <Select value={avisoPrevio} onValueChange={setAvisoPrevio}>
-                <SelectTrigger className="h-12 bg-slate-50 border-slate-200"><SelectValue /></SelectTrigger>
+                <SelectTrigger className="h-12 bg-slate-50 border-slate-200 text-base"><SelectValue /></SelectTrigger>
                 <SelectContent>
                   <SelectItem value="indenizado">Indenizado (Pago em dinheiro)</SelectItem>
                   <SelectItem value="trabalhado">Trabalhado (Você cumpriu)</SelectItem>
@@ -382,7 +392,7 @@ export default function TerminationCalculator() {
             </div>
 
             {/* OPÇÕES AVANÇADAS */}
-            <div className="bg-slate-50 p-4 rounded-xl space-y-4 border border-slate-100">
+            <div className="bg-slate-50 p-5 rounded-xl space-y-4 border border-slate-100">
                 <div className="flex items-center justify-between">
                     <Label htmlFor="ferias-vencidas" className="cursor-pointer text-sm font-medium text-slate-700">Possui férias vencidas?</Label>
                     <Switch id="ferias-vencidas" checked={temFeriasVencidas} onCheckedChange={setTemFeriasVencidas} />
@@ -391,16 +401,27 @@ export default function TerminationCalculator() {
                 {temFeriasVencidas && (
                     <div className="animate-in slide-in-from-top-2 fade-in duration-300">
                         <Label className="text-xs text-slate-500 mb-1.5 block uppercase font-bold tracking-wide">Dias Acumulados</Label>
-                        <Input type="number" value={diasFeriasVencidas} onChange={e => setDiasFeriasVencidas(e.target.value)} className="bg-white border-slate-200" placeholder="Ex: 30" inputMode="numeric"/>
+                        <Input 
+                            type="number" 
+                            value={diasFeriasVencidas} 
+                            onChange={e => setDiasFeriasVencidas(e.target.value)} 
+                            className="bg-white border-slate-200 h-10" 
+                            placeholder="Ex: 30" 
+                            inputMode="numeric"
+                            maxLength={3} // Limita para evitar números absurdos
+                        />
+                        {parseInt(diasFeriasVencidas) > 60 && (
+                            <p className="text-xs text-amber-600 mt-1 flex items-center gap-1"><Info size={12}/> Valor alto: verifique se são dias corridos.</p>
+                        )}
                     </div>
                 )}
 
                 {motivo === "sem_justa_causa" && (
                     <>
                         <div className="h-px bg-slate-200 my-2"></div>
-                        <div className="space-y-3">
+                        <div className="space-y-2">
                             <Label className="text-sm font-medium text-slate-700">Saldo do FGTS (Para multa)</Label>
-                            <Input placeholder="R$ 0,00" value={saldoFgts} onChange={e => { const {display} = formatarMoedaInput(e.target.value); setSaldoFgts(display); }} className="bg-white h-11 border-slate-200" inputMode="numeric"/>
+                            <Input placeholder="R$ 0,00" value={saldoFgts} onChange={e => { const {display} = formatarMoedaInput(e.target.value); setSaldoFgts(display); }} className="bg-white h-10 border-slate-200" inputMode="numeric"/>
                         </div>
                         <div className="flex items-center justify-between pt-2">
                             <div className="flex items-center gap-2">
@@ -413,22 +434,24 @@ export default function TerminationCalculator() {
                 )}
             </div>
 
-            <Button onClick={() => calcular()} className="w-full bg-blue-600 hover:bg-blue-700 h-14 text-lg font-bold shadow-lg shadow-blue-200 transition-all active:scale-[0.98]">Calcular Rescisão</Button>
+            <Button onClick={() => calcular()} className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 h-14 text-lg font-bold shadow-lg shadow-indigo-200 rounded-xl transition-all active:scale-[0.99]">
+                Calcular Rescisão
+            </Button>
           </CardContent>
         </Card>
 
         {/* HISTÓRICO */}
         {!isIframe && historico.length > 0 && (
-            <div className="bg-white rounded-xl border border-slate-200 p-4 shadow-sm animate-in fade-in">
-                <h4 className="text-xs font-bold text-slate-400 uppercase mb-3 flex items-center gap-2 tracking-wider"><History size={14} /> Histórico Recente</h4>
-                <div className="space-y-2">
+            <div className="bg-white rounded-xl border border-slate-200 p-5 shadow-sm animate-in fade-in">
+                <h4 className="text-xs font-bold text-slate-400 uppercase mb-4 flex items-center gap-2 tracking-wider"><History size={14} /> Histórico Recente</h4>
+                <div className="space-y-1">
                 {historico.map((item, idx) => (
-                    <div key={idx} className="flex justify-between items-center text-sm border-b border-slate-50 pb-2 last:border-0 hover:bg-slate-50 p-2 rounded cursor-pointer" onClick={() => handleRestaurarHistorico(item)}>
+                    <div key={idx} className="flex justify-between items-center text-sm border-b border-slate-50 pb-2 last:border-0 last:pb-0 p-2 hover:bg-slate-50 rounded-lg transition-colors cursor-pointer active:bg-slate-100" onClick={() => handleRestaurarHistorico(item)}>
                     <div className="flex flex-col">
                         <span className="text-slate-900 font-bold">{item.salario}</span>
-                        <span className="text-[10px] text-slate-400">{item.periodo} • {item.dataCalc}</span>
+                        <span className="text-[10px] text-slate-400 font-medium">{item.periodo} • {item.dataCalc}</span>
                     </div>
-                    <span className="font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded text-xs">{item.total}</span>
+                    <span className="font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded text-xs tabular-nums">{item.total}</span>
                     </div>
                 ))}
                 </div>
@@ -436,95 +459,150 @@ export default function TerminationCalculator() {
         )}
       </div>
 
-      {/* --- RESULTADO (Coluna Direita/Baixo) --- */}
-      <div className="md:col-span-5 w-full flex flex-col gap-4">
-        <Card className={`h-fit w-full transition-all duration-500 border-0 shadow-sm ring-1 ring-slate-200 overflow-hidden ${resultado ? 'bg-white' : 'bg-slate-50'}`}>
-          <CardHeader className="px-5 md:px-6 border-b border-slate-100 bg-white">
-            <CardTitle className="text-slate-800 text-lg md:text-xl">Extrato da Rescisão</CardTitle>
+      {/* --- RESULTADO (Coluna Direita) --- */}
+      <div className="lg:col-span-5 w-full flex flex-col gap-6">
+        <Card className={`h-full w-full transition-all duration-500 border-0 shadow-lg shadow-slate-200/50 ring-1 ring-slate-200 overflow-hidden flex flex-col ${resultado ? 'bg-white' : 'bg-slate-50'}`}>
+          <CardHeader className="px-6 py-5 border-b border-slate-100 bg-white shrink-0">
+            <CardTitle className="text-slate-800 text-lg font-bold">Extrato da Rescisão</CardTitle>
           </CardHeader>
           
-          <CardContent className="p-5 md:p-6">
+          <CardContent className="p-6 flex-1 flex flex-col">
             {!resultado ? (
-              <div className="h-64 flex flex-col items-center justify-center text-slate-400 text-center space-y-4">
-                <div className="w-16 h-16 bg-slate-200/50 rounded-full flex items-center justify-center"><Calculator size={32} className="opacity-40" /></div>
-                <p className="text-sm max-w-[200px]">Preencha os dados ao lado para gerar o extrato detalhado.</p>
+              <div className="flex-1 flex flex-col items-center justify-center text-slate-400 text-center space-y-4 min-h-[300px]">
+                <div className="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mb-2">
+                    <Calculator size={40} className="opacity-30" />
+                </div>
+                <p className="text-sm font-medium max-w-[200px]">Preencha os dados ao lado para gerar o extrato detalhado.</p>
               </div>
             ) : (
-              <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+              <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500 w-full">
                 
-                {/* Destaque */}
-                <div className="bg-slate-900 p-6 rounded-2xl shadow-xl text-center relative overflow-hidden w-full">
-                  <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/20 rounded-full blur-3xl -mr-10 -mt-10"></div>
-                  <div className="absolute bottom-0 left-0 w-24 h-24 bg-amber-500/10 rounded-full blur-2xl -ml-10 -mb-10"></div>
-                  <p className="text-xs text-slate-400 font-bold uppercase tracking-wider relative z-10">Total Líquido Estimado</p>
-                  <p className="text-3xl md:text-4xl font-extrabold text-white mt-2 break-all tracking-tight relative z-10 leading-tight">{resultado.totalLiquido}</p>
-                  {resultado.bloqueadoSaqueAniversario && <div className="mt-3 bg-amber-500/20 text-amber-400 text-[10px] px-3 py-1 rounded-full border border-amber-500/30 inline-flex items-center gap-1 relative z-10">⚠️ Saldo FGTS Retido</div>}
+                {/* Destaque - AGORA COM FONTE RESPONSIVA PARA NÃO CORTAR */}
+                <div className="bg-slate-900 p-8 rounded-2xl shadow-xl text-center relative overflow-hidden w-full group">
+                  <div className="absolute top-0 right-0 w-40 h-40 bg-blue-500/20 rounded-full blur-3xl -mr-10 -mt-10 group-hover:bg-blue-500/30 transition-colors duration-500"></div>
+                  
+                  <p className="text-[11px] text-slate-400 font-bold uppercase tracking-widest relative z-10 mb-1">Total Líquido Estimado</p>
+                  <div className="flex items-center justify-center gap-1 relative z-10 px-2">
+                      {/* Correção: Tamanho de fonte adaptável para não cortar valores grandes */}
+                      <span className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white tracking-tight break-words">{resultado.totalLiquido}</span>
+                  </div>
+                  
+                  {resultado.bloqueadoSaqueAniversario && (
+                      <div className="mt-4 bg-amber-500/20 text-amber-300 text-[10px] px-3 py-1.5 rounded-full border border-amber-500/30 inline-flex items-center gap-1.5 relative z-10 font-medium animate-pulse">
+                          ⚠️ Saldo FGTS Retido (Saque-Aniversário)
+                      </div>
+                  )}
                 </div>
 
-                {/* Lista */}
-                <div className="space-y-0 text-sm bg-white rounded-xl border border-slate-100 divide-y divide-slate-100">
-                  <div className="flex justify-between py-3 px-3"><span className="text-slate-600">Saldo de Salário</span><span className="font-semibold text-slate-900">{resultado.saldoSalario}</span></div>
-                  <div className="flex justify-between py-3 px-3"><span className="text-slate-600">13º Proporcional ({resultado.mesesDecimo}/12)</span><span className="font-semibold text-slate-900">{resultado.decimo}</span></div>
-                  <div className="flex justify-between py-3 px-3"><span className="text-slate-600">Férias Prop. ({resultado.mesesFerias}/12) + 1/3</span><span className="font-semibold text-slate-900">{resultado.feriasProp}</span></div>
+                {/* Lista Detalhada */}
+                <div className="space-y-0 text-sm bg-white rounded-xl border border-slate-100 divide-y divide-slate-100 shadow-sm overflow-hidden">
+                  <div className="flex justify-between py-3 px-4 hover:bg-slate-50 transition-colors"><span className="text-slate-600 font-medium">Saldo de Salário</span><span className="font-bold text-slate-900">{resultado.saldoSalario}</span></div>
+                  <div className="flex justify-between py-3 px-4 hover:bg-slate-50 transition-colors"><span className="text-slate-600 font-medium">13º Proporcional ({resultado.mesesDecimo}/12)</span><span className="font-bold text-slate-900">{resultado.decimo}</span></div>
+                  <div className="flex justify-between py-3 px-4 hover:bg-slate-50 transition-colors"><span className="text-slate-600 font-medium">Férias Prop. ({resultado.mesesFerias}/12) + 1/3</span><span className="font-bold text-slate-900">{resultado.feriasProp}</span></div>
                   
-                  {resultado.feriasVencidas !== "R$ 0,00" && <div className="flex justify-between py-3 px-3 bg-blue-50/30"><span className="text-blue-800 font-medium">Férias Vencidas + 1/3</span><span className="font-semibold text-blue-900">{resultado.feriasVencidas}</span></div>}
-                  {resultado.aviso !== "R$ 0,00" && <div className="flex justify-between py-3 px-3 bg-green-50/30"><span className="text-green-800 font-medium">Aviso Prévio ({resultado.diasAviso}d)</span><span className="font-semibold text-green-900">{resultado.aviso}</span></div>}
-                  {resultado.multaFgts !== "R$ 0,00" && <div className="flex justify-between py-3 px-3 bg-green-50/30"><span className="text-green-800 font-medium">Multa 40% FGTS</span><span className="font-semibold text-green-900">{resultado.multaFgts}</span></div>}
+                  {resultado.feriasVencidas !== "R$ 0,00" && <div className="flex justify-between py-3 px-4 bg-blue-50/50"><span className="text-blue-700 font-bold">Férias Vencidas + 1/3</span><span className="font-bold text-blue-800">{resultado.feriasVencidas}</span></div>}
+                  {resultado.aviso !== "R$ 0,00" && <div className="flex justify-between py-3 px-4 bg-green-50/50"><span className="text-green-700 font-bold">Aviso Prévio ({resultado.diasAviso}d)</span><span className="font-bold text-green-800">{resultado.aviso}</span></div>}
+                  {resultado.multaFgts !== "R$ 0,00" && <div className="flex justify-between py-3 px-4 bg-emerald-50/50"><span className="text-emerald-700 font-bold">Multa 40% FGTS</span><span className="font-bold text-emerald-800">{resultado.multaFgts}</span></div>}
                   
-                  <div className="py-3 px-3">
-                    <div className="flex justify-between items-center mb-1"><span className="text-slate-600 font-medium">Saque FGTS Disponível</span><span className="font-bold text-green-600">{resultado.saqueFgts}</span></div>
+                  <div className="py-3 px-4">
+                    <div className="flex justify-between items-center"><span className="text-slate-500 font-medium text-xs uppercase tracking-wide">Saque FGTS Disponível</span><span className="font-bold text-green-600">{resultado.saqueFgts}</span></div>
                   </div>
-                  <div className="flex justify-between py-3 px-3 bg-red-50/30 text-red-600 border-t border-red-100"><span className="font-medium">Descontos (INSS/IRRF Est.)</span><span className="font-bold">- {resultado.descontosEst}</span></div>
+                  <div className="flex justify-between py-3 px-4 bg-red-50/30 text-red-600 border-t border-red-100"><span className="font-bold text-xs uppercase tracking-wide">Descontos (INSS/IRRF Est.)</span><span className="font-bold">- {resultado.descontosEst}</span></div>
                 </div>
                 
-                <p className="text-[10px] text-slate-400 text-center leading-tight px-2">* Os valores são simulados. A homologação oficial pode ter variações.</p>
+                <p className="text-[10px] text-slate-400 text-center leading-tight px-4">* Os valores são simulados baseados na CLT vigente. A homologação oficial pode ter pequenas variações.</p>
+
+                {/* BOTÕES DE AÇÃO */}
+                <div className="grid grid-cols-2 gap-3 pt-2">
+                    <Button variant="outline" onClick={() => handleShare("link")} className="h-11 border-slate-200 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200 text-xs font-bold uppercase tracking-wide">
+                        {copiado === "link" ? <span className="flex items-center gap-2"><CheckCircle2 size={16}/> Copiado</span> : <span className="flex items-center gap-2"><Share2 size={16}/> Compartilhar</span>}
+                    </Button>
+                    <Button variant="outline" onClick={handlePrint} className="h-11 border-slate-200 hover:bg-slate-100 hover:text-slate-900 text-xs font-bold uppercase tracking-wide">
+                        <span className="flex items-center gap-2"><Printer size={16}/> Imprimir PDF</span>
+                    </Button>
+                </div>
+
               </div>
             )}
           </CardContent>
         </Card>
-
-        {/* BOTÕES DE AÇÃO */}
-        {resultado && (
-            <div className="grid grid-cols-2 gap-3 animate-in fade-in">
-                <Button variant="outline" onClick={() => handleAction("share")} className="h-12 border-slate-200 hover:bg-blue-50 text-blue-700">
-                    {isIframe ? <span className="flex items-center gap-2"><ExternalLink size={18}/> Ver Completo</span> : (linkCopiado ? <span className="flex items-center gap-2"><CheckCircle2 size={18}/> Copiado!</span> : <span className="flex items-center gap-2"><Share2 size={18}/> Compartilhar</span>)}
-                </Button>
-                <Button variant="outline" onClick={() => handleAction("pdf")} className="h-12 border-slate-200 hover:bg-slate-50 text-slate-700">
-                    {isIframe ? <span className="flex items-center gap-2"><ExternalLink size={18}/> Baixar PDF</span> : <span className="flex items-center gap-2"><Download size={18}/> Salvar PDF</span>}
-                </Button>
-            </div>
-        )}
       </div>
       </div>
 
       {/* --- MODAL DE IMPRESSÃO (Oculto) --- */}
       {resultado && (
         <div className="hidden print:block">
-            <div ref={contentRef} className="print:w-full print:p-10 print:bg-white text-black">
-                <div className="flex justify-between items-center mb-8 border-b-2 border-slate-800 pb-4">
-                    <div><h1 className="text-3xl font-bold text-slate-900">Termo de Simulação de Rescisão</h1><p className="text-sm text-slate-500 mt-1">Gerado por <strong>Mestre das Contas</strong></p></div>
-                    <div className="text-right"><p className="text-xs text-slate-400 uppercase tracking-wide">Data</p><p className="text-lg font-bold text-slate-700">{new Date().toLocaleDateString()}</p></div>
+            <div ref={contentRef} className="print:w-full print:p-8 print:bg-white text-slate-900">
+                <div className="flex justify-between items-start mb-8 border-b-2 border-slate-800 pb-6">
+                    <div>
+                        <h1 className="text-3xl font-bold text-slate-900 tracking-tight">Termo de Simulação</h1>
+                        <p className="text-sm text-slate-500 mt-1 font-medium">Gerado por <strong>Mestre das Contas</strong></p>
+                    </div>
+                    <div className="text-right">
+                        <div className="bg-slate-100 px-3 py-1 rounded inline-block">
+                            <p className="text-xs text-slate-500 uppercase font-bold tracking-wider">Rescisão de Contrato</p>
+                        </div>
+                        <p className="text-sm text-slate-400 mt-2">{dataAtual}</p>
+                    </div>
                 </div>
-                <div className="mb-8 grid grid-cols-2 gap-4 text-sm">
-                    <div className="p-3 border rounded"><p className="text-xs text-slate-400 uppercase font-bold">Dados</p><p><strong>Admissão:</strong> {new Date(dataInicio).toLocaleDateString()}</p><p><strong>Afastamento:</strong> {new Date(dataFim).toLocaleDateString()}</p></div>
-                    <div className="p-3 border rounded"><p className="text-xs text-slate-400 uppercase font-bold">Detalhes</p><p><strong>Motivo:</strong> {motivo === "sem_justa_causa" ? "Sem Justa Causa" : "Pedido Demissão"}</p><p><strong>Aviso:</strong> {avisoPrevio}</p></div>
+
+                <div className="mb-8 grid grid-cols-2 gap-6 text-sm">
+                    <div className="p-4 border border-slate-200 rounded-xl bg-slate-50">
+                        <p className="text-xs text-slate-500 uppercase font-bold mb-2">Dados do Contrato</p>
+                        <p className="mb-1"><strong>Admissão:</strong> {new Date(dataInicio).toLocaleDateString()}</p>
+                        <p><strong>Afastamento:</strong> {new Date(dataFim).toLocaleDateString()}</p>
+                    </div>
+                    <div className="p-4 border border-slate-200 rounded-xl bg-slate-50">
+                        <p className="text-xs text-slate-500 uppercase font-bold mb-2">Motivo do Desligamento</p>
+                        <p className="mb-1"><strong>Tipo:</strong> {motivo === "sem_justa_causa" ? "Sem Justa Causa" : "Pedido Demissão"}</p>
+                        <p><strong>Aviso Prévio:</strong> {avisoPrevio}</p>
+                    </div>
                 </div>
-                <div className="mb-8">
-                    <table className="w-full text-sm border border-slate-300">
-                        <thead className="bg-slate-100"><tr><th className="p-3 text-left border-b">Descrição da Verba</th><th className="p-3 text-right border-b">Valor</th></tr></thead>
-                        <tbody>
-                            <tr><td className="p-3 border-b">Saldo de Salário</td><td className="p-3 text-right border-b">{resultado.saldoSalario}</td></tr>
-                            <tr><td className="p-3 border-b">13º Salário Proporcional</td><td className="p-3 text-right border-b">{resultado.decimo}</td></tr>
-                            <tr><td className="p-3 border-b">Férias Proporcionais + 1/3</td><td className="p-3 text-right border-b">{resultado.feriasProp}</td></tr>
-                            {resultado.feriasVencidas !== "R$ 0,00" && <tr><td className="p-3 border-b">Férias Vencidas + 1/3</td><td className="p-3 text-right border-b">{resultado.feriasVencidas}</td></tr>}
-                            {resultado.aviso !== "R$ 0,00" && <tr><td className="p-3 border-b">Aviso Prévio Indenizado</td><td className="p-3 text-right border-b">{resultado.aviso}</td></tr>}
-                            {resultado.multaFgts !== "R$ 0,00" && <tr><td className="p-3 border-b">Multa 40% FGTS</td><td className="p-3 text-right border-b">{resultado.multaFgts}</td></tr>}
-                            <tr><td className="p-3 border-b text-red-600">Descontos Estimados (INSS/IRRF)</td><td className="p-3 text-right border-b text-red-600">- {resultado.descontosEst}</td></tr>
+
+                <div className="mb-8 border border-slate-200 rounded-xl overflow-hidden">
+                    <table className="w-full text-sm">
+                        <thead className="bg-slate-50 text-slate-500 text-xs uppercase font-bold">
+                            <tr>
+                                <th className="p-4 text-left">Descrição da Verba</th>
+                                <th className="p-4 text-right">Valor</th>
+                            </tr>
+                        </thead>
+                        <tbody className="divide-y divide-slate-100">
+                            <tr><td className="p-4 font-medium">Saldo de Salário</td><td className="p-4 text-right font-bold text-slate-700">{resultado.saldoSalario}</td></tr>
+                            <tr><td className="p-4 font-medium">13º Salário Proporcional</td><td className="p-4 text-right font-bold text-slate-700">{resultado.decimo}</td></tr>
+                            <tr><td className="p-4 font-medium">Férias Proporcionais + 1/3</td><td className="p-4 text-right font-bold text-slate-700">{resultado.feriasProp}</td></tr>
+                            
+                            {resultado.feriasVencidas !== "R$ 0,00" && (
+                                <tr className="bg-blue-50/30"><td className="p-4 font-bold text-blue-800">Férias Vencidas + 1/3</td><td className="p-4 text-right font-bold text-blue-800">{resultado.feriasVencidas}</td></tr>
+                            )}
+                            
+                            {resultado.aviso !== "R$ 0,00" && (
+                                <tr className="bg-green-50/30"><td className="p-4 font-bold text-green-800">Aviso Prévio Indenizado</td><td className="p-4 text-right font-bold text-green-800">{resultado.aviso}</td></tr>
+                            )}
+                            
+                            {resultado.multaFgts !== "R$ 0,00" && (
+                                <tr className="bg-emerald-50/30"><td className="p-4 font-bold text-emerald-800">Multa 40% FGTS</td><td className="p-4 text-right font-bold text-emerald-800">{resultado.multaFgts}</td></tr>
+                            )}
+                            
+                            <tr><td className="p-4 font-medium text-red-600">Descontos Estimados (INSS/IRRF)</td><td className="p-4 text-right font-bold text-red-600">- {resultado.descontosEst}</td></tr>
                         </tbody>
-                        <tfoot className="bg-slate-50 font-bold">
-                            <tr><td className="p-3 text-right">TOTAL LÍQUIDO A RECEBER</td><td className="p-3 text-right text-lg text-blue-600 bg-blue-50 border-t border-blue-200">{resultado.totalLiquido}</td></tr>
+                        <tfoot className="bg-slate-900 text-white">
+                            <tr>
+                                <td className="p-4 font-bold uppercase tracking-wider">TOTAL LÍQUIDO A RECEBER</td>
+                                <td className="p-4 text-right text-lg font-extrabold">{resultado.totalLiquido}</td>
+                            </tr>
                         </tfoot>
                     </table>
+                </div>
+
+                <div className="mt-auto pt-8 border-t border-slate-200 flex items-center justify-between text-sm fixed bottom-0 w-full">
+                    <div className="flex items-center gap-2 text-slate-600">
+                        <LinkIcon size={16}/>
+                        <span>Ferramenta disponível em: <strong>mestredascontas.com.br</strong></span>
+                    </div>
+                    <div className="bg-slate-100 px-3 py-1 rounded text-slate-500 text-xs font-bold uppercase">
+                        Simulação não oficial
+                    </div>
                 </div>
             </div>
         </div>
@@ -532,15 +610,23 @@ export default function TerminationCalculator() {
 
       {/* --- MODAL EMBED --- */}
       {showEmbedModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 animate-in fade-in backdrop-blur-sm">
-            <div className="bg-white rounded-2xl shadow-2xl p-6 max-w-lg w-full relative">
-                <button onClick={() => setShowEmbedModal(false)} className="absolute top-4 right-4 text-slate-400 hover:text-slate-600"><X size={20}/></button>
-                <h3 className="text-lg font-bold text-slate-900 mb-2">Incorporar Calculadora</h3>
-                <p className="text-sm text-slate-500 mb-4">Copie o código abaixo.</p>
-                <div className="bg-slate-900 p-4 rounded-lg relative mb-4 overflow-hidden">
-                    <code className="text-xs font-mono text-blue-300 break-all block">{`<iframe src="https://mestredascontas.com.br/trabalhista/rescisao?embed=true" width="100%" height="800" frameborder="0" style="border:0; border-radius:12px;" title="Calculadora Rescisão"></iframe>`}</code>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 animate-in fade-in backdrop-blur-sm print:hidden" onClick={() => setShowEmbedModal(false)}>
+            <div className="bg-white rounded-2xl shadow-2xl p-6 max-w-lg w-full relative" onClick={e => e.stopPropagation()}>
+                <button onClick={() => setShowEmbedModal(false)} className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 transition-colors"><X size={20}/></button>
+                <h3 className="text-lg font-bold text-slate-900 mb-2">Incorporar no seu Site</h3>
+                <p className="text-sm text-slate-500 mb-4">Copie o código abaixo para adicionar essa calculadora no seu blog ou site.</p>
+                <div className="bg-slate-950 p-4 rounded-xl relative mb-4 overflow-hidden group">
+                    <code className="text-xs font-mono text-blue-300 break-all block leading-relaxed selection:bg-blue-900">
+                        {`<iframe src="https://mestredascontas.com.br/trabalhista/rescisao?embed=true" width="100%" height="800" frameborder="0" style="border:0; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.1);" title="Calculadora Rescisão"></iframe>`}
+                    </code>
                 </div>
-                <Button onClick={copiarEmbedCode} className="w-full bg-blue-600 hover:bg-blue-700">{embedCopiado ? "Copiado!" : "Copiar Código HTML"}</Button>
+                <Button onClick={() => {
+                    navigator.clipboard.writeText(`<iframe src="https://mestredascontas.com.br/trabalhista/rescisao?embed=true" width="100%" height="800" frameborder="0" style="border:0; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.1);" title="Calculadora Rescisão"></iframe>`);
+                    setCopiado("embed");
+                    setTimeout(() => setCopiado(null), 2000);
+                }} className="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold h-12 rounded-xl">
+                    {copiado === "embed" ? "Código Copiado!" : "Copiar Código HTML"}
+                </Button>
             </div>
         </div>
       )}

@@ -8,6 +8,19 @@ const config = {
     './app/**/*.{ts,tsx}',
     './src/**/*.{ts,tsx}',
   ],
+  // --- ADICIONE ISTO AQUI PARA FORÇAR AS CORES ---
+  safelist: [
+    "bg-gradient-to-r",
+    // Cores do Header Padrão
+    "from-blue-700", "to-indigo-800",
+    // Cores da Reforma
+    "from-emerald-800", "to-teal-600",
+    // Cores da Saúde (AS QUE ESTÃO FALTANDO)
+    "from-orange-600", "to-rose-600", 
+    // Fallback de Hexadecimal se estiver usando
+    "from-[#ea580c]", "to-[#e11d48]" 
+  ],
+  // ----------------------------------------------
   prefix: "",
   theme: {
     container: {
@@ -18,9 +31,11 @@ const config = {
       },
     },
     extend: {
+      transitionTimingFunction: {
+        "menu": "cubic-bezier(0.32, 0.72, 0, 1)",
+      },
       colors: {
-        // AQUI ESTÁ A CORREÇÃO: Mapeando as variáveis do globals.css
-        border: "hsl(var(--border))", 
+        border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",

@@ -9,10 +9,11 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { 
-  Clock, DollarSign, Calendar, RefreshCcw, 
-  Share2, Download, History, Code2, ExternalLink, CheckCircle2, Copy, X, Sun, Moon
+  Clock, DollarSign, RefreshCcw, 
+  Share2, Printer, History, Code2, CheckCircle2, Link as LinkIcon, X, Sun, Moon
 } from "lucide-react";
 
+// --- TIPAGEM ---
 type HistoricoHoras = {
   data: string;
   salario: string;
@@ -20,6 +21,17 @@ type HistoricoHoras = {
   qtd50: string;
   qtd100: string;
 };
+
+type ResultadoHoras = {
+    valorHora: string;
+    total50: string;
+    total100: string;
+    dsr: string;
+    totalFinal: string;
+    rawSalario: number;
+    rawH50: number;
+    rawH100: number;
+} | null;
 
 export default function OvertimeCalculator() {
   const searchParams = useSearchParams();
@@ -34,19 +46,25 @@ export default function OvertimeCalculator() {
   const [diasUteis, setDiasUteis] = useState("25"); // Para DSR
   const [domingosFeriados, setDomingosFeriados] = useState("5"); // Para DSR
   
-  const [resultado, setResultado] = useState<any>(null);
+  const [resultado, setResultado] = useState<ResultadoHoras>(null);
 
   // FUNCIONALIDADES
   const [historico, setHistorico] = useState<HistoricoHoras[]>([]);
-  const [linkCopiado, setLinkCopiado] = useState(false);
-  const [embedCopiado, setEmbedCopiado] = useState(false);
+  const [copiado, setCopiado] = useState<"link" | "embed" | "result" | null>(null);
   const [showEmbedModal, setShowEmbedModal] = useState(false);
+  
+  // Estado para data (Correção de Hidratação)
+  const [dataAtual, setDataAtual] = useState("");
 
   // IMPRESSÃO
   const contentRef = useRef<HTMLDivElement>(null);
   const reactToPrintFn = useReactToPrint({
     contentRef,
     documentTitle: "Calculo_Horas_Extras_MestreDasContas",
+    pageStyle: `
+      @page { size: auto; margin: 0mm; } 
+      @media print { body { -webkit-print-color-adjust: exact; } }
+    `
   });
 
   // UTILS
@@ -69,6 +87,8 @@ export default function OvertimeCalculator() {
   // EFEITOS
   useEffect(() => {
     setIsIframe(window.self !== window.top);
+    setDataAtual(new Date().toLocaleDateString("pt-BR"));
+    
     const salvo = localStorage.getItem("historico_horas");
     if (salvo) setHistorico(JSON.parse(salvo));
 
@@ -153,64 +173,79 @@ export default function OvertimeCalculator() {
     setResultado(null);
   };
 
-  const handleAction = (action: "share" | "pdf" | "embed") => {
-    if (isIframe) { window.open(`https://mestredascontas.com.br/trabalhista/horas-extras`, '_blank'); return; }
-    if (action === "share") {
+  // --- ACTIONS ---
+  const handleShare = (type: "result" | "tool") => {
+    const baseUrl = `${window.location.origin}${window.location.pathname}`;
+    let url = baseUrl;
+
+    if (type === "result" && resultado) {
         const params = new URLSearchParams();
-        if (resultado) {
-            params.set("salario", resultado.rawSalario.toString());
-            params.set("h50", resultado.rawH50.toString());
-            params.set("h100", resultado.rawH100.toString());
-        }
-        const url = `${window.location.origin}${window.location.pathname}?${params.toString()}`;
-        navigator.clipboard.writeText(url);
-        setLinkCopiado(true);
-        setTimeout(() => setLinkCopiado(false), 2000);
-    } else if (action === "pdf") { reactToPrintFn(); }
-    else if (action === "embed") { setShowEmbedModal(true); }
+        params.set("salario", resultado.rawSalario.toString());
+        params.set("h50", resultado.rawH50.toString());
+        params.set("h100", resultado.rawH100.toString());
+        url = `${baseUrl}?${params.toString()}`;
+    }
+
+    navigator.clipboard.writeText(url);
+    setCopiado(type === "result" ? "result" : "link");
+    setTimeout(() => setCopiado(null), 2000);
   };
 
-  const copiarEmbedCode = () => {
-    const code = `<iframe src="https://mestredascontas.com.br/trabalhista/horas-extras?embed=true" width="100%" height="750" frameborder="0" style="border:0; border-radius:12px;" title="Calculadora Horas Extras"></iframe>`;
-    navigator.clipboard.writeText(code);
-    setEmbedCopiado(true);
-    setTimeout(() => setEmbedCopiado(false), 2000);
+  const handlePrint = () => {
+    if (reactToPrintFn) reactToPrintFn();
   };
 
   return (
-    <div className="w-full">
-      <div className="grid md:grid-cols-12 gap-8 w-full print:hidden">
+    <div className="w-full font-sans">
+      
+      {/* GRID PRINCIPAL */}
+      <div className="grid lg:grid-cols-12 gap-8 w-full print:hidden">
         
-        {/* --- FORMULÁRIO --- */}
-        <div className="md:col-span-7 space-y-6 w-full">
-          <Card className="border-0 shadow-sm ring-1 ring-slate-200 bg-white">
-            <CardHeader className="bg-slate-50/50 border-b border-slate-100 p-4 md:p-6">
-              <div className="flex flex-row items-center justify-between gap-2">
-                  <CardTitle className="text-lg md:text-xl flex items-center gap-2 text-slate-800">
-                    <div className="bg-purple-100 p-1.5 md:p-2 rounded-lg text-purple-600"><Clock size={20} /></div>
+        {/* --- COLUNA ESQUERDA: INPUTS --- */}
+        <div className="lg:col-span-7 space-y-6 w-full">
+          <Card className="border-0 shadow-lg shadow-slate-200/50 ring-1 ring-slate-200 bg-white rounded-2xl overflow-hidden">
+            <CardHeader className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white p-6">
+              <div className="flex flex-row items-center justify-between gap-4">
+                  <CardTitle className="text-xl flex items-center gap-3">
+                    <div className="bg-white/20 p-2 rounded-xl backdrop-blur-sm"><Clock size={22} strokeWidth={2.5} /></div>
                     Calcular Horas Extras
                   </CardTitle>
                   {!isIframe && (
-                      <button onClick={() => handleAction("embed")} className="flex items-center gap-1.5 text-[10px] md:text-xs font-medium text-slate-500 hover:text-blue-600 bg-white border border-slate-200 hover:border-blue-200 px-2 py-1 md:px-3 md:py-1.5 rounded-full transition-all group shrink-0">
-                          <Code2 size={14} className="text-slate-400 group-hover:text-blue-600"/> Incorporar
-                      </button>
+                      <Button 
+                        variant="ghost" 
+                        size="sm" 
+                        onClick={() => setShowEmbedModal(true)} 
+                        className="text-white hover:text-white hover:bg-white/20 h-8 px-2 rounded-lg"
+                        title="Incorporar no seu site"
+                      >
+                          <Code2 size={18} />
+                      </Button>
                   )}
               </div>
             </CardHeader>
-            <CardContent className="space-y-5 p-4 md:p-6">
+            
+            <CardContent className="space-y-6 p-6">
               
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   <div className="space-y-2">
                     <Label className="text-slate-600 font-medium">Salário Base</Label>
                     <div className="relative">
-                      <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
-                      <Input placeholder="R$ 0,00" value={salario} onChange={handleSalarioChange} className="pl-9 h-12 text-lg font-medium border-slate-200" inputMode="numeric"/>
+                      <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400" />
+                      <Input 
+                        placeholder="R$ 0,00" 
+                        value={salario} 
+                        onChange={handleSalarioChange} 
+                        className="pl-10 h-12 text-lg font-medium bg-slate-50 border-slate-200 focus:bg-white transition-colors" 
+                        inputMode="numeric"
+                      />
                     </div>
                   </div>
                   <div className="space-y-2">
                     <Label className="text-slate-600 font-medium">Jornada Mensal</Label>
                     <Select value={jornada} onValueChange={setJornada}>
-                        <SelectTrigger className="h-12 bg-slate-50 border-slate-200"><SelectValue /></SelectTrigger>
+                        <SelectTrigger className="h-12 bg-slate-50 border-slate-200 text-slate-700 font-medium text-base">
+                          <SelectValue />
+                        </SelectTrigger>
                         <SelectContent>
                             <SelectItem value="220">220 horas (Padrão)</SelectItem>
                             <SelectItem value="180">180 horas (Turno/12x36)</SelectItem>
@@ -220,50 +255,70 @@ export default function OvertimeCalculator() {
                   </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 gap-5">
                   <div className="space-y-2">
-                    <Label className="text-slate-600 font-medium flex items-center gap-1"><Sun size={14}/> Horas 50% (Úteis)</Label>
-                    <Input type="number" placeholder="0" value={horas50} onChange={e => setHoras50(e.target.value)} className="h-12 border-slate-200" inputMode="decimal"/>
+                    <Label className="text-slate-600 font-medium flex items-center gap-1.5"><Sun size={16} className="text-orange-500"/> Horas 50% (Úteis)</Label>
+                    <Input 
+                        type="number" 
+                        placeholder="0" 
+                        value={horas50} 
+                        onChange={e => setHoras50(e.target.value)} 
+                        className="h-12 text-lg font-medium bg-slate-50 border-slate-200 focus:bg-white transition-colors" 
+                        inputMode="decimal"
+                    />
                   </div>
                   <div className="space-y-2">
-                    <Label className="text-slate-600 font-medium flex items-center gap-1"><Moon size={14}/> Horas 100% (Feriados)</Label>
-                    <Input type="number" placeholder="0" value={horas100} onChange={e => setHoras100(e.target.value)} className="h-12 border-slate-200" inputMode="decimal"/>
+                    <Label className="text-slate-600 font-medium flex items-center gap-1.5"><Moon size={16} className="text-blue-500"/> Horas 100% (Feriados)</Label>
+                    <Input 
+                        type="number" 
+                        placeholder="0" 
+                        value={horas100} 
+                        onChange={e => setHoras100(e.target.value)} 
+                        className="h-12 text-lg font-medium bg-slate-50 border-slate-200 focus:bg-white transition-colors" 
+                        inputMode="decimal"
+                    />
                   </div>
               </div>
 
-              <div className="bg-slate-50 p-3 rounded-lg border border-slate-200">
-                  <p className="text-xs font-bold text-slate-500 uppercase mb-2">Configuração do DSR (Mês)</p>
-                  <div className="grid grid-cols-2 gap-4">
-                      <div className="space-y-1">
-                          <Label className="text-xs text-slate-500">Dias Úteis</Label>
-                          <Input type="number" value={diasUteis} onChange={e => setDiasUteis(e.target.value)} className="h-9 bg-white" />
+              <div className="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                  <p className="text-xs font-bold text-slate-500 uppercase mb-3 tracking-wider">Configuração do DSR (Mês)</p>
+                  <div className="grid grid-cols-2 gap-5">
+                      <div className="space-y-1.5">
+                          <Label className="text-xs text-slate-500 font-medium">Dias Úteis</Label>
+                          <Input type="number" value={diasUteis} onChange={e => setDiasUteis(e.target.value)} className="h-10 bg-white border-slate-200" />
                       </div>
-                      <div className="space-y-1">
-                          <Label className="text-xs text-slate-500">Domingos/Feriados</Label>
-                          <Input type="number" value={domingosFeriados} onChange={e => setDomingosFeriados(e.target.value)} className="h-9 bg-white" />
+                      <div className="space-y-1.5">
+                          <Label className="text-xs text-slate-500 font-medium">Domingos/Feriados</Label>
+                          <Input type="number" value={domingosFeriados} onChange={e => setDomingosFeriados(e.target.value)} className="h-10 bg-white border-slate-200" />
                       </div>
                   </div>
               </div>
 
               <div className="flex gap-3 pt-2">
-                  <Button onClick={() => calcular()} className="flex-1 bg-purple-600 hover:bg-purple-700 h-14 text-lg font-bold shadow-lg shadow-purple-200 transition-all active:scale-[0.98]">Calcular</Button>
-                  <Button variant="outline" onClick={limpar} size="icon" className="h-14 w-14 shrink-0 border-slate-200 text-slate-500 hover:text-purple-600 hover:bg-purple-50"><RefreshCcw className="h-5 w-5" /></Button>
+                  <Button onClick={() => calcular()} className="flex-1 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white h-14 text-lg font-bold shadow-lg shadow-purple-200 rounded-xl transition-all active:scale-[0.99]">
+                    Calcular
+                  </Button>
+                  <Button variant="outline" onClick={limpar} size="icon" className="h-14 w-14 shrink-0 border-slate-200 text-slate-400 hover:text-red-500 hover:bg-red-50 hover:border-red-200 rounded-xl transition-colors" title="Limpar dados">
+                    <RefreshCcw className="h-5 w-5" />
+                  </Button>
               </div>
             </CardContent>
           </Card>
 
-          {/* HISTÓRICO */}
+          {/* HISTÓRICO RÁPIDO */}
           {!isIframe && historico.length > 0 && (
-            <div className="bg-white rounded-xl border border-slate-200 p-4 shadow-sm animate-in fade-in">
-                <h4 className="text-xs font-bold text-slate-400 uppercase mb-3 flex items-center gap-2 tracking-wider"><History size={14} /> Cálculos Recentes</h4>
-                <div className="space-y-2">
+            <div className="bg-white rounded-xl border border-slate-200 p-5 shadow-sm animate-in fade-in">
+                <h4 className="text-xs font-bold text-slate-400 uppercase mb-4 flex items-center gap-2 tracking-wider">
+                  <History size={14} /> Cálculos Recentes
+                </h4>
+                <div className="space-y-1">
                 {historico.map((item, idx) => (
-                    <div key={idx} className="flex justify-between items-center text-sm border-b border-slate-50 pb-2 last:border-0 hover:bg-slate-50 p-2 rounded cursor-pointer">
+                    <div key={idx} className="flex justify-between items-center text-sm border-b border-slate-50 pb-2 last:border-0 last:pb-0 p-2 hover:bg-slate-50 rounded-lg transition-colors cursor-pointer active:bg-slate-100">
                         <div className="flex flex-col">
-                            <span className="text-slate-900 font-bold">{item.salario}</span>
-                            <span className="text-[10px] text-slate-400">{item.qtd50} (50%) + {item.qtd100} (100%)</span>
+                            <span className="text-slate-800 font-bold">{item.salario}</span>
+                            <span className="text-[10px] text-slate-400 font-medium">{item.qtd50} (50%) + {item.qtd100} (100%)</span>
                         </div>
-                        <span className="font-bold text-purple-600 bg-purple-50 px-2 py-0.5 rounded text-xs">Total: {item.total}</span>
+                        <span className="block font-bold text-purple-700 bg-purple-50 px-2 py-0.5 rounded text-xs tabular-nums">Total: {item.total}</span>
                     </div>
                 ))}
                 </div>
@@ -271,110 +326,193 @@ export default function OvertimeCalculator() {
           )}
         </div>
 
-        {/* --- RESULTADO (Dir) --- */}
-        <div className="md:col-span-5 w-full flex flex-col gap-4">
-          <Card className={`h-fit w-full transition-all duration-500 border-0 shadow-sm ring-1 ring-slate-200 overflow-hidden ${resultado ? 'bg-white' : 'bg-slate-50'} print:bg-white print:border-slate-300`}>
-            <CardHeader className="px-5 md:px-6 border-b border-slate-100 bg-white">
-              <CardTitle className="text-slate-800 text-lg md:text-xl">Demonstrativo</CardTitle>
+        {/* --- COLUNA DIREITA: RESULTADOS --- */}
+        <div className="lg:col-span-5 w-full flex flex-col gap-6">
+          <Card className={`h-full w-full transition-all duration-500 border-0 shadow-lg shadow-slate-200/50 ring-1 ring-slate-200 overflow-hidden flex flex-col ${resultado ? 'bg-white' : 'bg-slate-50'}`}>
+            <CardHeader className="px-6 py-5 border-b border-slate-100 bg-white shrink-0">
+              <CardTitle className="text-slate-800 text-lg font-bold">Extrato de Horas Extras</CardTitle>
             </CardHeader>
-            <CardContent className="p-5 md:p-6">
+            
+            <CardContent className="p-6 flex-1 flex flex-col">
               {!resultado ? (
-                <div className="h-64 flex flex-col items-center justify-center text-slate-400 text-center space-y-4">
-                  <div className="w-16 h-16 bg-slate-200/50 rounded-full flex items-center justify-center"><Calendar size={32} className="opacity-40" /></div>
-                  <p className="text-sm max-w-[200px]">Preencha os dados para ver o valor das horas extras e DSR.</p>
+                <div className="flex-1 flex flex-col items-center justify-center text-slate-400 text-center space-y-4 min-h-[300px]">
+                  <div className="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mb-2">
+                      <div className="text-slate-300"><Clock size={40} /></div>
+                  </div>
+                  <p className="text-sm font-medium max-w-[220px]">Preencha os dados ao lado para ver o valor das suas horas extras e DSR.</p>
                 </div>
               ) : (
-                <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500 w-full">
                   
-                  {/* Destaque */}
-                  <div className="bg-slate-900 p-6 rounded-2xl shadow-xl text-center relative overflow-hidden w-full">
-                    <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/20 rounded-full blur-3xl -mr-10 -mt-10"></div>
-                    <p className="text-xs text-slate-400 font-bold uppercase tracking-wider relative z-10">Total a Receber (HE + DSR)</p>
-                    <p className="text-3xl md:text-4xl font-extrabold text-white mt-2 break-all tracking-tight relative z-10 leading-tight">{resultado.totalFinal}</p>
-                    <p className="text-[10px] text-slate-500 mt-2 relative z-10">Valor da sua hora normal: {resultado.valorHora}</p>
+                  {/* CARD PRETO DESTAQUE */}
+                  <div className="bg-slate-900 p-6 rounded-2xl shadow-xl text-center relative overflow-hidden w-full group">
+                    <div className="absolute top-0 right-0 w-40 h-40 bg-purple-500/20 rounded-full blur-3xl -mr-10 -mt-10 group-hover:bg-purple-500/30 transition-colors duration-500"></div>
+                    <div className="absolute bottom-0 left-0 w-32 h-32 bg-indigo-500/10 rounded-full blur-3xl -ml-10 -mb-10"></div>
+                    
+                    <p className="text-[11px] text-slate-400 font-bold uppercase tracking-widest relative z-10 mb-1">Total a Receber (HE + DSR)</p>
+                    <div className="flex items-center justify-center gap-1 relative z-10">
+                        <span className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">{resultado.totalFinal}</span>
+                    </div>
+                    <p className="text-[10px] text-slate-400 mt-2 relative z-10 border-t border-white/10 pt-2 inline-block px-4">
+                        Valor da sua hora normal: <strong className="text-slate-300">{resultado.valorHora}</strong>
+                    </p>
                   </div>
 
-                  {/* Lista Detalhada */}
-                  <div className="space-y-3 text-sm bg-white p-4 rounded-xl border border-slate-200 shadow-sm w-full">
-                    <div className="flex justify-between py-2 border-b border-slate-100">
-                        <span className="text-slate-600">H.E. 50% (Dias Úteis)</span>
-                        <span className="font-semibold text-slate-900">{resultado.total50}</span>
+                  {/* LISTA DETALHADA */}
+                  <div className="space-y-1 w-full bg-white rounded-xl border border-slate-100 shadow-sm overflow-hidden">
+                    <div className="flex justify-between items-center p-3 border-b border-slate-50 hover:bg-slate-50 transition-colors">
+                        <span className="text-sm text-slate-600 font-medium">H.E. 50% (Dias Úteis)</span>
+                        <span className="text-sm font-bold text-slate-900">{resultado.total50}</span>
                     </div>
-                    <div className="flex justify-between py-2 border-b border-slate-100">
-                        <span className="text-slate-600">H.E. 100% (Feriados)</span>
-                        <span className="font-semibold text-slate-900">{resultado.total100}</span>
+                    <div className="flex justify-between items-center p-3 border-b border-slate-50 hover:bg-slate-50 transition-colors">
+                        <span className="text-sm text-slate-600 font-medium">H.E. 100% (Feriados)</span>
+                        <span className="text-sm font-bold text-slate-900">{resultado.total100}</span>
                     </div>
-                    <div className="flex justify-between py-2 bg-purple-50/50 -mx-2 px-2 rounded">
-                        <span className="text-purple-700 font-bold flex items-center gap-2">Reflexo DSR</span>
-                        <span className="font-extrabold text-purple-700">{resultado.dsr}</span>
+                    <div className="flex justify-between items-center p-3 bg-purple-50/50 hover:bg-purple-50 transition-colors">
+                        <span className="text-sm text-purple-700 font-bold flex items-center gap-2">Reflexo DSR</span>
+                        <span className="text-sm font-extrabold text-purple-700">{resultado.dsr}</span>
                     </div>
                   </div>
                   
-                  <p className="text-[10px] text-slate-400 text-center leading-tight px-2">* O DSR é calculado sobre o total das horas extras.</p>
+                  <p className="text-[10px] text-slate-400 text-center leading-tight px-4">* O DSR é calculado sobre o total das horas extras.</p>
+
+                  {/* BOTOES DE AÇÃO */}
+                  <div className="grid grid-cols-2 gap-3 pt-2">
+                      <Button 
+                        variant="outline" 
+                        onClick={() => handleShare("result")} 
+                        className="h-11 border-slate-200 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200 text-xs font-bold uppercase tracking-wide"
+                      >
+                          {copiado === "result" ? <span className="flex items-center gap-2"><CheckCircle2 size={16}/> Copiado</span> : <span className="flex items-center gap-2"><Share2 size={16}/> Resultado</span>}
+                      </Button>
+                      
+                      <Button 
+                        variant="outline" 
+                        onClick={handlePrint} 
+                        className="h-11 border-slate-200 hover:bg-slate-100 hover:text-slate-900 text-xs font-bold uppercase tracking-wide"
+                      >
+                          <span className="flex items-center gap-2"><Printer size={16}/> Imprimir/PDF</span>
+                      </Button>
+                  </div>
+                  
+                  <div className="text-center">
+                    <button 
+                        onClick={() => handleShare("tool")}
+                        className="text-xs text-slate-400 hover:text-slate-600 underline decoration-slate-300 underline-offset-2 transition-colors"
+                    >
+                        {copiado === "link" ? "Link da ferramenta copiado!" : "Copiar link da calculadora para amigos"}
+                    </button>
+                  </div>
+
                 </div>
               )}
             </CardContent>
           </Card>
-
-          {/* BOTÕES */}
-          {resultado && (
-              <div className="grid grid-cols-2 gap-3 animate-in fade-in">
-                  <Button variant="outline" onClick={() => handleAction("share")} className="h-12 border-slate-200 hover:bg-blue-50 text-blue-700">
-                      {isIframe ? <span className="flex items-center gap-2"><ExternalLink size={18}/> Ver Completo</span> : (linkCopiado ? <span className="flex items-center gap-2"><CheckCircle2 size={18}/> Copiado!</span> : <span className="flex items-center gap-2"><Share2 size={18}/> Compartilhar</span>)}
-                  </Button>
-                  <Button variant="outline" onClick={() => handleAction("pdf")} className="h-12 border-slate-200 hover:bg-slate-50 text-slate-700">
-                      {isIframe ? <span className="flex items-center gap-2"><ExternalLink size={18}/> Baixar PDF</span> : <span className="flex items-center gap-2"><Download size={18}/> Salvar PDF</span>}
-                  </Button>
-              </div>
-          )}
         </div>
       </div>
 
-      {/* --- IMPRESSÃO --- */}
-      {resultado && (
-        <div className="hidden print:block">
-            <div ref={contentRef} className="print:w-full print:p-10 print:bg-white text-black">
-                <div className="flex justify-between items-center mb-8 border-b-2 border-slate-800 pb-4">
-                    <div><h1 className="text-3xl font-bold text-slate-900">Extrato de Horas Extras</h1><p className="text-sm text-slate-500 mt-1">Simulação <strong>Mestre das Contas</strong></p></div>
-                    <div className="text-right"><p className="text-xs text-slate-400 uppercase tracking-wide">Data</p><p className="text-lg font-bold text-slate-700">{new Date().toLocaleDateString()}</p></div>
+      {/* --- LAYOUT DE IMPRESSÃO (ESCONDIDO NA TELA) --- */}
+      <div className="hidden print:block">
+        <div ref={contentRef} className="print:w-full print:p-8 print:bg-white text-slate-900">
+            
+            {/* Header Impressão */}
+            <div className="flex justify-between items-start mb-8 border-b-2 border-slate-800 pb-6">
+                <div>
+                    <h1 className="text-3xl font-bold text-slate-900 tracking-tight">Mestre das Contas</h1>
+                    <p className="text-sm text-slate-500 mt-1 font-medium">www.mestredascontas.com.br</p>
                 </div>
+                <div className="text-right">
+                    <div className="bg-slate-100 px-3 py-1 rounded inline-block">
+                        <p className="text-xs text-slate-500 uppercase font-bold tracking-wider">Extrato de Horas Extras</p>
+                    </div>
+                    <p className="text-sm text-slate-400 mt-2">{dataAtual}</p>
+                </div>
+            </div>
+
+            {resultado && (
+                <>
+                {/* Grid de Dados */}
                 <div className="mb-8 grid grid-cols-3 gap-4 text-sm">
-                    <div className="p-3 border rounded"><p className="text-xs text-slate-400 uppercase font-bold">Salário Base</p><p className="text-xl font-bold">{formatBRL(resultado.rawSalario)}</p></div>
-                    <div className="p-3 border rounded"><p className="text-xs text-slate-400 uppercase font-bold">Horas Realizadas</p><p className="text-xl font-bold">{resultado.rawH50 + resultado.rawH100}h</p></div>
-                    <div className="p-3 border rounded"><p className="text-xs text-slate-400 uppercase font-bold">Valor Hora Normal</p><p className="text-xl font-bold">{resultado.valorHora}</p></div>
+                    <div className="p-4 border border-slate-200 rounded-xl bg-slate-50">
+                        <p className="text-xs text-slate-500 uppercase font-bold mb-2">Salário Base</p>
+                        <p className="text-xl font-bold text-slate-900">{formatBRL(resultado.rawSalario)}</p>
+                    </div>
+                    <div className="p-4 border border-slate-200 rounded-xl bg-slate-50">
+                        <p className="text-xs text-slate-500 uppercase font-bold mb-2">Horas Realizadas</p>
+                        <p className="text-xl font-bold text-slate-900">{resultado.rawH50 + resultado.rawH100}h</p>
+                    </div>
+                    <div className="p-4 border border-slate-200 rounded-xl bg-slate-50">
+                        <p className="text-xs text-slate-500 uppercase font-bold mb-2">Valor Hora Normal</p>
+                        <p className="text-xl font-bold text-slate-900">{resultado.valorHora}</p>
+                    </div>
                 </div>
-                <div className="mb-8">
-                    <table className="w-full text-sm border border-slate-300">
-                        <thead className="bg-slate-100"><tr><th className="p-3 text-left border-b">Descrição</th><th className="p-3 text-right border-b">Valor</th></tr></thead>
-                        <tbody>
-                            <tr><td className="p-3 border-b">Horas Extras 50%</td><td className="p-3 text-right border-b">{resultado.total50}</td></tr>
-                            <tr><td className="p-3 border-b">Horas Extras 100%</td><td className="p-3 text-right border-b">{resultado.total100}</td></tr>
-                            <tr><td className="p-3 border-b font-bold">Reflexo no DSR</td><td className="p-3 text-right border-b font-bold">{resultado.dsr}</td></tr>
+
+                {/* Tabela Detalhada */}
+                <div className="mb-8 border border-slate-200 rounded-xl overflow-hidden">
+                    <table className="w-full text-sm">
+                        <thead className="bg-slate-50 text-slate-500 text-xs uppercase font-bold">
+                            <tr>
+                                <th className="p-4 text-left">Descrição</th>
+                                <th className="p-4 text-right">Valor a Pagar</th>
+                            </tr>
+                        </thead>
+                        <tbody className="divide-y divide-slate-100">
+                            <tr>
+                                <td className="p-4 font-medium">Horas Extras 50% (Dias Úteis)</td>
+                                <td className="p-4 text-right">{resultado.total50}</td>
+                            </tr>
+                            <tr>
+                                <td className="p-4 font-medium">Horas Extras 100% (Feriados)</td>
+                                <td className="p-4 text-right">{resultado.total100}</td>
+                            </tr>
+                            <tr className="bg-slate-50/50">
+                                <td className="p-4 font-bold text-slate-700">Reflexo no DSR</td>
+                                <td className="p-4 text-right font-bold text-slate-700">{resultado.dsr}</td>
+                            </tr>
                         </tbody>
-                        <tfoot className="bg-slate-50 font-bold">
-                            <tr><td className="p-3 text-right">TOTAL A RECEBER</td><td className="p-3 text-right text-lg text-blue-600 bg-blue-50 border-t border-blue-200">{resultado.totalFinal}</td></tr>
+                        <tfoot className="bg-slate-900 text-white">
+                            <tr>
+                                <td className="p-4 font-bold uppercase tracking-wider">Total a Receber</td>
+                                <td className="p-4 text-right font-extrabold text-lg">{resultado.totalFinal}</td>
+                            </tr>
                         </tfoot>
                     </table>
                 </div>
-                <div className="text-center pt-8 border-t border-slate-300 mt-8">
-                    <p className="text-sm font-bold text-slate-900 mb-1">Mestre das Contas</p>
-                    <p className="text-xs text-slate-500">www.mestredascontas.com.br</p>
-                </div>
-            </div>
-        </div>
-      )}
 
-      {/* --- EMBED MODAL --- */}
-      {showEmbedModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 animate-in fade-in backdrop-blur-sm print:hidden">
-            <div className="bg-white rounded-2xl shadow-2xl p-6 max-w-lg w-full relative">
-                <button onClick={() => setShowEmbedModal(false)} className="absolute top-4 right-4 text-slate-400 hover:text-slate-600"><X size={20}/></button>
-                <h3 className="text-lg font-bold text-slate-900 mb-2">Incorporar Calculadora</h3>
-                <p className="text-sm text-slate-500 mb-4">Copie o código abaixo.</p>
-                <div className="bg-slate-900 p-4 rounded-lg relative mb-4 overflow-hidden">
-                    <code className="text-xs font-mono text-blue-300 break-all block">{`<iframe src="https://mestredascontas.com.br/trabalhista/horas-extras?embed=true" width="100%" height="750" frameborder="0" style="border:0; border-radius:12px;" title="Calculadora Horas Extras"></iframe>`}</code>
+                {/* CTA Footer Impressão */}
+                <div className="mt-auto pt-8 border-t border-slate-200 flex items-center justify-between text-sm">
+                    <div className="flex items-center gap-2 text-slate-600">
+                        <LinkIcon size={16}/>
+                        <span>Acesse essa ferramenta em: <strong>mestredascontas.com.br</strong></span>
+                    </div>
+                    <div className="bg-slate-100 px-3 py-1 rounded text-slate-500 text-xs font-bold uppercase">
+                        Não vale como documento oficial
+                    </div>
                 </div>
-                <Button onClick={copiarEmbedCode} className="w-full bg-purple-600 hover:bg-purple-700">{embedCopiado ? "Copiado!" : "Copiar Código HTML"}</Button>
+                </>
+            )}
+        </div>
+      </div>
+
+      {/* --- MODAL DE EMBED --- */}
+      {showEmbedModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 animate-in fade-in backdrop-blur-sm print:hidden" onClick={() => setShowEmbedModal(false)}>
+            <div className="bg-white rounded-2xl shadow-2xl p-6 max-w-lg w-full relative" onClick={e => e.stopPropagation()}>
+                <button onClick={() => setShowEmbedModal(false)} className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 transition-colors"><X size={20}/></button>
+                <h3 className="text-lg font-bold text-slate-900 mb-2">Incorporar no seu Site</h3>
+                <p className="text-sm text-slate-500 mb-4">Copie o código abaixo para adicionar essa calculadora no seu blog ou site.</p>
+                <div className="bg-slate-950 p-4 rounded-xl relative mb-4 overflow-hidden group">
+                    <code className="text-xs font-mono text-blue-300 break-all block leading-relaxed selection:bg-blue-900">
+                        {`<iframe src="https://mestredascontas.com.br/trabalhista/horas-extras?embed=true" width="100%" height="750" frameborder="0" style="border:0; border-radius:12px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);" title="Calculadora Horas Extras"></iframe>`}
+                    </code>
+                </div>
+                <Button onClick={() => {
+                    navigator.clipboard.writeText(`<iframe src="https://mestredascontas.com.br/trabalhista/horas-extras?embed=true" width="100%" height="750" frameborder="0" style="border:0; border-radius:12px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);" title="Calculadora Horas Extras"></iframe>`);
+                    setCopiado("embed");
+                    setTimeout(() => setCopiado(null), 2000);
+                }} className="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold h-12 rounded-xl">
+                    {copiado === "embed" ? "Código Copiado!" : "Copiar Código HTML"}
+                </Button>
             </div>
         </div>
       )}

@@ -1,0 +1,142 @@
+[
+  { 
+    "slug": "whatsapp", 
+    "title": "WhatsApp", 
+    "type": "whatsapp", 
+    "desc": "Crie um link direto para iniciar conversas no seu WhatsApp. Ideal para vendas e suporte.",
+    "prefill": {}
+  },
+  { 
+    "slug": "pix", 
+    "title": "Pix e Pagamentos", 
+    "type": "pix", 
+    "desc": "Gere um QR Code Pix estático para receber pagamentos na sua loja ou serviços.",
+    "prefill": {}
+  },
+  { 
+    "slug": "wifi", 
+    "title": "Wi-Fi e Internet", 
+    "type": "wifi", 
+    "desc": "Permita que clientes conectem no seu Wi-Fi sem digitar senhas complicadas.",
+    "prefill": {}
+  },
+  { 
+    "slug": "instagram", 
+    "title": "Instagram", 
+    "type": "link", 
+    "desc": "Aumente seus seguidores levando clientes direto para o seu perfil.",
+    "prefill": { "url": "https://instagram.com/seu_perfil" }
+  },
+  { 
+    "slug": "facebook", 
+    "title": "Facebook", 
+    "type": "link", 
+    "desc": "Divulgue sua Fanpage ou Grupo do Facebook facilmente.",
+    "prefill": { "url": "https://facebook.com/sua_pagina" }
+  },
+  { 
+    "slug": "cardapio-digital", 
+    "title": "Cardápio Digital", 
+    "type": "link", 
+    "desc": "Modernize seu restaurante. O cliente escaneia e acessa seu menu PDF ou site.",
+    "prefill": { "url": "https://seu-restaurante.com/menu" }
+  },
+  { 
+    "slug": "google-maps", 
+    "title": "Google Maps (Localização)", 
+    "type": "link", 
+    "desc": "Facilite a chegada de clientes. Gere um código com a rota para seu endereço.",
+    "prefill": { "url": "https://maps.google.com/?q=Seu+Endereco" }
+  },
+  { 
+    "slug": "cartao-visita", 
+    "title": "Cartão de Visita (vCard)", 
+    "type": "vcard", 
+    "desc": "Compartilhe todos seus contatos (E-mail, Telefone, Site) com um único scan.",
+    "prefill": {}
+  },
+  { 
+    "slug": "email", 
+    "title": "E-mail", 
+    "type": "email", 
+    "desc": "Facilite o contato. Abre o aplicativo de e-mail já com destinatário e assunto.",
+    "prefill": {}
+  },
+  { 
+    "slug": "youtube", 
+    "title": "Canal do YouTube", 
+    "type": "link", 
+    "desc": "Leve inscritos para seu canal ou para um vídeo específico.",
+    "prefill": { "url": "https://youtube.com/@seu_canal" }
+  },
+  { 
+    "slug": "linkedin", 
+    "title": "LinkedIn", 
+    "type": "link", 
+    "desc": "Conecte-se profissionalmente. Ideal para colocar em currículos e apresentações.",
+    "prefill": { "url": "https://linkedin.com/in/seu_perfil" }
+  },
+  { 
+    "slug": "tiktok", 
+    "title": "TikTok", 
+    "type": "link", 
+    "desc": "Viralize seu conteúdo levando tráfego físico para o seu perfil no TikTok.",
+    "prefill": { "url": "https://tiktok.com/@seu_perfil" }
+  },
+  { 
+    "slug": "site-empresa", 
+    "title": "Site da Empresa", 
+    "type": "link", 
+    "desc": "A forma mais simples de levar tráfego offline para o seu site institucional.",
+    "prefill": { "url": "https://sua-empresa.com.br" }
+  },
+  { 
+    "slug": "texto-simples", 
+    "title": "Texto ou Mensagem", 
+    "type": "texto", 
+    "desc": "Mostre uma frase, um código promocional ou um poema na tela do celular.",
+    "prefill": {}
+  },
+  { 
+    "slug": "telegram", 
+    "title": "Telegram", 
+    "type": "link", 
+    "desc": "Link direto para seu canal ou grupo do Telegram.",
+    "prefill": { "url": "https://t.me/seu_grupo" }
+  },
+  { 
+    "slug": "tripadvisor", 
+    "title": "Avaliação TripAdvisor", 
+    "type": "link", 
+    "desc": "Incentive avaliações positivas no seu hotel ou atração turística.",
+    "prefill": { "url": "https://tripadvisor.com/" }
+  },
+  { 
+    "slug": "google-review", 
+    "title": "Avaliação Google", 
+    "type": "link", 
+    "desc": "Aumente suas 5 estrelas no Google Meu Negócio com um link direto.",
+    "prefill": { "url": "https://g.page/r/..." }
+  },
+  { 
+    "slug": "chave-aleatoria-pix", 
+    "title": "Chave Aleatória Pix", 
+    "type": "pix", 
+    "desc": "Receba sem expor CPF ou telefone. Gere o código da sua chave aleatória.",
+    "prefill": {}
+  },
+  { 
+    "slug": "spotify", 
+    "title": "Spotify (Música/Playlist)", 
+    "type": "link", 
+    "desc": "Compartilhe uma playlist ou música especial.",
+    "prefill": { "url": "https://open.spotify.com/..." }
+  },
+  { 
+    "slug": "eventos-rsvp", 
+    "title": "Eventos e RSVP", 
+    "type": "link", 
+    "desc": "Confirmação de presença para casamentos e festas via formulário.",
+    "prefill": { "url": "https://forms.google.com/..." }
+  }
+]
