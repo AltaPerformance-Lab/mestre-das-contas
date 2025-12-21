@@ -4,14 +4,15 @@ import Link from "next/link";
 import CalorieCalculator from "@/components/calculators/CalorieCalculator";
 import AdUnit from "@/components/ads/AdUnit";
 import DisclaimerBox from "@/components/ui/DisclaimerBox"; 
-import PageHeader from "@/components/layout/PageHeader"; // Componente importado
+import PageHeader from "@/components/layout/PageHeader";
 import { 
   Flame, HelpCircle, BookOpen, Activity, 
   Scale, Utensils, Zap, 
-  CheckCircle2, TrendingUp, Apple, Briefcase
+  CheckCircle2, TrendingUp, Apple, Briefcase,
+  Dna, AlertTriangle, ArrowRight
 } from "lucide-react";
 
-// --- METADATA OTIMIZADA (SEO) ---
+// --- 1. METADATA OTIMIZADA (SEO 2026) ---
 export const metadata: Metadata = {
   title: "Calculadora de Calorias Diárias 2026 | Basal (TMB) e Gasto Total",
   description: "Quer emagrecer ou ganhar massa? Calcule sua Taxa Metabólica Basal e monte sua dieta com a fórmula científica de Mifflin-St Jeor. Grátis e preciso.",
@@ -34,9 +35,9 @@ export const metadata: Metadata = {
     url: "https://mestredascontas.com.br/saude/calorias-diarias",
     siteName: "Mestre das Contas",
     locale: "pt_BR",
-    type: "website",
+    type: "article",
     images: [{ 
-      url: "/og-calorias.png", 
+      url: "https://mestredascontas.com.br/og-calorias.png", 
       width: 1200, 
       height: 630, 
       alt: "Calculadora de Calorias e Metabolismo" 
@@ -45,13 +46,21 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
-// --- DADOS ESTRUTURADOS (RICH SNIPPETS + RATING) ---
+// --- LISTA FAQ (DRY Content) ---
+const faqList = [
+    { q: "O que é Taxa Metabólica Basal (TMB)?", a: "É a quantidade mínima de energia que seu corpo precisa para sobreviver em repouso absoluto (respirar, bombear sangue, função cerebral). Representa cerca de 70% do gasto calórico diário." },
+    { q: "Quantas calorias devo cortar para emagrecer?", a: "Um déficit seguro é de 300 a 500 calorias por dia abaixo do seu Gasto Total (TDEE). Isso promove uma perda de peso sustentável de cerca de 0,5kg por semana, preservando a massa muscular." },
+    { q: "Comer à noite engorda mais?", a: "Não necessariamente. O que engorda é o saldo total de calorias no final do dia. Porém, comer muito antes de dormir pode atrapalhar o sono e a digestão." },
+    { q: "Qual a melhor fórmula de cálculo?", a: "Atualmente, a equação de Mifflin-St Jeor é considerada a mais precisa para a população moderna, superando a antiga Harris-Benedict." }
+];
+
+// --- 2. DADOS ESTRUTURADOS (JSON-LD COMPLETO) ---
 const jsonLd = {
   "@context": "https://schema.org",
   "@graph": [
     {
       "@type": "SoftwareApplication",
-      "name": "Calculadora de Calorias Diárias - Mestre das Contas",
+      "name": "Calculadora de Calorias Diárias",
       "url": "https://mestredascontas.com.br/saude/calorias-diarias",
       "applicationCategory": "HealthApplication",
       "operatingSystem": "Web",
@@ -59,7 +68,6 @@ const jsonLd = {
       "description": "Ferramenta gratuita para cálculo de TMB e necessidade calórica diária baseada na equação de Mifflin-St Jeor.",
       "featureList": "Cálculo de TMB, Cálculo de TDEE, Planejamento para Perda de Peso, Planejamento para Ganho de Massa",
       "author": { "@type": "Organization", "name": "Mestre das Contas" },
-      // Aggregate Rating para estrelinhas no Google
       "aggregateRating": {
         "@type": "AggregateRating",
         "ratingValue": "4.9",
@@ -72,39 +80,19 @@ const jsonLd = {
       "@type": "Article",
       "headline": "A Ciência das Calorias: Como dominar seu metabolismo",
       "description": "Entenda a diferença entre TMB e TDEE e como criar um déficit calórico saudável.",
-      "author": { 
-        "@type": "Organization", 
-        "name": "Equipe Mestre das Contas", 
-        "url": "https://mestredascontas.com.br" 
-      },
-      "publisher": { 
-        "@type": "Organization", 
-        "name": "Mestre das Contas", 
-        "logo": { 
-          "@type": "ImageObject", 
-          "url": "https://mestredascontas.com.br/icon", 
-          "width": 512, 
-          "height": 512 
-        } 
-      },
+      "author": { "@type": "Organization", "name": "Mestre das Contas" },
+      "publisher": { "@type": "Organization", "name": "Mestre das Contas", "logo": { "@type": "ImageObject", "url": "https://mestredascontas.com.br/opengraph-image" } },
       "datePublished": "2024-01-15",
-      "dateModified": "2025-12-18",
+      "dateModified": new Date().toISOString(),
       "image": "https://mestredascontas.com.br/og-calorias.png"
     },
     {
       "@type": "FAQPage",
-      "mainEntity": [
-        { 
-          "@type": "Question", 
-          "name": "O que é Taxa Metabólica Basal (TMB)?", 
-          "acceptedAnswer": { "@type": "Answer", "text": "É a quantidade mínima de energia que seu corpo precisa para sobreviver em repouso absoluto (respirar, bombear sangue, função cerebral). Representa cerca de 70% do gasto calórico diário." } 
-        },
-        { 
-          "@type": "Question", 
-          "name": "Quantas calorias devo cortar para emagrecer?", 
-          "acceptedAnswer": { "@type": "Answer", "text": "Um déficit seguro é de 300 a 500 calorias por dia abaixo do seu Gasto Total (TDEE). Isso promove uma perda de peso sustentável de cerca de 0,5kg por semana, preservando a massa muscular." } 
-        }
-      ]
+      "mainEntity": faqList.map(item => ({
+        "@type": "Question",
+        "name": item.q,
+        "acceptedAnswer": { "@type": "Answer", "text": item.a }
+      }))
     }
   ]
 };
@@ -116,16 +104,16 @@ export default async function CaloriasPage({ searchParams }: Props) {
   const resolvedParams = await searchParams;
   const isEmbed = resolvedParams.embed === 'true';
 
-  // --- MODO EMBED (Visual minimalista para iframe) ---
+  // --- MODO EMBED ---
   if (isEmbed) {
     return (
-        <main className="w-full min-h-screen bg-white p-2 flex flex-col items-center justify-start font-sans">
-            <div className="w-full max-w-3xl">
-                <Suspense fallback={<div className="p-10 text-center animate-pulse text-slate-400">Carregando Calculadora...</div>}>
+        <main className="w-full min-h-screen bg-orange-50/30 p-4 flex flex-col items-center justify-center font-sans">
+            <div className="w-full max-w-2xl">
+                <Suspense fallback={<div className="p-4 text-center animate-pulse text-orange-400">Carregando Calculadora...</div>}>
                     <CalorieCalculator />
                 </Suspense>
-                <div className="mt-4 text-center border-t border-slate-100 pt-3">
-                    <Link href="https://mestredascontas.com.br/saude/calorias-diarias" target="_blank" className="text-[10px] text-slate-400 hover:text-orange-600 uppercase font-bold tracking-wider transition-colors flex items-center justify-center gap-1">
+                <div className="mt-4 text-center border-t border-orange-200 pt-3">
+                    <Link href="https://mestredascontas.com.br/saude/calorias-diarias" target="_blank" className="text-[10px] text-orange-500 hover:text-orange-700 uppercase font-bold tracking-wider transition-colors flex items-center justify-center gap-1">
                        <Zap size={10} /> Powered by Mestre das Contas
                     </Link>
                 </div>
@@ -134,21 +122,24 @@ export default async function CaloriasPage({ searchParams }: Props) {
     );
   }
 
-  // --- MODO PÁGINA NORMAL ---
+  // --- PÁGINA COMPLETA ---
   return (
-    <article className="w-full max-w-full overflow-hidden">
+    <article className="w-full max-w-full overflow-hidden pb-12">
       
-      {/* Injeção do JSON-LD */}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
-      {/* --- PAGE HEADER PADRONIZADO (Novo) --- */}
+      {/* --- PAGE HEADER PADRONIZADO --- */}
       <div className="px-4 pt-4 md:pt-6">
         <PageHeader 
           title="Calculadora de Calorias Diárias"
           description="Descubra sua Taxa Metabólica Basal (TMB) e monte seu plano para emagrecer ou ganhar massa muscular com precisão científica."
           icon={<Flame size={32} strokeWidth={2} />}
-          variant="health" // Ativa o gradiente Laranja/Rosa
-          badge="Atualizado 2026"
+          category="Saúde & Performance"
+          variant="health" // Laranja/Rosa
+          categoryColor="orange"
+          badge="Método Mifflin-St Jeor"
+          rating={4.9}
+          reviews={1458}
           breadcrumbs={[
             { label: "Saúde", href: "/saude" },
             { label: "Calorias Diárias" }
@@ -156,42 +147,45 @@ export default async function CaloriasPage({ searchParams }: Props) {
         />
       </div>
 
-      <div className="flex flex-col gap-8 px-4 sm:px-6 pb-12 max-w-7xl mx-auto">
+      <div className="flex flex-col gap-8 px-4 sm:px-6 max-w-7xl mx-auto">
 
-        {/* PUBLICIDADE (Topo) */}
-        <div className="w-full max-w-5xl mx-auto overflow-hidden flex justify-center bg-slate-50/50 rounded-lg border border-dashed border-slate-200/60 print:hidden min-h-[100px]">
+        {/* ANÚNCIO TOPO */}
+        <div className="w-full max-w-5xl mx-auto overflow-hidden flex justify-center bg-orange-50/30 rounded-lg border border-dashed border-orange-200/50 print:hidden min-h-[100px]">
            <AdUnit slot="calorias_top" format="horizontal" variant="agency" />
         </div>
 
         {/* --- FERRAMENTA PRINCIPAL --- */}
         <section id="ferramenta" className="scroll-mt-28 w-full max-w-full">
-          <Suspense fallback={
-            <div className="h-96 w-full bg-slate-50 rounded-2xl animate-pulse flex items-center justify-center text-slate-400">
-                Carregando ferramenta...
-            </div>
-          }>
-              <CalorieCalculator />
-          </Suspense>
+          <div className="bg-white rounded-3xl border border-orange-100 shadow-xl shadow-orange-100/50 p-1 md:p-2">
+              <Suspense fallback={
+                <div className="h-96 w-full bg-orange-50 rounded-2xl animate-pulse flex items-center justify-center text-orange-300 border border-orange-100">
+                    <div className="flex flex-col items-center gap-2">
+                        <Flame className="animate-bounce" size={32}/>
+                        <span>Carregando ferramenta...</span>
+                    </div>
+                </div>
+              }>
+                  <CalorieCalculator />
+              </Suspense>
+          </div>
           
-          {/* Aviso Legal (YMYL Requirement) */}
           <div className="mt-8 print:hidden max-w-5xl mx-auto">
               <DisclaimerBox /> 
           </div>
         </section>
 
-        {/* PUBLICIDADE (Meio) */}
+        {/* ANÚNCIO MEIO */}
         <div className="w-full max-w-4xl mx-auto flex justify-center my-4 print:hidden">
             <AdUnit slot="calorias_mid" format="auto" />
         </div>
 
-        {/* --- CONTEÚDO EDUCACIONAL (SEO) --- */}
+        {/* --- CONTEÚDO EDUCACIONAL --- */}
         <div className="prose prose-slate prose-sm md:prose-lg max-w-4xl mx-auto bg-white p-6 md:p-12 rounded-3xl border border-slate-100 shadow-xl shadow-slate-200/40 overflow-hidden w-full print:hidden">
           
-          <h2 className="flex items-center gap-3 text-slate-900">
-              <BookOpen className="text-orange-600" size={28} /> 
+          <h2 className="flex items-center gap-3 text-slate-900 border-l-4 border-orange-500 pl-4 mb-6">
               A Matemática do Corpo Humano
           </h2>
-          <p className="lead text-slate-700 font-medium">
+          <p className="lead text-slate-700 font-medium text-lg">
             Emagrecer não é sorte, é <strong>termodinâmica</strong>. Seu corpo é uma máquina biológica que consome energia (calorias) para funcionar, e o segredo está no equilíbrio entre o que entra e o que sai.
           </p>
           
@@ -199,7 +193,7 @@ export default async function CaloriasPage({ searchParams }: Props) {
             Para controlar seu peso sem "achismos", você precisa dominar dois números fundamentais: a sua <strong>TMB</strong> e o seu <strong>Gasto Total (TDEE)</strong>.
           </p>
 
-          {/* Cards Explicativos (Not Prose) */}
+          {/* CARDS TMB vs TDEE */}
           <div className="grid md:grid-cols-2 gap-6 not-prose my-10">
               <div className="bg-slate-50 p-6 rounded-2xl border border-slate-200 hover:border-blue-300 transition-colors">
                   <h3 className="font-bold text-slate-800 flex items-center gap-2 mb-2 text-lg">
@@ -225,12 +219,54 @@ export default async function CaloriasPage({ searchParams }: Props) {
               </div>
           </div>
 
-          <h3>Por que usamos Mifflin-St Jeor?</h3>
+          <h3 className="text-xl font-bold text-slate-800 mt-10 mb-4 flex items-center gap-2">
+             <Dna className="text-purple-500" /> Por que usamos Mifflin-St Jeor?
+          </h3>
           <p>
             Nossa calculadora utiliza a equação de <strong>Mifflin-St Jeor</strong> (1990). Estudos clínicos apontam que ela é a mais precisa para a população moderna, superando fórmulas antigas como Harris-Benedict, tanto para pessoas com peso normal quanto para pessoas com obesidade.
           </p>
 
-          {/* Box Curiosidade (Efeito Térmico) */}
+          {/* TABELA DE FATOR DE ATIVIDADE (HTML PURO) */}
+          <div className="not-prose my-10 border rounded-xl overflow-hidden border-slate-200 shadow-sm bg-white">
+              <div className="bg-slate-100 p-3 border-b border-slate-200">
+                  <h4 className="text-sm font-bold text-slate-700 uppercase tracking-wide">Fator de Atividade (Multiplicador)</h4>
+              </div>
+              <div className="overflow-x-auto">
+                  <table className="w-full text-sm text-left border-collapse min-w-[500px]">
+                      <thead className="bg-slate-50 text-slate-600 text-xs">
+                          <tr>
+                              <th className="px-6 py-3 font-bold border-b border-slate-200">Nível</th>
+                              <th className="px-6 py-3 font-bold border-b border-slate-200">Descrição</th>
+                              <th className="px-6 py-3 font-bold border-b border-slate-200">Fator</th>
+                          </tr>
+                      </thead>
+                      <tbody className="divide-y divide-slate-100">
+                          <tr className="hover:bg-slate-50 transition-colors">
+                              <td className="px-6 py-3 font-medium text-slate-900">Sedentário</td>
+                              <td className="px-6 py-3 text-slate-600">Trabalho de escritório, pouco ou nenhum exercício.</td>
+                              <td className="px-6 py-3 font-bold text-orange-600">x 1.2</td>
+                          </tr>
+                          <tr className="hover:bg-slate-50 transition-colors">
+                              <td className="px-6 py-3 font-medium text-slate-900">Leve</td>
+                              <td className="px-6 py-3 text-slate-600">Exercício leve 1-3 dias/semana.</td>
+                              <td className="px-6 py-3 font-bold text-orange-600">x 1.375</td>
+                          </tr>
+                          <tr className="hover:bg-slate-50 transition-colors">
+                              <td className="px-6 py-3 font-medium text-slate-900">Moderado</td>
+                              <td className="px-6 py-3 text-slate-600">Exercício moderado 3-5 dias/semana.</td>
+                              <td className="px-6 py-3 font-bold text-orange-600">x 1.55</td>
+                          </tr>
+                          <tr className="hover:bg-slate-50 transition-colors">
+                              <td className="px-6 py-3 font-medium text-slate-900">Intenso</td>
+                              <td className="px-6 py-3 text-slate-600">Exercício pesado 6-7 dias/semana.</td>
+                              <td className="px-6 py-3 font-bold text-orange-600">x 1.725</td>
+                          </tr>
+                      </tbody>
+                  </table>
+              </div>
+          </div>
+
+          {/* BOX CURIOSIDADE (EFEITO TÉRMICO) */}
           <div className="bg-slate-900 p-8 rounded-2xl text-white my-12 relative overflow-hidden not-prose shadow-2xl shadow-slate-900/20 group">
               <div className="absolute -right-10 -top-10 text-slate-800 opacity-20 group-hover:opacity-30 transition-opacity rotate-12">
                   <Utensils size={200} />
@@ -253,51 +289,46 @@ export default async function CaloriasPage({ searchParams }: Props) {
               </div>
           </div>
 
-          <h3>Estratégias para seu Objetivo</h3>
-          <div className="grid sm:grid-cols-2 gap-6 not-prose my-6">
-              <div className="flex gap-4 items-start">
+          <h3 className="text-xl font-bold text-slate-800 mt-10 mb-6 flex items-center gap-2">
+             <Briefcase className="text-blue-500" /> Estratégias para seu Objetivo
+          </h3>
+          <div className="grid sm:grid-cols-2 gap-6 not-prose mb-10">
+              <div className="flex gap-4 items-start bg-slate-50 p-4 rounded-xl border border-slate-100">
                   <div className="bg-blue-100 p-2.5 rounded-xl text-blue-600 shrink-0 mt-1 shadow-sm"><Scale size={20}/></div>
                   <div>
                       <h4 className="font-bold text-slate-900 text-base">Cutting (Perder Peso)</h4>
-                      <p className="text-sm text-slate-600 mt-1 leading-snug">Crie um déficit de 300 a 500 kcal. Mais que isso pode desacelerar o metabolismo e causar perda muscular.</p>
+                      <p className="text-sm text-slate-600 mt-1 leading-snug">Crie um déficit de 300 a 500 kcal. Mais que isso pode desacelerar o metabolismo.</p>
                   </div>
               </div>
-              <div className="flex gap-4 items-start">
+              <div className="flex gap-4 items-start bg-slate-50 p-4 rounded-xl border border-slate-100">
                   <div className="bg-orange-100 p-2.5 rounded-xl text-orange-600 shrink-0 mt-1 shadow-sm"><TrendingUp size={20}/></div>
                   <div>
                       <h4 className="font-bold text-slate-900 text-base">Bulking (Ganhar Massa)</h4>
-                      <p className="text-sm text-slate-600 mt-1 leading-snug">Gere um superávit leve de 200 a 300 kcal para maximizar o ganho de músculo e minimizar a gordura.</p>
+                      <p className="text-sm text-slate-600 mt-1 leading-snug">Gere um superávit leve de 200 a 300 kcal para maximizar músculo e minimizar gordura.</p>
                   </div>
               </div>
           </div>
 
-          {/* FAQ Section */}
+          {/* FAQ ACORDION */}
           <div className="mt-12 not-prose">
-            <h3 className="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2">
-                <HelpCircle className="text-blue-600" /> Perguntas Frequentes
+            <h3 className="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2 border-b border-slate-100 pb-3">
+                <HelpCircle className="text-orange-600" /> Perguntas Frequentes
             </h3>
             <div className="space-y-3">
-              <details className="group bg-slate-50 p-4 rounded-xl border border-slate-200 cursor-pointer open:bg-white open:shadow-md transition-all">
-                <summary className="font-semibold text-slate-800 flex justify-between items-center text-sm select-none">
-                  Comer pouco demais engorda? <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
-                </summary>
-                <p className="mt-3 text-slate-600 text-sm leading-relaxed border-t border-slate-100 pt-3">
-                  Indiretamente, sim. Comer muito abaixo da TMB coloca o corpo em "modo de alerta" (termogênese adaptativa), reduzindo o gasto energético e aumentando a fome, o que leva à compulsão alimentar e ao efeito sanfona.
-                </p>
-              </details>
-
-              <details className="group bg-slate-50 p-4 rounded-xl border border-slate-200 cursor-pointer open:bg-white open:shadow-md transition-all">
-                <summary className="font-semibold text-slate-800 flex justify-between items-center text-sm select-none">
-                  Devo contar calorias de salada? <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
-                </summary>
-                <p className="mt-3 text-slate-600 text-sm leading-relaxed border-t border-slate-100 pt-3">
-                  Vegetais folhosos (alface, rúcula, espinafre) têm calorias insignificantes. Muitos nutricionistas recomendam não pesar esses itens para facilitar a adesão à dieta. Foque em pesar óleos, carboidratos e proteínas.
-                </p>
-              </details>
+              {faqList.map((item, idx) => (
+                  <details key={idx} className="group bg-slate-50 p-4 rounded-xl border border-slate-200 cursor-pointer open:bg-white open:shadow-md transition-all">
+                    <summary className="font-semibold text-slate-800 flex justify-between items-center text-sm select-none">
+                      {item.q} <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
+                    </summary>
+                    <p className="mt-3 text-slate-600 text-sm leading-relaxed border-t border-slate-100 pt-3 animate-in fade-in">
+                      {item.a}
+                    </p>
+                  </details>
+              ))}
             </div>
           </div>
 
-          {/* Links Internos (Footer do Artigo) */}
+          {/* CROSS-LINKING FINAL */}
           <div className="mt-16 pt-8 border-t border-slate-200 print:hidden not-prose">
             <p className="font-bold text-slate-900 mb-6 text-xs uppercase tracking-wider flex items-center gap-2">
                <CheckCircle2 size={16} className="text-emerald-500"/> Continue Cuidando de Você:
@@ -308,10 +339,10 @@ export default async function CaloriasPage({ searchParams }: Props) {
                   <span className="font-bold text-slate-800 text-base">IMC Online</span>
                   <span className="text-xs text-slate-500 mt-1">Peso ideal</span>
               </Link>
-              <Link href="/financeiro/juros-compostos" className="flex flex-col p-5 bg-slate-50 border border-slate-200 rounded-xl hover:border-emerald-400 hover:bg-white hover:shadow-lg transition-all group">
-                  <div className="bg-white w-10 h-10 rounded-lg flex items-center justify-center mb-3 text-emerald-600 shadow-sm group-hover:scale-110 transition-transform"><TrendingUp size={20}/></div>
-                  <span className="font-bold text-slate-800 text-base">Juros Compostos</span>
-                  <span className="text-xs text-slate-500 mt-1">Saúde financeira</span>
+              <Link href="/saude/agua" className="flex flex-col p-5 bg-slate-50 border border-slate-200 rounded-xl hover:border-cyan-400 hover:bg-white hover:shadow-lg transition-all group">
+                  <div className="bg-white w-10 h-10 rounded-lg flex items-center justify-center mb-3 text-cyan-600 shadow-sm group-hover:scale-110 transition-transform"><Activity size={20}/></div>
+                  <span className="font-bold text-slate-800 text-base">Água Diária</span>
+                  <span className="text-xs text-slate-500 mt-1">Hidratação</span>
               </Link>
               <Link href="/trabalhista/ferias" className="flex flex-col p-5 bg-slate-50 border border-slate-200 rounded-xl hover:border-blue-400 hover:bg-white hover:shadow-lg transition-all group">
                   <div className="bg-white w-10 h-10 rounded-lg flex items-center justify-center mb-3 text-blue-600 shadow-sm group-hover:scale-110 transition-transform"><Briefcase size={20}/></div>
@@ -323,7 +354,7 @@ export default async function CaloriasPage({ searchParams }: Props) {
 
         </div>
 
-        {/* Footer de Impressão (Oculto na tela) */}
+        {/* Footer Impressão */}
         <div className="hidden print:block text-center pt-8 border-t border-slate-300 mt-8">
             <p className="text-sm font-bold text-slate-900 mb-1">Mestre das Contas</p>
             <p className="text-xs text-slate-500">www.mestredascontas.com.br</p>

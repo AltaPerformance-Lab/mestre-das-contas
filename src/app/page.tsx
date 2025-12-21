@@ -10,7 +10,9 @@ import {
   ShieldCheck, 
   Zap,
   Landmark,
-  LucideIcon
+  QrCode,
+  Smartphone,
+  Wifi
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -22,7 +24,7 @@ import AgencyCTA from "@/components/layout/AgencyCTA";
 export const metadata: Metadata = {
   title: "Mestre das Contas - Calculadoras Trabalhistas, Financeiras e Reforma Tributária",
   description: "Faça cálculos exatos de Rescisão, Férias, 13º Salário e simule o impacto da Reforma Tributária 2026. Ferramentas gratuitas e atualizadas pela Lei vigente.",
-  keywords: ["calculadora rescisão", "calculadora férias", "reforma tributária 2026", "simulador iva", "cálculo exato", "mestre das contas"],
+  keywords: ["calculadora rescisão", "calculadora férias", "reforma tributária 2026", "simulador iva", "gerador qr code", "mestre das contas"],
   alternates: {
     canonical: "https://mestredascontas.com.br",
   },
@@ -55,7 +57,7 @@ export default function Home() {
       "name": "Mestre das Contas",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://mestredascontas.com.br/icon" // Certifique-se de ter esse arquivo em public/
+        "url": "https://mestredascontas.com.br/opengraph-image" 
       }
     }
   };
@@ -85,12 +87,12 @@ export default function Home() {
             </div>
             
             {/* Título Principal (H1) */}
-            <h1 className="text-4xl sm:text-5xl md:text-7xl font-extrabold tracking-tight leading-[1.1] animate-in fade-in slide-in-from-bottom-6 duration-700">
+            <h1 className="text-4xl sm:text-5xl md:text-7xl font-extrabold tracking-tight leading-[1.1] animate-in fade-in slide-in-from-bottom-6 duration-700 text-balance">
               Simplifique suas <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-emerald-400">Contas</span> e tome decisões melhores.
             </h1>
             
             {/* Subtítulo */}
-            <p className="text-lg md:text-xl text-slate-400 leading-relaxed max-w-2xl mx-auto animate-in fade-in slide-in-from-bottom-8 duration-700 delay-100">
+            <p className="text-lg md:text-xl text-slate-400 leading-relaxed max-w-2xl mx-auto animate-in fade-in slide-in-from-bottom-8 duration-700 delay-100 text-pretty">
               Calculadoras precisas para Finanças, Direitos Trabalhistas e Saúde. 
               Sem cadastro, sem enrolação e 100% gratuito.
             </p>
@@ -119,55 +121,71 @@ export default function Home() {
         </div>
       </section>
 
-      {/* --- DESTAQUE: REFORMA TRIBUTÁRIA (Overlap na Hero) --- */}
-      <section className="px-4 -mt-24 relative z-20 mb-10">
-        <div className="max-w-6xl mx-auto">
-          {/* Card com efeito Glassmorphism e Borda Brilhante */}
-          <div className="bg-slate-900 rounded-3xl shadow-2xl shadow-slate-900/50 border border-emerald-500/30 p-1 overflow-hidden relative group">
-            <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/10 to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+      {/* --- DESTAQUE DUPLO: REFORMA & QR CODE (Grid Moderno) --- */}
+      <section className="px-4 -mt-24 relative z-20 mb-16">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid lg:grid-cols-2 gap-6">
             
-            <div className="bg-slate-900/95 backdrop-blur-xl rounded-[20px] p-6 md:p-10 text-white flex flex-col lg:flex-row items-center justify-between gap-8 relative z-10">
-              <div className="space-y-4 max-w-3xl">
-                <div className="flex items-center gap-3 mb-2">
-                   <div className="bg-emerald-500/20 p-2 rounded-lg text-emerald-400">
-                      <Landmark size={28}/>
-                   </div>
-                   <span className="text-emerald-400 font-bold tracking-wider uppercase text-xs">Destaque 2026</span>
+            {/* CARD 1: REFORMA TRIBUTÁRIA */}
+            <div className="bg-slate-900 rounded-3xl shadow-xl shadow-slate-900/40 border border-emerald-500/20 p-1 overflow-hidden relative group h-full">
+                <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div className="bg-slate-900/95 backdrop-blur-xl rounded-[20px] p-6 h-full flex flex-col justify-between relative z-10">
+                    <div>
+                        <div className="flex items-center gap-2 mb-4">
+                            <div className="bg-emerald-500/20 p-2 rounded-lg text-emerald-400">
+                                <Landmark size={24}/>
+                            </div>
+                            <span className="text-emerald-400 font-bold uppercase text-[10px] tracking-widest bg-emerald-500/10 px-2 py-1 rounded">Destaque 2026</span>
+                        </div>
+                        <h2 className="text-2xl font-bold text-white mb-2">Reforma Tributária</h2>
+                        <p className="text-slate-400 text-sm leading-relaxed mb-6">
+                            O simulador mais completo do Brasil. Descubra o impacto do <strong>IVA Dual (IBS + CBS)</strong> na sua profissão.
+                        </p>
+                    </div>
+                    <Link href="/financeiro/reforma-tributaria">
+                        <Button className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold h-12 rounded-xl transition-all group-hover:scale-[1.02]">
+                            Calcular Impacto <ArrowRight size={18} className="ml-2"/>
+                        </Button>
+                    </Link>
                 </div>
-                
-                <h2 className="text-2xl md:text-4xl font-bold leading-tight">
-                  A Reforma Tributária vai afetar seu bolso?
-                </h2>
-                <p className="text-slate-300 text-base md:text-lg leading-relaxed">
-                  Criamos o simulador mais completo do Brasil. Descubra exatamente como o novo <strong>IVA Dual (IBS + CBS)</strong> impacta sua profissão e seus serviços.
-                </p>
-                
-                <div className="flex flex-wrap gap-2 text-xs md:text-sm text-slate-400 font-medium pt-2">
-                  <span className="bg-slate-800 border border-slate-700 px-3 py-1 rounded-full">Advogados</span>
-                  <span className="bg-slate-800 border border-slate-700 px-3 py-1 rounded-full">Médicos</span>
-                  <span className="bg-slate-800 border border-slate-700 px-3 py-1 rounded-full">PJ / MEI</span>
-                  <span className="bg-slate-800 border border-slate-700 px-3 py-1 rounded-full text-emerald-400">+20 Profissões</span>
-                </div>
-              </div>
-
-              <Link href="/financeiro/reforma-tributaria" className="shrink-0 w-full lg:w-auto">
-                <Button className="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-900 font-bold h-14 px-8 rounded-xl shadow-lg shadow-emerald-900/20 transition-all hover:scale-105">
-                  Calcular Impacto Agora <ArrowRight size={20} className="ml-2"/>
-                </Button>
-              </Link>
             </div>
+
+            {/* CARD 2: GERADOR DE QR CODE (NOVO!) */}
+            <div className="bg-white rounded-3xl shadow-xl shadow-slate-200/50 border border-slate-200 p-1 overflow-hidden relative group h-full">
+                <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div className="bg-white rounded-[20px] p-6 h-full flex flex-col justify-between relative z-10">
+                    <div>
+                        <div className="flex items-center gap-2 mb-4">
+                            <div className="bg-indigo-100 p-2 rounded-lg text-indigo-600">
+                                <QrCode size={24}/>
+                            </div>
+                            <span className="text-indigo-600 font-bold uppercase text-[10px] tracking-widest bg-indigo-50 px-2 py-1 rounded border border-indigo-100">Nova Ferramenta</span>
+                        </div>
+                        <h2 className="text-2xl font-bold text-slate-900 mb-2">Gerador de QR Code</h2>
+                        <p className="text-slate-600 text-sm leading-relaxed mb-6">
+                            Crie códigos QR para <strong>Pix, Wi-Fi e WhatsApp</strong>. Personalize cores, adicione logo e imprima em alta qualidade. Grátis e sem validade.
+                        </p>
+                    </div>
+                    <Link href="/ferramentas/gerador-qr-code">
+                        <Button className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold h-12 rounded-xl transition-all group-hover:scale-[1.02]">
+                            Criar QR Code Agora <QrCode size={18} className="ml-2"/>
+                        </Button>
+                    </Link>
+                </div>
+            </div>
+
           </div>
         </div>
       </section>
 
       {/* --- PUBLICIDADE (SLOT 1 - ALTA VISIBILIDADE) --- */}
-      <section className="max-w-5xl mx-auto px-4">
+      <section className="max-w-5xl mx-auto px-4 mb-16">
         <AdUnit slot="home_top_feed" format="horizontal" />
       </section>
 
       {/* --- CATEGORIAS DE CALCULADORAS --- */}
-      <section id="calculadoras" className="py-16 px-4">
-        <div className="max-w-7xl mx-auto space-y-24">
+      <section id="calculadoras" className="pb-16 px-4">
+        <div className="max-w-7xl mx-auto space-y-20">
           
           {/* BLOCO TRABALHISTA */}
           <div className="space-y-8">
@@ -247,9 +265,9 @@ export default function Home() {
                 theme="emerald"
               />
               <FeatureCard 
-                href="/financeiro/financiamento"
-                title="Financiamento (SAC/Price)"
-                desc="Vai comprar casa ou carro? Simule as parcelas e descubra os juros reais."
+                href="/financeiro/financiamento-veiculos"
+                title="Financiamento Veículos"
+                desc="Simule parcelas de carros e motos. Compare taxas e prazos."
                 icon={<Landmark size={22} className="text-emerald-600"/>}
                 theme="emerald"
               />
@@ -329,31 +347,16 @@ interface FeatureCardProps {
   desc: string;
   icon: React.ReactNode;
   highlight?: boolean;
-  theme?: "blue" | "emerald" | "rose"; // Permite variar as cores do hover
+  theme?: "blue" | "emerald" | "rose" | "indigo"; // Adicionei 'indigo' para o QR Code
 }
 
 function FeatureCard({ href, title, desc, icon, highlight = false, theme = "blue" }: FeatureCardProps) {
   
-  // Definição de cores baseadas no tema
   const themeStyles = {
-    blue: {
-      border: "hover:border-blue-400",
-      bgHighlight: "bg-blue-50/50 border-blue-200",
-      textHighlight: "text-blue-700",
-      badge: "bg-blue-100 text-blue-700"
-    },
-    emerald: {
-      border: "hover:border-emerald-400",
-      bgHighlight: "bg-emerald-50/50 border-emerald-200",
-      textHighlight: "text-emerald-700",
-      badge: "bg-emerald-100 text-emerald-700"
-    },
-    rose: {
-      border: "hover:border-rose-400",
-      bgHighlight: "bg-rose-50/50 border-rose-200",
-      textHighlight: "text-rose-700",
-      badge: "bg-rose-100 text-rose-700"
-    }
+    blue: { border: "hover:border-blue-400", bgHighlight: "bg-blue-50/50 border-blue-200", textHighlight: "text-blue-700", badge: "bg-blue-100 text-blue-700" },
+    emerald: { border: "hover:border-emerald-400", bgHighlight: "bg-emerald-50/50 border-emerald-200", textHighlight: "text-emerald-700", badge: "bg-emerald-100 text-emerald-700" },
+    rose: { border: "hover:border-rose-400", bgHighlight: "bg-rose-50/50 border-rose-200", textHighlight: "text-rose-700", badge: "bg-rose-100 text-rose-700" },
+    indigo: { border: "hover:border-indigo-400", bgHighlight: "bg-indigo-50/50 border-indigo-200", textHighlight: "text-indigo-700", badge: "bg-indigo-100 text-indigo-700" },
   };
 
   const style = themeStyles[theme];

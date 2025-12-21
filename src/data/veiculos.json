@@ -1,31 +1,205 @@
 [
-  { "valor": 5000, "tipo": "Moto Usada / Leilão" },
-  { "valor": 10000, "tipo": "Moto Popular (Honda Pop/Biz Antiga)" },
-  { "valor": 15000, "tipo": "Moto 160cc ou Carro Antigo" },
-  { "valor": 18000, "tipo": "Honda CG 160 0km" },
-  { "valor": 20000, "tipo": "Carro Popular Usado (Gol/Palio/Uno)" },
-  { "valor": 25000, "tipo": "Moto 250cc (Fazer/Twister)" },
-  { "valor": 30000, "tipo": "Primeiro Carro (Celta/Fox/Fiesta)" },
-  { "valor": 35000, "tipo": "Moto Trail/Premium (XRE/Lander)" },
-  { "valor": 40000, "tipo": "Hatch Compacto Completo (Onix/HB20 Antigo)" },
-  { "valor": 45000, "tipo": "Carro para Uber/App (Sedan Compacto)" },
-  { "valor": 50000, "tipo": "Carro Popular Seminouvo" },
-  { "valor": 60000, "tipo": "Hatch Premium (Polo/Argo/Yaris)" },
-  { "valor": 70000, "tipo": "Carro Popular 0km de Entrada (Kwid/Mobi)" },
-  { "valor": 80000, "tipo": "Hatch 0km Completo (Onix/HB20/Polo)" },
-  { "valor": 90000, "tipo": "Sedan 0km de Entrada (Cronos/HB20S)" },
-  { "valor": 100000, "tipo": "SUV de Entrada Usado ou Pickup Pequena (Strada)" },
-  { "valor": 110000, "tipo": "SUV Compacto Manual (Pulse/Kardian)" },
-  { "valor": 120000, "tipo": "SUV Compacto Automático (T-Cross/Tracker/Creta)" },
-  { "valor": 130000, "tipo": "Sedan Médio Seminouvo (Corolla/Civic)" },
-  { "valor": 140000, "tipo": "SUV Compacto Topo de Linha (Nivus/Fastback)" },
-  { "valor": 150000, "tipo": "Pickup Intermediária (Toro/Montana/Oroch)" },
-  { "valor": 160000, "tipo": "SUV Médio de Entrada (Compass/Corolla Cross)" },
-  { "valor": 180000, "tipo": "Carro Elétrico de Entrada (Dolphin/Ora)" },
-  { "valor": 200000, "tipo": "SUV Médio Completo ou Híbrido" },
-  { "valor": 250000, "tipo": "Pickup Média Diesel (Hilux/Ranger/S10)" },
-  { "valor": 300000, "tipo": "SUV de 7 Lugares (Commander/SW4)" },
-  { "valor": 350000, "tipo": "Carro de Luxo (BMW/Mercedes/Audi)" },
-  { "valor": 400000, "tipo": "Pickup Topo de Linha" },
-  { "valor": 500000, "tipo": "Superesportivo ou Luxo Premium" }
+  { 
+    "slug": "5000", 
+    "valor": 5000, 
+    "tipo": "Moto Usada / Leilão",
+    "title": "Financiamento de R$ 5.000 (Moto ou Leilão)",
+    "desc": "Simulação para motos usadas ou veículos de leilão. Veja as condições de entrada e parcelas para crédito de 5 mil reais."
+  },
+  { 
+    "slug": "10000", 
+    "valor": 10000, 
+    "tipo": "Moto Popular (Pop/Biz)",
+    "title": "Financiamento de R$ 10.000 (Moto Popular)",
+    "desc": "Quer comprar uma Honda Pop ou Biz usada? Simule o financiamento de 10 mil reais e veja se cabe no bolso."
+  },
+  { 
+    "slug": "15000", 
+    "valor": 15000, 
+    "tipo": "Moto 160cc ou Carro Antigo",
+    "title": "Financiamento de R$ 15.000",
+    "desc": "Crédito para moto 160cc ou carro mais antigo. Calcule o valor da parcela e a entrada mínima necessária."
+  },
+  { 
+    "slug": "18000", 
+    "valor": 18000, 
+    "tipo": "Honda CG 160 0km",
+    "title": "Financiamento de R$ 18.000 (CG 160 0km)",
+    "desc": "Sonhando com a CG 160 Zero Km? Veja a simulação de financiamento completa com taxas atuais do mercado."
+  },
+  { 
+    "slug": "20000", 
+    "valor": 20000, 
+    "tipo": "Carro Popular Usado (Gol/Palio)",
+    "title": "Financiamento de R$ 20.000 (Popular Usado)",
+    "desc": "Simule a compra do seu Gol, Palio ou Uno. Veja as opções de parcelamento em 48x ou 60x para 20 mil reais."
+  },
+  { 
+    "slug": "25000", 
+    "valor": 25000, 
+    "tipo": "Moto 250cc (Fazer/Twister)",
+    "title": "Financiamento de R$ 25.000 (Fazer/Twister)",
+    "desc": "Suba de categoria. Simulação para Yamaha Fazer ou Honda Twister. Confira o valor da parcela com e sem entrada."
+  },
+  { 
+    "slug": "30000", 
+    "valor": 30000, 
+    "tipo": "Primeiro Carro (Celta/Fox)",
+    "title": "Financiamento de R$ 30.000 (Primeiro Carro)",
+    "desc": "Vai comprar seu primeiro carro? Veja a simulação para modelos como Celta, Fox ou Fiesta nessa faixa de preço."
+  },
+  { 
+    "slug": "35000", 
+    "valor": 35000, 
+    "tipo": "Moto Trail/Premium (XRE/Lander)",
+    "title": "Financiamento de R$ 35.000 (XRE/Lander)",
+    "desc": "Aventura ou trabalho? Simule o financiamento de motos Trail como XRE 300 ou Lander 250."
+  },
+  { 
+    "slug": "40000", 
+    "valor": 40000, 
+    "tipo": "Hatch Compacto (Onix/HB20)",
+    "title": "Financiamento de R$ 40.000 (Onix/HB20)",
+    "desc": "Simulação para Onix ou HB20 (modelos de entrada/usados). Veja as taxas de juros médias para veículos seminovos."
+  },
+  { 
+    "slug": "45000", 
+    "valor": 45000, 
+    "tipo": "Carro para Uber/App",
+    "title": "Financiamento de R$ 45.000 (Carro de App)",
+    "desc": "Ideal para motoristas de aplicativo. Simule um Sedan Compacto (Logan/Voyage) e comece a trabalhar."
+  },
+  { 
+    "slug": "50000", 
+    "valor": 50000, 
+    "tipo": "Carro Popular Seminouvo",
+    "title": "Financiamento de R$ 50.000",
+    "desc": "Veículos seminovos completos. Calcule o financiamento de 50 mil reais e planeje sua troca de carro."
+  },
+  { 
+    "slug": "60000", 
+    "valor": 60000, 
+    "tipo": "Hatch Premium (Polo/Argo)",
+    "title": "Financiamento de R$ 60.000 (Polo/Argo)",
+    "desc": "Simulação para Hatch Premium seminovo. Veja quanto fica a parcela de um Polo, Argo ou Yaris financiado."
+  },
+  { 
+    "slug": "70000", 
+    "valor": 70000, 
+    "tipo": "Carro 0km de Entrada (Kwid/Mobi)",
+    "title": "Financiamento de R$ 70.000 (Carro 0km)",
+    "desc": "Simule a compra de um Kwid ou Mobi Zero Km. Confira as condições especiais para veículos novos."
+  },
+  { 
+    "slug": "80000", 
+    "valor": 80000, 
+    "tipo": "Hatch 0km Completo",
+    "title": "Financiamento de R$ 80.000 (Onix/Polo 0km)",
+    "desc": "Carro zero completo. Simulação de financiamento para Onix, HB20 ou Polo novos na faixa de 80 mil."
+  },
+  { 
+    "slug": "90000", 
+    "valor": 90000, 
+    "tipo": "Sedan 0km (Cronos/HB20S)",
+    "title": "Financiamento de R$ 90.000 (Sedan 0km)",
+    "desc": "Espaço e conforto. Simule o financiamento de um Sedan Zero Km como Cronos ou HB20S."
+  },
+  { 
+    "slug": "100000", 
+    "valor": 100000, 
+    "tipo": "SUV Usado ou Strada",
+    "title": "Financiamento de R$ 100.000 (SUV/Pickup)",
+    "desc": "O sonho do SUV ou da Pickup Strada. Veja as parcelas para financiar 100 mil reais hoje."
+  },
+  { 
+    "slug": "110000", 
+    "valor": 110000, 
+    "tipo": "SUV Compacto Manual",
+    "title": "Financiamento de R$ 110.000 (Pulse/Kardian)",
+    "desc": "Simulação para SUVs de entrada como Fiat Pulse ou Renault Kardian. Calcule o valor da entrada."
+  },
+  { 
+    "slug": "120000", 
+    "valor": 120000, 
+    "tipo": "SUV Automático (T-Cross/Creta)",
+    "title": "Financiamento de R$ 120.000 (SUV Automático)",
+    "desc": "Conforto total. Simule o financiamento de T-Cross, Tracker ou Creta automáticos nessa faixa de preço."
+  },
+  { 
+    "slug": "130000", 
+    "valor": 130000, 
+    "tipo": "Sedan Médio (Corolla/Civic)",
+    "title": "Financiamento de R$ 130.000 (Corolla/Civic)",
+    "desc": "Prestígio e confiabilidade. Simulação para Sedan Médio seminovo (Toyota Corolla ou Honda Civic)."
+  },
+  { 
+    "slug": "140000", 
+    "valor": 140000, 
+    "tipo": "SUV Topo de Linha (Nivus)",
+    "title": "Financiamento de R$ 140.000 (Nivus/Fastback)",
+    "desc": "Design e potência. Veja o financiamento para VW Nivus ou Fiat Fastback topo de linha."
+  },
+  { 
+    "slug": "150000", 
+    "valor": 150000, 
+    "tipo": "Pickup Intermediária (Toro)",
+    "title": "Financiamento de R$ 150.000 (Toro/Montana)",
+    "desc": "Força e versatilidade. Simule a compra de uma Fiat Toro, Montana ou Oroch."
+  },
+  { 
+    "slug": "160000", 
+    "valor": 160000, 
+    "tipo": "SUV Médio (Compass)",
+    "title": "Financiamento de R$ 160.000 (Compass/Corolla Cross)",
+    "desc": "A categoria mais desejada. Simulação para Jeep Compass ou Corolla Cross de entrada."
+  },
+  { 
+    "slug": "180000", 
+    "valor": 180000, 
+    "tipo": "Carro Elétrico (Dolphin/Ora)",
+    "title": "Financiamento de R$ 180.000 (Elétrico)",
+    "desc": "O futuro é agora. Simule o financiamento do seu BYD Dolphin ou GWM Ora 03."
+  },
+  { 
+    "slug": "200000", 
+    "valor": 200000, 
+    "tipo": "SUV Médio Completo/Híbrido",
+    "title": "Financiamento de R$ 200.000 (SUV Premium)",
+    "desc": "Luxo e tecnologia. Simule o financiamento de SUVs médios completos ou modelos híbridos."
+  },
+  { 
+    "slug": "250000", 
+    "valor": 250000, 
+    "tipo": "Pickup Média Diesel (Hilux/S10)",
+    "title": "Financiamento de R$ 250.000 (Hilux/Ranger)",
+    "desc": "Potência Diesel 4x4. Veja as condições de financiamento para Toyota Hilux, Ranger ou S10."
+  },
+  { 
+    "slug": "300000", 
+    "valor": 300000, 
+    "tipo": "SUV 7 Lugares (Commander)",
+    "title": "Financiamento de R$ 300.000 (7 Lugares)",
+    "desc": "Espaço para toda a família. Simulação para Jeep Commander ou Toyota SW4."
+  },
+  { 
+    "slug": "350000", 
+    "valor": 350000, 
+    "tipo": "Carro de Luxo (BMW/Audi)",
+    "title": "Financiamento de R$ 350.000 (Luxo)",
+    "desc": "Exclusividade. Simule o financiamento de entrada para BMW Série 3, Audi A4 ou Mercedes Classe C."
+  },
+  { 
+    "slug": "400000", 
+    "valor": 400000, 
+    "tipo": "Pickup Topo de Linha",
+    "title": "Financiamento de R$ 400.000 (Pickup Top)",
+    "desc": "O máximo em picape. Simulação para modelos topo de linha (Raptor, Hilux GR-S, RAM)."
+  },
+  { 
+    "slug": "500000", 
+    "valor": 500000, 
+    "tipo": "Superesportivo / Premium",
+    "title": "Financiamento de R$ 500.000 (Premium)",
+    "desc": "Alto padrão. Simulação de crédito para veículos superesportivos ou SUVs de luxo."
+  }
 ]

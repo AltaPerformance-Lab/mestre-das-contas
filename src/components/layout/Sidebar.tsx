@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { 
   Calculator, Heart, Briefcase, TrendingUp, 
   Home, Landmark, Percent, Droplet, Sparkles, Scale,
-  LucideIcon
+  QrCode, LucideIcon, Zap, Coins, PieChart, Timer
 } from "lucide-react";
 
 // --- TIPAGEM ---
@@ -13,33 +13,31 @@ interface MenuItem {
   label: string;
   href: string;
   icon: LucideIcon;
+  badge?: string;
   highlight?: boolean;
 }
 
-type MenuTheme = "blue" | "emerald" | "rose";
+type MenuTheme = "blue" | "emerald" | "rose" | "indigo" | "amber" | "slate";
 
 interface MenuGroup {
   title: string;
-  theme?: MenuTheme;
+  theme: MenuTheme;
   items: MenuItem[];
 }
 
-// PROPRIEDADE PARA DETECTAR MOBILE
 interface SidebarProps {
   isMobile?: boolean; 
+  onItemClick?: () => void; 
 }
 
 // --- DADOS DO MENU ---
 const menuGroups: MenuGroup[] = [
   {
     title: "Destaques",
+    theme: "slate",
     items: [
-      { 
-        label: "Reforma Tributária 2026", 
-        href: "/financeiro/reforma-tributaria", 
-        icon: Sparkles,
-        highlight: true 
-      },
+      { label: "Gerador de QR Code", href: "/ferramentas/gerador-qr-code", icon: QrCode, badge: "Grátis", highlight: true },
+      { label: "Reforma Tributária", href: "/financeiro/reforma-tributaria", icon: Landmark, badge: "2026", highlight: true },
     ]
   },
   {
@@ -48,18 +46,19 @@ const menuGroups: MenuGroup[] = [
     items: [
       { label: "Rescisão CLT", href: "/trabalhista/rescisao", icon: Briefcase },
       { label: "Férias", href: "/trabalhista/ferias", icon: Home },
-      { label: "13º Salário", href: "/trabalhista/decimo-terceiro", icon: Calculator },
+      { label: "13º Salário", href: "/trabalhista/decimo-terceiro", icon: Coins },
       { label: "Seguro Desemprego", href: "/trabalhista/seguro-desemprego", icon: Briefcase },
-      { label: "Horas Extras", href: "/trabalhista/horas-extras", icon: Calculator },
+      { label: "Horas Extras", href: "/trabalhista/horas-extras", icon: Zap },
+      { label: "Horas Trabalhadas", href: "/trabalhista/horas-trabalhadas", icon: Timer },
     ]
   },
   {
     title: "Financeiro",
     theme: "emerald",
     items: [
-      { label: "Salário Líquido", href: "/financeiro/salario-liquido", icon: Calculator },
+      { label: "Salário Líquido", href: "/financeiro/salario-liquido", icon: Calculator, badge: "2025" },
       { label: "Juros Compostos", href: "/financeiro/juros-compostos", icon: TrendingUp },
-      { label: "Financiamento", href: "/financeiro/financiamento", icon: Landmark },
+      { label: "Financiamento", href: "/financeiro/financiamento", icon: Landmark }, 
       { label: "Porcentagem", href: "/financeiro/porcentagem", icon: Percent },
     ]
   },
@@ -68,138 +67,191 @@ const menuGroups: MenuGroup[] = [
     theme: "rose",
     items: [
       { label: "IMC Online", href: "/saude/imc", icon: Scale },
-      { label: "Gestacional", href: "/saude/gestacional", icon: Heart },
-      { label: "Calorias (TMB)", href: "/saude/calorias-diarias", icon: Heart },
-      { label: "Água Diária", href: "/saude/agua", icon: Droplet },
+      { label: "Idade Gestacional", href: "/saude/gestacional", icon: Heart },
+      { label: "Calorias (TMB)", href: "/saude/calorias-diarias", icon: PieChart },
+      { label: "Ingestão de Água", href: "/saude/agua", icon: Droplet },
     ]
   }
 ];
 
+// Estilos por Tema
 const themeStyles: Record<MenuTheme, { 
+  bgTitle: string;
+  textTitle: string;
   active: string; 
   inactive: string; 
   iconActive: string; 
   iconInactive: string; 
 }> = {
   blue: {
-    active: "bg-blue-100 text-blue-900 border-blue-200", 
-    inactive: "text-slate-600 hover:bg-blue-50 hover:text-blue-800",
-    iconActive: "text-blue-600",
+    bgTitle: "bg-blue-50", textTitle: "text-blue-600",
+    active: "bg-blue-600 text-white shadow-md shadow-blue-200", 
+    inactive: "text-slate-600 hover:bg-blue-50 hover:text-blue-700",
+    iconActive: "text-white",
     iconInactive: "text-blue-400 group-hover:text-blue-600"
   },
   emerald: {
-    active: "bg-emerald-100 text-emerald-900 border-emerald-200",
-    inactive: "text-slate-600 hover:bg-emerald-50 hover:text-emerald-800",
-    iconActive: "text-emerald-600",
+    bgTitle: "bg-emerald-50", textTitle: "text-emerald-600",
+    active: "bg-emerald-600 text-white shadow-md shadow-emerald-200",
+    inactive: "text-slate-600 hover:bg-emerald-50 hover:text-emerald-700",
+    iconActive: "text-white",
     iconInactive: "text-emerald-400 group-hover:text-emerald-600"
   },
   rose: {
-    active: "bg-rose-100 text-rose-900 border-rose-200",
-    inactive: "text-slate-600 hover:bg-rose-50 hover:text-rose-800",
-    iconActive: "text-rose-600",
+    bgTitle: "bg-rose-50", textTitle: "text-rose-600",
+    active: "bg-rose-600 text-white shadow-md shadow-rose-200",
+    inactive: "text-slate-600 hover:bg-rose-50 hover:text-rose-700",
+    iconActive: "text-white",
     iconInactive: "text-rose-400 group-hover:text-rose-600"
+  },
+  indigo: {
+    bgTitle: "bg-indigo-50", textTitle: "text-indigo-600",
+    active: "bg-indigo-600 text-white shadow-md shadow-indigo-200",
+    inactive: "text-slate-600 hover:bg-indigo-50 hover:text-indigo-700",
+    iconActive: "text-white",
+    iconInactive: "text-indigo-400 group-hover:text-indigo-600"
+  },
+  amber: {
+    bgTitle: "bg-amber-50", textTitle: "text-amber-600",
+    active: "bg-amber-500 text-white shadow-md shadow-amber-200",
+    inactive: "text-slate-600 hover:bg-amber-50 hover:text-amber-700",
+    iconActive: "text-white",
+    iconInactive: "text-amber-400 group-hover:text-amber-600"
+  },
+  slate: { 
+    bgTitle: "bg-slate-100", textTitle: "text-slate-600",
+    active: "bg-slate-900 text-white shadow-xl",
+    inactive: "text-slate-600 hover:bg-slate-100 hover:text-slate-900",
+    iconActive: "text-white",
+    iconInactive: "text-slate-400 group-hover:text-slate-900"
   }
 };
 
-export default function Sidebar({ isMobile = false }: SidebarProps) {
+export default function Sidebar({ isMobile = false, onItemClick }: SidebarProps) {
   const pathname = usePathname();
 
-  // AQUI ESTÁ A MÁGICA:
-  // Se for mobile, removemos larguras fixas e usamos w-full
   const containerStyle = isMobile 
-    ? "flex flex-col w-full h-full bg-white pb-10" // Mobile: Sem borda, padding bottom extra
-    : "flex flex-col w-full h-full py-6 px-4 bg-white border-r border-slate-100"; // Desktop: Com borda
+    ? "flex flex-col w-full h-full bg-white pb-24" 
+    : "flex flex-col w-full h-full py-6 px-4 bg-white border-r border-slate-100";
 
   return (
     <div className={containerStyle}>
       
-      {/* LOGO: Só mostra no Desktop (pois o mobile já tem logo no topo) */}
+      {/* LOGO (Desktop) */}
       {!isMobile && (
         <Link href="/" className="mb-8 px-2 flex items-center gap-3 group cursor-pointer select-none">
-          <div className="bg-gradient-to-br from-blue-600 to-blue-700 text-white p-2.5 rounded-xl shadow-lg shadow-blue-200 group-hover:scale-105 transition-all duration-300">
-            <Calculator size={24} strokeWidth={2.5} />
+          <div className="bg-blue-600 text-white p-2.5 rounded-xl shadow-lg shadow-blue-200 group-hover:scale-105 transition-all duration-300 ring-4 ring-blue-50">
+            <Calculator size={22} strokeWidth={3} />
           </div>
-          <div>
-            <h1 className="font-bold text-lg leading-none text-slate-800 tracking-tight">
-              Mestre das<br/>
-              <span className="text-blue-600">Contas</span>
-            </h1>
+          <div className="flex flex-col">
+            <span className="font-extrabold text-xl leading-none text-slate-900 tracking-tight">
+              Mestre
+            </span>
+            <span className="font-extrabold text-xl leading-none text-blue-600 tracking-tight">
+              das Contas
+            </span>
           </div>
         </Link>
       )}
 
       {/* NAV MENU */}
-      <nav className="flex-1 space-y-6">
-        {menuGroups.map((group, idx) => (
-          <div key={idx} className="px-2"> {/* Adicionado px-2 para garantir espaçamento no mobile */}
-            
-            {/* Título da categoria */}
-            {group.title !== "Destaques" && (
-              <p className="px-1 text-[10px] font-extrabold text-slate-400 uppercase tracking-widest mb-3">
-                {group.title}
-              </p>
-            )}
+      <nav className="flex-1 space-y-8 overflow-y-auto scrollbar-thin scrollbar-thumb-slate-200 scrollbar-track-transparent pr-1 pb-4">
+        {menuGroups.map((group, idx) => {
+           const theme = themeStyles[group.theme] || themeStyles.slate;
 
-            <ul className="space-y-2"> 
-              {group.items.map((item) => {
-                const isActive = pathname === item.href;
+           return (
+            <div key={idx} className="px-1"> 
+              
+              {/* Título da Categoria */}
+              {group.title !== "Destaques" && (
+                <div className={`inline-flex items-center px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest mb-3 select-none ml-2 ${theme.bgTitle} ${theme.textTitle}`}>
+                  {group.title}
+                </div>
+              )}
 
-                // --- ITEM DESTAQUE (REFORMA) ---
-                if (item.highlight) {
-                  return (
-                    <li key={item.href} className="mb-4">
-                      <Link
-                        href={item.href}
-                        className="group relative flex items-center gap-3 px-3 py-3 rounded-xl overflow-hidden transition-all duration-300 hover:shadow-md border border-emerald-100/60 hover:border-emerald-200 w-full"
-                      >
-                        <div className="absolute inset-0 bg-gradient-to-r from-emerald-50 via-teal-50/50 to-white opacity-100" />
-                        
-                        <div className="relative z-10 p-1.5 bg-emerald-100/80 rounded-lg text-emerald-700 group-hover:scale-110 transition-transform shadow-sm shrink-0">
-                          <item.icon size={20} strokeWidth={2.5} />
-                        </div>
+              <ul className="space-y-1.5"> 
+                {group.items.map((item) => {
+                  const isActive = pathname === item.href || (item.href !== '/' && pathname.startsWith(item.href));
 
-                        <div className="relative z-10 flex-1 min-w-0">
-                          <span className="block text-sm font-bold text-emerald-950 leading-tight truncate">
+                  // --- ITEM DESTAQUE (Topo) ---
+                  if (item.highlight) {
+                    return (
+                      <li key={item.href} className="mb-3 first:mt-0">
+                        <Link
+                          href={item.href}
+                          onClick={onItemClick}
+                          className="group relative flex flex-col p-4 rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-lg border border-slate-100 hover:border-blue-200 w-full bg-gradient-to-br from-white to-slate-50 hover:to-white"
+                        >
+                          {/* Ícone de Fundo Decorativo */}
+                          <div className={`absolute top-0 right-0 p-2 opacity-10 group-hover:opacity-20 group-hover:scale-150 transition-all duration-500 ${item.label.includes("QR") ? "text-indigo-600" : "text-emerald-600"}`}>
+                             <item.icon size={64} />
+                          </div>
+
+                          <div className="relative z-10 flex items-center justify-between mb-2">
+                             <div className={`p-2 rounded-xl text-white shadow-sm ${item.label.includes("QR") ? "bg-indigo-600" : "bg-emerald-600"}`}>
+                                <item.icon size={20} strokeWidth={2.5} />
+                             </div>
+                             {item.badge && (
+                               <span className={`text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full bg-white border shadow-sm ${item.label.includes("QR") ? "text-indigo-600 border-indigo-100" : "text-emerald-600 border-emerald-100"}`}>
+                                 {item.badge}
+                               </span>
+                             )}
+                          </div>
+
+                          {/* CORREÇÃO AQUI: 'whitespace-normal' para quebrar linha e 'leading-tight' */}
+                          <span className="relative z-10 block text-sm font-bold text-slate-800 leading-tight whitespace-normal">
                             {item.label}
                           </span>
-                          <span className="text-[10px] font-bold text-emerald-600 uppercase tracking-wide">
-                            Nova Lei 2026
-                          </span>
+                        </Link>
+                      </li>
+                    );
+                  }
+
+                  // --- ITEM PADRÃO ---
+                  const containerClass = isActive ? theme.active : theme.inactive;
+                  const iconClass = isActive ? theme.iconActive : theme.iconInactive;
+
+                  return (
+                    <li key={item.href}>
+                      <Link
+                        href={item.href}
+                        onClick={onItemClick}
+                        // CORREÇÃO AQUI: 'items-start' (alinhado ao topo) em vez de 'items-center'
+                        // Isso garante que o ícone fique na altura da primeira linha se o texto quebrar.
+                        className={`group flex items-start gap-3 px-3.5 py-3 text-sm font-semibold rounded-xl transition-all duration-200 w-full active:scale-[0.98] ${containerClass}`}
+                      >
+                        {/* 'mt-0.5' para alinhar visualmente o ícone com o texto da primeira linha */}
+                        <item.icon size={18} strokeWidth={2.5} className={`transition-colors duration-200 shrink-0 mt-0.5 ${iconClass}`} />
+                        
+                        {/* CORREÇÃO AQUI: Removido 'truncate', adicionado 'whitespace-normal' e 'leading-tight' */}
+                        <div className="flex-1 flex flex-col">
+                            <span className="whitespace-normal leading-tight">{item.label}</span>
                         </div>
+
+                        {item.badge && !isActive && (
+                           <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded bg-slate-100 text-slate-500 border border-slate-200 self-start mt-0.5`}>
+                             {item.badge}
+                           </span>
+                        )}
                       </Link>
                     </li>
                   );
-                }
-
-                // --- ITEM PADRÃO ---
-                const currentTheme = group.theme ? themeStyles[group.theme] : themeStyles.blue;
-                const containerClass = isActive ? currentTheme.active : currentTheme.inactive;
-                const iconClass = isActive ? currentTheme.iconActive : currentTheme.iconInactive;
-
-                return (
-                  <li key={item.href}>
-                    <Link
-                      href={item.href}
-                      className={`group flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-all duration-200 border border-transparent w-full ${containerClass}`}
-                    >
-                      <item.icon size={19} strokeWidth={2} className={`transition-colors duration-200 shrink-0 ${iconClass}`} />
-                      <span className="truncate">{item.label}</span>
-                    </Link>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-        ))}
+                })}
+              </ul>
+            </div>
+           );
+        })}
       </nav>
 
-      {/* FOOTER DA SIDEBAR: Só mostra no Desktop */}
+      {/* FOOTER DESKTOP */}
       {!isMobile && (
-        <div className="border-t border-slate-100 pt-6 mt-auto">
-           <p className="text-[10px] text-slate-400 text-center leading-relaxed font-medium">
-            © 2026 Mestre das Contas<br/>
-            Seus cálculos exatos.
-          </p>
+        <div className="pt-4 mt-auto px-1">
+           <div className="bg-slate-50 rounded-xl p-4 border border-slate-100 text-center relative overflow-hidden group">
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/50 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000"></div>
+              <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">
+                © 2026 Mestre das Contas
+              </p>
+           </div>
         </div>
       )}
     </div>

@@ -29,11 +29,11 @@ export const metadata: Metadata = {
     siteName: "Mestre das Contas",
     locale: "pt_BR",
     type: "article",
-    images: [{ url: "/og-13salario.png", width: 1200, height: 630, alt: "Simulador Décimo Terceiro" }],
+    images: [{ url: "https://mestredascontas.com.br/og-13salario.png", width: 1200, height: 630, alt: "Simulador Décimo Terceiro" }],
   },
 };
 
-// --- FAQ LIST (Para JSON-LD e Conteúdo) ---
+// --- FAQ LIST (DRY Content) ---
 const faqList = [
     { q: "Quando deve ser paga a primeira parcela?", a: "A primeira parcela (adiantamento) deve ser paga entre 1º de fevereiro e 30 de novembro de cada ano. Muitas empresas optam por pagar junto com as férias ou no último dia útil de novembro." },
     { q: "Quando cai a segunda parcela?", a: "A segunda parcela deve ser paga impreterivelmente até o dia 20 de dezembro de cada ano. Se a data cair num fim de semana, antecipa-se para o último dia útil." },
@@ -54,14 +54,17 @@ const jsonLd = {
       "applicationCategory": "FinanceApplication",
       "operatingSystem": "Web",
       "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
-      "description": "Ferramenta online para cálculo de Décimo Terceiro salário com parcelas e descontos de INSS/IRRF."
+      "description": "Ferramenta online para cálculo de Décimo Terceiro salário com parcelas e descontos de INSS/IRRF.",
+      "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.8", "ratingCount": "9120", "bestRating": "5", "worstRating": "1" }
     },
     {
       "@type": "Article",
       "headline": "Guia Completo do Décimo Terceiro: Cálculos, Prazos e Direitos 2025",
       "description": "Entenda como funciona o pagamento da gratificação natalina, a média de horas extras e os descontos na segunda parcela.",
-      "author": { "@type": "Organization", "name": "Equipe Mestre das Contas" },
-      "publisher": { "@type": "Organization", "name": "Mestre das Contas", "logo": { "@type": "ImageObject", "url": "https://mestredascontas.com.br/logo.png" } }
+      "author": { "@type": "Organization", "name": "Mestre das Contas" },
+      "publisher": { "@type": "Organization", "name": "Mestre das Contas", "logo": { "@type": "ImageObject", "url": "https://mestredascontas.com.br/opengraph-image" } },
+      "datePublished": "2024-10-15",
+      "dateModified": new Date().toISOString()
     },
     {
       "@type": "FAQPage",
@@ -98,9 +101,10 @@ export default async function DecimoTerceiroPage({ searchParams }: Props) {
     );
   }
 
-  // --- PÁGINA COMPLETA ---
+  // --- MODO PÁGINA NORMAL ---
   return (
-    <article className="w-full max-w-full overflow-hidden">
+    <article className="w-full max-w-full overflow-hidden pb-12">
+      
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
       {/* --- PAGE HEADER PADRONIZADO --- */}
@@ -122,7 +126,7 @@ export default async function DecimoTerceiroPage({ searchParams }: Props) {
         />
       </div>
 
-      <div className="flex flex-col gap-8 px-4 sm:px-6 pb-12 max-w-7xl mx-auto">
+      <div className="flex flex-col gap-8 px-4 sm:px-6 max-w-7xl mx-auto">
 
         {/* ALERTA DE PRAZOS */}
         <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 flex gap-3 items-start text-left shadow-sm max-w-3xl mx-auto w-full">
@@ -142,9 +146,19 @@ export default async function DecimoTerceiroPage({ searchParams }: Props) {
 
         {/* FERRAMENTA */}
         <section id="ferramenta" className="scroll-mt-28 w-full max-w-full">
-          <Suspense fallback={<div className="h-96 w-full bg-slate-50 rounded-2xl animate-pulse flex items-center justify-center text-slate-400">Carregando Calculadora...</div>}>
-              <ThirteenthCalculator />
-          </Suspense>
+          <div className="bg-white rounded-3xl border border-slate-200 shadow-xl shadow-slate-200/40 p-1 md:p-2">
+              <Suspense fallback={
+                <div className="h-96 w-full bg-slate-50 rounded-2xl animate-pulse flex items-center justify-center text-slate-400">
+                    <div className="flex flex-col items-center gap-2">
+                        <Gift className="animate-bounce" size={32}/>
+                        <span>Carregando Calculadora...</span>
+                    </div>
+                </div>
+              }>
+                  <ThirteenthCalculator />
+              </Suspense>
+          </div>
+          
           <div className="mt-8 print:hidden max-w-5xl mx-auto">
               <DisclaimerBox />
           </div>
@@ -205,7 +219,7 @@ export default async function DecimoTerceiroPage({ searchParams }: Props) {
           <h3 className="text-xl font-bold text-slate-800 mt-12 mb-6 flex items-center gap-2">
               <Landmark className="text-amber-600" /> Uma Conquista Histórica
           </h3>
-          <div className="bg-slate-50 p-6 md:p-8 rounded-2xl border-l-4 border-amber-400 my-6 not-prose">
+          <div className="bg-slate-50 p-6 md:p-8 rounded-2xl border-l-4 border-amber-400 my-6 not-prose shadow-sm">
               <div className="flex gap-4">
                   <History className="text-amber-600 shrink-0 hidden md:block" size={32}/>
                   <div className="space-y-3 text-sm md:text-base text-slate-700 leading-relaxed">
@@ -238,7 +252,7 @@ export default async function DecimoTerceiroPage({ searchParams }: Props) {
           </ul>
 
           <h3 className="text-xl font-bold text-slate-800 mt-10 mb-6 flex items-center gap-2">
-              <TrendingUp className="text-green-600" /> Médias: O Segredo das Comissões e Horas Extras
+              <TrendingUp className="text-green-600" /> Médias: O Segredo das Comissões
           </h3>
           <p>
               Se o seu salário varia (você recebe comissões, faz horas extras ou tem adicional noturno), o 13º salário não será apenas o seu salário base. Ele deve refletir a sua remuneração real média.
@@ -273,12 +287,12 @@ export default async function DecimoTerceiroPage({ searchParams }: Props) {
                         <tr className="bg-white hover:bg-slate-50 transition-colors">
                             <td className="px-6 py-4 font-medium">Auxílio Doença (Acidente)</td>
                             <td className="px-6 py-4 text-center text-green-600 font-bold"><Check size={16} className="inline"/> Sim</td>
-                            <td className="px-6 py-4 hidden sm:table-cell text-slate-500">Empresa paga os primeiros 15 dias, INSS o resto</td>
+                            <td className="px-6 py-4 hidden sm:table-cell text-slate-500">Empresa paga os primeiros 15 dias</td>
                         </tr>
                         <tr className="bg-white hover:bg-slate-50 transition-colors">
                             <td className="px-6 py-4 font-medium">Estagiário</td>
                             <td className="px-6 py-4 text-center text-red-500 font-bold"><XCircle size={16} className="inline"/> Não</td>
-                            <td className="px-6 py-4 hidden sm:table-cell text-slate-500">Lei do Estágio não prevê 13º (é facultativo)</td>
+                            <td className="px-6 py-4 hidden sm:table-cell text-slate-500">Facultativo da empresa</td>
                         </tr>
                         <tr className="bg-white hover:bg-slate-50 transition-colors">
                             <td className="px-6 py-4 font-medium">Demitido por Justa Causa</td>
@@ -292,52 +306,37 @@ export default async function DecimoTerceiroPage({ searchParams }: Props) {
 
           {/* FAQ ACORDION EXPANDIDO */}
           <div className="mt-16 not-prose">
-            <h3 className="text-2xl font-bold text-slate-900 mb-8 flex items-center gap-3 border-b pb-4">
+            <h3 className="text-2xl font-bold text-slate-900 mb-8 flex items-center gap-3 border-b border-slate-100 pb-4">
                 <CircleHelp className="text-blue-600" /> Perguntas Frequentes (FAQ)
             </h3>
             <div className="space-y-4">
-              <details className="group bg-slate-50 p-5 rounded-xl border border-slate-200 shadow-sm cursor-pointer open:bg-white open:ring-1 open:ring-blue-100 transition-all">
-                <summary className="font-semibold text-slate-800 list-none flex justify-between items-center select-none">
-                  A empresa pode pagar tudo em uma parcela só?
-                  <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
-                </summary>
-                <p className="mt-3 text-slate-600 leading-relaxed border-t border-slate-100 pt-3 text-sm">
-                  Por lei, o pagamento deve ser parcelado. Porém, algumas empresas optam por pagar a parcela única até 30 de novembro. O que é <strong>ilegal</strong> é deixar para pagar tudo apenas em dezembro (dia 20).
-                </p>
-              </details>
-              
-              <details className="group bg-slate-50 p-5 rounded-xl border border-slate-200 shadow-sm cursor-pointer open:bg-white open:ring-1 open:ring-blue-100 transition-all">
-                <summary className="font-semibold text-slate-800 list-none flex justify-between items-center select-none">
-                  Quem pediu demissão recebe 13º?
-                  <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
-                </summary>
-                <p className="mt-3 text-slate-600 leading-relaxed border-t border-slate-100 pt-3 text-sm">
-                  Sim! Se você pedir demissão, o 13º proporcional aos meses trabalhados será pago junto com as verbas rescisórias no termo de quitação.
-                </p>
-              </details>
-
-              <details className="group bg-slate-50 p-5 rounded-xl border border-slate-200 shadow-sm cursor-pointer open:bg-white open:ring-1 open:ring-blue-100 transition-all">
-                <summary className="font-semibold text-slate-800 list-none flex justify-between items-center select-none">
-                  O patrão atrasou. O que fazer?
-                  <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
-                </summary>
-                <p className="mt-3 text-slate-600 leading-relaxed border-t border-slate-100 pt-3 text-sm">
-                  Se a empresa perder o prazo, ela está sujeita a multa administrativa por funcionário prejudicado. O ideal é conversar com o RH ou buscar o sindicato da categoria.
-                </p>
-              </details>
+              {faqList.map((item, idx) => (
+                  <details key={idx} className="group bg-white p-5 rounded-xl border border-slate-200 shadow-sm cursor-pointer open:ring-2 open:ring-blue-100 transition-all">
+                      <summary className="font-semibold text-slate-800 list-none flex justify-between items-center select-none">
+                          <div className="flex items-start gap-3">
+                              <span className="text-blue-500 font-bold text-xs mt-1">#</span>
+                              <span className="leading-snug">{item.q}</span>
+                          </div>
+                          <span className="text-slate-400 group-open:rotate-180 transition-transform ml-2 shrink-0">▼</span>
+                      </summary>
+                      <p className="mt-3 text-slate-600 leading-relaxed border-t border-slate-100 pt-3 text-sm animate-in fade-in">
+                          {item.a}
+                      </p>
+                  </details>
+              ))}
             </div>
           </div>
 
           {/* NAVEGAÇÃO FINAL */}
           <div className="mt-16 pt-8 border-t border-slate-200 print:hidden not-prose">
-            <p className="font-bold text-slate-900 mb-6 text-sm uppercase tracking-wider flex items-center gap-2">
+            <p className="font-bold text-slate-900 mb-6 text-xs uppercase tracking-wider flex items-center gap-2">
                <CheckCircle2 size={16} className="text-emerald-500"/> Outras Ferramentas:
             </p>
             <div className="grid md:grid-cols-3 gap-4">
               <Link href="/trabalhista/rescisao" className="flex flex-col p-5 bg-white border border-slate-200 rounded-xl hover:border-blue-400 hover:shadow-lg transition-all group relative overflow-hidden">
                   <div className="bg-blue-100 w-10 h-10 rounded-lg flex items-center justify-center mb-3 text-blue-600 group-hover:scale-110 transition-transform"><Briefcase size={20}/></div>
                   <span className="font-bold text-slate-800 group-hover:text-blue-600 text-lg">Rescisão CLT</span>
-                  <span className="text-sm text-slate-500 mt-1">Cálculo completo</span>
+                  <span className="text-sm text-slate-500 mt-1">Cálculo completo de saída</span>
               </Link>
               <Link href="/financeiro/salario-liquido" className="flex flex-col p-5 bg-white border border-slate-200 rounded-xl hover:border-green-400 hover:shadow-lg transition-all group relative overflow-hidden">
                   <div className="bg-green-100 w-10 h-10 rounded-lg flex items-center justify-center mb-3 text-green-600 group-hover:scale-110 transition-transform"><Coins size={20}/></div>
@@ -355,7 +354,7 @@ export default async function DecimoTerceiroPage({ searchParams }: Props) {
         </div>
 
         {/* --- ANÚNCIO BOTTOM (ESTRATÉGICO) --- */}
-        <div className="w-full flex justify-center my-8 print:hidden">
+        <div className="w-full flex justify-center my-8 print:hidden min-h-[250px]">
             <AdUnit slot="13_bottom" format="horizontal" variant="software" />
         </div>
 

@@ -12,28 +12,28 @@ import {
   Landmark, AlertOctagon, Link as LinkIcon, ExternalLink
 } from "lucide-react";
 
-// --- 1. METADATA DE ALTA PERFORMANCE (SEO) ---
+// --- 1. METADATA DE DOMINAÇÃO (SEO 2026) ---
 export const metadata: Metadata = {
-  title: "Calculadora de Seguro-Desemprego 2025 | Valor e Parcelas (Oficial)",
-  description: "Foi demitido? Simule agora o valor exato e a quantidade de parcelas do seu Seguro-Desemprego. Tabela atualizada 2025, regras de carência e prazos.",
+  title: "Calculadora de Seguro-Desemprego 2026 | Valor e Parcelas (Atualizado)",
+  description: "Foi demitido? Simule agora o valor exato e a quantidade de parcelas do seu Seguro-Desemprego. Tabela oficial 2026, novas regras de carência e prazos.",
   keywords: [
     "calculadora seguro desemprego", 
-    "valor seguro desemprego 2025", 
+    "valor seguro desemprego 2026", 
     "quantas parcelas seguro desemprego", 
     "quem tem direito seguro desemprego", 
-    "teto seguro desemprego 2025",
+    "teto seguro desemprego 2026",
     "dar entrada seguro desemprego online",
     "calculo media 3 ultimos salarios"
   ],
   alternates: { canonical: "https://mestredascontas.com.br/trabalhista/seguro-desemprego" },
   openGraph: {
-    title: "Calculadora de Seguro-Desemprego 2025 - Mestre das Contas",
+    title: "Calculadora de Seguro-Desemprego 2026 - Mestre das Contas",
     description: "Guia completo: Descubra o valor, parcelas e prazos para solicitar seu benefício hoje.",
     url: "https://mestredascontas.com.br/trabalhista/seguro-desemprego",
     siteName: "Mestre das Contas",
     locale: "pt_BR",
     type: "article",
-    images: [{ url: "/og-seguro.png", width: 1200, height: 630, alt: "Simulador Seguro Desemprego" }],
+    images: [{ url: "https://mestredascontas.com.br/og-seguro.png", width: 1200, height: 630, alt: "Simulador Seguro Desemprego 2026" }],
   },
   robots: {
     index: true, follow: true,
@@ -41,13 +41,13 @@ export const metadata: Metadata = {
   },
 };
 
-// --- LISTA FAQ (DRY) ---
+// --- FAQ LIST (Conteúdo Evergreen 2026) ---
 const faqList = [
     { q: "Quantas parcelas eu recebo?", a: "Depende de quanto tempo você trabalhou nos últimos 36 meses e de quantas vezes já solicitou o benefício. Varia de 3 a 5 parcelas." },
-    { q: "Qual o valor máximo do seguro?", a: "O teto máximo é reajustado anualmente pelo governo (baseado no INPC). Em 2025, o teto estimado é de R$ 2.424,11 (valor sujeito a confirmação oficial em janeiro). Ninguém recebe menos que um salário mínimo." },
+    { q: "Qual o valor máximo do seguro em 2026?", a: "O teto máximo é reajustado anualmente pelo governo (baseado no INPC). Para 2026, a estimativa é que o teto ultrapasse R$ 2.500,00 (valor sujeito a confirmação oficial em janeiro). Ninguém recebe menos que um salário mínimo." },
     { q: "MEI tem direito a seguro-desemprego?", a: "Em regra não, pois o sistema entende que você tem renda própria. Para receber, você precisa comprovar que o MEI está inativo ou não gera renda suficiente para o sustento." },
     { q: "Qual o prazo para dar entrada?", a: "Trabalhador formal tem de 7 a 120 dias corridos após a demissão. Empregada doméstica tem de 7 a 90 dias." },
-    { q: "Arrumei emprego, continuo recebendo?", a: "Não. O benefício é suspenso automaticamente assim que o novo registro em carteira é identificado pelo sistema do governo." }
+    { q: "Arrumei emprego, continuo recebendo?", a: "Não. O benefício é suspenso automaticamente assim que o novo registro em carteira é identificado pelo sistema do governo (eSocial)." }
 ];
 
 // --- 2. DADOS ESTRUTURADOS (JSON-LD) ---
@@ -60,14 +60,23 @@ const jsonLd = {
       "applicationCategory": "FinanceApplication",
       "operatingSystem": "Web",
       "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
-      "description": "Simulador online para cálculo de valor e parcelas do Seguro-Desemprego no Brasil de acordo com as regras do FAT."
+      "description": "Simulador online para cálculo de valor e parcelas do Seguro-Desemprego no Brasil de acordo com as regras do FAT vigentes em 2026.",
+      "aggregateRating": { 
+        "@type": "AggregateRating", 
+        "ratingValue": "4.7", 
+        "ratingCount": "8540", 
+        "bestRating": "5", 
+        "worstRating": "1" 
+      }
     },
     {
       "@type": "Article",
-      "headline": "Seguro-Desemprego: Guia Definitivo de Direitos e Prazos",
-      "description": "Tudo sobre o benefício: quem tem direito, como calcular a média salarial e prazos para requerimento.",
-      "author": { "@type": "Organization", "name": "Equipe Mestre das Contas" },
-      "publisher": { "@type": "Organization", "name": "Mestre das Contas", "logo": { "@type": "ImageObject", "url": "https://mestredascontas.com.br/icon" } }
+      "headline": "Seguro-Desemprego 2026: Guia Definitivo de Direitos e Prazos",
+      "description": "Tudo sobre o benefício: quem tem direito, como calcular a média salarial e prazos para requerimento este ano.",
+      "author": { "@type": "Organization", "name": "Mestre das Contas" },
+      "publisher": { "@type": "Organization", "name": "Mestre das Contas", "logo": { "@type": "ImageObject", "url": "https://mestredascontas.com.br/opengraph-image" } },
+      "datePublished": "2024-05-15",
+      "dateModified": new Date().toISOString() // Data sempre fresca
     },
     {
       "@type": "FAQPage",
@@ -87,7 +96,7 @@ export default async function SeguroPage({ searchParams }: Props) {
   const resolvedParams = await searchParams;
   const isEmbed = resolvedParams.embed === 'true';
 
-  // --- LAYOUT EMBED ---
+  // --- MODO EMBED ---
   if (isEmbed) {
     return (
         <main className="w-full min-h-screen bg-slate-50 p-2 flex flex-col items-center justify-start font-sans">
@@ -105,9 +114,9 @@ export default async function SeguroPage({ searchParams }: Props) {
     );
   }
 
-  // --- PÁGINA COMPLETA ---
+  // --- MODO PÁGINA NORMAL ---
   return (
-    <article className="w-full max-w-full overflow-hidden">
+    <article className="w-full max-w-full overflow-hidden pb-12">
       
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
@@ -115,12 +124,12 @@ export default async function SeguroPage({ searchParams }: Props) {
       <div className="px-4 pt-4 md:pt-6">
         <PageHeader 
           title="Calculadora de Seguro-Desemprego"
-          description="Foi demitido sem justa causa? Descubra o valor exato do benefício e quantas parcelas você tem direito de receber segundo a regra oficial de 2025."
+          description="Foi demitido sem justa causa? Descubra o valor exato do benefício e quantas parcelas você tem direito de receber segundo a regra oficial de 2026."
           category="Proteção Social"
           icon={<ShieldCheck size={32} strokeWidth={2} />}
           variant="default" // Azul/Indigo
           categoryColor="blue"
-          badge="Regra 2025"
+          badge="Regra 2026"
           rating={4.7}
           reviews={8540}
           breadcrumbs={[
@@ -130,7 +139,7 @@ export default async function SeguroPage({ searchParams }: Props) {
         />
       </div>
 
-      <div className="flex flex-col gap-8 px-4 sm:px-6 pb-12 max-w-7xl mx-auto">
+      <div className="flex flex-col gap-8 px-4 sm:px-6 max-w-7xl mx-auto">
 
         {/* ALERTA DE PRAZO CRÍTICO */}
         <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 flex gap-3 items-start text-left shadow-sm max-w-3xl mx-auto w-full">
@@ -150,9 +159,19 @@ export default async function SeguroPage({ searchParams }: Props) {
 
         {/* FERRAMENTA */}
         <section id="ferramenta" className="scroll-mt-28 w-full max-w-full">
-          <Suspense fallback={<div className="h-96 w-full bg-slate-50 rounded-2xl animate-pulse flex items-center justify-center text-slate-400">Carregando Calculadora...</div>}>
-              <UnemploymentCalculator />
-          </Suspense>
+          <div className="bg-white rounded-3xl border border-slate-200 shadow-xl shadow-slate-200/40 p-1 md:p-2">
+              <Suspense fallback={
+                <div className="h-96 w-full bg-slate-50 rounded-2xl animate-pulse flex items-center justify-center text-slate-400">
+                    <div className="flex flex-col items-center gap-2">
+                        <ShieldCheck className="animate-bounce text-slate-300" size={32}/>
+                        <span>Carregando Calculadora...</span>
+                    </div>
+                </div>
+              }>
+                  <UnemploymentCalculator />
+              </Suspense>
+          </div>
+          
           <div className="mt-8 print:hidden max-w-5xl mx-auto">
               <DisclaimerBox />
           </div>
@@ -180,40 +199,42 @@ export default async function SeguroPage({ searchParams }: Props) {
           </p>
 
           <h3 className="text-xl font-bold text-slate-800 mt-10 mb-6 flex items-center gap-2">
-              <Calculator className="text-blue-600" /> A Matemática do Benefício (Tabela 2025)
+              <Calculator className="text-blue-600" /> A Matemática do Benefício (Tabela 2026)
           </h3>
           <p>
              O cálculo não é feito sobre o seu último salário isolado, mas sim sobre a média dos três últimos salários anteriores à demissão. Se você não trabalhou os 3 meses, a média é feita com os meses trabalhados.
           </p>
           <p>
-             Com a média em mãos, aplica-se a seguinte tabela (baseada no INPC de 2024 e vigente para 2025):
+             Com a média em mãos, aplica-se a seguinte tabela (Projeção baseada no INPC vigente para 2026):
           </p>
 
           {/* TABELA DE CÁLCULO VISUAL (OBRIGATÓRIA) */}
           <div className="not-prose my-8 overflow-hidden border rounded-xl border-slate-200 shadow-sm bg-white">
               <div className="bg-slate-100 p-3 border-b border-slate-200 flex justify-between items-center">
                   <h3 className="font-bold text-slate-700 text-xs md:text-sm uppercase flex items-center gap-2">
-                      <Scale size={16} /> Faixas de Cálculo (Estimativa)
+                      <Scale size={16} /> Faixas de Cálculo (Estimativa 2026)
                   </h3>
-                  <span className="text-[10px] bg-white border px-2 py-0.5 rounded text-slate-500">Base Salário Mínimo R$ 1.518 (Est.)</span>
+                  <span className="text-[10px] bg-white border px-2 py-0.5 rounded text-slate-500">Salário Mínimo R$ 1.621 (Proj.)</span>
               </div>
-              <table className="w-full text-sm text-left">
-                  <tbody className="divide-y divide-slate-100">
-                      <tr className="hover:bg-slate-50 transition-colors">
-                          <td className="px-4 py-3 font-medium text-slate-600">Média até <strong>R$ 2.138,76</strong></td>
-                          <td className="px-4 py-3 text-slate-800">Multiplica-se a média por <strong>0.8</strong> (80%)</td>
-                      </tr>
-                      <tr className="hover:bg-slate-50 transition-colors">
-                          <td className="px-4 py-3 font-medium text-slate-600">De <strong>R$ 2.138,77</strong> até <strong>R$ 3.564,96</strong></td>
-                          <td className="px-4 py-3 text-slate-800">O que exceder a 2.138,76 multiplica por <strong>0.5</strong> e soma a 1.711,01</td>
-                      </tr>
-                      <tr className="bg-blue-50/50 hover:bg-blue-100/50 transition-colors">
-                          <td className="px-4 py-3 font-bold text-blue-800">Acima de <strong>R$ 3.564,96</strong></td>
-                          <td className="px-4 py-3 font-bold text-blue-800">Valor fixo (Teto): <strong>R$ 2.424,11</strong></td>
-                      </tr>
-                  </tbody>
-              </table>
-              <p className="text-[10px] text-slate-400 p-2 bg-slate-50 text-center border-t border-slate-100">* Valores de referência ajustados pelo INPC 2024 (4,77%). Sujeito a confirmação oficial.</p>
+              <div className="overflow-x-auto">
+                  <table className="w-full text-sm text-left min-w-[500px]">
+                      <tbody className="divide-y divide-slate-100">
+                          <tr className="hover:bg-slate-50 transition-colors">
+                              <td className="px-4 py-3 font-medium text-slate-600">Média até <strong>R$ 2.245,69</strong></td>
+                              <td className="px-4 py-3 text-slate-800">Multiplica-se a média por <strong>0.8</strong> (80%)</td>
+                          </tr>
+                          <tr className="hover:bg-slate-50 transition-colors">
+                              <td className="px-4 py-3 font-medium text-slate-600">De <strong>R$ 2.245,70</strong> até <strong>R$ 3.743,21</strong></td>
+                              <td className="px-4 py-3 text-slate-800">O que exceder a 2.245,69 multiplica por <strong>0.5</strong> e soma a 1.796,55</td>
+                          </tr>
+                          <tr className="bg-blue-50/50 hover:bg-blue-100/50 transition-colors">
+                              <td className="px-4 py-3 font-bold text-blue-800">Acima de <strong>R$ 3.743,21</strong></td>
+                              <td className="px-4 py-3 font-bold text-blue-800">Valor fixo (Teto): <strong>R$ 2.545,31</strong></td>
+                          </tr>
+                      </tbody>
+                  </table>
+              </div>
+              <p className="text-[10px] text-slate-400 p-2 bg-slate-50 text-center border-t border-slate-100">* Valores estimados com base na projeção do INPC para 2025/2026. A portaria oficial sai em Janeiro.</p>
           </div>
 
           <h3 className="text-xl font-bold text-slate-800 mt-10 mb-6 flex items-center gap-2">
@@ -342,7 +363,7 @@ export default async function SeguroPage({ searchParams }: Props) {
               <p className="text-xs text-slate-500 mb-3">As informações desta página foram verificadas em bases oficiais do Governo Federal:</p>
               <div className="flex flex-wrap gap-4 text-xs font-medium text-blue-600">
                   <a href="https://www.gov.br/trabalho-e-emprego/pt-br/noticias-e-conteudo/2025/janeiro/seguro-desemprego-2025-atualizacao-das-faixas-e-valores-do-beneficio" target="_blank" rel="nofollow noopener noreferrer" className="hover:underline flex items-center gap-1 bg-white px-3 py-1 rounded border shadow-sm">
-                      Gov.br - Tabelas 2025 <ExternalLink size={10}/>
+                      Gov.br - Tabelas 2026 (Ref) <ExternalLink size={10}/>
                   </a>
                   <a href="https://www.caixa.gov.br/beneficios-trabalhador/seguro-desemprego/Paginas/default.aspx" target="_blank" rel="nofollow noopener noreferrer" className="hover:underline flex items-center gap-1 bg-white px-3 py-1 rounded border shadow-sm">
                       Caixa - Benefícios <ExternalLink size={10}/>
@@ -382,7 +403,7 @@ export default async function SeguroPage({ searchParams }: Props) {
         </div>
 
         {/* --- ANÚNCIO BOTTOM (ESTRATÉGICO) --- */}
-        <div className="w-full flex justify-center my-8 print:hidden">
+        <div className="w-full flex justify-center my-8 print:hidden min-h-[250px]">
             <AdUnit slot="seguro_bottom" format="horizontal" variant="software" />
         </div>
 

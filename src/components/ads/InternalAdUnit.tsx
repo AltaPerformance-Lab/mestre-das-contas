@@ -15,7 +15,7 @@ interface InternalAdUnitProps {
   format?: "horizontal" | "vertical" | "rectangle" | "auto" | string;
   variant?: string | number; 
   className?: string;
-  slot?: string; // Fundamental para variar os anúncios de forma estável
+  slot?: string; 
 }
 
 type AdModel = {
@@ -241,17 +241,19 @@ const adsConfig: AdModel[] = [
 ];
 
 const TextureLayer = ({ type }: { type: AdModel["texture"] }) => {
-    if (type === "noise") return <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10 pointer-events-none"></div>;
+    // Usando CSS radial-gradient para simular noise sem imagem externa (mais leve)
+    if (type === "noise") return <div className="absolute inset-0 opacity-20 bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none"></div>;
+    
     if (type?.startsWith("blur")) {
         const colorMap = {
-            "blur-blue": "bg-blue-600/20", "blur-purple": "bg-purple-600/20", 
-            "blur-green": "bg-green-600/20", "blur-orange": "bg-orange-600/20"
+            "blur-blue": "bg-blue-600/30", "blur-purple": "bg-purple-600/30", 
+            "blur-green": "bg-green-600/30", "blur-orange": "bg-orange-600/30"
         };
         const colorClass = colorMap[type as keyof typeof colorMap] || "bg-white/10";
         return (
             <>
-             <div className={`absolute -top-24 -right-24 w-64 h-64 rounded-full blur-3xl pointer-events-none opacity-50 ${colorClass}`}></div>
-             <div className={`absolute -bottom-24 -left-24 w-64 h-64 rounded-full blur-3xl pointer-events-none opacity-50 ${colorClass}`}></div>
+              <div className={`absolute -top-24 -right-24 w-64 h-64 rounded-full blur-3xl pointer-events-none opacity-50 mix-blend-screen ${colorClass}`}></div>
+              <div className={`absolute -bottom-24 -left-24 w-64 h-64 rounded-full blur-3xl pointer-events-none opacity-50 mix-blend-screen ${colorClass}`}></div>
             </>
         )
     }
@@ -268,15 +270,11 @@ export default function InternalAdUnit({
   let selectedAd: AdModel;
   const legacyMap: Record<string, number> = { "agency": 1, "speed": 2, "software": 3 };
 
-  // --- LÓGICA DE SELEÇÃO DE ANÚNCIO ---
+  // --- LÓGICA DE SELEÇÃO (DETERMINÍSTICA) ---
   if (variant && typeof variant === "string" && legacyMap[variant]) {
-      // Se passar "agency" manualmente, usa o ID 1
       selectedAd = adsConfig.find(ad => ad.id === legacyMap[variant]) || adsConfig[0];
   } else if (variant === "auto" || !variant) {
-      // --- ALGORITMO DETERMINÍSTICO ---
-      // Converte a string 'slot' em um número único (hash).
-      // Isso garante que no Server Side e no Client Side o número seja IGUAL.
-      // Ex: slot="sidebar" sempre vai dar o anúncio X.
+      // Hash based on slot string to ensure consistency (anti-hydration mismatch)
       let hash = 0;
       const seed = slot || "default_slot";
       for (let i = 0; i < seed.length; i++) {
@@ -286,7 +284,6 @@ export default function InternalAdUnit({
       const index = Math.abs(hash) % adsConfig.length;
       selectedAd = adsConfig[index];
   } else {
-      // Se passar um ID numérico direto
       selectedAd = adsConfig.find(ad => String(ad.id) === String(variant)) || adsConfig[0];
   }
 
@@ -294,12 +291,12 @@ export default function InternalAdUnit({
   const finalLink = `${BASE_URL}${waMessage}`;
   const Icon = selectedAd.icon;
 
-  // --- RENDERIZAÇÃO VERTICAL / RETÂNGULO ---
+  // --- RENDERIZAÇÃO VERTICAL ---
   if (format === "vertical" || format === "rectangle") {
     return (
       <a 
         href={finalLink} target="_blank" rel="noopener noreferrer"
-        className={`group relative flex w-full flex-col overflow-hidden rounded-2xl ${selectedAd.themeBg} p-8 text-center shadow-xl border ${selectedAd.themeBorder} min-h-[400px] justify-between ${className} hover:ring-2 ring-white/10 transition-all`}
+        className={`group relative flex w-full flex-col overflow-hidden rounded-2xl ${selectedAd.themeBg} p-8 text-center shadow-xl border ${selectedAd.themeBorder} min-h-[400px] justify-between ${className} hover:ring-2 ring-white/10 transition-all isolate`}
       >
         <TextureLayer type={selectedAd.texture} />
 
@@ -310,16 +307,16 @@ export default function InternalAdUnit({
             
             <span className={`text-[10px] font-bold uppercase tracking-widest mb-3 px-3 py-1 rounded-full bg-white/5 ${selectedAd.accentColor}`}>{selectedAd.category}</span>
 
-            <h3 className="text-xl font-bold text-white mb-4 leading-snug">
+            <h3 className="text-xl font-bold text-white mb-4 leading-snug text-balance">
                 {selectedAd.title}
             </h3>
             
-            <p className="text-sm text-slate-300 leading-relaxed opacity-80 border-t border-white/5 pt-4">
+            <p className="text-sm text-slate-300 leading-relaxed opacity-80 border-t border-white/5 pt-4 text-pretty">
                 {selectedAd.subtitle}
             </p>
         </div>
 
-        <div className={`relative z-10 w-full rounded-xl py-4 text-sm font-bold transition-all shadow-lg group-hover:shadow-2xl group-hover:-translate-y-1 ${selectedAd.ctaBtnClasses}`}>
+        <div className={`relative z-10 w-full rounded-xl py-4 text-sm font-bold transition-all shadow-lg group-hover:shadow-2xl group-hover:-translate-y-1 ${selectedAd.ctaBtnClasses} will-change-transform`}>
             {selectedAd.ctaText} <ArrowRight size={16} className="inline-block ml-1" />
         </div>
       </a>
@@ -330,7 +327,7 @@ export default function InternalAdUnit({
   return (
     <a 
       href={finalLink} target="_blank" rel="noopener noreferrer"
-      className={`group relative flex w-full flex-col sm:flex-row overflow-hidden rounded-2xl px-6 py-8 sm:py-6 shadow-lg items-center justify-between border ${selectedAd.themeBg} ${selectedAd.themeBorder} ${className} hover:shadow-2xl transition-all`}
+      className={`group relative flex w-full flex-col sm:flex-row overflow-hidden rounded-2xl px-6 py-8 sm:py-6 shadow-lg items-center justify-between border ${selectedAd.themeBg} ${selectedAd.themeBorder} ${className} hover:shadow-2xl transition-all isolate`}
     >
       <TextureLayer type={selectedAd.texture} />
 
@@ -338,15 +335,15 @@ export default function InternalAdUnit({
         <div className={`flex items-center justify-center sm:justify-start gap-2 text-[10px] font-bold uppercase tracking-widest mb-2 ${selectedAd.accentColor}`}>
            <Icon size={14} /> {selectedAd.category}
         </div>
-        <h3 className="text-xl sm:text-2xl font-bold text-white leading-tight mb-2">
+        <h3 className="text-xl sm:text-2xl font-bold text-white leading-tight mb-2 text-balance">
            {selectedAd.title}
         </h3>
-        <p className="text-slate-400 text-sm hidden sm:block">
+        <p className="text-slate-400 text-sm hidden sm:block text-pretty">
             {selectedAd.subtitle}
         </p>
       </div>
 
-      <div className={`relative z-10 flex shrink-0 items-center justify-center rounded-xl px-8 py-4 text-sm font-bold transition-all group-hover:scale-105 shadow-lg whitespace-nowrap ${selectedAd.ctaBtnClasses}`}>
+      <div className={`relative z-10 flex shrink-0 items-center justify-center rounded-xl px-8 py-4 text-sm font-bold transition-all group-hover:scale-105 shadow-lg whitespace-nowrap ${selectedAd.ctaBtnClasses} will-change-transform`}>
          {selectedAd.ctaText} <ArrowRight size={16} className="ml-2" />
       </div>
     </a>

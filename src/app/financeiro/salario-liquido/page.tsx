@@ -11,30 +11,30 @@ import {
   Coins, Briefcase, Wallet, FileText, Lightbulb, Landmark, Scale
 } from "lucide-react";
 
-// --- 1. METADATA DE ALTA PERFORMANCE (SEO 2025) ---
+// --- 1. METADATA DE ALTA PERFORMANCE (SEO 2026) ---
 export const metadata: Metadata = {
-  title: "Calculadora de Salário Líquido 2025 | Cálculo Exato (INSS e IRRF)",
-  description: "Descubra quanto cai na sua conta hoje. Simulador gratuito e atualizado com as novas tabelas de INSS e Imposto de Renda 2025. Entenda cada desconto do seu holerite.",
+  title: "Calculadora de Salário Líquido 2026 | Cálculo Exato (INSS e IRRF)",
+  description: "Descubra quanto cai na sua conta hoje. Simulador gratuito e atualizado com as novas tabelas de INSS e Imposto de Renda 2026. Entenda cada desconto do seu holerite.",
   keywords: [
     "calculadora salário líquido", 
-    "calcular desconto inss 2025", 
-    "tabela irrf 2025", 
+    "calcular desconto inss 2026", 
+    "tabela irrf 2026", 
     "descontos folha de pagamento", 
     "salário liquido vs bruto", 
-    "simulador clt 2025",
+    "simulador clt 2026",
     "calcular holerite online"
   ],
   alternates: {
     canonical: "https://mestredascontas.com.br/financeiro/salario-liquido",
   },
   openGraph: {
-    title: "Calculadora de Salário Líquido 2025 - Mestre das Contas",
-    description: "Pare de adivinhar. Veja exatamente quanto sobra do seu salário com as novas alíquotas de 2025.",
+    title: "Calculadora de Salário Líquido 2026 - Mestre das Contas",
+    description: "Pare de adivinhar. Veja exatamente quanto sobra do seu salário com as novas alíquotas de 2026.",
     url: "https://mestredascontas.com.br/financeiro/salario-liquido",
     siteName: "Mestre das Contas",
     locale: "pt_BR",
     type: "article",
-    images: [{ url: "/og-salario.png", width: 1200, height: 630, alt: "Simulador Salário Líquido" }],
+    images: [{ url: "https://mestredascontas.com.br/og-salario.png", width: 1200, height: 630, alt: "Simulador Salário Líquido" }],
   },
   robots: {
     index: true, follow: true,
@@ -48,11 +48,11 @@ const jsonLd = {
   "@graph": [
     {
       "@type": "SoftwareApplication",
-      "name": "Calculadora de Salário Líquido 2025",
+      "name": "Calculadora de Salário Líquido 2026",
       "applicationCategory": "FinanceApplication",
       "operatingSystem": "Web",
       "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
-      "description": "Ferramenta online para cálculo de salário líquido CLT com tabelas INSS e IRRF 2025.",
+      "description": "Ferramenta online para cálculo de salário líquido CLT com tabelas INSS e IRRF 2026.",
       "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.9", "ratingCount": "10240", "bestRating": "5", "worstRating": "1" }
     },
     {
@@ -63,14 +63,16 @@ const jsonLd = {
       "publisher": { 
         "@type": "Organization", 
         "name": "Mestre das Contas", 
-        "logo": { "@type": "ImageObject", "url": "https://mestredascontas.com.br/icon" } 
-      }
+        "logo": { "@type": "ImageObject", "url": "https://mestredascontas.com.br/opengraph-image" } 
+      },
+      "datePublished": "2024-01-10",
+      "dateModified": new Date().toISOString()
     },
     {
       "@type": "FAQPage",
       "mainEntity": [
         { "@type": "Question", "name": "Qual a diferença entre Salário Bruto e Líquido?", "acceptedAnswer": { "@type": "Answer", "text": "Bruto é o valor registrado na carteira. Líquido é o que cai na conta após os descontos de INSS, IRRF e benefícios." } },
-        { "@type": "Question", "name": "Como calcular o INSS 2025?", "acceptedAnswer": { "@type": "Answer", "text": "O cálculo é progressivo. Aplica-se uma alíquota (7,5% a 14%) sobre cada faixa do seu salário, somando os resultados." } },
+        { "@type": "Question", "name": "Como calcular o INSS 2026?", "acceptedAnswer": { "@type": "Answer", "text": "O cálculo é progressivo. Aplica-se uma alíquota (7,5% a 14%) sobre cada faixa do seu salário, somando os resultados." } },
         { "@type": "Question", "name": "Dependentes diminuem o imposto?", "acceptedAnswer": { "@type": "Answer", "text": "Sim! Cada dependente deduz R$ 189,59 da base de cálculo do Imposto de Renda." } },
         { "@type": "Question", "name": "O Vale Transporte é obrigatório?", "acceptedAnswer": { "@type": "Answer", "text": "Sim, se solicitado pelo funcionário. A empresa pode descontar até 6% do salário base." } }
       ]
@@ -78,17 +80,12 @@ const jsonLd = {
   ]
 };
 
-// --- TIPAGEM NEXT.JS 15 ---
-type Props = {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
-}
+type Props = { searchParams: Promise<{ [key: string]: string | string[] | undefined }> }
 
 export default async function SalarioLiquidoPage({ searchParams }: Props) {
   
-  // AWAIT OBRIGATÓRIO (Next 15)
-  await searchParams; 
-
-  const isEmbed = (await searchParams).embed === 'true';
+  const resolvedParams = await searchParams;
+  const isEmbed = resolvedParams.embed === 'true';
 
   if (isEmbed) {
     return (
@@ -108,7 +105,7 @@ export default async function SalarioLiquidoPage({ searchParams }: Props) {
   }
 
   return (
-    <article className="flex flex-col gap-8 w-full max-w-full overflow-hidden">
+    <article className="w-full max-w-full overflow-hidden pb-12">
       
       {/* Injeção JSON-LD */}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
@@ -117,12 +114,12 @@ export default async function SalarioLiquidoPage({ searchParams }: Props) {
       <div className="px-4 pt-4 md:pt-6">
         <PageHeader 
           title="Calculadora de Salário Líquido"
-          description="Você sabe para onde vai o seu dinheiro? Descubra o valor real que cai na conta após os descontos do Leão (IRRF) e da Previdência (INSS) com as tabelas vigentes de 2025."
+          description="Você sabe para onde vai o seu dinheiro? Descubra o valor real que cai na conta após os descontos do Leão (IRRF) e da Previdência (INSS) com as tabelas vigentes de 2026."
           category="Finanças Pessoais"
           icon={<Wallet size={32} strokeWidth={2} />}
           variant="default" // Azul/Indigo
           categoryColor="blue"
-          badge="Tabela 2025"
+          badge="Tabela 2026"
           rating={4.9}
           reviews={10240}
           breadcrumbs={[
@@ -132,7 +129,7 @@ export default async function SalarioLiquidoPage({ searchParams }: Props) {
         />
       </div>
 
-      <div className="flex flex-col gap-8 px-4 sm:px-6 pb-12 max-w-7xl mx-auto">
+      <div className="flex flex-col gap-8 px-4 sm:px-6 max-w-7xl mx-auto">
 
         {/* ANÚNCIO TOPO */}
         <div className="w-full max-w-5xl mx-auto overflow-hidden flex justify-center bg-slate-50/50 rounded-lg border border-dashed border-slate-200/50 print:hidden min-h-[100px]">
@@ -141,9 +138,11 @@ export default async function SalarioLiquidoPage({ searchParams }: Props) {
 
         {/* --- FERRAMENTA PRINCIPAL --- */}
         <section id="ferramenta" className="scroll-mt-28 w-full max-w-full">
-          <Suspense fallback={<div className="h-96 w-full bg-slate-50 rounded-2xl animate-pulse flex items-center justify-center text-slate-400">Carregando Calculadora...</div>}>
-              <SalaryCalculator />
-          </Suspense>
+          <div className="bg-white rounded-3xl border border-slate-200 shadow-xl shadow-slate-200/40 p-1 md:p-2">
+              <Suspense fallback={<div className="h-96 w-full bg-slate-50 rounded-2xl animate-pulse flex items-center justify-center text-slate-400">Carregando Calculadora...</div>}>
+                  <SalaryCalculator />
+              </Suspense>
+          </div>
           <div className="mt-8 print:hidden max-w-5xl mx-auto">
               <DisclaimerBox />
           </div>
@@ -167,8 +166,6 @@ export default async function SalarioLiquidoPage({ searchParams }: Props) {
             Isso não é erro do RH (na maioria das vezes). Isso acontece porque o regime CLT prevê que o governo pegue a parte dele "na fonte", antes mesmo do dinheiro tocar suas mãos.
           </p>
           
-          
-
           <p>
             Para entender exatamente para onde vai o seu dinheiro, precisamos olhar para os dois grandes "sócios" do seu salário: o <strong>INSS</strong> (Sua Aposentadoria) e o <strong>IRRF</strong> (O Leão). Abaixo, vamos desvendar essa caixa preta.
           </p>
@@ -203,7 +200,7 @@ export default async function SalarioLiquidoPage({ searchParams }: Props) {
 
           {/* TABELAS TÉCNICAS */}
           <h3 className="text-lg md:text-xl font-bold text-slate-800 mt-10 mb-4 flex items-center gap-2">
-             <Landmark className="text-amber-600"/> 1. Tabela do INSS 2025 (Progressiva)
+             <Landmark className="text-amber-600"/> 1. Tabela do INSS 2026 (Progressiva)
           </h3>
           <p>
              Desde a reforma da previdência, o cálculo não é mais uma porcentagem simples. É progressivo, como degraus de uma escada. Você paga menos sobre a primeira faixa do salário e mais sobre o que excede.
@@ -225,8 +222,6 @@ export default async function SalarioLiquidoPage({ searchParams }: Props) {
               </tbody>
             </table>
           </div>
-
-          
 
           <h3 className="text-lg md:text-xl font-bold text-slate-800 mt-10 mb-4 flex items-center gap-2">
              <Scale className="text-red-600"/> 2. Tabela do Imposto de Renda (IRRF)
@@ -254,28 +249,6 @@ export default async function SalarioLiquidoPage({ searchParams }: Props) {
             </table>
           </div>
 
-          {/* CURIOSIDADE HISTÓRICA */}
-          <div className="bg-blue-50/60 p-6 md:p-8 rounded-2xl border border-blue-100 my-10 not-prose relative overflow-hidden shadow-sm">
-              <div className="absolute top-0 right-0 p-4 opacity-10">
-                  <BookOpen size={120} className="text-blue-900"/>
-              </div>
-              <h3 className="text-xl font-bold text-blue-900 mb-4 flex items-center gap-2 relative z-10">
-                  <History size={24} className="text-blue-600"/> Você Sabia? A Origem do Salário Mínimo
-              </h3>
-              <div className="space-y-4 text-slate-700 relative z-10 text-sm md:text-base leading-relaxed">
-                  <p>
-                      O Salário Mínimo no Brasil é uma conquista histórica instituída em <strong>1º de maio de 1940</strong>, em pleno feriado do Dia do Trabalhador, pelo então presidente <strong>Getúlio Vargas</strong>.
-                  </p>
-                  
-                  <p>
-                      Naquela época, o objetivo era garantir uma "ração essencial mínima" para a sobrevivência de uma família. Curiosamente, o valor não era unificado: existiam <strong>14 salários mínimos diferentes</strong> no país! O Rio de Janeiro tinha o maior valor, quase o triplo do interior do Nordeste.
-                  </p>
-                  <p>
-                      A unificação nacional (um valor único para todo o país) só aconteceu muito tempo depois, em <strong>1984</strong>.
-                  </p>
-              </div>
-          </div>
-
           {/* DICAS DE OURO (BUCKET BRIGADE) */}
           <h3 className="text-xl font-bold text-slate-800 mt-10 mb-6 flex items-center gap-2">
               <Lightbulb className="text-amber-500" /> Segredos para Pagar Menos Imposto
@@ -283,20 +256,20 @@ export default async function SalarioLiquidoPage({ searchParams }: Props) {
           <p>
               A verdade é que ninguém gosta de pagar imposto. Mas você sabia que existem formas 100% legais de aumentar seu salário líquido?
           </p>
-          <ul className="space-y-3 mt-4">
-              <li className="flex items-start gap-3 bg-slate-50 p-4 rounded-lg">
+          <ul className="space-y-3 mt-4 not-prose">
+              <li className="flex items-start gap-3 bg-slate-50 p-4 rounded-lg border border-slate-200">
                   <CheckCircle2 className="text-green-600 mt-1 shrink-0"/>
                   <span><strong>Dependentes:</strong> Mantenha o cadastro do RH atualizado. Cada filho ou cônjuge abate quase R$ 190 da base do IR.</span>
               </li>
-              <li className="flex items-start gap-3 bg-slate-50 p-4 rounded-lg">
+              <li className="flex items-start gap-3 bg-slate-50 p-4 rounded-lg border border-slate-200">
                   <CheckCircle2 className="text-green-600 mt-1 shrink-0"/>
                   <span><strong>Previdência Privada (PGBL):</strong> Se você faz a declaração completa, investir em PGBL permite abater até 12% da sua renda bruta anual da mordida do Leão.</span>
               </li>
           </ul>
 
-          {/* FAQ ACORDION EXPANDIDO */}
+          {/* FAQ ACORDION */}
           <div className="mt-16 not-prose">
-            <h3 className="text-2xl font-bold text-slate-900 mb-8 flex items-center gap-3 border-b pb-4">
+            <h3 className="text-2xl font-bold text-slate-900 mb-8 flex items-center gap-3 border-b border-slate-100 pb-4">
                 <HelpCircle className="text-blue-600" /> Dúvidas Frequentes (FAQ)
             </h3>
             <div className="space-y-4">
@@ -322,11 +295,11 @@ export default async function SalarioLiquidoPage({ searchParams }: Props) {
 
               <details className="group bg-white p-5 rounded-xl border border-slate-200 shadow-sm cursor-pointer open:ring-2 open:ring-blue-100 transition-all">
                 <summary className="font-semibold text-slate-800 list-none flex justify-between items-center select-none">
-                  O desconto do INSS mudou em 2025?
+                  O desconto do INSS mudou em 2026?
                   <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
                 </summary>
                 <p className="mt-3 text-slate-600 leading-relaxed border-t border-slate-100 pt-3 text-sm">
-                  Sim. As faixas salariais são reajustadas anualmente conforme o aumento do salário mínimo e a inflação. Nossa calculadora já está configurada com a tabela vigente para 2025.
+                  Sim. As faixas salariais são reajustadas anualmente conforme o aumento do salário mínimo e a inflação (INPC). Nossa calculadora já está configurada com a tabela vigente.
                 </p>
               </details>
             </div>

@@ -1,18 +1,20 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
-import { GoogleAnalytics } from "@next/third-parties/google";
 import Script from "next/script";
 import "./globals.css";
 
-// Componentes
+// --- Componentes de "Compliance" ---
+import CookieConsent from "@/components/layout/CookieConsent";
+// Opção A: Importamos nosso componente customizado (que já usa a lib oficial por dentro)
+import GoogleAnalytics from "@/components/analytics/GoogleAnalytics";
+
+// --- Componentes de Layout ---
 import Sidebar from "@/components/layout/Sidebar";
 import RightSidebar from "@/components/layout/RightSidebar";
 import HeaderMobile from "@/components/layout/HeaderMobile"; 
 import HeaderDesktop from "@/components/layout/HeaderDesktop"; 
 import Footer from "@/components/layout/Footer";
 import PageTransition from "@/components/layout/PageTransition";
-
-// Importe o Provider que criamos (Verifique se salvou como 'toast-context' ou 'toaster')
 import { ToastProvider } from "@/components/ui/toaster"; 
 
 const inter = Inter({ 
@@ -21,7 +23,13 @@ const inter = Inter({
   variable: '--font-inter',
 });
 
-// --- METADATA GLOBAL ---
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  themeColor: '#ffffff',
+};
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://mestredascontas.com.br"),
   title: {
@@ -40,6 +48,11 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
+  openGraph: {
+    siteName: "Mestre das Contas",
+    locale: "pt_BR",
+    type: "website",
+  }
 };
 
 export default function RootLayout({
@@ -48,36 +61,35 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-BR" data-scroll-behavior="smooth">
-      <body className={`${inter.className} bg-slate-100 text-slate-900 antialiased selection:bg-blue-600 selection:text-white`}>
+    <html lang="pt-BR" className={inter.variable} suppressHydrationWarning>
+      <body className="bg-slate-100 text-slate-900 antialiased font-sans selection:bg-blue-600 selection:text-white min-h-screen flex flex-col">
         
-        {/* O PROVIDER ABRAÇA TUDO AGORA */}
+        {/* --- 1. ANALYTICS INTELIGENTE (OPÇÃO A) --- */}
+        {/* Não precisa passar ID, ele pega do .env e só ativa se tiver consentimento */}
+        <GoogleAnalytics />
+
         <ToastProvider>
           
-          {/* HEADER MOBILE */}
-          <div className="xl:hidden sticky top-0 z-[100] bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm">
+          <div className="xl:hidden">
              <HeaderMobile />
           </div>
 
-          {/* WRAPPER GERAL */}
-          <div className="mx-auto max-w-[1440px] min-h-screen bg-slate-50 shadow-2xl shadow-slate-200/50 xl:grid xl:grid-cols-[240px_1fr_300px]">
+          {/* GRID LAYOUT FIXO */}
+          <div className="pt-16 xl:pt-0 mx-auto w-full max-w-[1400px] min-h-screen xl:grid xl:grid-cols-[240px_1fr_310px] gap-6 shadow-xl shadow-slate-200/40 bg-slate-50 items-start xl:my-6 xl:rounded-2xl ring-1 ring-slate-900/5">
             
-            {/* COLUNA 1: SIDEBAR */}
-            <aside className="hidden xl:block border-r border-slate-200 bg-white relative z-20">
-              <div className="sticky top-0 h-screen overflow-y-auto scrollbar-thin scrollbar-thumb-slate-200 scrollbar-track-transparent">
-                 <Sidebar />
-              </div>
+            {/* ESQUERDA (STICKY MENU) */}
+            <aside className="hidden xl:block border-r border-slate-100 bg-white z-20 sticky top-0 h-screen max-h-screen overflow-y-auto scrollbar-thin scrollbar-thumb-slate-100">
+               <Sidebar />
             </aside>
 
-            {/* COLUNA 2: CONTEÚDO */}
-            <div className="flex flex-col min-w-0 bg-white xl:bg-slate-50/50">
-              <div className="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-100">
+            {/* CENTRO (CONTEÚDO) */}
+            <div className="flex flex-col min-w-0 bg-white min-h-screen rounded-tl-2xl rounded-tr-2xl xl:rounded-none">
+              <div className="hidden xl:block sticky top-0 z-40 bg-white/95 backdrop-blur-sm border-b border-slate-100 h-20">
                  <HeaderDesktop />
               </div>
 
-              <main className="flex-1 w-full flex flex-col relative">
+              <main className="flex-1 w-full flex flex-col relative p-0">
                 <PageTransition>
-                   {/* AQUI ESTÁ O ÚNICO CHILDREN - CORRETO */}
                    {children}
                 </PageTransition>
               </main>
@@ -85,32 +97,30 @@ export default function RootLayout({
               <Footer />
             </div>
 
-            {/* COLUNA 3: ADS */}
-            <aside className="hidden xl:block border-l border-slate-200 bg-white relative z-20">
-              <div className="sticky top-0 h-screen overflow-y-auto scrollbar-thin scrollbar-thumb-slate-200 scrollbar-track-transparent">
-                 <RightSidebar />
-              </div>
+            {/* DIREITA (ADS) */}
+            <aside className="hidden xl:block border-l border-slate-100 bg-white z-20 h-full min-h-screen rounded-br-2xl">
+               <RightSidebar />
             </aside>
 
           </div>
 
         </ToastProvider>
-      </body>
-      
-      {/* Analytics & Ads */}
-      {process.env.NEXT_PUBLIC_ANALYTICS_ID && (
-        <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_ANALYTICS_ID} />
-      )}
 
-      {process.env.NEXT_PUBLIC_ADSENSE_ID && (
-        <Script
-          id="adsense-init"
-          async
-          src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${process.env.NEXT_PUBLIC_ADSENSE_ID}`}
-          crossOrigin="anonymous"
-          strategy="afterInteractive" 
-        />
-      )}
+        {/* --- 2. SCRIPT ADSENSE --- */}
+        {/* Nota: Mudei para 'afterInteractive' para garantir que os ads carreguem. 'lazyOnload' pode diminuir a receita. */}
+        {process.env.NEXT_PUBLIC_ADSENSE_ID && (
+          <Script
+            id="adsense-init"
+            async
+            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${process.env.NEXT_PUBLIC_ADSENSE_ID}`}
+            crossOrigin="anonymous"
+            strategy="lazyOnload" 
+          />
+        )}
+        
+        {/* --- 3. BANNER DE COOKIES --- */}
+        <CookieConsent />
+      </body>
     </html>
   );
 }

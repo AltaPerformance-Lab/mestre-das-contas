@@ -4,8 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { 
   Calculator, Heart, Briefcase, TrendingUp, 
-  Home, Landmark, Percent, Droplet, Sparkles, Scale,
-  LucideIcon
+  Home, Landmark, Sparkles, Scale, QrCode, LucideIcon
 } from "lucide-react";
 
 // --- TIPAGEM ---
@@ -17,7 +16,8 @@ const menuGroups: MenuGroup[] = [
   {
     title: "Destaques",
     items: [
-      { label: "Reforma Tributária 2026", href: "/financeiro/reforma-tributaria", icon: Sparkles, highlight: true },
+      { label: "Gerador de QR Code", href: "/ferramentas/gerador-qr-code", icon: QrCode, highlight: true },
+      { label: "Reforma Tributária 2026", href: "/financeiro/reforma-tributaria", icon: Sparkles },
     ]
   },
   {
@@ -32,8 +32,8 @@ const menuGroups: MenuGroup[] = [
   {
     title: "Financeiro", theme: "emerald",
     items: [
-      { label: "Salário Líquido", href: "/financeiro/salario-liquido", icon: Calculator },
-      { label: "Financiamento", href: "/financeiro/financiamento", icon: Landmark },
+      { label: "Salário Líquido 2025", href: "/financeiro/salario-liquido", icon: Calculator },
+      { label: "Financiamento Veículos", href: "/financeiro/financiamento-veiculos", icon: Landmark },
       { label: "Juros Compostos", href: "/financeiro/juros-compostos", icon: TrendingUp },
     ]
   },
@@ -50,30 +50,31 @@ export default function MobileSidebar() {
   const pathname = usePathname();
 
   return (
-    <div className="flex flex-col w-full px-4 pt-2 pb-20">
+    <div className="flex flex-col w-full px-4 pt-4 pb-20">
       <nav className="space-y-6">
         {menuGroups.map((group, idx) => (
           <div key={idx}>
             {group.title !== "Destaques" && (
-              <p className="px-2 text-[10px] font-extrabold text-slate-400 uppercase tracking-widest mb-3">
+              <p className="px-2 text-[10px] font-extrabold text-slate-400 uppercase tracking-widest mb-3 border-b border-slate-100 pb-1">
                 {group.title}
               </p>
             )}
 
-            <ul className="space-y-2">
+            <ul className="space-y-1">
               {group.items.map((item) => {
-                const isActive = pathname === item.href;
+                // Lógica de Ativo: Verifica se o pathname começa com o href (para pegar subpáginas)
+                // Ex: /financeiro/salario-liquido/3000 mantém o link ativo
+                const isActive = pathname === item.href || (item.href !== '/' && pathname.startsWith(item.href));
                 
-                // Estilos condicionais simples
                 let itemClass = "text-slate-600 hover:bg-slate-50";
-                if (item.highlight) itemClass = "bg-emerald-50 text-emerald-900 border border-emerald-200 font-bold";
-                else if (isActive) itemClass = "bg-slate-100 text-slate-900 font-semibold";
+                if (item.highlight) itemClass = "bg-emerald-50 text-emerald-900 border border-emerald-200 font-bold shadow-sm";
+                else if (isActive) itemClass = "bg-blue-50 text-blue-700 font-bold";
 
                 return (
                   <li key={item.href}>
                     <Link
                       href={item.href}
-                      className={`flex items-center gap-3 px-4 py-3.5 rounded-xl transition-colors ${itemClass}`}
+                      className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all active:scale-[0.98] ${itemClass}`}
                     >
                       <item.icon size={20} className={item.highlight ? "text-emerald-600" : (isActive ? "text-blue-600" : "text-slate-400")} />
                       <span className="text-sm">{item.label}</span>

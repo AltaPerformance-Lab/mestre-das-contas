@@ -4,11 +4,10 @@ import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { 
     Search, CalendarDays, Briefcase, Calculator, 
-    TrendingUp, Heart, Baby, Landmark, Percent, Droplet, LucideIcon 
+    TrendingUp, Heart, Baby, Landmark, Percent, Droplet, LucideIcon, QrCode
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 
-// --- TIPO PARA OS RESULTADOS ---
 interface SearchItem {
   title: string;
   url: string;
@@ -16,25 +15,30 @@ interface SearchItem {
   category: string;
 }
 
-// --- LISTA DE PÁGINAS ---
+// --- LISTA DE PÁGINAS ATUALIZADA ---
 const searchablePages: SearchItem[] = [
+    // Ferramentas
+    { title: "Gerador de QR Code", url: "/ferramentas/gerador-qr-code", icon: QrCode, category: "Ferramentas" },
+    
+    // Financeiro
+    { title: "Salário Líquido (2025)", url: "/financeiro/salario-liquido", icon: Calculator, category: "Financeiro" },
+    { title: "Financiamento Veículos", url: "/financeiro/financiamento-veiculos", icon: Landmark, category: "Financeiro" },
+    { title: "Juros Compostos", url: "/financeiro/juros-compostos", icon: TrendingUp, category: "Financeiro" },
+    { title: "Reforma Tributária (IVA)", url: "/financeiro/reforma-tributaria", icon: Landmark, category: "Financeiro" },
+    { title: "Calculadora de Porcentagem", url: "/financeiro/porcentagem", icon: Percent, category: "Financeiro" },
+    
     // Trabalhista
     { title: "Rescisão CLT", url: "/trabalhista/rescisao", icon: Briefcase, category: "Trabalhista" },
-    { title: "Calculadora de Férias", url: "/trabalhista/ferias", icon: Briefcase, category: "Trabalhista" },
-    { title: "Décimo Terceiro (13º Salário)", url: "/trabalhista/decimo-terceiro", icon: Calculator, category: "Trabalhista" },
+    { title: "Férias", url: "/trabalhista/ferias", icon: Briefcase, category: "Trabalhista" },
+    { title: "Décimo Terceiro", url: "/trabalhista/decimo-terceiro", icon: Calculator, category: "Trabalhista" },
     { title: "Seguro Desemprego", url: "/trabalhista/seguro-desemprego", icon: Briefcase, category: "Trabalhista" },
     { title: "Horas Extras", url: "/trabalhista/horas-extras", icon: Calculator, category: "Trabalhista" },
-    // Financeiro
-    { title: "Juros Compostos", url: "/financeiro/juros-compostos", icon: TrendingUp, category: "Financeiro" },
-    { title: "Reforma Tributária (IVA 2026)", url: "/financeiro/reforma-tributaria", icon: Landmark, category: "Financeiro" },
-    { title: "Financiamento (Price/SAC)", url: "/financeiro/financiamento", icon: Landmark, category: "Financeiro" },
-    { title: "Calculadora de Porcentagem", url: "/financeiro/porcentagem", icon: Percent, category: "Financeiro" },
-    { title: "Salário Líquido", url: "/financeiro/salario-liquido", icon: Calculator, category: "Financeiro" },
+    
     // Saúde
     { title: "Cálculo de IMC", url: "/saude/imc", icon: Heart, category: "Saúde" },
     { title: "Calculadora Gestacional", url: "/saude/gestacional", icon: Baby, category: "Saúde" },
-    { title: "Meta de Água Diária", url: "/saude/agua", icon: Droplet, category: "Saúde" },
-    { title: "Calorias Diárias (TMB)", url: "/saude/calorias-diarias", icon: Heart, category: "Saúde" },
+    { title: "Meta de Água", url: "/saude/agua", icon: Droplet, category: "Saúde" },
+    { title: "Calorias Diárias", url: "/saude/calorias-diarias", icon: Heart, category: "Saúde" },
 ];
 
 const normalizeText = (text: string) => {
@@ -45,7 +49,7 @@ export default function HeaderDesktop() {
   const router = useRouter();
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<SearchItem[]>([]);
-  const [selectedIndex, setSelectedIndex] = useState(-1); // Para navegação via teclado
+  const [selectedIndex, setSelectedIndex] = useState(-1);
   const searchContainerRef = useRef<HTMLDivElement>(null);
 
   const today = new Date().toLocaleDateString("pt-BR", {
@@ -78,7 +82,6 @@ export default function HeaderDesktop() {
       setResults([]);
   };
 
-  // Navegação por teclado (UX Pro)
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (results.length === 0) return;
 
@@ -93,7 +96,6 @@ export default function HeaderDesktop() {
       if (selectedIndex >= 0) {
         handleSelectResult(results[selectedIndex].url);
       } else if (results.length > 0) {
-        // Se der enter sem selecionar, vai no primeiro
         handleSelectResult(results[0].url);
       }
     } else if (e.key === "Escape") {
@@ -101,7 +103,6 @@ export default function HeaderDesktop() {
     }
   };
 
-  // Fecha ao clicar fora
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (searchContainerRef.current && !searchContainerRef.current.contains(event.target as Node)) {
@@ -113,7 +114,7 @@ export default function HeaderDesktop() {
   }, []);
 
   return (
-    <header className="hidden xl:flex items-center justify-between px-8 py-4 bg-white/80 backdrop-blur-md border-b border-slate-200 sticky top-0 z-40 transition-all">
+    <header className="hidden xl:flex items-center justify-between px-8 py-4 bg-white/80 backdrop-blur-md border-b border-slate-200 sticky top-0 z-40 transition-all h-20">
        
       {/* Data */}
       <div className="flex items-center gap-3 text-slate-500 select-none">
@@ -126,7 +127,7 @@ export default function HeaderDesktop() {
         </div>
       </div>
 
-      {/* Busca Inteligente */}
+      {/* Busca */}
       <div ref={searchContainerRef}>
         <div className="relative group w-96 z-50">
           <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
@@ -141,7 +142,7 @@ export default function HeaderDesktop() {
             onKeyDown={handleKeyDown}
           />
 
-          {/* Dropdown de Resultados */}
+          {/* Resultados */}
           {results.length > 0 && (
               <div className="absolute top-14 left-0 w-full bg-white rounded-2xl border border-slate-100 shadow-xl shadow-slate-200/50 overflow-hidden py-2 animate-in fade-in slide-in-from-top-2">
                   <div className="text-[10px] font-extrabold text-slate-400 uppercase px-4 py-2 tracking-wider">

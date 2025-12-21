@@ -9,12 +9,13 @@ import PageHeader from "@/components/layout/PageHeader";
 import { 
   TrendingUp, HelpCircle, BookOpen, Calculator,
   Coins, Briefcase, FileText, 
-  CheckCircle2, ArrowRight, BarChart3
+  CheckCircle2, ArrowRight, BarChart3,
+  PieChart
 } from "lucide-react";
 
-// --- 1. METADATA OTIMIZADA ---
+// --- 1. METADATA DE ALTO VALOR (SEO 2026) ---
 export const metadata: Metadata = {
-  title: "Calculadora de Juros Compostos Online | Simular Investimentos 2026",
+  title: "Calculadora de Juros Compostos 2026 | Simular Investimentos Online",
   description: "Simule seus investimentos com juros compostos. Veja o poder dos juros sobre juros, calcule a rentabilidade mensal e descubra quanto seu dinheiro vai render no futuro.",
   keywords: [
     "calculadora juros compostos", 
@@ -28,14 +29,14 @@ export const metadata: Metadata = {
     canonical: "https://mestredascontas.com.br/financeiro/juros-compostos",
   },
   openGraph: {
-    title: "Calculadora de Juros Compostos - Mestre das Contas",
+    title: "Calculadora de Juros Compostos 2026 - Mestre das Contas",
     description: "Faça o dinheiro trabalhar para você. Simule o efeito bola de neve nos seus investimentos.",
     url: "https://mestredascontas.com.br/financeiro/juros-compostos",
     siteName: "Mestre das Contas",
     locale: "pt_BR",
-    type: "website",
+    type: "article", // Mudado para article para suportar autor e data
     images: [{ 
-      url: "/og-juros.png", 
+      url: "https://mestredascontas.com.br/og-juros.png", 
       width: 1200, 
       height: 630, 
       alt: "Simulador Juros Compostos" 
@@ -43,6 +44,14 @@ export const metadata: Metadata = {
   },
   robots: { index: true, follow: true },
 };
+
+// --- FAQ LIST (DRY Content) ---
+const faqList = [
+    { q: "O que são juros compostos?", a: "São juros calculados sobre o valor inicial mais os juros acumulados dos períodos anteriores. É o famoso 'juros sobre juros', que faz o dinheiro crescer exponencialmente ao longo do tempo." },
+    { q: "A poupança paga juros compostos?", a: "Sim! A caderneta de poupança usa juros compostos mensais. Porém, a taxa de rendimento dela costuma ser baixa (frequentemente perde para a inflação), diminuindo o ganho real." },
+    { q: "Qual a diferença para juros simples?", a: "Nos juros simples, o rendimento é calculado apenas sobre o valor principal inicial (crescimento linear). Nos compostos, o lucro é reinvestido e gera mais lucro (crescimento exponencial)." },
+    { q: "Como converter taxa mensal para anual?", a: "Nos juros compostos, não basta multiplicar por 12. A fórmula é (1 + taxa)^12 - 1. Exemplo: 1% ao mês equivale a 12,68% ao ano." }
+];
 
 // --- 2. DADOS ESTRUTURADOS (JSON-LD) ---
 const jsonLd = {
@@ -69,39 +78,19 @@ const jsonLd = {
       "@type": "Article",
       "headline": "O Poder dos Juros Compostos: Como Ficar Rico no Longo Prazo",
       "description": "Uma aula completa sobre como funciona a matemática dos investimentos e o efeito bola de neve.",
-      "author": { 
-        "@type": "Organization", 
-        "name": "Equipe Mestre das Contas",
-        "url": "https://mestredascontas.com.br" 
-      },
-      "publisher": { 
-        "@type": "Organization", 
-        "name": "Mestre das Contas", 
-        "logo": { 
-          "@type": "ImageObject", 
-          "url": "https://mestredascontas.com.br/icon",
-          "width": 512,
-          "height": 512
-        } 
-      },
+      "author": { "@type": "Organization", "name": "Mestre das Contas" },
+      "publisher": { "@type": "Organization", "name": "Mestre das Contas", "logo": { "@type": "ImageObject", "url": "https://mestredascontas.com.br/opengraph-image" } },
       "datePublished": "2024-02-15",
-      "dateModified": "2025-12-19", // Data atualizada
+      "dateModified": new Date().toISOString(), // Data sempre fresca
       "image": "https://mestredascontas.com.br/og-juros.png"
     },
     {
       "@type": "FAQPage",
-      "mainEntity": [
-        { 
-          "@type": "Question", 
-          "name": "O que são juros compostos?", 
-          "acceptedAnswer": { "@type": "Answer", "text": "São juros calculados sobre o valor inicial mais os juros acumulados dos períodos anteriores. É o famoso 'juros sobre juros', que faz o dinheiro crescer exponencialmente." } 
-        },
-        { 
-          "@type": "Question", 
-          "name": "Qual a diferença para juros simples?", 
-          "acceptedAnswer": { "@type": "Answer", "text": "Nos juros simples, o rendimento é calculado apenas sobre o valor principal inicial (crescimento linear). Nos compostos, o lucro é reinvestido e gera mais lucro (crescimento exponencial)." } 
-        }
-      ]
+      "mainEntity": faqList.map(item => ({
+        "@type": "Question",
+        "name": item.q,
+        "acceptedAnswer": { "@type": "Answer", "text": item.a }
+      }))
     }
   ]
 };
@@ -113,7 +102,7 @@ export default async function JurosCompostosPage({ searchParams }: Props) {
   const resolvedParams = await searchParams;
   const isEmbed = resolvedParams.embed === 'true';
 
-  // --- LAYOUT EMBED (Visual Iframe) ---
+  // --- LAYOUT EMBED (Visual Iframe Limpo) ---
   if (isEmbed) {
     return (
         <main className="w-full min-h-screen bg-white p-2 flex flex-col items-center justify-start font-sans">
@@ -133,7 +122,7 @@ export default async function JurosCompostosPage({ searchParams }: Props) {
 
   // --- LAYOUT COMPLETO DA PÁGINA ---
   return (
-    <article className="w-full max-w-full overflow-hidden">
+    <article className="w-full max-w-full overflow-hidden pb-12">
       
       {/* JSON-LD Injected */}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
@@ -157,22 +146,27 @@ export default async function JurosCompostosPage({ searchParams }: Props) {
         />
       </div>
 
-      <div className="flex flex-col gap-8 px-4 sm:px-6 pb-12 max-w-7xl mx-auto">
+      <div className="flex flex-col gap-8 px-4 sm:px-6 max-w-7xl mx-auto">
 
-        {/* ANÚNCIO TOPO */}
+        {/* ANÚNCIO TOPO (FIX CLS) */}
         <div className="w-full max-w-5xl mx-auto overflow-hidden flex justify-center bg-slate-50/50 rounded-lg border border-dashed border-slate-200/50 print:hidden min-h-[100px]">
            <AdUnit slot="juros_top" format="horizontal" variant="software" />
         </div>
 
-        {/* --- FERRAMENTA --- */}
+        {/* --- FERRAMENTA PRINCIPAL --- */}
         <section id="ferramenta" className="scroll-mt-28 w-full max-w-full">
-          <Suspense fallback={
-            <div className="h-96 w-full bg-slate-50 rounded-2xl animate-pulse flex items-center justify-center text-slate-400">
-                Carregando ferramenta...
-            </div>
-          }>
-              <CompoundInterestCalculator />
-          </Suspense>
+          <div className="bg-white rounded-3xl border border-slate-200 shadow-xl shadow-slate-200/40 p-1 md:p-2">
+              <Suspense fallback={
+                <div className="h-96 w-full bg-slate-50 rounded-2xl animate-pulse flex items-center justify-center text-slate-400">
+                    <div className="flex flex-col items-center gap-2">
+                        <Calculator className="animate-bounce text-slate-300" size={32}/>
+                        <span>Carregando ferramenta...</span>
+                    </div>
+                </div>
+              }>
+                  <CompoundInterestCalculator />
+              </Suspense>
+          </div>
           
           <div className="mt-8 print:hidden max-w-5xl mx-auto">
               <DisclaimerBox />
@@ -180,18 +174,18 @@ export default async function JurosCompostosPage({ searchParams }: Props) {
         </section>
 
         {/* ANÚNCIO MEIO */}
-        <div className="w-full max-w-4xl mx-auto flex justify-center my-4 print:hidden">
+        <div className="w-full max-w-4xl mx-auto flex justify-center my-4 print:hidden min-h-[250px]">
             <AdUnit slot="juros_mid" format="auto" />
         </div>
 
         {/* --- CONTEÚDO EDUCACIONAL --- */}
         <div className="prose prose-slate prose-sm md:prose-lg max-w-4xl mx-auto bg-white p-6 md:p-12 rounded-3xl border border-slate-100 shadow-xl shadow-slate-200/40 overflow-hidden w-full print:hidden">
           
-          <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-6 flex items-center gap-3">
+          <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-6 flex items-center gap-3 border-l-4 border-emerald-500 pl-4">
               <TrendingUp className="text-emerald-600" size={28} />
               A Mágica do Juros sobre Juros
           </h2>
-          <p className="lead text-slate-700 font-medium">
+          <p className="lead text-slate-700 font-medium text-lg">
             Imagine uma bola de neve no topo de uma montanha. Quando você a empurra, ela é pequena. Mas, conforme ela rola, ela pega mais neve e cresce.
           </p>
           <p>
@@ -239,10 +233,10 @@ export default async function JurosCompostosPage({ searchParams }: Props) {
           </div>
 
           <ul className="space-y-3 not-prose mb-8 text-sm md:text-base bg-slate-50 p-6 rounded-xl border border-slate-100">
-              <li className="flex items-center gap-3"><div className="w-8 h-8 rounded-lg bg-white border border-slate-200 flex items-center justify-center font-bold text-slate-600 shadow-sm">M</div> <span className="text-slate-700"><strong>Montante Final</strong> (O resultado acumulado)</span></li>
-              <li className="flex items-center gap-3"><div className="w-8 h-8 rounded-lg bg-white border border-slate-200 flex items-center justify-center font-bold text-slate-600 shadow-sm">C</div> <span className="text-slate-700"><strong>Capital Inicial</strong> (O valor que você investiu)</span></li>
-              <li className="flex items-center gap-3"><div className="w-8 h-8 rounded-lg bg-white border border-slate-200 flex items-center justify-center font-bold text-slate-600 shadow-sm">i</div> <span className="text-slate-700"><strong>Taxa de Juros</strong> (ex: 0.01 para 1%)</span></li>
-              <li className="flex items-center gap-3"><div className="w-8 h-8 rounded-lg bg-white border border-slate-200 flex items-center justify-center font-bold text-slate-600 shadow-sm">t</div> <span className="text-slate-700"><strong>Tempo</strong> (Período que o dinheiro ficou rendendo)</span></li>
+              <li className="flex items-center gap-3"><div className="w-8 h-8 rounded-lg bg-white border border-slate-200 flex items-center justify-center font-bold text-slate-600 shadow-sm shrink-0">M</div> <span className="text-slate-700"><strong>Montante Final</strong> (O resultado acumulado)</span></li>
+              <li className="flex items-center gap-3"><div className="w-8 h-8 rounded-lg bg-white border border-slate-200 flex items-center justify-center font-bold text-slate-600 shadow-sm shrink-0">C</div> <span className="text-slate-700"><strong>Capital Inicial</strong> (O valor que você investiu)</span></li>
+              <li className="flex items-center gap-3"><div className="w-8 h-8 rounded-lg bg-white border border-slate-200 flex items-center justify-center font-bold text-slate-600 shadow-sm shrink-0">i</div> <span className="text-slate-700"><strong>Taxa de Juros</strong> (ex: 0.01 para 1%)</span></li>
+              <li className="flex items-center gap-3"><div className="w-8 h-8 rounded-lg bg-white border border-slate-200 flex items-center justify-center font-bold text-slate-600 shadow-sm shrink-0">t</div> <span className="text-slate-700"><strong>Tempo</strong> (Período que o dinheiro ficou rendendo)</span></li>
           </ul>
 
           {/* VOCÊ SABIA: TEMPO VS DINHEIRO */}
@@ -268,45 +262,27 @@ export default async function JurosCompostosPage({ searchParams }: Props) {
               </div>
           </div>
 
-          {/* FAQ */}
+          {/* FAQ ACORDION (Schema Linkado) */}
           <div className="mt-12 not-prose">
-            <h3 className="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2">
+            <h3 className="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2 border-b border-slate-100 pb-3">
                 <HelpCircle className="text-blue-600" /> Dúvidas Frequentes
             </h3>
             <div className="space-y-4">
-              <details className="group bg-slate-50 p-5 rounded-xl border border-slate-200 shadow-sm cursor-pointer open:bg-white open:ring-1 open:ring-blue-100 transition-all">
-                <summary className="font-semibold text-slate-800 list-none flex justify-between items-center select-none">
-                  A poupança paga juros compostos?
-                  <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
-                </summary>
-                <p className="mt-3 text-slate-600 leading-relaxed border-t border-slate-100 pt-3 text-sm">
-                  Sim! A caderneta de poupança usa juros compostos mensais. Porém, a taxa de rendimento dela costuma ser muito baixa (frequentemente perde para a inflação), o que diminui o efeito "bola de neve" real do seu ganho.
-                </p>
-              </details>
-              
-              <details className="group bg-slate-50 p-5 rounded-xl border border-slate-200 shadow-sm cursor-pointer open:bg-white open:ring-1 open:ring-blue-100 transition-all">
-                <summary className="font-semibold text-slate-800 list-none flex justify-between items-center select-none">
-                  O que é taxa real vs taxa nominal?
-                  <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
-                </summary>
-                <p className="mt-3 text-slate-600 leading-relaxed border-t border-slate-100 pt-3 text-sm">
-                  <strong>Taxa Nominal</strong> é o número que o investimento promete (ex: 10% ao ano). <strong>Taxa Real</strong> é quanto você ganhou de verdade descontando a inflação. Se seu investimento rendeu 10% e a inflação foi 5%, seu ganho real foi de aprox. 5%.
-                </p>
-              </details>
-
-              <details className="group bg-slate-50 p-5 rounded-xl border border-slate-200 shadow-sm cursor-pointer open:bg-white open:ring-1 open:ring-blue-100 transition-all">
-                <summary className="font-semibold text-slate-800 list-none flex justify-between items-center select-none">
-                  Como converter taxa mensal para anual?
-                  <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
-                </summary>
-                <p className="mt-3 text-slate-600 leading-relaxed border-t border-slate-100 pt-3 text-sm">
-                  Nos juros compostos, você não pode apenas multiplicar por 12. A fórmula é <code>(1 + taxa mensal)^12 - 1</code>. Por exemplo, 1% ao mês não é 12% ao ano, é <strong>12,68% ao ano</strong> devido ao efeito composto.
-                </p>
-              </details>
+              {faqList.map((item, idx) => (
+                  <details key={idx} className="group bg-slate-50 p-5 rounded-xl border border-slate-200 shadow-sm cursor-pointer open:bg-white open:ring-1 open:ring-blue-100 transition-all">
+                      <summary className="font-semibold text-slate-800 list-none flex justify-between items-center select-none">
+                          <span className="flex-1">{item.q}</span>
+                          <span className="text-slate-400 group-open:rotate-180 transition-transform ml-2 shrink-0">▼</span>
+                      </summary>
+                      <p className="mt-3 text-slate-600 leading-relaxed border-t border-slate-100 pt-3 text-sm animate-in fade-in">
+                          {item.a}
+                      </p>
+                  </details>
+              ))}
             </div>
           </div>
 
-          {/* NAVEGAÇÃO FINAL (Footer do Artigo) */}
+          {/* NAVEGAÇÃO CROSS-LINKING */}
           <div className="mt-16 pt-8 border-t border-slate-200 print:hidden not-prose">
             <p className="font-bold text-slate-900 mb-6 text-xs uppercase tracking-wider flex items-center gap-2">
                <CheckCircle2 size={16} className="text-emerald-500"/> Outras Ferramentas Úteis:
@@ -325,7 +301,7 @@ export default async function JurosCompostosPage({ searchParams }: Props) {
               </Link>
 
               <Link href="/saude/imc" className="flex flex-col p-5 bg-white border border-slate-200 rounded-xl hover:border-red-400 hover:shadow-lg transition-all group">
-                  <div className="bg-red-50 w-10 h-10 rounded-lg flex items-center justify-center mb-3 text-red-600 shadow-sm group-hover:scale-110 transition-transform"><Calculator size={20}/></div>
+                  <div className="bg-red-50 w-10 h-10 rounded-lg flex items-center justify-center mb-3 text-red-600 shadow-sm group-hover:scale-110 transition-transform"><PieChart size={20}/></div>
                   <span className="font-bold text-slate-800 text-base">IMC Online</span>
                   <span className="text-xs text-slate-500 mt-1">Cuide da sua saúde</span>
               </Link>
@@ -334,7 +310,7 @@ export default async function JurosCompostosPage({ searchParams }: Props) {
 
         </div>
 
-        {/* RODAPÉ IMPRESSÃO (Oculto na tela) */}
+        {/* RODAPÉ IMPRESSÃO */}
         <div className="hidden print:block text-center pt-8 border-t border-slate-300 mt-8">
             <p className="text-sm font-bold text-slate-900 mb-1">Mestre das Contas</p>
             <p className="text-xs text-slate-500">www.mestredascontas.com.br</p>

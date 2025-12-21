@@ -6,7 +6,7 @@ import {
   Heart, Activity, Scale, Flame, 
   Baby, Droplet, Stethoscope, Dna, 
   Brain, Apple, ArrowRight, ShieldPlus,
-  CheckCircle2, Coins, Wallet, TrendingUp
+  CheckCircle2, Coins, Wallet, TrendingUp, PieChart, GlassWater
 } from "lucide-react";
 
 // --- METADATA (SEO SAÚDE 2026) ---
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     siteName: "Mestre das Contas",
     locale: "pt_BR",
     type: "website",
-    images: [{ url: "/og-saude.png", width: 1200, height: 630, alt: "Cálculos de Saúde" }],
+    images: [{ url: "https://mestredascontas.com.br/og-saude.png", width: 1200, height: 630, alt: "Cálculos de Saúde" }],
   },
 };
 
@@ -44,13 +44,15 @@ const jsonLd = {
   "url": "https://mestredascontas.com.br/saude",
   "hasPart": [
     { "@type": "SoftwareApplication", "name": "Calculadora de IMC", "url": "https://mestredascontas.com.br/saude/imc" },
-    { "@type": "SoftwareApplication", "name": "Calculadora de Calorias", "url": "https://mestredascontas.com.br/saude/calorias-diarias" }
+    { "@type": "SoftwareApplication", "name": "Calculadora de Calorias", "url": "https://mestredascontas.com.br/saude/calorias-diarias" },
+    { "@type": "SoftwareApplication", "name": "Calculadora Gestacional", "url": "https://mestredascontas.com.br/saude/gestacional" },
+    { "@type": "SoftwareApplication", "name": "Calculadora de Água", "url": "https://mestredascontas.com.br/saude/agua" }
   ]
 };
 
 export default function SaudeHubPage() {
   return (
-    <div className="flex flex-col gap-8 w-full max-w-full overflow-hidden">
+    <div className="flex flex-col gap-8 w-full max-w-full overflow-hidden pb-12">
       
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
@@ -71,7 +73,7 @@ export default function SaudeHubPage() {
         />
       </div>
 
-      <div className="flex flex-col gap-8 px-4 sm:px-6 pb-12 max-w-7xl mx-auto">
+      <div className="flex flex-col gap-8 px-4 sm:px-6 max-w-7xl mx-auto w-full">
 
         {/* ANÚNCIO TOPO */}
         <div className="w-full max-w-5xl mx-auto overflow-hidden flex justify-center bg-slate-50/50 rounded-lg border border-dashed border-slate-200/50 print:hidden min-h-[100px]">
@@ -123,47 +125,57 @@ export default function SaudeHubPage() {
             </div>
           </Link>
 
-          {/* Card Gestacional (Em Breve) */}
-          <div className="group relative overflow-hidden bg-slate-50 rounded-3xl border border-slate-200 opacity-70 cursor-not-allowed h-full flex flex-col hover:opacity-100 transition-opacity">
-            <div className="absolute top-0 right-0 p-6 opacity-10">
-              <Baby size={100} className="text-slate-400" />
+          {/* Card Gestacional */}
+          <Link href="/saude/gestacional" className="group relative overflow-hidden bg-white rounded-3xl border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full flex flex-col">
+            <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-opacity">
+              <Baby size={100} className="text-pink-500" />
             </div>
             <div className="p-6 md:p-8 flex-1 flex flex-col">
-              <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center text-slate-400 mb-6 shadow-sm">
+              <div className="w-14 h-14 bg-pink-50 rounded-2xl flex items-center justify-center text-pink-600 mb-6 group-hover:scale-110 transition-transform shadow-sm ring-1 ring-pink-100">
                 <Baby size={28} strokeWidth={2.5} />
               </div>
-              <h2 className="text-2xl font-bold text-slate-500 mb-3 flex items-center gap-2">Idade Gestacional <span className="text-[10px] bg-slate-200 text-slate-500 px-2 py-1 rounded uppercase tracking-wide">Em Breve</span></h2>
-              <p className="text-slate-500 mb-6 leading-relaxed flex-1">
+              <h2 className="text-2xl font-bold text-slate-900 mb-3 group-hover:text-pink-600 transition-colors">Calculadora Gestacional</h2>
+              <p className="text-slate-600 mb-6 leading-relaxed flex-1">
                 Calcule a Data Provável do Parto (DPP) e acompanhe o desenvolvimento do bebê semana a semana.
               </p>
+              <div className="mt-auto">
+                <span className="inline-flex items-center text-sm font-bold text-white bg-pink-500 px-4 py-2 rounded-lg group-hover:bg-pink-600 transition-colors">
+                  Acompanhar Gravidez <ArrowRight size={16} className="ml-2 group-hover:translate-x-1 transition-transform" />
+                </span>
+              </div>
             </div>
-          </div>
+          </Link>
 
-          {/* Card Água (Em Breve) */}
-          <div className="group relative overflow-hidden bg-slate-50 rounded-3xl border border-slate-200 opacity-70 cursor-not-allowed h-full flex flex-col hover:opacity-100 transition-opacity">
-            <div className="absolute top-0 right-0 p-6 opacity-10">
-              <Droplet size={100} className="text-slate-400" />
+          {/* Card Água */}
+          <Link href="/saude/agua" className="group relative overflow-hidden bg-white rounded-3xl border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full flex flex-col">
+            <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-opacity">
+              <Droplet size={100} className="text-cyan-500" />
             </div>
             <div className="p-6 md:p-8 flex-1 flex flex-col">
-              <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center text-slate-400 mb-6 shadow-sm">
-                <Droplet size={28} strokeWidth={2.5} />
+              <div className="w-14 h-14 bg-cyan-50 rounded-2xl flex items-center justify-center text-cyan-600 mb-6 group-hover:scale-110 transition-transform shadow-sm ring-1 ring-cyan-100">
+                <GlassWater size={28} strokeWidth={2.5} />
               </div>
-              <h2 className="text-2xl font-bold text-slate-500 mb-3 flex items-center gap-2">Ingestão de Água <span className="text-[10px] bg-slate-200 text-slate-500 px-2 py-1 rounded uppercase tracking-wide">Em Breve</span></h2>
-              <p className="text-slate-500 mb-6 leading-relaxed flex-1">
+              <h2 className="text-2xl font-bold text-slate-900 mb-3 group-hover:text-cyan-600 transition-colors">Ingestão de Água</h2>
+              <p className="text-slate-600 mb-6 leading-relaxed flex-1">
                 Hidratação personalizada. Calcule a quantidade ideal de água para o seu peso e nível de atividade.
               </p>
+              <div className="mt-auto">
+                <span className="inline-flex items-center text-sm font-bold text-white bg-cyan-500 px-4 py-2 rounded-lg group-hover:bg-cyan-600 transition-colors">
+                  Calcular Meta <ArrowRight size={16} className="ml-2 group-hover:translate-x-1 transition-transform" />
+                </span>
+              </div>
             </div>
-          </div>
+          </Link>
 
         </section>
 
-        {/* --- CONTEÚDO RICO --- */}
-        <div className="prose prose-slate prose-sm md:prose-lg max-w-4xl mx-auto bg-white p-6 md:p-12 rounded-3xl border border-slate-100 shadow-xl shadow-slate-200/40 overflow-hidden w-full print:hidden mt-8">
+        {/* --- CONTEÚDO RICO (SEO) --- */}
+        <div className="prose prose-sm md:prose-lg max-w-none bg-white p-6 md:p-12 rounded-3xl border border-slate-100 shadow-sm mt-8">
           
           <h2 className="text-3xl font-bold text-slate-900 mb-6 flex items-center gap-3">
             <Dna className="text-rose-600" size={32} /> Biomatemática: O Segredo da Longevidade
           </h2>
-          <p className="lead text-slate-700 text-lg font-medium">
+          <p className="lead text-slate-700 text-lg">
             Muitas pessoas tentam melhorar a saúde na base da intuição. O segredo dos atletas e das pessoas longevas é transformar "achismos" em <strong>dados</strong>.
           </p>
 

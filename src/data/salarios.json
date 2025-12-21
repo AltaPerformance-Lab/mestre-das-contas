@@ -1,32 +1,212 @@
 [
-  { "valor": 1412, "label": "Salário Mínimo (Vigente)" },
-  { "valor": 1500, "label": "Faixa de R$ 1.500" },
-  { "valor": 1509, "label": "Salário Mínimo 2025 (Projeção)" },
-  { "valor": 1640, "label": "Piso de Limpeza/Serviços (Média)" },
-  { "valor": 1800, "label": "Comércio e Estagiários" },
-  { "valor": 2000, "label": "Auxiliar Administrativo" },
-  { "valor": 2259, "label": "Limite de Isenção do IRRF" },
-  { "valor": 2400, "label": "Assistente Administrativo" },
-  { "valor": 2500, "label": "Vendedores e Técnicos Jr" },
-  { "valor": 2824, "label": "2 Salários Mínimos" },
-  { "valor": 3000, "label": "Analista Júnior" },
-  { "valor": 3325, "label": "Técnico Especializado" },
-  { "valor": 3500, "label": "Faixa de R$ 3.500" },
-  { "valor": 4000, "label": "Analista Pleno" },
-  { "valor": 4236, "label": "3 Salários Mínimos" },
-  { "valor": 4580, "label": "Piso Nacional Professores" },
-  { "valor": 4750, "label": "Piso Nacional Enfermagem" },
-  { "valor": 5000, "label": "Supervisor / Coordenador Jr" },
-  { "valor": 6000, "label": "Analista Sênior" },
-  { "valor": 7000, "label": "Coordenador de Área" },
-  { "valor": 7786, "label": "Teto do INSS (Máximo)" },
-  { "valor": 8500, "label": "Piso Engenharia (Referência)" },
-  { "valor": 10000, "label": "Gerente / O Marco dos 10k" },
-  { "valor": 12000, "label": "Gerente Sênior / Especialista TI" },
-  { "valor": 15000, "label": "Diretor / Head de Área" },
-  { "valor": 18000, "label": "Médico (Média CLT)" },
-  { "valor": 20000, "label": "Executivo / Superintendente" },
-  { "valor": 25000, "label": "Alta Gestão" },
-  { "valor": 30000, "label": "Salário de CEO (PME)" },
-  { "valor": 39293, "label": "Teto Constitucional (Servidor)" }
+  { 
+    "slug": "1412",
+    "valor": 1412, 
+    "label": "Salário Mínimo (Vigente)",
+    "title": "Salário Líquido de R$ 1.412,00",
+    "desc": "Veja quanto sobra do Salário Mínimo vigente. Tabela oficial de descontos do INSS (7,5%) e isenção de Imposto de Renda."
+  },
+  { 
+    "slug": "1500",
+    "valor": 1500, 
+    "label": "Faixa de R$ 1.500",
+    "title": "Salário Líquido de R$ 1.500,00",
+    "desc": "Cálculo exato para quem ganha mil e quinhentos reais. Descubra os descontos de previdência e o valor final na conta."
+  },
+  { 
+    "slug": "1509",
+    "valor": 1509, 
+    "label": "Salário Mínimo 2025 (Projeção)",
+    "title": "Salário Líquido de R$ 1.509,00 (Novo Mínimo 2025)",
+    "desc": "Simulação com o valor projetado para o Salário Mínimo de 2025. Prepare-se para o reajuste e veja os novos descontos."
+  },
+  { 
+    "slug": "1640",
+    "valor": 1640, 
+    "label": "Piso de Limpeza/Serviços",
+    "title": "Salário Líquido de R$ 1.640,00",
+    "desc": "Cálculo para piso salarial de serviços gerais e limpeza. Veja quanto é descontado de INSS nesta faixa salarial."
+  },
+  { 
+    "slug": "1800",
+    "valor": 1800, 
+    "label": "Comércio e Estagiários",
+    "title": "Salário Líquido de R$ 1.800,00",
+    "desc": "Ganho comum no comércio e estágios. Confira o cálculo detalhado do salário de mil e oitocentos reais."
+  },
+  { 
+    "slug": "2000",
+    "valor": 2000, 
+    "label": "Auxiliar Administrativo",
+    "title": "Salário Líquido de R$ 2.000,00",
+    "desc": "Salário de Auxiliar Administrativo: Veja a tabela de descontos e quanto realmente cai na conta no final do mês."
+  },
+  { 
+    "slug": "2259",
+    "valor": 2259, 
+    "label": "Limite de Isenção IRRF",
+    "title": "Salário Líquido de R$ 2.259,00 (Isento de IR)",
+    "desc": "Este é o limite atual de isenção do Imposto de Renda (com desconto simplificado). Veja como fica seu holerite."
+  },
+  { 
+    "slug": "2400",
+    "valor": 2400, 
+    "label": "Assistente Administrativo",
+    "title": "Salário Líquido de R$ 2.400,00",
+    "desc": "Cálculo para Assistentes e nível técnico inicial. Entenda os descontos de INSS progressivo para R$ 2.400."
+  },
+  { 
+    "slug": "2500",
+    "valor": 2500, 
+    "label": "Vendedores e Técnicos Jr",
+    "title": "Salário Líquido de R$ 2.500,00",
+    "desc": "Simulador para salário de 2 mil e quinhentos. Veja se você já começa a pagar um pouco de Imposto de Renda."
+  },
+  { 
+    "slug": "2824",
+    "valor": 2824, 
+    "label": "2 Salários Mínimos",
+    "title": "Salário Líquido de R$ 2.824,00 (2 Salários)",
+    "desc": "Exatamente dois salários mínimos vigentes. Confira o impacto do INSS e IRRF neste valor de referência."
+  },
+  { 
+    "slug": "3000",
+    "valor": 3000, 
+    "label": "Analista Júnior",
+    "title": "Salário Líquido de R$ 3.000,00",
+    "desc": "Salário comum para Analistas Júnior. Veja a mordida do Leão (IRRF) e do INSS para quem ganha 3 mil reais."
+  },
+  { 
+    "slug": "3325",
+    "valor": 3325, 
+    "label": "Técnico Especializado",
+    "title": "Salário Líquido de R$ 3.325,00",
+    "desc": "Cálculo detalhado para técnicos especializados. Entenda as alíquotas efetivas de desconto nesta faixa."
+  },
+  { 
+    "slug": "3500",
+    "valor": 3500, 
+    "label": "Faixa de R$ 3.500",
+    "title": "Salário Líquido de R$ 3.500,00",
+    "desc": "Simulação completa para salário de 3 mil e quinhentos. Veja o valor líquido e o custo dos impostos."
+  },
+  { 
+    "slug": "4000",
+    "valor": 4000, 
+    "label": "Analista Pleno",
+    "title": "Salário Líquido de R$ 4.000,00",
+    "desc": "Para Analistas Plenos: Descubra quanto sobra de um salário bruto de 4 mil reais após todos os descontos legais."
+  },
+  { 
+    "slug": "4236",
+    "valor": 4236, 
+    "label": "3 Salários Mínimos",
+    "title": "Salário Líquido de R$ 4.236,00 (3 Salários)",
+    "desc": "Referência de 3 salários mínimos. Veja como a progressividade da tabela do INSS afeta seu ganho final."
+  },
+  { 
+    "slug": "4580",
+    "valor": 4580, 
+    "label": "Piso Professores",
+    "title": "Salário Líquido de R$ 4.580,00 (Piso Professor)",
+    "desc": "Baseado no Piso Nacional do Magistério. Veja o cálculo líquido para professores com carga horária completa."
+  },
+  { 
+    "slug": "4750",
+    "valor": 4750, 
+    "label": "Piso Enfermagem",
+    "title": "Salário Líquido de R$ 4.750,00 (Piso Enfermagem)",
+    "desc": "Simulação para Enfermeiros (CLT) baseada no piso nacional. Confira os descontos e o valor líquido a receber."
+  },
+  { 
+    "slug": "5000",
+    "valor": 5000, 
+    "label": "Supervisão / Coordenação",
+    "title": "Salário Líquido de R$ 5.000,00",
+    "desc": "O marco de 5 mil reais. Veja o impacto significativo do Imposto de Renda nesta faixa salarial de supervisão."
+  },
+  { 
+    "slug": "6000",
+    "valor": 6000, 
+    "label": "Analista Sênior",
+    "title": "Salário Líquido de R$ 6.000,00",
+    "desc": "Para Analistas Sênior: Cálculo exato de salário de 6 mil. Veja quanto o governo retém na fonte todo mês."
+  },
+  { 
+    "slug": "7000",
+    "valor": 7000, 
+    "label": "Coordenador de Área",
+    "title": "Salário Líquido de R$ 7.000,00",
+    "desc": "Salário de coordenação. Nesta faixa, você se aproxima do teto do INSS. Veja como isso afeta o cálculo."
+  },
+  { 
+    "slug": "7786",
+    "valor": 7786, 
+    "label": "Teto do INSS",
+    "title": "Salário Líquido de R$ 7.786,00 (Teto INSS)",
+    "desc": "Valor de referência do Teto do INSS 2024. Aqui o desconto da previdência atinge seu valor máximo fixo."
+  },
+  { 
+    "slug": "8500",
+    "valor": 8500, 
+    "label": "Engenharia (Piso)",
+    "title": "Salário Líquido de R$ 8.500,00",
+    "desc": "Referência para Engenheiros (8,5 salários mínimos). Veja o cálculo líquido com desconto máximo de INSS e alta alíquota de IR."
+  },
+  { 
+    "slug": "10000",
+    "valor": 10000, 
+    "label": "Gerente / 10k",
+    "title": "Salário Líquido de R$ 10.000,00",
+    "desc": "O marco dos 10k. Descubra quanto realmente sobra de um salário de 10 mil reais após a mordida do Leão."
+  },
+  { 
+    "slug": "12000",
+    "valor": 12000, 
+    "label": "Gerente Sênior / TI",
+    "title": "Salário Líquido de R$ 12.000,00",
+    "desc": "Comum para Especialistas de TI e Gerentes Sênior. Veja o cálculo líquido para rendimentos de 12 mil mensais."
+  },
+  { 
+    "slug": "15000",
+    "valor": 15000, 
+    "label": "Diretor / Head",
+    "title": "Salário Líquido de R$ 15.000,00",
+    "desc": "Cargos de direção e liderança. Simule os descontos para um salário bruto de 15 mil reais."
+  },
+  { 
+    "slug": "18000",
+    "valor": 18000, 
+    "label": "Médico CLT",
+    "title": "Salário Líquido de R$ 18.000,00",
+    "desc": "Média salarial de médicos CLT e especialistas. Veja o impacto da alíquota máxima do Imposto de Renda."
+  },
+  { 
+    "slug": "20000",
+    "valor": 20000, 
+    "label": "Executivo",
+    "title": "Salário Líquido de R$ 20.000,00",
+    "desc": "Salário executivo de 20 mil. Entenda quanto é descontado na fonte e qual o valor líquido disponível."
+  },
+  { 
+    "slug": "25000",
+    "valor": 25000, 
+    "label": "Alta Gestão",
+    "title": "Salário Líquido de R$ 25.000,00",
+    "desc": "Alta gestão e diretoria. Cálculo detalhado para rendimentos brutos de 25 mil reais mensais."
+  },
+  { 
+    "slug": "30000",
+    "valor": 30000, 
+    "label": "CEO (PME)",
+    "title": "Salário Líquido de R$ 30.000,00",
+    "desc": "Salário nível C-Level (CEO/CFO). Veja a simulação de descontos para quem ganha 30 mil reais em regime CLT."
+  },
+  { 
+    "slug": "39293",
+    "valor": 39293, 
+    "label": "Teto Constitucional",
+    "title": "Salário Líquido de R$ 39.293,00 (Teto)",
+    "desc": "Referência do Teto Constitucional do funcionalismo público. Veja quanto sobra do salário máximo permitido."
+  }
 ]

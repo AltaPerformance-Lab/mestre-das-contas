@@ -33,32 +33,17 @@ export const metadata: Metadata = {
     siteName: "Mestre das Contas",
     locale: "pt_BR",
     type: "article",
-    images: [{ url: "/og-gestacional.png", width: 1200, height: 630, alt: "Calculadora de Gravidez" }],
+    images: [{ url: "https://mestredascontas.com.br/og-gestacional.png", width: 1200, height: 630, alt: "Calculadora de Gravidez" }],
   },
 };
 
 // Lista de FAQ para uso no componente e no JSON-LD (DRY Principle)
 const faqList = [
-  { p: "Como é calculada a data do parto?", r: "Utilizamos a Regra de Naegele: soma-se 7 dias ao primeiro dia da última menstruação e subtrai-se 3 meses (ou adiciona-se 9 meses)." },
-  { p: "A data do ultrassom é mais precisa que a DUM?", r: "Sim. O ultrassom do primeiro trimestre (até 12 semanas) é o 'padrão ouro'. Ele mede o comprimento do embrião (CCN) e tem margem de erro de apenas 3 a 5 dias." },
-  { p: "Quando dá para ver o sexo do bebê?", r: "Pela sexagem fetal (exame de sangue), a partir da 8ª semana. Pelo ultrassom, geralmente a partir da 16ª semana, mas com certeza absoluta após a 20ª semana (morfológico)." },
-  { p: "Estou de quantas semanas e meses?", r: "Essa é a confusão clássica! Médicos contam em semanas. Para saber o mês, consulte nossa tabela abaixo. Basicamente, 40 semanas completam 9 meses e 1 semana." },
-  { p: "É normal sentir cólicas no início?", r: "Sim, leves cólicas são normais devido ao crescimento do útero e implantação. Mas se houver sangramento ou dor forte, procure o pronto-socorro imediatamente." },
-  { p: "Quando o bebê começa a mexer?", r: "Mães de primeira viagem sentem entre 18 e 22 semanas. Quem já tem filhos pode sentir antes, por volta de 16 semanas. Parece uma 'borboleta' na barriga." },
-  { p: "Posso pintar o cabelo na gravidez?", r: "A recomendação geral é evitar tinturas com amônia, especialmente no primeiro trimestre. Tonalizantes e luzes (sem tocar a raiz) costumam ser liberados após 12 semanas, mas consulte seu obstetra." },
-  { p: "Grávida pode tomar café?", r: "Sim, mas com moderação. A OMS recomenda limitar a cafeína a 200mg por dia (cerca de 2 xícaras pequenas). Excesso pode aumentar risco de baixo peso ao nascer." },
-  { p: "Posso comer comida japonesa (sushi)?", r: "O risco é a contaminação por bactérias ou parasitas no peixe cru. Se for um restaurante de altíssima confiança, alguns médicos liberam. A opção mais segura é comer os peças cozidas ou 'hot rolls'." },
-  { p: "É verdade que não pode dormir de barriga para cima?", r: "No final da gravidez, sim. O peso do útero comprime a veia cava, diminuindo o oxigênio para você e para o bebê. A melhor posição é virada para o lado esquerdo." },
-  { p: "O que é o tampão mucoso?", r: "É uma secreção gelatinosa (pode ter fios de sangue) que veda o colo do útero. Se ele sair, significa que o trabalho de parto está próximo, mas pode levar horas ou até dias." },
-  { p: "Como diferenciar contração de treinamento e de parto?", r: "As de treinamento (Braxton Hicks) são irregulares e param se você mudar de posição. As de parto são ritmadas, ficam mais fortes e mais próximas com o tempo." },
-  { p: "Pode viajar de avião grávida?", r: "Geralmente sim, até 36 semanas (com atestado médico após 28 semanas). O ideal é caminhar no corredor a cada hora para evitar trombose." },
-  { p: "O que causa azia na gravidez?", r: "O hormônio progesterona relaxa a válvula do estômago, e o útero crescendo aperta o estômago para cima. Comer pouco e várias vezes ao dia ajuda." },
-  { p: "Como evitar estrias?", r: "Hidratação é a chave. Beba muita água e use óleos/cremes específicos para gestantes (óleo de amêndoas, rosa mosqueta) na barriga, seios e quadril duas vezes ao dia." },
-  { p: "Grávida pode fazer exercícios?", r: "Se não houver contraindicação médica (como placenta prévia), deve! Caminhada, hidroginástica e pilates são excelentes para preparar o corpo para o parto." },
-  { p: "Inchaço nos pés é perigoso?", r: "Leve inchaço no final do dia é normal. Mas inchaço súbito, principalmente no rosto e mãos, acompanhado de dor de cabeça, pode ser sinal de pré-eclâmpsia (pressão alta). Meça a pressão." },
-  { p: "Até quando posso trabalhar?", r: "Depende da sua disposição e saúde. Muitas mulheres trabalham até o dia do parto. A licença-maternidade pode começar até 28 dias antes da data prevista." },
-  { p: "O que levar na mala da maternidade?", r: "Documentos, plano de parto, roupas para o bebê (6 trocas), fraldas, roupas confortáveis para você (pijama com abertura para amamentar) e itens de higiene." },
-  { p: "O que é o puerpério?", r: "É o período pós-parto (resguardo), onde os hormônios despencam e o corpo volta ao normal. Dura cerca de 40 dias e pode envolver oscilações de humor (baby blues)." }
+    { p: "Como é calculada a data do parto?", r: "Utilizamos a Regra de Naegele: soma-se 7 dias ao primeiro dia da última menstruação e subtrai-se 3 meses (ou adiciona-se 9 meses)." },
+    { p: "A data do ultrassom é mais precisa que a DUM?", r: "Sim. O ultrassom do primeiro trimestre (até 12 semanas) é o 'padrão ouro'. Ele mede o comprimento do embrião (CCN) e tem margem de erro de apenas 3 a 5 dias." },
+    { p: "Quando dá para ver o sexo do bebê?", r: "Pela sexagem fetal (exame de sangue), a partir da 8ª semana. Pelo ultrassom, geralmente a partir da 16ª semana, mas com certeza absoluta após a 20ª semana (morfológico)." },
+    { p: "Estou de quantas semanas e meses?", r: "Essa é a confusão clássica! Médicos contam em semanas. Para saber o mês, consulte nossa tabela abaixo. Basicamente, 40 semanas completam 9 meses e 1 semana." },
+    { p: "Grávida pode tomar café?", r: "Sim, mas com moderação. A OMS recomenda limitar a cafeína a 200mg por dia (cerca de 2 xícaras pequenas). Excesso pode aumentar risco de baixo peso ao nascer." }
 ];
 
 // --- 2. DADOS ESTRUTURADOS (JSON-LD) ---
@@ -80,7 +65,7 @@ const jsonLd = {
       "about": { "@type": "MedicalCondition", "name": "Gravidez" },
       "audience": { "@type": "Patient", "audienceType": "Gestantes" },
       "author": { "@type": "Organization", "name": "Equipe Mestre das Contas" },
-      "publisher": { "@type": "Organization", "name": "Mestre das Contas", "logo": { "@type": "ImageObject", "url": "https://mestredascontas.com.br/logo.png" } }
+      "publisher": { "@type": "Organization", "name": "Mestre das Contas", "logo": { "@type": "ImageObject", "url": "https://mestredascontas.com.br/opengraph-image" } }
     },
     {
       "@type": "FAQPage",
@@ -119,7 +104,7 @@ export default async function GestacionalPage({ searchParams }: Props) {
 
   // --- MODO PÁGINA NORMAL ---
   return (
-    <article className="w-full max-w-full overflow-hidden">
+    <article className="w-full max-w-full overflow-hidden pb-12">
       
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
@@ -142,7 +127,7 @@ export default async function GestacionalPage({ searchParams }: Props) {
         />
       </div>
 
-      <div className="flex flex-col gap-8 px-4 sm:px-6 pb-12 max-w-7xl mx-auto">
+      <div className="flex flex-col gap-8 px-4 sm:px-6 max-w-7xl mx-auto">
 
         {/* ANÚNCIO TOPO */}
         <div className="w-full max-w-5xl mx-auto overflow-hidden flex justify-center bg-pink-50/30 rounded-lg border border-dashed border-pink-200/50 print:hidden min-h-[100px]">
@@ -151,20 +136,26 @@ export default async function GestacionalPage({ searchParams }: Props) {
 
         {/* FERRAMENTA */}
         <section id="ferramenta" className="scroll-mt-28 w-full max-w-full">
-          <Suspense fallback={
-            <div className="h-96 w-full bg-pink-50 rounded-2xl animate-pulse flex items-center justify-center text-pink-300">
-                Carregando Calculadora...
-            </div>
-          }>
-              <PregnancyCalculator />
-          </Suspense>
+          <div className="bg-white rounded-3xl border border-pink-100 shadow-xl shadow-pink-100/50 p-1 md:p-2">
+              <Suspense fallback={
+                <div className="h-96 w-full bg-pink-50 rounded-2xl animate-pulse flex items-center justify-center text-pink-300 border border-pink-100">
+                    <div className="flex flex-col items-center gap-2">
+                        <Baby className="animate-bounce" size={32}/>
+                        <span>Carregando Calculadora...</span>
+                    </div>
+                </div>
+              }>
+                  <PregnancyCalculator />
+              </Suspense>
+          </div>
+          
           <div className="mt-8 print:hidden max-w-5xl mx-auto">
               <DisclaimerBox />
           </div>
         </section>
 
         {/* ANÚNCIO MEIO */}
-        <div className="w-full max-w-4xl mx-auto flex justify-center my-6 print:hidden">
+        <div className="w-full max-w-4xl mx-auto flex justify-center my-6 print:hidden min-h-[250px]">
             <AdUnit slot="gest_mid" format="auto" />
         </div>
 
@@ -189,6 +180,10 @@ export default async function GestacionalPage({ searchParams }: Props) {
             
             {/* TABELA HTML OBRIGATÓRIA */}
             <div className="overflow-x-auto border rounded-xl border-slate-200 shadow-sm w-full">
+                
+
+[Image of Pregnancy Trimester Chart]
+
                 <table className="w-full text-sm text-left min-w-[500px]">
                     <thead className="bg-pink-50 text-pink-900 uppercase text-xs">
                         <tr>
@@ -275,7 +270,7 @@ export default async function GestacionalPage({ searchParams }: Props) {
 
           {/* 20 PERGUNTAS FREQUENTES */}
           <div className="mt-16 not-prose" id="faq">
-            <h2 className="text-2xl font-bold text-slate-900 mb-8 flex items-center gap-3 border-b pb-4">
+            <h2 className="text-2xl font-bold text-slate-900 mb-8 flex items-center gap-3 border-b border-pink-100 pb-4">
                 <HelpCircle className="text-pink-500" /> Tira-Dúvidas da Gestante
             </h2>
             
@@ -289,7 +284,7 @@ export default async function GestacionalPage({ searchParams }: Props) {
                           </div>
                           <span className="text-slate-400 group-open:rotate-180 transition-transform ml-2 shrink-0">▼</span>
                       </summary>
-                      <p className="mt-3 text-slate-600 leading-relaxed border-t border-slate-100 pt-3 text-sm md:text-base pl-7">
+                      <p className="mt-3 text-slate-600 leading-relaxed border-t border-slate-100 pt-3 text-sm md:text-base pl-7 animate-in fade-in">
                           {item.r}
                       </p>
                   </details>
@@ -299,7 +294,7 @@ export default async function GestacionalPage({ searchParams }: Props) {
 
           {/* FONTES */}
           <div className="mt-12 pt-8 border-t border-slate-200 print:hidden not-prose bg-slate-50 p-6 rounded-xl">
-              <h3 className="text-sm font-bold text-slate-500 uppercase tracking-wider mb-4">Base Científica</h3>
+              <h3 className="text-sm font-bold text-slate-500 uppercase tracking-wider mb-4 flex items-center gap-2"><CheckCircle2 size={14}/> Base Científica</h3>
               <p className="text-xs text-slate-500 mb-3">Este conteúdo foi elaborado com base nas diretrizes das principais instituições de saúde:</p>
               <div className="flex flex-wrap gap-4 text-xs font-medium text-blue-600">
                   <a href="https://www.febrasgo.org.br" target="_blank" rel="nofollow noreferrer" className="hover:underline flex items-center gap-1 bg-white px-3 py-1 rounded border shadow-sm">FEBRASGO <ExternalLink size={10}/></a>
@@ -335,7 +330,7 @@ export default async function GestacionalPage({ searchParams }: Props) {
         </div>
 
         {/* --- ANÚNCIO BOTTOM (ESTRATÉGICO) --- */}
-        <div className="w-full flex justify-center my-8 print:hidden">
+        <div className="w-full flex justify-center my-8 print:hidden min-h-[250px]">
             <AdUnit slot="gest_bottom" format="horizontal" variant="software" />
         </div>
 

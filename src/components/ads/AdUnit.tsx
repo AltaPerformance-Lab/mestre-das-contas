@@ -15,7 +15,6 @@ export default function AdUnit({
 }: AdUnitProps) {
   
   // 1. LÓGICA DE FORMATO INTELIGENTE
-  // Se o slot tiver "sidebar", força vertical. Senão, horizontal.
   let finalFormat = format;
 
   if (format === "auto") {
@@ -26,19 +25,23 @@ export default function AdUnit({
       }
   }
 
-  // 2. ESTILOS DO CONTAINER (Margens e centralização)
+  // 2. ESTILOS DO CONTAINER
   const containerClasses = finalFormat === "vertical" || finalFormat === "rectangle"
-    ? "w-full my-6" // Vertical: margem normal
-    : "w-full flex justify-center items-center my-10"; // Horizontal: mais espaço
+    ? "w-full my-6" 
+    : "w-full flex flex-col justify-center items-center my-8 md:my-12"; 
 
   return (
     <div className={`print:hidden ${containerClasses} ${className}`}>
-      <div className={finalFormat === "vertical" ? "w-full" : "w-full max-w-5xl"}>
+      <div className={finalFormat === "vertical" ? "w-full" : "w-full max-w-6xl"}>
           
-          {/* Label "Publicidade" super discreto */}
-          <span className="block text-[9px] text-slate-300 text-center mb-1.5 uppercase tracking-widest w-full opacity-50 select-none">
-            Publicidade
-          </span>
+          {/* Label "Publicidade" (Acessibilidade + Compliance) */}
+          <div className="flex items-center justify-center gap-2 mb-2 opacity-40 select-none">
+             <div className="h-px w-4 bg-slate-400"></div>
+             <span className="text-[10px] text-slate-500 font-medium uppercase tracking-widest">
+               Publicidade
+             </span>
+             <div className="h-px w-4 bg-slate-400"></div>
+          </div>
           
           {/* Renderiza o Anúncio Interno */}
           <InternalAdUnit 

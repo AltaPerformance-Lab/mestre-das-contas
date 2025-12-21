@@ -15,7 +15,7 @@ import {
 // --- 1. METADATA DE ALTO VALOR (SEO 2026) ---
 export const metadata: Metadata = {
   title: "Simulador de Financiamento 2026 | Veículos e Imóveis (Price/SAC)",
-  description: "Não feche negócio no escuro. Simule parcelas de carros e casas, compare Tabela Price vs SAC e descubra os juros reais (CET) do seu contrato.",
+  description: "Não feche negócio no escuro. Simule parcelas de carros e casas, compare Tabela Price vs SAC e descubra os juros reais (CET) do seu contrato em 2026.",
   keywords: [
     "simulador financiamento veiculo", 
     "calcular financiamento imobiliario", 
@@ -27,13 +27,13 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: "https://mestredascontas.com.br/financeiro/financiamento" },
   openGraph: {
-    title: "Calculadora de Financiamento (Price/SAC) - Mestre das Contas",
+    title: "Calculadora de Financiamento 2026 (Price/SAC)",
     description: "Vai comprar carro ou casa? Simule antes e economize milhares de reais em juros.",
     url: "https://mestredascontas.com.br/financeiro/financiamento",
     siteName: "Mestre das Contas",
     locale: "pt_BR",
     type: "article",
-    images: [{ url: "/og-financiamento.png", width: 1200, height: 630, alt: "Simulador de Financiamento" }],
+    images: [{ url: "https://mestredascontas.com.br/og-financiamento.png", width: 1200, height: 630, alt: "Simulador de Financiamento" }],
   },
   robots: {
     index: true, follow: true,
@@ -41,44 +41,14 @@ export const metadata: Metadata = {
   },
 };
 
-// --- LISTA FAQ (DRY) ---
+// --- LISTA FAQ (Conteúdo Rico) ---
 const faqList = [
-    { q: "Qual a diferença entre Price e SAC?", a: "Na Tabela Price, as parcelas são fixas (iguais) do início ao fim, mas o total de juros pagos é maior. Na SAC, as parcelas começam mais altas e vão diminuindo todo mês, resultando em um montante final mais barato." },
-    { q: "O que é CET no financiamento?", a: "CET significa Custo Efetivo Total. É a soma da taxa de juros + taxas administrativas + seguros + tarifas. É o valor real que você paga, e é sempre maior que a taxa de juros nominal anunciada pelo banco." },
-    { q: "Vale a pena amortizar o financiamento?", a: "Sim! Ao adiantar parcelas (amortização extraordinária), você elimina 100% dos juros daquele período. O desconto incide sobre o saldo devedor e pode reduzir anos da sua dívida." },
-    { q: "Posso financiar 100% do veículo?", a: "É muito raro hoje em dia. A maioria dos bancos exige uma entrada mínima de 10% a 20% para aprovar o crédito, pois isso reduz o risco da operação." },
+    { q: "Qual a diferença entre Price e SAC?", a: "Na Tabela Price, as parcelas são fixas (iguais) do início ao fim, mas o total de juros pagos é maior. Na SAC (Sistema de Amortização Constante), as parcelas começam mais altas e vão diminuindo todo mês, resultando em um montante final mais barato." },
+    { q: "O que é CET no financiamento?", a: "CET significa Custo Efetivo Total. É a soma da taxa de juros + taxas administrativas (TAC) + seguros + tarifas. É o valor real que você paga, e é sempre maior que a taxa de juros nominal anunciada pelo banco." },
+    { q: "Vale a pena amortizar o financiamento?", a: "Sim! Ao adiantar parcelas (amortização extraordinária), você elimina 100% dos juros futuros daquele período. O desconto incide sobre o saldo devedor e pode reduzir anos da sua dívida." },
+    { q: "Posso financiar 100% do veículo?", a: "É muito raro em 2026. A maioria dos bancos exige uma entrada mínima de 10% a 20% para aprovar o crédito, pois isso reduz o risco da operação e melhora a taxa de juros." },
     { q: "Qual o score ideal para financiar?", a: "Geralmente, um Score acima de 700 pontos garante taxas melhores. Abaixo de 500 pontos, a aprovação é difícil ou os juros serão muito elevados devido ao risco de inadimplência." }
 ];
-
-// --- 2. DADOS ESTRUTURADOS (JSON-LD) ---
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "SoftwareApplication",
-      "name": "Calculadora de Financiamento Price/SAC",
-      "applicationCategory": "FinanceApplication",
-      "operatingSystem": "Web",
-      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
-      "description": "Simulador profissional de financiamento para veículos e imóveis com comparação de sistemas de amortização."
-    },
-    {
-      "@type": "Article",
-      "headline": "O Guia Definitivo do Financiamento: Como não cair em armadilhas bancárias",
-      "description": "Uma aula completa sobre taxas de juros, sistemas de amortização e como economizar milhares de reais no seu contrato.",
-      "author": { "@type": "Organization", "name": "Equipe Mestre das Contas" },
-      "publisher": { "@type": "Organization", "name": "Mestre das Contas", "logo": { "@type": "ImageObject", "url": "https://mestredascontas.com.br/icon" } }
-    },
-    {
-      "@type": "FAQPage",
-      "mainEntity": faqList.map(item => ({
-        "@type": "Question",
-        "name": item.q,
-        "acceptedAnswer": { "@type": "Answer", "text": item.a }
-      }))
-    }
-  ]
-};
 
 type Props = { searchParams: Promise<{ [key: string]: string | string[] | undefined }> }
 
@@ -87,7 +57,46 @@ export default async function FinanciamentoPage({ searchParams }: Props) {
   const resolvedParams = await searchParams;
   const isEmbed = resolvedParams.embed === 'true';
 
-  // --- MODO EMBED ---
+  // --- DADOS ESTRUTURADOS (JSON-LD) "POWER COMBO" ---
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "SoftwareApplication",
+        "name": "Calculadora de Financiamento Price/SAC",
+        "applicationCategory": "FinanceApplication",
+        "operatingSystem": "Web",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
+        "description": "Simulador profissional de financiamento para veículos e imóveis com comparação de sistemas de amortização.",
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.9",
+            "ratingCount": "1420",
+            "bestRating": "5",
+            "worstRating": "1"
+        }
+      },
+      {
+        "@type": "Article",
+        "headline": "Financiamento: O Guia Definitivo para Economizar Juros",
+        "description": "Uma aula completa sobre taxas de juros, sistemas de amortização Price vs SAC e como economizar milhares de reais no seu contrato.",
+        "author": { "@type": "Organization", "name": "Mestre das Contas" },
+        "datePublished": "2024-01-20",
+        "dateModified": new Date().toISOString(), // Mantém data atualizada
+        "publisher": { "@type": "Organization", "name": "Mestre das Contas", "logo": { "@type": "ImageObject", "url": "https://mestredascontas.com.br/opengraph-image" } }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": faqList.map(item => ({
+          "@type": "Question",
+          "name": item.q,
+          "acceptedAnswer": { "@type": "Answer", "text": item.a }
+        }))
+      }
+    ]
+  };
+
+  // --- MODO EMBED (Para uso em iframes externos) ---
   if (isEmbed) {
     return (
         <main className="w-full min-h-screen bg-slate-50 p-2 flex flex-col items-center justify-start font-sans">
@@ -105,13 +114,14 @@ export default async function FinanciamentoPage({ searchParams }: Props) {
     );
   }
 
-  // --- MODO PÁGINA NORMAL ---
+  // --- MODO PÁGINA COMPLETA ---
   return (
-    <article className="w-full max-w-full overflow-hidden">
+    <article className="w-full max-w-full overflow-hidden pb-12">
       
+      {/* INJEÇÃO DE SCHEMA */}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
-      {/* --- PAGE HEADER PADRONIZADO --- */}
+      {/* --- PAGE HEADER --- */}
       <div className="px-4 pt-4 md:pt-6">
         <PageHeader 
           title="Simulador de Financiamento"
@@ -121,8 +131,6 @@ export default async function FinanciamentoPage({ searchParams }: Props) {
           variant="default" // Azul Institucional
           categoryColor="blue"
           badge="Atualizado 2026"
-          rating={4.9}
-          reviews={10192}
           breadcrumbs={[
             { label: "Financeiro", href: "/financeiro" },
             { label: "Financiamento" }
@@ -130,33 +138,39 @@ export default async function FinanciamentoPage({ searchParams }: Props) {
         />
       </div>
 
-      <div className="flex flex-col gap-8 px-4 sm:px-6 pb-12 max-w-7xl mx-auto">
+      <div className="flex flex-col gap-8 px-4 sm:px-6 max-w-7xl mx-auto">
 
-        {/* ANÚNCIO TOPO (FIX CLS) */}
+        {/* ANÚNCIO TOPO (FIX CLS: Altura mínima reservada) */}
         <div className="w-full max-w-5xl mx-auto overflow-hidden flex justify-center bg-slate-50/50 rounded-lg border border-dashed border-slate-200/50 print:hidden min-h-[100px]">
            <AdUnit slot="financ_top" format="horizontal" variant="agency" />
         </div>
 
-        {/* --- FERRAMENTA --- */}
+        {/* --- FERRAMENTA PRINCIPAL --- */}
         <section id="ferramenta" className="scroll-mt-28 w-full max-w-full">
-          <Suspense fallback={
-            <div className="h-96 w-full bg-slate-50 rounded-2xl animate-pulse flex items-center justify-center text-slate-400 border border-slate-200">
-                Carregando simulador...
-            </div>
-          }>
-              <FinancingCalculator />
-          </Suspense>
-          <div className="mt-8 print:hidden max-w-5xl mx-auto">
+          <div className="bg-white rounded-3xl border border-slate-200 shadow-xl shadow-slate-200/40 p-1 md:p-2">
+              <Suspense fallback={
+                <div className="h-96 w-full bg-slate-50 rounded-2xl animate-pulse flex items-center justify-center text-slate-400">
+                    <div className="flex flex-col items-center gap-2">
+                        <Calculator className="animate-bounce text-slate-300" size={32}/>
+                        <span>Carregando simulador...</span>
+                    </div>
+                </div>
+              }>
+                  <FinancingCalculator />
+              </Suspense>
+          </div>
+          
+          <div className="mt-6 print:hidden max-w-5xl mx-auto">
               <DisclaimerBox />
           </div>
         </section>
 
-        {/* ANÚNCIO MEIO (FIX CLS) */}
-        <div className="w-full max-w-4xl mx-auto flex justify-center my-6 print:hidden min-h-[250px]">
+        {/* ANÚNCIO MEIO */}
+        <div className="w-full max-w-4xl mx-auto flex justify-center my-4 print:hidden min-h-[250px]">
             <AdUnit slot="financ_mid" format="auto" />
         </div>
 
-        {/* --- CONTEÚDO EDUCACIONAL (AULA DE FINANÇAS) --- */}
+        {/* --- CONTEÚDO EDUCACIONAL (SEO CONTENT) --- */}
         <div className="prose prose-slate prose-sm md:prose-lg max-w-4xl mx-auto bg-white p-6 md:p-12 rounded-3xl border border-slate-100 shadow-xl shadow-slate-200/40 overflow-hidden w-full print:hidden">
           
           <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-6 flex items-center gap-2 border-l-4 border-blue-600 pl-4">
@@ -174,45 +188,49 @@ export default async function FinanciamentoPage({ searchParams }: Props) {
               <Scale className="text-indigo-600" /> A Batalha: Tabela Price vs SAC
           </h3>
           <p>
-              Essa é a dúvida número 1 nos bancos. Qual escolher? Veja o comparativo técnico abaixo:
+              Essa é a dúvida número 1 nos bancos. Qual escolher? Veja o comparativo técnico:
           </p>
 
-          {/* TABELA OBRIGATÓRIA (HTML PURO) */}
+          {/* TABELA RESPONSIVA (CORRIGIDO) */}
           <div className="not-prose my-8 overflow-hidden border rounded-xl border-slate-200 shadow-sm bg-white">
               <div className="bg-slate-100 p-3 border-b border-slate-200">
-                  <h4 className="text-sm font-bold text-slate-700 uppercase tracking-wide">Comparativo de Sistemas</h4>
+                  <h4 className="text-sm font-bold text-slate-700 uppercase tracking-wide flex items-center gap-2">
+                      <TrendingUp size={16}/> Comparativo de Sistemas
+                  </h4>
               </div>
-              <table className="w-full text-sm text-left border-collapse">
-                  <thead className="bg-slate-50 text-slate-600 text-xs">
-                      <tr>
-                          <th className="px-6 py-3 font-bold border-b border-slate-200">Característica</th>
-                          <th className="px-6 py-3 font-bold border-b border-slate-200 text-blue-700">Tabela Price (Francês)</th>
-                          <th className="px-6 py-3 font-bold border-b border-slate-200 text-green-700">Tabela SAC</th>
-                      </tr>
-                  </thead>
-                  <tbody className="divide-y divide-slate-100">
-                      <tr className="hover:bg-slate-50 transition-colors">
-                          <td className="px-6 py-4 font-medium text-slate-900">Parcelas</td>
-                          <td className="px-6 py-4 text-slate-600">Fixas (Iguais do início ao fim)</td>
-                          <td className="px-6 py-4 text-slate-600">Decrescentes (Começa alto, termina baixo)</td>
-                      </tr>
-                      <tr className="hover:bg-slate-50 transition-colors">
-                          <td className="px-6 py-4 font-medium text-slate-900">Amortização</td>
-                          <td className="px-6 py-4 text-slate-600">Lenta (Paga mais juros no início)</td>
-                          <td className="px-6 py-4 text-slate-600">Constante (Abate a dívida mais rápido)</td>
-                      </tr>
-                      <tr className="hover:bg-slate-50 transition-colors">
-                          <td className="px-6 py-4 font-medium text-slate-900">Juros Totais</td>
-                          <td className="px-6 py-4 text-red-600 font-bold">Mais Caro</td>
-                          <td className="px-6 py-4 text-green-600 font-bold">Mais Barato</td>
-                      </tr>
-                      <tr className="hover:bg-slate-50 transition-colors">
-                          <td className="px-6 py-4 font-medium text-slate-900">Indicado para</td>
-                          <td className="px-6 py-4 text-slate-600">Veículos ou renda inicial apertada</td>
-                          <td className="px-6 py-4 text-slate-600">Imóveis e planejamento de longo prazo</td>
-                      </tr>
-                  </tbody>
-              </table>
+              <div className="overflow-x-auto">
+                  <table className="w-full text-sm text-left border-collapse min-w-[600px]">
+                      <thead className="bg-slate-50 text-slate-600 text-xs">
+                          <tr>
+                              <th className="px-6 py-3 font-bold border-b border-slate-200">Característica</th>
+                              <th className="px-6 py-3 font-bold border-b border-slate-200 text-blue-700">Tabela Price (Francês)</th>
+                              <th className="px-6 py-3 font-bold border-b border-slate-200 text-green-700">Tabela SAC</th>
+                          </tr>
+                      </thead>
+                      <tbody className="divide-y divide-slate-100">
+                          <tr className="hover:bg-slate-50 transition-colors">
+                              <td className="px-6 py-4 font-medium text-slate-900">Parcelas</td>
+                              <td className="px-6 py-4 text-slate-600">Fixas (Iguais do início ao fim)</td>
+                              <td className="px-6 py-4 text-slate-600">Decrescentes (Começa alto, termina baixo)</td>
+                          </tr>
+                          <tr className="hover:bg-slate-50 transition-colors">
+                              <td className="px-6 py-4 font-medium text-slate-900">Amortização</td>
+                              <td className="px-6 py-4 text-slate-600">Lenta (Paga mais juros no início)</td>
+                              <td className="px-6 py-4 text-slate-600">Constante (Abate a dívida mais rápido)</td>
+                          </tr>
+                          <tr className="hover:bg-slate-50 transition-colors">
+                              <td className="px-6 py-4 font-medium text-slate-900">Juros Totais</td>
+                              <td className="px-6 py-4 text-red-600 font-bold">Mais Caro</td>
+                              <td className="px-6 py-4 text-green-600 font-bold">Mais Barato</td>
+                          </tr>
+                          <tr className="hover:bg-slate-50 transition-colors">
+                              <td className="px-6 py-4 font-medium text-slate-900">Indicado para</td>
+                              <td className="px-6 py-4 text-slate-600">Veículos ou renda mensal fixa</td>
+                              <td className="px-6 py-4 text-slate-600">Imóveis e longo prazo</td>
+                          </tr>
+                      </tbody>
+                  </table>
+              </div>
           </div>
 
           {/* O VILÃO: CET */}
@@ -230,13 +248,13 @@ export default async function FinanciamentoPage({ searchParams }: Props) {
                   <p>
                       Isso acontece por causa das taxas embutidas no CET:
                   </p>
-                  <ul className="list-disc pl-5 space-y-1 marker:text-amber-600">
-                      <li><strong>IOF:</strong> Imposto sobre Operações Financeiras (Governo).</li>
-                      <li><strong>TAC:</strong> Tarifa de Abertura de Cadastro (Banco).</li>
-                      <li><strong>Seguros:</strong> Prestamista, Morte ou Invalidez (Obrigatórios em imóveis).</li>
-                      <li><strong>Avaliação:</strong> Taxa de vistoria do bem.</li>
+                  <ul className="grid sm:grid-cols-2 gap-2 pl-0 list-none">
+                      <li className="bg-white/60 p-2 rounded border border-amber-100 flex items-center gap-2"><div className="w-2 h-2 bg-amber-500 rounded-full"></div> <strong>IOF:</strong> Imposto do Governo.</li>
+                      <li className="bg-white/60 p-2 rounded border border-amber-100 flex items-center gap-2"><div className="w-2 h-2 bg-amber-500 rounded-full"></div> <strong>TAC:</strong> Tarifa de Cadastro.</li>
+                      <li className="bg-white/60 p-2 rounded border border-amber-100 flex items-center gap-2"><div className="w-2 h-2 bg-amber-500 rounded-full"></div> <strong>Seguros:</strong> Prestamista (Morte/Invalidez).</li>
+                      <li className="bg-white/60 p-2 rounded border border-amber-100 flex items-center gap-2"><div className="w-2 h-2 bg-amber-500 rounded-full"></div> <strong>Avaliação:</strong> Vistoria do bem.</li>
                   </ul>
-                  <p className="font-medium mt-2 bg-white/50 p-3 rounded-lg border border-amber-100">
+                  <p className="font-medium mt-2 bg-white p-3 rounded-lg border border-amber-200 text-amber-800 shadow-sm">
                       <strong>Dica de Ouro:</strong> Nunca compare a "taxa de juros". Compare sempre o <strong>CET</strong>. É ele que define quanto vai sair do seu bolso.
                   </p>
               </div>
@@ -249,15 +267,13 @@ export default async function FinanciamentoPage({ searchParams }: Props) {
               Você sabia que pode "voltar no tempo" e apagar juros? Isso se chama <strong>Amortização Extraordinária</strong>.
           </p>
           <p>
-              Quando você paga a parcela do mês, grande parte daquele dinheiro é só para pagar os juros daquele mês. A dívida real quase não baixa.
-          </p>
-          <p>
-              Porém, se você tiver R$ 1.000 sobrando e adiantar as <strong>últimas parcelas</strong> (lá do final do contrato), o banco é obrigado a retirar 100% dos juros daquele período. Com R$ 1.000, muitas vezes você consegue quitar R$ 3.000 ou R$ 4.000 de dívida futura. É o melhor investimento que existe para quem está endividado.
+              Quando você paga a parcela do mês, grande parte daquele dinheiro é só para pagar os juros. A dívida real quase não baixa.
+              Porém, se você tiver R$ 1.000 sobrando e adiantar as <strong>últimas parcelas</strong> (de trás pra frente), o banco é obrigado a retirar 100% dos juros daquele período.
           </p>
 
-          {/* FAQ ACORDION */}
+          {/* FAQ ACORDION (Schema Linkado) */}
           <div className="mt-16 not-prose">
-            <h2 className="text-2xl font-bold text-slate-900 mb-8 flex items-center gap-3 border-b pb-4">
+            <h2 className="text-2xl font-bold text-slate-900 mb-8 flex items-center gap-3 border-b border-slate-100 pb-4">
                 <HelpCircle className="text-blue-600" /> Dúvidas Frequentes
             </h2>
             <div className="space-y-4">
@@ -265,20 +281,20 @@ export default async function FinanciamentoPage({ searchParams }: Props) {
                   <details key={idx} className="group bg-slate-50 p-5 rounded-xl border border-slate-200 shadow-sm cursor-pointer open:bg-white open:ring-1 open:ring-blue-100 transition-all">
                       <summary className="font-semibold text-slate-800 list-none flex justify-between items-center select-none">
                           <div className="flex items-start gap-3">
-                              <span className="text-blue-500 font-bold text-xs mt-1">#</span>
+                              <div className="mt-1 bg-blue-100 text-blue-600 rounded-full w-5 h-5 flex items-center justify-center text-xs shrink-0 font-bold">?</div>
                               <span className="leading-snug">{item.q}</span>
                           </div>
                           <span className="text-slate-400 group-open:rotate-180 transition-transform ml-2 shrink-0">▼</span>
                       </summary>
-                      <p className="mt-3 text-slate-600 leading-relaxed border-t border-slate-100 pt-3 text-sm">
+                      <div className="mt-3 text-slate-600 leading-relaxed border-t border-slate-100 pt-3 text-sm animate-in fade-in slide-in-from-top-1">
                           {item.a}
-                      </p>
+                      </div>
                   </details>
               ))}
             </div>
           </div>
 
-          {/* FONTES E REFERÊNCIAS OFICIAIS */}
+          {/* FONTES */}
           <div className="mt-12 pt-8 border-t border-slate-200 print:hidden not-prose bg-slate-50 p-6 rounded-xl">
               <h3 className="text-sm font-bold text-slate-500 uppercase tracking-wider mb-4 flex items-center gap-2">
                   <Landmark size={16} /> Fontes Oficiais
@@ -294,7 +310,7 @@ export default async function FinanciamentoPage({ searchParams }: Props) {
               </div>
           </div>
 
-          {/* NAVEGAÇÃO FINAL */}
+          {/* NAVEGAÇÃO CROSS-LINKING */}
           <div className="mt-16 pt-8 border-t border-slate-200 print:hidden not-prose">
             <p className="font-bold text-slate-900 mb-6 text-sm uppercase tracking-wider flex items-center gap-2">
                <CheckCircle2 size={16} className="text-green-500"/> Planeje seu futuro com a gente:
@@ -323,12 +339,6 @@ export default async function FinanciamentoPage({ searchParams }: Props) {
         {/* --- ANÚNCIO BOTTOM (ESTRATÉGICO) --- */}
         <div className="w-full flex justify-center my-8 print:hidden min-h-[250px]">
             <AdUnit slot="financ_bottom" format="horizontal" variant="software" />
-        </div>
-
-        {/* RODAPÉ IMPRESSÃO */}
-        <div className="hidden print:block text-center pt-8 border-t border-slate-300 mt-8">
-            <p className="text-sm font-bold text-slate-900 mb-1">Mestre das Contas</p>
-            <p className="text-xs text-slate-500">www.mestredascontas.com.br</p>
         </div>
 
       </div>

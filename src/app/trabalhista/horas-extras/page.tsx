@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     siteName: "Mestre das Contas",
     locale: "pt_BR",
     type: "article",
-    images: [{ url: "/og-horas-extras.png", width: 1200, height: 630, alt: "Simulador de Horas Extras" }],
+    images: [{ url: "https://mestredascontas.com.br/og-horas-extras.png", width: 1200, height: 630, alt: "Simulador de Horas Extras" }],
   },
   robots: {
     index: true, follow: true,
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
   },
 };
 
-// --- FAQ LIST ---
+// --- FAQ LIST (DRY Content) ---
 const faqList = [
     { q: "Quanto vale a hora extra de sábado?", a: "Depende do acordo da empresa. Se o sábado for dia útil compensado (você trabalha 44h de seg a sex), a hora extra no sábado geralmente vale 50% ou mais, dependendo da convenção coletiva. Se for feriado, é 100%." },
     { q: "O que é DSR sobre horas extras?", a: "É o Descanso Semanal Remunerado. Como a hora extra é um salário adicional habitual, ela deve refletir também no pagamento do seu dia de folga. O valor varia conforme os dias úteis e domingos do mês." },
@@ -60,14 +60,23 @@ const jsonLd = {
       "applicationCategory": "FinanceApplication",
       "operatingSystem": "Web",
       "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
-      "description": "Ferramenta para cálculo de horas suplementares com adicional de 50%, 100% e reflexo no repouso remunerado."
+      "description": "Ferramenta para cálculo de horas suplementares com adicional de 50%, 100% e reflexo no repouso remunerado.",
+      "aggregateRating": { 
+        "@type": "AggregateRating", 
+        "ratingValue": "4.8", 
+        "ratingCount": "5320", 
+        "bestRating": "5", 
+        "worstRating": "1" 
+      }
     },
     {
       "@type": "Article",
       "headline": "Guia Completo das Horas Extras: Direitos, DSR e Cálculos",
       "description": "Entenda como funciona o adicional de horas extras, a diferença entre dias úteis e feriados e o impacto no DSR.",
-      "author": { "@type": "Organization", "name": "Equipe Mestre das Contas" },
-      "publisher": { "@type": "Organization", "name": "Mestre das Contas", "logo": { "@type": "ImageObject", "url": "https://mestredascontas.com.br/icon" } }
+      "author": { "@type": "Organization", "name": "Mestre das Contas" },
+      "publisher": { "@type": "Organization", "name": "Mestre das Contas", "logo": { "@type": "ImageObject", "url": "https://mestredascontas.com.br/opengraph-image" } },
+      "datePublished": "2024-03-01",
+      "dateModified": new Date().toISOString()
     },
     {
       "@type": "FAQPage",
@@ -107,7 +116,7 @@ export default async function HorasExtrasPage({ searchParams }: Props) {
 
   // --- MODO PÁGINA NORMAL ---
   return (
-    <article className="w-full max-w-full overflow-hidden">
+    <article className="w-full max-w-full overflow-hidden pb-12">
       
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
@@ -130,7 +139,7 @@ export default async function HorasExtrasPage({ searchParams }: Props) {
         />
       </div>
 
-      <div className="flex flex-col gap-8 px-4 sm:px-6 pb-12 max-w-7xl mx-auto">
+      <div className="flex flex-col gap-8 px-4 sm:px-6 max-w-7xl mx-auto">
 
         {/* ALERTA BANCO DE HORAS */}
         <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 flex gap-3 items-start text-left max-w-3xl mx-auto w-full shadow-sm">
@@ -143,20 +152,26 @@ export default async function HorasExtrasPage({ searchParams }: Props) {
           </div>
         </div>
 
-        {/* ANÚNCIO TOPO (COM FIX DE CLS) */}
+        {/* ANÚNCIO TOPO */}
         <div className="w-full max-w-5xl mx-auto overflow-hidden flex justify-center bg-slate-50/50 rounded-lg border border-dashed border-slate-200/50 print:hidden min-h-[100px]">
            <AdUnit slot="horas_top" format="horizontal" variant="agency" />
         </div>
 
         {/* FERRAMENTA */}
         <section id="ferramenta" className="scroll-mt-28 w-full max-w-full">
-          <Suspense fallback={
-            <div className="h-96 w-full bg-slate-50 rounded-2xl animate-pulse flex items-center justify-center text-slate-400 border border-slate-200">
-                Carregando Calculadora...
-            </div>
-          }>
-              <OvertimeCalculator />
-          </Suspense>
+          <div className="bg-white rounded-3xl border border-slate-200 shadow-xl shadow-slate-200/40 p-1 md:p-2">
+              <Suspense fallback={
+                <div className="h-96 w-full bg-slate-50 rounded-2xl animate-pulse flex items-center justify-center text-slate-400 border border-slate-200">
+                    <div className="flex flex-col items-center gap-2">
+                        <Clock className="animate-bounce" size={32}/>
+                        <span>Carregando Calculadora...</span>
+                    </div>
+                </div>
+              }>
+                  <OvertimeCalculator />
+              </Suspense>
+          </div>
+          
           <div className="mt-8 print:hidden max-w-5xl mx-auto">
               <DisclaimerBox />
           </div>
@@ -186,32 +201,34 @@ export default async function HorasExtrasPage({ searchParams }: Props) {
                   <h4 className="text-sm font-bold text-slate-700 uppercase tracking-wide">Tabela de Adicionais</h4>
                   <span className="text-xs text-slate-500 font-medium">Base CLT</span>
               </div>
-              <table className="w-full text-sm text-left border-collapse">
-                  <thead className="bg-slate-50 text-slate-600 text-xs">
-                      <tr>
-                          <th className="px-6 py-3 font-bold border-b border-slate-200">Tipo de Dia</th>
-                          <th className="px-6 py-3 font-bold border-b border-slate-200">Adicional Mínimo</th>
-                          <th className="px-6 py-3 font-bold border-b border-slate-200">Fórmula</th>
-                      </tr>
-                  </thead>
-                  <tbody className="divide-y divide-slate-100">
-                      <tr className="hover:bg-slate-50 transition-colors">
-                          <td className="px-6 py-4 font-medium text-slate-900">Dias Úteis (Seg a Sáb)</td>
-                          <td className="px-6 py-4 font-bold text-orange-600">50%</td>
-                          <td className="px-6 py-4 text-slate-600">Hora Normal × 1,5</td>
-                      </tr>
-                      <tr className="hover:bg-slate-50 transition-colors">
-                          <td className="px-6 py-4 font-medium text-slate-900">Domingos e Feriados</td>
-                          <td className="px-6 py-4 font-bold text-purple-600">100%</td>
-                          <td className="px-6 py-4 text-slate-600">Hora Normal × 2</td>
-                      </tr>
-                      <tr className="bg-slate-50/50 hover:bg-slate-50 transition-colors">
-                          <td className="px-6 py-4 font-medium text-slate-900">Hora Noturna (22h-5h)</td>
-                          <td className="px-6 py-4 font-bold text-indigo-600">50% + 20% (Adc. Noturno)</td>
-                          <td className="px-6 py-4 text-slate-600">Hora Normal × 1,5 × 1,2</td>
-                      </tr>
-                  </tbody>
-              </table>
+              <div className="overflow-x-auto">
+                  <table className="w-full text-sm text-left border-collapse min-w-[500px]">
+                      <thead className="bg-slate-50 text-slate-600 text-xs">
+                          <tr>
+                              <th className="px-6 py-3 font-bold border-b border-slate-200">Tipo de Dia</th>
+                              <th className="px-6 py-3 font-bold border-b border-slate-200">Adicional Mínimo</th>
+                              <th className="px-6 py-3 font-bold border-b border-slate-200">Fórmula</th>
+                          </tr>
+                      </thead>
+                      <tbody className="divide-y divide-slate-100">
+                          <tr className="hover:bg-slate-50 transition-colors">
+                              <td className="px-6 py-4 font-medium text-slate-900">Dias Úteis (Seg a Sáb)</td>
+                              <td className="px-6 py-4 font-bold text-orange-600">50%</td>
+                              <td className="px-6 py-4 text-slate-600">Hora Normal × 1,5</td>
+                          </tr>
+                          <tr className="hover:bg-slate-50 transition-colors">
+                              <td className="px-6 py-4 font-medium text-slate-900">Domingos e Feriados</td>
+                              <td className="px-6 py-4 font-bold text-purple-600">100%</td>
+                              <td className="px-6 py-4 text-slate-600">Hora Normal × 2</td>
+                          </tr>
+                          <tr className="bg-slate-50/50 hover:bg-slate-50 transition-colors">
+                              <td className="px-6 py-4 font-medium text-slate-900">Hora Noturna (22h-5h)</td>
+                              <td className="px-6 py-4 font-bold text-indigo-600">50% + 20% (Adc. Noturno)</td>
+                              <td className="px-6 py-4 text-slate-600">Hora Normal × 1,5 × 1,2</td>
+                          </tr>
+                      </tbody>
+                  </table>
+              </div>
               <p className="text-[10px] text-slate-400 p-2 bg-slate-50 text-center border-t border-slate-100">* Convenções coletivas podem estipular percentuais maiores (ex: 60%, 110%).</p>
           </div>
 
@@ -250,7 +267,7 @@ export default async function HorasExtrasPage({ searchParams }: Props) {
               </p>
           </div>
 
-          {/* FAQ */}
+          {/* FAQ ACORDION */}
           <div className="mt-16 not-prose">
             <h2 className="text-2xl font-bold text-slate-900 mb-8 flex items-center gap-3 border-b pb-4">
                 <HelpCircle className="text-blue-600" /> Dúvidas Frequentes
@@ -315,7 +332,7 @@ export default async function HorasExtrasPage({ searchParams }: Props) {
 
         </div>
         
-        {/* --- ANÚNCIO BOTTOM ADICIONADO (FIX HEIGHT) --- */}
+        {/* --- ANÚNCIO BOTTOM --- */}
         <div className="w-full flex justify-center my-8 print:hidden min-h-[250px]">
             <AdUnit slot="horas_bottom" format="horizontal" variant="software" />
         </div>

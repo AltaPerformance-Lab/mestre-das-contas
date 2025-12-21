@@ -12,7 +12,7 @@ import {
   CalendarClock, Zap, ExternalLink, Wallet, PiggyBank
 } from "lucide-react";
 
-// --- 1. METADATA DE DOMINAÇÃO (SEO) ---
+// --- 1. METADATA DE DOMINAÇÃO (SEO 2026) ---
 export const metadata: Metadata = {
   title: "Calculadora Reforma Tributária 2026 | Simule o Novo IVA e Cashback",
   description: "O guia definitivo da Reforma Tributária. Entenda o IVA Dual (CBS+IBS), o Imposto Seletivo, o Cashback e simule o impacto no seu bolso. Cronograma completo 2026-2033.",
@@ -35,24 +35,21 @@ export const metadata: Metadata = {
     siteName: "Mestre das Contas",
     locale: "pt_BR",
     type: "article",
-    images: [{ url: "/og-reforma.png", width: 1200, height: 630, alt: "Simulador Reforma Tributária" }],
+    images: [{ url: "https://mestredascontas.com.br/og-reforma.png", width: 1200, height: 630, alt: "Simulador Reforma Tributária" }],
   },
   robots: { index: true, follow: true },
 };
 
-// --- 2. FAQ (SCHEMA ROBUSTO PARA RICH SNIPPETS) ---
+// --- FAQ LIST (SCHEMA ROBUSTO PARA RICH SNIPPETS) ---
 const faqList = [
-  { p: "Quando a Reforma começa a valer de verdade?", r: "A fase de testes começa em 2026, com uma alíquota simbólica de 0,9% (CBS) e 0,1% (IBS). A virada de chave real acontece em 2027 para os impostos federais e a transição completa termina apenas em 2033." },
-  { p: "O que é o IVA Dual?", r: "É a unificação de impostos. 'Dual' porque são dois: a CBS (Federal, substitui PIS/COFINS/IPI) e o IBS (Estadual/Municipal, substitui ICMS/ISS)." },
-  { p: "A Cesta Básica vai aumentar?", r: "Não. A Reforma cria a 'Cesta Básica Nacional', com alíquota ZERO de impostos. Itens como arroz, feijão, pão e leite ficarão totalmente isentos." },
-  { p: "Como funciona o Cashback do Povo?", r: "Famílias de baixa renda cadastradas no CadÚnico receberão de volta parte do imposto pago em contas de luz, água, gás e alimentos. O estorno será feito no cartão ou conta bancária." },
-  { p: "O que é o 'Imposto do Pecado' (Seletivo)?", r: "É uma sobretaxa para produtos nocivos à saúde e ao meio ambiente. Cigarros, bebidas alcoólicas, refrigerantes, veículos poluentes e mineração pagarão IVA + Imposto Seletivo." },
-  { p: "Serviços de streaming (Netflix/Spotify) vão encarecer?", r: "Provavelmente. Hoje eles pagam ISS (baixo). Com a reforma, pagarão a alíquota cheia do IVA (estimada em 26,5%), o que pode elevar as mensalidades." },
-  { p: "Herança paga mais imposto agora?", r: "Sim. O ITCMD (imposto sobre herança) passa a ser obrigatoriamente progressivo. Quanto maior a herança, maior a alíquota, que pode chegar a 8% ou mais dependendo do estado." },
-  { p: "O Simples Nacional vai acabar?", r: "Não. O Simples Nacional continua existindo para micro e pequenas empresas. Elas poderão escolher entre continuar no regime atual ou migrar para o sistema de IVA se for vantajoso (para gerar crédito)." },
-  { p: "O que é Split Payment?", r: "É o sistema de cobrança inteligente. Ao passar o cartão na maquininha, o banco separará automaticamente o valor do imposto e enviará direto ao governo, reduzindo a sonegação." }
+    { p: "Quando a Reforma começa a valer de verdade?", r: "A fase de testes começa em 2026, com uma alíquota simbólica de 0,9% (CBS) e 0,1% (IBS). A virada de chave real acontece em 2027 para os impostos federais e a transição completa termina apenas em 2033." },
+    { p: "O que é o IVA Dual?", r: "É a unificação de impostos. 'Dual' porque são dois: a CBS (Federal, substitui PIS/COFINS/IPI) e o IBS (Estadual/Municipal, substitui ICMS/ISS)." },
+    { p: "A Cesta Básica vai aumentar?", r: "Não. A Reforma cria a 'Cesta Básica Nacional', com alíquota ZERO de impostos. Itens como arroz, feijão, pão e leite ficarão totalmente isentos." },
+    { p: "Como funciona o Cashback do Povo?", r: "Famílias de baixa renda cadastradas no CadÚnico receberão de volta parte do imposto pago em contas de luz, água, gás e alimentos. O estorno será feito no cartão ou conta bancária." },
+    { p: "O que é o 'Imposto do Pecado' (Seletivo)?", r: "É uma sobretaxa para produtos nocivos à saúde e ao meio ambiente. Cigarros, bebidas alcoólicas, refrigerantes, veículos poluentes e mineração pagarão IVA + Imposto Seletivo." }
 ];
 
+// --- 2. DADOS ESTRUTURADOS (JSON-LD) ---
 const jsonLd = {
   "@context": "https://schema.org",
   "@graph": [
@@ -70,7 +67,9 @@ const jsonLd = {
       "headline": "Guia da Reforma Tributária: O Dossiê Completo do Novo Sistema",
       "description": "A maior mudança econômica dos últimos 60 anos. Entenda o IVA, Cashback e como isso afeta seu bolso.",
       "author": { "@type": "Organization", "name": "Equipe Mestre das Contas" },
-      "publisher": { "@type": "Organization", "name": "Mestre das Contas", "logo": { "@type": "ImageObject", "url": "https://mestredascontas.com.br/icon" } }
+      "publisher": { "@type": "Organization", "name": "Mestre das Contas", "logo": { "@type": "ImageObject", "url": "https://mestredascontas.com.br/opengraph-image" } },
+      "datePublished": "2024-03-20",
+      "dateModified": new Date().toISOString()
     },
     {
       "@type": "FAQPage",
@@ -109,7 +108,7 @@ export default async function ReformaPage({ searchParams }: Props) {
 
   // --- MODO PÁGINA NORMAL ---
   return (
-    <article className="w-full max-w-full overflow-hidden">
+    <article className="w-full max-w-full overflow-hidden pb-12">
       
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
@@ -132,7 +131,7 @@ export default async function ReformaPage({ searchParams }: Props) {
         />
       </div>
 
-      <div className="flex flex-col gap-8 px-4 sm:px-6 pb-12 max-w-7xl mx-auto">
+      <div className="flex flex-col gap-8 px-4 sm:px-6 max-w-7xl mx-auto">
 
         {/* ANÚNCIO TOPO */}
         <div className="w-full max-w-5xl mx-auto overflow-hidden flex justify-center bg-slate-50/50 rounded-lg border border-dashed border-slate-200/50 print:hidden min-h-[100px]">
@@ -141,20 +140,26 @@ export default async function ReformaPage({ searchParams }: Props) {
 
         {/* --- FERRAMENTA --- */}
         <section id="ferramenta" className="scroll-mt-28 w-full max-w-full">
-          <Suspense fallback={
-            <div className="h-96 w-full bg-slate-50 rounded-2xl animate-pulse flex items-center justify-center text-slate-400">
-                Carregando Simulador IVA...
-            </div>
-          }>
-              <TaxReformCalculator />
-          </Suspense>
+          <div className="bg-white rounded-3xl border border-slate-200 shadow-xl shadow-slate-200/40 p-1 md:p-2">
+              <Suspense fallback={
+                <div className="h-96 w-full bg-slate-50 rounded-2xl animate-pulse flex items-center justify-center text-slate-400">
+                    <div className="flex flex-col items-center gap-2">
+                        <Zap className="animate-bounce text-slate-300" size={32}/>
+                        <span>Carregando Simulador IVA...</span>
+                    </div>
+                </div>
+              }>
+                  <TaxReformCalculator />
+              </Suspense>
+          </div>
+          
           <div className="mt-8 print:hidden max-w-5xl mx-auto">
               <DisclaimerBox />
           </div>
         </section>
 
         {/* ANÚNCIO MEIO */}
-        <div className="w-full max-w-4xl mx-auto flex justify-center my-6 print:hidden">
+        <div className="w-full max-w-4xl mx-auto flex justify-center my-6 print:hidden min-h-[250px]">
             <AdUnit slot="reforma_mid" format="auto" />
         </div>
 
@@ -184,8 +189,8 @@ export default async function ReformaPage({ searchParams }: Props) {
 
           {/* TABELA COMPARATIVA (OBRIGATÓRIA) */}
           <div className="not-prose my-10 w-full overflow-hidden rounded-xl border border-slate-200 shadow-sm">
-              <div className="bg-slate-900 text-white p-4 text-center font-bold uppercase tracking-wider text-sm">
-                  O Grande "De/Para" da Reforma
+              <div className="bg-slate-900 text-white p-4 text-center font-bold uppercase tracking-wider text-sm flex items-center justify-center gap-2">
+                  <History size={16}/> O Grande "De/Para" da Reforma
               </div>
               <div className="overflow-x-auto">
                   <table className="w-full text-sm text-left min-w-[600px]">
@@ -283,10 +288,10 @@ export default async function ReformaPage({ searchParams }: Props) {
                   <h3 className="text-xl font-bold text-indigo-900 mb-3 flex items-center gap-2 relative z-10">
                       <Wallet size={24} className="text-indigo-600"/> Cashback do Povo: Justiça Social
                   </h3>
-                  <p className="text-slate-600 leading-relaxed relative z-10 mb-4">
+                  <p className="text-slate-600 leading-relaxed relative z-10 mb-4 text-sm">
                       Pela primeira vez, o Brasil terá um sistema de devolução de impostos. O sistema tributário antigo era cruel: o pobre pagava o mesmo imposto no arroz que o rico.
                   </p>
-                  <p className="text-slate-600 leading-relaxed relative z-10">
+                  <p className="text-slate-600 leading-relaxed relative z-10 text-sm">
                       Com o Cashback, famílias cadastradas no <strong>CadÚnico</strong> receberão de volta parte da CBS/IBS paga na luz, água, gás e alimentos. O dinheiro volta direto para o cartão ou conta bancária. É a justiça tributária na veia.
                   </p>
               </div>
@@ -296,14 +301,14 @@ export default async function ReformaPage({ searchParams }: Props) {
                   <h3 className="text-xl font-bold text-orange-900 mb-3 flex items-center gap-2 relative z-10">
                       <AlertTriangle size={24} className="text-orange-600"/> O "Imposto do Pecado"
                   </h3>
-                  <p className="text-slate-600 leading-relaxed relative z-10 mb-4">
+                  <p className="text-slate-600 leading-relaxed relative z-10 mb-4 text-sm">
                       O nome técnico é <strong>Imposto Seletivo (IS)</strong>, mas todo mundo chama de Imposto do Pecado. É uma sobretaxa para desestimular o consumo de coisas que fazem mal para você ou para o planeta.
                   </p>
                   <div className="grid grid-cols-2 gap-4 relative z-10 mt-4">
-                      <div className="bg-orange-50 p-3 rounded-lg text-sm text-orange-800 font-medium border border-orange-100">🚫 Cigarros e Álcool</div>
-                      <div className="bg-orange-50 p-3 rounded-lg text-sm text-orange-800 font-medium border border-orange-100">⛽ Carros a Gasolina</div>
-                      <div className="bg-orange-50 p-3 rounded-lg text-sm text-orange-800 font-medium border border-orange-100">⛏️ Mineração</div>
-                      <div className="bg-orange-50 p-3 rounded-lg text-sm text-orange-800 font-medium border border-orange-100">🥤 Refrigerantes</div>
+                      <div className="bg-orange-50 p-3 rounded-lg text-xs text-orange-800 font-medium border border-orange-100 text-center">🚫 Cigarros e Álcool</div>
+                      <div className="bg-orange-50 p-3 rounded-lg text-xs text-orange-800 font-medium border border-orange-100 text-center">⛽ Carros a Gasolina</div>
+                      <div className="bg-orange-50 p-3 rounded-lg text-xs text-orange-800 font-medium border border-orange-100 text-center">⛏️ Mineração</div>
+                      <div className="bg-orange-50 p-3 rounded-lg text-xs text-orange-800 font-medium border border-orange-100 text-center">🥤 Refrigerantes</div>
                   </div>
               </div>
           </div>
@@ -327,28 +332,28 @@ export default async function ReformaPage({ searchParams }: Props) {
                   <div className="absolute -left-[9px] top-0 w-4 h-4 bg-slate-400 rounded-full border-4 border-white ring-1 ring-slate-200"></div>
                   <h4 className="font-bold text-slate-900 text-lg">2027: Adeus Impostos Federais</h4>
                   <p className="text-sm text-slate-600 mt-2 leading-relaxed">
-                      Aqui o bicho pega. <strong>PIS e COFINS deixam de existir</strong>. A CBS federal entra com força total. O IPI é zerado para a maioria dos produtos (exceto os que concorrem com a Zona Franca de Manaus).
+                      Aqui o bicho pega. <strong>PIS e COFINS deixam de existir</strong>. A CBS federal entra com força total. O IPI é zerado para a maioria dos produtos.
                   </p>
               </div>
               <div className="relative pl-8">
                   <div className="absolute -left-[9px] top-0 w-4 h-4 bg-slate-400 rounded-full border-4 border-white ring-1 ring-slate-200"></div>
                   <h4 className="font-bold text-slate-900 text-lg">2029 a 2032: A Transição Estadual</h4>
                   <p className="text-sm text-slate-600 mt-2 leading-relaxed">
-                      Nesses 4 anos, o ICMS e o ISS vão diminuindo gradualmente, enquanto o novo IBS sobe na mesma proporção. É um jogo de vasos comunicantes.
+                      Nesses 4 anos, o ICMS e o ISS vão diminuindo gradualmente, enquanto o novo IBS sobe na mesma proporção.
                   </p>
               </div>
               <div className="relative pl-8">
                   <div className="absolute -left-[9px] top-0 w-4 h-4 bg-emerald-500 rounded-full border-4 border-white shadow-sm ring-1 ring-emerald-100"></div>
                   <h4 className="font-bold text-slate-900 text-lg">2033: O Novo Brasil</h4>
                   <p className="text-sm text-slate-600 mt-2 leading-relaxed">
-                      Vigência integral do novo modelo. O antigo "manicômio tributário" é oficialmente enterrado nos livros de história.
+                      Vigência integral do novo modelo. O antigo "manicômio tributário" é oficialmente enterrado.
                   </p>
               </div>
           </div>
 
           {/* FAQ MONSTRO (RICH SNIPPETS POWER) */}
           <div className="mt-16 not-prose" id="faq">
-            <h2 className="text-2xl font-bold text-slate-900 mb-8 flex items-center gap-3 border-b pb-4">
+            <h2 className="text-2xl font-bold text-slate-900 mb-8 flex items-center gap-3 border-b border-slate-100 pb-4">
                 <HelpCircle className="text-blue-600" /> Tira-Dúvidas Definitivo
             </h2>
             <div className="grid gap-4">
@@ -361,7 +366,7 @@ export default async function ReformaPage({ searchParams }: Props) {
                           </div>
                           <span className="text-slate-400 group-open:rotate-180 transition-transform ml-2 shrink-0">▼</span>
                       </summary>
-                      <p className="mt-4 text-slate-600 leading-relaxed border-t border-slate-100 pt-4 text-sm md:text-base pl-8">
+                      <p className="mt-4 text-slate-600 leading-relaxed border-t border-slate-100 pt-4 text-sm md:text-base pl-8 animate-in fade-in">
                           {item.r}
                       </p>
                   </details>
@@ -406,7 +411,7 @@ export default async function ReformaPage({ searchParams }: Props) {
         </div>
 
         {/* --- ANÚNCIO BOTTOM (PARA DEVS/RETENÇÃO) --- */}
-        <div className="w-full flex justify-center my-8 print:hidden">
+        <div className="w-full flex justify-center my-8 print:hidden min-h-[250px]">
             <AdUnit slot="reforma_bottom" format="horizontal" variant="software" />
         </div>
 

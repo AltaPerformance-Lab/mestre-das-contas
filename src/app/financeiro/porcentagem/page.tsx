@@ -12,7 +12,7 @@ import {
   Brain, Lightbulb, Landmark, ExternalLink, Divide
 } from "lucide-react";
 
-// --- 1. METADATA DE ALTA PERFORMANCE (SEO 2026) ---
+// --- 1. METADATA DE ALTO PERFORMANCE (SEO 2026) ---
 export const metadata: Metadata = {
   title: "Calculadora de Porcentagem 2026 | Simples, Descontos e Aumentos",
   description: "Resolva qualquer conta de % em segundos. Calcule descontos, aumentos de salário e variação percentual. Ferramenta 4 em 1 com truques de cálculo mental.",
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     siteName: "Mestre das Contas",
     locale: "pt_BR",
     type: "article",
-    images: [{ url: "/og-porcentagem.png", width: 1200, height: 630, alt: "Calculadora de Porcentagem" }],
+    images: [{ url: "https://mestredascontas.com.br/og-porcentagem.png", width: 1200, height: 630, alt: "Calculadora de Porcentagem" }],
   },
   robots: {
     index: true, follow: true,
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
   },
 };
 
-// --- FAQ LIST (DRY) ---
+// --- FAQ LIST (DRY Content) ---
 const faqList = [
     { q: "Como calcular porcentagem na calculadora comum?", a: "Digite o valor principal, aperte o sinal de multiplicação (x), digite a porcentagem e aperte a tecla (%). Depois aperte igual (=). Ex: 500 x 10 % = 50." },
     { q: "O que é variação percentual?", a: "É a diferença entre um valor antigo e um novo, expressa em porcentagem. É muito usada para medir inflação ou crescimento de lucros. Fórmula: ((Valor Novo - Valor Antigo) ÷ Valor Antigo) × 100." },
@@ -49,7 +49,7 @@ const faqList = [
     { q: "Como tirar a porcentagem de um valor?", a: "Para descontar (ex: 20% off), multiplique o valor original pelo fator de desconto (0.80). Ex: R$ 100 x 0.80 = R$ 80." }
 ];
 
-// --- 2. DADOS ESTRUTURADOS (JSON-LD) ---
+// --- 2. DADOS ESTRUTURADOS (JSON-LD COMPLETO) ---
 const jsonLd = {
   "@context": "https://schema.org",
   "@graph": [
@@ -59,14 +59,23 @@ const jsonLd = {
       "applicationCategory": "EducationalApplication",
       "operatingSystem": "Web",
       "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
-      "description": "Ferramenta utilitária para realizar 4 tipos de cálculos percentuais: parte de um todo, proporção, aumento e desconto."
+      "description": "Ferramenta utilitária para realizar 4 tipos de cálculos percentuais: parte de um todo, proporção, aumento e desconto.",
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.9",
+        "ratingCount": "12500",
+        "bestRating": "5",
+        "worstRating": "1"
+      }
     },
     {
       "@type": "Article",
       "headline": "Matemática Financeira Descomplicada: Tudo sobre Porcentagem",
       "description": "Aprenda a calcular descontos, aumentos e variações percentuais com fórmulas simples e truques mentais.",
-      "author": { "@type": "Organization", "name": "Equipe Mestre das Contas" },
-      "publisher": { "@type": "Organization", "name": "Mestre das Contas", "logo": { "@type": "ImageObject", "url": "https://mestredascontas.com.br/icon" } }
+      "author": { "@type": "Organization", "name": "Mestre das Contas" },
+      "publisher": { "@type": "Organization", "name": "Mestre das Contas", "logo": { "@type": "ImageObject", "url": "https://mestredascontas.com.br/opengraph-image" } },
+      "datePublished": "2024-03-10",
+      "dateModified": new Date().toISOString()
     },
     {
       "@type": "HowTo",
@@ -115,11 +124,12 @@ export default async function PorcentagemPage({ searchParams }: Props) {
 
   // --- PÁGINA COMPLETA ---
   return (
-    <article className="w-full max-w-full overflow-hidden">
+    <article className="w-full max-w-full overflow-hidden pb-12">
       
+      {/* INJEÇÃO DE SCHEMA */}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
-      {/* --- PAGE HEADER PADRONIZADO --- */}
+      {/* --- PAGE HEADER --- */}
       <div className="px-4 pt-4 md:pt-6">
         <PageHeader 
           title="Calculadora de Porcentagem"
@@ -129,8 +139,6 @@ export default async function PorcentagemPage({ searchParams }: Props) {
           variant="default" // Azul/Indigo
           categoryColor="indigo"
           badge="Ferramenta Gratuita"
-          rating={4.9}
-          reviews={12500}
           breadcrumbs={[
             { label: "Financeiro", href: "/financeiro" },
             { label: "Porcentagem" }
@@ -138,33 +146,39 @@ export default async function PorcentagemPage({ searchParams }: Props) {
         />
       </div>
 
-      <div className="flex flex-col gap-8 px-4 sm:px-6 pb-12 max-w-7xl mx-auto">
+      <div className="flex flex-col gap-8 px-4 sm:px-6 max-w-7xl mx-auto">
 
-        {/* ANÚNCIO TOPO (FIX CLS) */}
+        {/* ANÚNCIO TOPO */}
         <div className="w-full max-w-5xl mx-auto overflow-hidden flex justify-center bg-slate-50/50 rounded-lg border border-dashed border-slate-200/50 print:hidden min-h-[100px]">
            <AdUnit slot="percent_top" format="horizontal" variant="agency" />
         </div>
 
-        {/* --- FERRAMENTA --- */}
+        {/* --- FERRAMENTA PRINCIPAL --- */}
         <section id="ferramenta" className="scroll-mt-28 w-full max-w-full">
-          <Suspense fallback={
-            <div className="h-96 w-full bg-slate-50 rounded-2xl animate-pulse flex items-center justify-center text-slate-400 border border-slate-200">
-                Carregando Calculadora...
-            </div>
-          }>
-              <PercentageCalculator />
-          </Suspense>
+          <div className="bg-white rounded-3xl border border-slate-200 shadow-xl shadow-slate-200/40 p-1 md:p-2">
+              <Suspense fallback={
+                <div className="h-96 w-full bg-slate-50 rounded-2xl animate-pulse flex items-center justify-center text-slate-400">
+                    <div className="flex flex-col items-center gap-2">
+                        <Calculator className="animate-bounce text-slate-300" size={32}/>
+                        <span>Carregando Calculadora...</span>
+                    </div>
+                </div>
+              }>
+                  <PercentageCalculator />
+              </Suspense>
+          </div>
+          
           <div className="mt-8 print:hidden max-w-5xl mx-auto">
               <DisclaimerBox />
           </div>
         </section>
 
-        {/* ANÚNCIO MEIO (FIX CLS) */}
+        {/* ANÚNCIO MEIO */}
         <div className="w-full max-w-4xl mx-auto flex justify-center my-6 print:hidden min-h-[250px]">
             <AdUnit slot="percent_mid" format="auto" />
         </div>
 
-        {/* --- CONTEÚDO EDUCACIONAL (HUMANIZADO & DENSO) --- */}
+        {/* --- CONTEÚDO EDUCACIONAL --- */}
         <div className="prose prose-slate prose-sm md:prose-lg max-w-4xl mx-auto bg-white p-6 md:p-12 rounded-3xl border border-slate-100 shadow-xl shadow-slate-200/40 overflow-hidden w-full print:hidden">
           
           <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-6 flex items-center gap-2 border-l-4 border-indigo-600 pl-4">
@@ -177,7 +191,7 @@ export default async function PorcentagemPage({ searchParams }: Props) {
             Você já se sentiu perdido tentando calcular uma gorjeta ou saber quanto realmente economizou na Black Friday? Não se preocupe, é mais comum do que parece. O segredo está em entender que a porcentagem é apenas uma fração disfarçada.
           </p>
 
-          {/* TRUQUES MENTAIS (CONTEÚDO DE ALTO VALOR) */}
+          {/* TRUQUES MENTAIS (FEATURE BOX) */}
           <div className="bg-indigo-50 p-6 md:p-8 rounded-2xl border border-indigo-200 my-10 not-prose relative overflow-hidden shadow-sm">
               <div className="absolute top-0 right-0 p-4 opacity-10"><Brain size={120} className="text-indigo-900"/></div>
               <h3 className="text-xl font-bold text-indigo-900 mb-4 flex items-center gap-2 relative z-10">
@@ -186,22 +200,22 @@ export default async function PorcentagemPage({ searchParams }: Props) {
               <p className="text-indigo-800 mb-4 text-sm relative z-10">Impressione amigos e negocie rápido calculando sem celular:</p>
               
               <div className="grid sm:grid-cols-2 gap-4 relative z-10">
-                  <div className="bg-white p-4 rounded-xl border border-indigo-100 shadow-sm">
+                  <div className="bg-white p-4 rounded-xl border border-indigo-100 shadow-sm hover:shadow-md transition-shadow">
                       <p className="font-bold text-indigo-700 text-sm mb-1 flex items-center gap-2"><Divide size={14}/> A Regra dos 10%</p>
                       <p className="text-xs text-slate-600 leading-relaxed">Para achar 10% de qualquer número, apenas <strong>volte a vírgula uma casa</strong> para a esquerda.</p>
                       <p className="text-xs text-slate-500 mt-2 font-mono bg-slate-50 px-2 py-1 rounded inline-block">10% de 250 = 25,0</p>
                   </div>
-                  <div className="bg-white p-4 rounded-xl border border-indigo-100 shadow-sm">
+                  <div className="bg-white p-4 rounded-xl border border-indigo-100 shadow-sm hover:shadow-md transition-shadow">
                       <p className="font-bold text-indigo-700 text-sm mb-1 flex items-center gap-2"><Divide size={14}/> A Regra dos 50%</p>
                       <p className="text-xs text-slate-600 leading-relaxed">50% é a <strong>metade exata</strong>. Basta dividir o valor por 2.</p>
                       <p className="text-xs text-slate-500 mt-2 font-mono bg-slate-50 px-2 py-1 rounded inline-block">50% de 80 = 40</p>
                   </div>
-                  <div className="bg-white p-4 rounded-xl border border-indigo-100 shadow-sm">
-                      <p className="font-bold text-indigo-700 text-sm mb-1 flex items-center gap-2"><Divide size={14}/> A Regra do 1%</p>
+                  <div className="bg-white p-4 rounded-xl border border-indigo-100 shadow-sm hover:shadow-md transition-shadow">
+                      <p className="font-bold text-indigo-700 text-sm mb-1 flex items-center gap-2"><Divide size={14}/> A Regra dos 1%</p>
                       <p className="text-xs text-slate-600 leading-relaxed">Para achar 1%, volte a vírgula <strong>duas casas</strong> para a esquerda.</p>
                       <p className="text-xs text-slate-500 mt-2 font-mono bg-slate-50 px-2 py-1 rounded inline-block">1% de 500 = 5,00</p>
                   </div>
-                  <div className="bg-white p-4 rounded-xl border border-indigo-100 shadow-sm">
+                  <div className="bg-white p-4 rounded-xl border border-indigo-100 shadow-sm hover:shadow-md transition-shadow">
                       <p className="font-bold text-indigo-700 text-sm mb-1 flex items-center gap-2"><ArrowRight size={14}/> O Truque da Inversão</p>
                       <p className="text-xs text-slate-600 leading-relaxed"><strong>x% de y é igual a y% de x</strong>. Se a conta for difícil, inverta!</p>
                       <p className="text-xs text-slate-500 mt-2 font-mono bg-slate-50 px-2 py-1 rounded inline-block">8% de 50 = 50% de 8 (4)</p>
@@ -216,49 +230,51 @@ export default async function PorcentagemPage({ searchParams }: Props) {
               Muitas vezes, converter a porcentagem em fração ou decimal torna a conta muito mais fácil. Use esta tabela como referência:
           </p>
 
-          {/* TABELA OBRIGATÓRIA (HTML PURO) */}
+          {/* TABELA RESPONSIVA */}
           <div className="not-prose my-8 overflow-hidden border rounded-xl border-slate-200 shadow-sm bg-white">
-              <table className="w-full text-sm text-left border-collapse">
-                  <thead className="bg-slate-100 text-slate-600 text-xs uppercase">
-                      <tr>
-                          <th className="px-6 py-3 font-bold border-b border-slate-200">Porcentagem</th>
-                          <th className="px-6 py-3 font-bold border-b border-slate-200">Fração</th>
-                          <th className="px-6 py-3 font-bold border-b border-slate-200">Decimal (Multiplicador)</th>
-                      </tr>
-                  </thead>
-                  <tbody className="divide-y divide-slate-100">
-                      <tr className="hover:bg-slate-50 transition-colors">
-                          <td className="px-6 py-3 font-bold text-indigo-600">5%</td>
-                          <td className="px-6 py-3">1/20</td>
-                          <td className="px-6 py-3 font-mono text-slate-500">0.05</td>
-                      </tr>
-                      <tr className="hover:bg-slate-50 transition-colors">
-                          <td className="px-6 py-3 font-bold text-indigo-600">10%</td>
-                          <td className="px-6 py-3">1/10</td>
-                          <td className="px-6 py-3 font-mono text-slate-500">0.10</td>
-                      </tr>
-                      <tr className="hover:bg-slate-50 transition-colors">
-                          <td className="px-6 py-3 font-bold text-indigo-600">20%</td>
-                          <td className="px-6 py-3">1/5</td>
-                          <td className="px-6 py-3 font-mono text-slate-500">0.20</td>
-                      </tr>
-                      <tr className="hover:bg-slate-50 transition-colors">
-                          <td className="px-6 py-3 font-bold text-indigo-600">25%</td>
-                          <td className="px-6 py-3">1/4</td>
-                          <td className="px-6 py-3 font-mono text-slate-500">0.25</td>
-                      </tr>
-                      <tr className="hover:bg-slate-50 transition-colors">
-                          <td className="px-6 py-3 font-bold text-indigo-600">50%</td>
-                          <td className="px-6 py-3">1/2 (Metade)</td>
-                          <td className="px-6 py-3 font-mono text-slate-500">0.50</td>
-                      </tr>
-                      <tr className="hover:bg-slate-50 transition-colors">
-                          <td className="px-6 py-3 font-bold text-indigo-600">75%</td>
-                          <td className="px-6 py-3">3/4</td>
-                          <td className="px-6 py-3 font-mono text-slate-500">0.75</td>
-                      </tr>
-                  </tbody>
-              </table>
+              <div className="overflow-x-auto">
+                  <table className="w-full text-sm text-left border-collapse min-w-[500px]">
+                      <thead className="bg-slate-100 text-slate-600 text-xs uppercase">
+                          <tr>
+                              <th className="px-6 py-3 font-bold border-b border-slate-200">Porcentagem</th>
+                              <th className="px-6 py-3 font-bold border-b border-slate-200">Fração</th>
+                              <th className="px-6 py-3 font-bold border-b border-slate-200">Decimal (Multiplicador)</th>
+                          </tr>
+                      </thead>
+                      <tbody className="divide-y divide-slate-100">
+                          <tr className="hover:bg-slate-50 transition-colors">
+                              <td className="px-6 py-3 font-bold text-indigo-600">5%</td>
+                              <td className="px-6 py-3">1/20</td>
+                              <td className="px-6 py-3 font-mono text-slate-500">0.05</td>
+                          </tr>
+                          <tr className="hover:bg-slate-50 transition-colors">
+                              <td className="px-6 py-3 font-bold text-indigo-600">10%</td>
+                              <td className="px-6 py-3">1/10</td>
+                              <td className="px-6 py-3 font-mono text-slate-500">0.10</td>
+                          </tr>
+                          <tr className="hover:bg-slate-50 transition-colors">
+                              <td className="px-6 py-3 font-bold text-indigo-600">20%</td>
+                              <td className="px-6 py-3">1/5</td>
+                              <td className="px-6 py-3 font-mono text-slate-500">0.20</td>
+                          </tr>
+                          <tr className="hover:bg-slate-50 transition-colors">
+                              <td className="px-6 py-3 font-bold text-indigo-600">25%</td>
+                              <td className="px-6 py-3">1/4</td>
+                              <td className="px-6 py-3 font-mono text-slate-500">0.25</td>
+                          </tr>
+                          <tr className="hover:bg-slate-50 transition-colors">
+                              <td className="px-6 py-3 font-bold text-indigo-600">50%</td>
+                              <td className="px-6 py-3">1/2 (Metade)</td>
+                              <td className="px-6 py-3 font-mono text-slate-500">0.50</td>
+                          </tr>
+                          <tr className="hover:bg-slate-50 transition-colors">
+                              <td className="px-6 py-3 font-bold text-indigo-600">75%</td>
+                              <td className="px-6 py-3">3/4</td>
+                              <td className="px-6 py-3 font-mono text-slate-500">0.75</td>
+                          </tr>
+                      </tbody>
+                  </table>
+              </div>
           </div>
 
           <h3 className="text-xl font-bold text-slate-800 mt-8 mb-4 flex items-center gap-2">
@@ -289,9 +305,9 @@ export default async function PorcentagemPage({ searchParams }: Props) {
               </li>
           </ul>
 
-          {/* FAQ */}
+          {/* FAQ ACORDION */}
           <div className="mt-12 not-prose">
-            <h2 className="text-2xl font-bold text-slate-900 mb-8 flex items-center gap-3 border-b pb-4">
+            <h2 className="text-2xl font-bold text-slate-900 mb-8 flex items-center gap-3 border-b border-slate-100 pb-4">
                 <HelpCircle className="text-indigo-600" /> Dúvidas Frequentes
             </h2>
             <div className="space-y-4">
@@ -304,7 +320,7 @@ export default async function PorcentagemPage({ searchParams }: Props) {
                           </div>
                           <span className="text-slate-400 group-open:rotate-180 transition-transform ml-2 shrink-0">▼</span>
                       </summary>
-                      <p className="mt-3 text-slate-600 leading-relaxed border-t border-slate-100 pt-3 text-sm">
+                      <p className="mt-3 text-slate-600 leading-relaxed border-t border-slate-100 pt-3 text-sm animate-in fade-in">
                           {item.a}
                       </p>
                   </details>
@@ -312,7 +328,7 @@ export default async function PorcentagemPage({ searchParams }: Props) {
             </div>
           </div>
 
-          {/* FONTES E REFERÊNCIAS OFICIAIS */}
+          {/* FONTES */}
           <div className="mt-12 pt-8 border-t border-slate-200 print:hidden not-prose bg-slate-50 p-6 rounded-xl">
               <h3 className="text-sm font-bold text-slate-500 uppercase tracking-wider mb-4 flex items-center gap-2">
                   <Landmark size={16} /> Aprenda Mais (Fontes)
@@ -322,13 +338,13 @@ export default async function PorcentagemPage({ searchParams }: Props) {
                   <a href="https://www.ibge.gov.br/explica/inflacao.php" target="_blank" rel="nofollow noopener noreferrer" className="hover:underline flex items-center gap-1 bg-white px-3 py-1 rounded border shadow-sm">
                       IBGE - Inflação Oficial <ExternalLink size={10}/>
                   </a>
-                  <a href="https://portaldamatematica.obmep.org.br/index.php/modulo/ver?modulo=66" target="_blank" rel="nofollow noopener noreferrer" className="hover:underline flex items-center gap-1 bg-white px-3 py-1 rounded border shadow-sm">
+                  <a href="https://portaldamatematica.obmep.org.br/" target="_blank" rel="nofollow noopener noreferrer" className="hover:underline flex items-center gap-1 bg-white px-3 py-1 rounded border shadow-sm">
                       OBMEP - Portal da Matemática <ExternalLink size={10}/>
                   </a>
               </div>
           </div>
 
-          {/* NAVEGAÇÃO FINAL */}
+          {/* CROSS-LINKING */}
           <div className="mt-16 pt-8 border-t border-slate-200 print:hidden not-prose">
             <p className="font-bold text-slate-900 mb-6 text-sm uppercase tracking-wider flex items-center gap-2">
                <CheckCircle2 size={16} className="text-emerald-500"/> Aplique o conhecimento:
@@ -354,7 +370,7 @@ export default async function PorcentagemPage({ searchParams }: Props) {
 
         </div>
 
-        {/* --- ANÚNCIO BOTTOM (ESTRATÉGICO) --- */}
+        {/* ANÚNCIO BOTTOM */}
         <div className="w-full flex justify-center my-8 print:hidden min-h-[250px]">
             <AdUnit slot="percent_bottom" format="horizontal" variant="software" />
         </div>

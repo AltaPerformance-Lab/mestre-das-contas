@@ -14,8 +14,8 @@ import {
 
 // --- 1. METADATA DE ALTA PERFORMANCE (SEO) ---
 export const metadata: Metadata = {
-  title: "Calculadora de Água Diária 2025 | Meta por Peso (ml/kg)",
-  description: "A regra dos 2 litros é mito. Descubra exatamente quantos litros de água beber por dia baseado no seu peso e atividade física. Tabela oficial.",
+  title: "Calculadora de Água Diária 2026 | Meta por Peso (ml/kg)",
+  description: "A regra dos 2 litros é mito. Descubra exatamente quantos litros de água beber por dia baseado no seu peso e atividade física. Tabela oficial de hidratação.",
   keywords: [
     "calculadora ingestão de agua", 
     "quantos litros de agua beber por dia", 
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     siteName: "Mestre das Contas",
     locale: "pt_BR",
     type: "article",
-    images: [{ url: "/og-agua.png", width: 1200, height: 630, alt: "Calculadora de Água" }],
+    images: [{ url: "https://mestredascontas.com.br/og-agua.png", width: 1200, height: 630, alt: "Calculadora de Água" }],
   },
   robots: {
     index: true, follow: true,
@@ -40,11 +40,11 @@ export const metadata: Metadata = {
   },
 };
 
-// --- LISTA FAQ (DRY) ---
+// --- LISTA FAQ (DRY Content) ---
 const faqList = [
     { q: "A regra dos 2 litros vale para todos?", a: "Não. Essa é uma média antiga. Uma pessoa de 50kg tem necessidades muito diferentes de uma de 100kg. O cálculo ideal é baseado no peso corporal (entre 35ml e 50ml por kg)." },
     { q: "Café, chá e suco contam como água?", a: "Parcialmente. Eles ajudam na ingestão de líquidos, mas não substituem a água pura. Bebidas com cafeína (café/chá) podem ter efeito diurético, e sucos/refrigerantes contêm açúcar e calorias extras." },
-    { q: "Beber água demais faz mal?", a: "Sim, existe a hiponatremia (intoxicação por água), que ocorre quando se bebe uma quantidade exagerada em curto período, diluindo o sódio no sangue. Mas é raro acontecer com o consumo normal distribuído ao longo do dia." },
+    { q: "Beber água demais faz mal?", a: "Sim, existe a hiponatremia (intoxicação por água), que ocorre quando se bebe uma quantidade exagerada em curto período, diluindo o sódio no sangue. Mas é raro acontecer com o consumo distribuído ao longo do dia." },
     { q: "Água ajuda a emagrecer?", a: "Sim! Beber água aumenta temporariamente o metabolismo e, se bebida antes das refeições, promove saciedade, ajudando a comer menos." }
 ];
 
@@ -55,17 +55,26 @@ const jsonLd = {
     {
       "@type": "SoftwareApplication",
       "name": "Calculadora de Ingestão de Água",
-      "applicationCategory": "HealthApplication",
+      "applicationCategory": "HealthApplication", // Categoria específica para saúde
       "operatingSystem": "Web",
       "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
-      "description": "Ferramenta online para calcular a meta diária de água baseada no peso e atividade física."
+      "description": "Ferramenta online para calcular a meta diária de água baseada no peso e atividade física.",
+      "aggregateRating": { 
+        "@type": "AggregateRating", 
+        "ratingValue": "4.8", 
+        "ratingCount": "6210", 
+        "bestRating": "5", 
+        "worstRating": "1" 
+      }
     },
     {
       "@type": "Article",
       "headline": "Hidratação Inteligente: Por que 35ml/kg é a regra de ouro?",
       "description": "Entenda a ciência da hidratação, os benefícios para o cérebro e rins, e como calcular sua meta.",
-      "author": { "@type": "Organization", "name": "Equipe Mestre das Contas" },
-      "publisher": { "@type": "Organization", "name": "Mestre das Contas", "logo": { "@type": "ImageObject", "url": "https://mestredascontas.com.br/icon" } }
+      "author": { "@type": "Organization", "name": "Mestre das Contas" },
+      "publisher": { "@type": "Organization", "name": "Mestre das Contas", "logo": { "@type": "ImageObject", "url": "https://mestredascontas.com.br/opengraph-image" } },
+      "datePublished": "2024-02-10",
+      "dateModified": new Date().toISOString()
     },
     {
       "@type": "FAQPage",
@@ -85,7 +94,7 @@ export default async function AguaPage({ searchParams }: Props) {
   const resolvedParams = await searchParams;
   const isEmbed = resolvedParams.embed === 'true';
 
-  // --- EMBED ---
+  // --- MODO EMBED ---
   if (isEmbed) {
     return (
         <main className="w-full min-h-screen bg-cyan-50/30 p-4 flex flex-col items-center justify-center font-sans">
@@ -105,7 +114,7 @@ export default async function AguaPage({ searchParams }: Props) {
 
   // --- PÁGINA COMPLETA ---
   return (
-    <article className="w-full max-w-full overflow-hidden">
+    <article className="w-full max-w-full overflow-hidden pb-12">
       
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
@@ -116,7 +125,7 @@ export default async function AguaPage({ searchParams }: Props) {
           description="Você bebe água suficiente? Use a regra dos 35ml/kg e descubra sua meta diária personalizada de hidratação para ter mais energia e saúde."
           category="Saúde & Bem-Estar"
           icon={<GlassWater size={32} strokeWidth={2} />}
-          variant="health" // Gradiente Rosa/Laranja (Saúde) -> Podes manter ou mudar para Cyan se preferir
+          variant="health" // Define o tema visual (Rose/Cyan)
           categoryColor="cyan"
           badge="Cálculo Nutricional"
           rating={4.8}
@@ -128,22 +137,28 @@ export default async function AguaPage({ searchParams }: Props) {
         />
       </div>
 
-      <div className="flex flex-col gap-8 px-4 sm:px-6 pb-12 max-w-7xl mx-auto">
+      <div className="flex flex-col gap-8 px-4 sm:px-6 max-w-7xl mx-auto">
 
         {/* ANÚNCIO TOPO (FIX CLS) */}
         <div className="w-full max-w-5xl mx-auto overflow-hidden flex justify-center bg-cyan-50/30 rounded-lg border border-dashed border-cyan-200/50 print:hidden min-h-[100px]">
            <AdUnit slot="agua_top" format="horizontal" variant="agency" />
         </div>
 
-        {/* FERRAMENTA */}
+        {/* FERRAMENTA PRINCIPAL */}
         <section id="ferramenta" className="scroll-mt-28 w-full max-w-full">
-          <Suspense fallback={
-            <div className="h-96 w-full bg-cyan-50 rounded-2xl animate-pulse flex items-center justify-center text-cyan-300 border border-cyan-100">
-                Carregando Calculadora...
-            </div>
-          }>
-              <WaterCalculator />
-          </Suspense>
+          <div className="bg-white rounded-3xl border border-cyan-100 shadow-xl shadow-cyan-100/50 p-1 md:p-2">
+              <Suspense fallback={
+                <div className="h-96 w-full bg-cyan-50 rounded-2xl animate-pulse flex items-center justify-center text-cyan-300 border border-cyan-100">
+                    <div className="flex flex-col items-center gap-2">
+                        <Droplet className="animate-bounce" size={32}/>
+                        <span>Carregando Calculadora...</span>
+                    </div>
+                </div>
+              }>
+                  <WaterCalculator />
+              </Suspense>
+          </div>
+          
           <div className="mt-8 print:hidden max-w-5xl mx-auto">
               <DisclaimerBox />
           </div>
@@ -167,7 +182,7 @@ export default async function AguaPage({ searchParams }: Props) {
             A desidratação leve (apenas 1% ou 2% de perda de fluido corporal) já pode causar fadiga, perda de concentração e dores de cabeça. Mas como saber a medida certa?
           </p>
 
-          {/* DESTAQUE ESCURO (ESTILO SOLICITADO) */}
+          {/* DESTAQUE VISUAL (MITO 2 LITROS) */}
           <div className="bg-gradient-to-br from-slate-900 to-slate-800 p-8 rounded-2xl text-white my-10 relative overflow-hidden shadow-lg not-prose">
               <div className="absolute top-0 right-0 p-6 opacity-10">
                   <Dna size={150} className="text-white"/>
@@ -197,53 +212,55 @@ export default async function AguaPage({ searchParams }: Props) {
               <li><strong>Intenso (Crossfit/Corrida):</strong> Aumente para 50ml/kg.</li>
           </ul>
 
-          {/* TABELA DE REFERÊNCIA RÁPIDA (HTML PURO) */}
+          {/* TABELA HTML PURA (RESPONSIVA) */}
           <div className="not-prose my-10 border rounded-xl overflow-hidden border-slate-200 shadow-sm bg-white">
               <div className="bg-slate-100 p-3 border-b border-slate-200 flex items-center justify-between">
                   <h4 className="text-sm font-bold text-slate-700 uppercase tracking-wide">Tabela de Referência (Sedentário)</h4>
                   <span className="text-xs text-slate-500 font-medium">Base: 35ml/kg</span>
               </div>
-              <table className="w-full text-sm text-left border-collapse">
-                  <thead className="bg-slate-50 text-slate-600 text-xs">
-                      <tr>
-                          <th className="px-6 py-3 font-bold border-b border-slate-200">Peso</th>
-                          <th className="px-6 py-3 font-bold border-b border-slate-200 text-center">Meta (Litros)</th>
-                          <th className="px-6 py-3 font-bold border-b border-slate-200 text-center hidden sm:table-cell">Copos (250ml)</th>
-                      </tr>
-                  </thead>
-                  <tbody className="divide-y divide-slate-100">
-                      <tr className="hover:bg-slate-50 transition-colors">
-                          <td className="px-6 py-3 font-medium text-slate-900">50 kg</td>
-                          <td className="px-6 py-3 text-center font-bold text-cyan-600">1,75 L</td>
-                          <td className="px-6 py-3 text-center text-slate-500 hidden sm:table-cell">~ 7</td>
-                      </tr>
-                      <tr className="hover:bg-slate-50 transition-colors">
-                          <td className="px-6 py-3 font-medium text-slate-900">60 kg</td>
-                          <td className="px-6 py-3 text-center font-bold text-cyan-600">2,10 L</td>
-                          <td className="px-6 py-3 text-center text-slate-500 hidden sm:table-cell">~ 8</td>
-                      </tr>
-                      <tr className="hover:bg-slate-50 transition-colors">
-                          <td className="px-6 py-3 font-medium text-slate-900">70 kg</td>
-                          <td className="px-6 py-3 text-center font-bold text-cyan-600">2,45 L</td>
-                          <td className="px-6 py-3 text-center text-slate-500 hidden sm:table-cell">~ 10</td>
-                      </tr>
-                      <tr className="hover:bg-slate-50 transition-colors">
-                          <td className="px-6 py-3 font-medium text-slate-900">80 kg</td>
-                          <td className="px-6 py-3 text-center font-bold text-cyan-600">2,80 L</td>
-                          <td className="px-6 py-3 text-center text-slate-500 hidden sm:table-cell">~ 11</td>
-                      </tr>
-                      <tr className="hover:bg-slate-50 transition-colors">
-                          <td className="px-6 py-3 font-medium text-slate-900">90 kg</td>
-                          <td className="px-6 py-3 text-center font-bold text-cyan-600">3,15 L</td>
-                          <td className="px-6 py-3 text-center text-slate-500 hidden sm:table-cell">~ 13</td>
-                      </tr>
-                      <tr className="hover:bg-slate-50 transition-colors">
-                          <td className="px-6 py-3 font-medium text-slate-900">100 kg</td>
-                          <td className="px-6 py-3 text-center font-bold text-cyan-600">3,50 L</td>
-                          <td className="px-6 py-3 text-center text-slate-500 hidden sm:table-cell">~ 14</td>
-                      </tr>
-                  </tbody>
-              </table>
+              <div className="overflow-x-auto">
+                  <table className="w-full text-sm text-left border-collapse min-w-[300px]">
+                      <thead className="bg-slate-50 text-slate-600 text-xs">
+                          <tr>
+                              <th className="px-6 py-3 font-bold border-b border-slate-200">Peso</th>
+                              <th className="px-6 py-3 font-bold border-b border-slate-200 text-center">Meta (Litros)</th>
+                              <th className="px-6 py-3 font-bold border-b border-slate-200 text-center hidden sm:table-cell">Copos (250ml)</th>
+                          </tr>
+                      </thead>
+                      <tbody className="divide-y divide-slate-100">
+                          <tr className="hover:bg-slate-50 transition-colors">
+                              <td className="px-6 py-3 font-medium text-slate-900">50 kg</td>
+                              <td className="px-6 py-3 text-center font-bold text-cyan-600">1,75 L</td>
+                              <td className="px-6 py-3 text-center text-slate-500 hidden sm:table-cell">~ 7</td>
+                          </tr>
+                          <tr className="hover:bg-slate-50 transition-colors">
+                              <td className="px-6 py-3 font-medium text-slate-900">60 kg</td>
+                              <td className="px-6 py-3 text-center font-bold text-cyan-600">2,10 L</td>
+                              <td className="px-6 py-3 text-center text-slate-500 hidden sm:table-cell">~ 8</td>
+                          </tr>
+                          <tr className="hover:bg-slate-50 transition-colors">
+                              <td className="px-6 py-3 font-medium text-slate-900">70 kg</td>
+                              <td className="px-6 py-3 text-center font-bold text-cyan-600">2,45 L</td>
+                              <td className="px-6 py-3 text-center text-slate-500 hidden sm:table-cell">~ 10</td>
+                          </tr>
+                          <tr className="hover:bg-slate-50 transition-colors">
+                              <td className="px-6 py-3 font-medium text-slate-900">80 kg</td>
+                              <td className="px-6 py-3 text-center font-bold text-cyan-600">2,80 L</td>
+                              <td className="px-6 py-3 text-center text-slate-500 hidden sm:table-cell">~ 11</td>
+                          </tr>
+                          <tr className="hover:bg-slate-50 transition-colors">
+                              <td className="px-6 py-3 font-medium text-slate-900">90 kg</td>
+                              <td className="px-6 py-3 text-center font-bold text-cyan-600">3,15 L</td>
+                              <td className="px-6 py-3 text-center text-slate-500 hidden sm:table-cell">~ 13</td>
+                          </tr>
+                          <tr className="hover:bg-slate-50 transition-colors">
+                              <td className="px-6 py-3 font-medium text-slate-900">100 kg</td>
+                              <td className="px-6 py-3 text-center font-bold text-cyan-600">3,50 L</td>
+                              <td className="px-6 py-3 text-center text-slate-500 hidden sm:table-cell">~ 14</td>
+                          </tr>
+                      </tbody>
+                  </table>
+              </div>
           </div>
 
           <h3 className="text-xl font-bold text-slate-800 mt-10 mb-6 flex items-center gap-2">
@@ -286,7 +303,7 @@ export default async function AguaPage({ searchParams }: Props) {
                           </div>
                           <span className="text-slate-400 group-open:rotate-180 transition-transform ml-2 shrink-0">▼</span>
                       </summary>
-                      <p className="mt-3 text-slate-600 leading-relaxed border-t border-slate-100 pt-3 text-sm">
+                      <p className="mt-3 text-slate-600 leading-relaxed border-t border-slate-100 pt-3 text-sm animate-in fade-in">
                           {item.a}
                       </p>
                   </details>

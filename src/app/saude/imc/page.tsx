@@ -9,7 +9,7 @@ import {
   Scale, Brain, Activity, History, BookOpen,
   CircleHelp, ExternalLink, Landmark, Heart, 
   Coins, Briefcase, Calculator, CircleCheck, User, Users, Ruler,
-  AlertOctagon, Apple
+  AlertOctagon, Apple, Dna, TrendingUp
 } from "lucide-react";
 
 // --- 1. METADATA DE ALTA PERFORMANCE (SEO 2025) ---
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     siteName: "Mestre das Contas",
     locale: "pt_BR",
     type: "article",
-    images: [{ url: "/og-imc.png", width: 1200, height: 630, alt: "Calculadora IMC Online" }],
+    images: [{ url: "https://mestredascontas.com.br/og-imc.png", width: 1200, height: 630, alt: "Calculadora IMC Online" }],
   },
   robots: {
     index: true, follow: true,
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
   },
 };
 
-// --- LISTA FAQ (DRY) ---
+// --- LISTA FAQ (DRY Content) ---
 const faqList = [
     { q: "Qual o IMC normal?", a: "Para adultos, o IMC considerado saudável pela Organização Mundial da Saúde (OMS) situa-se entre 18,5 e 24,9 kg/m²." },
     { q: "Como calcular o peso ideal?", a: "O peso ideal é uma faixa, não um número exato. Uma estimativa rápida é multiplicar sua altura ao quadrado por 22 (índice médio). Exemplo: 1.70 * 1.70 * 22 = 63.5kg." },
@@ -50,24 +50,35 @@ const faqList = [
     { q: "Qual a tabela de IMC para idosos?", a: "A classificação muda para maiores de 60 anos. O 'normal' é mais alto (geralmente entre 22 e 27), pois uma pequena reserva de peso é considerada protetora contra fragilidade óssea." }
 ];
 
-// --- 2. DADOS ESTRUTURADOS (JSON-LD) ---
+// --- 2. DADOS ESTRUTURADOS (JSON-LD COMPLETO) ---
 const jsonLd = {
   "@context": "https://schema.org",
   "@graph": [
     {
       "@type": "SoftwareApplication",
       "name": "Calculadora de IMC - Mestre das Contas",
+      "url": "https://mestredascontas.com.br/saude/imc",
       "applicationCategory": "HealthApplication",
       "operatingSystem": "Web",
       "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
-      "description": "Ferramenta online gratuita para cálculo de Índice de Massa Corporal baseada nos padrões da OMS."
+      "description": "Ferramenta online gratuita para cálculo de Índice de Massa Corporal baseada nos padrões da OMS.",
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.9",
+        "ratingCount": "18450",
+        "bestRating": "5",
+        "worstRating": "1"
+      }
     },
     {
       "@type": "Article",
       "headline": "Guia Definitivo do IMC 2025: Tabela, Cálculo e Dicas de Saúde",
       "description": "Entenda a ciência por trás do Índice de Quetelet, riscos da obesidade e tabela oficial atualizada.",
-      "author": { "@type": "Organization", "name": "Equipe Mestre das Contas" },
-      "publisher": { "@type": "Organization", "name": "Mestre das Contas", "logo": { "@type": "ImageObject", "url": "https://mestredascontas.com.br/icon" } }
+      "author": { "@type": "Organization", "name": "Mestre das Contas" },
+      "publisher": { "@type": "Organization", "name": "Mestre das Contas", "logo": { "@type": "ImageObject", "url": "https://mestredascontas.com.br/opengraph-image" } },
+      "datePublished": "2024-01-05",
+      "dateModified": new Date().toISOString(),
+      "image": "https://mestredascontas.com.br/og-imc.png"
     },
     {
       "@type": "FAQPage",
@@ -107,7 +118,7 @@ export default async function IMCPage({ searchParams }: Props) {
 
   // --- MODO PÁGINA COMPLETA ---
   return (
-    <article className="w-full max-w-full overflow-hidden">
+    <article className="w-full max-w-full overflow-hidden pb-12">
       
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
@@ -130,7 +141,7 @@ export default async function IMCPage({ searchParams }: Props) {
         />
       </div>
 
-      <div className="flex flex-col gap-8 px-4 sm:px-6 pb-12 max-w-7xl mx-auto">
+      <div className="flex flex-col gap-8 px-4 sm:px-6 max-w-7xl mx-auto">
 
         {/* BANNER TOPO (FIX CLS) */}
         <div className="w-full max-w-5xl mx-auto overflow-hidden flex justify-center bg-slate-50/50 rounded-lg border border-dashed border-slate-200/50 print:hidden min-h-[100px]">
@@ -139,13 +150,19 @@ export default async function IMCPage({ searchParams }: Props) {
 
         {/* FERRAMENTA */}
         <section id="calculadora" className="scroll-mt-28 w-full max-w-full">
-            <Suspense fallback={
-                <div className="h-96 w-full bg-slate-50 rounded-2xl animate-pulse flex items-center justify-center text-slate-400 border border-slate-200">
-                    Carregando Calculadora...
-                </div>
-            }>
-                <IMCCalculator />
-            </Suspense>
+            <div className="bg-white rounded-3xl border border-rose-100 shadow-xl shadow-rose-100/50 p-1 md:p-2">
+                <Suspense fallback={
+                    <div className="h-96 w-full bg-rose-50 rounded-2xl animate-pulse flex items-center justify-center text-rose-300 border border-rose-100">
+                        <div className="flex flex-col items-center gap-2">
+                            <Scale className="animate-bounce" size={32}/>
+                            <span>Carregando Calculadora...</span>
+                        </div>
+                    </div>
+                }>
+                    <IMCCalculator />
+                </Suspense>
+            </div>
+            
             <div className="mt-8 print:hidden max-w-5xl mx-auto">
               <DisclaimerBox />
             </div>
@@ -176,47 +193,49 @@ export default async function IMCPage({ searchParams }: Props) {
                         <Activity size={16} /> Tabela Oficial OMS (Adultos)
                     </h4>
                 </div>
-                <table className="w-full text-sm text-left border-collapse">
-                    <thead className="bg-slate-50 text-slate-600 text-xs">
-                        <tr>
-                            <th className="px-6 py-3 font-bold border-b border-slate-200">IMC (kg/m²)</th>
-                            <th className="px-6 py-3 font-bold border-b border-slate-200">Classificação</th>
-                            <th className="px-6 py-3 font-bold border-b border-slate-200 hidden sm:table-cell">Risco de Comorbidades</th>
-                        </tr>
-                    </thead>
-                    <tbody className="divide-y divide-slate-100">
-                        <tr className="hover:bg-slate-50 transition-colors">
-                            <td className="px-6 py-4 font-medium text-blue-600">Menor que 18,5</td>
-                            <td className="px-6 py-4">Magreza (Baixo Peso)</td>
-                            <td className="px-6 py-4 hidden sm:table-cell text-slate-500">Baixo (mas risco de desnutrição)</td>
-                        </tr>
-                        <tr className="bg-green-50/50 hover:bg-green-100/50 transition-colors">
-                            <td className="px-6 py-4 font-bold text-green-700">18,5 - 24,9</td>
-                            <td className="px-6 py-4 font-bold text-green-700">Peso Normal</td>
-                            <td className="px-6 py-4 hidden sm:table-cell font-bold text-green-700">Médio (Ideal)</td>
-                        </tr>
-                        <tr className="hover:bg-slate-50 transition-colors">
-                            <td className="px-6 py-4 font-medium text-yellow-600">25,0 - 29,9</td>
-                            <td className="px-6 py-4">Sobrepeso</td>
-                            <td className="px-6 py-4 hidden sm:table-cell text-slate-500">Aumentado</td>
-                        </tr>
-                        <tr className="hover:bg-slate-50 transition-colors">
-                            <td className="px-6 py-4 font-medium text-orange-600">30,0 - 34,9</td>
-                            <td className="px-6 py-4">Obesidade Grau I</td>
-                            <td className="px-6 py-4 hidden sm:table-cell text-slate-500">Moderado</td>
-                        </tr>
-                        <tr className="hover:bg-slate-50 transition-colors">
-                            <td className="px-6 py-4 font-medium text-red-600">35,0 - 39,9</td>
-                            <td className="px-6 py-4">Obesidade Grau II</td>
-                            <td className="px-6 py-4 hidden sm:table-cell text-slate-500">Grave</td>
-                        </tr>
-                        <tr className="hover:bg-slate-50 transition-colors">
-                            <td className="px-6 py-4 font-bold text-red-800">Maior que 40,0</td>
-                            <td className="px-6 py-4">Obesidade Grau III</td>
-                            <td className="px-6 py-4 hidden sm:table-cell text-red-800 font-bold">Muito Grave</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div className="overflow-x-auto">
+                    <table className="w-full text-sm text-left border-collapse min-w-[500px]">
+                        <thead className="bg-slate-50 text-slate-600 text-xs">
+                            <tr>
+                                <th className="px-6 py-3 font-bold border-b border-slate-200">IMC (kg/m²)</th>
+                                <th className="px-6 py-3 font-bold border-b border-slate-200">Classificação</th>
+                                <th className="px-6 py-3 font-bold border-b border-slate-200 hidden sm:table-cell">Risco de Comorbidades</th>
+                            </tr>
+                        </thead>
+                        <tbody className="divide-y divide-slate-100">
+                            <tr className="hover:bg-slate-50 transition-colors">
+                                <td className="px-6 py-4 font-medium text-blue-600">Menor que 18,5</td>
+                                <td className="px-6 py-4">Magreza (Baixo Peso)</td>
+                                <td className="px-6 py-4 hidden sm:table-cell text-slate-500">Baixo (mas risco de desnutrição)</td>
+                            </tr>
+                            <tr className="bg-green-50/50 hover:bg-green-100/50 transition-colors">
+                                <td className="px-6 py-4 font-bold text-green-700">18,5 - 24,9</td>
+                                <td className="px-6 py-4 font-bold text-green-700">Peso Normal</td>
+                                <td className="px-6 py-4 hidden sm:table-cell font-bold text-green-700">Médio (Ideal)</td>
+                            </tr>
+                            <tr className="hover:bg-slate-50 transition-colors">
+                                <td className="px-6 py-4 font-medium text-yellow-600">25,0 - 29,9</td>
+                                <td className="px-6 py-4">Sobrepeso</td>
+                                <td className="px-6 py-4 hidden sm:table-cell text-slate-500">Aumentado</td>
+                            </tr>
+                            <tr className="hover:bg-slate-50 transition-colors">
+                                <td className="px-6 py-4 font-medium text-orange-600">30,0 - 34,9</td>
+                                <td className="px-6 py-4">Obesidade Grau I</td>
+                                <td className="px-6 py-4 hidden sm:table-cell text-slate-500">Moderado</td>
+                            </tr>
+                            <tr className="hover:bg-slate-50 transition-colors">
+                                <td className="px-6 py-4 font-medium text-red-600">35,0 - 39,9</td>
+                                <td className="px-6 py-4">Obesidade Grau II</td>
+                                <td className="px-6 py-4 hidden sm:table-cell text-slate-500">Grave</td>
+                            </tr>
+                            <tr className="hover:bg-slate-50 transition-colors">
+                                <td className="px-6 py-4 font-bold text-red-800">Maior que 40,0</td>
+                                <td className="px-6 py-4">Obesidade Grau III</td>
+                                <td className="px-6 py-4 hidden sm:table-cell text-red-800 font-bold">Muito Grave</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
             {/* HISTÓRIA: VOCÊ SABIA? */}
@@ -345,7 +364,7 @@ export default async function IMCPage({ searchParams }: Props) {
             {/* NAVEGAÇÃO FINAL */}
             <div className="mt-16 pt-8 border-t border-slate-200 print:hidden not-prose">
               <p className="font-bold text-slate-900 mb-6 text-sm uppercase tracking-wider flex items-center gap-2">
-                 <CircleCheck size={16} className="text-green-500"/> Continue Calculando:
+                  <CircleCheck size={16} className="text-green-500"/> Continue Calculando:
               </p>
               <div className="grid md:grid-cols-3 gap-4">
                 <Link href="/saude/calorias-diarias" className="flex flex-col p-5 bg-white border border-slate-200 rounded-xl hover:border-orange-400 hover:shadow-lg transition-all group">

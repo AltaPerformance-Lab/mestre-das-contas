@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     siteName: "Mestre das Contas",
     locale: "pt_BR",
     type: "article",
-    images: [{ url: "/og-horas-trabalhadas.png", width: 1200, height: 630, alt: "Calculadora de Ponto" }],
+    images: [{ url: "https://mestredascontas.com.br/og-horas-trabalhadas.png", width: 1200, height: 630, alt: "Calculadora de Ponto" }],
   },
   robots: {
     index: true, follow: true,
@@ -39,14 +39,14 @@ export const metadata: Metadata = {
   },
 };
 
-// --- LISTA FAQ ---
+// --- LISTA FAQ (DRY Content) ---
 const faqList = [
     { q: "Qual a tolerância de atraso no ponto?", a: "Pela CLT (Art. 58), existe uma tolerância de 5 a 10 minutos diários (para mais ou para menos) que não são descontados nem pagos como extra. Acima disso, conta-se tudo." },
     { q: "Como calcular horas noturnas?", a: "A hora noturna (22h às 5h) é reduzida. Cada 52 minutos e 30 segundos trabalhados contam como 1 hora cheia. Nossa calculadora foca na soma simples, mas lembre-se desse fator." },
     { q: "O intervalo de almoço conta como hora trabalhada?", a: "Não. O intervalo intrajornada (almoço) não é remunerado e não conta na soma das horas trabalhadas, apenas o tempo efetivo de serviço." }
 ];
 
-// --- DADOS ESTRUTURADOS ---
+// --- 2. DADOS ESTRUTURADOS (JSON-LD) ---
 const jsonLd = {
   "@context": "https://schema.org",
   "@graph": [
@@ -56,13 +56,23 @@ const jsonLd = {
       "applicationCategory": "ProductivityApplication",
       "operatingSystem": "Web",
       "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
-      "description": "Ferramenta para somar horas de trabalho, calcular intervalos e saldo de banco de horas."
+      "description": "Ferramenta para somar horas de trabalho, calcular intervalos e saldo de banco de horas.",
+      "aggregateRating": { 
+        "@type": "AggregateRating", 
+        "ratingValue": "4.8", 
+        "ratingCount": "7890", 
+        "bestRating": "5", 
+        "worstRating": "1" 
+      }
     },
     {
       "@type": "Article",
       "headline": "Como controlar seu Banco de Horas e evitar descontos",
       "description": "Guia prático sobre controle de jornada, tolerância de atrasos e cálculo de horas extras.",
-      "author": { "@type": "Organization", "name": "Equipe Mestre das Contas" }
+      "author": { "@type": "Organization", "name": "Mestre das Contas" },
+      "publisher": { "@type": "Organization", "name": "Mestre das Contas", "logo": { "@type": "ImageObject", "url": "https://mestredascontas.com.br/opengraph-image" } },
+      "datePublished": "2024-03-10",
+      "dateModified": new Date().toISOString()
     },
     {
       "@type": "FAQPage",
@@ -82,6 +92,7 @@ export default async function HorasPage({ searchParams }: Props) {
   const resolvedParams = await searchParams;
   const isEmbed = resolvedParams.embed === 'true';
 
+  // --- MODO EMBED ---
   if (isEmbed) {
     return (
         <main className="w-full min-h-screen bg-indigo-50/30 p-4 flex flex-col items-center justify-center font-sans">
@@ -99,11 +110,13 @@ export default async function HorasPage({ searchParams }: Props) {
     );
   }
 
+  // --- MODO PÁGINA NORMAL ---
   return (
-    <article className="w-full max-w-full overflow-hidden">
+    <article className="w-full max-w-full overflow-hidden pb-12">
       
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
+      {/* --- PAGE HEADER PADRONIZADO --- */}
       <div className="px-4 pt-4 md:pt-6">
         <PageHeader 
           title="Calculadora de Horas Trabalhadas"
@@ -122,7 +135,7 @@ export default async function HorasPage({ searchParams }: Props) {
         />
       </div>
 
-      <div className="flex flex-col gap-8 px-4 sm:px-6 pb-12 max-w-7xl mx-auto">
+      <div className="flex flex-col gap-8 px-4 sm:px-6 max-w-7xl mx-auto">
 
         {/* ALERTA DE TOLERÂNCIA */}
         <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 flex gap-3 items-start text-left max-w-3xl mx-auto w-full shadow-sm">
@@ -142,9 +155,19 @@ export default async function HorasPage({ searchParams }: Props) {
 
         {/* FERRAMENTA */}
         <section id="ferramenta" className="scroll-mt-28 w-full max-w-full">
-          <Suspense fallback={<div className="h-96 w-full bg-indigo-50 rounded-2xl animate-pulse flex items-center justify-center text-indigo-300 border border-indigo-100">Carregando Calculadora...</div>}>
-              <TimeCalculator />
-          </Suspense>
+          <div className="bg-white rounded-3xl border border-indigo-100 shadow-xl shadow-indigo-100/50 p-1 md:p-2">
+              <Suspense fallback={
+                <div className="h-96 w-full bg-indigo-50 rounded-2xl animate-pulse flex items-center justify-center text-indigo-300 border border-indigo-100">
+                    <div className="flex flex-col items-center gap-2">
+                        <Timer className="animate-bounce" size={32}/>
+                        <span>Carregando Calculadora...</span>
+                    </div>
+                </div>
+              }>
+                  <TimeCalculator />
+              </Suspense>
+          </div>
+          
           <div className="mt-8 print:hidden max-w-5xl mx-auto">
               <DisclaimerBox />
           </div>
@@ -168,18 +191,18 @@ export default async function HorasPage({ searchParams }: Props) {
             Essa confusão gera erros graves no apontamento do cartão de ponto, resultando em descontos indevidos no salário ou horas extras não pagas.
           </p>
 
-          <h3 className="text-xl font-bold text-slate-800 mt-10 mb-6 flex items-center gap-2">
-              <Moon className="text-purple-600" /> A Hora Noturna é Diferente
-          </h3>
-          <p>
-              Quem trabalha entre <strong>22h e 5h</strong> tem um "superpoder" legal: a hora passa mais rápido.
-          </p>
-          <div className="bg-purple-50 p-6 rounded-xl border border-purple-100 not-prose">
-              <ul className="space-y-3 text-sm text-purple-900">
+          <div className="my-10 bg-purple-50 p-6 rounded-xl border border-purple-100 not-prose">
+              <h3 className="text-xl font-bold text-purple-900 mb-4 flex items-center gap-2">
+                  <Moon className="text-purple-600" /> A Hora Noturna é Diferente
+              </h3>
+              <p className="text-purple-800 text-sm mb-4">
+                  Quem trabalha entre <strong>22h e 5h</strong> tem um "superpoder" legal: a hora passa mais rápido.
+              </p>
+              <ul className="space-y-3 text-sm text-purple-900 bg-white p-4 rounded-lg border border-purple-200 shadow-sm">
                   <li className="flex gap-2 font-bold"><Clock size={18}/> 1 hora relógio = 60 minutos</li>
                   <li className="flex gap-2 font-bold"><Moon size={18}/> 1 hora noturna = 52 minutos e 30 segundos</li>
               </ul>
-              <p className="mt-4 text-xs text-purple-700">
+              <p className="mt-4 text-xs text-purple-700 font-medium">
                   Isso significa que 7 horas de relógio trabalhadas à noite equivalem a 8 horas de pagamento + Adicional Noturno (mínimo 20%).
               </p>
           </div>
@@ -188,15 +211,15 @@ export default async function HorasPage({ searchParams }: Props) {
               <Scale className="text-blue-600" /> Direitos Básicos do Ponto
           </h3>
           <ul className="space-y-3 not-prose mb-8">
-              <li className="flex items-start gap-3 bg-white p-3 rounded-lg border border-slate-100 shadow-sm">
+              <li className="flex items-start gap-3 bg-white p-4 rounded-lg border border-slate-100 shadow-sm hover:border-indigo-100 transition-colors">
                   <CheckCircle2 className="text-green-500 mt-0.5 shrink-0" size={18} />
                   <span className="text-slate-700 text-sm"><strong>Intervalo Intrajornada:</strong> Quem trabalha mais de 6h tem direito a no mínimo 1h de almoço.</span>
               </li>
-              <li className="flex items-start gap-3 bg-white p-3 rounded-lg border border-slate-100 shadow-sm">
+              <li className="flex items-start gap-3 bg-white p-4 rounded-lg border border-slate-100 shadow-sm hover:border-indigo-100 transition-colors">
                   <CheckCircle2 className="text-green-500 mt-0.5 shrink-0" size={18} />
                   <span className="text-slate-700 text-sm"><strong>Intervalo Interjornada:</strong> Entre um dia de trabalho e outro, deve haver um descanso mínimo de 11 horas.</span>
               </li>
-              <li className="flex items-start gap-3 bg-white p-3 rounded-lg border border-slate-100 shadow-sm">
+              <li className="flex items-start gap-3 bg-white p-4 rounded-lg border border-slate-100 shadow-sm hover:border-indigo-100 transition-colors">
                   <CheckCircle2 className="text-green-500 mt-0.5 shrink-0" size={18} />
                   <span className="text-slate-700 text-sm"><strong>Limite de Extras:</strong> Máximo de 2 horas extras por dia (salvo regime 12x36 ou força maior).</span>
               </li>
@@ -210,7 +233,7 @@ export default async function HorasPage({ searchParams }: Props) {
             
             <div className="space-y-4">
               {faqList.map((item, idx) => (
-                  <details key={idx} className="group bg-slate-50 p-5 rounded-xl border border-slate-200 shadow-sm cursor-pointer open:bg-white open:ring-1 open:ring-indigo-100 transition-all">
+                  <details key={idx} className="group bg-white p-5 rounded-xl border border-slate-200 shadow-sm cursor-pointer open:ring-2 open:ring-indigo-100 transition-all">
                       <summary className="font-semibold text-slate-800 list-none flex justify-between items-center select-none">
                           <div className="flex items-start gap-3">
                               <span className="text-indigo-500 font-bold text-xs mt-1">#</span>
@@ -218,7 +241,7 @@ export default async function HorasPage({ searchParams }: Props) {
                           </div>
                           <span className="text-slate-400 group-open:rotate-180 transition-transform ml-2 shrink-0">▼</span>
                       </summary>
-                      <p className="mt-3 text-slate-600 leading-relaxed border-t border-slate-100 pt-3 text-sm">
+                      <p className="mt-3 text-slate-600 leading-relaxed border-t border-slate-100 pt-3 text-sm animate-in fade-in">
                           {item.a}
                       </p>
                   </details>

@@ -35,7 +35,7 @@ type ResultadoSalario = {
 
 // --- PROP PARA PSEO ---
 interface SalaryCalculatorProps {
-    initialValue?: number; // Recebe o valor da URL (ex: 3000)
+    initialValue?: number;
 }
 
 export default function SalaryCalculator({ initialValue }: SalaryCalculatorProps) {
@@ -73,7 +73,7 @@ export default function SalaryCalculator({ initialValue }: SalaryCalculatorProps
     return new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(value);
   };
 
-  // --- EFEITOS (CARREGAMENTO INICIAL) ---
+  // --- EFEITOS ---
   useEffect(() => {
     setIsIframe(window.self !== window.top);
     setDataAtual(new Date().toLocaleDateString("pt-BR"));
@@ -85,10 +85,6 @@ export default function SalaryCalculator({ initialValue }: SalaryCalculatorProps
     const urlDeps = searchParams.get("dependentes");
     const urlOutros = searchParams.get("outros");
 
-    // LÓGICA DE PRIORIDADE:
-    // 1. Se tem `initialValue` (pSEO), usa ele.
-    // 2. Se não, tenta pegar da URL Query `?salario=...` (Compartilhamento).
-    
     let valorInicial = 0;
     let depsInicial = 0;
     let outrosInicial = 0;
@@ -114,12 +110,11 @@ export default function SalaryCalculator({ initialValue }: SalaryCalculatorProps
     if (deveCalcular && valorInicial > 0) {
         setBrutoValue(valorInicial);
         setBrutoDisplay(formatCurrency(valorInicial));
-        // Pequeno delay para garantir que o estado atualizou antes de calcular
         setTimeout(() => {
             calcular(valorInicial, depsInicial, outrosInicial);
         }, 100);
     }
-  }, [searchParams, initialValue]); // Roda se a URL mudar ou o initialValue mudar
+  }, [searchParams, initialValue]);
 
   // --- HANDLERS ---
   const formatarMoedaInput = (valor: string) => {
@@ -142,33 +137,21 @@ export default function SalaryCalculator({ initialValue }: SalaryCalculatorProps
     setOutrosValue(value);
   };
 
-  // --- CÁLCULO BLINDADO (INSS PROGRESSIVO 2025) ---
+  // --- CÁLCULO ---
   const calcular = (pSalario = brutoValue, pDeps = parseInt(dependentes) || 0, pOutros = outrosValue) => {
     const salario = pSalario;
-    
-    // TABELA INSS 2025 (Estimada)
     let inss = 0;
     let resto = salario;
 
     if (salario > 7786.02) {
-        inss = 908.85; // Teto
+        inss = 908.85; 
     } else {
-        if (salario > 4000.03) {
-            inss += (salario - 4000.03) * 0.14;
-            resto = 4000.03;
-        }
-        if (resto > 2666.68) {
-            inss += (resto - 2666.68) * 0.12;
-            resto = 2666.68;
-        }
-        if (resto > 1412.00) {
-            inss += (resto - 1412.00) * 0.09;
-            resto = 1412.00;
-        }
+        if (salario > 4000.03) { inss += (salario - 4000.03) * 0.14; resto = 4000.03; }
+        if (resto > 2666.68) { inss += (resto - 2666.68) * 0.12; resto = 2666.68; }
+        if (resto > 1412.00) { inss += (resto - 1412.00) * 0.09; resto = 1412.00; }
         inss += resto * 0.075;
     }
 
-    // IRRF
     const deducaoDependentes = pDeps * 189.59;
     const baseIRRF = salario - inss - deducaoDependentes;
     let irrf = 0;
@@ -201,7 +184,6 @@ export default function SalaryCalculator({ initialValue }: SalaryCalculatorProps
     if (!isIframe) salvarHistorico(novoResultado);
   };
 
-  // --- ACTIONS ---
   const salvarHistorico = (res: any) => {
     const novoItem: HistoricoItem = { 
         data: new Date().toLocaleDateString("pt-BR"), 
@@ -223,12 +205,10 @@ export default function SalaryCalculator({ initialValue }: SalaryCalculatorProps
 
   const handleShare = (type: "link" | "embed") => {
     const baseUrl = `${window.location.origin}${window.location.pathname}`;
-    
     if (isIframe) {
         window.open(`https://mestredascontas.com.br/financeiro/salario-liquido`, '_blank');
         return;
     }
-
     if (type === "link") {
         const params = new URLSearchParams();
         if (resultado?.rawBruto) params.set("salario", resultado.rawBruto.toString());
@@ -238,7 +218,6 @@ export default function SalaryCalculator({ initialValue }: SalaryCalculatorProps
     } else {
         navigator.clipboard.writeText(`<iframe src="https://mestredascontas.com.br/financeiro/salario-liquido?embed=true" width="100%" height="700" frameborder="0" style="border:0; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.1);" title="Calculadora de Salário Líquido"></iframe>`);
     }
-
     setCopiado(type);
     setTimeout(() => setCopiado(null), 2000);
   };
@@ -270,7 +249,6 @@ export default function SalaryCalculator({ initialValue }: SalaryCalculatorProps
                             size="sm" 
                             onClick={() => setShowEmbedModal(true)} 
                             className="text-white hover:text-white hover:bg-white/20 h-8 px-2 rounded-lg"
-                            title="Incorporar no seu site"
                         >
                             <Code2 size={18} />
                         </Button>
@@ -326,7 +304,7 @@ export default function SalaryCalculator({ initialValue }: SalaryCalculatorProps
                     <Button onClick={() => calcular()} className="flex-1 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white h-14 text-lg font-bold shadow-lg shadow-blue-200 rounded-xl transition-all active:scale-[0.99]">
                         Calcular
                     </Button>
-                    <Button variant="outline" onClick={limpar} size="icon" className="h-14 w-14 shrink-0 border-slate-200 text-slate-400 hover:text-red-500 hover:bg-red-50 hover:border-red-200 rounded-xl transition-colors" title="Limpar">
+                    <Button variant="outline" onClick={limpar} size="icon" className="h-14 w-14 shrink-0 border-slate-200 text-slate-400 hover:text-red-500 hover:bg-red-50 hover:border-red-200 rounded-xl transition-colors">
                         <RefreshCcw className="h-5 w-5" />
                     </Button>
                 </div>
@@ -373,11 +351,15 @@ export default function SalaryCalculator({ initialValue }: SalaryCalculatorProps
                 ) : (
                 <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500 w-full">
                     
-                    {/* CARD LÍQUIDO */}
-                    <div className="bg-slate-900 p-6 rounded-2xl shadow-xl text-center relative overflow-hidden w-full group">
+                    {/* CARD LÍQUIDO - CORRIGIDO (Fonte Menor e Compacto) */}
+                    <div className="bg-slate-900 p-4 rounded-2xl shadow-xl text-center relative overflow-hidden w-full group">
                         <div className="absolute top-0 right-0 w-32 h-32 bg-green-500/20 rounded-full blur-3xl -mr-10 -mt-10 group-hover:bg-green-500/30 transition-colors duration-500"></div>
                         <span className="text-slate-400 text-[10px] font-bold uppercase tracking-widest relative z-10">Salário Líquido</span>
-                        <div className="text-4xl sm:text-5xl font-extrabold text-white mt-2 tracking-tight relative z-10">{resultado.liquido}</div>
+                        
+                        {/* AQUI ESTÁ A CORREÇÃO: text-3xl a text-4xl, sem quebra */}
+                        <div className="text-3xl sm:text-4xl font-extrabold text-white mt-1 tracking-tight relative z-10 break-words">
+                            {resultado.liquido}
+                        </div>
                     </div>
 
                     {/* TABELA DE VALORES */}
@@ -394,7 +376,7 @@ export default function SalaryCalculator({ initialValue }: SalaryCalculatorProps
                             <span className="text-red-500 font-medium flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-red-500"></div> IRRF</span>
                             <span className="font-bold text-red-600">- {resultado.irrf}</span>
                         </div>
-                        {resultado.outros !== "R$ 0,00" && (
+                        {resultado.outros !== "R$ 0,00" && (
                             <div className="flex justify-between items-center p-3 border-b border-slate-50 hover:bg-slate-50">
                                 <span className="text-slate-500 font-medium flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-slate-400"></div> Outros</span>
                                 <span className="font-bold text-slate-600">- {resultado.outros}</span>
@@ -428,12 +410,10 @@ export default function SalaryCalculator({ initialValue }: SalaryCalculatorProps
         </div>
       </div>
 
-      {/* --- LAYOUT DE IMPRESSÃO (HOLERITE) --- */}
+      {/* --- LAYOUT DE IMPRESSÃO --- */}
       {resultado && (
         <div className="hidden print:block">
             <div ref={contentRef} className="print:w-full print:p-8 print:bg-white text-slate-900">
-                
-                {/* Header Impressão */}
                 <div className="flex justify-between items-start mb-8 border-b-2 border-slate-800 pb-6">
                     <div>
                         <h1 className="text-3xl font-bold text-slate-900 tracking-tight">Mestre das Contas</h1>
@@ -447,7 +427,6 @@ export default function SalaryCalculator({ initialValue }: SalaryCalculatorProps
                     </div>
                 </div>
 
-                {/* Dados Resumo */}
                 <div className="mb-8 grid grid-cols-3 gap-4 text-sm">
                     <div className="p-4 border border-slate-200 rounded-xl bg-slate-50">
                         <p className="text-xs text-slate-500 uppercase font-bold mb-2">Salário Base</p>
@@ -463,7 +442,6 @@ export default function SalaryCalculator({ initialValue }: SalaryCalculatorProps
                     </div>
                 </div>
 
-                {/* Tabela Detalhada */}
                 <div className="mb-8 border border-slate-200 rounded-xl overflow-hidden">
                     <table className="w-full text-sm">
                         <thead className="bg-slate-50 text-slate-500 text-xs uppercase font-bold">
@@ -489,7 +467,7 @@ export default function SalaryCalculator({ initialValue }: SalaryCalculatorProps
                                 <td className="p-4 text-right text-slate-400">-</td>
                                 <td className="p-4 text-right text-red-600 font-bold">{resultado.irrf}</td>
                             </tr>
-                            {resultado.outros !== "R$ 0,00" && (
+                            {resultado.outros !== "R$ 0,00" && (
                                 <tr>
                                     <td className="p-4 font-medium">Outros Descontos</td>
                                     <td className="p-4 text-right text-slate-400">-</td>
@@ -508,7 +486,6 @@ export default function SalaryCalculator({ initialValue }: SalaryCalculatorProps
                     </table>
                 </div>
 
-                {/* Footer Impressão */}
                 <div className="mt-auto pt-8 border-t border-slate-200 flex items-center justify-between text-sm">
                     <div className="flex items-center gap-2 text-slate-600">
                         <LinkIcon size={16}/>

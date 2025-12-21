@@ -3,140 +3,140 @@
     "slug": "whatsapp", 
     "title": "WhatsApp", 
     "type": "whatsapp", 
-    "desc": "Crie um link direto para iniciar conversas no seu WhatsApp. Ideal para vendas e suporte.",
-    "prefill": {}
+    "desc": "Gere um link direto para iniciar conversas no WhatsApp sem precisar salvar o número. Ideal para vendas, suporte e atendimento rápido.",
+    "prefill": { "whatsNum": "5511999999999", "whatsMsg": "Olá! Gostaria de mais informações." }
   },
   { 
     "slug": "pix", 
     "title": "Pix e Pagamentos", 
     "type": "pix", 
-    "desc": "Gere um QR Code Pix estático para receber pagamentos na sua loja ou serviços.",
-    "prefill": {}
+    "desc": "Crie um QR Code Pix estático para receber pagamentos na sua loja ou serviços. Compatível com todos os bancos e sem taxas.",
+    "prefill": { "pixKey": "", "pixName": "", "pixCity": "" }
   },
   { 
     "slug": "wifi", 
     "title": "Wi-Fi e Internet", 
     "type": "wifi", 
-    "desc": "Permita que clientes conectem no seu Wi-Fi sem digitar senhas complicadas.",
-    "prefill": {}
+    "desc": "Facilite o acesso à internet. Permita que clientes conectem no seu Wi-Fi instantaneamente ao escanear, sem digitar senhas complicadas.",
+    "prefill": { "wifiSsid": "MinhaRede_Visitantes", "wifiType": "WPA" }
   },
   { 
     "slug": "instagram", 
     "title": "Instagram", 
     "type": "link", 
-    "desc": "Aumente seus seguidores levando clientes direto para o seu perfil.",
-    "prefill": { "url": "https://instagram.com/seu_perfil" }
-  },
-  { 
-    "slug": "facebook", 
-    "title": "Facebook", 
-    "type": "link", 
-    "desc": "Divulgue sua Fanpage ou Grupo do Facebook facilmente.",
-    "prefill": { "url": "https://facebook.com/sua_pagina" }
+    "desc": "Aumente seus seguidores levando clientes direto para o seu perfil do Instagram. Perfeito para imprimir em embalagens e balcões.",
+    "prefill": { "url": "https://instagram.com/seu_usuario" }
   },
   { 
     "slug": "cardapio-digital", 
     "title": "Cardápio Digital", 
     "type": "link", 
-    "desc": "Modernize seu restaurante. O cliente escaneia e acessa seu menu PDF ou site.",
-    "prefill": { "url": "https://seu-restaurante.com/menu" }
+    "desc": "Modernize seu restaurante ou bar. O cliente escaneia o código na mesa e acessa seu menu em PDF ou site imediatamente.",
+    "prefill": { "url": "https://meurestaurante.com.br/menu.pdf" }
   },
   { 
-    "slug": "google-maps", 
-    "title": "Google Maps (Localização)", 
+    "slug": "google-review", 
+    "title": "Avaliação Google", 
     "type": "link", 
-    "desc": "Facilite a chegada de clientes. Gere um código com a rota para seu endereço.",
-    "prefill": { "url": "https://maps.google.com/?q=Seu+Endereco" }
+    "desc": "Consiga mais avaliações 5 estrelas no Google Meu Negócio. Envie o cliente direto para a tela de 'Escrever Avaliação'.",
+    "prefill": { "url": "https://g.page/sua-empresa/review" }
   },
   { 
     "slug": "cartao-visita", 
     "title": "Cartão de Visita (vCard)", 
     "type": "vcard", 
-    "desc": "Compartilhe todos seus contatos (E-mail, Telefone, Site) com um único scan.",
-    "prefill": {}
+    "desc": "O cartão de visita do futuro. Compartilhe Nome, Telefone, E-mail e Site, salvando direto na agenda do celular do cliente.",
+    "prefill": { "vcardName": "Seu Nome", "vcardEmail": "contato@exemplo.com" }
   },
   { 
-    "slug": "email", 
-    "title": "E-mail", 
-    "type": "email", 
-    "desc": "Facilite o contato. Abre o aplicativo de e-mail já com destinatário e assunto.",
-    "prefill": {}
+    "slug": "facebook", 
+    "title": "Facebook", 
+    "type": "link", 
+    "desc": "Divulgue sua Fanpage ou Grupo do Facebook facilmente. Ótimo para engajar comunidades e eventos.",
+    "prefill": { "url": "https://facebook.com/sua_pagina" }
+  },
+  { 
+    "slug": "google-maps", 
+    "title": "Google Maps (Localização)", 
+    "type": "link", 
+    "desc": "Facilite a chegada de clientes. Gere um código que abre o GPS já com a rota traçada para o seu endereço.",
+    "prefill": { "url": "https://goo.gl/maps/exemplo123" }
   },
   { 
     "slug": "youtube", 
     "title": "Canal do YouTube", 
     "type": "link", 
-    "desc": "Leve inscritos para seu canal ou para um vídeo específico.",
+    "desc": "Leve inscritos para seu canal ou direto para um vídeo específico. Aumente visualizações e inscritos.",
     "prefill": { "url": "https://youtube.com/@seu_canal" }
   },
   { 
     "slug": "linkedin", 
     "title": "LinkedIn", 
     "type": "link", 
-    "desc": "Conecte-se profissionalmente. Ideal para colocar em currículos e apresentações.",
+    "desc": "Conecte-se profissionalmente. Ideal para colocar em currículos, crachás de eventos e apresentações corporativas.",
     "prefill": { "url": "https://linkedin.com/in/seu_perfil" }
   },
   { 
     "slug": "tiktok", 
     "title": "TikTok", 
     "type": "link", 
-    "desc": "Viralize seu conteúdo levando tráfego físico para o seu perfil no TikTok.",
+    "desc": "Converta clientes físicos em seguidores. Leve tráfego direto para o seu perfil no TikTok e viralize.",
     "prefill": { "url": "https://tiktok.com/@seu_perfil" }
   },
   { 
     "slug": "site-empresa", 
     "title": "Site da Empresa", 
     "type": "link", 
-    "desc": "A forma mais simples de levar tráfego offline para o seu site institucional.",
+    "desc": "A forma mais simples de levar tráfego offline para o seu site institucional, landing page ou loja virtual.",
     "prefill": { "url": "https://sua-empresa.com.br" }
+  },
+  { 
+    "slug": "email", 
+    "title": "E-mail", 
+    "type": "email", 
+    "desc": "Facilite o contato comercial. Abre o aplicativo de e-mail do usuário já com destinatário e assunto preenchidos.",
+    "prefill": { "emailTo": "contato@empresa.com", "emailSub": "Orçamento" }
   },
   { 
     "slug": "texto-simples", 
     "title": "Texto ou Mensagem", 
     "type": "texto", 
-    "desc": "Mostre uma frase, um código promocional ou um poema na tela do celular.",
-    "prefill": {}
+    "desc": "Armazene uma frase, um código promocional, senha ou poema. Funciona sem internet.",
+    "prefill": { "qrValue": "SEU-CUPOM-10" }
   },
   { 
     "slug": "telegram", 
     "title": "Telegram", 
     "type": "link", 
-    "desc": "Link direto para seu canal ou grupo do Telegram.",
+    "desc": "Link direto para seu canal ou grupo do Telegram. Aumente sua base de leads rapidamente.",
     "prefill": { "url": "https://t.me/seu_grupo" }
   },
   { 
     "slug": "tripadvisor", 
     "title": "Avaliação TripAdvisor", 
     "type": "link", 
-    "desc": "Incentive avaliações positivas no seu hotel ou atração turística.",
-    "prefill": { "url": "https://tripadvisor.com/" }
-  },
-  { 
-    "slug": "google-review", 
-    "title": "Avaliação Google", 
-    "type": "link", 
-    "desc": "Aumente suas 5 estrelas no Google Meu Negócio com um link direto.",
-    "prefill": { "url": "https://g.page/r/..." }
+    "desc": "Essencial para hotéis e turismo. Incentive avaliações positivas no TripAdvisor com um scan rápido.",
+    "prefill": { "url": "https://tripadvisor.com/UserReview-..." }
   },
   { 
     "slug": "chave-aleatoria-pix", 
     "title": "Chave Aleatória Pix", 
     "type": "pix", 
-    "desc": "Receba sem expor CPF ou telefone. Gere o código da sua chave aleatória.",
-    "prefill": {}
+    "desc": "Receba pagamentos com segurança sem expor seu CPF ou telefone. Gere o código usando sua chave aleatória.",
+    "prefill": { "pixKey": "a1b2c3d4-..." }
   },
   { 
     "slug": "spotify", 
-    "title": "Spotify (Música/Playlist)", 
+    "title": "Spotify", 
     "type": "link", 
-    "desc": "Compartilhe uma playlist ou música especial.",
-    "prefill": { "url": "https://open.spotify.com/..." }
+    "desc": "Compartilhe uma playlist, álbum ou podcast. Ótimo para academias, cafés e presentes personalizados.",
+    "prefill": { "url": "https://open.spotify.com/playlist/..." }
   },
   { 
     "slug": "eventos-rsvp", 
     "title": "Eventos e RSVP", 
     "type": "link", 
-    "desc": "Confirmação de presença para casamentos e festas via formulário.",
+    "desc": "Facilite a confirmação de presença em casamentos e festas direcionando para seu formulário ou site do evento.",
     "prefill": { "url": "https://forms.google.com/..." }
   }
 ]
