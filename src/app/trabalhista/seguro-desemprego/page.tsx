@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     siteName: "Mestre das Contas",
     locale: "pt_BR",
     type: "article",
-    images: [{ url: "https://mestredascontas.com.br/og-seguro.png", width: 1200, height: 630, alt: "Simulador Seguro Desemprego 2026" }],
+    images: [{ url: "https://mestredascontas.com.br/opengraph-image", width: 1200, height: 630, alt: "Simulador Seguro Desemprego 2026" }],
   },
   robots: {
     index: true, follow: true,

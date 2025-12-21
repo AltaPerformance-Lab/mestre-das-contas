@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     siteName: "Mestre das Contas",
     locale: "pt_BR",
     type: "article",
-    images: [{ url: "https://mestredascontas.com.br/og-reforma.png", width: 1200, height: 630, alt: "Simulador Reforma Tributária" }],
+    images: [{ url: "https://mestredascontas.com.br/opengraph-image", width: 1200, height: 630, alt: "Simulador Reforma Tributária" }],
   },
   robots: { index: true, follow: true },
 };

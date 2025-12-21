@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     siteName: "Mestre das Contas",
     locale: "pt_BR",
     type: "website",
-    images: [{ url: "https://mestredascontas.com.br/og-saude.png", width: 1200, height: 630, alt: "Cálculos de Saúde" }],
+    images: [{ url: "https://mestredascontas.com.br/opengraph-image", width: 1200, height: 630, alt: "Cálculos de Saúde" }],
   },
 };
 

@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     siteName: "Mestre das Contas",
     locale: "pt_BR",
     type: "article",
-    images: [{ url: "https://mestredascontas.com.br/og-porcentagem.png", width: 1200, height: 630, alt: "Calculadora de Porcentagem" }],
+    images: [{ url: "https://mestredascontas.com.br/opengraph-image", width: 1200, height: 630, alt: "Calculadora de Porcentagem" }],
   },
   robots: {
     index: true, follow: true,

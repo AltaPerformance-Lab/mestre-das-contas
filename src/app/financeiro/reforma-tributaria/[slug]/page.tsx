@@ -44,7 +44,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         tags: ["Reforma Tributária", "Impostos", data.jobTitle, "IVA Dual", "IBS", "CBS"],
         images: [
             {
-                url: `https://mestredascontas.com.br/og/reforma-${data.category}.png`, // Exemplo de imagem dinâmica
+                url: `https://mestredascontas.com.br/opengraph-image`, 
                 width: 1200,
                 height: 630,
                 alt: data.title,

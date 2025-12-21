@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     locale: "pt_BR",
     type: "article",
     images: [{ 
-      url: "https://mestredascontas.com.br/og-calorias.png", 
+      url: "https://mestredascontas.com.br/opengraph-image", 
       width: 1200, 
       height: 630, 
       alt: "Calculadora de Calorias e Metabolismo" 
@@ -84,7 +84,7 @@ const jsonLd = {
       "publisher": { "@type": "Organization", "name": "Mestre das Contas", "logo": { "@type": "ImageObject", "url": "https://mestredascontas.com.br/opengraph-image" } },
       "datePublished": "2024-01-15",
       "dateModified": new Date().toISOString(),
-      "image": "https://mestredascontas.com.br/og-calorias.png"
+      "image": "https://mestredascontas.com.br/opengraph-image"
     },
     {
       "@type": "FAQPage",
