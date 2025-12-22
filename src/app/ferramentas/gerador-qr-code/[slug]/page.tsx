@@ -49,6 +49,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       description: item.desc,
       type: "website",
       url: `https://mestredascontas.com.br/ferramentas/gerador-qr-code/${slug}`,
+      images: [{ url: "https://mestredascontas.com.br/opengraph-image", width: 1200, height: 630, alt: "Gerador de QR Code" }],
     }
   };
 }

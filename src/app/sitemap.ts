@@ -69,9 +69,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     '/saude/gestacional', 
     '/saude/agua',
     '/sobre',
-    '/contato',
-    '/privacidade',
-    '/termos',
+    '/fale-conosco',
+    '/politica-privacidade',
+    '/termos-de-uso',
     '/politica-cookies',
   ].map((route) => ({
     url: `${baseUrl}${route}`,

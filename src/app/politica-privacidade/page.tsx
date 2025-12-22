@@ -26,7 +26,7 @@ export default function PrivacidadePage() {
           Política de Privacidade
         </h1>
         <p className="text-slate-600">
-          Última atualização: <span className="font-semibold">Janeiro de 2026</span>
+          Última atualização: <span className="font-semibold">Janeiro de 2025</span>
         </p>
       </div>
 

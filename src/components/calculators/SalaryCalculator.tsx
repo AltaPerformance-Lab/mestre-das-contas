@@ -357,7 +357,7 @@ export default function SalaryCalculator({ initialValue }: SalaryCalculatorProps
                         <span className="text-slate-400 text-[10px] font-bold uppercase tracking-widest relative z-10">Salário Líquido</span>
                         
                         {/* AQUI ESTÁ A CORREÇÃO: text-3xl a text-4xl, sem quebra */}
-                        <div className="text-3xl sm:text-4xl font-extrabold text-white mt-1 tracking-tight relative z-10 break-words">
+                        <div className="text-3xl sm:text-3xl font-extrabold text-white mt-1 tracking-tight relative z-10 break-words">
                             {resultado.liquido}
                         </div>
                     </div>

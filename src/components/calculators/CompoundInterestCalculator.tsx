@@ -360,7 +360,7 @@ export default function CompoundInterestCalculator() {
                     
                     <p className="text-[11px] text-slate-400 font-bold uppercase tracking-widest relative z-10 mb-1">Montante Final Acumulado</p>
                     <div className="flex items-center justify-center gap-1 relative z-10">
-                       <span className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight break-all">{resultado.total}</span>
+                       <span className="text-3xl sm:text-2xl font-extrabold text-white tracking-tight break-all">{resultado.total}</span>
                     </div>
                     <div className="mt-4 pt-4 border-t border-white/10 flex justify-center gap-4 text-[10px] text-slate-400 relative z-10">
                         <span>Em {resultado.periodo} • Taxa {resultado.taxa}</span>
