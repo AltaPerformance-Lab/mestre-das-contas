@@ -36,7 +36,7 @@ const jsonLd = {
     "logo": "https://mestredascontas.com.br/opengraph-image",
     "contactPoint": {
       "@type": "ContactPoint",
-      "email": "contato@contarapida.app.br",
+      "email": "contato@mestredascontas.com.br",
       "contactType": "customer support",
       "availableLanguage": "Portuguese"
     }
@@ -72,7 +72,7 @@ export default function ContatoPage() {
               <span className="text-sm font-bold text-blue-600 uppercase tracking-wider bg-blue-50 px-3 py-1 rounded-full">Canal Oficial</span>
               
               <a 
-                href="mailto:contato@contarapida.app.br" 
+                href="mailto:contato@mestredascontas.com.br" 
                 className="text-2xl md:text-4xl font-bold text-slate-900 hover:text-blue-600 transition-colors break-all"
                 aria-label="Enviar e-mail para contato@mestredascontas.com.br"
               >
