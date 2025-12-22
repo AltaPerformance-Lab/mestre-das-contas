@@ -76,7 +76,7 @@ export default function ContatoPage() {
                 className="text-2xl md:text-4xl font-bold text-slate-900 hover:text-blue-600 transition-colors break-all"
                 aria-label="Enviar e-mail para contato@mestredascontas.com.br"
               >
-                contato@contarapida.app.br
+                contato@mestredascontas.com.br
               </a>
 
               <div className="flex items-center gap-2 text-sm text-slate-500 mt-2">
