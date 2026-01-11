@@ -1,15 +1,17 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import AdUnit from "@/components/ads/AdUnit";
 import DisclaimerBox from "@/components/ui/DisclaimerBox";
 import PageHeader from "@/components/layout/PageHeader";
-// IMPORTANTE: Importamos o Wrapper, não o gerador direto.
-// Isso resolve o erro de "ssr: false" e garante performance.
+// O Wrapper garante que o componente pesado só carregue no cliente (sem erro 500)
 import QRCodeWrapper from "@/components/calculators/QRCodeWrapper";
 import { 
   QrCode, Zap, ShieldCheck, Ban, 
   Smartphone, Wifi, CheckCircle2, Globe, 
-  AlertTriangle, MousePointerClick, Printer, MoveRight
+  AlertTriangle, MousePointerClick, Printer, MoveRight,
+  MessageCircle, Link as LinkIcon
 } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 // --- 1. SEO TÉCNICO (METADATA) ---
 export const metadata: Metadata = {
@@ -44,7 +46,34 @@ const jsonLd = {
   "featureList": "Pix, Wi-Fi, vCard, WhatsApp, Download SVG/PNG"
 };
 
-export default function QRCodePage() {
+// Tipagem para receber parâmetros via URL (Integração entre ferramentas)
+type Props = {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+}
+
+export default async function QRCodePage({ searchParams }: Props) {
+  
+  // Lê os parâmetros da URL para preencher a ferramenta automaticamente
+  // Ex: ?type=whatsapp&num=5511999...&msg=Ola
+  const sp = await searchParams;
+  const initialType = (sp.type as string) || "link";
+  
+  const initialValues = {
+    // WhatsApp
+    whatsNum: sp.num as string,
+    whatsMsg: sp.msg as string,
+    // Pix
+    pixKey: sp.key as string,
+    pixName: sp.name as string,
+    pixAmount: sp.amount as string,
+    // Link genérico
+    url: sp.url as string,
+    // Wi-Fi
+    wifiSsid: sp.ssid as string,
+    wifiType: sp.encryption as string,
+    wifiPass: sp.pass as string
+  };
+
   return (
     <article className="w-full max-w-full overflow-hidden font-sans">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
@@ -72,10 +101,13 @@ export default function QRCodePage() {
            <AdUnit slot="qrcode_top" format="horizontal" variant="agency" />
         </div>
 
-        {/* FERRAMENTA PRINCIPAL (Usando o Wrapper para não quebrar) */}
+        {/* FERRAMENTA PRINCIPAL (Com Props Dinâmicas) */}
         <section id="ferramenta" className="scroll-mt-28 w-full max-w-full relative z-10">
            {/* O Wrapper cuida do Loading State e do 'ssr: false' */}
-           <QRCodeWrapper />
+           <QRCodeWrapper 
+              initialType={initialType}
+              initialValues={initialValues}
+           />
            
            <div className="mt-8 print:hidden max-w-5xl mx-auto">
               <DisclaimerBox />
@@ -135,41 +167,69 @@ export default function QRCodePage() {
 
           <h2 className="text-2xl font-bold text-slate-900 mt-12 mb-4">A Ciência por trás: Estático vs. Dinâmico</h2>
           <p>
-            Para entender por que nossa ferramenta é segura, precisamos usar uma analogia simples.
-          </p>
-          <p>
-            Imagine que o QR Code é um envelope.
+            Para entender por que nossa ferramenta é segura, precisamos usar uma analogia simples. Imagine que o QR Code é um envelope.
           </p>
           <ul>
               <li><strong>No QR Code Estático (O Nosso):</strong> Nós escrevemos a carta, colocamos dentro do envelope e lacramos. O conteúdo está lá fisicamente. Se o nosso site desaparecer amanhã, o envelope continua existindo com a carta dentro. O link está "tatuado" nos pixels.</li>
               <li><strong>No QR Code Dinâmico (Os Outros):</strong> O envelope contém apenas um bilhete dizendo "Vá até a portaria do prédio X". Quando você chega lá, o porteiro te entrega a carta real. O problema? Se você parar de pagar o aluguel do prédio, o porteiro para de entregar a carta.</li>
           </ul>
-{/* TABELA CORRIGIDA (SEM ESPAÇOS EM BRANCO PROIBIDOS) */}
+
+          {/* TABELA CORRIGIDA */}
           <div className="not-prose my-10 relative">
               <div className="overflow-x-auto rounded-xl border border-slate-200 shadow-sm">
-                  <table className="w-full text-sm text-left min-w-[600px]"><thead className="bg-slate-900 text-white"><tr><th className="px-6 py-4 font-bold uppercase tracking-wider w-1/3">Critério</th><th className="px-6 py-4 font-bold uppercase tracking-wider w-1/3 bg-emerald-600">Mestre das Contas</th><th className="px-6 py-4 font-bold uppercase tracking-wider w-1/3 bg-slate-800 text-slate-400">Concorrência (Pago)</th></tr></thead><tbody className="divide-y divide-slate-200 bg-white"><tr className="hover:bg-slate-50 transition-colors"><td className="px-6 py-4 font-medium text-slate-900">Tipo de Tecnologia</td><td className="px-6 py-4 text-emerald-700 font-bold">Estática (Direta)</td><td className="px-6 py-4 text-slate-600">Dinâmica (Redirecionamento)</td></tr><tr className="hover:bg-slate-50 transition-colors"><td className="px-6 py-4 font-medium text-slate-900">Validade do Código</td><td className="px-6 py-4 text-emerald-700 font-bold">Vitalícia (Eterna)</td><td className="px-6 py-4 text-red-600 font-bold">Expira em 14 dias</td></tr><tr className="hover:bg-slate-50 transition-colors"><td className="px-6 py-4 font-medium text-slate-900">Privacidade</td><td className="px-6 py-4 text-emerald-700 font-bold">Total (Seu navegador)</td><td className="px-6 py-4 text-slate-600">Rastreiam seus clientes</td></tr><tr className="hover:bg-slate-50 transition-colors"><td className="px-6 py-4 font-medium text-slate-900">Dependência</td><td className="px-6 py-4 text-emerald-700 font-bold">Nenhuma</td><td className="px-6 py-4 text-slate-600">Alta (Se o site cair, já era)</td></tr></tbody></table>
+                  <table className="w-full text-sm text-left min-w-[600px]">
+                      <thead className="bg-slate-900 text-white">
+                          <tr>
+                              <th className="px-6 py-4 font-bold uppercase tracking-wider w-1/3">Critério</th>
+                              <th className="px-6 py-4 font-bold uppercase tracking-wider w-1/3 bg-emerald-600">Mestre das Contas</th>
+                              <th className="px-6 py-4 font-bold uppercase tracking-wider w-1/3 bg-slate-800 text-slate-400">Concorrência (Pago)</th>
+                          </tr>
+                      </thead>
+                      <tbody className="divide-y divide-slate-200 bg-white">
+                          <tr className="hover:bg-slate-50 transition-colors">
+                              <td className="px-6 py-4 font-medium text-slate-900">Tipo de Tecnologia</td>
+                              <td className="px-6 py-4 text-emerald-700 font-bold">Estática (Direta)</td>
+                              <td className="px-6 py-4 text-slate-600">Dinâmica (Redirecionamento)</td>
+                          </tr>
+                          <tr className="hover:bg-slate-50 transition-colors">
+                              <td className="px-6 py-4 font-medium text-slate-900">Validade do Código</td>
+                              <td className="px-6 py-4 text-emerald-700 font-bold">Vitalícia (Eterna)</td>
+                              <td className="px-6 py-4 text-red-600 font-bold">Expira em 14 dias</td>
+                          </tr>
+                          <tr className="hover:bg-slate-50 transition-colors">
+                              <td className="px-6 py-4 font-medium text-slate-900">Privacidade</td>
+                              <td className="px-6 py-4 text-emerald-700 font-bold">Total (Seu navegador)</td>
+                              <td className="px-6 py-4 text-slate-600">Rastreiam seus clientes</td>
+                          </tr>
+                          <tr className="hover:bg-slate-50 transition-colors">
+                              <td className="px-6 py-4 font-medium text-slate-900">Dependência</td>
+                              <td className="px-6 py-4 text-emerald-700 font-bold">Nenhuma</td>
+                              <td className="px-6 py-4 text-slate-600">Alta (Se o site cair, já era)</td>
+                          </tr>
+                      </tbody>
+                  </table>
               </div>
               <p className="md:hidden text-[10px] text-center text-slate-400 mt-2 flex items-center justify-center gap-1">
                   <MoveRight size={12}/> Deslize para ver a comparação
               </p>
           </div>
 
-          <h2 className="text-2xl font-bold text-slate-900 mt-12 mb-4">3 Maneiras Inteligentes de usar (Que você não pensou)</h2>
+          <h2 className="text-2xl font-bold text-slate-900 mt-12 mb-4">3 Maneiras Inteligentes de usar</h2>
           
           <h3>1. O "Wi-Fi Mágico"</h3>
           <p>
-            Você tem um restaurante ou escritório? Ninguém merece digitar <code>SenhaDificil@123</code>. 
-            Use a aba <strong>Wi-Fi</strong> da nossa ferramenta. Ela gera um código especial que, ao ser lido pelo celular (iPhone ou Android), pergunta: "Deseja conectar à rede?". Um clique e pronto. Mágica.
+            Você tem um restaurante ou escritório? Ninguém merece digitar senhas longas. 
+            Use a aba <strong>Wi-Fi</strong> da nossa ferramenta. Ela gera um código especial que, ao ser lido pelo celular, conecta automaticamente à rede.
           </p>
 
           <h3>2. O Pix que não erra</h3>
           <p>
-            Errar um dígito na chave Pix ou no valor é comum. Com nosso gerador, você cria um código que já contém sua chave e o valor exato. Imprima e cole no balcão. O cliente só aponta e confirma. Zero erro, dinheiro na conta na hora.
+            Errar um dígito na chave Pix é comum. Com nosso gerador, você cria um código que já contém sua chave e o valor exato. Imprima e cole no balcão. O cliente só aponta e confirma.
           </p>
 
           <h3>3. O Cartão de Visita Infinito (vCard)</h3>
           <p>
-            Ao invés de gastar com cartões de papel que vão para o lixo, imprima apenas um adesivo e cole atrás do seu celular. Quando alguém pedir seu contato, mostre o adesivo. O código <strong>vCard</strong> salva automaticamente seu Nome, Email, Site e Telefone na agenda da pessoa.
+            Imprima um adesivo e cole atrás do seu celular. Quando alguém pedir seu contato, mostre o adesivo. O código <strong>vCard</strong> salva automaticamente seu Nome, Email, Site e Telefone na agenda da pessoa.
           </p>
 
           <div className="bg-yellow-50 border-l-4 border-yellow-400 p-5 rounded-r-xl not-prose my-8">
@@ -177,35 +237,27 @@ export default function QRCodePage() {
                   <AlertTriangle size={20}/> Cuidado na hora de imprimir!
               </h3>
               <p className="text-yellow-800 text-sm leading-relaxed m-0">
-                  QR Codes são robustos, mas não fazem milagre. Eles precisam de <strong>Contraste</strong>. Nunca imprima um código amarelo em fundo branco ou preto em fundo azul escuro. A câmera do celular precisa ver a diferença clara entre o claro e o escuro. Na dúvida? Preto no Branco é clássico e infalível.
+                  QR Codes precisam de <strong>Contraste</strong>. Nunca imprima um código amarelo em fundo branco ou preto em fundo azul escuro. A câmera precisa ver a diferença. Na dúvida? Preto no Branco é infalível.
               </p>
           </div>
 
-          <h2 className="text-2xl font-bold text-slate-900 mt-12 mb-4">3 Maneiras Inteligentes de usar (Que você não pensou)</h2>
-          
-          <h3>1. O "Wi-Fi Mágico"</h3>
-          <p>
-            Você tem um restaurante ou escritório? Ninguém merece digitar <code>SenhaDificil@123</code>. 
-            Use a aba <strong>Wi-Fi</strong> da nossa ferramenta. Ela gera um código especial que, ao ser lido pelo celular (iPhone ou Android), pergunta: "Deseja conectar à rede?". Um clique e pronto. Mágica.
-          </p>
-
-          <h3>2. O Pix que não erra</h3>
-          <p>
-            Errar um dígito na chave Pix ou no valor é comum. Com nosso gerador, você cria um código que já contém sua chave e o valor exato. Imprima e cole no balcão. O cliente só aponta e confirma. Zero erro, dinheiro na conta na hora.
-          </p>
-
-          <h3>3. O Cartão de Visita Infinito (vCard)</h3>
-          <p>
-            Ao invés de gastar com cartões de papel que vão para o lixo, imprima apenas um adesivo e cole atrás do seu celular. Quando alguém pedir seu contato, mostre o adesivo. O código <strong>vCard</strong> salva automaticamente seu Nome, Email, Site e Telefone na agenda da pessoa.
-          </p>
-
-          <div className="bg-yellow-50 border-l-4 border-yellow-400 p-5 rounded-r-xl not-prose my-8">
-              <h3 className="text-yellow-800 font-bold flex items-center gap-2 text-lg m-0 mb-2">
-                  <AlertTriangle size={20}/> Cuidado na hora de imprimir!
-              </h3>
-              <p className="text-yellow-800 text-sm leading-relaxed m-0">
-                  QR Codes são robustos, mas não fazem milagre. Eles precisam de <strong>Contraste</strong>. Nunca imprima um código amarelo em fundo branco ou preto em fundo azul escuro. A câmera do celular precisa ver a diferença clara entre o claro e o escuro. Na dúvida? Preto no Branco é clássico e infalível.
-              </p>
+          {/* LINK PARA GERADOR DE LINK WHATSAPP */}
+          <div className="not-prose my-8">
+              <div className="bg-green-50 p-6 rounded-2xl border border-green-200 flex flex-col md:flex-row items-center justify-between gap-6 shadow-sm">
+                  <div>
+                      <h3 className="text-lg font-bold text-green-800 mb-2 flex items-center gap-2">
+                          <MessageCircle size={22}/> Quer criar um link de WhatsApp antes?
+                      </h3>
+                      <p className="text-sm text-green-700/80">
+                          Use nossa ferramenta dedicada para criar links curtos com mensagem personalizada e depois volte aqui para gerar o QR Code.
+                      </p>
+                  </div>
+                  <Link href="/ferramentas/gerador-link-whatsapp" className="shrink-0">
+                      <Button className="bg-green-600 hover:bg-green-700 text-white font-bold rounded-xl shadow-lg shadow-green-200">
+                          Ir para Gerador de Link <LinkIcon size={16} className="ml-2"/>
+                      </Button>
+                  </Link>
+              </div>
           </div>
 
           <h2 className="text-2xl font-bold text-slate-900 mt-12 mb-4">Perguntas Frequentes (FAQ)</h2>
@@ -216,17 +268,17 @@ export default function QRCodePage() {
                   <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
               </summary>
               <p className="mt-2 text-slate-600">
-                  Sim! Nossa ferramenta permite inserir a URL da sua logo. O QR Code possui uma tecnologia chamada "Correção de Erro" (Reed-Solomon), que permite que até 30% do código seja "coberto" ou danificado, e ainda assim funcione.
+                  Sim! Use a opção "Inserir Logo". O QR Code possui "Correção de Erro" que permite que até 30% do código seja coberto e ainda funcione.
               </p>
           </details>
 
           <details className="group border-b border-slate-200 pb-4 mb-4 cursor-pointer">
               <summary className="font-bold text-slate-800 flex justify-between items-center list-none">
-                  Qual formato devo baixar: PNG ou SVG?
+                  Qual formato devo baixar?
                   <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
               </summary>
               <p className="mt-2 text-slate-600">
-                  Depende. Se for usar no Instagram, WhatsApp ou Word, baixe <strong>PNG</strong>. Se for enviar para uma gráfica imprimir um banner gigante ou cartão de visita, baixe <strong>SVG</strong> (Vetor), pois ele nunca perde a qualidade, não importa o tamanho.
+                  Para redes sociais e documentos, use <strong>PNG</strong>. Para impressão em banners grandes ou materiais gráficos, use <strong>SVG</strong> (vetor), pois nunca perde qualidade.
               </p>
           </details>
 
@@ -236,7 +288,7 @@ export default function QRCodePage() {
                   <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
               </summary>
               <p className="mt-2 text-slate-600">
-                  Absolutamente não. Toda a geração do código acontece no seu navegador (Client-Side). Nenhuma informação sobre seu Wi-Fi, Pix ou links é enviada para nossos servidores. Privacidade total.
+                  Não. Toda a geração do código acontece no seu navegador (Client-Side). Nenhuma informação sobre seu Wi-Fi, Pix ou links é enviada para nossos servidores.
               </p>
           </details>
 

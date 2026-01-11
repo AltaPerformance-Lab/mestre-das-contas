@@ -1,9 +1,11 @@
 import { MetadataRoute } from 'next'
 import { reformData } from '@/data/reform-data'
+import { conversionData } from '@/data/image-conversions'
+import { receiptCases } from '@/data/receipt-cases' // Importando dados dos recibos
 import fs from 'fs'
 import path from 'path'
 
-// --- FUNÇÕES AUXILIARES DE LEITURA ---
+// --- FUNÇÕES AUXILIARES DE LEITURA (JSONs) ---
 
 // 1. QR Codes
 async function getQRCodeCases() {
@@ -23,7 +25,6 @@ async function getSalariosData() {
     const fileContent = fs.readFileSync(filePath, 'utf8');
     return JSON.parse(fileContent);
   } catch (error) {
-    console.error("Erro ao ler salarios.json:", error);
     return [];
   }
 }
@@ -35,7 +36,6 @@ async function getVeiculosData() {
     const fileContent = fs.readFileSync(filePath, 'utf8');
     return JSON.parse(fileContent);
   } catch (error) {
-    console.error("Erro ao ler veiculos.json:", error);
     return [];
   }
 }
@@ -43,7 +43,7 @@ async function getVeiculosData() {
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://mestredascontas.com.br'
 
-  // Carrega todos os dados externos
+  // Carrega dados assíncronos (JSONs)
   const qrCodeCases = await getQRCodeCases();
   const salariosData = await getSalariosData();
   const veiculosData = await getVeiculosData();
@@ -51,23 +51,41 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // --- 1. ROTAS ESTÁTICAS ---
   const staticRoutes: MetadataRoute.Sitemap = [
     '', // Home
+    
+    // Ferramentas
+    '/ferramentas',
     '/ferramentas/gerador-qr-code',
+    '/ferramentas/gerador-link-whatsapp',
+    '/ferramentas/gerador-de-senhas',
+    '/ferramentas/conversor-imagem',
+    '/ferramentas/gerador-recibo', 
+    
+    // Trabalhista
+    '/trabalhista',
     '/trabalhista/rescisao',
     '/trabalhista/ferias',
     '/trabalhista/decimo-terceiro',
     '/trabalhista/seguro-desemprego',
     '/trabalhista/horas-extras',
     '/trabalhista/horas-trabalhadas', 
+    
+    // Financeiro
+    '/financeiro',
     '/financeiro/juros-compostos',
     '/financeiro/reforma-tributaria', 
     '/financeiro/salario-liquido',
     '/financeiro/financiamento', 
-    '/financeiro/financiamento', // Página principal do financiamento
+    '/financeiro/financiamento-veiculos',
     '/financeiro/porcentagem', 
+    
+    // Saúde
+    '/saude',
     '/saude/imc',
     '/saude/calorias-diarias',
     '/saude/gestacional', 
     '/saude/agua',
+    
+    // Institucional
     '/sobre',
     '/fale-conosco',
     '/politica-privacidade',
@@ -80,21 +98,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: route === '' ? 1 : 0.8,
   }))
 
-  const hubs = [
-    '/trabalhista',
-    '/financeiro',
-    '/saude',
-    '/ferramentas', // Se existir
-  ].map((route) => ({
-    url: `${baseUrl}${route}`,
-    lastModified: new Date(),
-    changeFrequency: 'weekly' as const,
-    priority: 0.9,
-  }));
+  // --- 2. ROTAS DINÂMICAS (pSEO) ---
 
-  // --- 2. ROTAS DINÂMICAS ---
-
-  // A. Reforma Tributária
+  // A. Reforma Tributária (TS Data)
   const reformRoutes: MetadataRoute.Sitemap = reformData.map((item) => ({
     url: `${baseUrl}/financeiro/reforma-tributaria/${item.slug}`,
     lastModified: new Date(),
@@ -102,7 +108,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.9, 
   }))
 
-  // B. QR Code
+  // B. QR Code (JSON Data)
   const qrCodeRoutes: MetadataRoute.Sitemap = qrCodeCases.map((item: any) => ({
     url: `${baseUrl}/ferramentas/gerador-qr-code/${item.slug}`,
     lastModified: new Date(),
@@ -110,20 +116,32 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.85, 
   }))
 
-  // C. Salário Líquido (Novo)
-  // Estrutura: /financeiro/salario-liquido/[valor]
+  // C. Conversor de Imagem (TS Data)
+  const imageConverterRoutes: MetadataRoute.Sitemap = conversionData.map((item) => ({
+    url: `${baseUrl}/ferramentas/conversor-imagem/${item.slug}`,
+    lastModified: new Date(),
+    changeFrequency: 'monthly',
+    priority: 0.85, 
+  }))
+
+  // D. Gerador de Recibo (TS Data - NOVO)
+  const receiptRoutes: MetadataRoute.Sitemap = receiptCases.map((item) => ({
+    url: `${baseUrl}/ferramentas/gerador-recibo/${item.slug}`,
+    lastModified: new Date(),
+    changeFrequency: 'monthly',
+    priority: 0.85, 
+  }))
+
+  // E. Salário Líquido (JSON Data)
   const salarioRoutes: MetadataRoute.Sitemap = salariosData.map((item: any) => ({
-    // Assumindo que o JSON tem a propriedade 'valor' ou 'slug'
     url: `${baseUrl}/financeiro/salario-liquido/${item.valor || item.slug}`,
     lastModified: new Date(),
     changeFrequency: 'monthly',
     priority: 0.8,
   }))
 
-  // D. Financiamento Veículos (Novo)
-  // Estrutura: /financeiro/financiamento-veiculos/simulacao-[valor]
+  // F. Financiamento Veículos (JSON Data)
   const veiculosRoutes: MetadataRoute.Sitemap = veiculosData.map((item: any) => ({
-    // Atenção aqui: Adicionei o prefixo "simulacao-" conforme sua imagem da pasta
     url: `${baseUrl}/financeiro/financiamento-veiculos/simulacao-${item.valor || item.slug}`,
     lastModified: new Date(),
     changeFrequency: 'monthly',
@@ -135,6 +153,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...staticRoutes, 
     ...reformRoutes, 
     ...qrCodeRoutes,
+    ...imageConverterRoutes,
+    ...receiptRoutes,
     ...salarioRoutes,
     ...veiculosRoutes
   ]

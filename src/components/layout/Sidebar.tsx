@@ -3,9 +3,11 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { 
-  Calculator, Heart, Briefcase, TrendingUp, 
-  Home, Landmark, Percent, Droplet, Sparkles, Scale,
-  QrCode, LucideIcon, Zap, Coins, PieChart, Timer
+  Calculator, Briefcase, TrendingUp, 
+  Landmark, Percent, Droplet, Sparkles, Scale,
+  QrCode, LucideIcon, Zap, Coins, Timer,
+  Palmtree, Gift, ShieldCheck, Flame, Baby,
+  MessageCircle, Image as ImageIcon, Lock, FileText
 } from "lucide-react";
 
 // --- TIPAGEM ---
@@ -17,7 +19,8 @@ interface MenuItem {
   highlight?: boolean;
 }
 
-type MenuTheme = "blue" | "emerald" | "rose" | "indigo" | "amber" | "slate";
+// Adicionado 'indigo' para as Ferramentas
+type MenuTheme = "blue" | "emerald" | "rose" | "slate" | "indigo";
 
 interface MenuGroup {
   title: string;
@@ -30,7 +33,7 @@ interface SidebarProps {
   onItemClick?: () => void; 
 }
 
-// --- DADOS DO MENU ---
+// --- DADOS DO MENU (AGORA COM TODAS AS FERRAMENTAS) ---
 const menuGroups: MenuGroup[] = [
   {
     title: "Destaques",
@@ -41,13 +44,23 @@ const menuGroups: MenuGroup[] = [
     ]
   },
   {
+    title: "Ferramentas Úteis", // NOVA CATEGORIA
+    theme: "indigo",
+    items: [
+      { label: "Gerador Link WhatsApp", href: "/ferramentas/gerador-link-whatsapp", icon: MessageCircle },
+      { label: "Conversor de Imagens", href: "/ferramentas/conversor-imagem", icon: ImageIcon, badge: "Ilimitado" },
+      { label: "Gerador de Senhas", href: "/ferramentas/gerador-de-senhas", icon: Lock, badge: "Seguro" },
+      { label: "Gerador de Recibo", href: "/ferramentas/gerador-recibo", icon: FileText, badge: "PDF" },
+    ]
+  },
+  {
     title: "Trabalhista",
     theme: "blue",
     items: [
       { label: "Rescisão CLT", href: "/trabalhista/rescisao", icon: Briefcase },
-      { label: "Férias", href: "/trabalhista/ferias", icon: Home },
-      { label: "13º Salário", href: "/trabalhista/decimo-terceiro", icon: Coins },
-      { label: "Seguro Desemprego", href: "/trabalhista/seguro-desemprego", icon: Briefcase },
+      { label: "Calculadora de Férias", href: "/trabalhista/ferias", icon: Palmtree },
+      { label: "13º Salário", href: "/trabalhista/decimo-terceiro", icon: Gift },
+      { label: "Seguro Desemprego", href: "/trabalhista/seguro-desemprego", icon: ShieldCheck },
       { label: "Horas Extras", href: "/trabalhista/horas-extras", icon: Zap },
       { label: "Horas Trabalhadas", href: "/trabalhista/horas-trabalhadas", icon: Timer },
     ]
@@ -56,9 +69,9 @@ const menuGroups: MenuGroup[] = [
     title: "Financeiro",
     theme: "emerald",
     items: [
-      { label: "Salário Líquido", href: "/financeiro/salario-liquido", icon: Calculator, badge: "2025" },
+      { label: "Salário Líquido", href: "/financeiro/salario-liquido", icon: Coins, badge: "2025" },
       { label: "Juros Compostos", href: "/financeiro/juros-compostos", icon: TrendingUp },
-      { label: "Financiamento", href: "/financeiro/financiamento", icon: Landmark }, 
+      { label: "Financiamento Veículos", href: "/financeiro/financiamento-veiculos", icon: Landmark }, 
       { label: "Porcentagem", href: "/financeiro/porcentagem", icon: Percent },
     ]
   },
@@ -67,14 +80,14 @@ const menuGroups: MenuGroup[] = [
     theme: "rose",
     items: [
       { label: "IMC Online", href: "/saude/imc", icon: Scale },
-      { label: "Idade Gestacional", href: "/saude/gestacional", icon: Heart },
-      { label: "Calorias (TMB)", href: "/saude/calorias-diarias", icon: PieChart },
+      { label: "Idade Gestacional", href: "/saude/gestacional", icon: Baby },
+      { label: "Calorias (TMB)", href: "/saude/calorias-diarias", icon: Flame },
       { label: "Ingestão de Água", href: "/saude/agua", icon: Droplet },
     ]
   }
 ];
 
-// Estilos por Tema
+// --- ESTILOS VISUAIS (DESIGN SYSTEM) ---
 const themeStyles: Record<MenuTheme, { 
   bgTitle: string;
   textTitle: string;
@@ -104,19 +117,12 @@ const themeStyles: Record<MenuTheme, {
     iconActive: "text-white",
     iconInactive: "text-rose-400 group-hover:text-rose-600"
   },
-  indigo: {
+  indigo: { // Novo tema para Ferramentas
     bgTitle: "bg-indigo-50", textTitle: "text-indigo-600",
     active: "bg-indigo-600 text-white shadow-md shadow-indigo-200",
     inactive: "text-slate-600 hover:bg-indigo-50 hover:text-indigo-700",
     iconActive: "text-white",
     iconInactive: "text-indigo-400 group-hover:text-indigo-600"
-  },
-  amber: {
-    bgTitle: "bg-amber-50", textTitle: "text-amber-600",
-    active: "bg-amber-500 text-white shadow-md shadow-amber-200",
-    inactive: "text-slate-600 hover:bg-amber-50 hover:text-amber-700",
-    iconActive: "text-white",
-    iconInactive: "text-amber-400 group-hover:text-amber-600"
   },
   slate: { 
     bgTitle: "bg-slate-100", textTitle: "text-slate-600",
@@ -173,7 +179,7 @@ export default function Sidebar({ isMobile = false, onItemClick }: SidebarProps)
                 {group.items.map((item) => {
                   const isActive = pathname === item.href || (item.href !== '/' && pathname.startsWith(item.href));
 
-                  // --- ITEM DESTAQUE (Topo) ---
+                  // --- ITEM DESTAQUE ---
                   if (item.highlight) {
                     return (
                       <li key={item.href} className="mb-3 first:mt-0">
@@ -182,7 +188,6 @@ export default function Sidebar({ isMobile = false, onItemClick }: SidebarProps)
                           onClick={onItemClick}
                           className="group relative flex flex-col p-4 rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-lg border border-slate-100 hover:border-blue-200 w-full bg-gradient-to-br from-white to-slate-50 hover:to-white"
                         >
-                          {/* Ícone de Fundo Decorativo */}
                           <div className={`absolute top-0 right-0 p-2 opacity-10 group-hover:opacity-20 group-hover:scale-150 transition-all duration-500 ${item.label.includes("QR") ? "text-indigo-600" : "text-emerald-600"}`}>
                              <item.icon size={64} />
                           </div>
@@ -198,7 +203,6 @@ export default function Sidebar({ isMobile = false, onItemClick }: SidebarProps)
                              )}
                           </div>
 
-                          {/* CORREÇÃO AQUI: 'whitespace-normal' para quebrar linha e 'leading-tight' */}
                           <span className="relative z-10 block text-sm font-bold text-slate-800 leading-tight whitespace-normal">
                             {item.label}
                           </span>
@@ -216,14 +220,10 @@ export default function Sidebar({ isMobile = false, onItemClick }: SidebarProps)
                       <Link
                         href={item.href}
                         onClick={onItemClick}
-                        // CORREÇÃO AQUI: 'items-start' (alinhado ao topo) em vez de 'items-center'
-                        // Isso garante que o ícone fique na altura da primeira linha se o texto quebrar.
                         className={`group flex items-start gap-3 px-3.5 py-3 text-sm font-semibold rounded-xl transition-all duration-200 w-full active:scale-[0.98] ${containerClass}`}
                       >
-                        {/* 'mt-0.5' para alinhar visualmente o ícone com o texto da primeira linha */}
                         <item.icon size={18} strokeWidth={2.5} className={`transition-colors duration-200 shrink-0 mt-0.5 ${iconClass}`} />
                         
-                        {/* CORREÇÃO AQUI: Removido 'truncate', adicionado 'whitespace-normal' e 'leading-tight' */}
                         <div className="flex-1 flex flex-col">
                             <span className="whitespace-normal leading-tight">{item.label}</span>
                         </div>
