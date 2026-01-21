@@ -9,7 +9,7 @@ import {
 import { reformData } from "@/data/reform-data";
 import TaxReformCalculator from "@/components/calculators/TaxReformCalculator";
 import PageHeader from "@/components/layout/PageHeader";
-import AdUnit from "@/components/ads/AdUnit";
+import LazyAdUnit from "@/components/ads/LazyAdUnit";
 import DisclaimerBox from "@/components/ui/DisclaimerBox";
 
 // --- STATIC GENERATION (pSEO) ---
@@ -158,7 +158,7 @@ export default async function ReformPage({ params }: Props) {
         
         {/* ADSENSE TOP (Mobile Only - Desktop vai na Sidebar) */}
         <div className="w-full flex justify-center xl:hidden">
-            <AdUnit slot="reforma_top_mobile" format="horizontal" />
+            <LazyAdUnit slot="reforma_top_mobile" format="horizontal" />
         </div>
 
         {/* CALCULADORA EMBUTIDA */}
@@ -194,7 +194,7 @@ export default async function ReformPage({ params }: Props) {
 
         {/* ADSENSE MIDDLE */}
         <div className="w-full flex justify-center my-2 print:hidden">
-            <AdUnit slot="reforma_mid" format="auto" />
+            <LazyAdUnit slot="reforma_mid" format="auto" />
         </div>
 
         {/* --- CONTEÚDO RICO (GRID DE 2 COLUNAS) --- */}
@@ -301,7 +301,7 @@ export default async function ReformPage({ params }: Props) {
 
         {/* ADSENSE BOTTOM */}
         <div className="w-full flex justify-center mt-6 print:hidden">
-            <AdUnit slot="reforma_bottom" format="horizontal" variant="agency" />
+            <LazyAdUnit slot="reforma_bottom" format="horizontal" variant="agency" />
         </div>
 
       </div>

@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import TimeCalculator from "@/components/calculators/TimeCalculator";
-import AdUnit from "@/components/ads/AdUnit";
+import LazyAdUnit from "@/components/ads/LazyAdUnit";
 import DisclaimerBox from "@/components/ui/DisclaimerBox";
 import PageHeader from "@/components/layout/PageHeader";
 import { 
@@ -150,7 +150,7 @@ export default async function HorasPage({ searchParams }: Props) {
 
         {/* ANÚNCIO TOPO */}
         <div className="w-full max-w-5xl mx-auto overflow-hidden flex justify-center bg-indigo-50/30 rounded-lg border border-dashed border-indigo-200/50 print:hidden min-h-[100px]">
-           <AdUnit slot="ponto_top" format="horizontal" variant="agency" />
+           <LazyAdUnit slot="ponto_top" format="horizontal" variant="agency" />
         </div>
 
         {/* FERRAMENTA */}
@@ -175,7 +175,7 @@ export default async function HorasPage({ searchParams }: Props) {
 
         {/* ANÚNCIO MEIO */}
         <div className="w-full max-w-4xl mx-auto flex justify-center my-6 print:hidden min-h-[250px]">
-            <AdUnit slot="ponto_mid" format="auto" />
+            <LazyAdUnit slot="ponto_mid" format="auto" />
         </div>
 
         {/* --- CONTEÚDO EDUCACIONAL --- */}
@@ -293,7 +293,7 @@ export default async function HorasPage({ searchParams }: Props) {
 
         {/* --- ANÚNCIO BOTTOM (ESTRATÉGICO) --- */}
         <div className="w-full flex justify-center my-8 print:hidden min-h-[250px]">
-            <AdUnit slot="ponto_bottom" format="horizontal" variant="software" />
+            <LazyAdUnit slot="ponto_bottom" format="horizontal" variant="software" />
         </div>
 
         {/* RODAPÉ IMPRESSÃO */}

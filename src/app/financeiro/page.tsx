@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import AdUnit from "@/components/ads/AdUnit";
+import LazyAdUnit from "@/components/ads/LazyAdUnit";
 import { 
   TrendingUp, Calculator, Wallet, Percent, 
   Landmark, ArrowRight, PiggyBank, Coins,
@@ -71,7 +71,7 @@ export default function FinanceiroHubPage() {
           
           {/* ANÚNCIO TOPO */}
           <div className="w-full flex justify-center mb-10">
-             <AdUnit slot="fin_hub_top" format="horizontal" variant="software" className="min-h-[100px] w-full" />
+             <LazyAdUnit slot="fin_hub_top" format="horizontal" variant="software" className="min-h-[100px] w-full" />
           </div>
 
           {/* --- GRID DE FERRAMENTAS --- */}
@@ -196,7 +196,7 @@ export default function FinanceiroHubPage() {
 
           {/* ANÚNCIO RODAPÉ */}
           <div className="w-full flex justify-center mt-8">
-            <AdUnit slot="fin_hub_bottom" format="auto" />
+            <LazyAdUnit slot="fin_hub_bottom" format="auto" />
           </div>
 
       </div>

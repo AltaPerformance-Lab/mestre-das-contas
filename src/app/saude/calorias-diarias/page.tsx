@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import CalorieCalculator from "@/components/calculators/CalorieCalculator";
-import AdUnit from "@/components/ads/AdUnit";
+import LazyAdUnit from "@/components/ads/LazyAdUnit";
 import DisclaimerBox from "@/components/ui/DisclaimerBox"; 
 import PageHeader from "@/components/layout/PageHeader";
 import { 
@@ -151,7 +151,7 @@ export default async function CaloriasPage({ searchParams }: Props) {
 
         {/* ANÚNCIO TOPO */}
         <div className="w-full max-w-5xl mx-auto overflow-hidden flex justify-center bg-orange-50/30 rounded-lg border border-dashed border-orange-200/50 print:hidden min-h-[100px]">
-           <AdUnit slot="calorias_top" format="horizontal" variant="agency" />
+           <LazyAdUnit slot="calorias_top" format="horizontal" variant="agency" />
         </div>
 
         {/* --- FERRAMENTA PRINCIPAL --- */}
@@ -176,7 +176,7 @@ export default async function CaloriasPage({ searchParams }: Props) {
 
         {/* ANÚNCIO MEIO */}
         <div className="w-full max-w-4xl mx-auto flex justify-center my-4 print:hidden">
-            <AdUnit slot="calorias_mid" format="auto" />
+            <LazyAdUnit slot="calorias_mid" format="auto" />
         </div>
 
         {/* --- CONTEÚDO EDUCACIONAL --- */}

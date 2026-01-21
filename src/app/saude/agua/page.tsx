@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import WaterCalculator from "@/components/calculators/WaterCalculator";
-import AdUnit from "@/components/ads/AdUnit";
+import LazyAdUnit from "@/components/ads/LazyAdUnit";
 import DisclaimerBox from "@/components/ui/DisclaimerBox";
 import PageHeader from "@/components/layout/PageHeader";
 import { 
@@ -141,7 +141,7 @@ export default async function AguaPage({ searchParams }: Props) {
 
         {/* ANÚNCIO TOPO (FIX CLS) */}
         <div className="w-full max-w-5xl mx-auto overflow-hidden flex justify-center bg-cyan-50/30 rounded-lg border border-dashed border-cyan-200/50 print:hidden min-h-[100px]">
-           <AdUnit slot="agua_top" format="horizontal" variant="agency" />
+           <LazyAdUnit slot="agua_top" format="horizontal" variant="agency" />
         </div>
 
         {/* FERRAMENTA PRINCIPAL */}
@@ -166,7 +166,7 @@ export default async function AguaPage({ searchParams }: Props) {
 
         {/* ANÚNCIO MEIO */}
         <div className="w-full max-w-4xl mx-auto flex justify-center my-6 print:hidden min-h-[250px]">
-            <AdUnit slot="agua_mid" format="auto" />
+            <LazyAdUnit slot="agua_mid" format="auto" />
         </div>
 
         {/* --- CONTEÚDO EDUCACIONAL --- */}
@@ -355,7 +355,7 @@ export default async function AguaPage({ searchParams }: Props) {
 
         {/* --- ANÚNCIO BOTTOM (ESTRATÉGICO) --- */}
         <div className="w-full flex justify-center my-8 print:hidden min-h-[250px]">
-            <AdUnit slot="agua_bottom" format="horizontal" variant="software" />
+            <LazyAdUnit slot="agua_bottom" format="horizontal" variant="software" />
         </div>
 
         {/* RODAPÉ IMPRESSÃO */}

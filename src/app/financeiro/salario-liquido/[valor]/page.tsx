@@ -41,14 +41,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   if (!item) {
       return {
-          title: `Salário Líquido de R$ ${valor} - Cálculo 2025`,
+          title: `Salário Líquido de R$ ${valor} - Cálculo 2026`,
           description: `Simule os descontos de INSS e IRRF para um salário bruto de R$ ${valor}. Veja quanto sobra na sua conta.`
       }
   }
 
   return {
     title: item.title || `Salário Líquido de R$ ${item.valor}`,
-    description: item.desc || `Cálculo detalhado de descontos para salário de R$ ${item.valor}. Tabela INSS e IRRF 2025 atualizada.`,
+    description: item.desc || `Cálculo detalhado de descontos para salário de R$ ${item.valor}. Tabela INSS e IRRF 2026 atualizada.`,
     alternates: {
         canonical: `https://mestredascontas.com.br/financeiro/salario-liquido/${valor}`
     }
@@ -58,30 +58,57 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 // --- LÓGICA DE ANÁLISE ---
 function getAnalysis(valor: number, label?: string) {
     const formatado = new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(valor);
+    const salariosMinimos = (valor / 1412).toFixed(1);
     
     let analise = {
       title: label ? `Análise: ${label}` : `Análise para ${formatado}`,
       text: "",
       alert: "",
-      color: "emerald"
+      color: "emerald",
+      power: "",
+      tips: [] as string[]
     };
     
     if (valor <= 1412) {
-      analise.text = `Este valor corresponde ao Salário Mínimo vigente (ou menos). Nesta faixa, o desconto de INSS é o mínimo possível (7,5%) e há isenção total de Imposto de Renda.`;
+      analise.text = `Este valor corresponde ao Piso Nacional vigente. Nesta faixa, a prioridade financeira deve ser o controle de gastos essenciais (moradia e alimentação). O desconto de INSS é o menor da tabela (7,5%) e você está isento de Imposto de Renda.`;
       analise.alert = "Desconto Mínimo";
       analise.color = "emerald";
+      analise.power = "Básico";
+      analise.tips = [
+          "Busque tarifas sociais de energia e água.",
+          "Evite parcelamentos longos no cartão de crédito.",
+          "Mantenha uma reserva de emergência mínima (R$ 500) em conta digital que renda 100% do CDI."
+      ];
     } else if (valor <= 2259.20) {
-      analise.text = `Para quem recebe ${formatado}, a notícia é boa: este valor está na faixa de isenção de Imposto de Renda (IRRF). O único desconto direto em folha será a contribuição previdenciária (INSS).`;
+      analise.text = `Você recebe aproximadamente ${salariosMinimos} salários mínimos. A boa notícia é que você ainda está na faixa de ISENÇÃO do Imposto de Renda. Seu único desconto direto será o INSS. É um excelente momento para começar a investir, já que o leão não morde seu salário.`;
       analise.alert = "Isento de IRRF";
       analise.color = "blue";
+      analise.power = "Estável";
+      analise.tips = [
+          "Aproveite a isenção do IR para investir em LCI/LCA (também isentos).",
+          "Tente poupar 10% do salário líquido mensalmente.",
+          "Cuidado com financiamentos que comprometam mais de 30% da renda."
+      ];
     } else if (valor <= 4664.68) {
-      analise.text = `O valor de ${formatado} já entra nas faixas de tributação do Imposto de Renda. Além do INSS progressivo, haverá retenção de IRRF na fonte. Dica: Cadastrar dependentes pode reduzir esse imposto.`;
+      analise.text = `Com renda de ${salariosMinimos} salários mínimos, você entra na classe média tributária. O Imposto de Renda começa a pesar. Dica de ouro: Gastos com saúde (dentista, psicólogo, médicos) e educação podem ser abatidos na declaração anual para restituir parte do imposto pago.`;
       analise.alert = "Tributação Média";
       analise.color = "amber";
+      analise.power = "Ascendente";
+      analise.tips = [
+          "Cadastrar dependentes reduz o IR direto na fonte.",
+          "Considere um plano de previdência PGBL se você fizer a declaração completa (abate até 12% da renda bruta).",
+          "Revise suas tarifas bancárias: nesta faixa você consegue isenção total em bancos digitais."
+      ];
     } else {
-      analise.text = `O salário de ${formatado} é considerado alta renda para os padrões tributários. Aqui, o desconto do INSS atinge o teto (valor fixo máximo) e a alíquota do Imposto de Renda é a máxima (27,5% marginal).`;
-      analise.alert = "Teto INSS Atingido";
+      analise.text = `Sua renda (${salariosMinimos}x Salário Mínimo) está no topo da pirâmide salarial brasileira. O INSS atinge o teto fixo, mas o IRRF leva uma fatia considerável (27,5% na última faixa). O foco agora deve ser eficiência tributária e investimentos.`;
+      analise.alert = "Alta Renda";
       analise.color = "purple";
+      analise.power = "Elevado";
+      analise.tips = [
+          "Maxiimize aportes em Previdência Privada e Investimentos Isentos.",
+          "Tenha um bom cartão 'Black' que pontue milhas (o custo compensa pelos benefícios).",
+          "Blindagem de patrimônio e seguro de vida são essenciais nesta fase."
+      ];
     }
     
     return analise;
@@ -101,8 +128,9 @@ export default async function SalarioPorValorPage({ params }: Props) {
 
   const analysis = getAnalysis(salarioNum, label);
   const formatado = new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(salarioNum);
+  const salariosMinimos = (salarioNum / 1412).toFixed(1);
 
-  // --- O QUE FALTAVA: DADOS ESTRUTURADOS (JSON-LD) ---
+  // --- DADOS ESTRUTURADOS (JSON-LD) ---
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
@@ -111,15 +139,11 @@ export default async function SalarioPorValorPage({ params }: Props) {
         "name": `Calculadora de Salário Líquido: ${formatado}`,
         "applicationCategory": "FinanceApplication",
         "operatingSystem": "Web",
-        "offers": {
-          "@type": "Offer",
-          "price": "0",
-          "priceCurrency": "BRL"
-        },
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
         "aggregateRating": {
           "@type": "AggregateRating",
           "ratingValue": "4.9",
-          "ratingCount": Math.floor(salarioNum / 5) + 320, // Gera votos dinâmicos (ex: 2000 -> 720 votos)
+          "ratingCount": Math.floor(salarioNum / 5) + 320, 
           "bestRating": "5",
           "worstRating": "1"
         }
@@ -130,18 +154,12 @@ export default async function SalarioPorValorPage({ params }: Props) {
           {
             "@type": "Question",
             "name": `Quanto sobra de um salário de ${formatado}?`,
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": `Para um salário bruto de ${formatado}, são descontados o INSS (Tabela Progressiva 2025) e o Imposto de Renda (se houver). Use a calculadora acima para ver o valor exato.`
-            }
+            "acceptedAnswer": { "@type": "Answer", "text": `Para um salário bruto de ${formatado}, são descontados o INSS e o Imposto de Renda. O valor líquido depende do número de dependentes e outros descontos. Use o simulador.` }
           },
           {
             "@type": "Question",
-            "name": "Como é calculado o desconto do INSS em 2025?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "O INSS em 2025 segue uma tabela progressiva com alíquotas de 7,5%, 9%, 12% e 14%, aplicadas em fatias sobre o salário bruto."
-            }
+            "name": "Este salário paga Imposto de Renda?",
+            "acceptedAnswer": { "@type": "Answer", "text": salarioNum <= 2259.20 ? "Não. Este valor está atualmente na faixa de isenção do IRRF." : "Sim. Há retenção na fonte conforme a tabela progressiva oficial." }
           }
         ]
       }
@@ -150,12 +168,7 @@ export default async function SalarioPorValorPage({ params }: Props) {
 
   return (
     <article className="w-full max-w-full overflow-hidden pb-12">
-      
-      {/* INJEÇÃO DE JSON-LD */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       
       <div className="px-4 pt-4 md:pt-6">
         <PageHeader 
@@ -173,7 +186,6 @@ export default async function SalarioPorValorPage({ params }: Props) {
       </div>
 
       <div className="flex flex-col gap-8 px-4 sm:px-6 max-w-7xl mx-auto">
-
         <div className="w-full max-w-5xl mx-auto overflow-hidden flex justify-center min-h-[100px]">
            <AdUnit slot="salario_top" format="horizontal" variant="agency" />
         </div>
@@ -191,26 +203,35 @@ export default async function SalarioPorValorPage({ params }: Props) {
 
         <div className="prose prose-slate prose-sm md:prose-lg max-w-4xl mx-auto bg-white p-6 md:p-10 rounded-3xl border border-slate-100 shadow-xl shadow-slate-200/40 w-full overflow-hidden">
           
-          <div className={`bg-${analysis.color}-50 border-l-4 border-${analysis.color}-500 p-5 rounded-r-xl mb-8 not-prose`}>
-             <h2 className={`text-xl font-bold text-${analysis.color}-800 mb-2 flex items-center gap-2`}>
+          <div className={`bg-${analysis.color}-50 border-l-4 border-${analysis.color}-500 p-6 rounded-r-xl mb-8 not-prose`}>
+             <h2 className={`text-xl font-bold text-${analysis.color}-800 mb-3 flex items-center gap-2`}>
                 <TrendingDown size={24}/> {analysis.title}
              </h2>
-             <p className="text-slate-700 leading-relaxed text-pretty">
+             <p className="text-slate-700 leading-relaxed text-pretty mb-4">
                {analysis.text}
              </p>
-             <div className="flex flex-wrap gap-2 mt-4">
-                 {label && (
-                     <span className="inline-flex items-center gap-1.5 text-xs font-bold bg-white text-slate-600 px-3 py-1.5 rounded-full border border-slate-200 shadow-sm">
-                        <Briefcase size={12}/> Cargo: {label}
-                     </span>
-                 )}
+             <div className="flex flex-wrap gap-2">
+                 <span className="inline-flex items-center gap-1.5 text-xs font-bold bg-white text-slate-600 px-3 py-1.5 rounded-full border border-slate-200 shadow-sm">
+                    <Briefcase size={12}/> {salariosMinimos} Salários Mínimos
+                 </span>
                  <span className={`inline-flex items-center gap-1.5 text-xs font-bold text-white bg-${analysis.color}-600 px-3 py-1.5 rounded-full shadow-sm`}>
                     <CheckCircle2 size={12}/> {analysis.alert}
                  </span>
              </div>
           </div>
 
-          <h3>Como é feito esse cálculo?</h3>
+          <h3>Planejamento Financeiro para {formatado}</h3>
+          <p>Para otimizar seu rendimento de <strong>{formatado}</strong>, especialistas recomendam as seguintes ações:</p>
+          <ul className="space-y-2">
+             {analysis.tips.map((tip, i) => (
+                 <li key={i} className="flex gap-3 items-start p-3 bg-slate-50 rounded-lg border border-slate-100">
+                     <CheckCircle2 className="text-emerald-500 shrink-0 mt-0.5" size={18} />
+                     <span className="text-slate-700 text-sm font-medium">{tip}</span>
+                 </li>
+             ))}
+          </ul>
+
+          <h3>Como é calculado o Desconto?</h3>
           <p>
             O valor que você vê como "Líquido a Receber" é o resultado da subtração dos descontos obrigatórios (Oficiais do Governo) do seu Salário Bruto.
             Para o valor de <strong>{formatado}</strong>, seguimos a seguinte ordem legal:

@@ -351,7 +351,7 @@ export default function OvertimeCalculator() {
                     
                     <p className="text-[11px] text-slate-400 font-bold uppercase tracking-widest relative z-10 mb-1">Total a Receber (HE + DSR)</p>
                     <div className="flex items-center justify-center gap-1 relative z-10">
-                        <span className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">{resultado.totalFinal}</span>
+                        <span className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight break-words">{resultado.totalFinal}</span>
                     </div>
                     <p className="text-[10px] text-slate-400 mt-2 relative z-10 border-t border-white/10 pt-2 inline-block px-4">
                         Valor da sua hora normal: <strong className="text-slate-300">{resultado.valorHora}</strong>

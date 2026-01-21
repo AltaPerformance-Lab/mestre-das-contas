@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import CompoundInterestCalculator from "@/components/calculators/CompoundInterestCalculator";
-import AdUnit from "@/components/ads/AdUnit";
+import LazyAdUnit from "@/components/ads/LazyAdUnit";
 import DisclaimerBox from "@/components/ui/DisclaimerBox";
 import PageHeader from "@/components/layout/PageHeader";
 
@@ -150,7 +150,7 @@ export default async function JurosCompostosPage({ searchParams }: Props) {
 
         {/* ANÚNCIO TOPO (FIX CLS) */}
         <div className="w-full max-w-5xl mx-auto overflow-hidden flex justify-center bg-slate-50/50 rounded-lg border border-dashed border-slate-200/50 print:hidden min-h-[100px]">
-           <AdUnit slot="juros_top" format="horizontal" variant="software" />
+           <LazyAdUnit slot="juros_top" format="horizontal" variant="software" />
         </div>
 
         {/* --- FERRAMENTA PRINCIPAL --- */}
@@ -175,7 +175,7 @@ export default async function JurosCompostosPage({ searchParams }: Props) {
 
         {/* ANÚNCIO MEIO */}
         <div className="w-full max-w-4xl mx-auto flex justify-center my-4 print:hidden min-h-[250px]">
-            <AdUnit slot="juros_mid" format="auto" />
+            <LazyAdUnit slot="juros_mid" format="auto" />
         </div>
 
         {/* --- CONTEÚDO EDUCACIONAL --- */}

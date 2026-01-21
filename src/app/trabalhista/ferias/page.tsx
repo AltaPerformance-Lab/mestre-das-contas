@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import VacationCalculator from "@/components/calculators/VacationCalculator";
-import AdUnit from "@/components/ads/AdUnit";
+import LazyAdUnit from "@/components/ads/LazyAdUnit";
 import DisclaimerBox from "@/components/ui/DisclaimerBox";
 import PageHeader from "@/components/layout/PageHeader";
 import { 
@@ -12,9 +12,9 @@ import {
   Landmark, ExternalLink, Plane
 } from "lucide-react";
 
-// --- 1. METADATA DE ALTA PERFORMANCE (SEO 2025) ---
+// --- 1. METADATA DE ALTA PERFORMANCE (SEO 2026) ---
 export const metadata: Metadata = {
-  title: "Calculadora de Férias 2025 | Vender 10 Dias e Adiantar 13º",
+  title: "Calculadora de Férias 2026 | Vender 10 Dias e Adiantar 13º",
   description: "Calcule suas férias online em segundos. Simule venda de 10 dias (abono pecuniário), adiantamento do 13º salário e descontos de INSS/IRRF. Tabela oficial CLT.",
   keywords: [
     "calculadora férias", 
@@ -22,12 +22,12 @@ export const metadata: Metadata = {
     "abono pecuniário valor", 
     "adiantamento 13 nas férias", 
     "cálculo um terço de férias", 
-    "desconto irrf férias 2025",
+    "desconto irrf férias 2026",
     "quanto recebo de férias liquido"
   ],
   alternates: { canonical: "https://mestredascontas.com.br/trabalhista/ferias" },
   openGraph: {
-    title: "Calculadora de Férias 2025 - Mestre das Contas",
+    title: "Calculadora de Férias 2026 - Mestre das Contas",
     description: "Vai sair de férias? Não viaje sem saber quanto vai cair na conta. Simule agora.",
     url: "https://mestredascontas.com.br/trabalhista/ferias",
     siteName: "Mestre das Contas",
@@ -71,7 +71,7 @@ const jsonLd = {
     },
     {
       "@type": "Article",
-      "headline": "Guia Completo das Férias: Cálculo, Venda e Prazos 2025",
+      "headline": "Guia Completo das Férias: Cálculo, Venda e Prazos 2026",
       "description": "Tudo o que você precisa saber antes de sair de férias: como calcular, quando o dinheiro cai e se vale a pena vender 10 dias.",
       "author": { "@type": "Organization", "name": "Mestre das Contas" },
       "publisher": { "@type": "Organization", "name": "Mestre das Contas", "logo": { "@type": "ImageObject", "url": "https://mestredascontas.com.br/opengraph-image" } },
@@ -129,7 +129,7 @@ export default async function FeriasPage({ searchParams }: Props) {
           icon={<Palmtree size={32} strokeWidth={2} />}
           variant="default" // Azul/Indigo
           categoryColor="amber" // Destaque Laranja/Amarelo
-          badge="Tabela 2025"
+          badge="Tabela 2026"
           rating={4.9}
           reviews={8750}
           breadcrumbs={[
@@ -154,7 +154,7 @@ export default async function FeriasPage({ searchParams }: Props) {
 
         {/* ANÚNCIO TOPO */}
         <div className="w-full max-w-5xl mx-auto overflow-hidden flex justify-center bg-slate-50/50 rounded-lg border border-dashed border-slate-200/50 print:hidden min-h-[100px]">
-           <AdUnit slot="ferias_top" format="horizontal" variant="agency" />
+           <LazyAdUnit slot="ferias_top" format="horizontal" variant="agency" />
         </div>
 
         {/* FERRAMENTA */}
@@ -179,7 +179,7 @@ export default async function FeriasPage({ searchParams }: Props) {
 
         {/* ANÚNCIO MEIO */}
         <div className="w-full max-w-4xl mx-auto flex justify-center my-6 print:hidden min-h-[250px]">
-            <AdUnit slot="ferias_mid" format="auto" />
+            <LazyAdUnit slot="ferias_mid" format="auto" />
         </div>
 
         {/* --- CONTEÚDO EDUCACIONAL DENSO --- */}
@@ -357,7 +357,7 @@ export default async function FeriasPage({ searchParams }: Props) {
 
         {/* --- ANÚNCIO BOTTOM (ESTRATÉGICO) --- */}
         <div className="w-full flex justify-center my-8 print:hidden min-h-[250px]">
-            <AdUnit slot="ferias_bottom" format="horizontal" variant="software" />
+            <LazyAdUnit slot="ferias_bottom" format="horizontal" variant="software" />
         </div>
 
         {/* RODAPÉ IMPRESSÃO */}

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import AdUnit from "@/components/ads/AdUnit";
+import LazyAdUnit from "@/components/ads/LazyAdUnit";
 import PageHeader from "@/components/layout/PageHeader";
 import { 
   QrCode, Zap, Lock, FileJson, Image as ImageIcon, 
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     siteName: "Mestre das Contas",
     locale: "pt_BR",
     type: "website",
-    images: [{ url: "https://mestredascontas.com.br/og-ferramentas.png", width: 1200, height: 630, alt: "Ferramentas - Mestre das Contas", }],
+    // images: fallen back to root
   },
 };
 
@@ -44,6 +44,7 @@ const jsonLd = {
   "description": "Coleção de ferramentas digitais gratuitas para produtividade.",
   "url": "https://mestredascontas.com.br/ferramentas",
   "hasPart": [
+    { "@type": "SoftwareApplication", "name": "Editor de PDF Online", "url": "https://mestredascontas.com.br/ferramentas/editor-pdf-online" },
     { "@type": "SoftwareApplication", "name": "Gerador de QR Code", "url": "https://mestredascontas.com.br/ferramentas/gerador-qr-code" },
     { "@type": "SoftwareApplication", "name": "Gerador de Link WhatsApp", "url": "https://mestredascontas.com.br/ferramentas/gerador-link-whatsapp" },
     { "@type": "SoftwareApplication", "name": "Conversor de Imagens", "url": "https://mestredascontas.com.br/ferramentas/conversor-imagem" },
@@ -79,12 +80,33 @@ export default function FerramentasHubPage() {
 
         {/* ANÚNCIO TOPO */}
         <div className="w-full flex justify-center">
-           <AdUnit slot="tools_hub_top" format="horizontal" variant="agency" className="min-h-[100px] w-full" />
+           <LazyAdUnit slot="tools_hub_top" format="horizontal" variant="agency" className="min-h-[100px] w-full" />
         </div>
 
         {/* --- GRID DE FERRAMENTAS --- */}
         <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           
+          {/* 0. Editor de PDF (DESTAQUE) */}
+          <Link href="/ferramentas/editor-pdf-online" className="group relative overflow-hidden bg-white rounded-3xl border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full flex flex-col md:col-span-2 lg:col-span-1">
+            <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-opacity">
+              <FileText size={80} className="text-violet-600" />
+            </div>
+            <div className="p-6 md:p-8 flex-1 flex flex-col">
+              <div className="w-14 h-14 bg-violet-50 rounded-2xl flex items-center justify-center text-violet-600 mb-6 group-hover:scale-110 transition-transform shadow-sm ring-1 ring-violet-100">
+                <FileText size={28} strokeWidth={2.5} />
+              </div>
+              <h2 className="text-xl font-bold text-slate-900 mb-3 group-hover:text-violet-600 transition-colors">Editor de PDF Ultimate</h2>
+              <p className="text-slate-600 mb-6 leading-relaxed flex-1 text-sm">
+                Edite, Junte, Assine e Anote em seus PDFs. Ferramenta completa com processamento 100% no navegador (privacidade total).
+              </p>
+              <div className="mt-auto">
+                <span className="inline-flex items-center text-sm font-bold text-white bg-violet-600 px-4 py-2 rounded-lg group-hover:bg-violet-700 transition-colors">
+                  Editar PDF Agora <ArrowRight size={16} className="ml-2 group-hover:translate-x-1 transition-transform" />
+                </span>
+              </div>
+            </div>
+          </Link>
+
           {/* 1. Gerador de QR Code */}
           <Link href="/ferramentas/gerador-qr-code" className="group relative overflow-hidden bg-white rounded-3xl border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full flex flex-col">
             <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-opacity">
@@ -258,7 +280,6 @@ export default function FerramentasHubPage() {
                   <li className="flex items-center gap-2"><CheckCircle2 size={16} className="text-emerald-400"/> Teste de Velocidade de Digitação</li>
                   <li className="flex items-center gap-2"><CheckCircle2 size={16} className="text-emerald-400"/> Contador de Caracteres e Palavras</li>
                   <li className="flex items-center gap-2"><CheckCircle2 size={16} className="text-emerald-400"/> Formatador de Código (JSON/XML)</li>
-                  <li className="flex items-center gap-2"><CheckCircle2 size={16} className="text-emerald-400"/> Conversor de PDF (Unir/Dividir)</li>
               </ul>
           </div>
 
@@ -266,7 +287,7 @@ export default function FerramentasHubPage() {
 
         {/* ANÚNCIO RODAPÉ */}
         <div className="w-full flex justify-center mt-4">
-          <AdUnit slot="tools_hub_bottom" format="auto" />
+          <LazyAdUnit slot="tools_hub_bottom" format="auto" />
         </div>
 
       </div>

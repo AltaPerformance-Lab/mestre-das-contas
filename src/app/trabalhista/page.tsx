@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import AdUnit from "@/components/ads/AdUnit";
+import LazyAdUnit from "@/components/ads/LazyAdUnit";
 import PageHeader from "@/components/layout/PageHeader";
 import { 
   Briefcase, Calculator, Calendar, Coins, 
@@ -79,7 +79,7 @@ export default function TrabalhistaHubPage() {
 
         {/* ANÚNCIO TOPO */}
         <div className="w-full flex justify-center">
-           <AdUnit slot="hub_top" format="horizontal" variant="agency" className="min-h-[100px] w-full" />
+           <LazyAdUnit slot="hub_top" format="horizontal" variant="agency" className="min-h-[100px] w-full" />
         </div>
 
         {/* --- GRID DE FERRAMENTAS (6 ITENS) --- */}
@@ -295,7 +295,7 @@ export default function TrabalhistaHubPage() {
 
         {/* ANÚNCIO RODAPÉ */}
         <div className="w-full flex justify-center mt-4">
-          <AdUnit slot="hub_bottom" format="auto" />
+          <LazyAdUnit slot="hub_bottom" format="auto" />
         </div>
 
       </div>

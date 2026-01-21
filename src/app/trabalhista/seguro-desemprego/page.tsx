@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import UnemploymentCalculator from "@/components/calculators/UnemploymentCalculator";
-import AdUnit from "@/components/ads/AdUnit";
+import LazyAdUnit from "@/components/ads/LazyAdUnit";
 import DisclaimerBox from "@/components/ui/DisclaimerBox";
 import PageHeader from "@/components/layout/PageHeader";
 import { 
@@ -154,7 +154,7 @@ export default async function SeguroPage({ searchParams }: Props) {
 
         {/* ANÚNCIO TOPO */}
         <div className="w-full max-w-5xl mx-auto overflow-hidden flex justify-center bg-slate-50/50 rounded-lg border border-dashed border-slate-200/50 print:hidden min-h-[100px]">
-           <AdUnit slot="seguro_top" format="horizontal" variant="agency" />
+           <LazyAdUnit slot="seguro_top" format="horizontal" variant="agency" />
         </div>
 
         {/* FERRAMENTA */}
@@ -179,7 +179,7 @@ export default async function SeguroPage({ searchParams }: Props) {
 
         {/* ANÚNCIO MEIO */}
         <div className="w-full max-w-4xl mx-auto flex justify-center my-6 print:hidden">
-            <AdUnit slot="seguro_mid" format="auto" />
+            <LazyAdUnit slot="seguro_mid" format="auto" />
         </div>
 
         {/* --- CONTEÚDO EDUCACIONAL DENSO --- */}
@@ -404,7 +404,7 @@ export default async function SeguroPage({ searchParams }: Props) {
 
         {/* --- ANÚNCIO BOTTOM (ESTRATÉGICO) --- */}
         <div className="w-full flex justify-center my-8 print:hidden min-h-[250px]">
-            <AdUnit slot="seguro_bottom" format="horizontal" variant="software" />
+            <LazyAdUnit slot="seguro_bottom" format="horizontal" variant="software" />
         </div>
 
         {/* RODAPÉ IMPRESSÃO */}

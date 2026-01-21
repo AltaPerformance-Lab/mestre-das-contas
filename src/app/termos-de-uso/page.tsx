@@ -26,7 +26,7 @@ export default function TermosPage() {
           Termos de Uso
         </h1>
         <p className="text-slate-600">
-          Vigência a partir de: <span className="font-semibold">Dezembro de 2025</span>
+          Vigência a partir de: <span className="font-semibold">Janeiro de 2026</span>
         </p>
       </div>
 

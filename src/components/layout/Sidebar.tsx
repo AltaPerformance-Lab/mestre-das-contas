@@ -40,6 +40,7 @@ const menuGroups: MenuGroup[] = [
     theme: "slate",
     items: [
       { label: "Gerador de QR Code", href: "/ferramentas/gerador-qr-code", icon: QrCode, badge: "Grátis", highlight: true },
+      { label: "Editor de PDF", href: "/ferramentas/editor-pdf-online", icon: FileText, badge: "Novo", highlight: true },
       { label: "Reforma Tributária", href: "/financeiro/reforma-tributaria", icon: Landmark, badge: "2026", highlight: true },
     ]
   },
@@ -47,6 +48,7 @@ const menuGroups: MenuGroup[] = [
     title: "Ferramentas Úteis", // NOVA CATEGORIA
     theme: "indigo",
     items: [
+      { label: "Editor de PDF", href: "/ferramentas/editor-pdf-online", icon: FileText, badge: "Top" },
       { label: "Gerador Link WhatsApp", href: "/ferramentas/gerador-link-whatsapp", icon: MessageCircle },
       { label: "Conversor de Imagens", href: "/ferramentas/conversor-imagem", icon: ImageIcon, badge: "Ilimitado" },
       { label: "Gerador de Senhas", href: "/ferramentas/gerador-de-senhas", icon: Lock, badge: "Seguro" },

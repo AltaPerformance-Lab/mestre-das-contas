@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import AdUnit from "@/components/ads/AdUnit";
+import LazyAdUnit from "@/components/ads/LazyAdUnit";
 import PageHeader from "@/components/layout/PageHeader";
 import { 
   Heart, Activity, Scale, Flame, 
@@ -77,7 +77,7 @@ export default function SaudeHubPage() {
 
         {/* ANÚNCIO TOPO */}
         <div className="w-full max-w-5xl mx-auto overflow-hidden flex justify-center bg-slate-50/50 rounded-lg border border-dashed border-slate-200/50 print:hidden min-h-[100px]">
-           <AdUnit slot="saude_hub_top" format="horizontal" variant="agency" />
+           <LazyAdUnit slot="saude_hub_top" format="horizontal" variant="agency" />
         </div>
 
         {/* --- GRID DE FERRAMENTAS --- */}
@@ -234,7 +234,7 @@ export default function SaudeHubPage() {
 
         {/* ANÚNCIO RODAPÉ */}
         <div className="w-full max-w-4xl mx-auto flex justify-center mt-4 print:hidden">
-          <AdUnit slot="saude_hub_bottom" format="auto" />
+          <LazyAdUnit slot="saude_hub_bottom" format="auto" />
         </div>
 
         {/* RODAPÉ IMPRESSÃO */}

@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { 
     Search, CalendarDays, Briefcase, Calculator, 
-    TrendingUp, Heart, Baby, Landmark, Percent, Droplet, LucideIcon, QrCode
+    TrendingUp, Heart, Baby, Landmark, Percent, Droplet, LucideIcon, QrCode, FileText
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 
@@ -18,6 +18,7 @@ interface SearchItem {
 // --- LISTA DE PÁGINAS ATUALIZADA ---
 const searchablePages: SearchItem[] = [
     // Ferramentas
+    { title: "Editor de PDF Online", url: "/ferramentas/editor-pdf-online", icon: FileText, category: "Ferramentas" },
     { title: "Gerador de QR Code", url: "/ferramentas/gerador-qr-code", icon: QrCode, category: "Ferramentas" },
     
     // Financeiro

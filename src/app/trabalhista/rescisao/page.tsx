@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import TerminationCalculator from "@/components/calculators/TerminationCalculator";
-import AdUnit from "@/components/ads/AdUnit";
+import LazyAdUnit from "@/components/ads/LazyAdUnit";
 import DisclaimerBox from "@/components/ui/DisclaimerBox";
 import PageHeader from "@/components/layout/PageHeader";
 import { 
@@ -14,8 +14,8 @@ import {
 
 // --- 1. METADATA (SEO MAXIMIZADO) ---
 export const metadata: Metadata = {
-  title: "Calculadora de Rescisão CLT 2025 | Cálculo Exato (Com Multa FGTS)",
-  description: "Foi demitido ou pediu demissão? Simule seu acerto trabalhista agora. Cálculo exato de Aviso Prévio, Férias, 13º Salário e Multa de 40% do FGTS. Atualizado 2025.",
+  title: "Calculadora de Rescisão CLT 2026 | Cálculo Exato (Com Multa FGTS)",
+  description: "Foi demitido ou pediu demissão? Simule seu acerto trabalhista agora. Cálculo exato de Aviso Prévio, Férias, 13º Salário e Multa de 40% do FGTS. Atualizado 2026.",
   keywords: [
     "calculadora rescisão", 
     "calcular acerto trabalhista", 
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     canonical: "https://mestredascontas.com.br/trabalhista/rescisao",
   },
   openGraph: {
-    title: "Calculadora de Rescisão de Contrato 2025 - Mestre das Contas",
+    title: "Calculadora de Rescisão de Contrato 2026 - Mestre das Contas",
     description: "Não assine nada sem conferir. Simule seu acerto trabalhista completo em segundos.",
     url: "https://mestredascontas.com.br/trabalhista/rescisao",
     siteName: "Mestre das Contas",
@@ -138,7 +138,7 @@ export default async function RescisaoPage({ searchParams }: Props) {
 
         {/* ANÚNCIO TOPO */}
         <div className="w-full max-w-5xl mx-auto overflow-hidden flex justify-center bg-slate-50/50 rounded-lg border border-dashed border-slate-200/50 print:hidden min-h-[100px]">
-           <AdUnit slot="rescisao_top" format="horizontal" variant="agency" />
+           <LazyAdUnit slot="rescisao_top" format="horizontal" variant="agency" />
         </div>
 
         {/* FERRAMENTA */}
@@ -163,7 +163,7 @@ export default async function RescisaoPage({ searchParams }: Props) {
 
         {/* ANÚNCIO MEIO */}
         <div className="w-full max-w-4xl mx-auto flex justify-center my-6 print:hidden">
-            <AdUnit slot="rescisao_mid" format="auto" />
+            <LazyAdUnit slot="rescisao_mid" format="auto" />
         </div>
 
         {/* --- CONTEÚDO EDUCACIONAL DENSO --- */}
@@ -366,7 +366,7 @@ export default async function RescisaoPage({ searchParams }: Props) {
 
         {/* --- ANÚNCIO BOTTOM --- */}
         <div className="w-full flex justify-center my-8 print:hidden min-h-[250px]">
-            <AdUnit slot="rescisao_bottom" format="horizontal" variant="software" />
+            <LazyAdUnit slot="rescisao_bottom" format="horizontal" variant="software" />
         </div>
 
         {/* RODAPÉ IMPRESSÃO */}

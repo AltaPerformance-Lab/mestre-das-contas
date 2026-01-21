@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import OvertimeCalculator from "@/components/calculators/OvertimeCalculator";
-import AdUnit from "@/components/ads/AdUnit";
+import LazyAdUnit from "@/components/ads/LazyAdUnit";
 import DisclaimerBox from "@/components/ui/DisclaimerBox";
 import PageHeader from "@/components/layout/PageHeader";
 import { 
@@ -12,9 +12,9 @@ import {
   TrendingUp, Calculator, Landmark, ExternalLink, Scale
 } from "lucide-react";
 
-// --- 1. METADATA (SEO 2025) ---
+// --- 1. METADATA (SEO 2026) ---
 export const metadata: Metadata = {
-  title: "Calculadora de Horas Extras 2025 | 50%, 100% e DSR (Cálculo Exato)",
+  title: "Calculadora de Horas Extras 2026 | 50%, 100% e DSR (Cálculo Exato)",
   description: "Não perca dinheiro. Calcule o valor exato das suas horas extras (50% e 100%) e o reflexo no Descanso Semanal Remunerado (DSR). Simulador CLT atualizado.",
   keywords: [
     "calculadora horas extras", 
@@ -129,7 +129,7 @@ export default async function HorasExtrasPage({ searchParams }: Props) {
           icon={<Clock size={32} strokeWidth={2} />}
           variant="default" // Azul/Roxo
           categoryColor="purple"
-          badge="Atualizado 2025"
+          badge="Atualizado 2026"
           rating={4.8}
           reviews={5320}
           breadcrumbs={[
@@ -154,7 +154,7 @@ export default async function HorasExtrasPage({ searchParams }: Props) {
 
         {/* ANÚNCIO TOPO */}
         <div className="w-full max-w-5xl mx-auto overflow-hidden flex justify-center bg-slate-50/50 rounded-lg border border-dashed border-slate-200/50 print:hidden min-h-[100px]">
-           <AdUnit slot="horas_top" format="horizontal" variant="agency" />
+           <LazyAdUnit slot="horas_top" format="horizontal" variant="agency" />
         </div>
 
         {/* FERRAMENTA */}
@@ -179,7 +179,7 @@ export default async function HorasExtrasPage({ searchParams }: Props) {
 
         {/* ANÚNCIO MEIO */}
         <div className="w-full max-w-4xl mx-auto flex justify-center my-6 print:hidden min-h-[250px]">
-            <AdUnit slot="horas_mid" format="auto" />
+            <LazyAdUnit slot="horas_mid" format="auto" />
         </div>
 
         {/* --- CONTEÚDO EDUCACIONAL DENSO --- */}
@@ -334,7 +334,7 @@ export default async function HorasExtrasPage({ searchParams }: Props) {
         
         {/* --- ANÚNCIO BOTTOM --- */}
         <div className="w-full flex justify-center my-8 print:hidden min-h-[250px]">
-            <AdUnit slot="horas_bottom" format="horizontal" variant="software" />
+            <LazyAdUnit slot="horas_bottom" format="horizontal" variant="software" />
         </div>
 
         {/* RODAPÉ IMPRESSÃO */}

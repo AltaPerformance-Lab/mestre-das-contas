@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import IMCCalculator from "@/components/calculators/IMCCalculator";
-import AdUnit from "@/components/ads/AdUnit";
+import LazyAdUnit from "@/components/ads/LazyAdUnit";
 import DisclaimerBox from "@/components/ui/DisclaimerBox";
 import PageHeader from "@/components/layout/PageHeader"; 
 import { 
@@ -12,14 +12,14 @@ import {
   AlertOctagon, Apple, Dna, TrendingUp
 } from "lucide-react";
 
-// --- 1. METADATA DE ALTA PERFORMANCE (SEO 2025) ---
+// --- 1. METADATA DE ALTA PERFORMANCE (SEO 2026) ---
 export const metadata: Metadata = {
-  title: "Calculadora de IMC 2025 (Grátis) | Tabela Oficial e Cálculo Exato",
+  title: "Calculadora de IMC 2026 (Grátis) | Tabela Oficial e Cálculo Exato",
   description: "Calcule seu IMC agora. Veja a tabela oficial da OMS, entenda se você está no peso ideal, os riscos da obesidade e a diferença entre massa muscular e gordura.",
   keywords: [
     "calculadora imc", 
     "indice de massa corporal", 
-    "tabela imc 2025", 
+    "tabela imc 2026", 
     "calcular obesidade", 
     "peso ideal altura", 
     "formula imc", 
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: "https://mestredascontas.com.br/saude/imc" },
   openGraph: {
-    title: "Calculadora de IMC Oficial 2025 - Mestre das Contas",
+    title: "Calculadora de IMC Oficial 2026 - Mestre das Contas",
     description: "Ferramenta gratuita para verificar seu peso ideal segundo a OMS. Cuide da sua saúde hoje.",
     url: "https://mestredascontas.com.br/saude/imc",
     siteName: "Mestre das Contas",
@@ -72,7 +72,7 @@ const jsonLd = {
     },
     {
       "@type": "Article",
-      "headline": "Guia Definitivo do IMC 2025: Tabela, Cálculo e Dicas de Saúde",
+      "headline": "Guia Definitivo do IMC 2026: Tabela, Cálculo e Dicas de Saúde",
       "description": "Entenda a ciência por trás do Índice de Quetelet, riscos da obesidade e tabela oficial atualizada.",
       "author": { "@type": "Organization", "name": "Mestre das Contas" },
       "publisher": { "@type": "Organization", "name": "Mestre das Contas", "logo": { "@type": "ImageObject", "url": "https://mestredascontas.com.br/opengraph-image" } },
@@ -126,7 +126,7 @@ export default async function IMCPage({ searchParams }: Props) {
       <div className="px-4 pt-4 md:pt-6">
         <PageHeader 
           title="Calculadora de IMC"
-          description="Monitorar seu peso é o primeiro passo para uma vida longa. Utilize nossa ferramenta oficial, atualizada com os protocolos de 2025 da OMS."
+          description="Monitorar seu peso é o primeiro passo para uma vida longa. Utilize nossa ferramenta oficial, atualizada com os protocolos de 2026 da OMS."
           category="Saúde & Bem-Estar"
           icon={<Scale size={32} strokeWidth={2} />}
           variant="health" // IMPORTANTE: Usa o gradiente Laranja/Rosa
@@ -145,7 +145,7 @@ export default async function IMCPage({ searchParams }: Props) {
 
         {/* BANNER TOPO (FIX CLS) */}
         <div className="w-full max-w-5xl mx-auto overflow-hidden flex justify-center bg-slate-50/50 rounded-lg border border-dashed border-slate-200/50 print:hidden min-h-[100px]">
-           <AdUnit slot="imc_top" format="horizontal" variant="agency" />
+           <LazyAdUnit slot="imc_top" format="horizontal" variant="agency" />
         </div>
 
         {/* FERRAMENTA */}
@@ -170,7 +170,7 @@ export default async function IMCPage({ searchParams }: Props) {
 
         {/* BANNER MEIO (FIX CLS) */}
         <div className="w-full max-w-4xl mx-auto flex justify-center my-6 print:hidden min-h-[250px]">
-           <AdUnit slot="imc_mid" format="auto" />
+           <LazyAdUnit slot="imc_mid" format="auto" />
         </div>
 
         {/* --- CONTEÚDO EDUCACIONAL DENSO --- */}
@@ -389,7 +389,7 @@ export default async function IMCPage({ searchParams }: Props) {
 
         {/* --- ANÚNCIO BOTTOM (ESTRATÉGICO) --- */}
         <div className="w-full flex justify-center my-8 print:hidden min-h-[250px]">
-            <AdUnit slot="imc_bottom" format="horizontal" variant="software" />
+            <LazyAdUnit slot="imc_bottom" format="horizontal" variant="software" />
         </div>
 
         {/* RODAPÉ DE IMPRESSÃO */}

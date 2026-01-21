@@ -62,7 +62,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR" className={inter.variable} suppressHydrationWarning>
-      <body className="bg-slate-100 text-slate-900 antialiased font-sans selection:bg-blue-600 selection:text-white min-h-screen flex flex-col">
+      <body className="bg-slate-100 text-slate-900 antialiased font-sans selection:bg-blue-600 selection:text-white min-h-screen flex flex-col overflow-x-hidden">
         
         {/* --- 1. ANALYTICS INTELIGENTE (OPÇÃO A) --- */}
         {/* Não precisa passar ID, ele pega do .env e só ativa se tiver consentimento */}

@@ -2,8 +2,9 @@ import { Suspense } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import TaxReformCalculator from "@/components/calculators/TaxReformCalculator";
-import AdUnit from "@/components/ads/AdUnit";
+import LazyAdUnit from "@/components/ads/LazyAdUnit";
 import DisclaimerBox from "@/components/ui/DisclaimerBox";
+import { reformData } from "@/data/reform-data";
 import PageHeader from "@/components/layout/PageHeader";
 import { 
   Landmark, HelpCircle, BookOpen, TrendingUp, TrendingDown,
@@ -35,7 +36,6 @@ export const metadata: Metadata = {
     siteName: "Mestre das Contas",
     locale: "pt_BR",
     type: "article",
-    images: [{ url: "https://mestredascontas.com.br/og-reforma.png", width: 1200, height: 630, alt: "Simulador Reforma Tributária" }],
   },
   robots: { index: true, follow: true },
 };
@@ -135,7 +135,7 @@ export default async function ReformaPage({ searchParams }: Props) {
 
         {/* ANÚNCIO TOPO */}
         <div className="w-full max-w-5xl mx-auto overflow-hidden flex justify-center bg-slate-50/50 rounded-lg border border-dashed border-slate-200/50 print:hidden min-h-[100px]">
-           <AdUnit slot="reforma_top" format="horizontal" variant="agency" />
+           <LazyAdUnit slot="reforma_top" format="horizontal" variant="agency" />
         </div>
 
         {/* --- FERRAMENTA --- */}
@@ -160,7 +160,7 @@ export default async function ReformaPage({ searchParams }: Props) {
 
         {/* ANÚNCIO MEIO */}
         <div className="w-full max-w-4xl mx-auto flex justify-center my-6 print:hidden min-h-[250px]">
-            <AdUnit slot="reforma_mid" format="auto" />
+            <LazyAdUnit slot="reforma_mid" format="auto" />
         </div>
 
         {/* --- CONTEÚDO PROFUNDO (HUMANIZADO + SEO) --- */}
@@ -308,9 +308,39 @@ export default async function ReformaPage({ searchParams }: Props) {
                       <div className="bg-orange-50 p-3 rounded-lg text-xs text-orange-800 font-medium border border-orange-100 text-center">🚫 Cigarros e Álcool</div>
                       <div className="bg-orange-50 p-3 rounded-lg text-xs text-orange-800 font-medium border border-orange-100 text-center">⛽ Carros a Gasolina</div>
                       <div className="bg-orange-50 p-3 rounded-lg text-xs text-orange-800 font-medium border border-orange-100 text-center">⛏️ Mineração</div>
-                      <div className="bg-orange-50 p-3 rounded-lg text-xs text-orange-800 font-medium border border-orange-100 text-center">🥤 Refrigerantes</div>
+                      <div className="bg-orange-50 p-3 rounded-lg text-xs text-orange-800 font-medium border border-orange-100 text-center">🥤 Refrigerantes (Açucarados)</div>
+                      <div className="bg-orange-50 p-3 rounded-lg text-xs text-orange-800 font-medium border border-orange-100 text-center">🎰 Apostas (Bets)</div>
                   </div>
+                  <p className="text-xs text-slate-500 mt-4 italic border-t border-orange-100 pt-3">
+                      *A lista oficial pode mudar até a regulamentação final. O objetivo é saúde pública e ambiental.
+                  </p>
               </div>
+          </div>
+
+          <h3 className="text-xl font-bold text-slate-800 mt-12 mb-6 flex items-center gap-2">
+              <CheckCircle2 className="text-blue-600" /> Simulação por Profissão (Veja a sua)
+          </h3>
+          <p className="text-slate-600 mb-8">
+              A reforma afeta cada profissão de um jeito. Advogados, Médicos e Motoristas terão regras diferentes. Selecione sua área para uma análise detalhada:
+          </p>
+
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 not-prose mb-12">
+                {reformData.slice(0, 12).map((item) => (
+                    <Link key={item.slug} href={`/financeiro/reforma-tributaria/${item.slug}`} 
+                        className="group flex flex-col p-4 bg-slate-50 hover:bg-white border border-slate-200 hover:border-blue-300 rounded-xl transition-all shadow-sm hover:shadow-md"
+                    >
+                        <span className="font-bold text-slate-700 group-hover:text-blue-700 text-sm mb-1">{item.jobTitle}</span>
+                        <div className="flex items-center gap-2">
+                            <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wide
+                                ${item.verdict.includes('Aumento') ? 'bg-red-100 text-red-700' : 
+                                  item.verdict.includes('Redução') ? 'bg-emerald-100 text-emerald-700' : 
+                                  'bg-blue-100 text-blue-700'}`
+                            }>
+                                {item.verdict === 'Aumento de Carga' ? 'Aumento' : item.verdict === 'Redução de Carga' ? 'Queda' : 'Neutro'}
+                            </span>
+                        </div>
+                    </Link>
+                ))}
           </div>
 
           <h3 className="text-xl font-bold text-slate-800 mt-12 mb-6 flex items-center gap-2">
@@ -323,7 +353,7 @@ export default async function ReformaPage({ searchParams }: Props) {
           <div className="not-prose relative border-l-2 border-slate-200 ml-4 space-y-10 pb-4">
               <div className="relative pl-8">
                   <div className="absolute -left-[9px] top-0 w-4 h-4 bg-blue-600 rounded-full border-4 border-white shadow-sm ring-1 ring-blue-100"></div>
-                  <h4 className="font-bold text-slate-900 text-lg">2026: O Ano do Teste</h4>
+                  <h4 className="font-bold text-slate-900 text-lg">2026 (Hoje): O Ano do Teste</h4>
                   <p className="text-sm text-slate-600 mt-2 leading-relaxed">
                       Tudo começa com uma alíquota simbólica de <strong>0,9% (CBS)</strong> e <strong>0,1% (IBS)</strong>. O objetivo não é arrecadar, é testar se os sistemas digitais funcionam.
                   </p>
@@ -398,7 +428,7 @@ export default async function ReformaPage({ searchParams }: Props) {
               <Link href="/financeiro/salario-liquido" className="flex flex-col p-5 bg-white border border-slate-200 rounded-xl hover:border-blue-400 hover:shadow-lg transition-all group">
                   <div className="bg-blue-50 w-10 h-10 rounded-lg flex items-center justify-center mb-3 text-blue-600 shadow-sm group-hover:scale-110 transition-transform"><Coins size={20}/></div>
                   <span className="font-bold text-slate-800 text-lg">Salário Líquido</span>
-                  <span className="text-sm text-slate-500 mt-1">Calculadora CLT 2025</span>
+                  <span className="text-sm text-slate-500 mt-1">Calculadora CLT 2026</span>
               </Link>
               <Link href="/financeiro/porcentagem" className="flex flex-col p-5 bg-white border border-slate-200 rounded-xl hover:border-purple-400 hover:shadow-lg transition-all group">
                   <div className="bg-purple-50 w-10 h-10 rounded-lg flex items-center justify-center mb-3 text-purple-600 shadow-sm group-hover:scale-110 transition-transform"><PiggyBank size={20}/></div>
@@ -412,7 +442,7 @@ export default async function ReformaPage({ searchParams }: Props) {
 
         {/* --- ANÚNCIO BOTTOM (PARA DEVS/RETENÇÃO) --- */}
         <div className="w-full flex justify-center my-8 print:hidden min-h-[250px]">
-            <AdUnit slot="reforma_bottom" format="horizontal" variant="software" />
+            <LazyAdUnit slot="reforma_bottom" format="horizontal" variant="software" />
         </div>
 
         {/* RODAPÉ IMPRESSÃO */}

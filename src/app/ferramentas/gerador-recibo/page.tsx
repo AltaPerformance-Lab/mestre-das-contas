@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import ReceiptGenerator from "@/components/tools/ReceiptGenerator";
-import AdUnit from "@/components/ads/AdUnit";
+import LazyAdUnit from "@/components/ads/LazyAdUnit";
 import DisclaimerBox from "@/components/ui/DisclaimerBox";
 import PageHeader from "@/components/layout/PageHeader";
 import { 
@@ -66,7 +66,7 @@ export default function ReceiptPage() {
         
         {/* ANÚNCIO TOPO */}
         <div className="w-full max-w-5xl mx-auto overflow-hidden flex justify-center bg-slate-50/50 rounded-lg border border-dashed border-slate-200/50 print:hidden min-h-[100px]">
-           <AdUnit slot="recibo_top" format="horizontal" variant="agency" />
+           <LazyAdUnit slot="recibo_top" format="horizontal" variant="agency" />
         </div>
 
         {/* FERRAMENTA PRINCIPAL */}
@@ -77,7 +77,7 @@ export default function ReceiptPage() {
 
         {/* ANÚNCIO MEIO */}
         <div className="w-full max-w-4xl mx-auto flex justify-center my-6 print:hidden min-h-[250px]">
-            <AdUnit slot="recibo_mid" format="auto" />
+            <LazyAdUnit slot="recibo_mid" format="auto" />
         </div>
 
         {/* --- ARTIGO EDUCACIONAL --- */}
@@ -187,7 +187,7 @@ export default function ReceiptPage() {
 
         {/* ANÚNCIO BOTTOM */}
         <div className="w-full flex justify-center mt-8 min-h-[250px]">
-            <AdUnit slot="recibo_bottom" format="horizontal" variant="software" />
+            <LazyAdUnit slot="recibo_bottom" format="horizontal" variant="software" />
         </div>
 
       </div>

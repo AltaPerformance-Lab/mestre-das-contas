@@ -109,11 +109,11 @@ export default function TaxReformCalculator({
 
     const timeline: TimelineStep[] = [];
     timeline.push({
-        ano: "2025 (Hoje)", fase: "Sistema Antigo", impostoEstimado: impostoAtual, valorTotal: formatBRL(impostoAtual),
+        ano: "2025", fase: "Sistema Antigo", impostoEstimado: impostoAtual, valorTotal: formatBRL(impostoAtual),
         descricao: `Carga cheia de PIS, COFINS, ICMS, ISS e IPI (~${taxaAntigaPct}%).`
     });
     timeline.push({
-        ano: "2026", fase: "Fase de Testes", impostoEstimado: impostoAtual, valorTotal: formatBRL(impostoAtual),
+        ano: "2026 (Hoje)", fase: "Fase de Testes", impostoEstimado: impostoAtual, valorTotal: formatBRL(impostoAtual),
         descricao: "Início da cobrança de 1% (IVA) compensável. Carga inalterada."
     });
     const step2027 = impostoAtual + ((impostoNovo - impostoAtual) * 0.30);
@@ -333,7 +333,7 @@ export default function TaxReformCalculator({
                                         <p className={`text-xs font-bold uppercase tracking-wider mb-2 ${resultado.situacao === 'Redução' ? 'text-emerald-600' : 'text-rose-600'}`}>Resultado Final (2033)</p>
                                         <div className={`text-3xl md:text-4xl font-extrabold flex flex-wrap items-center gap-2 ${resultado.situacao === 'Redução' ? 'text-emerald-700' : 'text-rose-700'}`}>
                                             {resultado.situacao === 'Redução' ? <TrendingDown size={32}/> : <TrendingUp size={32}/>}
-                                            <span className="break-all tracking-tight">{resultado.diferencaValor}</span>
+                                            <span className="break-words">{resultado.diferencaValor}</span>
                                         </div>
                                         <p className={`text-sm font-medium mt-2 opacity-90 ${resultado.situacao === 'Redução' ? 'text-emerald-800' : 'text-rose-800'}`}>
                                             de impostos a {resultado.situacao === 'Redução' ? 'menos' : 'mais'} por operação.
@@ -370,7 +370,7 @@ export default function TaxReformCalculator({
                                                         <p className="text-sm text-slate-600 leading-relaxed">{step.descricao}</p>
                                                         <div className="text-right shrink-0">
                                                             <p className="text-[10px] text-slate-400 uppercase font-bold">Valor Estimado</p>
-                                                            <span className="block font-bold text-slate-800 text-base whitespace-nowrap">{step.valorTotal}</span>
+                                                            <span className="block font-bold text-slate-800 text-base">{step.valorTotal}</span>
                                                         </div>
                                                     </div>
                                                 </div>

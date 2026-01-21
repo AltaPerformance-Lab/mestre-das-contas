@@ -54,6 +54,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     
     // Ferramentas
     '/ferramentas',
+    '/ferramentas/editor-pdf-online', // NOVO
     '/ferramentas/gerador-qr-code',
     '/ferramentas/gerador-link-whatsapp',
     '/ferramentas/gerador-de-senhas',
@@ -142,7 +143,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // F. Financiamento Veículos (JSON Data)
   const veiculosRoutes: MetadataRoute.Sitemap = veiculosData.map((item: any) => ({
-    url: `${baseUrl}/financeiro/financiamento-veiculos/simulacao-${item.valor || item.slug}`,
+    url: `${baseUrl}/financeiro/financiamento-veiculos/simulacao/${item.slug}`, // Fixed path
     lastModified: new Date(),
     changeFrequency: 'monthly',
     priority: 0.8,
@@ -155,7 +156,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...qrCodeRoutes,
     ...imageConverterRoutes,
     ...receiptRoutes,
-    ...salarioRoutes,
-    ...veiculosRoutes
+    // ...salarioRoutes, // Temporarily excluded for AdSense Audit (Thin Content risk)
+    // ...veiculosRoutes // Temporarily excluded for AdSense Audit (Thin Content risk)
   ]
 }

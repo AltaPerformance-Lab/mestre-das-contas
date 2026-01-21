@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import FinancingCalculator from "@/components/calculators/FinancingCalculator"; // Usando a calculadora base
-import AdUnit from "@/components/ads/AdUnit";
+import LazyAdUnit from "@/components/ads/LazyAdUnit";
 import DisclaimerBox from "@/components/ui/DisclaimerBox";
 import PageHeader from "@/components/layout/PageHeader";
 import { 
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     siteName: "Mestre das Contas",
     locale: "pt_BR",
     type: "article",
-    images: [{ url: "https://mestredascontas.com.br/og-financiamento.png", width: 1200, height: 630, alt: "Simulador Auto" }],
+    // images: fallen back to root
   },
   robots: {
     index: true, follow: true,
@@ -112,7 +112,7 @@ export default function FinanciamentoVeiculosPage() {
 
         {/* ANÚNCIO TOPO */}
         <div className="w-full max-w-5xl mx-auto overflow-hidden flex justify-center bg-slate-50/50 rounded-lg border border-dashed border-slate-200/50 print:hidden min-h-[100px]">
-           <AdUnit slot="auto_top" format="horizontal" variant="agency" />
+           <LazyAdUnit slot="auto_top" format="horizontal" variant="agency" />
         </div>
 
         {/* --- FERRAMENTA --- */}
@@ -138,7 +138,7 @@ export default function FinanciamentoVeiculosPage() {
 
         {/* ANÚNCIO MEIO */}
         <div className="w-full max-w-4xl mx-auto flex justify-center my-6 print:hidden">
-            <AdUnit slot="auto_mid" format="auto" />
+            <LazyAdUnit slot="auto_mid" format="auto" />
         </div>
 
         {/* --- CONTEÚDO EDUCACIONAL --- */}
@@ -258,7 +258,7 @@ export default function FinanciamentoVeiculosPage() {
 
         {/* ANÚNCIO BOTTOM */}
         <div className="w-full flex justify-center mt-8">
-            <AdUnit slot="auto_bottom" format="horizontal" variant="software" />
+            <LazyAdUnit slot="auto_bottom" format="horizontal" variant="software" />
         </div>
 
         {/* RODAPÉ IMPRESSÃO */}
