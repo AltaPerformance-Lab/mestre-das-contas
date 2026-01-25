@@ -12,6 +12,7 @@ import {
   Briefcase, DollarSign, CalendarRange, RefreshCcw, 
   Share2, Printer, History, Code2, ExternalLink, CheckCircle2, X, ShieldAlert, Link as LinkIcon
 } from "lucide-react";
+import ShareAsImage from "@/components/ui/ShareAsImage";
 
 // --- TIPAGEM ---
 type HistoricoSeguro = {
@@ -227,7 +228,7 @@ export default function UnemploymentCalculator() {
         
         {/* --- FORMULÁRIO (Esq) --- */}
         <div className="lg:col-span-7 space-y-6 w-full">
-          <Card className="border-0 shadow-lg shadow-slate-200/50 ring-1 ring-slate-200 bg-white rounded-2xl overflow-hidden">
+          <Card className="border-0 shadow-lg shadow-slate-200/50 dark:shadow-none ring-1 ring-slate-200 dark:ring-slate-800 bg-white dark:bg-slate-900 rounded-2xl overflow-hidden">
             <CardHeader className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-6">
               <div className="flex flex-row items-center justify-between gap-2">
                   <CardTitle className="text-xl flex items-center gap-3">
@@ -250,46 +251,46 @@ export default function UnemploymentCalculator() {
             <CardContent className="p-6">
               
               <div className="space-y-4">
-                  <Label className="text-slate-600 font-medium">Últimos 3 Salários Brutos</Label>
+                  <Label className="text-slate-600 dark:text-slate-300 font-medium">Últimos 3 Salários Brutos</Label>
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                       <div className="relative">
-                          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-400 bg-slate-50 px-1 rounded">1º</span>
-                          <Input placeholder="R$ 0,00" value={salario1} onChange={handleSalarioChange(setSalario1)} className="pl-8 h-12 border-slate-200" inputMode="numeric"/>
+                          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-400 bg-slate-50 dark:bg-slate-800 px-1 rounded">1º</span>
+                          <Input placeholder="R$ 0,00" value={salario1} onChange={handleSalarioChange(setSalario1)} className="pl-8 h-12 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:bg-white dark:focus:bg-slate-900" inputMode="numeric"/>
                       </div>
                       <div className="relative">
-                          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-400 bg-slate-50 px-1 rounded">2º</span>
-                          <Input placeholder="R$ 0,00" value={salario2} onChange={handleSalarioChange(setSalario2)} className="pl-8 h-12 border-slate-200" inputMode="numeric"/>
+                          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-400 bg-slate-50 dark:bg-slate-800 px-1 rounded">2º</span>
+                          <Input placeholder="R$ 0,00" value={salario2} onChange={handleSalarioChange(setSalario2)} className="pl-8 h-12 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:bg-white dark:focus:bg-slate-900" inputMode="numeric"/>
                       </div>
                       <div className="relative">
-                          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-400 bg-slate-50 px-1 rounded">3º</span>
-                          <Input placeholder="R$ 0,00" value={salario3} onChange={handleSalarioChange(setSalario3)} className="pl-8 h-12 border-slate-200" inputMode="numeric"/>
+                          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-400 bg-slate-50 dark:bg-slate-800 px-1 rounded">3º</span>
+                          <Input placeholder="R$ 0,00" value={salario3} onChange={handleSalarioChange(setSalario3)} className="pl-8 h-12 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:bg-white dark:focus:bg-slate-900" inputMode="numeric"/>
                       </div>
                   </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-5">
                   <div className="space-y-2">
-                      <Label className="text-slate-600 font-medium">Meses Trabalhados (Últimos 36m)</Label>
-                      <Input type="number" value={mesesTrabalhados} onChange={e => setMesesTrabalhados(e.target.value)} className="h-12 border-slate-200" placeholder="Ex: 24" inputMode="numeric"/>
+                      <Label className="text-slate-600 dark:text-slate-300 font-medium">Meses Trabalhados (Últimos 36m)</Label>
+                      <Input type="number" value={mesesTrabalhados} onChange={e => setMesesTrabalhados(e.target.value)} className="h-12 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:bg-white dark:focus:bg-slate-900" placeholder="Ex: 24" inputMode="numeric"/>
                   </div>
                   <div className="space-y-2">
-                      <Label className="text-slate-600 font-medium">Quantas vezes já solicitou?</Label>
+                      <Label className="text-slate-600 dark:text-slate-300 font-medium">Quantas vezes já solicitou?</Label>
                       <Select value={solicitacao} onValueChange={setSolicitacao}>
-                          <SelectTrigger className="h-12 bg-slate-50 border-slate-200 text-base"><SelectValue /></SelectTrigger>
-                          <SelectContent>
-                              <SelectItem value="1">Primeira vez</SelectItem>
-                              <SelectItem value="2">Segunda vez</SelectItem>
-                              <SelectItem value="3">Terceira vez ou mais</SelectItem>
+                          <SelectTrigger className="h-12 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-base text-slate-900 dark:text-white"><SelectValue /></SelectTrigger>
+                          <SelectContent className="dark:bg-slate-800 dark:border-slate-700">
+                              <SelectItem value="1" className="dark:text-slate-200 focus:dark:bg-slate-700">Primeira vez</SelectItem>
+                              <SelectItem value="2" className="dark:text-slate-200 focus:dark:bg-slate-700">Segunda vez</SelectItem>
+                              <SelectItem value="3" className="dark:text-slate-200 focus:dark:bg-slate-700">Terceira vez ou mais</SelectItem>
                           </SelectContent>
                       </Select>
                   </div>
               </div>
 
               <div className="flex gap-3 pt-6">
-                  <Button onClick={() => calcular()} className="flex-1 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 h-14 text-lg font-bold shadow-lg shadow-indigo-200 rounded-xl transition-all active:scale-[0.99]">
+                  <Button onClick={() => calcular()} className="flex-1 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 h-14 text-lg font-bold shadow-lg shadow-indigo-200 dark:shadow-none rounded-xl transition-all active:scale-[0.99]">
                     Calcular Benefício
                   </Button>
-                  <Button variant="outline" onClick={limpar} size="icon" className="h-14 w-14 shrink-0 border-slate-200 text-slate-400 hover:text-red-500 hover:bg-red-50 hover:border-red-200 rounded-xl transition-colors" title="Limpar">
+                  <Button variant="outline" onClick={limpar} size="icon" className="h-14 w-14 shrink-0 border-slate-200 dark:border-slate-700 text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 hover:border-red-200 dark:hover:border-red-800 dark:bg-slate-900 rounded-xl transition-colors" title="Limpar">
                     <RefreshCcw className="h-6 w-6" />
                   </Button>
               </div>
@@ -298,19 +299,19 @@ export default function UnemploymentCalculator() {
 
           {/* HISTÓRICO RÁPIDO */}
           {!isIframe && historico.length > 0 && (
-            <div className="bg-white rounded-xl border border-slate-200 p-5 shadow-sm animate-in fade-in">
+            <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-5 shadow-sm animate-in fade-in">
                 <h4 className="text-xs font-bold text-slate-400 uppercase mb-4 flex items-center gap-2 tracking-wider">
                   <History size={14} /> Histórico Recente
                 </h4>
                 <div className="space-y-1">
                 {historico.map((item, idx) => (
-                    <div key={idx} className="flex justify-between items-center text-sm border-b border-slate-50 pb-2 last:border-0 last:pb-0 p-2 hover:bg-slate-50 rounded-lg transition-colors cursor-pointer active:bg-slate-100">
+                    <div key={idx} className="flex justify-between items-center text-sm border-b border-slate-50 dark:border-slate-800 pb-2 last:border-0 last:pb-0 p-2 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors cursor-pointer active:bg-slate-100 dark:active:bg-slate-700">
                         <div className="flex flex-col">
-                            <span className="text-slate-900 font-bold">Média: {item.media}</span>
+                            <span className="text-slate-900 dark:text-slate-100 font-bold">Média: {item.media}</span>
                             <span className="text-[10px] text-slate-400 font-medium">{item.data}</span>
                         </div>
                         <div className="text-right">
-                            <span className="block font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded text-xs tabular-nums">{item.valor}</span>
+                            <span className="block font-bold text-blue-700 dark:text-blue-300 bg-blue-50 dark:bg-blue-900/30 px-2 py-0.5 rounded text-xs tabular-nums">{item.valor}</span>
                             <span className="text-[10px] text-slate-400 font-medium">{item.parcelas}</span>
                         </div>
                     </div>
@@ -322,14 +323,14 @@ export default function UnemploymentCalculator() {
 
         {/* --- COLUNA DIREITA: RESULTADOS --- */}
         <div className="lg:col-span-5 w-full flex flex-col gap-6">
-          <Card className={`h-full w-full transition-all duration-500 border-0 shadow-lg shadow-slate-200/50 ring-1 ring-slate-200 overflow-hidden flex flex-col ${resultado ? 'bg-white' : 'bg-slate-50'}`}>
-            <CardHeader className="px-6 py-5 border-b border-slate-100 bg-white shrink-0">
-              <CardTitle className="text-slate-800 text-lg font-bold">Resultado da Simulação</CardTitle>
+          <Card id="resultado-seguro-card" className={`h-full w-full transition-all duration-500 border-0 shadow-lg shadow-slate-200/50 dark:shadow-none ring-1 ring-slate-200 dark:ring-slate-800 overflow-hidden flex flex-col ${resultado ? 'bg-white dark:bg-slate-900' : 'bg-slate-50 dark:bg-slate-950'}`}>
+            <CardHeader className="px-6 py-5 border-b border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 shrink-0">
+              <CardTitle className="text-slate-800 dark:text-slate-100 text-lg font-bold">Resultado da Simulação</CardTitle>
             </CardHeader>
             <CardContent className="p-6 flex-1 flex flex-col">
               {!resultado ? (
                 <div className="flex-1 flex flex-col items-center justify-center text-slate-400 text-center space-y-4 min-h-[300px]">
-                  <div className="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mb-2">
+                  <div className="w-20 h-20 bg-slate-100 dark:bg-slate-800 rounded-full flex items-center justify-center mb-2">
                       <ShieldAlert size={40} className="opacity-30" />
                   </div>
                   <p className="text-sm font-medium max-w-[200px]">Preencha os dados ao lado para ver se tem direito e o valor.</p>
@@ -344,8 +345,8 @@ export default function UnemploymentCalculator() {
                             <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/20 rounded-full blur-3xl -mr-10 -mt-10 group-hover:bg-blue-500/30 transition-colors duration-500"></div>
                             
                             <p className="text-[11px] text-slate-400 font-bold uppercase tracking-widest relative z-10 mb-1">Valor da Parcela</p>
-                            <div className="flex items-center justify-center gap-1 relative z-10">
-                                <span className="text-4xl sm:text-5xl font-extrabold text-white tracking-tight">{resultado.valorParcela}</span>
+                            <div className="w-full flex items-center justify-center px-4 relative z-10">
+                                <span className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight break-words leading-tight text-center">{resultado.valorParcela}</span>
                             </div>
                             
                             <div className="inline-block mt-4 px-4 py-1.5 bg-green-500/20 text-green-400 rounded-full text-xs font-bold border border-green-500/30 relative z-10">
@@ -354,23 +355,23 @@ export default function UnemploymentCalculator() {
                         </div>
 
                         {/* Detalhes */}
-                        <div className="space-y-0 text-sm bg-white rounded-xl border border-slate-100 divide-y divide-slate-100 shadow-sm overflow-hidden">
-                            <div className="flex justify-between py-3 px-4 hover:bg-slate-50 transition-colors">
-                                <span className="text-slate-600 font-medium">Média Salarial (3 meses)</span>
-                                <span className="font-bold text-slate-900">{resultado.media}</span>
+                        <div className="space-y-0 text-sm bg-white dark:bg-slate-900 rounded-xl border border-slate-100 dark:border-slate-800 divide-y divide-slate-100 dark:divide-slate-800 shadow-sm overflow-hidden">
+                            <div className="flex justify-between py-3 px-4 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                                <span className="text-slate-600 dark:text-slate-400 font-medium">Média Salarial (3 meses)</span>
+                                <span className="font-bold text-slate-900 dark:text-slate-100">{resultado.media}</span>
                             </div>
-                            <div className="flex justify-between py-3 px-4 bg-blue-50/50">
-                                <span className="text-slate-700 font-bold">Total do Benefício</span>
-                                <span className="text-blue-700 font-extrabold">{resultado.total}</span>
+                            <div className="flex justify-between py-3 px-4 bg-blue-50/50 dark:bg-blue-900/20">
+                                <span className="text-slate-700 dark:text-slate-300 font-bold">Total do Benefício</span>
+                                <span className="text-blue-700 dark:text-blue-400 font-extrabold">{resultado.total}</span>
                             </div>
                         </div>
                       </>
                   ) : (
-                      <div className="bg-red-50 border border-red-200 rounded-xl p-8 text-center shadow-sm">
-                          <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4 text-red-600"><X size={32}/></div>
-                          <h3 className="font-bold text-red-800 mb-2 text-lg">Sem Direito ao Benefício</h3>
-                          <p className="text-sm text-red-700 leading-relaxed max-w-[250px] mx-auto">{resultado.motivoNegativa}</p>
-                          <p className="text-xs text-red-600 mt-4 bg-red-100/50 py-2 px-3 rounded inline-block">Requisito não atendido</p>
+                      <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-900/30 rounded-xl p-8 text-center shadow-sm">
+                          <div className="w-16 h-16 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center mx-auto mb-4 text-red-600 dark:text-red-400"><X size={32}/></div>
+                          <h3 className="font-bold text-red-800 dark:text-red-200 mb-2 text-lg">Sem Direito ao Benefício</h3>
+                          <p className="text-sm text-red-700 dark:text-red-300 leading-relaxed max-w-[250px] mx-auto">{resultado.motivoNegativa}</p>
+                          <p className="text-xs text-red-600 dark:text-red-400 mt-4 bg-red-100/50 dark:bg-red-900/20 py-2 px-3 rounded inline-block">Requisito não atendido</p>
                       </div>
                   )}
                   
@@ -379,12 +380,15 @@ export default function UnemploymentCalculator() {
                   {/* BOTOES DE AÇÃO */}
                   {resultado.direito && (
                     <div className="grid grid-cols-2 gap-3 pt-2">
-                        <Button variant="outline" onClick={() => handleShare("link")} className="h-11 border-slate-200 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200 text-xs font-bold uppercase tracking-wide">
+                        <Button variant="outline" onClick={() => handleShare("link")} className="h-11 border-slate-200 dark:border-slate-700 hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-200 dark:hover:border-blue-800 dark:bg-slate-900 dark:text-slate-200 text-xs font-bold uppercase tracking-wide">
                             {copiado === "link" ? <span className="flex items-center gap-2"><CheckCircle2 size={16}/> Copiado</span> : <span className="flex items-center gap-2"><Share2 size={16}/> Compartilhar</span>}
                         </Button>
-                        <Button variant="outline" onClick={handlePrint} className="h-11 border-slate-200 hover:bg-slate-100 hover:text-slate-900 text-xs font-bold uppercase tracking-wide">
+                        <Button variant="outline" onClick={handlePrint} className="h-11 border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-100 dark:bg-slate-900 dark:text-slate-200 text-xs font-bold uppercase tracking-wide">
                             <span className="flex items-center gap-2"><Printer size={16}/> Imprimir PDF</span>
                         </Button>
+                        <div className="col-span-2">
+                           <ShareAsImage elementId="resultado-seguro-card" className="w-full h-11 bg-slate-900 dark:bg-slate-800 text-white hover:bg-slate-800 dark:hover:bg-slate-700 border-none" />
+                        </div>
                     </div>
                   )}
                 </div>
@@ -441,10 +445,10 @@ export default function UnemploymentCalculator() {
       {/* --- MODAL DE EMBED --- */}
       {showEmbedModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 animate-in fade-in backdrop-blur-sm print:hidden" onClick={() => setShowEmbedModal(false)}>
-            <div className="bg-white rounded-2xl shadow-2xl p-6 max-w-lg w-full relative" onClick={e => e.stopPropagation()}>
-                <button onClick={() => setShowEmbedModal(false)} className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 transition-colors"><X size={20}/></button>
-                <h3 className="text-lg font-bold text-slate-900 mb-2">Incorporar no seu Site</h3>
-                <p className="text-sm text-slate-500 mb-4">Copie o código abaixo para adicionar essa calculadora no seu blog ou site.</p>
+            <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-2xl p-6 max-w-lg w-full relative" onClick={e => e.stopPropagation()}>
+                <button onClick={() => setShowEmbedModal(false)} className="absolute top-4 right-4 text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300 transition-colors"><X size={20}/></button>
+                <h3 className="text-lg font-bold text-slate-900 dark:text-slate-100 mb-2">Incorporar no seu Site</h3>
+                <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">Copie o código abaixo para adicionar essa calculadora no seu blog ou site.</p>
                 <div className="bg-slate-950 p-4 rounded-xl relative mb-4 overflow-hidden group">
                     <code className="text-xs font-mono text-blue-300 break-all block leading-relaxed selection:bg-blue-900">
                         {`<iframe src="https://mestredascontas.com.br/trabalhista/seguro-desemprego?embed=true" width="100%" height="700" frameborder="0" style="border:0; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.1);" title="Calculadora Seguro Desemprego"></iframe>`}
@@ -454,7 +458,7 @@ export default function UnemploymentCalculator() {
                     navigator.clipboard.writeText(`<iframe src="https://mestredascontas.com.br/trabalhista/seguro-desemprego?embed=true" width="100%" height="700" frameborder="0" style="border:0; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.1);" title="Calculadora Seguro Desemprego"></iframe>`);
                     setCopiado("embed");
                     setTimeout(() => setCopiado(null), 2000);
-                }} className="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold h-12 rounded-xl">
+                }} className="w-full bg-slate-900 hover:bg-slate-800 dark:bg-blue-600 dark:hover:bg-blue-700 text-white font-bold h-12 rounded-xl">
                     {copiado === "embed" ? "Código Copiado!" : "Copiar Código HTML"}
                 </Button>
             </div>

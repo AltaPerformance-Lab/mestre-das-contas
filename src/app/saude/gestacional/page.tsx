@@ -11,6 +11,7 @@ import {
   CheckCircle2, Dna, ExternalLink, 
   Smile, Coffee, Moon, Sun, Utensils
 } from "lucide-react";
+import PrivacyBadge from "@/components/ui/PrivacyBadge";
 
 // --- 1. METADATA 2026 ---
 export const metadata: Metadata = {
@@ -130,15 +131,18 @@ export default async function GestacionalPage({ searchParams }: Props) {
       <div className="flex flex-col gap-8 px-4 sm:px-6 max-w-7xl mx-auto">
 
         {/* ANÚNCIO TOPO */}
-        <div className="w-full max-w-5xl mx-auto overflow-hidden flex justify-center bg-pink-50/30 rounded-lg border border-dashed border-pink-200/50 print:hidden min-h-[100px]">
+        <div className="w-full max-w-5xl mx-auto overflow-hidden flex justify-center bg-pink-50/30 dark:bg-slate-900/50 rounded-lg border border-dashed border-pink-200/50 dark:border-slate-800 print:hidden min-h-[100px]">
            <LazyAdUnit slot="gest_top" format="horizontal" variant="agency" />
         </div>
 
         {/* FERRAMENTA */}
         <section id="ferramenta" className="scroll-mt-28 w-full max-w-full">
-          <div className="bg-white rounded-3xl border border-pink-100 shadow-xl shadow-pink-100/50 p-1 md:p-2">
+          <div className="mb-8">
+               <PrivacyBadge />
+          </div>
+          <div className="bg-white dark:bg-slate-900 rounded-3xl border border-pink-100 dark:border-pink-900/30 shadow-xl shadow-pink-100/50 dark:shadow-none p-1 md:p-2">
               <Suspense fallback={
-                <div className="h-96 w-full bg-pink-50 rounded-2xl animate-pulse flex items-center justify-center text-pink-300 border border-pink-100">
+                <div className="h-96 w-full bg-pink-50 dark:bg-pink-900/10 rounded-2xl animate-pulse flex items-center justify-center text-pink-300 dark:text-pink-600 border border-pink-100 dark:border-pink-900/30">
                     <div className="flex flex-col items-center gap-2">
                         <Baby className="animate-bounce" size={32}/>
                         <span>Carregando Calculadora...</span>
@@ -160,12 +164,12 @@ export default async function GestacionalPage({ searchParams }: Props) {
         </div>
 
         {/* --- CONTEÚDO EDUCACIONAL (DEEP CONTENT) --- */}
-        <div className="prose prose-slate prose-sm md:prose-lg max-w-4xl mx-auto bg-white p-6 md:p-12 rounded-3xl border border-slate-100 shadow-xl shadow-slate-200/40 overflow-hidden w-full print:hidden">
+        <div className="prose prose-slate dark:prose-invert prose-sm md:prose-lg max-w-4xl mx-auto bg-white dark:bg-slate-900 p-6 md:p-12 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-xl shadow-slate-200/40 dark:shadow-none overflow-hidden w-full print:hidden">
           
-          <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-6 flex items-center gap-2 border-l-4 border-pink-400 pl-4">
+          <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2 border-l-4 border-pink-400 pl-4">
               Parabéns, mamãe! E agora?
           </h2>
-          <p className="lead text-slate-700 text-lg font-medium">
+          <p className="lead text-slate-700 dark:text-slate-300 text-lg font-medium">
             Aquele segundo em que o teste dá positivo é indescritível. É um misto de alegria, medo e uma pergunta que não cala: <strong>"De quanto tempo eu estou?"</strong>.
           </p>
           <p>
@@ -173,49 +177,77 @@ export default async function GestacionalPage({ searchParams }: Props) {
           </p>
 
           <div className="my-10">
-            <h3 className="text-xl font-bold text-slate-800 mb-4 flex items-center gap-2">
+            <h3 className="text-xl font-bold text-slate-800 dark:text-white mb-4 flex items-center gap-2">
                 <CalendarHeart className="text-purple-500" /> Tabela Oficial: Semanas x Meses
             </h3>
-            <p className="text-slate-600 mb-4">A dúvida número 1: "Doutor, 24 semanas são quantos meses?". Salve esta tabela oficial:</p>
+            <p className="text-slate-600 dark:text-slate-300 mb-4">A dúvida número 1: "Doutor, 24 semanas são quantos meses?". Salve esta tabela oficial:</p>
             
             {/* TABELA HTML OBRIGATÓRIA */}
-            <div className="overflow-x-auto border rounded-xl border-slate-200 shadow-sm w-full">
+            <div className="overflow-hidden border rounded-xl border-slate-200 dark:border-slate-800 shadow-sm w-full bg-white dark:bg-slate-900">
                 
+                {/* DESKTOP TABLE */}
+                <div className="hidden md:block">
+                    <table className="w-full text-sm text-left">
+                        <thead className="bg-pink-50 dark:bg-pink-900/20 text-pink-900 dark:text-pink-100 uppercase text-xs">
+                            <tr>
+                                <th className="px-4 py-3 font-bold whitespace-nowrap border-b border-pink-100 dark:border-pink-900">Trimestre</th>
+                                <th className="px-4 py-3 font-bold whitespace-nowrap border-b border-pink-100 dark:border-pink-900">Mês</th>
+                                <th className="px-4 py-3 font-bold whitespace-nowrap border-b border-pink-100 dark:border-pink-900">Semanas Correspondentes</th>
+                            </tr>
+                        </thead>
+                        <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-slate-700 dark:text-slate-300">
+                            {/* 1º Trimestre */}
+                            <tr className="bg-white dark:bg-slate-900"><td className="px-4 py-3 font-bold text-slate-500 dark:text-slate-400 border-r border-slate-50 dark:border-slate-800" rowSpan={3}>1º Trimestre</td><td className="px-4 py-3 font-medium">Mês 1</td><td className="px-4 py-3">0 a 4 semanas e meia</td></tr>
+                            <tr className="bg-white dark:bg-slate-900"><td className="px-4 py-3 font-medium">Mês 2</td><td className="px-4 py-3">4 e meia a 9 semanas</td></tr>
+                            <tr className="bg-white dark:bg-slate-900"><td className="px-4 py-3 font-medium">Mês 3</td><td className="px-4 py-3">9 a 13 semanas e meia</td></tr>
+                            
+                            {/* 2º Trimestre */}
+                            <tr className="bg-slate-50/50 dark:bg-slate-800/50"><td className="px-4 py-3 font-bold text-slate-500 dark:text-slate-400 border-r border-slate-100 dark:border-slate-700" rowSpan={3}>2º Trimestre</td><td className="px-4 py-3 font-medium">Mês 4</td><td className="px-4 py-3">13 e meia a 18 semanas</td></tr>
+                            <tr className="bg-slate-50/50 dark:bg-slate-800/50"><td className="px-4 py-3 font-medium">Mês 5</td><td className="px-4 py-3">18 a 22 semanas e meia</td></tr>
+                            <tr className="bg-slate-50/50 dark:bg-slate-800/50"><td className="px-4 py-3 font-medium">Mês 6</td><td className="px-4 py-3">22 e meia a 27 semanas</td></tr>
 
-[Image of Pregnancy Trimester Chart]
+                            {/* 3º Trimestre */}
+                            <tr className="bg-white dark:bg-slate-900"><td className="px-4 py-3 font-bold text-slate-500 dark:text-slate-400 border-r border-slate-50 dark:border-slate-800" rowSpan={3}>3º Trimestre</td><td className="px-4 py-3 font-medium">Mês 7</td><td className="px-4 py-3">27 a 31 semanas e meia</td></tr>
+                            <tr className="bg-white dark:bg-slate-900"><td className="px-4 py-3 font-medium">Mês 8</td><td className="px-4 py-3">31 e meia a 36 semanas</td></tr>
+                            <tr className="bg-pink-100/30 dark:bg-pink-900/10"><td className="px-4 py-3 font-bold text-pink-700 dark:text-pink-300">Mês 9</td><td className="px-4 py-3 font-bold text-pink-700 dark:text-pink-300">36 a 42 semanas (Reta Final)</td></tr>
+                        </tbody>
+                    </table>
+                </div>
 
-                <table className="w-full text-sm text-left min-w-[500px]">
-                    <thead className="bg-pink-50 text-pink-900 uppercase text-xs">
-                        <tr>
-                            <th className="px-4 py-3 font-bold whitespace-nowrap border-b border-pink-100">Trimestre</th>
-                            <th className="px-4 py-3 font-bold whitespace-nowrap border-b border-pink-100">Mês</th>
-                            <th className="px-4 py-3 font-bold whitespace-nowrap border-b border-pink-100">Semanas Correspondentes</th>
-                        </tr>
-                    </thead>
-                    <tbody className="divide-y divide-slate-100 text-slate-700">
-                        {/* 1º Trimestre */}
-                        <tr className="bg-white"><td className="px-4 py-3 font-bold text-slate-500 border-r border-slate-50" rowSpan={3}>1º Trimestre</td><td className="px-4 py-3 font-medium">Mês 1</td><td className="px-4 py-3">0 a 4 semanas e meia</td></tr>
-                        <tr className="bg-white"><td className="px-4 py-3 font-medium">Mês 2</td><td className="px-4 py-3">4 e meia a 9 semanas</td></tr>
-                        <tr className="bg-white"><td className="px-4 py-3 font-medium">Mês 3</td><td className="px-4 py-3">9 a 13 semanas e meia</td></tr>
-                        
-                        {/* 2º Trimestre */}
-                        <tr className="bg-slate-50/50"><td className="px-4 py-3 font-bold text-slate-500 border-r border-slate-100" rowSpan={3}>2º Trimestre</td><td className="px-4 py-3 font-medium">Mês 4</td><td className="px-4 py-3">13 e meia a 18 semanas</td></tr>
-                        <tr className="bg-slate-50/50"><td className="px-4 py-3 font-medium">Mês 5</td><td className="px-4 py-3">18 a 22 semanas e meia</td></tr>
-                        <tr className="bg-slate-50/50"><td className="px-4 py-3 font-medium">Mês 6</td><td className="px-4 py-3">22 e meia a 27 semanas</td></tr>
-
-                        {/* 3º Trimestre */}
-                        <tr className="bg-white"><td className="px-4 py-3 font-bold text-slate-500 border-r border-slate-50" rowSpan={3}>3º Trimestre</td><td className="px-4 py-3 font-medium">Mês 7</td><td className="px-4 py-3">27 a 31 semanas e meia</td></tr>
-                        <tr className="bg-white"><td className="px-4 py-3 font-medium">Mês 8</td><td className="px-4 py-3">31 e meia a 36 semanas</td></tr>
-                        <tr className="bg-pink-100/30"><td className="px-4 py-3 font-bold text-pink-700">Mês 9</td><td className="px-4 py-3 font-bold text-pink-700">36 a 42 semanas (Reta Final)</td></tr>
-                    </tbody>
-                </table>
+                {/* MOBILE LIST */}
+                <div className="md:hidden divide-y divide-slate-100 dark:divide-slate-800">
+                     {[
+                        { mes: 1, sem: "0 a 4½", tri: 1 },
+                        { mes: 2, sem: "4½ a 9", tri: 1 },
+                        { mes: 3, sem: "9 a 13½", tri: 1 },
+                        { mes: 4, sem: "13½ a 18", tri: 2 },
+                        { mes: 5, sem: "18 a 22½", tri: 2 },
+                        { mes: 6, sem: "22½ a 27", tri: 2 },
+                        { mes: 7, sem: "27 a 31½", tri: 3 },
+                        { mes: 8, sem: "31½ a 36", tri: 3 },
+                        { mes: 9, sem: "36 a 42", tri: 3, highlight: true },
+                     ].map((item, idx) => (
+                         <div key={idx} className={`p-4 flex justify-between items-center ${item.highlight ? 'bg-pink-50 dark:bg-pink-900/10' : ''}`}>
+                             <div className="flex items-center gap-3">
+                                 <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${item.tri === 1 ? 'bg-pink-100 text-pink-600' : item.tri === 2 ? 'bg-blue-100 text-blue-600' : 'bg-teal-100 text-teal-600'}`}>
+                                     {item.mes}º
+                                 </div>
+                                 <div>
+                                     <span className="text-xs font-bold text-slate-400 block uppercase">Mês {item.mes}</span>
+                                     <span className="text-sm font-bold text-slate-800 dark:text-slate-100">{item.sem} semanas</span>
+                                 </div>
+                             </div>
+                             <span className="text-[10px] text-slate-400 font-medium bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded-full">{item.tri}º Trimestre</span>
+                         </div>
+                     ))}
+                </div>
             </div>
           </div>
 
-          <h3 className="text-xl font-bold text-slate-800 mt-10 mb-4 flex items-center gap-2">
-              <Stethoscope className="text-teal-600" /> Regra de Naegele: A Ciência por Trás
+          <h3 className="text-xl font-bold text-slate-800 dark:text-white mt-10 mb-4 flex items-center gap-2">
+              <Stethoscope className="text-teal-600 dark:text-teal-400" /> Regra de Naegele: A Ciência por Trás
           </h3>
-          <p>
+          <p className="text-slate-700 dark:text-slate-300">
               A calculadora usa um método criado pelo obstetra alemão Franz Naegele no século 19. Ele percebeu que a gestação humana dura em média <strong>280 dias</strong>.
           </p>
           <p>
@@ -223,14 +255,14 @@ export default async function GestacionalPage({ searchParams }: Props) {
           </p>
 
           {/* CURIOSIDADE LUNAR */}
-          <div className="bg-gradient-to-r from-purple-50 to-pink-50 p-6 md:p-8 rounded-2xl border border-purple-100 my-10 relative overflow-hidden shadow-sm not-prose">
+          <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 p-6 md:p-8 rounded-2xl border border-purple-100 dark:border-purple-800 my-10 relative overflow-hidden shadow-sm not-prose">
               <div className="absolute top-0 right-0 p-4 opacity-10">
-                  <Sparkles size={120} className="text-purple-900"/>
+                  <Sparkles size={120} className="text-purple-900 dark:text-purple-300"/>
               </div>
-              <h3 className="text-xl font-bold text-purple-900 mb-4 flex items-center gap-2 relative z-10">
-                  <Dna size={24} className="text-pink-500"/> Mito ou Verdade: A Lua Influencia?
+              <h3 className="text-xl font-bold text-purple-900 dark:text-purple-300 mb-4 flex items-center gap-2 relative z-10">
+                  <Dna size={24} className="text-pink-500 dark:text-pink-400"/> Mito ou Verdade: A Lua Influencia?
               </h3>
-              <div className="space-y-4 text-slate-700 relative z-10 text-sm md:text-base leading-relaxed">
+              <div className="space-y-4 text-slate-700 dark:text-slate-300 relative z-10 text-sm md:text-base leading-relaxed">
                   <p>
                       Acredite se quiser: muitas parteiras juram que nas <strong>mudanças de lua</strong> (especialmente na Lua Cheia) as maternidades lotam.
                   </p>
@@ -240,51 +272,51 @@ export default async function GestacionalPage({ searchParams }: Props) {
               </div>
           </div>
 
-          <h3 className="text-xl font-bold text-slate-800 mt-10 mb-6 flex items-center gap-2">
+          <h3 className="text-xl font-bold text-slate-800 dark:text-white mt-10 mb-6 flex items-center gap-2">
               <Heart className="text-red-500" /> Cuidados Essenciais por Trimestre
           </h3>
           
           <div className="grid gap-4 not-prose">
-              <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex flex-col md:flex-row gap-4 hover:border-pink-200 transition-colors">
-                  <div className="bg-pink-100 text-pink-600 w-12 h-12 rounded-full flex items-center justify-center shrink-0 font-bold mx-auto md:mx-0 text-lg">1º</div>
+              <div className="bg-white dark:bg-slate-900 p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col md:flex-row gap-4 hover:border-pink-200 dark:hover:border-pink-800 transition-colors">
+                  <div className="bg-pink-100 dark:bg-pink-900/30 text-pink-600 dark:text-pink-400 w-12 h-12 rounded-full flex items-center justify-center shrink-0 font-bold mx-auto md:mx-0 text-lg">1º</div>
                   <div>
-                      <h4 className="font-bold text-slate-900 mb-1 text-center md:text-left">O Início Delicado (Semana 1 a 13)</h4>
-                      <p className="text-sm text-slate-600 text-center md:text-left leading-relaxed">É a fase de formação dos órgãos. O ácido fólico é obrigatório. Enjoos e sono excessivo são comuns. Evite remédios sem prescrição.</p>
+                      <h4 className="font-bold text-slate-900 dark:text-slate-100 mb-1 text-center md:text-left">O Início Delicado (Semana 1 a 13)</h4>
+                      <p className="text-sm text-slate-600 dark:text-slate-400 text-center md:text-left leading-relaxed">É a fase de formação dos órgãos. O ácido fólico é obrigatório. Enjoos e sono excessivo são comuns. Evite remédios sem prescrição.</p>
                   </div>
               </div>
-              <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex flex-col md:flex-row gap-4 hover:border-blue-200 transition-colors">
-                  <div className="bg-blue-100 text-blue-600 w-12 h-12 rounded-full flex items-center justify-center shrink-0 font-bold mx-auto md:mx-0 text-lg">2º</div>
+              <div className="bg-white dark:bg-slate-900 p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col md:flex-row gap-4 hover:border-blue-200 dark:hover:border-blue-800 transition-colors">
+                  <div className="bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 w-12 h-12 rounded-full flex items-center justify-center shrink-0 font-bold mx-auto md:mx-0 text-lg">2º</div>
                   <div>
-                      <h4 className="font-bold text-slate-900 mb-1 text-center md:text-left">A Fase de Ouro (Semana 14 a 27)</h4>
-                      <p className="text-sm text-slate-600 text-center md:text-left leading-relaxed">A disposição volta! A barriga aparece, você sente o bebê mexer e descobre o sexo. Hora de cuidar das estrias com hidratação intensa.</p>
+                      <h4 className="font-bold text-slate-900 dark:text-slate-100 mb-1 text-center md:text-left">A Fase de Ouro (Semana 14 a 27)</h4>
+                      <p className="text-sm text-slate-600 dark:text-slate-400 text-center md:text-left leading-relaxed">A disposição volta! A barriga aparece, você sente o bebê mexer e descobre o sexo. Hora de cuidar das estrias com hidratação intensa.</p>
                   </div>
               </div>
-              <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex flex-col md:flex-row gap-4 hover:border-teal-200 transition-colors">
-                  <div className="bg-teal-100 text-teal-600 w-12 h-12 rounded-full flex items-center justify-center shrink-0 font-bold mx-auto md:mx-0 text-lg">3º</div>
+              <div className="bg-white dark:bg-slate-900 p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col md:flex-row gap-4 hover:border-teal-200 dark:hover:border-teal-800 transition-colors">
+                  <div className="bg-teal-100 dark:bg-teal-900/30 text-teal-600 dark:text-teal-400 w-12 h-12 rounded-full flex items-center justify-center shrink-0 font-bold mx-auto md:mx-0 text-lg">3º</div>
                   <div>
-                      <h4 className="font-bold text-slate-900 mb-1 text-center md:text-left">A Reta Final (Semana 28 a 40+)</h4>
-                      <p className="text-sm text-slate-600 text-center md:text-left leading-relaxed">O peso aumenta, o cansaço volta e a ansiedade bate. Prepare a mala da maternidade, lave as roupinhas e descanse o máximo possível.</p>
+                      <h4 className="font-bold text-slate-900 dark:text-slate-100 mb-1 text-center md:text-left">A Reta Final (Semana 28 a 40+)</h4>
+                      <p className="text-sm text-slate-600 dark:text-slate-400 text-center md:text-left leading-relaxed">O peso aumenta, o cansaço volta e a ansiedade bate. Prepare a mala da maternidade, lave as roupinhas e descanse o máximo possível.</p>
                   </div>
               </div>
           </div>
 
           {/* 20 PERGUNTAS FREQUENTES */}
           <div className="mt-16 not-prose" id="faq">
-            <h2 className="text-2xl font-bold text-slate-900 mb-8 flex items-center gap-3 border-b border-pink-100 pb-4">
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-8 flex items-center gap-3 border-b border-pink-100 dark:border-pink-900/30 pb-4">
                 <HelpCircle className="text-pink-500" /> Tira-Dúvidas da Gestante
             </h2>
             
             <div className="grid gap-3">
               {faqList.map((item, idx) => (
-                  <details key={idx} className="group bg-white p-4 rounded-xl border border-slate-200 shadow-sm cursor-pointer open:ring-2 open:ring-pink-100 transition-all">
-                      <summary className="font-semibold text-slate-800 list-none flex justify-between items-center text-sm md:text-base select-none">
+                  <details key={idx} className="group bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm cursor-pointer open:ring-2 open:ring-pink-100 dark:open:ring-pink-900/30 transition-all">
+                      <summary className="font-semibold text-slate-800 dark:text-slate-100 list-none flex justify-between items-center text-sm md:text-base select-none">
                           <div className="flex items-start gap-3">
                               <span className="text-pink-400 font-bold text-xs mt-1">#{idx + 1}</span>
                               <span className="leading-snug">{item.p}</span>
                           </div>
                           <span className="text-slate-400 group-open:rotate-180 transition-transform ml-2 shrink-0">▼</span>
                       </summary>
-                      <p className="mt-3 text-slate-600 leading-relaxed border-t border-slate-100 pt-3 text-sm md:text-base pl-7 animate-in fade-in">
+                      <p className="mt-3 text-slate-600 dark:text-slate-400 leading-relaxed border-t border-slate-100 dark:border-slate-800 pt-3 text-sm md:text-base pl-7 animate-in fade-in">
                           {item.r}
                       </p>
                   </details>
@@ -293,36 +325,36 @@ export default async function GestacionalPage({ searchParams }: Props) {
           </div>
 
           {/* FONTES */}
-          <div className="mt-12 pt-8 border-t border-slate-200 print:hidden not-prose bg-slate-50 p-6 rounded-xl">
+          <div className="mt-12 pt-8 border-t border-slate-200 dark:border-slate-800 print:hidden not-prose bg-slate-50 dark:bg-slate-800/50 p-6 rounded-xl">
               <h3 className="text-sm font-bold text-slate-500 uppercase tracking-wider mb-4 flex items-center gap-2"><CheckCircle2 size={14}/> Base Científica</h3>
               <p className="text-xs text-slate-500 mb-3">Este conteúdo foi elaborado com base nas diretrizes das principais instituições de saúde:</p>
-              <div className="flex flex-wrap gap-4 text-xs font-medium text-blue-600">
-                  <a href="https://www.febrasgo.org.br" target="_blank" rel="nofollow noreferrer" className="hover:underline flex items-center gap-1 bg-white px-3 py-1 rounded border shadow-sm">FEBRASGO <ExternalLink size={10}/></a>
-                  <a href="https://www.gov.br/saude/pt-br" target="_blank" rel="nofollow noreferrer" className="hover:underline flex items-center gap-1 bg-white px-3 py-1 rounded border shadow-sm">Ministério da Saúde <ExternalLink size={10}/></a>
-                  <a href="https://www.acog.org" target="_blank" rel="nofollow noreferrer" className="hover:underline flex items-center gap-1 bg-white px-3 py-1 rounded border shadow-sm">ACOG (EUA) <ExternalLink size={10}/></a>
+              <div className="flex flex-wrap gap-4 text-xs font-medium text-blue-600 dark:text-blue-400">
+                  <a href="https://www.febrasgo.org.br" target="_blank" rel="nofollow noreferrer" className="hover:underline flex items-center gap-1 bg-white dark:bg-slate-900 px-3 py-1 rounded border dark:border-slate-700 shadow-sm">FEBRASGO <ExternalLink size={10}/></a>
+                  <a href="https://www.gov.br/saude/pt-br" target="_blank" rel="nofollow noreferrer" className="hover:underline flex items-center gap-1 bg-white dark:bg-slate-900 px-3 py-1 rounded border dark:border-slate-700 shadow-sm">Ministério da Saúde <ExternalLink size={10}/></a>
+                  <a href="https://www.acog.org" target="_blank" rel="nofollow noreferrer" className="hover:underline flex items-center gap-1 bg-white dark:bg-slate-900 px-3 py-1 rounded border dark:border-slate-700 shadow-sm">ACOG (EUA) <ExternalLink size={10}/></a>
               </div>
           </div>
 
           {/* NAVEGAÇÃO FINAL */}
-          <div className="mt-12 pt-8 border-t border-slate-200 print:hidden not-prose">
-            <p className="font-bold text-slate-900 mb-6 text-xs uppercase tracking-wider flex items-center gap-2">
+          <div className="mt-12 pt-8 border-t border-slate-200 dark:border-slate-800 print:hidden not-prose">
+            <p className="font-bold text-slate-900 dark:text-white mb-6 text-xs uppercase tracking-wider flex items-center gap-2">
                <CheckCircle2 size={16} className="text-emerald-500"/> Cuide da família toda:
             </p>
             <div className="grid md:grid-cols-3 gap-4">
-              <Link href="/saude/calorias-diarias" className="flex flex-col p-5 bg-white border border-slate-200 rounded-xl hover:border-orange-400 hover:shadow-lg transition-all group">
-                  <div className="bg-orange-50 w-10 h-10 rounded-lg flex items-center justify-center mb-3 text-orange-600 shadow-sm group-hover:scale-110 transition-transform"><Utensils size={20}/></div>
-                  <span className="font-bold text-slate-800 text-lg">Calorias (TMB)</span>
-                  <span className="text-sm text-slate-500 mt-1">Nutrição na gravidez</span>
+              <Link href="/saude/calorias-diarias" className="flex flex-col p-5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl hover:border-orange-400 dark:hover:border-orange-500 hover:shadow-lg transition-all group">
+                  <div className="bg-orange-50 dark:bg-orange-900/20 w-10 h-10 rounded-lg flex items-center justify-center mb-3 text-orange-600 dark:text-orange-400 shadow-sm group-hover:scale-110 transition-transform"><Utensils size={20}/></div>
+                  <span className="font-bold text-slate-800 dark:text-slate-100 text-lg">Calorias (TMB)</span>
+                  <span className="text-sm text-slate-500 dark:text-slate-400 mt-1">Nutrição na gravidez</span>
               </Link>
-              <Link href="/saude/imc" className="flex flex-col p-5 bg-white border border-slate-200 rounded-xl hover:border-blue-400 hover:shadow-lg transition-all group">
-                  <div className="bg-blue-50 w-10 h-10 rounded-lg flex items-center justify-center mb-3 text-blue-600 shadow-sm group-hover:scale-110 transition-transform"><Smile size={20}/></div>
-                  <span className="font-bold text-slate-800 text-lg">IMC Gestacional</span>
-                  <span className="text-sm text-slate-500 mt-1">Controle de peso</span>
+              <Link href="/saude/imc" className="flex flex-col p-5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl hover:border-blue-400 dark:hover:border-blue-500 hover:shadow-lg transition-all group">
+                  <div className="bg-blue-50 dark:bg-blue-900/20 w-10 h-10 rounded-lg flex items-center justify-center mb-3 text-blue-600 dark:text-blue-400 shadow-sm group-hover:scale-110 transition-transform"><Smile size={20}/></div>
+                  <span className="font-bold text-slate-800 dark:text-slate-100 text-lg">IMC Gestacional</span>
+                  <span className="text-sm text-slate-500 dark:text-slate-400 mt-1">Controle de peso</span>
               </Link>
-              <Link href="/financeiro/salario-liquido" className="flex flex-col p-5 bg-white border border-slate-200 rounded-xl hover:border-teal-400 hover:shadow-lg transition-all group">
-                  <div className="bg-teal-50 w-10 h-10 rounded-lg flex items-center justify-center mb-3 text-teal-600 shadow-sm group-hover:scale-110 transition-transform"><Coffee size={20}/></div>
-                  <span className="font-bold text-slate-800 text-lg">Salário Maternidade</span>
-                  <span className="text-sm text-slate-500 mt-1">Planeje a licença</span>
+              <Link href="/financeiro/salario-liquido" className="flex flex-col p-5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl hover:border-teal-400 dark:hover:border-teal-500 hover:shadow-lg transition-all group">
+                  <div className="bg-teal-50 dark:bg-teal-900/20 w-10 h-10 rounded-lg flex items-center justify-center mb-3 text-teal-600 dark:text-teal-400 shadow-sm group-hover:scale-110 transition-transform"><Coffee size={20}/></div>
+                  <span className="font-bold text-slate-800 dark:text-slate-100 text-lg">Salário Maternidade</span>
+                  <span className="text-sm text-slate-500 dark:text-slate-400 mt-1">Planeje a licença</span>
               </Link>
             </div>
           </div>

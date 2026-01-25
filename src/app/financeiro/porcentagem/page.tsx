@@ -11,6 +11,7 @@ import {
   ShoppingCart, PieChart, GraduationCap, Wallet,
   Brain, Lightbulb, Landmark, ExternalLink, Divide
 } from "lucide-react";
+import PrivacyBadge from "@/components/ui/PrivacyBadge";
 
 // --- 1. METADATA DE ALTO PERFORMANCE (SEO 2026) ---
 export const metadata: Metadata = {
@@ -139,6 +140,8 @@ export default async function PorcentagemPage({ searchParams }: Props) {
           variant="default" // Azul/Indigo
           categoryColor="indigo"
           badge="Ferramenta Gratuita"
+          rating={4.9}
+          reviews={12500}
           breadcrumbs={[
             { label: "Financeiro", href: "/financeiro" },
             { label: "Porcentagem" }
@@ -149,21 +152,22 @@ export default async function PorcentagemPage({ searchParams }: Props) {
       <div className="flex flex-col gap-8 px-4 sm:px-6 max-w-7xl mx-auto">
 
         {/* ANÚNCIO TOPO */}
-        <div className="w-full max-w-5xl mx-auto overflow-hidden flex justify-center bg-slate-50/50 rounded-lg border border-dashed border-slate-200/50 print:hidden min-h-[100px]">
+        <div className="w-full max-w-5xl mx-auto overflow-hidden flex justify-center bg-slate-50/50 dark:bg-slate-900/50 rounded-lg border border-dashed border-slate-200/50 dark:border-slate-800 print:hidden min-h-[100px]">
            <AdUnit slot="percent_top" format="horizontal" variant="agency" />
         </div>
 
         {/* --- FERRAMENTA PRINCIPAL --- */}
         <section id="ferramenta" className="scroll-mt-28 w-full max-w-full">
-          <div className="bg-white rounded-3xl border border-slate-200 shadow-xl shadow-slate-200/40 p-1 md:p-2">
+          <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/40 dark:shadow-none p-1 md:p-2">
               <Suspense fallback={
-                <div className="h-96 w-full bg-slate-50 rounded-2xl animate-pulse flex items-center justify-center text-slate-400">
+                <div className="h-96 w-full bg-slate-50 dark:bg-slate-800 rounded-2xl animate-pulse flex items-center justify-center text-slate-400">
                     <div className="flex flex-col items-center gap-2">
                         <Calculator className="animate-bounce text-slate-300" size={32}/>
                         <span>Carregando Calculadora...</span>
                     </div>
                 </div>
               }>
+                  <PrivacyBadge />
                   <PercentageCalculator />
               </Suspense>
           </div>
@@ -179,12 +183,12 @@ export default async function PorcentagemPage({ searchParams }: Props) {
         </div>
 
         {/* --- CONTEÚDO EDUCACIONAL --- */}
-        <div className="prose prose-slate prose-sm md:prose-lg max-w-4xl mx-auto bg-white p-6 md:p-12 rounded-3xl border border-slate-100 shadow-xl shadow-slate-200/40 overflow-hidden w-full print:hidden">
+        <div className="prose prose-slate dark:prose-invert prose-sm md:prose-lg max-w-4xl mx-auto bg-white dark:bg-slate-900 p-6 md:p-12 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-xl shadow-slate-200/40 dark:shadow-none overflow-hidden w-full print:hidden">
           
-          <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-6 flex items-center gap-2 border-l-4 border-indigo-600 pl-4">
+          <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2 border-l-4 border-indigo-600 pl-4">
               A Matemática do Dinheiro
           </h2>
-          <p className="lead text-slate-700 text-lg font-medium">
+          <p className="lead text-slate-700 dark:text-slate-300 text-lg font-medium">
             A porcentagem é a base de toda a economia moderna. O símbolo "%" significa literalmente "por cento", ou seja, "dividido por 100". Entender isso é a chave para não ser enganado em promoções, empréstimos ou negociações salariais.
           </p>
           <p>
@@ -192,135 +196,135 @@ export default async function PorcentagemPage({ searchParams }: Props) {
           </p>
 
           {/* TRUQUES MENTAIS (FEATURE BOX) */}
-          <div className="bg-indigo-50 p-6 md:p-8 rounded-2xl border border-indigo-200 my-10 not-prose relative overflow-hidden shadow-sm">
-              <div className="absolute top-0 right-0 p-4 opacity-10"><Brain size={120} className="text-indigo-900"/></div>
-              <h3 className="text-xl font-bold text-indigo-900 mb-4 flex items-center gap-2 relative z-10">
+          <div className="bg-indigo-50 dark:bg-indigo-950/20 p-6 md:p-8 rounded-2xl border border-indigo-200 dark:border-indigo-800 my-10 not-prose relative overflow-hidden shadow-sm">
+              <div className="absolute top-0 right-0 p-4 opacity-10"><Brain size={120} className="text-indigo-900 dark:text-indigo-300"/></div>
+              <h3 className="text-xl font-bold text-indigo-900 dark:text-indigo-300 mb-4 flex items-center gap-2 relative z-10">
                   <Lightbulb size={24} className="text-amber-500"/> Truques de Cálculo Mental
               </h3>
-              <p className="text-indigo-800 mb-4 text-sm relative z-10">Impressione amigos e negocie rápido calculando sem celular:</p>
+              <p className="text-indigo-800 dark:text-indigo-200 mb-4 text-sm relative z-10">Impressione amigos e negocie rápido calculando sem celular:</p>
               
               <div className="grid sm:grid-cols-2 gap-4 relative z-10">
-                  <div className="bg-white p-4 rounded-xl border border-indigo-100 shadow-sm hover:shadow-md transition-shadow">
-                      <p className="font-bold text-indigo-700 text-sm mb-1 flex items-center gap-2"><Divide size={14}/> A Regra dos 10%</p>
-                      <p className="text-xs text-slate-600 leading-relaxed">Para achar 10% de qualquer número, apenas <strong>volte a vírgula uma casa</strong> para a esquerda.</p>
-                      <p className="text-xs text-slate-500 mt-2 font-mono bg-slate-50 px-2 py-1 rounded inline-block">10% de 250 = 25,0</p>
+                  <div className="bg-white dark:bg-slate-900 p-4 rounded-xl border border-indigo-100 dark:border-slate-800 shadow-sm hover:shadow-md transition-shadow">
+                      <p className="font-bold text-indigo-700 dark:text-indigo-400 text-sm mb-1 flex items-center gap-2"><Divide size={14}/> A Regra dos 10%</p>
+                      <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">Para achar 10% de qualquer número, apenas <strong>volte a vírgula uma casa</strong> para a esquerda.</p>
+                      <p className="text-xs text-slate-500 dark:text-slate-500 mt-2 font-mono bg-slate-50 dark:bg-slate-800 px-2 py-1 rounded inline-block">10% de 250 = 25,0</p>
                   </div>
-                  <div className="bg-white p-4 rounded-xl border border-indigo-100 shadow-sm hover:shadow-md transition-shadow">
-                      <p className="font-bold text-indigo-700 text-sm mb-1 flex items-center gap-2"><Divide size={14}/> A Regra dos 50%</p>
-                      <p className="text-xs text-slate-600 leading-relaxed">50% é a <strong>metade exata</strong>. Basta dividir o valor por 2.</p>
-                      <p className="text-xs text-slate-500 mt-2 font-mono bg-slate-50 px-2 py-1 rounded inline-block">50% de 80 = 40</p>
+                  <div className="bg-white dark:bg-slate-900 p-4 rounded-xl border border-indigo-100 dark:border-slate-800 shadow-sm hover:shadow-md transition-shadow">
+                      <p className="font-bold text-indigo-700 dark:text-indigo-400 text-sm mb-1 flex items-center gap-2"><Divide size={14}/> A Regra dos 50%</p>
+                      <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">50% é a <strong>metade exata</strong>. Basta dividir o valor por 2.</p>
+                      <p className="text-xs text-slate-500 dark:text-slate-500 mt-2 font-mono bg-slate-50 dark:bg-slate-800 px-2 py-1 rounded inline-block">50% de 80 = 40</p>
                   </div>
-                  <div className="bg-white p-4 rounded-xl border border-indigo-100 shadow-sm hover:shadow-md transition-shadow">
-                      <p className="font-bold text-indigo-700 text-sm mb-1 flex items-center gap-2"><Divide size={14}/> A Regra dos 1%</p>
-                      <p className="text-xs text-slate-600 leading-relaxed">Para achar 1%, volte a vírgula <strong>duas casas</strong> para a esquerda.</p>
-                      <p className="text-xs text-slate-500 mt-2 font-mono bg-slate-50 px-2 py-1 rounded inline-block">1% de 500 = 5,00</p>
+                  <div className="bg-white dark:bg-slate-900 p-4 rounded-xl border border-indigo-100 dark:border-slate-800 shadow-sm hover:shadow-md transition-shadow">
+                      <p className="font-bold text-indigo-700 dark:text-indigo-400 text-sm mb-1 flex items-center gap-2"><Divide size={14}/> A Regra dos 1%</p>
+                      <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">Para achar 1%, volte a vírgula <strong>duas casas</strong> para a esquerda.</p>
+                      <p className="text-xs text-slate-500 dark:text-slate-500 mt-2 font-mono bg-slate-50 dark:bg-slate-800 px-2 py-1 rounded inline-block">1% de 500 = 5,00</p>
                   </div>
-                  <div className="bg-white p-4 rounded-xl border border-indigo-100 shadow-sm hover:shadow-md transition-shadow">
-                      <p className="font-bold text-indigo-700 text-sm mb-1 flex items-center gap-2"><ArrowRight size={14}/> O Truque da Inversão</p>
-                      <p className="text-xs text-slate-600 leading-relaxed"><strong>x% de y é igual a y% de x</strong>. Se a conta for difícil, inverta!</p>
-                      <p className="text-xs text-slate-500 mt-2 font-mono bg-slate-50 px-2 py-1 rounded inline-block">8% de 50 = 50% de 8 (4)</p>
+                  <div className="bg-white dark:bg-slate-900 p-4 rounded-xl border border-indigo-100 dark:border-slate-800 shadow-sm hover:shadow-md transition-shadow">
+                      <p className="font-bold text-indigo-700 dark:text-indigo-400 text-sm mb-1 flex items-center gap-2"><ArrowRight size={14}/> O Truque da Inversão</p>
+                      <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed"><strong>x% de y é igual a y% de x</strong>. Se a conta for difícil, inverta!</p>
+                      <p className="text-xs text-slate-500 dark:text-slate-500 mt-2 font-mono bg-slate-50 dark:bg-slate-800 px-2 py-1 rounded inline-block">8% de 50 = 50% de 8 (4)</p>
                   </div>
               </div>
           </div>
 
-          <h3 className="text-xl font-bold text-slate-800 mt-10 mb-6 flex items-center gap-2">
-              <GraduationCap className="text-indigo-600" /> Tabela de Conversão Rápida
+          <h3 className="text-xl font-bold text-slate-800 dark:text-white mt-10 mb-6 flex items-center gap-2">
+              <GraduationCap className="text-indigo-600 dark:text-indigo-400" /> Tabela de Conversão Rápida
           </h3>
           <p>
               Muitas vezes, converter a porcentagem em fração ou decimal torna a conta muito mais fácil. Use esta tabela como referência:
           </p>
 
           {/* TABELA RESPONSIVA */}
-          <div className="not-prose my-8 overflow-hidden border rounded-xl border-slate-200 shadow-sm bg-white">
+          <div className="not-prose my-8 overflow-hidden border rounded-xl border-slate-200 dark:border-slate-800 shadow-sm bg-white dark:bg-slate-900">
               <div className="overflow-x-auto">
                   <table className="w-full text-sm text-left border-collapse min-w-[500px]">
-                      <thead className="bg-slate-100 text-slate-600 text-xs uppercase">
+                      <thead className="bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-xs uppercase">
                           <tr>
-                              <th className="px-6 py-3 font-bold border-b border-slate-200">Porcentagem</th>
-                              <th className="px-6 py-3 font-bold border-b border-slate-200">Fração</th>
-                              <th className="px-6 py-3 font-bold border-b border-slate-200">Decimal (Multiplicador)</th>
+                              <th className="px-6 py-3 font-bold border-b border-slate-200 dark:border-slate-700">Porcentagem</th>
+                              <th className="px-6 py-3 font-bold border-b border-slate-200 dark:border-slate-700">Fração</th>
+                              <th className="px-6 py-3 font-bold border-b border-slate-200 dark:border-slate-700">Decimal (Multiplicador)</th>
                           </tr>
                       </thead>
-                      <tbody className="divide-y divide-slate-100">
-                          <tr className="hover:bg-slate-50 transition-colors">
-                              <td className="px-6 py-3 font-bold text-indigo-600">5%</td>
-                              <td className="px-6 py-3">1/20</td>
-                              <td className="px-6 py-3 font-mono text-slate-500">0.05</td>
+                      <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+                          <tr className="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                              <td className="px-6 py-3 font-bold text-indigo-600 dark:text-indigo-400">5%</td>
+                              <td className="px-6 py-3 font-medium text-slate-900 dark:text-slate-100">1/20</td>
+                              <td className="px-6 py-3 font-mono text-slate-500 dark:text-slate-400">0.05</td>
                           </tr>
-                          <tr className="hover:bg-slate-50 transition-colors">
-                              <td className="px-6 py-3 font-bold text-indigo-600">10%</td>
-                              <td className="px-6 py-3">1/10</td>
-                              <td className="px-6 py-3 font-mono text-slate-500">0.10</td>
+                          <tr className="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                              <td className="px-6 py-3 font-bold text-indigo-600 dark:text-indigo-400">10%</td>
+                              <td className="px-6 py-3 font-medium text-slate-900 dark:text-slate-100">1/10</td>
+                              <td className="px-6 py-3 font-mono text-slate-500 dark:text-slate-400">0.10</td>
                           </tr>
-                          <tr className="hover:bg-slate-50 transition-colors">
-                              <td className="px-6 py-3 font-bold text-indigo-600">20%</td>
-                              <td className="px-6 py-3">1/5</td>
-                              <td className="px-6 py-3 font-mono text-slate-500">0.20</td>
+                          <tr className="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                              <td className="px-6 py-3 font-bold text-indigo-600 dark:text-indigo-400">20%</td>
+                              <td className="px-6 py-3 font-medium text-slate-900 dark:text-slate-100">1/5</td>
+                              <td className="px-6 py-3 font-mono text-slate-500 dark:text-slate-400">0.20</td>
                           </tr>
-                          <tr className="hover:bg-slate-50 transition-colors">
-                              <td className="px-6 py-3 font-bold text-indigo-600">25%</td>
-                              <td className="px-6 py-3">1/4</td>
-                              <td className="px-6 py-3 font-mono text-slate-500">0.25</td>
+                          <tr className="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                              <td className="px-6 py-3 font-bold text-indigo-600 dark:text-indigo-400">25%</td>
+                              <td className="px-6 py-3 font-medium text-slate-900 dark:text-slate-100">1/4</td>
+                              <td className="px-6 py-3 font-mono text-slate-500 dark:text-slate-400">0.25</td>
                           </tr>
-                          <tr className="hover:bg-slate-50 transition-colors">
-                              <td className="px-6 py-3 font-bold text-indigo-600">50%</td>
-                              <td className="px-6 py-3">1/2 (Metade)</td>
-                              <td className="px-6 py-3 font-mono text-slate-500">0.50</td>
+                          <tr className="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                              <td className="px-6 py-3 font-bold text-indigo-600 dark:text-indigo-400">50%</td>
+                              <td className="px-6 py-3 font-medium text-slate-900 dark:text-slate-100">1/2 (Metade)</td>
+                              <td className="px-6 py-3 font-mono text-slate-500 dark:text-slate-400">0.50</td>
                           </tr>
-                          <tr className="hover:bg-slate-50 transition-colors">
-                              <td className="px-6 py-3 font-bold text-indigo-600">75%</td>
-                              <td className="px-6 py-3">3/4</td>
-                              <td className="px-6 py-3 font-mono text-slate-500">0.75</td>
+                          <tr className="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                              <td className="px-6 py-3 font-bold text-indigo-600 dark:text-indigo-400">75%</td>
+                              <td className="px-6 py-3 font-medium text-slate-900 dark:text-slate-100">3/4</td>
+                              <td className="px-6 py-3 font-mono text-slate-500 dark:text-slate-400">0.75</td>
                           </tr>
                       </tbody>
                   </table>
               </div>
           </div>
 
-          <h3 className="text-xl font-bold text-slate-800 mt-8 mb-4 flex items-center gap-2">
-              <ShoppingCart className="text-green-600" /> Exemplos no Dia a Dia
+          <h3 className="text-xl font-bold text-slate-800 dark:text-white mt-8 mb-4 flex items-center gap-2">
+              <ShoppingCart className="text-green-600 dark:text-green-500" /> Exemplos no Dia a Dia
           </h3>
           
           <ul className="space-y-4 not-prose mb-10">
-              <li className="flex items-start gap-4 bg-white p-4 rounded-xl border border-slate-100 shadow-sm">
-                  <div className="bg-green-100 p-2.5 rounded-lg text-green-600 shrink-0 mt-1"><TrendingUp size={20}/></div>
+              <li className="flex items-start gap-4 bg-white dark:bg-slate-800/50 p-4 rounded-xl border border-slate-100 dark:border-slate-800 shadow-sm">
+                  <div className="bg-green-100 dark:bg-green-900/30 p-2.5 rounded-lg text-green-600 dark:text-green-400 shrink-0 mt-1"><TrendingUp size={20}/></div>
                   <div>
-                      <strong className="text-slate-900 block text-sm mb-1">Aumento de Salário</strong>
-                      <span className="text-slate-600 text-xs md:text-sm leading-relaxed">Se você ganha R$ 2.000 e recebe 10% de aumento, a conta é: 2000 × 1.10 = <strong>R$ 2.200</strong>.</span>
+                      <strong className="text-slate-900 dark:text-slate-100 block text-sm mb-1">Aumento de Salário</strong>
+                      <span className="text-slate-600 dark:text-slate-400 text-xs md:text-sm leading-relaxed">Se você ganha R$ 2.000 e recebe 10% de aumento, a conta é: 2000 × 1.10 = <strong>R$ 2.200</strong>.</span>
                   </div>
               </li>
-              <li className="flex items-start gap-4 bg-white p-4 rounded-xl border border-slate-100 shadow-sm">
-                  <div className="bg-red-100 p-2.5 rounded-lg text-red-600 shrink-0 mt-1"><Percent size={20}/></div>
+              <li className="flex items-start gap-4 bg-white dark:bg-slate-800/50 p-4 rounded-xl border border-slate-100 dark:border-slate-800 shadow-sm">
+                  <div className="bg-red-100 dark:bg-red-900/30 p-2.5 rounded-lg text-red-600 dark:text-red-400 shrink-0 mt-1"><Percent size={20}/></div>
                   <div>
-                      <strong className="text-slate-900 block text-sm mb-1">Desconto em Loja</strong>
-                      <span className="text-slate-600 text-xs md:text-sm leading-relaxed">Uma camisa de R$ 100 com 30% de desconto sai por: 100 × 0.70 = <strong>R$ 70</strong>.</span>
+                      <strong className="text-slate-900 dark:text-slate-100 block text-sm mb-1">Desconto em Loja</strong>
+                      <span className="text-slate-600 dark:text-slate-400 text-xs md:text-sm leading-relaxed">Uma camisa de R$ 100 com 30% de desconto sai por: 100 × 0.70 = <strong>R$ 70</strong>.</span>
                   </div>
               </li>
-              <li className="flex items-start gap-4 bg-white p-4 rounded-xl border border-slate-100 shadow-sm">
-                  <div className="bg-blue-100 p-2.5 rounded-lg text-blue-600 shrink-0 mt-1"><PieChart size={20}/></div>
+              <li className="flex items-start gap-4 bg-white dark:bg-slate-800/50 p-4 rounded-xl border border-slate-100 dark:border-slate-800 shadow-sm">
+                  <div className="bg-blue-100 dark:bg-blue-900/30 p-2.5 rounded-lg text-blue-600 dark:text-blue-400 shrink-0 mt-1"><PieChart size={20}/></div>
                   <div>
-                      <strong className="text-slate-900 block text-sm mb-1">Inflação (IPCA)</strong>
-                      <span className="text-slate-600 text-xs md:text-sm leading-relaxed">Se a inflação foi de 5%, um produto que custava R$ 10,00 passa a custar, em média, R$ 10,50.</span>
+                      <strong className="text-slate-900 dark:text-slate-100 block text-sm mb-1">Inflação (IPCA)</strong>
+                      <span className="text-slate-600 dark:text-slate-400 text-xs md:text-sm leading-relaxed">Se a inflação foi de 5%, um produto que custava R$ 10,00 passa a custar, em média, R$ 10,50.</span>
                   </div>
               </li>
           </ul>
 
           {/* FAQ ACORDION */}
           <div className="mt-12 not-prose">
-            <h2 className="text-2xl font-bold text-slate-900 mb-8 flex items-center gap-3 border-b border-slate-100 pb-4">
-                <HelpCircle className="text-indigo-600" /> Dúvidas Frequentes
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-8 flex items-center gap-3 border-b border-slate-100 dark:border-slate-800 pb-4">
+                <HelpCircle className="text-indigo-600 dark:text-indigo-400" /> Dúvidas Frequentes
             </h2>
             <div className="space-y-4">
               {faqList.map((item, idx) => (
-                  <details key={idx} className="group bg-slate-50 p-5 rounded-xl border border-slate-200 shadow-sm cursor-pointer open:bg-white open:ring-1 open:ring-indigo-100 transition-all">
-                      <summary className="font-semibold text-slate-800 list-none flex justify-between items-center select-none">
+                  <details key={idx} className="group bg-slate-50 dark:bg-slate-800 p-5 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm cursor-pointer open:bg-white dark:open:bg-slate-900 open:ring-1 open:ring-indigo-100 dark:open:ring-indigo-900/30 transition-all">
+                      <summary className="font-semibold text-slate-800 dark:text-slate-100 list-none flex justify-between items-center select-none">
                           <div className="flex items-start gap-3">
                               <span className="text-indigo-400 font-bold text-xs mt-1">#</span>
                               <span className="leading-snug">{item.q}</span>
                           </div>
                           <span className="text-slate-400 group-open:rotate-180 transition-transform ml-2 shrink-0">▼</span>
                       </summary>
-                      <p className="mt-3 text-slate-600 leading-relaxed border-t border-slate-100 pt-3 text-sm animate-in fade-in">
+                      <p className="mt-3 text-slate-600 dark:text-slate-400 leading-relaxed border-t border-slate-100 dark:border-slate-800 pt-3 text-sm animate-in fade-in">
                           {item.a}
                       </p>
                   </details>
@@ -329,16 +333,16 @@ export default async function PorcentagemPage({ searchParams }: Props) {
           </div>
 
           {/* FONTES */}
-          <div className="mt-12 pt-8 border-t border-slate-200 print:hidden not-prose bg-slate-50 p-6 rounded-xl">
-              <h3 className="text-sm font-bold text-slate-500 uppercase tracking-wider mb-4 flex items-center gap-2">
+          <div className="mt-12 pt-8 border-t border-slate-200 dark:border-slate-800 print:hidden not-prose bg-slate-50 dark:bg-slate-900 p-6 rounded-xl">
+              <h3 className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-4 flex items-center gap-2">
                   <Landmark size={16} /> Aprenda Mais (Fontes)
               </h3>
-              <p className="text-xs text-slate-500 mb-3">Dados matemáticos e financeiros baseados em:</p>
-              <div className="flex flex-wrap gap-4 text-xs font-medium text-blue-600">
-                  <a href="https://www.ibge.gov.br/explica/inflacao.php" target="_blank" rel="nofollow noopener noreferrer" className="hover:underline flex items-center gap-1 bg-white px-3 py-1 rounded border shadow-sm">
+              <p className="text-xs text-slate-500 dark:text-slate-400 mb-3">Dados matemáticos e financeiros baseados em:</p>
+              <div className="flex flex-wrap gap-4 text-xs font-medium text-blue-600 dark:text-blue-400">
+                  <a href="https://www.ibge.gov.br/explica/inflacao.php" target="_blank" rel="nofollow noopener noreferrer" className="hover:underline flex items-center gap-1 bg-white dark:bg-slate-800 px-3 py-1 rounded border dark:border-slate-700 shadow-sm">
                       IBGE - Inflação Oficial <ExternalLink size={10}/>
                   </a>
-                  <a href="https://portaldamatematica.obmep.org.br/" target="_blank" rel="nofollow noopener noreferrer" className="hover:underline flex items-center gap-1 bg-white px-3 py-1 rounded border shadow-sm">
+                  <a href="https://portaldamatematica.obmep.org.br/" target="_blank" rel="nofollow noopener noreferrer" className="hover:underline flex items-center gap-1 bg-white dark:bg-slate-800 px-3 py-1 rounded border dark:border-slate-700 shadow-sm">
                       OBMEP - Portal da Matemática <ExternalLink size={10}/>
                   </a>
               </div>
@@ -346,24 +350,24 @@ export default async function PorcentagemPage({ searchParams }: Props) {
 
           {/* CROSS-LINKING */}
           <div className="mt-16 pt-8 border-t border-slate-200 print:hidden not-prose">
-            <p className="font-bold text-slate-900 mb-6 text-sm uppercase tracking-wider flex items-center gap-2">
+            <p className="font-bold text-slate-900 dark:text-white mb-6 text-sm uppercase tracking-wider flex items-center gap-2">
                <CheckCircle2 size={16} className="text-emerald-500"/> Aplique o conhecimento:
             </p>
             <div className="grid md:grid-cols-3 gap-4">
-              <Link href="/financeiro/juros-compostos" className="flex flex-col p-5 bg-white border border-slate-200 rounded-xl hover:border-emerald-400 hover:shadow-lg transition-all group">
-                  <div className="bg-emerald-50 w-10 h-10 rounded-lg flex items-center justify-center mb-3 text-emerald-600 shadow-sm group-hover:scale-110 transition-transform"><TrendingUp size={20}/></div>
-                  <span className="font-bold text-slate-800 text-lg">Juros Compostos</span>
-                  <span className="text-sm text-slate-500 mt-1">Investimentos</span>
+              <Link href="/financeiro/juros-compostos" className="flex flex-col p-5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl hover:border-emerald-400 dark:hover:border-emerald-500 hover:shadow-lg transition-all group">
+                  <div className="bg-emerald-50 dark:bg-emerald-900/30 w-10 h-10 rounded-lg flex items-center justify-center mb-3 text-emerald-600 dark:text-emerald-400 shadow-sm group-hover:scale-110 transition-transform"><TrendingUp size={20}/></div>
+                  <span className="font-bold text-slate-800 dark:text-slate-100 text-lg">Juros Compostos</span>
+                  <span className="text-sm text-slate-500 dark:text-slate-400 mt-1">Investimentos</span>
               </Link>
-              <Link href="/financeiro/salario-liquido" className="flex flex-col p-5 bg-white border border-slate-200 rounded-xl hover:border-blue-400 hover:shadow-lg transition-all group">
-                  <div className="bg-blue-50 w-10 h-10 rounded-lg flex items-center justify-center mb-3 text-blue-600 shadow-sm group-hover:scale-110 transition-transform"><Wallet size={20}/></div>
-                  <span className="font-bold text-slate-800 text-lg">Salário Líquido</span>
-                  <span className="text-sm text-slate-500 mt-1">Descontos mensais</span>
+              <Link href="/financeiro/salario-liquido" className="flex flex-col p-5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl hover:border-blue-400 dark:hover:border-blue-500 hover:shadow-lg transition-all group">
+                  <div className="bg-blue-50 dark:bg-blue-900/30 w-10 h-10 rounded-lg flex items-center justify-center mb-3 text-blue-600 dark:text-blue-400 shadow-sm group-hover:scale-110 transition-transform"><Wallet size={20}/></div>
+                  <span className="font-bold text-slate-800 dark:text-slate-100 text-lg">Salário Líquido</span>
+                  <span className="text-sm text-slate-500 dark:text-slate-400 mt-1">Descontos mensais</span>
               </Link>
-              <Link href="/financeiro/financiamento" className="flex flex-col p-5 bg-white border border-slate-200 rounded-xl hover:border-indigo-400 hover:shadow-lg transition-all group">
-                  <div className="bg-indigo-50 w-10 h-10 rounded-lg flex items-center justify-center mb-3 text-indigo-600 shadow-sm group-hover:scale-110 transition-transform"><Calculator size={20}/></div>
-                  <span className="font-bold text-slate-800 text-lg">Financiamento</span>
-                  <span className="text-sm text-slate-500 mt-1">Simular parcelas</span>
+              <Link href="/financeiro/financiamento" className="flex flex-col p-5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl hover:border-indigo-400 dark:hover:border-indigo-500 hover:shadow-lg transition-all group">
+                  <div className="bg-indigo-50 dark:bg-indigo-900/30 w-10 h-10 rounded-lg flex items-center justify-center mb-3 text-indigo-600 dark:text-indigo-400 shadow-sm group-hover:scale-110 transition-transform"><Calculator size={20}/></div>
+                  <span className="font-bold text-slate-800 dark:text-slate-100 text-lg">Financiamento</span>
+                  <span className="text-sm text-slate-500 dark:text-slate-400 mt-1">Simular parcelas</span>
               </Link>
             </div>
           </div>

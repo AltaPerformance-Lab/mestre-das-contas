@@ -9,7 +9,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { 
   FileText, Printer, DollarSign, 
-  MapPin, CalendarDays, ArrowDown, Scissors
+  MapPin, CalendarDays, ArrowDown, Scissors,
+  Maximize2, X
 } from "lucide-react";
 
 // --- FUNÇÃO AUXILIAR: NÚMERO POR EXTENSO (LÓGICA STRING PURA) ---
@@ -96,7 +97,7 @@ const numeroParaExtenso = (valorStr: string): string => {
 // --- INTERFACE PARA DADOS INICIAIS (pSEO) ---
 interface ReceiptGeneratorProps {
     initialValues?: {
-        referente?: string; // Ex: "Aluguel referente ao mês de..."
+        referente?: string;
         valor?: string;
         pagador?: string;
         emissor?: string;
@@ -194,20 +195,16 @@ export default function ReceiptGenerator({ initialValues }: ReceiptGeneratorProp
   // --- STATES ---
   const [valor, setValor] = useState("");
   const [valorExtenso, setValorExtenso] = useState("");
-  
   const [pagador, setPagador] = useState("");
   const [cpfPagador, setCpfPagador] = useState("");
-  
   const [referente, setReferente] = useState("");
-  
   const [emissor, setEmissor] = useState("");
   const [cpfEmissor, setCpfEmissor] = useState("");
   const [telefone, setTelefone] = useState("");
-  
   const [cidade, setCidade] = useState("");
   const [dataRecibo, setDataRecibo] = useState("");
-  
   const [duasVias, setDuasVias] = useState(true);
+  const [isZoomed, setIsZoomed] = useState(false);
 
   const printRef = useRef<HTMLDivElement>(null);
   const previewRef = useRef<HTMLDivElement>(null);
@@ -314,8 +311,8 @@ export default function ReceiptGenerator({ initialValues }: ReceiptGeneratorProp
       
       {/* FORMULÁRIO */}
       <div className="w-full">
-        <Card className="border-0 shadow-xl shadow-slate-200/40 bg-white rounded-2xl overflow-hidden ring-1 ring-slate-100">
-          <CardHeader className="bg-slate-900 text-white p-6">
+        <Card className="border-0 shadow-xl shadow-slate-200/40 dark:shadow-none bg-white dark:bg-slate-900 rounded-2xl overflow-hidden ring-1 ring-slate-100 dark:ring-slate-800">
+          <CardHeader className="bg-slate-900 dark:bg-slate-950 text-white p-6">
             <CardTitle className="text-xl flex items-center gap-3">
                <div className="bg-white/20 p-2 rounded-xl backdrop-blur-sm">
                  <FileText size={22} strokeWidth={2.5} />
@@ -327,78 +324,80 @@ export default function ReceiptGenerator({ initialValues }: ReceiptGeneratorProp
             
             <div className="grid md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                    <Label className="text-slate-600 font-bold">Valor (R$)</Label>
+                    <Label className="text-slate-600 dark:text-slate-300 font-bold">Valor (R$)</Label>
                     <div className="relative">
                         <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 font-bold">R$</span>
                         <Input 
                             value={valor} 
                             onChange={handleValorChange} 
-                            className="pl-10 h-11 font-bold text-lg bg-slate-50 focus:bg-white"
+                            className="pl-10 h-11 font-bold text-lg bg-slate-50 dark:bg-slate-800 focus:bg-white dark:focus:bg-slate-900 dark:text-white dark:border-slate-700"
                             placeholder="0,00"
                             inputMode="numeric"
                         />
                     </div>
                 </div>
                 <div className="space-y-2">
-                    <Label className="text-slate-600">Data</Label>
+                    <Label className="text-slate-600 dark:text-slate-300">Data</Label>
                     <Input 
                         value={dataRecibo} 
                         onChange={e => setDataRecibo(e.target.value)} 
-                        className="h-11 bg-slate-50 focus:bg-white"
+                        className="h-11 bg-slate-50 dark:bg-slate-800 focus:bg-white dark:focus:bg-slate-900 dark:text-white dark:border-slate-700"
                     />
                 </div>
             </div>
 
             <div className="space-y-2">
-                <Label className="text-slate-600">Valor por Extenso</Label>
+                <Label className="text-slate-600 dark:text-slate-300">Valor por Extenso</Label>
                 <Textarea 
                     placeholder="Ex: Cento e cinquenta reais" 
                     value={valorExtenso} 
                     onChange={e => setValorExtenso(e.target.value)} 
-                    className="min-h-[60px] bg-slate-50 focus:bg-white resize-none"
+                    className="min-h-[60px] bg-slate-50 dark:bg-slate-800 focus:bg-white dark:focus:bg-slate-900 dark:text-white dark:border-slate-700 resize-none"
                 />
-                <p className="text-xs text-slate-400">Preenchido automaticamente, mas você pode editar se precisar.</p>
+                <p className="text-xs text-slate-400 dark:text-slate-500">Preenchido automaticamente, mas você pode editar se precisar.</p>
             </div>
 
-            <div className="space-y-2 pt-2 border-t border-slate-100">
-                <Label className="text-slate-600 font-bold">Quem está pagando? (Cliente)</Label>
-                <Input placeholder="Nome Completo ou Razão Social" value={pagador} onChange={e => setPagador(e.target.value)} />
+            <div className="space-y-2 pt-2 border-t border-slate-100 dark:border-slate-800">
+                <Label className="text-slate-600 dark:text-slate-300 font-bold">Quem está pagando? (Cliente)</Label>
+                <Input placeholder="Nome Completo ou Razão Social" value={pagador} onChange={e => setPagador(e.target.value)} className="bg-slate-50 dark:bg-slate-800 focus:bg-white dark:focus:bg-slate-900 dark:text-white dark:border-slate-700" />
                 <Input 
                   placeholder="CPF ou CNPJ (Opcional)" 
                   value={cpfPagador} 
                   onChange={(e) => handleCpfCnpjChange(e, setCpfPagador)} 
-                  className="mt-2" 
+                  className="mt-2 bg-slate-50 dark:bg-slate-800 focus:bg-white dark:focus:bg-slate-900 dark:text-white dark:border-slate-700" 
                   maxLength={18}
                 />
             </div>
 
             <div className="space-y-2">
-                <Label className="text-slate-600 font-bold">Referente a quê?</Label>
-                <Input placeholder="Ex: Aluguel de Maio / Serviço de Pintura" value={referente} onChange={e => setReferente(e.target.value)} />
+                <Label className="text-slate-600 dark:text-slate-300 font-bold">Referente a quê?</Label>
+                <Input placeholder="Ex: Aluguel de Maio / Serviço de Pintura" value={referente} onChange={e => setReferente(e.target.value)} className="bg-slate-50 dark:bg-slate-800 focus:bg-white dark:focus:bg-slate-900 dark:text-white dark:border-slate-700" />
             </div>
 
-            <div className="space-y-2 pt-2 border-t border-slate-100">
-                <Label className="text-slate-600 font-bold">Quem recebe? (Emissor)</Label>
-                <Input placeholder="Seu Nome ou Empresa" value={emissor} onChange={e => setEmissor(e.target.value)} />
+            <div className="space-y-2 pt-2 border-t border-slate-100 dark:border-slate-800">
+                <Label className="text-slate-600 dark:text-slate-300 font-bold">Quem recebe? (Emissor)</Label>
+                <Input placeholder="Seu Nome ou Empresa" value={emissor} onChange={e => setEmissor(e.target.value)} className="bg-slate-50 dark:bg-slate-800 focus:bg-white dark:focus:bg-slate-900 dark:text-white dark:border-slate-700" />
                 <div className="grid grid-cols-2 gap-4 mt-2">
                     <Input 
                       placeholder="CPF/CNPJ" 
                       value={cpfEmissor} 
                       onChange={(e) => handleCpfCnpjChange(e, setCpfEmissor)} 
                       maxLength={18}
+                      className="bg-slate-50 dark:bg-slate-800 focus:bg-white dark:focus:bg-slate-900 dark:text-white dark:border-slate-700"
                     />
                     <Input 
                       placeholder="Telefone" 
                       value={telefone} 
                       onChange={handlePhoneChange}
                       maxLength={15}
+                      className="bg-slate-50 dark:bg-slate-800 focus:bg-white dark:focus:bg-slate-900 dark:text-white dark:border-slate-700"
                     />
                 </div>
-                <Input placeholder="Cidade" value={cidade} onChange={e => setCidade(e.target.value)} className="mt-2" />
+                <Input placeholder="Cidade" value={cidade} onChange={e => setCidade(e.target.value)} className="mt-2 bg-slate-50 dark:bg-slate-800 focus:bg-white dark:focus:bg-slate-900 dark:text-white dark:border-slate-700" />
             </div>
             
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 pb-2 border-t border-slate-100 mt-4">
-                <div className="flex items-center gap-2 bg-blue-50 px-3 py-2 rounded-lg border border-blue-100 w-full sm:w-auto">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 pb-2 border-t border-slate-100 dark:border-slate-800 mt-4">
+                <div className="flex items-center gap-2 bg-blue-50 dark:bg-blue-900/20 px-3 py-2 rounded-lg border border-blue-100 dark:border-blue-900/50 w-full sm:w-auto">
                     <input 
                         type="checkbox" 
                         id="duasVias" 
@@ -406,11 +405,11 @@ export default function ReceiptGenerator({ initialValues }: ReceiptGeneratorProp
                         onChange={e => setDuasVias(e.target.checked)} 
                         className="w-5 h-5 rounded border-slate-300 text-blue-600 focus:ring-blue-500 cursor-pointer" 
                     />
-                    <Label htmlFor="duasVias" className="cursor-pointer font-bold text-blue-800 text-sm">Gerar 2 vias (1 folha)</Label>
+                    <Label htmlFor="duasVias" className="cursor-pointer font-bold text-blue-800 dark:text-blue-200 text-sm">Gerar 2 vias (1 folha)</Label>
                 </div>
 
                 <div className="flex gap-3 w-full sm:w-auto">
-                    <Button variant="outline" onClick={scrollToPreview} className="flex-1 sm:flex-none border-slate-300 text-slate-600 hover:bg-slate-50">
+                    <Button variant="outline" onClick={scrollToPreview} className="flex-1 sm:flex-none border-slate-300 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800">
                         <ArrowDown size={18} className="mr-2"/> Ver Preview
                     </Button>
                     <Button onClick={() => handlePrint()} className="flex-1 sm:flex-none bg-blue-600 hover:bg-blue-700 text-white font-bold shadow-lg shadow-blue-200 transition-all active:scale-[0.98]">
@@ -424,17 +423,28 @@ export default function ReceiptGenerator({ initialValues }: ReceiptGeneratorProp
       </div>
 
       {/* --- PREVIEW --- */}
-      <div ref={previewRef} className="w-full bg-slate-100 p-4 md:p-8 rounded-3xl border border-slate-200 flex justify-center">
-         <div className="w-full flex justify-center overflow-hidden h-[130mm] sm:h-[180mm] md:h-[240mm] lg:h-[270mm] xl:h-auto transition-all duration-300">
-             
-             <div className="bg-white shadow-2xl origin-top transition-transform duration-300 scale-[0.40] sm:scale-[0.6] md:scale-[0.8] lg:scale-[0.9] xl:scale-100" style={{ width: '210mm', minHeight: '297mm' }}>
-                 
+      <div ref={previewRef} className="w-full bg-slate-100 dark:bg-slate-800 p-4 rounded-3xl border border-slate-200 dark:border-slate-700 flex flex-col items-center relative group">
+          
+          <div className="absolute top-4 right-4 z-20">
+             <Button 
+                onClick={() => setIsZoomed(true)} 
+                variant="secondary" 
+                size="sm" 
+                className="bg-white/90 dark:bg-slate-900/90 backdrop-blur shadow-lg border border-slate-200 dark:border-slate-700 hover:bg-blue-50 hover:text-blue-600"
+             >
+                 <Maximize2 size={16} className="mr-2"/> Ampliar
+             </Button>
+          </div>
+
+          <div 
+            onClick={() => setIsZoomed(true)}
+            className="cursor-zoom-in w-full flex justify-center overflow-y-auto overflow-x-hidden h-[400px] sm:h-[600px] md:h-[750px] lg:h-[850px] transition-all duration-300 scrollbar-thin scrollbar-thumb-slate-300 dark:scrollbar-thumb-slate-600 pr-2 pb-2"
+          >
+             <div className="bg-white shadow-2xl origin-top transition-transform duration-300 scale-[0.40] sm:scale-[0.6] md:scale-[0.8] lg:scale-[0.9] xl:scale-100 select-none pb-0 mb-0" style={{ width: '210mm', minHeight: '297mm' }}>
                  <div ref={printRef} className="print-page-container flex flex-col justify-between h-full p-[15mm]">
-                     
                      <div className="flex-1 flex flex-col">
                         <ReciboTemplate via="1ª Via - Emissor" data={dadosRecibo} />
                      </div>
-                     
                      {duasVias && (
                          <>
                             <div className="py-8 flex items-center justify-center gap-4 opacity-50 select-none shrink-0">
@@ -444,17 +454,58 @@ export default function ReceiptGenerator({ initialValues }: ReceiptGeneratorProp
                                 <div className="border-t-2 border-dashed border-slate-300 w-full"></div>
                                 <Scissors size={16} className="text-slate-400"/>
                             </div>
-
                             <div className="flex-1 flex flex-col">
                                 <ReciboTemplate via="2ª Via - Cliente" data={dadosRecibo} />
                             </div>
                          </>
                      )}
                  </div>
-
              </div>
-         </div>
+          </div>
+          <p className="mt-4 text-xs text-slate-500 dark:text-slate-400 flex items-center gap-2 sm:hidden">
+            <Maximize2 size={12}/> Toque na imagem para ampliar
+          </p>
       </div>
+
+      {/* --- MODAL ZOOM --- */}
+      {isZoomed && (
+        <div className="fixed inset-0 z-[100] bg-slate-950/95 backdrop-blur-md flex items-center justify-center p-4 animate-in fade-in duration-200" onClick={() => setIsZoomed(false)}>
+            <div className="relative w-full max-w-5xl h-[90vh] overflow-hidden bg-slate-200 dark:bg-slate-900 rounded-lg shadow-2xl flex flex-col" onClick={e => e.stopPropagation()}>
+                <div className="flex justify-between items-center p-4 bg-white dark:bg-slate-950 border-b border-slate-200 dark:border-slate-800 z-10">
+                    <h3 className="font-bold text-slate-700 dark:text-slate-200 flex items-center gap-2">
+                        <FileText size={18}/> Visualização
+                    </h3>
+                    <Button variant="ghost" size="icon" onClick={() => setIsZoomed(false)} className="rounded-full hover:bg-slate-100 dark:hover:bg-slate-800">
+                        <X size={20}/>
+                    </Button>
+                </div>
+                
+                <div className="flex-1 overflow-auto p-4 md:p-8 flex justify-center bg-slate-100 dark:bg-slate-900/50">
+                     <div className="bg-white shadow-2xl scale-[0.5] sm:scale-[0.7] md:scale-100 origin-top" style={{ width: '210mm', minHeight: '297mm' }}>
+                        <div className="print-page-container flex flex-col justify-between h-full p-[15mm]">
+                            <div className="flex-1 flex flex-col">
+                                <ReciboTemplate via="1ª Via - Emissor" data={dadosRecibo} />
+                            </div>
+                            {duasVias && (
+                                <>
+                                <div className="py-8 flex items-center justify-center gap-4 opacity-50 select-none shrink-0">
+                                    <Scissors size={16} className="text-slate-400 rotate-180"/>
+                                    <div className="border-t-2 border-dashed border-slate-300 w-full"></div>
+                                    <span className="text-[10px] uppercase tracking-widest text-slate-400 font-sans whitespace-nowrap">Corte Aqui</span>
+                                    <div className="border-t-2 border-dashed border-slate-300 w-full"></div>
+                                    <Scissors size={16} className="text-slate-400"/>
+                                </div>
+                                <div className="flex-1 flex flex-col">
+                                    <ReciboTemplate via="2ª Via - Cliente" data={dadosRecibo} />
+                                </div>
+                                </>
+                            )}
+                        </div>
+                     </div>
+                </div>
+            </div>
+        </div>
+      )}
 
     </div>
   );

@@ -50,14 +50,14 @@ export default function ContatoPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
       {/* --- HEADER SIMPLIFICADO --- */}
-      <div className="bg-slate-50 border-b border-slate-200 py-12 md:py-16 text-center px-4">
-        <div className="inline-flex items-center justify-center w-16 h-16 bg-white rounded-2xl shadow-sm mb-6 text-blue-600 ring-1 ring-slate-100">
+      <div className="bg-slate-50 dark:bg-slate-950 border-b border-slate-200 dark:border-slate-900 py-12 md:py-16 text-center px-4">
+        <div className="inline-flex items-center justify-center w-16 h-16 bg-white dark:bg-slate-900 rounded-2xl shadow-sm mb-6 text-blue-600 dark:text-blue-400 ring-1 ring-slate-100 dark:ring-slate-800">
            <Mail size={32} strokeWidth={1.5} aria-hidden="true" />
         </div>
-        <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4 tracking-tight">
+        <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-slate-100 mb-4 tracking-tight">
           Como podemos ajudar?
         </h1>
-        <p className="text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed">
+        <p className="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed">
           Tem alguma dúvida sobre os cálculos, encontrou um bug ou quer sugerir uma nova ferramenta? Estamos aqui para ouvir você.
         </p>
       </div>
@@ -65,21 +65,21 @@ export default function ContatoPage() {
       <div className="max-w-4xl mx-auto px-4 -mt-8">
         
         {/* CARD DE CONTATO PRINCIPAL */}
-        <div className="bg-white p-8 rounded-3xl shadow-xl shadow-slate-200/50 border border-slate-100 text-center relative overflow-hidden">
+        <div className="bg-white dark:bg-slate-900 p-8 rounded-3xl shadow-xl shadow-slate-200/50 dark:shadow-none border border-slate-100 dark:border-slate-800 text-center relative overflow-hidden">
            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 via-indigo-500 to-blue-500"></div>
            
            <div className="flex flex-col items-center gap-4">
-              <span className="text-sm font-bold text-blue-600 uppercase tracking-wider bg-blue-50 px-3 py-1 rounded-full">Canal Oficial</span>
+              <span className="text-sm font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wider bg-blue-50 dark:bg-blue-900/20 px-3 py-1 rounded-full">Canal Oficial</span>
               
               <a 
                 href="mailto:contato@mestredascontas.com.br" 
-                className="text-2xl md:text-4xl font-bold text-slate-900 hover:text-blue-600 transition-colors break-all"
+                className="text-2xl md:text-4xl font-bold text-slate-900 dark:text-slate-100 hover:text-blue-600 dark:hover:text-blue-400 transition-colors break-all"
                 aria-label="Enviar e-mail para contato@mestredascontas.com.br"
               >
                 contato@mestredascontas.com.br
               </a>
 
-              <div className="flex items-center gap-2 text-sm text-slate-500 mt-2">
+              <div className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 mt-2">
                  <Clock size={16} />
                  <span>Tempo médio de resposta: <strong>24 a 48 horas úteis</strong></span>
               </div>
@@ -90,34 +90,34 @@ export default function ContatoPage() {
         <div className="grid md:grid-cols-2 gap-8 mt-12">
             
             {/* Bloco 1: Parcerias */}
-            <div className="bg-slate-50 p-6 rounded-2xl border border-slate-200">
-               <h3 className="text-lg font-bold text-slate-900 mb-3 flex items-center gap-2">
-                  <MessageSquare size={20} className="text-indigo-600"/> Parcerias & Publicidade
+            <div className="bg-slate-50 dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800">
+               <h3 className="text-lg font-bold text-slate-900 dark:text-slate-100 mb-3 flex items-center gap-2">
+                  <MessageSquare size={20} className="text-indigo-600 dark:text-indigo-400"/> Parcerias & Publicidade
                </h3>
-               <p className="text-slate-600 text-sm leading-relaxed mb-4">
+               <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed mb-4">
                   Interessado em anunciar para milhares de usuários qualificados ou propor uma parceria de conteúdo?
                </p>
-               <p className="text-sm font-medium text-indigo-700">
+               <p className="text-sm font-medium text-indigo-700 dark:text-indigo-300">
                   Utilize o mesmo e-mail com o assunto: <br/>
-                  <span className="font-mono bg-white px-2 py-0.5 rounded border border-indigo-100 mt-1 inline-block text-slate-700 select-all">Parceria Comercial - [Sua Empresa]</span>
+                  <span className="font-mono bg-white dark:bg-slate-950 px-2 py-0.5 rounded border border-indigo-100 dark:border-indigo-900 mt-1 inline-block text-slate-700 dark:text-slate-300 select-all">Parceria Comercial - [Sua Empresa]</span>
                </p>
             </div>
 
             {/* Bloco 2: FAQ Rápido (Evita e-mails repetidos) */}
-            <div className="bg-white p-6 rounded-2xl border border-slate-200">
-               <h3 className="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
-                  <HelpCircle size={20} className="text-emerald-600"/> Antes de enviar...
+            <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800">
+               <h3 className="text-lg font-bold text-slate-900 dark:text-slate-100 mb-4 flex items-center gap-2">
+                  <HelpCircle size={20} className="text-emerald-600 dark:text-emerald-400"/> Antes de enviar...
                </h3>
                <ul className="space-y-3">
-                  <li className="flex items-start gap-3 text-sm text-slate-600">
+                  <li className="flex items-start gap-3 text-sm text-slate-600 dark:text-slate-400">
                      <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 mt-1.5 shrink-0"></div>
                      <span><strong>Os cálculos são oficiais?</strong> Sim, usamos as tabelas vigentes (INSS, IRRF) e diretrizes da CLT/Governo.</span>
                   </li>
-                  <li className="flex items-start gap-3 text-sm text-slate-600">
+                  <li className="flex items-start gap-3 text-sm text-slate-600 dark:text-slate-400">
                      <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 mt-1.5 shrink-0"></div>
                      <span><strong>Preciso pagar?</strong> Não, todas as ferramentas do site são 100% gratuitas e sem cadastro.</span>
                   </li>
-                  <li className="flex items-start gap-3 text-sm text-slate-600">
+                  <li className="flex items-start gap-3 text-sm text-slate-600 dark:text-slate-400">
                      <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 mt-1.5 shrink-0"></div>
                      <span><strong>Encontrou um erro?</strong> Por favor, envie um print ou os valores usados para simularmos.</span>
                   </li>

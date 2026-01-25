@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 
 interface GoogleAdProps {
@@ -20,38 +20,76 @@ export default function GoogleAd({
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const adRef = useRef<HTMLModElement>(null);
+  const [consent, setConsent] = useState(false);
 
   // CRIA UMA CHAVE ÚNICA BASEADA NA ROTA
-  // Sempre que a rota ou os parâmetros mudarem, essa chave muda.
-  // Isso força o React a desmontar o componente antigo e montar um novo.
   const keyTrigger = `${pathname}-${searchParams.toString()}-${slot}`;
 
+  // 1. GERENCIAMENTO DE CONSENTIMENTO
   useEffect(() => {
+    // Função para verificar consentimento
+    const checkConsent = () => {
+        const stored = localStorage.getItem("mestre_contas_consent");
+        if (stored) {
+            const { preferences } = JSON.parse(stored);
+            if (preferences.marketing) {
+                setConsent(true);
+            } else {
+                setConsent(false);
+            }
+        } else {
+             // Se não tem nada salvo, assumimos false (esperando aceite)
+             setConsent(false);
+        }
+    };
+
+    // Verifica inicial
+    checkConsent();
+
+    // Ouve atualizações
+    const handleUpdate = () => checkConsent();
+    window.addEventListener("consent_updated", handleUpdate);
+    window.addEventListener("storage", handleUpdate);
+
+    return () => {
+        window.removeEventListener("consent_updated", handleUpdate);
+        window.removeEventListener("storage", handleUpdate);
+    };
+  }, []);
+
+  // 2. INICIALIZAÇÃO DO ADSENSE
+  useEffect(() => {
+    if (!consent) return; // Se não tem consentimento, não faz nada
+
     try {
-      // Pequeno timeout para garantir que o DOM renderizou após a troca de rota
       const timeoutId = setTimeout(() => {
           if (adRef.current && (window as any).adsbygoogle) {
-             // Limpa qualquer lixo anterior (segurança extra)
              if (adRef.current.innerHTML.trim() !== "") {
-                console.log("AdSense: Slot já preenchido, ignorando push.");
                 return;
              }
-             
              (window as any).adsbygoogle.push({});
           }
-      }, 100); // 100ms é imperceptível mas evita race conditions
+      }, 100);
 
       return () => clearTimeout(timeoutId);
 
     } catch (err) {
       console.error("AdSense Error:", err);
     }
-  }, [keyTrigger]); // Roda novamente sempre que a chave mudar
+  }, [keyTrigger, consent]); // Roda quando a chave ou o consentimento mudarem
+
+  // Se não tiver consentimento, não renderiza nada (ou renderize um placeholder se preferir evitar CLS)
+  // Por enquanto, vamos retornar null para não carregar scripts indesejados.
+  // Se quiser evitar CLS (Cumulative Layout Shift), renderize a div vazia com a altura min.
+  // Altura mínima lógica para evitar CLS (Cumulative Layout Shift)
+  const minHeightClass = format === "horizontal" ? "min-h-[90px]" : "min-h-[250px]";
+
+  if (!consent) return null;
 
   return (
     <div 
-      key={keyTrigger} // <--- O PULO DO GATO: Força o Re-render total
-      className={`overflow-hidden ${className} min-h-[250px] bg-slate-50 flex items-center justify-center`}
+      key={keyTrigger} 
+      className={`overflow-hidden ${className} ${minHeightClass} bg-slate-50 dark:bg-slate-900 flex items-center justify-center`}
     >
       <ins
         ref={adRef}
@@ -62,9 +100,6 @@ export default function GoogleAd({
         data-ad-format={format}
         data-full-width-responsive={responsive ? "true" : "false"}
       />
-      
-      {/* Fallback visual enquanto carrega (Skeleton) - Opcional mas elegante */}
-      <script dangerouslySetInnerHTML={{ __html: `(adsbygoogle = window.adsbygoogle || []).onload = function() { this.parentNode.style.background = 'transparent'; };` }} />
     </div>
   );
 }

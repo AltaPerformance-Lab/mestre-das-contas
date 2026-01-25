@@ -6,7 +6,7 @@ import {
   QrCode, Zap, Lock, FileJson, Image as ImageIcon, 
   Wrench, ArrowRight, MousePointer2, Smartphone, 
   CheckCircle2, Box, MessageCircle, FileText, ShieldCheck,
-  Cpu
+  Cpu, Calculator, Briefcase, ShoppingBag
 } from "lucide-react";
 
 // --- METADATA (SEO 2026) ---
@@ -45,11 +45,15 @@ const jsonLd = {
   "url": "https://mestredascontas.com.br/ferramentas",
   "hasPart": [
     { "@type": "SoftwareApplication", "name": "Editor de PDF Online", "url": "https://mestredascontas.com.br/ferramentas/editor-pdf-online" },
+    { "@type": "SoftwareApplication", "name": "Criador de Orçamento", "url": "https://mestredascontas.com.br/ferramentas/criador-orcamentos" },
     { "@type": "SoftwareApplication", "name": "Gerador de QR Code", "url": "https://mestredascontas.com.br/ferramentas/gerador-qr-code" },
     { "@type": "SoftwareApplication", "name": "Gerador de Link WhatsApp", "url": "https://mestredascontas.com.br/ferramentas/gerador-link-whatsapp" },
     { "@type": "SoftwareApplication", "name": "Conversor de Imagens", "url": "https://mestredascontas.com.br/ferramentas/conversor-imagem" },
     { "@type": "SoftwareApplication", "name": "Gerador de Senhas", "url": "https://mestredascontas.com.br/ferramentas/gerador-de-senhas" },
-    { "@type": "SoftwareApplication", "name": "Gerador de Recibo", "url": "https://mestredascontas.com.br/ferramentas/gerador-recibo" }
+    { "@type": "SoftwareApplication", "name": "Gerador de Recibo", "url": "https://mestredascontas.com.br/ferramentas/gerador-recibo" },
+    { "@type": "SoftwareApplication", "name": "Formatador JSON", "url": "https://mestredascontas.com.br/ferramentas/formatador-json" },
+    { "@type": "SoftwareApplication", "name": "Declaração de Conteúdo", "url": "https://mestredascontas.com.br/ferramentas/declaracao-conteudo" },
+    { "@type": "SoftwareApplication", "name": "Gerador de Privacidade", "url": "https://mestredascontas.com.br/ferramentas/gerador-privacidade" }
   ]
 };
 
@@ -66,7 +70,7 @@ export default function FerramentasHubPage() {
           description="Simplifique tarefas do dia a dia com nossa suíte de ferramentas digitais. Tudo gratuito, sem cadastro e direto no navegador."
           category="Produtividade"
           icon={<Wrench size={32} strokeWidth={2} />}
-          variant="default" 
+          variant="tools" 
           categoryColor="indigo" // Cor temática para ferramentas
           badge="Novidades 2026"
           breadcrumbs={[
@@ -87,7 +91,7 @@ export default function FerramentasHubPage() {
         <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           
           {/* 0. Editor de PDF (DESTAQUE) */}
-          <Link href="/ferramentas/editor-pdf-online" className="group relative overflow-hidden bg-white rounded-3xl border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full flex flex-col md:col-span-2 lg:col-span-1">
+          <Link href="/ferramentas/editor-pdf-online" className="group relative overflow-hidden bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full flex flex-col md:col-span-2 lg:col-span-1">
             <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-opacity">
               <FileText size={80} className="text-violet-600" />
             </div>
@@ -95,8 +99,8 @@ export default function FerramentasHubPage() {
               <div className="w-14 h-14 bg-violet-50 rounded-2xl flex items-center justify-center text-violet-600 mb-6 group-hover:scale-110 transition-transform shadow-sm ring-1 ring-violet-100">
                 <FileText size={28} strokeWidth={2.5} />
               </div>
-              <h2 className="text-xl font-bold text-slate-900 mb-3 group-hover:text-violet-600 transition-colors">Editor de PDF Ultimate</h2>
-              <p className="text-slate-600 mb-6 leading-relaxed flex-1 text-sm">
+              <h2 className="text-xl font-bold text-slate-900 dark:text-slate-100 mb-3 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition-colors">Editor de PDF Ultimate</h2>
+              <p className="text-slate-600 dark:text-slate-400 mb-6 leading-relaxed flex-1 text-sm">
                 Edite, Junte, Assine e Anote em seus PDFs. Ferramenta completa com processamento 100% no navegador (privacidade total).
               </p>
               <div className="mt-auto">
@@ -108,7 +112,7 @@ export default function FerramentasHubPage() {
           </Link>
 
           {/* 1. Gerador de QR Code */}
-          <Link href="/ferramentas/gerador-qr-code" className="group relative overflow-hidden bg-white rounded-3xl border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full flex flex-col">
+          <Link href="/ferramentas/gerador-qr-code" className="group relative overflow-hidden bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full flex flex-col">
             <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-opacity">
               <QrCode size={80} className="text-indigo-600" />
             </div>
@@ -116,8 +120,8 @@ export default function FerramentasHubPage() {
               <div className="w-14 h-14 bg-indigo-50 rounded-2xl flex items-center justify-center text-indigo-600 mb-6 group-hover:scale-110 transition-transform shadow-sm ring-1 ring-indigo-100">
                 <QrCode size={28} strokeWidth={2.5} />
               </div>
-              <h2 className="text-xl font-bold text-slate-900 mb-3 group-hover:text-indigo-600 transition-colors">Gerador de QR Code</h2>
-              <p className="text-slate-600 mb-6 leading-relaxed flex-1 text-sm">
+              <h2 className="text-xl font-bold text-slate-900 dark:text-slate-100 mb-3 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">Gerador de QR Code</h2>
+              <p className="text-slate-600 dark:text-slate-400 mb-6 leading-relaxed flex-1 text-sm">
                 Crie códigos para Pix, Wi-Fi, Links e Contatos. Personalize cores, adicione logo e imprima em alta resolução.
               </p>
               <div className="mt-auto">
@@ -129,7 +133,7 @@ export default function FerramentasHubPage() {
           </Link>
 
           {/* 2. Gerador Link WhatsApp */}
-          <Link href="/ferramentas/gerador-link-whatsapp" className="group relative overflow-hidden bg-white rounded-3xl border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full flex flex-col">
+          <Link href="/ferramentas/gerador-link-whatsapp" className="group relative overflow-hidden bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full flex flex-col">
             <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-opacity">
               <MessageCircle size={80} className="text-green-600" />
             </div>
@@ -137,8 +141,8 @@ export default function FerramentasHubPage() {
               <div className="w-14 h-14 bg-green-50 rounded-2xl flex items-center justify-center text-green-600 mb-6 group-hover:scale-110 transition-transform shadow-sm ring-1 ring-green-100">
                 <MessageCircle size={28} strokeWidth={2.5} />
               </div>
-              <h2 className="text-xl font-bold text-slate-900 mb-3 group-hover:text-green-600 transition-colors">Link WhatsApp</h2>
-              <p className="text-slate-600 mb-6 leading-relaxed flex-1 text-sm">
+              <h2 className="text-xl font-bold text-slate-900 dark:text-slate-100 mb-3 group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors">Link WhatsApp</h2>
+              <p className="text-slate-600 dark:text-slate-400 mb-6 leading-relaxed flex-1 text-sm">
                 Crie links curtos com mensagem personalizada. Ideal para bio do Instagram e vendas. Com preview em tempo real.
               </p>
               <div className="mt-auto">
@@ -149,8 +153,72 @@ export default function FerramentasHubPage() {
             </div>
           </Link>
 
+
+          {/* 0.5. Criador de Orçamento (NOVO) */}
+          <Link href="/ferramentas/criador-orcamentos" className="group relative overflow-hidden bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full flex flex-col">
+            <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-opacity">
+              <Calculator size={80} className="text-blue-600" />
+            </div>
+            <div className="p-6 md:p-8 flex-1 flex flex-col">
+              <div className="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-600 mb-6 group-hover:scale-110 transition-transform shadow-sm ring-1 ring-blue-100">
+                <Calculator size={28} strokeWidth={2.5} />
+              </div>
+              <h2 className="text-xl font-bold text-slate-900 dark:text-slate-100 mb-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">Criador de Orçamento</h2>
+              <p className="text-slate-600 dark:text-slate-400 mb-6 leading-relaxed flex-1 text-sm">
+                Crie orçamentos profissionais em PDF com sua logo, cálculo de descontos e termos personalizados.
+              </p>
+              <div className="mt-auto">
+                <span className="inline-flex items-center text-sm font-bold text-white bg-blue-600 px-4 py-2 rounded-lg group-hover:bg-blue-700 transition-colors">
+                  Criar Orçamento <ArrowRight size={16} className="ml-2 group-hover:translate-x-1 transition-transform" />
+                </span>
+              </div>
+            </div>
+          </Link>
+
+          {/* 0.55. Criador de Pedidos (NOVO) */}
+          <Link href="/ferramentas/criador-pedidos" className="group relative overflow-hidden bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full flex flex-col">
+            <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-opacity">
+              <ShoppingBag size={80} className="text-indigo-600" />
+            </div>
+            <div className="p-6 md:p-8 flex-1 flex flex-col">
+              <div className="w-14 h-14 bg-indigo-50 rounded-2xl flex items-center justify-center text-indigo-600 mb-6 group-hover:scale-110 transition-transform shadow-sm ring-1 ring-indigo-100">
+                <ShoppingBag size={28} strokeWidth={2.5} />
+              </div>
+              <h2 className="text-xl font-bold text-slate-900 dark:text-slate-100 mb-3 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">Criador de Pedidos</h2>
+              <p className="text-slate-600 dark:text-slate-400 mb-6 leading-relaxed flex-1 text-sm">
+                Gere pedidos de venda com cálculo de frete, previsão de entrega e sua logo.
+              </p>
+              <div className="mt-auto">
+                <span className="inline-flex items-center text-sm font-bold text-white bg-indigo-600 px-4 py-2 rounded-lg group-hover:bg-indigo-700 transition-colors">
+                  Criar Pedido <ArrowRight size={16} className="ml-2 group-hover:translate-x-1 transition-transform" />
+                </span>
+              </div>
+            </div>
+          </Link>
+
+          {/* 0.6. Calculadora MEI (NOVO) */}
+          <Link href="/financeiro/calculadora-mei" className="group relative overflow-hidden bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full flex flex-col">
+            <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-opacity">
+              <Briefcase size={80} className="text-emerald-600" />
+            </div>
+            <div className="p-6 md:p-8 flex-1 flex flex-col">
+              <div className="w-14 h-14 bg-emerald-50 rounded-2xl flex items-center justify-center text-emerald-600 mb-6 group-hover:scale-110 transition-transform shadow-sm ring-1 ring-emerald-100">
+                <Briefcase size={28} strokeWidth={2.5} />
+              </div>
+              <h2 className="text-xl font-bold text-slate-900 dark:text-slate-100 mb-3 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">Calculadora MEI 2026</h2>
+              <p className="text-slate-600 dark:text-slate-400 mb-6 leading-relaxed flex-1 text-sm">
+                Calcule o DAS mensal, limite de faturamento anual e proporcional. Tudo atualizado para 2026.
+              </p>
+              <div className="mt-auto">
+                <span className="inline-flex items-center text-sm font-bold text-white bg-emerald-600 px-4 py-2 rounded-lg group-hover:bg-emerald-700 transition-colors">
+                  Calcular MEI <ArrowRight size={16} className="ml-2 group-hover:translate-x-1 transition-transform" />
+                </span>
+              </div>
+            </div>
+          </Link>
+
           {/* 3. Conversor de Imagem */}
-          <Link href="/ferramentas/conversor-imagem" className="group relative overflow-hidden bg-white rounded-3xl border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full flex flex-col">
+          <Link href="/ferramentas/conversor-imagem" className="group relative overflow-hidden bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full flex flex-col">
             <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-opacity">
               <ImageIcon size={80} className="text-blue-600" />
             </div>
@@ -158,8 +226,8 @@ export default function FerramentasHubPage() {
               <div className="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-600 mb-6 group-hover:scale-110 transition-transform shadow-sm ring-1 ring-blue-100">
                 <ImageIcon size={28} strokeWidth={2.5} />
               </div>
-              <h2 className="text-xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors">Conversor de Imagens</h2>
-              <p className="text-slate-600 mb-6 leading-relaxed flex-1 text-sm">
+              <h2 className="text-xl font-bold text-slate-900 dark:text-slate-100 mb-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">Conversor de Imagens</h2>
+              <p className="text-slate-600 dark:text-slate-400 mb-6 leading-relaxed flex-1 text-sm">
                 Transforme WEBP em PNG, JPG em WEBP, AVIF e muito mais. <strong>Ilimitado</strong> e sem enviar arquivos para o servidor.
               </p>
               <div className="mt-auto">
@@ -171,7 +239,7 @@ export default function FerramentasHubPage() {
           </Link>
 
           {/* 4. Gerador de Recibo */}
-          <Link href="/ferramentas/gerador-recibo" className="group relative overflow-hidden bg-white rounded-3xl border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full flex flex-col">
+          <Link href="/ferramentas/gerador-recibo" className="group relative overflow-hidden bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full flex flex-col">
             <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-opacity">
               <FileText size={80} className="text-amber-500" />
             </div>
@@ -179,8 +247,8 @@ export default function FerramentasHubPage() {
               <div className="w-14 h-14 bg-amber-50 rounded-2xl flex items-center justify-center text-amber-600 mb-6 group-hover:scale-110 transition-transform shadow-sm ring-1 ring-amber-100">
                 <FileText size={28} strokeWidth={2.5} />
               </div>
-              <h2 className="text-xl font-bold text-slate-900 mb-3 group-hover:text-amber-600 transition-colors">Gerador de Recibo</h2>
-              <p className="text-slate-600 mb-6 leading-relaxed flex-1 text-sm">
+              <h2 className="text-xl font-bold text-slate-900 dark:text-slate-100 mb-3 group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">Gerador de Recibo</h2>
+              <p className="text-slate-600 dark:text-slate-400 mb-6 leading-relaxed flex-1 text-sm">
                 Emita recibos profissionais em PDF prontos para imprimir. Preenchimento automático por extenso e opção de 2 vias.
               </p>
               <div className="mt-auto">
@@ -192,7 +260,7 @@ export default function FerramentasHubPage() {
           </Link>
 
           {/* 5. Gerador de Senhas */}
-          <Link href="/ferramentas/gerador-de-senhas" className="group relative overflow-hidden bg-white rounded-3xl border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full flex flex-col">
+          <Link href="/ferramentas/gerador-de-senhas" className="group relative overflow-hidden bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full flex flex-col">
             <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-opacity">
               <Lock size={80} className="text-slate-600" />
             </div>
@@ -200,8 +268,8 @@ export default function FerramentasHubPage() {
               <div className="w-14 h-14 bg-slate-100 rounded-2xl flex items-center justify-center text-slate-600 mb-6 group-hover:scale-110 transition-transform shadow-sm ring-1 ring-slate-200">
                 <Lock size={28} strokeWidth={2.5} />
               </div>
-              <h2 className="text-xl font-bold text-slate-900 mb-3 group-hover:text-slate-700 transition-colors">Gerador de Senhas</h2>
-              <p className="text-slate-600 mb-6 leading-relaxed flex-1 text-sm">
+              <h2 className="text-xl font-bold text-slate-900 dark:text-slate-100 mb-3 group-hover:text-slate-700 dark:group-hover:text-slate-400 transition-colors">Gerador de Senhas</h2>
+              <p className="text-slate-600 dark:text-slate-400 mb-6 leading-relaxed flex-1 text-sm">
                 Crie senhas criptograficamente seguras, longas e complexas. Proteja suas contas contra invasões e força bruta.
               </p>
               <div className="mt-auto">
@@ -212,54 +280,114 @@ export default function FerramentasHubPage() {
             </div>
           </Link>
 
-          {/* 6. EM BREVE: Formatador JSON */}
-          <div className="group relative overflow-hidden bg-slate-50 rounded-3xl border border-slate-200 opacity-80 h-full flex flex-col cursor-not-allowed">
-            <div className="absolute top-4 right-4">
-                <span className="bg-slate-200 text-slate-500 text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-wide border border-slate-300">Em Breve</span>
+          {/* 6. Formatador JSON (ATIVO) */}
+          <Link href="/ferramentas/formatador-json" className="group relative overflow-hidden bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full flex flex-col">
+            <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-opacity">
+              <FileJson size={80} className="text-slate-600" />
             </div>
-            <div className="p-6 md:p-8 flex-1 flex flex-col grayscale opacity-60">
-              <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center text-slate-400 mb-6 shadow-sm">
+            <div className="p-6 md:p-8 flex-1 flex flex-col">
+              <div className="w-14 h-14 bg-slate-100 rounded-2xl flex items-center justify-center text-slate-600 mb-6 group-hover:scale-110 transition-transform shadow-sm ring-1 ring-slate-200">
                 <FileJson size={28} strokeWidth={2.5} />
               </div>
-              <h2 className="text-xl font-bold text-slate-700 mb-3">Formatador JSON</h2>
-              <p className="text-slate-500 mb-6 leading-relaxed flex-1 text-sm">
-                Ferramenta para desenvolvedores: valide, formate e minifique seus arquivos JSON com segurança.
+              <h2 className="text-xl font-bold text-slate-900 dark:text-slate-100 mb-3 group-hover:text-slate-700 dark:group-hover:text-slate-400 transition-colors">Formatador JSON</h2>
+              <p className="text-slate-600 dark:text-slate-400 mb-6 leading-relaxed flex-1 text-sm">
+                Ferramenta para desenvolvedores: valide, formate (beautify) e minifique seus arquivos JSON com segurança.
               </p>
+              <div className="mt-auto">
+                <span className="inline-flex items-center text-sm font-bold text-white bg-slate-800 px-4 py-2 rounded-lg group-hover:bg-slate-900 transition-colors">
+                  Formatar JSON <ArrowRight size={16} className="ml-2 group-hover:translate-x-1 transition-transform" />
+                </span>
+              </div>
             </div>
-          </div>
+          </Link>
+
+          {/* 7. Declaração de Conteúdo */}
+          <Link href="/ferramentas/declaracao-conteudo" className="group relative overflow-hidden bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full flex flex-col">
+            <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-opacity">
+              <FileText size={80} className="text-amber-500" />
+            </div>
+            <div className="p-6 md:p-8 flex-1 flex flex-col">
+              <div className="w-14 h-14 bg-amber-50 rounded-2xl flex items-center justify-center text-amber-600 mb-6 group-hover:scale-110 transition-transform shadow-sm ring-1 ring-amber-100">
+                <FileText size={28} strokeWidth={2.5} />
+              </div>
+              <h2 className="text-xl font-bold text-slate-900 dark:text-slate-100 mb-3 group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">Declaração de Conteúdo</h2>
+              <p className="text-slate-600 dark:text-slate-400 mb-6 leading-relaxed flex-1 text-sm">
+                Vai enviar pelos Correios sem Nota Fiscal? Gere o formulário oficial obrigatório em PDF pronto para imprimir.
+              </p>
+              <div className="mt-auto">
+                <span className="inline-flex items-center text-sm font-bold text-white bg-amber-500 px-4 py-2 rounded-lg group-hover:bg-amber-600 transition-colors">
+                  Gerar Declaração <ArrowRight size={16} className="ml-2 group-hover:translate-x-1 transition-transform" />
+                </span>
+              </div>
+            </div>
+          </Link>
+
+          {/* 8. Gerador de Privacidade (NOVO) */}
+          <Link href="/ferramentas/gerador-privacidade" className="group relative overflow-hidden bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full flex flex-col">
+            <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-opacity">
+              <ShieldCheck size={80} className="text-emerald-600" />
+            </div>
+            <div className="p-6 md:p-8 flex-1 flex flex-col">
+              <div className="w-14 h-14 bg-emerald-50 rounded-2xl flex items-center justify-center text-emerald-600 mb-6 group-hover:scale-110 transition-transform shadow-sm ring-1 ring-emerald-100">
+                <ShieldCheck size={28} strokeWidth={2.5} />
+              </div>
+              <h2 className="text-xl font-bold text-slate-900 dark:text-slate-100 mb-3 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">Gerador de Privacidade</h2>
+              <p className="text-slate-600 dark:text-slate-400 mb-6 leading-relaxed flex-1 text-sm">
+                Essencial para sites e blogs. Crie políticas LGPD e Termos de Uso compatíveis com Google AdSense.
+              </p>
+              <div className="mt-auto">
+                <span className="inline-flex items-center text-sm font-bold text-white bg-emerald-600 px-4 py-2 rounded-lg group-hover:bg-emerald-700 transition-colors">
+                  Criar Política <ArrowRight size={16} className="ml-2 group-hover:translate-x-1 transition-transform" />
+                </span>
+              </div>
+            </div>
+          </Link>
 
         </section>
 
         {/* --- CONTEÚDO SEO (ARTIGO) --- */}
-        <div className="prose prose-sm md:prose-lg max-w-none bg-white p-6 md:p-12 rounded-3xl border border-slate-100 shadow-sm mt-10">
+        <div className="prose prose-slate dark:prose-invert prose-sm md:prose-lg max-w-none bg-white dark:bg-slate-900 p-6 md:p-12 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-sm mt-10">
           
-          <h2 className="text-3xl font-bold text-slate-900 mb-6 flex items-center gap-3">
+          <h2 className="text-3xl font-bold text-slate-900 dark:text-slate-100 mb-6 flex items-center gap-3">
             <Zap className="text-amber-500" size={32} /> Produtividade na Ponta dos Dedos
           </h2>
-          <p className="lead text-slate-700 text-lg">
+          <p className="lead text-slate-700 dark:text-slate-300 text-lg">
             No <strong>Mestre das Contas</strong>, acreditamos que ferramentas úteis não precisam ser complicadas ou pagas. Nossa missão é criar utilitários web que rodam direto no seu navegador, sem necessidade de instalar programas pesados ou criar contas.
           </p>
 
           <div className="grid md:grid-cols-2 gap-8 my-10 not-prose">
-              <div className="bg-slate-50 p-6 rounded-2xl border border-slate-200 hover:border-indigo-200 transition-colors">
-                  <h3 className="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
-                      <MousePointer2 className="text-indigo-600"/> 100% Online e Gratuito
+              <div className="bg-slate-50 dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 hover:border-indigo-400 dark:hover:border-indigo-500 transition-colors relative overflow-hidden group">
+                  <div className="absolute top-0 right-0 p-4 opacity-5 dark:opacity-10 group-hover:scale-110 transition-transform">
+                     <MousePointer2 size={100} className="text-indigo-600 dark:text-indigo-400"/>
+                  </div>
+                  <h3 className="text-xl font-bold text-slate-900 dark:text-slate-100 mb-4 flex items-center gap-2 relative z-10">
+                      <div className="p-2 bg-indigo-100 dark:bg-indigo-900/30 rounded-lg text-indigo-600 dark:text-indigo-400">
+                        <MousePointer2 size={24}/>
+                      </div>
+                      100% Online e Gratuito
                   </h3>
-                  <p className="text-slate-600 text-sm leading-relaxed">
-                      Esqueça downloads suspeitos. Nossas ferramentas utilizam a tecnologia <strong>Client-Side</strong>. Isso significa que o processamento (conversão de imagem, geração de senha) acontece no seu dispositivo.
+                  <p className="text-slate-600 dark:text-slate-300 text-sm leading-relaxed relative z-10">
+                      Esqueça downloads suspeitos. Nossas ferramentas utilizam a tecnologia <strong>Client-Side</strong>. O processamento acontece no seu navegador, garantindo velocidade e privacidade.
                   </p>
-                  <div className="mt-4 flex items-center gap-2 text-xs font-bold text-indigo-700 bg-indigo-50 px-3 py-1.5 rounded-full w-fit">
+                  <div className="mt-6 flex items-center gap-2 text-xs font-bold text-indigo-700 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-900/30 px-3 py-1.5 rounded-full w-fit relative z-10">
                       <ShieldCheck size={14}/> Dados não saem do seu PC
                   </div>
               </div>
-              <div className="bg-slate-50 p-6 rounded-2xl border border-slate-200 hover:border-blue-200 transition-colors">
-                  <h3 className="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
-                      <Smartphone className="text-blue-600"/> Responsivo e Rápido
+
+              <div className="bg-slate-50 dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 hover:border-blue-400 dark:hover:border-blue-500 transition-colors relative overflow-hidden group">
+                   <div className="absolute top-0 right-0 p-4 opacity-5 dark:opacity-10 group-hover:scale-110 transition-transform">
+                     <Smartphone size={100} className="text-blue-600 dark:text-blue-400"/>
+                  </div>
+                  <h3 className="text-xl font-bold text-slate-900 dark:text-slate-100 mb-4 flex items-center gap-2 relative z-10">
+                       <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg text-blue-600 dark:text-blue-400">
+                        <Smartphone size={24}/>
+                      </div>
+                      Responsivo e Rápido
                   </h3>
-                  <p className="text-slate-600 text-sm leading-relaxed">
-                      Seja no celular, tablet ou computador, nossas interfaces são projetadas para carregar em milissegundos e funcionar perfeitamente em qualquer tela. Sem pop-ups chatos.
+                  <p className="text-slate-600 dark:text-slate-300 text-sm leading-relaxed relative z-10">
+                      Interfaces projetadas para carregar em milissegundos. Funciona perfeitamente no celular, tablet ou computador, sem travamentos ou pop-ups invasivos.
                   </p>
-                  <div className="mt-4 flex items-center gap-2 text-xs font-bold text-blue-700 bg-blue-50 px-3 py-1.5 rounded-full w-fit">
+                  <div className="mt-6 flex items-center gap-2 text-xs font-bold text-blue-700 dark:text-blue-300 bg-blue-50 dark:bg-blue-900/30 px-3 py-1.5 rounded-full w-fit relative z-10">
                       <Zap size={14}/> Otimizado para 4G/5G
                   </div>
               </div>

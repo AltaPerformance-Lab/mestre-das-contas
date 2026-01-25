@@ -215,10 +215,10 @@ export default function CompoundInterestCalculator() {
         
         {/* --- COLUNA ESQUERDA: INPUTS --- */}
         <div className="lg:col-span-7 space-y-6 w-full">
-          <Card className="border-0 shadow-lg shadow-slate-200/50 ring-1 ring-slate-200 bg-white rounded-2xl overflow-hidden">
-            <CardHeader className="bg-gradient-to-r from-slate-50 to-white border-b border-slate-100 p-6">
+          <Card className="border-0 shadow-lg shadow-slate-200/50 dark:shadow-none ring-1 ring-slate-200 dark:ring-slate-800 bg-white dark:bg-slate-900 rounded-2xl overflow-hidden">
+            <CardHeader className="bg-gradient-to-r from-slate-50 to-white dark:from-slate-900 dark:to-slate-800 border-b border-slate-100 dark:border-slate-800 p-6">
               <div className="flex flex-row items-center justify-between gap-4">
-                  <CardTitle className="text-xl flex items-center gap-3 text-slate-800">
+                  <CardTitle className="text-xl flex items-center gap-3 text-slate-800 dark:text-slate-100">
                     <div className="bg-emerald-100 p-2.5 rounded-xl text-emerald-600 shadow-sm"><TrendingUp size={22} strokeWidth={2.5} /></div>
                     Simular Investimento
                   </CardTitle>
@@ -227,7 +227,7 @@ export default function CompoundInterestCalculator() {
                         variant="ghost" 
                         size="sm" 
                         onClick={() => setShowEmbedModal(true)} 
-                        className="text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 h-8 px-2 rounded-lg"
+                        className="text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 h-8 px-2 rounded-lg"
                         title="Incorporar no seu site"
                       >
                           <Code2 size={18} />
@@ -248,7 +248,7 @@ export default function CompoundInterestCalculator() {
                         placeholder="R$ 0,00" 
                         value={inicial} 
                         onChange={handleInicialChange} 
-                        className="pl-10 h-12 text-lg font-medium bg-slate-50 border-slate-200 focus:bg-white transition-colors" 
+                        className="pl-10 h-12 text-lg font-medium bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 dark:text-slate-100 focus:bg-white dark:focus:bg-slate-900 transition-colors" 
                         inputMode="numeric"
                       />
                     </div>
@@ -261,7 +261,7 @@ export default function CompoundInterestCalculator() {
                         placeholder="R$ 0,00" 
                         value={mensal} 
                         onChange={handleMensalChange} 
-                        className="pl-10 h-12 text-lg font-medium bg-slate-50 border-slate-200 focus:bg-white transition-colors" 
+                        className="pl-10 h-12 text-lg font-medium bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 dark:text-slate-100 focus:bg-white dark:focus:bg-slate-900 transition-colors" 
                         inputMode="numeric"
                       />
                     </div>
@@ -278,7 +278,7 @@ export default function CompoundInterestCalculator() {
                             type="number" 
                             value={taxa} 
                             onChange={e => setTaxa(e.target.value)} 
-                            className="pl-10 h-12 text-lg font-medium bg-slate-50 border-slate-200 focus:bg-white transition-colors" 
+                            className="pl-10 h-12 text-lg font-medium bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 dark:text-slate-100 focus:bg-white dark:focus:bg-slate-900 transition-colors" 
                             placeholder="0.8" 
                             inputMode="decimal"
                         />
@@ -292,7 +292,7 @@ export default function CompoundInterestCalculator() {
                             type="number" 
                             value={tempo} 
                             onChange={e => setTempo(e.target.value)} 
-                            className="pl-10 h-12 text-lg font-medium bg-slate-50 border-slate-200 focus:bg-white transition-colors" 
+                            className="pl-10 h-12 text-lg font-medium bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 dark:text-slate-100 focus:bg-white dark:focus:bg-slate-900 transition-colors" 
                             placeholder="10" 
                             inputMode="numeric"
                         />
@@ -304,7 +304,7 @@ export default function CompoundInterestCalculator() {
                   <Button onClick={() => calcular()} className="flex-1 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white h-14 text-lg font-bold shadow-lg shadow-emerald-200 rounded-xl transition-all active:scale-[0.99] flex items-center gap-2">
                     <TrendingUp size={20} className="text-emerald-100"/> Calcular Futuro
                   </Button>
-                  <Button variant="outline" onClick={limpar} size="icon" className="h-14 w-14 shrink-0 border-slate-200 text-slate-400 hover:text-red-500 hover:bg-red-50 hover:border-red-200 rounded-xl transition-colors" title="Limpar dados">
+                  <Button variant="outline" onClick={limpar} size="icon" className="h-14 w-14 shrink-0 border-slate-200 dark:border-slate-700 text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 hover:border-red-200 dark:hover:border-red-800 rounded-xl transition-colors" title="Limpar dados">
                     <X className="h-5 w-5" />
                   </Button>
               </div>
@@ -313,19 +313,19 @@ export default function CompoundInterestCalculator() {
 
           {/* HISTÓRICO RÁPIDO */}
           {!isIframe && historico.length > 0 && (
-            <div className="bg-white rounded-xl border border-slate-200 p-5 shadow-sm animate-in fade-in">
+            <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-5 shadow-sm animate-in fade-in">
                 <h4 className="text-xs font-bold text-slate-400 uppercase mb-4 flex items-center gap-2 tracking-wider">
                   <History size={14} /> Simulações Recentes
                 </h4>
                 <div className="space-y-1">
                 {historico.map((item, idx) => (
-                    <div key={idx} className="flex justify-between items-center text-sm border-b border-slate-50 pb-2 last:border-0 last:pb-0 p-2 hover:bg-slate-50 rounded-lg transition-colors cursor-pointer active:bg-slate-100">
+                    <div key={idx} className="flex justify-between items-center text-sm border-b border-slate-50 dark:border-slate-800 pb-2 last:border-0 last:pb-0 p-2 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors cursor-pointer active:bg-slate-100 dark:active:bg-slate-700">
                         <div className="flex flex-col">
-                            <span className="text-slate-800 font-bold">{item.periodo}</span>
+                            <span className="text-slate-800 dark:text-slate-200 font-bold">{item.periodo}</span>
                             <span className="text-[10px] text-slate-400 font-medium">Inv: {item.investido}</span>
                         </div>
                         <div className="text-right">
-                            <span className="block font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded text-xs tabular-nums">{item.total}</span>
+                            <span className="block font-bold text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-900/30 px-2 py-0.5 rounded text-xs tabular-nums">{item.total}</span>
                             <span className="text-[10px] text-emerald-600 font-medium">+{item.juros} juros</span>
                         </div>
                     </div>
@@ -337,9 +337,9 @@ export default function CompoundInterestCalculator() {
 
         {/* --- COLUNA DIREITA: RESULTADOS --- */}
         <div className="lg:col-span-5 w-full flex flex-col gap-6">
-          <Card className={`h-full w-full transition-all duration-500 border-0 shadow-lg shadow-slate-200/50 ring-1 ring-slate-200 overflow-hidden flex flex-col ${resultado ? 'bg-white' : 'bg-slate-50'}`}>
-            <CardHeader className="px-6 py-5 border-b border-slate-100 bg-white shrink-0">
-              <CardTitle className="text-slate-800 text-lg font-bold">Projeção Financeira</CardTitle>
+          <Card className={`h-full w-full transition-all duration-500 border-0 shadow-lg shadow-slate-200/50 dark:shadow-none ring-1 ring-slate-200 dark:ring-slate-800 overflow-hidden flex flex-col ${resultado ? 'bg-white dark:bg-slate-900' : 'bg-slate-50 dark:bg-slate-950'}`}>
+            <CardHeader className="px-6 py-5 border-b border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 shrink-0">
+              <CardTitle className="text-slate-800 dark:text-slate-100 text-lg font-bold">Projeção Financeira</CardTitle>
             </CardHeader>
             
             <CardContent className="p-6 flex-1 flex flex-col">
@@ -368,14 +368,14 @@ export default function CompoundInterestCalculator() {
                   </div>
 
                   {/* LISTA DETALHADA */}
-                  <div className="space-y-1 w-full bg-white rounded-xl border border-slate-100 shadow-sm overflow-hidden">
-                    <div className="flex justify-between items-center p-4 border-b border-slate-50 hover:bg-slate-50 transition-colors">
+                  <div className="space-y-1 w-full bg-white dark:bg-slate-800 rounded-xl border border-slate-100 dark:border-slate-700 shadow-sm overflow-hidden">
+                    <div className="flex justify-between items-center p-4 border-b border-slate-50 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
                         <span className="text-sm text-slate-600 font-medium">Total Investido</span>
-                        <span className="text-sm font-bold text-slate-900">{resultado.investido}</span>
+                        <span className="text-sm font-bold text-slate-900 dark:text-slate-100">{resultado.investido}</span>
                     </div>
-                    <div className="flex justify-between items-center p-4 bg-emerald-50/50 hover:bg-emerald-50 transition-colors">
-                        <span className="text-sm text-emerald-700 font-bold flex items-center gap-2"><TrendingUp size={16}/> Total em Juros</span>
-                        <span className="text-sm font-extrabold text-emerald-700">+ {resultado.juros}</span>
+                    <div className="flex justify-between items-center p-4 bg-emerald-50/50 dark:bg-emerald-900/20 hover:bg-emerald-50 dark:hover:bg-emerald-900/30 transition-colors">
+                        <span className="text-sm text-emerald-700 dark:text-emerald-300 font-bold flex items-center gap-2"><TrendingUp size={16}/> Total em Juros</span>
+                        <span className="text-sm font-extrabold text-emerald-700 dark:text-emerald-300">+ {resultado.juros}</span>
                     </div>
                   </div>
                   
@@ -386,7 +386,7 @@ export default function CompoundInterestCalculator() {
                       <Button 
                         variant="outline" 
                         onClick={() => handleShare("result")} 
-                        className="h-11 border-slate-200 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200 text-xs font-bold uppercase tracking-wide"
+                        className="h-11 border-slate-200 dark:border-slate-700 hover:bg-blue-50 dark:hover:bg-blue-900/10 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-200 dark:border-blue-900 text-xs font-bold uppercase tracking-wide bg-white dark:bg-slate-900 dark:text-slate-100"
                       >
                           {copiado === "result" ? <span className="flex items-center gap-2"><CheckCircle2 size={16}/> Copiado</span> : <span className="flex items-center gap-2"><Share2 size={16}/> Resultado</span>}
                       </Button>
@@ -394,7 +394,7 @@ export default function CompoundInterestCalculator() {
                       <Button 
                         variant="outline" 
                         onClick={handlePrint} 
-                        className="h-11 border-slate-200 hover:bg-slate-100 hover:text-slate-900 text-xs font-bold uppercase tracking-wide"
+                        className="h-11 border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-100 text-xs font-bold uppercase tracking-wide bg-white dark:bg-slate-900 dark:text-slate-100"
                       >
                           <span className="flex items-center gap-2"><Printer size={16}/> Imprimir/PDF</span>
                       </Button>
@@ -488,10 +488,10 @@ export default function CompoundInterestCalculator() {
       {/* --- MODAL DE EMBED --- */}
       {showEmbedModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 animate-in fade-in backdrop-blur-sm print:hidden" onClick={() => setShowEmbedModal(false)}>
-            <div className="bg-white rounded-2xl shadow-2xl p-6 max-w-lg w-full relative" onClick={e => e.stopPropagation()}>
-                <button onClick={() => setShowEmbedModal(false)} className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 transition-colors"><X size={20}/></button>
-                <h3 className="text-lg font-bold text-slate-900 mb-2">Incorporar no seu Site</h3>
-                <p className="text-sm text-slate-500 mb-4">Copie o código abaixo para adicionar essa calculadora no seu blog ou site.</p>
+            <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-2xl p-6 max-w-lg w-full relative" onClick={e => e.stopPropagation()}>
+                <button onClick={() => setShowEmbedModal(false)} className="absolute top-4 right-4 text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300 transition-colors"><X size={20}/></button>
+                <h3 className="text-lg font-bold text-slate-900 dark:text-slate-100 mb-2">Incorporar no seu Site</h3>
+                <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">Copie o código abaixo para adicionar essa calculadora no seu blog ou site.</p>
                 <div className="bg-slate-950 p-4 rounded-xl relative mb-4 overflow-hidden group">
                     <code className="text-xs font-mono text-blue-300 break-all block leading-relaxed selection:bg-blue-900">
                         {`<iframe src="https://mestredascontas.com.br/financeiro/juros-compostos?embed=true" width="100%" height="700" frameborder="0" style="border:0; border-radius:12px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);" title="Calculadora Juros Compostos"></iframe>`}
@@ -501,7 +501,7 @@ export default function CompoundInterestCalculator() {
                     navigator.clipboard.writeText(`<iframe src="https://mestredascontas.com.br/financeiro/juros-compostos?embed=true" width="100%" height="700" frameborder="0" style="border:0; border-radius:12px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);" title="Calculadora Juros Compostos"></iframe>`);
                     setCopiado("embed");
                     setTimeout(() => setCopiado(null), 2000);
-                }} className="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold h-12 rounded-xl">
+                }} className="w-full bg-slate-900 hover:bg-slate-800 dark:bg-blue-600 dark:hover:bg-blue-700 text-white font-bold h-12 rounded-xl">
                     {copiado === "embed" ? "Código Copiado!" : "Copiar Código HTML"}
                 </Button>
             </div>

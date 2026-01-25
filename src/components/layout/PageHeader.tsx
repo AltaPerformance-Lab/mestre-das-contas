@@ -16,7 +16,7 @@ interface PageHeaderProps {
   icon?: ReactNode;
   breadcrumbs?: BreadcrumbItem[];
   badge?: string;
-  variant?: "default" | "reform" | "health"; 
+  variant?: "default" | "reform" | "health" | "finance" | "labor" | "tools"; 
   category?: string;
   categoryColor?: string; // Mantido para compatibilidade, mas o variant controla a cor
   rating?: number;
@@ -42,15 +42,44 @@ export default function PageHeader({
     default: "linear-gradient(135deg, #1e3a8a 0%, #312e81 100%)", // Blue-900 -> Indigo-900
     reform:  "linear-gradient(135deg, #064e3b 0%, #0f766e 100%)", // Emerald-900 -> Teal-700
     health:  "linear-gradient(135deg, #be123c 0%, #9f1239 100%)", // Rose-700 -> Rose-900
+    finance: "linear-gradient(135deg, #065f46 0%, #047857 100%)", // Emerald-800 -> Emerald-700 (Green)
+    labor:   "linear-gradient(135deg, #1e3a8a 0%, #312e81 100%)", // Blue (Labor)
+    tools:   "linear-gradient(135deg, #4f46e5 0%, #4338ca 100%)", // Indigo-600 -> Indigo-700
   };
 
   const backgroundStyle = gradientMap[variant] || gradientMap.default;
+
+  // --- JSON-LD DE BREADCRUMBS ---
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      // Item 1: Home
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Início",
+        "item": "https://mestredascontas.com.br"
+      },
+      // Items Dinâmicos
+      ...breadcrumbs.map((item, index) => ({
+        "@type": "ListItem",
+        "position": index + 2,
+        "name": item.label,
+        "item": item.href ? `https://mestredascontas.com.br${item.href}` : undefined
+      }))
+    ]
+  };
 
   return (
     <div 
       className="relative w-full text-white shadow-xl overflow-hidden rounded-[2rem] mb-8 print:hidden group isolate"
       style={{ background: backgroundStyle }} 
     >
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       
       {/* Fallback de cor sólida (Anti-FOUC) */}
       <div className="absolute inset-0 bg-slate-900 -z-20" />

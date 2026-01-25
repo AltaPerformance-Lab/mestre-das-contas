@@ -188,7 +188,7 @@ export default function PercentageCalculator() {
         
         {/* --- FORMULÁRIO (Esq) --- */}
         <div className="lg:col-span-7 space-y-6 w-full">
-          <Card className="border-0 shadow-lg shadow-slate-200/50 ring-1 ring-slate-200 bg-white rounded-2xl overflow-hidden">
+          <Card className="border-0 shadow-lg shadow-slate-200/50 dark:shadow-none ring-1 ring-slate-200 dark:ring-slate-800 bg-white dark:bg-slate-900 rounded-2xl overflow-hidden">
             <CardHeader className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-6">
               <div className="flex flex-row items-center justify-between gap-2">
                   <CardTitle className="text-xl flex items-center gap-3">
@@ -211,39 +211,39 @@ export default function PercentageCalculator() {
             <CardContent className="p-6">
               
               <Tabs defaultValue="simples" value={modo} onValueChange={(v) => { setModo(v); setResultado(null); }} className="w-full">
-                <TabsList className="grid w-full grid-cols-3 mb-8 h-auto bg-slate-100 p-1 rounded-xl">
-                  <TabsTrigger value="simples" className="text-xs sm:text-sm py-2.5 rounded-lg data-[state=active]:bg-white data-[state=active]:text-indigo-600 data-[state=active]:shadow-sm transition-all">% de Valor</TabsTrigger>
-                  <TabsTrigger value="reverso" className="text-xs sm:text-sm py-2.5 rounded-lg data-[state=active]:bg-white data-[state=active]:text-indigo-600 data-[state=active]:shadow-sm transition-all">Valor é %</TabsTrigger>
-                  <TabsTrigger value="variacao" className="text-xs sm:text-sm py-2.5 rounded-lg data-[state=active]:bg-white data-[state=active]:text-indigo-600 data-[state=active]:shadow-sm transition-all">Variação</TabsTrigger>
+                <TabsList className="grid w-full grid-cols-3 mb-8 h-auto bg-slate-100 dark:bg-slate-800 p-1 rounded-xl">
+                  <TabsTrigger value="simples" className="text-xs sm:text-sm py-2.5 rounded-lg data-[state=active]:bg-white dark:data-[state=active]:bg-slate-700 data-[state=active]:text-indigo-600 dark:data-[state=active]:text-white data-[state=active]:shadow-sm transition-all">% de Valor</TabsTrigger>
+                  <TabsTrigger value="reverso" className="text-xs sm:text-sm py-2.5 rounded-lg data-[state=active]:bg-white dark:data-[state=active]:bg-slate-700 data-[state=active]:text-indigo-600 dark:data-[state=active]:text-white data-[state=active]:shadow-sm transition-all">Valor é %</TabsTrigger>
+                  <TabsTrigger value="variacao" className="text-xs sm:text-sm py-2.5 rounded-lg data-[state=active]:bg-white dark:data-[state=active]:bg-slate-700 data-[state=active]:text-indigo-600 dark:data-[state=active]:text-white data-[state=active]:shadow-sm transition-all">Variação</TabsTrigger>
                 </TabsList>
                 
                 {/* ÁREA DE INPUTS DINÂMICA - FOCO NA UX */}
                 <div className="space-y-8 min-h-[140px] flex flex-col justify-center">
                     
                     {modo === "simples" && (
-                        <div className="flex flex-col sm:flex-row items-center gap-4 text-lg text-slate-700 font-medium justify-center animate-in fade-in slide-in-from-left-4 duration-300">
+                        <div className="flex flex-col sm:flex-row items-center gap-4 text-lg text-slate-700 dark:text-slate-300 font-medium justify-center animate-in fade-in slide-in-from-left-4 duration-300">
                             <span className="text-slate-400">Quanto é</span>
                             <div className="relative w-28">
-                                <Input type="number" value={valA} onChange={e=>setValA(e.target.value)} placeholder="20" className="pr-8 text-center font-bold text-2xl h-14 bg-slate-50 border-slate-200 focus:bg-white transition-colors rounded-xl" inputMode="decimal"/>
+                                <Input type="number" value={valA} onChange={e=>setValA(e.target.value)} placeholder="20" className="pr-8 text-center font-bold text-2xl h-14 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 focus:bg-white dark:focus:bg-slate-900 transition-colors rounded-xl dark:text-slate-100" inputMode="decimal"/>
                                 <Percent size={16} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400"/>
                             </div>
                             <span className="text-slate-400">de</span>
                             <div className="w-36">
-                                <Input type="number" value={valB} onChange={e=>setValB(e.target.value)} placeholder="500" className="text-center font-bold text-2xl h-14 bg-slate-50 border-slate-200 focus:bg-white transition-colors rounded-xl" inputMode="decimal"/>
+                                <Input type="number" value={valB} onChange={e=>setValB(e.target.value)} placeholder="500" className="text-center font-bold text-2xl h-14 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 focus:bg-white dark:focus:bg-slate-900 transition-colors rounded-xl dark:text-slate-100" inputMode="decimal"/>
                             </div>
                             <span className="text-slate-400 hidden sm:inline">?</span>
                         </div>
                     )}
 
                     {modo === "reverso" && (
-                        <div className="flex flex-col sm:flex-row items-center gap-4 text-lg text-slate-700 font-medium justify-center animate-in fade-in slide-in-from-left-4 duration-300">
+                        <div className="flex flex-col sm:flex-row items-center gap-4 text-lg text-slate-700 dark:text-slate-300 font-medium justify-center animate-in fade-in slide-in-from-left-4 duration-300">
                             <span className="text-slate-400">O valor</span>
                             <div className="w-28">
-                                <Input type="number" value={valA} onChange={e=>setValA(e.target.value)} placeholder="50" className="text-center font-bold text-2xl h-14 bg-slate-50 border-slate-200 focus:bg-white transition-colors rounded-xl" inputMode="decimal"/>
+                                <Input type="number" value={valA} onChange={e=>setValA(e.target.value)} placeholder="50" className="text-center font-bold text-2xl h-14 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 focus:bg-white dark:focus:bg-slate-900 transition-colors rounded-xl dark:text-slate-100" inputMode="decimal"/>
                             </div>
                             <span className="text-slate-400">é quantos % de</span>
                             <div className="w-36">
-                                <Input type="number" value={valB} onChange={e=>setValB(e.target.value)} placeholder="200" className="text-center font-bold text-2xl h-14 bg-slate-50 border-slate-200 focus:bg-white transition-colors rounded-xl" inputMode="decimal"/>
+                                <Input type="number" value={valB} onChange={e=>setValB(e.target.value)} placeholder="200" className="text-center font-bold text-2xl h-14 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 focus:bg-white dark:focus:bg-slate-900 transition-colors rounded-xl dark:text-slate-100" inputMode="decimal"/>
                             </div>
                             <span className="text-slate-400 hidden sm:inline">?</span>
                         </div>
@@ -254,14 +254,14 @@ export default function PercentageCalculator() {
                             <div className="grid grid-cols-2 gap-6">
                                 <div className="space-y-2">
                                     <Label className="text-slate-500 font-medium ml-1">Valor Inicial</Label>
-                                    <Input type="number" value={valA} onChange={e=>setValA(e.target.value)} placeholder="100" className="h-14 text-xl font-bold bg-slate-50 border-slate-200 focus:bg-white transition-colors rounded-xl" inputMode="decimal"/>
+                                    <Input type="number" value={valA} onChange={e=>setValA(e.target.value)} placeholder="100" className="h-14 text-xl font-bold bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 focus:bg-white dark:focus:bg-slate-900 transition-colors rounded-xl dark:text-slate-100" inputMode="decimal"/>
                                 </div>
                                 <div className="space-y-2">
                                     <Label className="text-slate-500 font-medium ml-1">Valor Final</Label>
-                                    <Input type="number" value={valB} onChange={e=>setValB(e.target.value)} placeholder="150" className="h-14 text-xl font-bold bg-slate-50 border-slate-200 focus:bg-white transition-colors rounded-xl" inputMode="decimal"/>
+                                    <Input type="number" value={valB} onChange={e=>setValB(e.target.value)} placeholder="150" className="h-14 text-xl font-bold bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 focus:bg-white dark:focus:bg-slate-900 transition-colors rounded-xl dark:text-slate-100" inputMode="decimal"/>
                                 </div>
                             </div>
-                            <p className="text-xs text-center text-slate-400 font-medium bg-slate-50 py-2 rounded-lg border border-dashed border-slate-200">Calcula o aumento ou queda percentual entre dois números.</p>
+                            <p className="text-xs text-center text-slate-400 font-medium bg-slate-50 dark:bg-slate-800 py-2 rounded-lg border border-dashed border-slate-200 dark:border-slate-700">Calcula o aumento ou queda percentual entre dois números.</p>
                         </div>
                     )}
 
@@ -269,7 +269,7 @@ export default function PercentageCalculator() {
                         <Button onClick={() => calcular()} className="flex-1 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 h-14 text-lg font-bold shadow-lg shadow-indigo-200 rounded-xl transition-all active:scale-[0.99]">
                             Calcular
                         </Button>
-                        <Button variant="outline" onClick={limpar} size="icon" className="h-14 w-14 shrink-0 border-slate-200 text-slate-400 hover:text-red-500 hover:bg-red-50 hover:border-red-200 rounded-xl transition-colors" title="Limpar">
+                        <Button variant="outline" onClick={limpar} size="icon" className="h-14 w-14 shrink-0 border-slate-200 dark:border-slate-700 text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 hover:border-red-200 dark:hover:border-red-800 rounded-xl transition-colors" title="Limpar">
                             <X className="h-6 w-6" />
                         </Button>
                     </div>
@@ -279,23 +279,23 @@ export default function PercentageCalculator() {
                 <div className="mt-8 pt-6 border-t border-slate-100">
                     <p className="text-xs font-bold text-slate-400 uppercase mb-3 tracking-wider text-center">Outras Funções</p>
                     <div className="grid grid-cols-2 gap-3">
-                        <Button variant="outline" onClick={() => setModo("aumento")} className={`h-10 text-xs font-medium border-slate-200 ${modo === 'aumento' ? 'bg-indigo-50 text-indigo-700 border-indigo-200' : 'text-slate-600 hover:bg-slate-50'}`}>
+                        <Button variant="outline" onClick={() => setModo("aumento")} className={`h-10 text-xs font-medium border-slate-200 dark:border-slate-700 ${modo === 'aumento' ? 'bg-indigo-50 dark:bg-indigo-900/20 text-indigo-700 dark:text-indigo-300 border-indigo-200 dark:border-indigo-800' : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800'}`}>
                             <TrendingUp size={14} className="mr-2 text-green-500"/> Aumentar %
                         </Button>
-                        <Button variant="outline" onClick={() => setModo("desconto")} className={`h-10 text-xs font-medium border-slate-200 ${modo === 'desconto' ? 'bg-indigo-50 text-indigo-700 border-indigo-200' : 'text-slate-600 hover:bg-slate-50'}`}>
+                        <Button variant="outline" onClick={() => setModo("desconto")} className={`h-10 text-xs font-medium border-slate-200 dark:border-slate-700 ${modo === 'desconto' ? 'bg-indigo-50 dark:bg-indigo-900/20 text-indigo-700 dark:text-indigo-300 border-indigo-200 dark:border-indigo-800' : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800'}`}>
                             <TrendingDown size={14} className="mr-2 text-red-500"/> Descontar %
                         </Button>
                     </div>
                 </div>
 
                 {(modo === 'aumento' || modo === 'desconto') && (
-                      <div className="bg-indigo-50 p-4 rounded-xl mt-4 text-center text-sm text-indigo-800 animate-in fade-in slide-in-from-top-2 border border-indigo-100">
+                      <div className="bg-indigo-50 dark:bg-indigo-950 p-4 rounded-xl mt-4 text-center text-sm text-indigo-800 dark:text-indigo-200 animate-in fade-in slide-in-from-top-2 border border-indigo-100 dark:border-indigo-900">
                           {modo === 'aumento' ? "Ex: Aumentar 10% de um salário." : "Ex: Calcular preço com 20% de desconto."}
                           <div className="flex gap-2 mt-3 justify-center items-center">
-                             <Input type="number" value={valB} onChange={e=>setValB(e.target.value)} placeholder="Valor (R$)" className="w-32 bg-white h-10 font-bold border-indigo-200 text-center"/>
+                             <Input type="number" value={valB} onChange={e=>setValB(e.target.value)} placeholder="Valor (R$)" className="w-32 bg-white dark:bg-slate-900 h-10 font-bold border-indigo-200 dark:border-indigo-800 text-center dark:text-slate-100"/>
                              <span className="font-bold text-lg text-indigo-400">{modo === 'aumento' ? '+' : '-'}</span>
                              <div className="relative w-24">
-                                <Input type="number" value={valA} onChange={e=>setValA(e.target.value)} placeholder="%" className="pr-6 bg-white h-10 font-bold border-indigo-200 text-center"/>
+                                <Input type="number" value={valA} onChange={e=>setValA(e.target.value)} placeholder="%" className="pr-6 bg-white dark:bg-slate-900 h-10 font-bold border-indigo-200 dark:border-indigo-800 text-center dark:text-slate-100"/>
                                 <Percent size={12} className="absolute right-2 top-3 text-slate-400"/>
                              </div>
                           </div>
@@ -309,18 +309,18 @@ export default function PercentageCalculator() {
 
           {/* HISTÓRICO RÁPIDO */}
           {!isIframe && historico.length > 0 && (
-            <div className="bg-white rounded-xl border border-slate-200 p-5 shadow-sm animate-in fade-in">
+            <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-5 shadow-sm animate-in fade-in">
                 <h4 className="text-xs font-bold text-slate-400 uppercase mb-4 flex items-center gap-2 tracking-wider">
                   <History size={14} /> Últimos Cálculos
                 </h4>
                 <div className="space-y-1">
                 {historico.map((item, idx) => (
-                    <div key={idx} className="flex justify-between items-center text-sm border-b border-slate-50 pb-2 last:border-0 last:pb-0 p-2 hover:bg-slate-50 rounded-lg transition-colors cursor-pointer active:bg-slate-100">
+                    <div key={idx} className="flex justify-between items-center text-sm border-b border-slate-50 dark:border-slate-800 pb-2 last:border-0 last:pb-0 p-2 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors cursor-pointer active:bg-slate-100 dark:active:bg-slate-700">
                         <div className="flex flex-col">
-                            <span className="text-slate-900 font-bold">{item.conta}</span>
+                            <span className="text-slate-900 dark:text-slate-200 font-bold">{item.conta}</span>
                             <span className="text-[10px] text-slate-400 font-medium">{item.tipo}</span>
                         </div>
-                        <span className="font-bold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded text-xs tabular-nums">= {item.resultado}</span>
+                        <span className="font-bold text-indigo-700 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-900/30 px-2 py-0.5 rounded text-xs tabular-nums">= {item.resultado}</span>
                     </div>
                 ))}
                 </div>
@@ -330,9 +330,9 @@ export default function PercentageCalculator() {
 
         {/* --- COLUNA DIREITA: RESULTADOS --- */}
         <div className="lg:col-span-5 w-full flex flex-col gap-6">
-          <Card className={`h-full w-full transition-all duration-500 border-0 shadow-lg shadow-slate-200/50 ring-1 ring-slate-200 overflow-hidden flex flex-col ${resultado ? 'bg-white' : 'bg-slate-50'}`}>
-            <CardHeader className="px-6 py-5 border-b border-slate-100 bg-white shrink-0">
-              <CardTitle className="text-slate-800 text-lg font-bold">Resultado</CardTitle>
+          <Card className={`h-full w-full transition-all duration-500 border-0 shadow-lg shadow-slate-200/50 dark:shadow-none ring-1 ring-slate-200 dark:ring-slate-800 overflow-hidden flex flex-col ${resultado ? 'bg-white dark:bg-slate-900' : 'bg-slate-50 dark:bg-slate-950'}`}>
+            <CardHeader className="px-6 py-5 border-b border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 shrink-0">
+              <CardTitle className="text-slate-800 dark:text-slate-100 text-lg font-bold">Resultado</CardTitle>
             </CardHeader>
             <CardContent className="p-6 flex-1 flex flex-col">
               {!resultado ? (
@@ -355,10 +355,10 @@ export default function PercentageCalculator() {
                     </div>
                   </div>
 
-                  <div className="bg-white p-5 rounded-xl border border-indigo-100 shadow-sm relative overflow-hidden">
+                  <div className="bg-white dark:bg-slate-800 p-5 rounded-xl border border-indigo-100 dark:border-indigo-900 shadow-sm relative overflow-hidden">
                       <div className="absolute left-0 top-0 bottom-0 w-1 bg-indigo-500"></div>
                       <p className="text-xs text-slate-400 uppercase font-bold mb-1">Explicação</p>
-                      <p className="text-sm text-slate-700 font-medium leading-relaxed">{resultado.detalhe}</p>
+                      <p className="text-sm text-slate-700 dark:text-slate-300 font-medium leading-relaxed">{resultado.detalhe}</p>
                   </div>
 
                   {/* BOTOES DE AÇÃO */}
@@ -366,7 +366,7 @@ export default function PercentageCalculator() {
                       <Button 
                         variant="outline" 
                         onClick={() => handleShare("result")} 
-                        className="h-11 border-slate-200 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200 text-xs font-bold uppercase tracking-wide"
+                        className="h-11 border-slate-200 dark:border-slate-700 hover:bg-blue-50 dark:hover:bg-blue-900/10 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-200 dark:hover:border-blue-900 text-xs font-bold uppercase tracking-wide bg-white dark:bg-slate-900 dark:text-slate-100"
                       >
                           {copiado === "result" ? <span className="flex items-center gap-2"><CheckCircle2 size={16}/> Copiado</span> : <span className="flex items-center gap-2"><Share2 size={16}/> Resultado</span>}
                       </Button>
@@ -374,7 +374,7 @@ export default function PercentageCalculator() {
                       <Button 
                         variant="outline" 
                         onClick={handlePrint} 
-                        className="h-11 border-slate-200 hover:bg-slate-100 hover:text-slate-900 text-xs font-bold uppercase tracking-wide"
+                        className="h-11 border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-100 text-xs font-bold uppercase tracking-wide bg-white dark:bg-slate-900 dark:text-slate-100"
                       >
                           <span className="flex items-center gap-2"><Printer size={16}/> Imprimir</span>
                       </Button>
@@ -438,16 +438,16 @@ export default function PercentageCalculator() {
       {/* --- MODAL DE EMBED --- */}
       {showEmbedModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 animate-in fade-in backdrop-blur-sm print:hidden" onClick={() => setShowEmbedModal(false)}>
-            <div className="bg-white rounded-2xl shadow-2xl p-6 max-w-lg w-full relative" onClick={e => e.stopPropagation()}>
-                <button onClick={() => setShowEmbedModal(false)} className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 transition-colors"><X size={20}/></button>
-                <h3 className="text-lg font-bold text-slate-900 mb-2">Incorporar no seu Site</h3>
-                <p className="text-sm text-slate-500 mb-4">Copie o código abaixo para adicionar essa calculadora no seu blog ou site.</p>
+            <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-2xl p-6 max-w-lg w-full relative" onClick={e => e.stopPropagation()}>
+                <button onClick={() => setShowEmbedModal(false)} className="absolute top-4 right-4 text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300 transition-colors"><X size={20}/></button>
+                <h3 className="text-lg font-bold text-slate-900 dark:text-slate-100 mb-2">Incorporar no seu Site</h3>
+                <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">Copie o código abaixo para adicionar essa calculadora no seu blog ou site.</p>
                 <div className="bg-slate-950 p-4 rounded-xl relative mb-4 overflow-hidden group">
                     <code className="text-xs font-mono text-blue-300 break-all block leading-relaxed selection:bg-blue-900">
                         {`<iframe src="https://mestredascontas.com.br/financeiro/porcentagem?embed=true" width="100%" height="600" frameborder="0" style="border:0; border-radius:12px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);" title="Calculadora Porcentagem"></iframe>`}
                     </code>
                 </div>
-                <Button onClick={copiarEmbedCode} className="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold h-12 rounded-xl">
+                <Button onClick={copiarEmbedCode} className="w-full bg-slate-900 hover:bg-slate-800 dark:bg-blue-600 dark:hover:bg-blue-700 text-white font-bold h-12 rounded-xl">
                     {copiado === "embed" ? "Código Copiado!" : "Copiar Código HTML"}
                 </Button>
             </div>

@@ -191,10 +191,10 @@ export default function CalorieCalculator() {
         
         {/* --- COLUNA ESQUERDA: INPUTS --- */}
         <div className="lg:col-span-7 space-y-6 w-full">
-          <Card className="border-0 shadow-lg shadow-slate-200/50 ring-1 ring-slate-200 bg-white rounded-2xl overflow-hidden">
-            <CardHeader className="bg-gradient-to-r from-slate-50 to-white border-b border-slate-100 p-6">
+          <Card className="border-0 shadow-lg shadow-slate-200/50 dark:shadow-none ring-1 ring-slate-200 dark:ring-slate-800 bg-white dark:bg-slate-900 rounded-2xl overflow-hidden">
+            <CardHeader className="bg-gradient-to-r from-slate-50 to-white dark:from-slate-900 dark:to-slate-800 border-b border-slate-100 dark:border-slate-800 p-6">
               <div className="flex flex-row items-center justify-between gap-4">
-                  <CardTitle className="text-xl flex items-center gap-3 text-slate-800">
+                  <CardTitle className="text-xl flex items-center gap-3 text-slate-800 dark:text-slate-100">
                     <div className="bg-orange-100 p-2.5 rounded-xl text-orange-600 shadow-sm"><Flame size={22} strokeWidth={2.5} /></div>
                     Calcular Gasto Calórico
                   </CardTitle>
@@ -203,7 +203,7 @@ export default function CalorieCalculator() {
                         variant="ghost" 
                         size="sm" 
                         onClick={() => setShowEmbedModal(true)} 
-                        className="text-slate-400 hover:text-blue-600 hover:bg-blue-50 h-8 px-2 rounded-lg"
+                        className="text-slate-400 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 h-8 px-2 rounded-lg"
                         title="Incorporar no seu site"
                       >
                           <Code2 size={18} />
@@ -216,13 +216,13 @@ export default function CalorieCalculator() {
               
               {/* Sexo */}
               <div className="space-y-3">
-                  <Label className="text-slate-700 font-semibold text-sm">Sexo Biológico</Label>
+                  <Label className="text-slate-700 dark:text-slate-300 font-semibold text-sm">Sexo Biológico</Label>
                   <RadioGroup defaultValue={genero} onValueChange={setGenero} className="grid grid-cols-2 gap-4">
-                      <label className={`flex items-center justify-center gap-2 border rounded-xl p-3 cursor-pointer transition-all ${genero === 'masculino' ? 'border-blue-500 bg-blue-50 text-blue-700 font-medium ring-1 ring-blue-500' : 'border-slate-200 hover:bg-slate-50'}`}>
+                      <label className={`flex items-center justify-center gap-2 border rounded-xl p-3 cursor-pointer transition-all ${genero === 'masculino' ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 font-medium ring-1 ring-blue-500' : 'border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800'}`}>
                           <RadioGroupItem value="masculino" id="r1" className="sr-only" />
                           <span>Masculino</span>
                       </label>
-                      <label className={`flex items-center justify-center gap-2 border rounded-xl p-3 cursor-pointer transition-all ${genero === 'feminino' ? 'border-pink-500 bg-pink-50 text-pink-700 font-medium ring-1 ring-pink-500' : 'border-slate-200 hover:bg-slate-50'}`}>
+                      <label className={`flex items-center justify-center gap-2 border rounded-xl p-3 cursor-pointer transition-all ${genero === 'feminino' ? 'border-pink-500 bg-pink-50 dark:bg-pink-900/20 text-pink-700 dark:text-pink-300 font-medium ring-1 ring-pink-500' : 'border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800'}`}>
                           <RadioGroupItem value="feminino" id="r2" className="sr-only" />
                           <span>Feminino</span>
                       </label>
@@ -232,24 +232,24 @@ export default function CalorieCalculator() {
               {/* Grid Inputs */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
                   <div className="space-y-2">
-                    <Label className="text-slate-600 font-medium">Idade (anos)</Label>
-                    <Input type="number" value={idade} onChange={e => setIdade(e.target.value)} placeholder="Ex: 30" className="h-12 text-center text-lg bg-slate-50 border-slate-200 focus:bg-white transition-colors" inputMode="numeric"/>
+                    <Label className="text-slate-600 dark:text-slate-300 font-medium">Idade (anos)</Label>
+                    <Input type="number" value={idade} onChange={e => setIdade(e.target.value)} placeholder="Ex: 30" className="h-12 text-center text-lg bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 focus:bg-white dark:focus:bg-slate-900 transition-colors dark:text-slate-100" inputMode="numeric"/>
                   </div>
                   <div className="space-y-2">
-                    <Label className="text-slate-600 font-medium">Peso (kg)</Label>
-                    <Input type="number" value={peso} onChange={e => setPeso(e.target.value)} placeholder="Ex: 75" className="h-12 text-center text-lg bg-slate-50 border-slate-200 focus:bg-white transition-colors" inputMode="decimal"/>
+                    <Label className="text-slate-600 dark:text-slate-300 font-medium">Peso (kg)</Label>
+                    <Input type="number" value={peso} onChange={e => setPeso(e.target.value)} placeholder="Ex: 75" className="h-12 text-center text-lg bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 focus:bg-white dark:focus:bg-slate-900 transition-colors dark:text-slate-100" inputMode="decimal"/>
                   </div>
                   <div className="space-y-2">
-                    <Label className="text-slate-600 font-medium">Altura (cm)</Label>
-                    <Input type="number" value={altura} onChange={e => setAltura(e.target.value)} placeholder="Ex: 175" className="h-12 text-center text-lg bg-slate-50 border-slate-200 focus:bg-white transition-colors" inputMode="numeric"/>
+                    <Label className="text-slate-600 dark:text-slate-300 font-medium">Altura (cm)</Label>
+                    <Input type="number" value={altura} onChange={e => setAltura(e.target.value)} placeholder="Ex: 175" className="h-12 text-center text-lg bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 focus:bg-white dark:focus:bg-slate-900 transition-colors dark:text-slate-100" inputMode="numeric"/>
                   </div>
               </div>
 
               {/* Select */}
               <div className="space-y-2">
-                  <Label className="text-slate-600 font-medium">Nível de Atividade Física</Label>
+                  <Label className="text-slate-600 dark:text-slate-300 font-medium">Nível de Atividade Física</Label>
                   <Select value={atividade} onValueChange={setAtividade}>
-                      <SelectTrigger className="h-12 bg-slate-50 border-slate-200 text-slate-700 font-medium">
+                      <SelectTrigger className="h-12 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 font-medium">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
@@ -270,15 +270,15 @@ export default function CalorieCalculator() {
 
           {/* HISTÓRICO RÁPIDO */}
           {!isIframe && historico.length > 0 && (
-            <div className="bg-white rounded-xl border border-slate-200 p-5 shadow-sm animate-in fade-in">
+            <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-5 shadow-sm animate-in fade-in">
                 <h4 className="text-xs font-bold text-slate-400 uppercase mb-4 flex items-center gap-2 tracking-wider">
                   <History size={14} /> Histórico Recente
                 </h4>
                 <div className="space-y-1">
                 {historico.map((item, idx) => (
-                    <div key={idx} className="flex justify-between items-center text-sm border-b border-slate-50 pb-2 last:border-0 last:pb-0 p-2 hover:bg-slate-50 rounded-lg transition-colors">
-                        <span className="text-slate-700 font-medium">{item.perfil}</span>
-                        <span className="font-bold text-orange-600 bg-orange-50 px-2 py-1 rounded text-xs tabular-nums">{item.meta}</span>
+                    <div key={idx} className="flex justify-between items-center text-sm border-b border-slate-50 dark:border-slate-800 pb-2 last:border-0 last:pb-0 p-2 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors">
+                        <span className="text-slate-700 dark:text-slate-300 font-medium">{item.perfil}</span>
+                        <span className="font-bold text-orange-600 dark:text-orange-400 bg-orange-50 dark:bg-orange-900/20 px-2 py-1 rounded text-xs tabular-nums">{item.meta}</span>
                     </div>
                 ))}
                 </div>
@@ -288,9 +288,9 @@ export default function CalorieCalculator() {
 
         {/* --- COLUNA DIREITA: RESULTADOS --- */}
         <div className="lg:col-span-5 w-full flex flex-col gap-6">
-          <Card className={`h-full w-full transition-all duration-500 border-0 shadow-lg shadow-slate-200/50 ring-1 ring-slate-200 overflow-hidden flex flex-col ${resultado ? 'bg-white' : 'bg-slate-50'}`}>
-            <CardHeader className="px-6 py-5 border-b border-slate-100 bg-white shrink-0">
-              <CardTitle className="text-slate-800 text-lg font-bold">Seu Planejamento</CardTitle>
+          <Card className={`h-full w-full transition-all duration-500 border-0 shadow-lg shadow-slate-200/50 dark:shadow-none ring-1 ring-slate-200 dark:ring-slate-800 overflow-hidden flex flex-col ${resultado ? 'bg-white dark:bg-slate-900' : 'bg-slate-50 dark:bg-slate-950'}`}>
+            <CardHeader className="px-6 py-5 border-b border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 shrink-0">
+              <CardTitle className="text-slate-800 dark:text-slate-100 text-lg font-bold">Seu Planejamento</CardTitle>
             </CardHeader>
             
             <CardContent className="p-6 flex-1 flex flex-col">
@@ -322,27 +322,27 @@ export default function CalorieCalculator() {
                   {/* CARDS DE META */}
                   <div className="space-y-3 w-full">
                     {/* Perder Peso */}
-                    <div className="flex items-center justify-between p-4 rounded-xl border border-blue-100 bg-blue-50/50 hover:bg-blue-50 transition-colors">
+                    <div className="flex items-center justify-between p-4 rounded-xl border border-blue-100 dark:border-blue-900 bg-blue-50/50 dark:bg-blue-900/10 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors">
                         <div className="flex items-center gap-3">
-                            <div className="bg-white p-2 rounded-lg text-blue-600 shadow-sm ring-1 ring-blue-100"><ArrowDown size={18} strokeWidth={2.5}/></div>
+                            <div className="bg-white dark:bg-blue-900/30 p-2 rounded-lg text-blue-600 dark:text-blue-300 shadow-sm ring-1 ring-blue-100 dark:ring-blue-800"><ArrowDown size={18} strokeWidth={2.5}/></div>
                             <div>
-                                <p className="text-xs font-extrabold text-blue-800 uppercase tracking-wide">Perder Peso</p>
-                                <p className="text-[10px] text-blue-600 font-medium">Déficit Seguro</p>
+                                <p className="text-xs font-extrabold text-blue-800 dark:text-blue-200 uppercase tracking-wide">Perder Peso</p>
+                                <p className="text-[10px] text-blue-600 dark:text-blue-400 font-medium">Déficit Seguro</p>
                             </div>
                         </div>
-                        <span className="text-xl font-bold text-blue-700">{resultado.perderPeso}</span>
+                        <span className="text-xl font-bold text-blue-700 dark:text-blue-300">{resultado.perderPeso}</span>
                     </div>
 
                     {/* Ganhar Massa */}
-                    <div className="flex items-center justify-between p-4 rounded-xl border border-orange-100 bg-orange-50/50 hover:bg-orange-50 transition-colors">
+                    <div className="flex items-center justify-between p-4 rounded-xl border border-orange-100 dark:border-orange-900 bg-orange-50/50 dark:bg-orange-900/10 hover:bg-orange-50 dark:hover:bg-orange-900/20 transition-colors">
                         <div className="flex items-center gap-3">
-                            <div className="bg-white p-2 rounded-lg text-orange-600 shadow-sm ring-1 ring-orange-100"><ArrowUp size={18} strokeWidth={2.5}/></div>
+                            <div className="bg-white dark:bg-orange-900/30 p-2 rounded-lg text-orange-600 dark:text-orange-400 shadow-sm ring-1 ring-orange-100 dark:ring-orange-800"><ArrowUp size={18} strokeWidth={2.5}/></div>
                             <div>
-                                <p className="text-xs font-extrabold text-orange-800 uppercase tracking-wide">Ganhar Massa</p>
-                                <p className="text-[10px] text-orange-600 font-medium">Superávit</p>
+                                <p className="text-xs font-extrabold text-orange-800 dark:text-orange-200 uppercase tracking-wide">Ganhar Massa</p>
+                                <p className="text-[10px] text-orange-600 dark:text-orange-400 font-medium">Superávit</p>
                             </div>
                         </div>
-                        <span className="text-xl font-bold text-orange-700">{resultado.ganharMassa}</span>
+                        <span className="text-xl font-bold text-orange-700 dark:text-orange-300">{resultado.ganharMassa}</span>
                     </div>
                   </div>
                   
@@ -351,7 +351,7 @@ export default function CalorieCalculator() {
                       <Button 
                         variant="outline" 
                         onClick={() => handleShare("result")} 
-                        className="h-11 border-slate-200 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200 text-xs font-bold uppercase tracking-wide"
+                        className="h-11 border-slate-200 dark:border-slate-700 hover:bg-blue-50 dark:hover:bg-blue-900/10 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-200 dark:hover:border-blue-900 text-xs font-bold uppercase tracking-wide bg-white dark:bg-slate-900 dark:text-slate-100"
                       >
                           {copiado === "result" ? <span className="flex items-center gap-2"><CheckCircle2 size={16}/> Copiado</span> : <span className="flex items-center gap-2"><Share2 size={16}/> Resultado</span>}
                       </Button>
@@ -359,7 +359,7 @@ export default function CalorieCalculator() {
                       <Button 
                         variant="outline" 
                         onClick={handlePrint} 
-                        className="h-11 border-slate-200 hover:bg-slate-100 hover:text-slate-900 text-xs font-bold uppercase tracking-wide"
+                        className="h-11 border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-100 text-xs font-bold uppercase tracking-wide bg-white dark:bg-slate-900 dark:text-slate-100"
                       >
                           <span className="flex items-center gap-2"><Printer size={16}/> Imprimir/PDF</span>
                       </Button>
@@ -471,10 +471,10 @@ export default function CalorieCalculator() {
       {/* --- MODAL DE EMBED --- */}
       {showEmbedModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 animate-in fade-in backdrop-blur-sm print:hidden" onClick={() => setShowEmbedModal(false)}>
-            <div className="bg-white rounded-2xl shadow-2xl p-6 max-w-lg w-full relative" onClick={e => e.stopPropagation()}>
-                <button onClick={() => setShowEmbedModal(false)} className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 transition-colors"><X size={20}/></button>
-                <h3 className="text-lg font-bold text-slate-900 mb-2">Incorporar no seu Site</h3>
-                <p className="text-sm text-slate-500 mb-4">Copie o código abaixo para adicionar essa calculadora no seu blog ou site.</p>
+            <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-2xl p-6 max-w-lg w-full relative" onClick={e => e.stopPropagation()}>
+                <button onClick={() => setShowEmbedModal(false)} className="absolute top-4 right-4 text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300 transition-colors"><X size={20}/></button>
+                <h3 className="text-lg font-bold text-slate-900 dark:text-slate-100 mb-2">Incorporar no seu Site</h3>
+                <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">Copie o código abaixo para adicionar essa calculadora no seu blog ou site.</p>
                 <div className="bg-slate-950 p-4 rounded-xl relative mb-4 overflow-hidden group">
                     <code className="text-xs font-mono text-blue-300 break-all block leading-relaxed selection:bg-blue-900">
                         {`<iframe src="https://mestredascontas.com.br/saude/calorias-diarias?embed=true" width="100%" height="800" frameborder="0" style="border:0; border-radius:12px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);" title="Calculadora de Calorias"></iframe>`}
@@ -484,7 +484,7 @@ export default function CalorieCalculator() {
                     navigator.clipboard.writeText(`<iframe src="https://mestredascontas.com.br/saude/calorias-diarias?embed=true" width="100%" height="800" frameborder="0" style="border:0; border-radius:12px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);" title="Calculadora de Calorias"></iframe>`);
                     setCopiado("embed");
                     setTimeout(() => setCopiado(null), 2000);
-                }} className="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold h-12 rounded-xl">
+                }} className="w-full bg-slate-900 hover:bg-slate-800 dark:bg-blue-600 dark:hover:bg-blue-700 text-white font-bold h-12 rounded-xl">
                     {copiado === "embed" ? "Código Copiado!" : "Copiar Código HTML"}
                 </Button>
             </div>

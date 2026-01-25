@@ -25,14 +25,14 @@ function FeatureCard({ data }: FeatureCardProps) {
     <Link href={href} className="group h-full block">
       <div className={`h-full p-6 rounded-2xl border transition-all duration-300 hover:-translate-y-1 hover:shadow-lg flex flex-col relative overflow-hidden
         ${highlight 
-          ? `${style.bgHighlight} shadow-sm` 
-          : `bg-white border-slate-200 ${style.border}`
+          ? `${style.bgHighlight} shadow-sm dark:bg-slate-900 dark:border-blue-900/50` 
+          : `bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 ${style.border}`
         }`}>
         
         {/* Ícone e Badge */}
         <div className="flex items-start justify-between mb-4 relative z-10">
-          <div className="p-2.5 bg-slate-50 rounded-xl group-hover:scale-110 group-hover:bg-white transition-all shadow-sm">
-            <Icon size={22} className={highlight ? style.textHighlight : `text-${theme}-600`}/>
+          <div className="p-2.5 bg-slate-50 dark:bg-slate-800 rounded-xl group-hover:scale-110 group-hover:bg-white dark:group-hover:bg-slate-700 transition-all shadow-sm">
+            <Icon size={22} className={highlight ? style.textHighlight : `text-${theme}-600 dark:text-${theme}-400`}/>
           </div>
           {highlight && (
             <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-full ${style.badge}`}>
@@ -42,10 +42,10 @@ function FeatureCard({ data }: FeatureCardProps) {
         </div>
 
         {/* Conteúdo */}
-        <h3 className={`text-lg font-bold text-slate-900 mb-2 transition-colors ${highlight ? style.textHighlight : "group-hover:text-blue-700"}`}>
+        <h3 className={`text-lg font-bold text-slate-900 dark:text-slate-100 mb-2 transition-colors ${highlight ? style.textHighlight : "group-hover:text-blue-700 dark:group-hover:text-blue-400"}`}>
             {title}
         </h3>
-        <p className="text-sm text-slate-600 leading-relaxed">
+        <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
             {desc}
         </p>
       </div>
@@ -85,15 +85,15 @@ export default function CalculatorCategory({
 
   return (
     <div className="space-y-8">
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-200 pb-4">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-200 dark:border-slate-800 pb-4">
         <div className="flex items-center gap-4">
-          <div className={`p-3.5 ${iconBgColor} ${iconColor} rounded-2xl shadow-sm`}>{icon}</div>
+          <div className={`p-3.5 ${iconBgColor} dark:bg-slate-800 ${iconColor} dark:text-slate-200 rounded-2xl shadow-sm`}>{icon}</div>
           <div>
-            <h2 className="text-2xl md:text-3xl font-bold text-slate-900">{title}</h2>
-            <p className="text-slate-500 text-sm md:text-base">{description}</p>
+            <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-slate-100">{title}</h2>
+            <p className="text-slate-500 dark:text-slate-400 text-sm md:text-base">{description}</p>
           </div>
         </div>
-        <Link href={linkHref} className={`${linkColor} font-bold text-sm hover:underline flex items-center gap-1`}>
+        <Link href={linkHref} className={`${linkColor} dark:text-blue-400 font-bold text-sm hover:underline flex items-center gap-1`}>
           Ver todos <ArrowRight size={14}/>
         </Link>
       </div>

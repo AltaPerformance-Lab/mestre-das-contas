@@ -4,9 +4,11 @@ import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { 
     Search, CalendarDays, Briefcase, Calculator, 
-    TrendingUp, Heart, Baby, Landmark, Percent, Droplet, LucideIcon, QrCode, FileText
+    TrendingUp, Heart, Baby, Landmark, Percent, Droplet, LucideIcon, QrCode, FileText, ShieldCheck
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
+
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
 
 interface SearchItem {
   title: string;
@@ -20,12 +22,19 @@ const searchablePages: SearchItem[] = [
     // Ferramentas
     { title: "Editor de PDF Online", url: "/ferramentas/editor-pdf-online", icon: FileText, category: "Ferramentas" },
     { title: "Gerador de QR Code", url: "/ferramentas/gerador-qr-code", icon: QrCode, category: "Ferramentas" },
+    { title: "Criador de Orçamento", url: "/ferramentas/criador-orcamentos", icon: Calculator, category: "Ferramentas" },
+    { title: "Criador de Pedidos", url: "/ferramentas/criador-pedidos", icon: Briefcase, category: "Ferramentas" },
+    { title: "Formatador JSON", url: "/ferramentas/formatador-json", icon: FileText, category: "Ferramentas" },
+    { title: "Declaração de Conteúdo", url: "/ferramentas/declaracao-conteudo", icon: FileText, category: "Ferramentas" },
+    { title: "Gerador Política Privacidade", url: "/ferramentas/gerador-privacidade", icon: ShieldCheck, category: "Ferramentas" },
     
     // Financeiro
     { title: "Salário Líquido (2025)", url: "/financeiro/salario-liquido", icon: Calculator, category: "Financeiro" },
     { title: "Financiamento Veículos", url: "/financeiro/financiamento-veiculos", icon: Landmark, category: "Financeiro" },
     { title: "Juros Compostos", url: "/financeiro/juros-compostos", icon: TrendingUp, category: "Financeiro" },
+    { title: "Dias Úteis", url: "/financeiro/calculadora-dias-uteis", icon: CalendarDays, category: "Financeiro" },
     { title: "Reforma Tributária (IVA)", url: "/financeiro/reforma-tributaria", icon: Landmark, category: "Financeiro" },
+    { title: "Calculadora MEI 2026", url: "/financeiro/calculadora-mei", icon: Calculator, category: "Financeiro" },
     { title: "Calculadora de Porcentagem", url: "/financeiro/porcentagem", icon: Percent, category: "Financeiro" },
     
     // Trabalhista
@@ -115,16 +124,20 @@ export default function HeaderDesktop() {
   }, []);
 
   return (
-    <header className="hidden xl:flex items-center justify-between px-8 py-4 bg-white/80 backdrop-blur-md border-b border-slate-200 sticky top-0 z-40 transition-all h-20">
+    <header className="hidden xl:flex items-center justify-between px-8 py-4 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 sticky top-0 z-40 transition-all h-20">
        
-      {/* Data */}
-      <div className="flex items-center gap-3 text-slate-500 select-none">
-        <div className="bg-blue-50 text-blue-600 p-2.5 rounded-xl shadow-sm">
-            <CalendarDays size={20} />
-        </div>
-        <div className="flex flex-col">
-            <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Hoje</span>
-            <span className="text-sm font-semibold capitalize text-slate-700 leading-tight">{today}</span>
+      {/* Esquerda: Toggle + Data */}
+      <div className="flex items-center gap-4">
+        <ThemeToggle />
+
+        <div className="flex items-center gap-3 text-slate-500 select-none">
+            <div className="bg-blue-50 dark:bg-slate-800 text-blue-600 dark:text-blue-400 p-2.5 rounded-xl shadow-sm">
+                <CalendarDays size={20} />
+            </div>
+            <div className="flex flex-col">
+                <span className="text-[10px] font-bold font-heading uppercase tracking-widest text-slate-400 dark:text-slate-500">Hoje</span>
+                <span className="text-sm font-semibold capitalize text-slate-700 dark:text-slate-200 leading-tight">{today}</span>
+            </div>
         </div>
       </div>
 
@@ -137,7 +150,7 @@ export default function HeaderDesktop() {
           <Input 
             type="text" 
             placeholder="O que você precisa calcular?" 
-            className="pl-10 h-11 bg-slate-50 border-slate-200 focus:bg-white focus:ring-2 focus:ring-blue-100 transition-all rounded-full text-sm shadow-sm"
+            className="pl-10 h-11 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 focus:bg-white dark:focus:bg-slate-900 focus:ring-2 focus:ring-blue-100 dark:focus:ring-blue-900 transition-all rounded-full text-sm shadow-sm dark:text-slate-100 dark:placeholder:text-slate-500"
             value={query}
             onChange={handleSearch}
             onKeyDown={handleKeyDown}
@@ -145,7 +158,7 @@ export default function HeaderDesktop() {
 
           {/* Resultados */}
           {results.length > 0 && (
-              <div className="absolute top-14 left-0 w-full bg-white rounded-2xl border border-slate-100 shadow-xl shadow-slate-200/50 overflow-hidden py-2 animate-in fade-in slide-in-from-top-2">
+              <div className="absolute top-14 left-0 w-full bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-black/50 overflow-hidden py-2 animate-in fade-in slide-in-from-top-2">
                   <div className="text-[10px] font-extrabold text-slate-400 uppercase px-4 py-2 tracking-wider">
                     Resultados Encontrados
                   </div>
@@ -158,16 +171,16 @@ export default function HeaderDesktop() {
                             key={index}
                             onClick={() => handleSelectResult(result.url)}
                             className={`w-full text-left px-4 py-3 flex items-center gap-3 transition-colors group ${
-                              isSelected ? "bg-blue-50" : "hover:bg-slate-50"
+                              isSelected ? "bg-blue-50 dark:bg-blue-900/20" : "hover:bg-slate-50 dark:hover:bg-slate-800"
                             }`}
                         >
                             <div className={`p-2 rounded-lg transition-colors ${
-                              isSelected ? "bg-blue-200 text-blue-700" : "bg-slate-100 text-slate-500 group-hover:bg-white group-hover:text-blue-600 group-hover:shadow-sm"
+                              isSelected ? "bg-blue-200 dark:bg-blue-800 text-blue-700 dark:text-blue-100" : "bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 group-hover:bg-white dark:group-hover:bg-slate-700 group-hover:text-blue-600 dark:group-hover:text-blue-300 group-hover:shadow-sm"
                             }`}>
                                 <Icon size={18} />
                             </div>
                             <div>
-                                <span className={`block text-sm font-semibold ${isSelected ? "text-blue-700" : "text-slate-700 group-hover:text-blue-700"}`}>
+                                <span className={`block text-sm font-semibold ${isSelected ? "text-blue-700 dark:text-blue-200" : "text-slate-700 dark:text-slate-200 group-hover:text-blue-700 dark:group-hover:text-blue-300"}`}>
                                   {result.title}
                                 </span>
                                 <span className="block text-[10px] font-medium text-slate-400 uppercase tracking-wide">
@@ -181,8 +194,8 @@ export default function HeaderDesktop() {
           )}
            
           {query.length >= 2 && results.length === 0 && (
-              <div className="absolute top-14 left-0 w-full bg-white rounded-2xl border border-slate-200 shadow-xl py-6 px-4 text-center animate-in fade-in">
-                  <p className="text-sm text-slate-600 font-medium">Nenhum resultado encontrado</p>
+              <div className="absolute top-14 left-0 w-full bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xl py-6 px-4 text-center animate-in fade-in">
+                  <p className="text-sm text-slate-600 dark:text-slate-300 font-medium">Nenhum resultado encontrado</p>
                   <p className="text-xs text-slate-400 mt-1">Tente buscar por "férias", "juros" ou "imc".</p>
               </div>
           )}

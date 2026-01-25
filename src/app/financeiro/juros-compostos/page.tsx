@@ -12,6 +12,7 @@ import {
   CheckCircle2, ArrowRight, BarChart3,
   PieChart
 } from "lucide-react";
+import PrivacyBadge from "@/components/ui/PrivacyBadge";
 
 // --- 1. METADATA DE ALTO VALOR (SEO 2026) ---
 export const metadata: Metadata = {
@@ -75,14 +76,19 @@ const jsonLd = {
       }
     },
     {
-      "@type": "Article",
+      "@type": "TechArticle",
       "headline": "O Poder dos Juros Compostos: Como Ficar Rico no Longo Prazo",
       "description": "Uma aula completa sobre como funciona a matemática dos investimentos e o efeito bola de neve.",
-      "author": { "@type": "Organization", "name": "Mestre das Contas" },
+      "proficiencyLevel": "Beginner",
+      "author": { "@type": "Organization", "name": "Equipe Mestre das Contas", "url": "https://mestredascontas.com.br/sobre" },
       "publisher": { "@type": "Organization", "name": "Mestre das Contas", "logo": { "@type": "ImageObject", "url": "https://mestredascontas.com.br/opengraph-image" } },
       "datePublished": "2024-02-15",
-      "dateModified": new Date().toISOString(), // Data sempre fresca
-      "image": "https://mestredascontas.com.br/opengraph-image"
+      "dateModified": new Date().toISOString(),
+      "image": "https://mestredascontas.com.br/opengraph-image",
+      "speakable": {
+           "@type": "SpeakableSpecification",
+           "xpath": ["/html/head/title", "/html/head/meta[@name='description']/@content"]
+      }
     },
     {
       "@type": "FAQPage",
@@ -149,21 +155,22 @@ export default async function JurosCompostosPage({ searchParams }: Props) {
       <div className="flex flex-col gap-8 px-4 sm:px-6 max-w-7xl mx-auto">
 
         {/* ANÚNCIO TOPO (FIX CLS) */}
-        <div className="w-full max-w-5xl mx-auto overflow-hidden flex justify-center bg-slate-50/50 rounded-lg border border-dashed border-slate-200/50 print:hidden min-h-[100px]">
+        <div className="w-full max-w-5xl mx-auto overflow-hidden flex justify-center bg-slate-50/50 dark:bg-slate-900/50 rounded-lg border border-dashed border-slate-200/50 dark:border-slate-800 print:hidden min-h-[100px]">
            <LazyAdUnit slot="juros_top" format="horizontal" variant="software" />
         </div>
 
         {/* --- FERRAMENTA PRINCIPAL --- */}
         <section id="ferramenta" className="scroll-mt-28 w-full max-w-full">
-          <div className="bg-white rounded-3xl border border-slate-200 shadow-xl shadow-slate-200/40 p-1 md:p-2">
+          <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/40 dark:shadow-none p-1 md:p-2">
               <Suspense fallback={
-                <div className="h-96 w-full bg-slate-50 rounded-2xl animate-pulse flex items-center justify-center text-slate-400">
+                <div className="h-96 w-full bg-slate-50 dark:bg-slate-800 rounded-2xl animate-pulse flex items-center justify-center text-slate-400">
                     <div className="flex flex-col items-center gap-2">
                         <Calculator className="animate-bounce text-slate-300" size={32}/>
                         <span>Carregando ferramenta...</span>
                     </div>
                 </div>
               }>
+                  <PrivacyBadge />
                   <CompoundInterestCalculator />
               </Suspense>
           </div>
@@ -179,13 +186,13 @@ export default async function JurosCompostosPage({ searchParams }: Props) {
         </div>
 
         {/* --- CONTEÚDO EDUCACIONAL --- */}
-        <div className="prose prose-slate prose-sm md:prose-lg max-w-4xl mx-auto bg-white p-6 md:p-12 rounded-3xl border border-slate-100 shadow-xl shadow-slate-200/40 overflow-hidden w-full print:hidden">
+        <div className="prose prose-slate dark:prose-invert prose-sm md:prose-lg max-w-4xl mx-auto bg-white dark:bg-slate-900 p-6 md:p-12 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-xl shadow-slate-200/40 dark:shadow-none overflow-hidden w-full print:hidden">
           
-          <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-6 flex items-center gap-3 border-l-4 border-emerald-500 pl-4">
+          <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-slate-100 mb-6 flex items-center gap-3 border-l-4 border-emerald-500 pl-4">
               <TrendingUp className="text-emerald-600" size={28} />
               A Mágica do Juros sobre Juros
           </h2>
-          <p className="lead text-slate-700 font-medium text-lg">
+          <p className="lead text-slate-700 dark:text-slate-300 font-medium text-lg">
             Imagine uma bola de neve no topo de uma montanha. Quando você a empurra, ela é pequena. Mas, conforme ela rola, ela pega mais neve e cresce.
           </p>
           <p>
@@ -194,34 +201,34 @@ export default async function JurosCompostosPage({ searchParams }: Props) {
 
           {/* CARDS VISUAIS: SIMPLES VS COMPOSTO */}
           <div className="grid md:grid-cols-2 gap-6 not-prose my-10">
-              <div className="bg-slate-50 p-6 rounded-2xl border border-slate-200">
-                  <h3 className="font-bold text-slate-600 flex items-center gap-2 mb-3 text-lg">
+              <div className="bg-slate-50 dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700">
+                  <h3 className="font-bold text-slate-600 dark:text-slate-300 flex items-center gap-2 mb-3 text-lg">
                       <ArrowRight className="text-slate-400" size={20} /> Juros Simples
                   </h3>
-                  <p className="text-sm text-slate-600 leading-relaxed mb-4">
+                  <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
                       O rendimento é calculado apenas sobre o valor que você investiu inicialmente. O crescimento é uma linha reta constante.
                   </p>
-                  <div className="h-2 w-full bg-slate-200 rounded-full overflow-hidden">
-                      <div className="h-full bg-slate-400 w-1/2"></div>
+                  <div className="h-2 w-full bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+                      <div className="h-full bg-slate-400 dark:bg-slate-500 w-1/2"></div>
                   </div>
                   <p className="text-xs text-slate-400 mt-2 text-right">Crescimento Linear</p>
               </div>
               
-              <div className="bg-emerald-50 p-6 rounded-2xl border border-emerald-200 shadow-sm">
-                  <h3 className="font-bold text-emerald-800 flex items-center gap-2 mb-3 text-lg">
+              <div className="bg-emerald-50 dark:bg-emerald-950/20 p-6 rounded-2xl border border-emerald-200 dark:border-emerald-900/50 shadow-sm">
+                  <h3 className="font-bold text-emerald-800 dark:text-emerald-400 flex items-center gap-2 mb-3 text-lg">
                       <TrendingUp className="text-emerald-600" size={20} /> Juros Compostos
                   </h3>
-                  <p className="text-sm text-emerald-800/80 leading-relaxed mb-4">
+                  <p className="text-sm text-emerald-800/80 dark:text-emerald-400/80 leading-relaxed mb-4">
                       O rendimento é calculado sobre o valor inicial <strong>+ os juros que você já ganhou</strong>. Seu dinheiro rende sobre o lucro do mês anterior.
                   </p>
-                  <div className="h-2 w-full bg-emerald-200 rounded-full overflow-hidden">
+                  <div className="h-2 w-full bg-emerald-200 dark:bg-emerald-900 rounded-full overflow-hidden">
                       <div className="h-full bg-emerald-500 w-3/4"></div>
                   </div>
                   <p className="text-xs text-emerald-600 mt-2 text-right font-bold">Crescimento Exponencial</p>
               </div>
           </div>
 
-          <h3 className="text-xl font-bold text-slate-800 mt-10 mb-6 flex items-center gap-2">
+          <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100 mt-10 mb-6 flex items-center gap-2">
               <FileText className="text-blue-500" /> A Fórmula Matemática (Simplificada)
           </h3>
           <p>
@@ -232,31 +239,31 @@ export default async function JurosCompostosPage({ searchParams }: Props) {
               M = C × (1 + i)ᵗ
           </div>
 
-          <ul className="space-y-3 not-prose mb-8 text-sm md:text-base bg-slate-50 p-6 rounded-xl border border-slate-100">
-              <li className="flex items-center gap-3"><div className="w-8 h-8 rounded-lg bg-white border border-slate-200 flex items-center justify-center font-bold text-slate-600 shadow-sm shrink-0">M</div> <span className="text-slate-700"><strong>Montante Final</strong> (O resultado acumulado)</span></li>
-              <li className="flex items-center gap-3"><div className="w-8 h-8 rounded-lg bg-white border border-slate-200 flex items-center justify-center font-bold text-slate-600 shadow-sm shrink-0">C</div> <span className="text-slate-700"><strong>Capital Inicial</strong> (O valor que você investiu)</span></li>
-              <li className="flex items-center gap-3"><div className="w-8 h-8 rounded-lg bg-white border border-slate-200 flex items-center justify-center font-bold text-slate-600 shadow-sm shrink-0">i</div> <span className="text-slate-700"><strong>Taxa de Juros</strong> (ex: 0.01 para 1%)</span></li>
-              <li className="flex items-center gap-3"><div className="w-8 h-8 rounded-lg bg-white border border-slate-200 flex items-center justify-center font-bold text-slate-600 shadow-sm shrink-0">t</div> <span className="text-slate-700"><strong>Tempo</strong> (Período que o dinheiro ficou rendendo)</span></li>
+          <ul className="space-y-3 not-prose mb-8 text-sm md:text-base bg-slate-50 dark:bg-slate-800/50 p-6 rounded-xl border border-slate-100 dark:border-slate-800">
+              <li className="flex items-center gap-3"><div className="w-8 h-8 rounded-lg bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 flex items-center justify-center font-bold text-slate-600 dark:text-slate-200 shadow-sm shrink-0">M</div> <span className="text-slate-700 dark:text-slate-300"><strong>Montante Final</strong> (O resultado acumulado)</span></li>
+              <li className="flex items-center gap-3"><div className="w-8 h-8 rounded-lg bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 flex items-center justify-center font-bold text-slate-600 dark:text-slate-200 shadow-sm shrink-0">C</div> <span className="text-slate-700 dark:text-slate-300"><strong>Capital Inicial</strong> (O valor que você investiu)</span></li>
+              <li className="flex items-center gap-3"><div className="w-8 h-8 rounded-lg bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 flex items-center justify-center font-bold text-slate-600 dark:text-slate-200 shadow-sm shrink-0">i</div> <span className="text-slate-700 dark:text-slate-300"><strong>Taxa de Juros</strong> (ex: 0.01 para 1%)</span></li>
+              <li className="flex items-center gap-3"><div className="w-8 h-8 rounded-lg bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 flex items-center justify-center font-bold text-slate-600 dark:text-slate-200 shadow-sm shrink-0">t</div> <span className="text-slate-700 dark:text-slate-300"><strong>Tempo</strong> (Período que o dinheiro ficou rendendo)</span></li>
           </ul>
 
           {/* VOCÊ SABIA: TEMPO VS DINHEIRO */}
-          <div className="bg-gradient-to-br from-emerald-50 to-teal-50 p-8 rounded-2xl border border-emerald-100 my-12 not-prose relative overflow-hidden group shadow-lg shadow-emerald-100/50">
+          <div className="bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-950/30 dark:to-teal-950/30 p-8 rounded-2xl border border-emerald-100 dark:border-emerald-900/50 my-12 not-prose relative overflow-hidden group shadow-lg shadow-emerald-100/50 dark:shadow-none">
               <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-                  <BarChart3 size={160} className="text-emerald-900"/>
+                  <BarChart3 size={160} className="text-emerald-900 dark:text-emerald-800"/>
               </div>
               
-              <h3 className="text-xl font-bold text-emerald-900 mb-4 flex items-center gap-2 relative z-10">
+              <h3 className="text-xl font-bold text-emerald-900 dark:text-emerald-300 mb-4 flex items-center gap-2 relative z-10">
                   <BookOpen size={24} className="text-emerald-600"/> O Segredo: Comece Cedo!
               </h3>
               
-              <div className="space-y-4 text-emerald-950/80 relative z-10 text-sm md:text-base leading-relaxed">
+              <div className="space-y-4 text-emerald-950/80 dark:text-emerald-200/80 relative z-10 text-sm md:text-base leading-relaxed">
                   <p>
                       Nos juros compostos, o <strong>Tempo</strong> é muito mais poderoso que a <strong>Taxa</strong> ou o <strong>Aporte</strong>.
                   </p>
                   <p>
                       <strong>Exemplo real:</strong> Se você investir R$ 300 por mês dos 20 aos 30 anos e depois parar de investir (apenas deixando o dinheiro render), você provavelmente terá <strong>mais dinheiro</strong> na aposentadoria do que alguém que começou aos 30 e investiu R$ 300 por mês até os 60 anos!
                   </p>
-                  <div className="bg-white/60 p-4 rounded-xl border border-emerald-200/50 text-xs font-medium text-emerald-800">
+                  <div className="bg-white/60 dark:bg-black/20 p-4 rounded-xl border border-emerald-200/50 dark:border-emerald-800/50 text-xs font-medium text-emerald-800 dark:text-emerald-300">
                       Isso acontece porque os primeiros 10 anos de juros trabalhando sozinhos criam uma base gigantesca para o futuro.
                   </div>
               </div>
@@ -264,17 +271,17 @@ export default async function JurosCompostosPage({ searchParams }: Props) {
 
           {/* FAQ ACORDION (Schema Linkado) */}
           <div className="mt-12 not-prose">
-            <h3 className="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2 border-b border-slate-100 pb-3">
+            <h3 className="text-xl font-bold text-slate-900 dark:text-slate-100 mb-6 flex items-center gap-2 border-b border-slate-100 dark:border-slate-800 pb-3">
                 <HelpCircle className="text-blue-600" /> Dúvidas Frequentes
             </h3>
             <div className="space-y-4">
               {faqList.map((item, idx) => (
-                  <details key={idx} className="group bg-slate-50 p-5 rounded-xl border border-slate-200 shadow-sm cursor-pointer open:bg-white open:ring-1 open:ring-blue-100 transition-all">
-                      <summary className="font-semibold text-slate-800 list-none flex justify-between items-center select-none">
+                  <details key={idx} className="group bg-slate-50 dark:bg-slate-800/50 p-5 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm cursor-pointer open:bg-white dark:open:bg-slate-800 open:ring-1 open:ring-blue-100 dark:open:ring-slate-600 transition-all">
+                      <summary className="font-semibold text-slate-800 dark:text-slate-200 list-none flex justify-between items-center select-none">
                           <span className="flex-1">{item.q}</span>
                           <span className="text-slate-400 group-open:rotate-180 transition-transform ml-2 shrink-0">▼</span>
                       </summary>
-                      <p className="mt-3 text-slate-600 leading-relaxed border-t border-slate-100 pt-3 text-sm animate-in fade-in">
+                      <p className="mt-3 text-slate-600 dark:text-slate-400 leading-relaxed border-t border-slate-100 dark:border-slate-700 pt-3 text-sm animate-in fade-in">
                           {item.a}
                       </p>
                   </details>
@@ -283,27 +290,27 @@ export default async function JurosCompostosPage({ searchParams }: Props) {
           </div>
 
           {/* NAVEGAÇÃO CROSS-LINKING */}
-          <div className="mt-16 pt-8 border-t border-slate-200 print:hidden not-prose">
-            <p className="font-bold text-slate-900 mb-6 text-xs uppercase tracking-wider flex items-center gap-2">
+          <div className="mt-16 pt-8 border-t border-slate-200 dark:border-slate-800 print:hidden not-prose">
+            <p className="font-bold text-slate-900 dark:text-slate-100 mb-6 text-xs uppercase tracking-wider flex items-center gap-2">
                <CheckCircle2 size={16} className="text-emerald-500"/> Outras Ferramentas Úteis:
             </p>
             <div className="grid md:grid-cols-3 gap-4">
-              <Link href="/financeiro/salario-liquido" className="flex flex-col p-5 bg-white border border-slate-200 rounded-xl hover:border-emerald-400 hover:shadow-lg transition-all group">
-                  <div className="bg-emerald-50 w-10 h-10 rounded-lg flex items-center justify-center mb-3 text-emerald-600 shadow-sm group-hover:scale-110 transition-transform"><Coins size={20}/></div>
-                  <span className="font-bold text-slate-800 text-base">Salário Líquido</span>
-                  <span className="text-xs text-slate-500 mt-1">Descontos do mês</span>
+              <Link href="/financeiro/salario-liquido" className="flex flex-col p-5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl hover:border-emerald-400 hover:shadow-lg transition-all group">
+                  <div className="bg-emerald-50 dark:bg-emerald-900/30 w-10 h-10 rounded-lg flex items-center justify-center mb-3 text-emerald-600 dark:text-emerald-400 shadow-sm group-hover:scale-110 transition-transform"><Coins size={20}/></div>
+                  <span className="font-bold text-slate-800 dark:text-slate-200 text-base">Salário Líquido</span>
+                  <span className="text-xs text-slate-500 dark:text-slate-400 mt-1">Descontos do mês</span>
               </Link>
               
-              <Link href="/trabalhista/rescisao" className="flex flex-col p-5 bg-white border border-slate-200 rounded-xl hover:border-blue-400 hover:shadow-lg transition-all group">
-                  <div className="bg-blue-50 w-10 h-10 rounded-lg flex items-center justify-center mb-3 text-blue-600 shadow-sm group-hover:scale-110 transition-transform"><Briefcase size={20}/></div>
-                  <span className="font-bold text-slate-800 text-base">Rescisão CLT</span>
-                  <span className="text-xs text-slate-500 mt-1">Cálculo demissão</span>
+              <Link href="/trabalhista/rescisao" className="flex flex-col p-5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl hover:border-blue-400 hover:shadow-lg transition-all group">
+                  <div className="bg-blue-50 dark:bg-blue-900/30 w-10 h-10 rounded-lg flex items-center justify-center mb-3 text-blue-600 dark:text-blue-400 shadow-sm group-hover:scale-110 transition-transform"><Briefcase size={20}/></div>
+                  <span className="font-bold text-slate-800 dark:text-slate-200 text-base">Rescisão CLT</span>
+                  <span className="text-xs text-slate-500 dark:text-slate-400 mt-1">Cálculo demissão</span>
               </Link>
 
-              <Link href="/saude/imc" className="flex flex-col p-5 bg-white border border-slate-200 rounded-xl hover:border-red-400 hover:shadow-lg transition-all group">
-                  <div className="bg-red-50 w-10 h-10 rounded-lg flex items-center justify-center mb-3 text-red-600 shadow-sm group-hover:scale-110 transition-transform"><PieChart size={20}/></div>
-                  <span className="font-bold text-slate-800 text-base">IMC Online</span>
-                  <span className="text-xs text-slate-500 mt-1">Cuide da sua saúde</span>
+              <Link href="/saude/imc" className="flex flex-col p-5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl hover:border-red-400 hover:shadow-lg transition-all group">
+                  <div className="bg-red-50 dark:bg-red-900/30 w-10 h-10 rounded-lg flex items-center justify-center mb-3 text-red-600 dark:text-red-400 shadow-sm group-hover:scale-110 transition-transform"><PieChart size={20}/></div>
+                  <span className="font-bold text-slate-800 dark:text-slate-200 text-base">IMC Online</span>
+                  <span className="text-xs text-slate-500 dark:text-slate-400 mt-1">Cuide da sua saúde</span>
               </Link>
             </div>
           </div>

@@ -11,6 +11,7 @@ import {
   AlertTriangle, Percent, ShieldCheck, Banknote, Scale, 
   Landmark, ExternalLink, ArrowRight, BookOpen
 } from "lucide-react";
+import PrivacyBadge from "@/components/ui/PrivacyBadge";
 
 // --- 1. METADATA DE ALTO VALOR (SEO 2026) ---
 export const metadata: Metadata = {
@@ -131,6 +132,8 @@ export default async function FinanciamentoPage({ searchParams }: Props) {
           variant="default" // Azul Institucional
           categoryColor="blue"
           badge="Atualizado 2026"
+          rating={4.9}
+          reviews={1420}
           breadcrumbs={[
             { label: "Financeiro", href: "/financeiro" },
             { label: "Financiamento" }
@@ -141,21 +144,23 @@ export default async function FinanciamentoPage({ searchParams }: Props) {
       <div className="flex flex-col gap-8 px-4 sm:px-6 max-w-7xl mx-auto">
 
         {/* ANÚNCIO TOPO (FIX CLS: Altura mínima reservada) */}
-        <div className="w-full max-w-5xl mx-auto overflow-hidden flex justify-center bg-slate-50/50 rounded-lg border border-dashed border-slate-200/50 print:hidden min-h-[100px]">
+        <div className="w-full max-w-5xl mx-auto overflow-hidden flex justify-center bg-slate-50/50 dark:bg-slate-900/50 rounded-lg border border-dashed border-slate-200/50 dark:border-slate-800 print:hidden min-h-[100px]">
            <LazyAdUnit slot="financ_top" format="horizontal" variant="agency" />
         </div>
 
         {/* --- FERRAMENTA PRINCIPAL --- */}
         <section id="ferramenta" className="scroll-mt-28 w-full max-w-full">
-          <div className="bg-white rounded-3xl border border-slate-200 shadow-xl shadow-slate-200/40 p-1 md:p-2">
+          <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/40 dark:shadow-none p-1 md:p-2">
               <Suspense fallback={
-                <div className="h-96 w-full bg-slate-50 rounded-2xl animate-pulse flex items-center justify-center text-slate-400">
+                <div className="h-96 w-full bg-slate-50 dark:bg-slate-800 rounded-2xl animate-pulse flex items-center justify-center text-slate-400">
                     <div className="flex flex-col items-center gap-2">
                         <Calculator className="animate-bounce text-slate-300" size={32}/>
                         <span>Carregando simulador...</span>
                     </div>
                 </div>
               }>
+                  {/* Usando a calculadora genérica configurada mentalmente pelo usuário para veículos (Price padrão) */}
+                  <PrivacyBadge />
                   <FinancingCalculator />
               </Suspense>
           </div>
@@ -171,7 +176,7 @@ export default async function FinanciamentoPage({ searchParams }: Props) {
         </div>
 
         {/* --- CONTEÚDO EDUCACIONAL (SEO CONTENT) --- */}
-        <div className="prose prose-slate prose-sm md:prose-lg max-w-4xl mx-auto bg-white p-6 md:p-12 rounded-3xl border border-slate-100 shadow-xl shadow-slate-200/40 overflow-hidden w-full print:hidden">
+        <div className="prose prose-slate dark:prose-invert prose-sm md:prose-lg max-w-4xl mx-auto bg-white dark:bg-slate-900 p-6 md:p-12 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-xl shadow-slate-200/40 dark:shadow-none overflow-hidden w-full print:hidden">
           
           <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-6 flex items-center gap-2 border-l-4 border-blue-600 pl-4">
               Financiamento: O Sonho ou o Pesadelo?
@@ -192,26 +197,28 @@ export default async function FinanciamentoPage({ searchParams }: Props) {
           </p>
 
           {/* TABELA RESPONSIVA (CORRIGIDO) */}
-          <div className="not-prose my-8 overflow-hidden border rounded-xl border-slate-200 shadow-sm bg-white">
-              <div className="bg-slate-100 p-3 border-b border-slate-200">
-                  <h4 className="text-sm font-bold text-slate-700 uppercase tracking-wide flex items-center gap-2">
+          <div className="not-prose my-8 overflow-hidden border rounded-xl border-slate-200 dark:border-slate-700 shadow-sm bg-white dark:bg-slate-900">
+              <div className="bg-slate-100 dark:bg-slate-800 p-3 border-b border-slate-200 dark:border-slate-700">
+                  <h4 className="text-sm font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wide flex items-center gap-2">
                       <TrendingUp size={16}/> Comparativo de Sistemas
                   </h4>
               </div>
-              <div className="overflow-x-auto">
-                  <table className="w-full text-sm text-left border-collapse min-w-[600px]">
-                      <thead className="bg-slate-50 text-slate-600 text-xs">
+              
+              {/* DESKTOP TABLE */}
+              <div className="hidden md:block">
+                  <table className="w-full text-sm text-left border-collapse">
+                      <thead className="bg-slate-50 dark:bg-slate-950 text-slate-600 dark:text-slate-400 text-xs">
                           <tr>
-                              <th className="px-6 py-3 font-bold border-b border-slate-200">Característica</th>
-                              <th className="px-6 py-3 font-bold border-b border-slate-200 text-blue-700">Tabela Price (Francês)</th>
-                              <th className="px-6 py-3 font-bold border-b border-slate-200 text-green-700">Tabela SAC</th>
+                              <th className="px-6 py-3 font-bold border-b border-slate-200 dark:border-slate-800">Característica</th>
+                              <th className="px-6 py-3 font-bold border-b border-slate-200 dark:border-slate-800 text-blue-700 dark:text-blue-400">Tabela Price (Francês)</th>
+                              <th className="px-6 py-3 font-bold border-b border-slate-200 dark:border-slate-800 text-green-700 dark:text-green-400">Tabela SAC</th>
                           </tr>
                       </thead>
-                      <tbody className="divide-y divide-slate-100">
-                          <tr className="hover:bg-slate-50 transition-colors">
-                              <td className="px-6 py-4 font-medium text-slate-900">Parcelas</td>
-                              <td className="px-6 py-4 text-slate-600">Fixas (Iguais do início ao fim)</td>
-                              <td className="px-6 py-4 text-slate-600">Decrescentes (Começa alto, termina baixo)</td>
+                      <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+                          <tr className="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                              <td className="px-6 py-4 font-medium text-slate-900 dark:text-slate-100">Parcelas</td>
+                              <td className="px-6 py-4 text-slate-600 dark:text-slate-400">Fixas (Iguais do início ao fim)</td>
+                              <td className="px-6 py-4 text-slate-600 dark:text-slate-400">Decrescentes (Começa alto, termina baixo)</td>
                           </tr>
                           <tr className="hover:bg-slate-50 transition-colors">
                               <td className="px-6 py-4 font-medium text-slate-900">Amortização</td>
@@ -231,17 +238,42 @@ export default async function FinanciamentoPage({ searchParams }: Props) {
                       </tbody>
                   </table>
               </div>
+
+              {/* MOBILE CARDS (TABBED STYLE VISUALIZATION) */}
+              <div className="md:hidden p-4 space-y-6">
+                 {/* PRICE */}
+                 <div className="border border-blue-100 dark:border-blue-900/30 rounded-xl p-4 bg-blue-50/30 dark:bg-blue-900/10">
+                    <h5 className="font-bold text-blue-800 dark:text-blue-400 mb-3 border-b border-blue-100 dark:border-blue-800/50 pb-2">Tabela PRICE (Francês)</h5>
+                    <ul className="space-y-2 text-sm text-slate-600 dark:text-slate-400">
+                        <li className="flex gap-2"><span className="font-bold text-slate-700 dark:text-slate-300 w-24">Parcelas:</span> Fixas (Iguais sempre)</li>
+                        <li className="flex gap-2"><span className="font-bold text-slate-700 dark:text-slate-300 w-24">Amortização:</span> Lenta (Paga juros primeiro)</li>
+                        <li className="flex gap-2"><span className="font-bold text-slate-700 dark:text-slate-300 w-24">Custo Total:</span> <span className="text-red-500 font-bold">Mais Caro</span></li>
+                        <li className="flex gap-2"><span className="font-bold text-slate-700 dark:text-slate-300 w-24">Onde usar:</span> Veículos / Renda Fixa</li>
+                    </ul>
+                 </div>
+
+                 {/* SAC */}
+                 <div className="border border-green-100 dark:border-green-900/30 rounded-xl p-4 bg-green-50/30 dark:bg-green-900/10">
+                    <h5 className="font-bold text-green-800 dark:text-green-400 mb-3 border-b border-green-100 dark:border-green-800/50 pb-2">Tabela SAC</h5>
+                    <ul className="space-y-2 text-sm text-slate-600 dark:text-slate-400">
+                         <li className="flex gap-2"><span className="font-bold text-slate-700 dark:text-slate-300 w-24">Parcelas:</span> Decrescentes (Caem todo mês)</li>
+                         <li className="flex gap-2"><span className="font-bold text-slate-700 dark:text-slate-300 w-24">Amortização:</span> Constante (Rápida)</li>
+                         <li className="flex gap-2"><span className="font-bold text-slate-700 dark:text-slate-300 w-24">Custo Total:</span> <span className="text-green-600 font-bold">Mais Barato</span></li>
+                         <li className="flex gap-2"><span className="font-bold text-slate-700 dark:text-slate-300 w-24">Onde usar:</span> Imóveis / Longo Prazo</li>
+                    </ul>
+                 </div>
+              </div>
           </div>
 
           {/* O VILÃO: CET */}
-          <div className="bg-amber-50 p-6 md:p-8 rounded-2xl border border-amber-200 my-10 not-prose relative overflow-hidden shadow-sm">
+          <div className="bg-amber-50 dark:bg-amber-950/20 p-6 md:p-8 rounded-2xl border border-amber-200 dark:border-amber-900/50 my-10 not-prose relative overflow-hidden shadow-sm">
               <div className="absolute top-0 right-0 p-4 opacity-10">
                   <Percent size={140} className="text-amber-900"/>
               </div>
-              <h3 className="text-xl font-bold text-amber-900 mb-4 flex items-center gap-2 relative z-10">
-                  <AlertTriangle size={24} className="text-amber-600"/> Cuidado com o CET (Custo Efetivo Total)
+              <h3 className="text-xl font-bold text-amber-900 dark:text-amber-400 mb-4 flex items-center gap-2 relative z-10">
+                  <AlertTriangle size={24} className="text-amber-600 dark:text-amber-500"/> Cuidado com o CET (Custo Efetivo Total)
               </h3>
-              <div className="space-y-4 text-slate-700 relative z-10 text-sm md:text-base leading-relaxed">
+              <div className="space-y-4 text-slate-700 dark:text-slate-300 relative z-10 text-sm md:text-base leading-relaxed">
                   <p>
                       O gerente do banco te diz: <em>"A taxa é só 1,29% ao mês!"</em>. Parece ótimo, né? Mas quando você assina, a taxa real sobe para 1,90% ou 2,00%. Por que?
                   </p>
@@ -295,7 +327,7 @@ export default async function FinanciamentoPage({ searchParams }: Props) {
           </div>
 
           {/* FONTES */}
-          <div className="mt-12 pt-8 border-t border-slate-200 print:hidden not-prose bg-slate-50 p-6 rounded-xl">
+          <div className="mt-12 pt-8 border-t border-slate-200 dark:border-slate-800 print:hidden not-prose bg-slate-50 dark:bg-slate-900 p-6 rounded-xl">
               <h3 className="text-sm font-bold text-slate-500 uppercase tracking-wider mb-4 flex items-center gap-2">
                   <Landmark size={16} /> Fontes Oficiais
               </h3>

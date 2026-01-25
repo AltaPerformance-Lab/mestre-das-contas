@@ -14,6 +14,8 @@ import {
   Calculator, DollarSign, Briefcase, Info, 
   Share2, Printer, History, Code2, CheckCircle2, X, Calendar, Link as LinkIcon 
 } from "lucide-react";
+import { CountUp } from "@/components/ui/CountUp";
+import ShareAsImage from "@/components/ui/ShareAsImage";
 
 // Tipo para o histórico
 type HistoricoRescisao = {
@@ -51,7 +53,11 @@ type ResultadoRescisao = {
     raw: any;
 } | null;
 
-export default function TerminationCalculator() {
+interface TerminationCalculatorProps {
+    initialReason?: string;
+}
+
+export default function TerminationCalculator({ initialReason }: TerminationCalculatorProps = {}) {
   const searchParams = useSearchParams();
   const [isIframe, setIsIframe] = useState(false);
 
@@ -60,7 +66,7 @@ export default function TerminationCalculator() {
   const [salarioValue, setSalarioValue] = useState(0);
   const [dataInicio, setDataInicio] = useState("");
   const [dataFim, setDataFim] = useState("");
-  const [motivo, setMotivo] = useState("sem_justa_causa");
+  const [motivo, setMotivo] = useState(initialReason || "sem_justa_causa");
   const [avisoPrevio, setAvisoPrevio] = useState("indenizado");
   
   // Inputs Avançados
@@ -141,6 +147,12 @@ export default function TerminationCalculator() {
       pMotivo = motivo
   ) => {
     if (!pSalario || !pInicio || !pFim) return;
+    
+    // Validação Básica de Datas
+    if (new Date(pInicio) > new Date(pFim)) {
+        alert("A data de afastamento não pode ser anterior à data de admissão.");
+        return;
+    }
 
     const inicio = parseISO(pInicio);
     const fim = parseISO(pFim);
@@ -164,75 +176,107 @@ export default function TerminationCalculator() {
     const vlrSaldoSalario = (pSalario / 30) * diaDesligamento;
 
     // 3. 13º Proporcional (conta avos até a data projetada)
-    let mesesDecimo = dataProjetada.getMonth() + 1; 
-    if (dataProjetada.getDate() < 15) mesesDecimo -= 1;
-    
-    if (inicio.getFullYear() === fim.getFullYear()) {
-        mesesDecimo = mesesDecimo - inicio.getMonth();
-        if (inicio.getDate() > 15) mesesDecimo -= 1;
+    // Regra Justa Causa: Perde o direito ao 13º Proporcional
+    let vlrDecimo = 0;
+    let mesesDecimo = 0;
+
+    if (pMotivo !== "justa_causa") {
+        mesesDecimo = dataProjetada.getMonth() + 1; 
+        if (dataProjetada.getDate() < 15) mesesDecimo -= 1;
+        
+        if (inicio.getFullYear() === fim.getFullYear()) {
+            mesesDecimo = mesesDecimo - inicio.getMonth();
+            if (inicio.getDate() > 15) mesesDecimo -= 1;
+        }
+        if (mesesDecimo < 0) mesesDecimo = 0;
+        vlrDecimo = (pSalario / 12) * mesesDecimo;
     }
-    if (mesesDecimo < 0) mesesDecimo = 0;
-    const vlrDecimo = (pSalario / 12) * mesesDecimo;
 
     // 4. Férias Proporcionais + 1/3
-    let inicioPeriodoAquisitivo = new Date(inicio);
-    // Avança os anos até chegar no período atual
-    while (addDays(inicioPeriodoAquisitivo, 365) <= dataProjetada) {
-        inicioPeriodoAquisitivo = addDays(inicioPeriodoAquisitivo, 365);
+    // Regra Justa Causa: Perde o direito (Súmula 171 TST)
+    let mesesFerias = 0;
+    let vlrFeriasProp = 0;
+    let vlrTercoFeriasProp = 0;
+
+    if (pMotivo !== "justa_causa") {
+        let inicioPeriodoAquisitivo = new Date(inicio);
+        while (addDays(inicioPeriodoAquisitivo, 365) <= dataProjetada) {
+            inicioPeriodoAquisitivo = addDays(inicioPeriodoAquisitivo, 365);
+        }
+
+        mesesFerias = differenceInMonths(dataProjetada, inicioPeriodoAquisitivo);
+        const dataAux = new Date(inicioPeriodoAquisitivo);
+        dataAux.setMonth(dataAux.getMonth() + mesesFerias);
+
+        if (differenceInDays(dataProjetada, dataAux) >= 14) { 
+            mesesFerias += 1;
+        }
+
+        if (mesesFerias > 12) mesesFerias = 12; 
+        if (mesesFerias < 0) mesesFerias = 0;
+
+        vlrFeriasProp = (pSalario / 12) * mesesFerias;
+        vlrTercoFeriasProp = vlrFeriasProp / 3;
     }
-
-    let mesesFerias = differenceInMonths(dataProjetada, inicioPeriodoAquisitivo);
-    const dataAux = new Date(inicioPeriodoAquisitivo);
-    dataAux.setMonth(dataAux.getMonth() + mesesFerias);
-
-    // Regra de >14 dias para ganhar 1/12
-    if (differenceInDays(dataProjetada, dataAux) >= 14) { 
-        mesesFerias += 1;
-    }
-
-    if (mesesFerias > 12) mesesFerias = 12; 
-    if (mesesFerias < 0) mesesFerias = 0;
-
-    const vlrFeriasProp = (pSalario / 12) * mesesFerias;
-    const vlrTercoFeriasProp = vlrFeriasProp / 3;
 
     // 5. Férias Vencidas (Input do Usuário)
     let vlrFeriasVencidasTotal = 0;
     if (temFeriasVencidas) {
         const dias = parseInt(diasFeriasVencidas) || 0;
-        // Cálculo padrão: (Salário / 30) * Dias * 1/3 constitucional
         const valorBase = (pSalario / 30) * dias;
         vlrFeriasVencidasTotal = valorBase + (valorBase / 3);
     }
 
-    // 6. Aviso Prévio Indenizado (Apenas se o motivo for dispensa sem justa causa e indenizado)
+    // 6. Aviso Prévio Indenizado
     let vlrAvisoIndenizado = 0;
+    
+    // Regra Sem Justa Causa: Recebe integral
     if (pMotivo === "sem_justa_causa" && avisoPrevio === "indenizado") {
       vlrAvisoIndenizado = (pSalario / 30) * diasAviso;
+    }
+    // Regra Acordo Comum: Recebe pela metade (Art. 484-A)
+    else if (pMotivo === "acordo_comum" && avisoPrevio === "indenizado") {
+      vlrAvisoIndenizado = ((pSalario / 30) * diasAviso) / 2;
     }
 
     // 7. FGTS
     let vlrMultaFgts = 0;
     let vlrSaqueFgts = 0;
     
-    if (pMotivo === "sem_justa_causa") {
+    if (pMotivo === "sem_justa_causa" || pMotivo === "acordo_comum") {
       const saldoAtualInput = parseFloat(saldoFgts.replace(/\D/g, "") || "0") / 100;
+      
       // Estima o FGTS da rescisão (sobre aviso, 13º e saldo)
+      // Nota: Acordo comum paga FGTS sobre aviso indenizado (pela metade)
       const baseFgtsRescisao = vlrAvisoIndenizado + vlrDecimo + vlrSaldoSalario;
       const fgtsRescisao = baseFgtsRescisao * 0.08;
       const saldoTotalFgts = saldoAtualInput + fgtsRescisao;
       
-      vlrMultaFgts = saldoTotalFgts * 0.40;
+      // Multa
+      if (pMotivo === "sem_justa_causa") {
+         vlrMultaFgts = saldoTotalFgts * 0.40; // 40%
+      } else {
+         vlrMultaFgts = saldoTotalFgts * 0.20; // 20% (Acordo)
+      }
 
+      // Saque
       if (saqueAniversario) {
           vlrSaqueFgts = vlrMultaFgts; // Só saca a multa
       } else {
-          vlrSaqueFgts = saldoTotalFgts + vlrMultaFgts; // Saca tudo
+          if (pMotivo === "sem_justa_causa") {
+             vlrSaqueFgts = saldoTotalFgts + vlrMultaFgts; // Saca tudo
+          } else {
+             // No acordo comum, saca 80% do saldo depositado + a multa de 20% (que é integralmente sacável pois é indenizatória?)
+             // A lei diz: movimentação de 80% do valor dos depósitos.
+             // A multa de 20% entra na conta e pode ser sacada (é verba indenizatória).
+             // Simplificação segura: 80% do (Saldo + Deposito Mês) + Multa 20% Integral.
+             vlrSaqueFgts = (saldoTotalFgts * 0.80) + vlrMultaFgts; 
+          }
       }
     }
 
     const totalVerbasEmpresa = vlrSaldoSalario + vlrDecimo + vlrFeriasProp + vlrTercoFeriasProp + vlrAvisoIndenizado + vlrFeriasVencidasTotal;
-    const estimativaDescontos = (vlrSaldoSalario + vlrDecimo) * 0.09; // Estimativa média INSS (simplificada para simulação)
+    const estimativaDescontos = (vlrSaldoSalario + vlrDecimo) * 0.09; 
     const totalLiquidoReceber = totalVerbasEmpresa - estimativaDescontos + vlrSaqueFgts;
 
     const novoResultado = {
@@ -270,7 +314,7 @@ export default function TerminationCalculator() {
       const novoItem: HistoricoRescisao = {
           dataCalc: new Date().toLocaleDateString("pt-BR"),
           total: res.totalLiquido,
-          motivo: motivo === "sem_justa_causa" ? "Sem Justa Causa" : "Pedido Demissão",
+          motivo: motivo === "sem_justa_causa" ? "Sem Justa Causa" : (motivo === "pedido_demissao" ? "Pedido Demissão" : (motivo === "acordo_comum" ? "Acordo Comum" : "Justa Causa")),
           periodo: `${differenceInYears(new Date(dataFim), new Date(dataInicio))} anos`,
           salario: formatBRL(res.raw.salario),
           raw: res.raw
@@ -324,7 +368,7 @@ export default function TerminationCalculator() {
       
       {/* --- FORMULÁRIO (Coluna Esquerda) --- */}
       <div className="lg:col-span-7 w-full space-y-6">
-        <Card className="border-0 shadow-lg shadow-slate-200/50 ring-1 ring-slate-200 w-full overflow-hidden bg-white rounded-2xl">
+        <Card className="border-0 shadow-lg shadow-slate-200/50 dark:shadow-none ring-1 ring-slate-200 dark:ring-slate-800 w-full overflow-hidden bg-white dark:bg-slate-900 rounded-2xl">
           <CardHeader className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-6">
             <div className="flex flex-row items-center justify-between gap-2">
                 <CardTitle className="text-xl flex items-center gap-3">
@@ -347,94 +391,110 @@ export default function TerminationCalculator() {
           
           <CardContent className="space-y-5 p-6">
             <div className="space-y-2">
-              <Label className="text-slate-600 font-medium">Salário Bruto</Label>
+              <Label className="text-slate-600 dark:text-slate-300 font-medium">Salário Bruto</Label>
               <div className="relative">
                 <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400" />
-                <Input placeholder="R$ 0,00" value={salarioBruto} onChange={handleSalarioChange} className="pl-10 h-12 text-lg font-medium bg-slate-50 border-slate-200 focus:bg-white transition-colors" inputMode="numeric"/>
+                <Input placeholder="R$ 0,00" value={salarioBruto} onChange={handleSalarioChange} className="pl-10 h-12 text-lg font-medium bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 focus:bg-white dark:focus:bg-slate-900 dark:text-slate-100 transition-colors" inputMode="numeric"/>
               </div>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
               <div className="space-y-2">
-                <Label className="text-slate-600 font-medium">Data de Admissão</Label>
+                <Label className="text-slate-600 dark:text-slate-300 font-medium">Data de Admissão</Label>
                 <div className="relative">
-                    <Input type="date" value={dataInicio} onChange={e => setDataInicio(e.target.value)} className="h-12 bg-slate-50 border-slate-200 focus:bg-white transition-colors" />
+                    <Input type="date" value={dataInicio} onChange={e => setDataInicio(e.target.value)} className="h-12 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 focus:bg-white dark:focus:bg-slate-900 dark:text-slate-100 transition-colors" />
                 </div>
               </div>
               <div className="space-y-2">
-                <Label className="text-slate-600 font-medium">Data de Afastamento</Label>
+                <Label className="text-slate-600 dark:text-slate-300 font-medium">Data de Afastamento</Label>
                 <div className="relative">
-                    <Input type="date" value={dataFim} onChange={e => setDataFim(e.target.value)} className="h-12 bg-slate-50 border-slate-200 focus:bg-white transition-colors" />
+                    <Input type="date" value={dataFim} onChange={e => setDataFim(e.target.value)} className="h-12 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 focus:bg-white dark:focus:bg-slate-900 dark:text-slate-100 transition-colors" />
                 </div>
               </div>
             </div>
 
             <div className="space-y-2">
-              <Label className="text-slate-600 font-medium">Motivo da Rescisão</Label>
+              <Label className="text-slate-600 dark:text-slate-300 font-medium">Motivo da Rescisão</Label>
               <Select value={motivo} onValueChange={setMotivo}>
-                <SelectTrigger className="h-12 bg-slate-50 border-slate-200 text-base"><SelectValue /></SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="sem_justa_causa">Dispensa sem Justa Causa</SelectItem>
-                  <SelectItem value="pedido_demissao">Pedido de Demissão</SelectItem>
+                <SelectTrigger className="h-12 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 dark:text-slate-100 text-base"><SelectValue /></SelectTrigger>
+                <SelectContent className="dark:bg-slate-800 dark:border-slate-700">
+                  <SelectItem value="sem_justa_causa" className="dark:text-slate-200 focus:dark:bg-slate-700">Dispensa sem Justa Causa</SelectItem>
+                  <SelectItem value="pedido_demissao" className="dark:text-slate-200 focus:dark:bg-slate-700">Pedido de Demissão</SelectItem>
+                  <SelectItem value="justa_causa" className="dark:text-slate-200 focus:dark:bg-slate-700">Dispensa por Justa Causa</SelectItem>
+                  <SelectItem value="acordo_comum" className="dark:text-slate-200 focus:dark:bg-slate-700">Acordo Comum (Reforma 2017)</SelectItem>
                 </SelectContent>
               </Select>
             </div>
 
             <div className="space-y-2">
-              <Label className="text-slate-600 font-medium">Aviso Prévio</Label>
+              <Label className="text-slate-600 dark:text-slate-300 font-medium">Aviso Prévio</Label>
               <Select value={avisoPrevio} onValueChange={setAvisoPrevio}>
-                <SelectTrigger className="h-12 bg-slate-50 border-slate-200 text-base"><SelectValue /></SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="indenizado">Indenizado (Pago em dinheiro)</SelectItem>
-                  <SelectItem value="trabalhado">Trabalhado (Você cumpriu)</SelectItem>
+                <SelectTrigger className="h-12 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 dark:text-slate-100 text-base"><SelectValue /></SelectTrigger>
+                <SelectContent className="dark:bg-slate-800 dark:border-slate-700">
+                  <SelectItem value="indenizado" className="dark:text-slate-200 focus:dark:bg-slate-700">Indenizado (Pago em dinheiro)</SelectItem>
+                  <SelectItem value="trabalhado" className="dark:text-slate-200 focus:dark:bg-slate-700">Trabalhado (Você cumpriu)</SelectItem>
                 </SelectContent>
               </Select>
             </div>
 
             {/* OPÇÕES AVANÇADAS */}
-            <div className="bg-slate-50 p-5 rounded-xl space-y-4 border border-slate-100">
+            <div className="bg-slate-50 dark:bg-slate-800/50 p-5 rounded-xl space-y-4 border border-slate-100 dark:border-slate-800">
                 <div className="flex items-center justify-between">
-                    <Label htmlFor="ferias-vencidas" className="cursor-pointer text-sm font-medium text-slate-700">Possui férias vencidas?</Label>
+                    <Label htmlFor="ferias-vencidas" className="cursor-pointer text-sm font-medium text-slate-700 dark:text-slate-300">Possui férias vencidas?</Label>
                     <Switch id="ferias-vencidas" checked={temFeriasVencidas} onCheckedChange={setTemFeriasVencidas} />
                 </div>
                 
                 {temFeriasVencidas && (
                     <div className="animate-in slide-in-from-top-2 fade-in duration-300">
-                        <Label className="text-xs text-slate-500 mb-1.5 block uppercase font-bold tracking-wide">Dias Acumulados</Label>
+                        <Label className="text-xs text-slate-500 dark:text-slate-400 mb-1.5 block uppercase font-bold tracking-wide">Dias Acumulados</Label>
                         <Input 
                             type="number" 
                             value={diasFeriasVencidas} 
                             onChange={e => setDiasFeriasVencidas(e.target.value)} 
-                            className="bg-white border-slate-200 h-10" 
+                            className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700 dark:text-slate-100 h-10" 
                             placeholder="Ex: 30" 
                             inputMode="numeric"
                             maxLength={3} // Limita para evitar números absurdos
                         />
                         {parseInt(diasFeriasVencidas) > 60 && (
-                            <p className="text-xs text-amber-600 mt-1 flex items-center gap-1"><Info size={12}/> Valor alto: verifique se são dias corridos.</p>
+                            <p className="text-xs text-amber-600 dark:text-amber-500 mt-1 flex items-center gap-1"><Info size={12}/> Valor alto: verifique se são dias corridos.</p>
                         )}
                     </div>
                 )}
 
-                {motivo === "sem_justa_causa" && (
+                {/* FGTS só aparece se tiver multa (Sem Justa Causa ou Acordo) */}
+                {(motivo === "sem_justa_causa" || motivo === "acordo_comum") && (
                     <>
-                        <div className="h-px bg-slate-200 my-2"></div>
+                        <div className="h-px bg-slate-200 dark:bg-slate-700 my-2"></div>
                         <div className="space-y-2">
-                            <Label className="text-sm font-medium text-slate-700">Saldo do FGTS (Para multa)</Label>
-                            <Input placeholder="R$ 0,00" value={saldoFgts} onChange={e => { const {display} = formatarMoedaInput(e.target.value); setSaldoFgts(display); }} className="bg-white h-10 border-slate-200" inputMode="numeric"/>
+                            <Label className="text-sm font-medium text-slate-700 dark:text-slate-300">Saldo do FGTS (Para multa)</Label>
+                            <Input placeholder="R$ 0,00" value={saldoFgts} onChange={e => { const {display} = formatarMoedaInput(e.target.value); setSaldoFgts(display); }} className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700 dark:text-slate-100 h-10" inputMode="numeric"/>
                         </div>
                         <div className="flex items-center justify-between pt-2">
                             <div className="flex items-center gap-2">
-                                <Label htmlFor="saque-aniversario" className="cursor-pointer text-sm font-medium text-slate-700">Optou pelo Saque Aniversário?</Label>
+                                <Label htmlFor="saque-aniversario" className="cursor-pointer text-sm font-medium text-slate-700 dark:text-slate-300">Optou pelo Saque Aniversário?</Label>
                                 <Info size={16} className="text-slate-400" />
                             </div>
                             <Switch id="saque-aniversario" checked={saqueAniversario} onCheckedChange={setSaqueAniversario} />
                         </div>
                     </>
                 )}
+
+                <div className="bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-100 dark:border-emerald-800 p-3 rounded-lg flex items-start gap-3 mt-4">
+                    <CheckCircle2 className="text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" size={16} />
+                    <div className="text-xs text-emerald-800 dark:text-emerald-200">
+                        <p className="font-bold mb-1">Regras Totais 2026</p>
+                        <p className="leading-relaxed opacity-90">
+                            Cálculo inclui Aviso Prévio Lei 12.506/11 e novas multas FGTS. 
+                            <a href="https://www.planalto.gov.br/ccivil_03/_ato2011-2014/2011/lei/l12506.htm" target="_blank" rel="noopener noreferrer" className="underline ml-1 hover:text-emerald-600 dark:hover:text-emerald-300">
+                                Lei 12.506
+                            </a>
+                        </p>
+                    </div>
+                </div>
             </div>
 
-            <Button onClick={() => calcular()} className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 h-14 text-lg font-bold shadow-lg shadow-indigo-200 rounded-xl transition-all active:scale-[0.99]">
+            <Button onClick={() => calcular()} className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 h-14 text-lg font-bold shadow-lg shadow-indigo-200 dark:shadow-none rounded-xl transition-all active:scale-[0.99]">
                 Calcular Rescisão
             </Button>
           </CardContent>
@@ -442,16 +502,16 @@ export default function TerminationCalculator() {
 
         {/* HISTÓRICO */}
         {!isIframe && historico.length > 0 && (
-            <div className="bg-white rounded-xl border border-slate-200 p-5 shadow-sm animate-in fade-in">
+            <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-5 shadow-sm animate-in fade-in">
                 <h4 className="text-xs font-bold text-slate-400 uppercase mb-4 flex items-center gap-2 tracking-wider"><History size={14} /> Histórico Recente</h4>
                 <div className="space-y-1">
                 {historico.map((item, idx) => (
-                    <div key={idx} className="flex justify-between items-center text-sm border-b border-slate-50 pb-2 last:border-0 last:pb-0 p-2 hover:bg-slate-50 rounded-lg transition-colors cursor-pointer active:bg-slate-100" onClick={() => handleRestaurarHistorico(item)}>
+                    <div key={idx} className="flex justify-between items-center text-sm border-b border-slate-50 dark:border-slate-800 pb-2 last:border-0 last:pb-0 p-2 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors cursor-pointer active:bg-slate-100 dark:active:bg-slate-700" onClick={() => handleRestaurarHistorico(item)}>
                     <div className="flex flex-col">
-                        <span className="text-slate-900 font-bold">{item.salario}</span>
+                        <span className="text-slate-900 dark:text-slate-100 font-bold">{item.salario}</span>
                         <span className="text-[10px] text-slate-400 font-medium">{item.periodo} • {item.dataCalc}</span>
                     </div>
-                    <span className="font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded text-xs tabular-nums">{item.total}</span>
+                    <span className="font-bold text-blue-700 dark:text-blue-300 bg-blue-50 dark:bg-blue-900/30 px-2 py-0.5 rounded text-xs tabular-nums">{item.total}</span>
                     </div>
                 ))}
                 </div>
@@ -461,9 +521,9 @@ export default function TerminationCalculator() {
 
       {/* --- RESULTADO (Coluna Direita) --- */}
       <div className="lg:col-span-5 w-full flex flex-col gap-6">
-        <Card className={`h-full w-full transition-all duration-500 border-0 shadow-lg shadow-slate-200/50 ring-1 ring-slate-200 overflow-hidden flex flex-col ${resultado ? 'bg-white' : 'bg-slate-50'}`}>
-          <CardHeader className="px-6 py-5 border-b border-slate-100 bg-white shrink-0">
-            <CardTitle className="text-slate-800 text-lg font-bold">Extrato da Rescisão</CardTitle>
+        <Card id="resultado-rescisao-card" className={`h-full w-full transition-all duration-500 border-0 shadow-lg shadow-slate-200/50 dark:shadow-none ring-1 ring-slate-200 dark:ring-slate-800 overflow-hidden flex flex-col ${resultado ? 'bg-white dark:bg-slate-900' : 'bg-slate-50 dark:bg-slate-950'}`}>
+          <CardHeader className="px-6 py-5 border-b border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 shrink-0">
+            <CardTitle className="text-slate-800 dark:text-slate-100 text-lg font-bold">Extrato da Rescisão</CardTitle>
           </CardHeader>
           
           <CardContent className="p-6 flex-1 flex flex-col">
@@ -482,9 +542,10 @@ export default function TerminationCalculator() {
                   <div className="absolute top-0 right-0 w-40 h-40 bg-blue-500/20 rounded-full blur-3xl -mr-10 -mt-10 group-hover:bg-blue-500/30 transition-colors duration-500"></div>
                   
                   <p className="text-[11px] text-slate-400 font-bold uppercase tracking-widest relative z-10 mb-1">Total Líquido Estimado</p>
-                  <div className="flex items-center justify-center gap-1 relative z-10 px-2">
-                      {/* Correção: Tamanho de fonte adaptável para não cortar valores grandes */}
-                      <span className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white tracking-tight break-words">{resultado.totalLiquido}</span>
+                  <div className="w-full flex items-center justify-center px-4 relative z-10">
+                      <span className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight break-words leading-tight text-center">
+                          <CountUp value={parseFloat(resultado.totalLiquido.replace(/[^0-9,]/g, '').replace(',', '.'))} />
+                      </span>
                   </div>
                   
                   {resultado.bloqueadoSaqueAniversario && (
@@ -495,31 +556,34 @@ export default function TerminationCalculator() {
                 </div>
 
                 {/* Lista Detalhada */}
-                <div className="space-y-0 text-sm bg-white rounded-xl border border-slate-100 divide-y divide-slate-100 shadow-sm overflow-hidden">
-                  <div className="flex justify-between py-3 px-4 hover:bg-slate-50 transition-colors"><span className="text-slate-600 font-medium">Saldo de Salário</span><span className="font-bold text-slate-900">{resultado.saldoSalario}</span></div>
-                  <div className="flex justify-between py-3 px-4 hover:bg-slate-50 transition-colors"><span className="text-slate-600 font-medium">13º Proporcional ({resultado.mesesDecimo}/12)</span><span className="font-bold text-slate-900">{resultado.decimo}</span></div>
-                  <div className="flex justify-between py-3 px-4 hover:bg-slate-50 transition-colors"><span className="text-slate-600 font-medium">Férias Prop. ({resultado.mesesFerias}/12) + 1/3</span><span className="font-bold text-slate-900">{resultado.feriasProp}</span></div>
+                <div className="space-y-0 text-sm bg-white dark:bg-slate-900 rounded-xl border border-slate-100 dark:border-slate-800 divide-y divide-slate-100 dark:divide-slate-800 shadow-sm overflow-hidden">
+                  <div className="flex justify-between py-3 px-4 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors"><span className="text-slate-600 dark:text-slate-400 font-medium">Saldo de Salário</span><span className="font-bold text-slate-900 dark:text-slate-100">{resultado.saldoSalario}</span></div>
+                  <div className="flex justify-between py-3 px-4 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors"><span className="text-slate-600 dark:text-slate-400 font-medium">13º Proporcional ({resultado.mesesDecimo}/12)</span><span className="font-bold text-slate-900 dark:text-slate-100">{resultado.decimo}</span></div>
+                  <div className="flex justify-between py-3 px-4 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors"><span className="text-slate-600 dark:text-slate-400 font-medium">Férias Prop. ({resultado.mesesFerias}/12) + 1/3</span><span className="font-bold text-slate-900 dark:text-slate-100">{resultado.feriasProp}</span></div>
                   
-                  {resultado.feriasVencidas !== "R$ 0,00" && <div className="flex justify-between py-3 px-4 bg-blue-50/50"><span className="text-blue-700 font-bold">Férias Vencidas + 1/3</span><span className="font-bold text-blue-800">{resultado.feriasVencidas}</span></div>}
-                  {resultado.aviso !== "R$ 0,00" && <div className="flex justify-between py-3 px-4 bg-green-50/50"><span className="text-green-700 font-bold">Aviso Prévio ({resultado.diasAviso}d)</span><span className="font-bold text-green-800">{resultado.aviso}</span></div>}
-                  {resultado.multaFgts !== "R$ 0,00" && <div className="flex justify-between py-3 px-4 bg-emerald-50/50"><span className="text-emerald-700 font-bold">Multa 40% FGTS</span><span className="font-bold text-emerald-800">{resultado.multaFgts}</span></div>}
+                  {resultado.feriasVencidas !== "R$ 0,00" && <div className="flex justify-between py-3 px-4 bg-blue-50/50 dark:bg-blue-900/20"><span className="text-blue-700 dark:text-blue-300 font-bold">Férias Vencidas + 1/3</span><span className="font-bold text-blue-800 dark:text-blue-200">{resultado.feriasVencidas}</span></div>}
+                  {resultado.aviso !== "R$ 0,00" && <div className="flex justify-between py-3 px-4 bg-green-50/50 dark:bg-green-900/20"><span className="text-green-700 dark:text-green-300 font-bold">Aviso Prévio ({resultado.diasAviso}d)</span><span className="font-bold text-green-800 dark:text-green-200">{resultado.aviso}</span></div>}
+                  {resultado.multaFgts !== "R$ 0,00" && <div className="flex justify-between py-3 px-4 bg-emerald-50/50 dark:bg-emerald-900/20"><span className="text-emerald-700 dark:text-emerald-300 font-bold">Multa 40% FGTS</span><span className="font-bold text-emerald-800 dark:text-emerald-200">{resultado.multaFgts}</span></div>}
                   
                   <div className="py-3 px-4">
-                    <div className="flex justify-between items-center"><span className="text-slate-500 font-medium text-xs uppercase tracking-wide">Saque FGTS Disponível</span><span className="font-bold text-green-600">{resultado.saqueFgts}</span></div>
+                    <div className="flex justify-between items-center"><span className="text-slate-500 dark:text-slate-400 font-medium text-xs uppercase tracking-wide">Saque FGTS Disponível</span><span className="font-bold text-green-600 dark:text-green-400">{resultado.saqueFgts}</span></div>
                   </div>
-                  <div className="flex justify-between py-3 px-4 bg-red-50/30 text-red-600 border-t border-red-100"><span className="font-bold text-xs uppercase tracking-wide">Descontos (INSS/IRRF Est.)</span><span className="font-bold">- {resultado.descontosEst}</span></div>
+                  <div className="flex justify-between py-3 px-4 bg-red-50/30 dark:bg-red-900/20 text-red-600 dark:text-red-400 border-t border-red-100 dark:border-red-900/30"><span className="font-bold text-xs uppercase tracking-wide">Descontos (INSS/IRRF Est.)</span><span className="font-bold">- {resultado.descontosEst}</span></div>
                 </div>
                 
                 <p className="text-[10px] text-slate-400 text-center leading-tight px-4">* Os valores são simulados baseados na CLT vigente. A homologação oficial pode ter pequenas variações.</p>
 
                 {/* BOTÕES DE AÇÃO */}
                 <div className="grid grid-cols-2 gap-3 pt-2">
-                    <Button variant="outline" onClick={() => handleShare("link")} className="h-11 border-slate-200 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200 text-xs font-bold uppercase tracking-wide">
-                        {copiado === "link" ? <span className="flex items-center gap-2"><CheckCircle2 size={16}/> Copiado</span> : <span className="flex items-center gap-2"><Share2 size={16}/> Compartilhar</span>}
+                    <Button variant="outline" onClick={() => handleShare("link")} className="h-11 border-slate-200 dark:border-slate-700 hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-200 dark:hover:border-blue-800 bg-white dark:bg-slate-900 dark:text-slate-100 text-xs font-bold uppercase tracking-wide">
+                        {copiado === "link" ? <span className="flex items-center gap-2"><CheckCircle2 size={16}/> Copiado</span> : <span className="flex items-center gap-2"><Share2 size={16}/> Link</span>}
                     </Button>
-                    <Button variant="outline" onClick={handlePrint} className="h-11 border-slate-200 hover:bg-slate-100 hover:text-slate-900 text-xs font-bold uppercase tracking-wide">
-                        <span className="flex items-center gap-2"><Printer size={16}/> Imprimir PDF</span>
+                    <Button variant="outline" onClick={handlePrint} className="h-11 border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-100 bg-white dark:bg-slate-900 dark:text-slate-100 text-xs font-bold uppercase tracking-wide">
+                        <span className="flex items-center gap-2"><Printer size={16}/> Imprimir</span>
                     </Button>
+                    <div className="col-span-2">
+                         <ShareAsImage elementId="resultado-rescisao-card" className="w-full h-11 bg-slate-900 dark:bg-slate-800 text-white hover:bg-slate-800 dark:hover:bg-slate-700 border-none" />
+                    </div>
                 </div>
 
               </div>
@@ -611,10 +675,10 @@ export default function TerminationCalculator() {
       {/* --- MODAL EMBED --- */}
       {showEmbedModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 animate-in fade-in backdrop-blur-sm print:hidden" onClick={() => setShowEmbedModal(false)}>
-            <div className="bg-white rounded-2xl shadow-2xl p-6 max-w-lg w-full relative" onClick={e => e.stopPropagation()}>
-                <button onClick={() => setShowEmbedModal(false)} className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 transition-colors"><X size={20}/></button>
-                <h3 className="text-lg font-bold text-slate-900 mb-2">Incorporar no seu Site</h3>
-                <p className="text-sm text-slate-500 mb-4">Copie o código abaixo para adicionar essa calculadora no seu blog ou site.</p>
+            <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-2xl p-6 max-w-lg w-full relative" onClick={e => e.stopPropagation()}>
+                <button onClick={() => setShowEmbedModal(false)} className="absolute top-4 right-4 text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300 transition-colors"><X size={20}/></button>
+                <h3 className="text-lg font-bold text-slate-900 dark:text-slate-100 mb-2">Incorporar no seu Site</h3>
+                <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">Copie o código abaixo para adicionar essa calculadora no seu blog ou site.</p>
                 <div className="bg-slate-950 p-4 rounded-xl relative mb-4 overflow-hidden group">
                     <code className="text-xs font-mono text-blue-300 break-all block leading-relaxed selection:bg-blue-900">
                         {`<iframe src="https://mestredascontas.com.br/trabalhista/rescisao?embed=true" width="100%" height="800" frameborder="0" style="border:0; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.1);" title="Calculadora Rescisão"></iframe>`}
@@ -624,7 +688,7 @@ export default function TerminationCalculator() {
                     navigator.clipboard.writeText(`<iframe src="https://mestredascontas.com.br/trabalhista/rescisao?embed=true" width="100%" height="800" frameborder="0" style="border:0; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.1);" title="Calculadora Rescisão"></iframe>`);
                     setCopiado("embed");
                     setTimeout(() => setCopiado(null), 2000);
-                }} className="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold h-12 rounded-xl">
+                }} className="w-full bg-slate-900 hover:bg-slate-800 dark:bg-blue-600 dark:hover:bg-blue-700 text-white font-bold h-12 rounded-xl">
                     {copiado === "embed" ? "Código Copiado!" : "Copiar Código HTML"}
                 </Button>
             </div>

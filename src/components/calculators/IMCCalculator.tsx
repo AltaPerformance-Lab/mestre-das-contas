@@ -182,7 +182,7 @@ export default function IMCCalculator() {
         
         {/* --- COLUNA ESQUERDA: INPUTS --- */}
         <div className="lg:col-span-5 space-y-6 w-full">
-            <Card className="border-0 shadow-lg shadow-slate-200/50 ring-1 ring-slate-200 bg-white rounded-2xl overflow-hidden sticky top-24">
+            <Card className="border-0 shadow-lg shadow-slate-200/50 dark:shadow-none ring-1 ring-slate-200 dark:ring-slate-800 bg-white dark:bg-slate-900 rounded-2xl overflow-hidden sticky top-24">
             <CardHeader className="bg-gradient-to-r from-red-500 to-rose-600 text-white p-6">
                 <div className="flex flex-row items-center justify-between gap-4">
                     <CardTitle className="text-xl flex items-center gap-3">
@@ -205,7 +205,7 @@ export default function IMCCalculator() {
             <CardContent className="space-y-6 p-6">
                 <div className="grid grid-cols-2 gap-5">
                     <div className="space-y-2">
-                        <Label className="text-slate-600 font-medium">Peso (kg)</Label>
+                        <Label className="text-slate-600 dark:text-slate-300 font-medium">Peso (kg)</Label>
                         <div className="relative">
                             <Scale className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400" />
                             <Input 
@@ -214,12 +214,12 @@ export default function IMCCalculator() {
                                 onChange={e => setPeso(e.target.value)} 
                                 type="number" 
                                 inputMode="decimal"
-                                className="pl-10 h-12 text-lg font-medium bg-slate-50 border-slate-200 focus:bg-white transition-colors"
+                                className="pl-10 h-12 text-lg font-medium bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 dark:text-slate-100 focus:bg-white dark:focus:bg-slate-900 transition-colors"
                             />
                         </div>
                     </div>
                     <div className="space-y-2">
-                        <Label className="text-slate-600 font-medium">Altura (m ou cm)</Label>
+                        <Label className="text-slate-600 dark:text-slate-300 font-medium">Altura (m ou cm)</Label>
                         <div className="relative">
                             <Ruler className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400" />
                             <Input 
@@ -228,7 +228,7 @@ export default function IMCCalculator() {
                                 onChange={e => setAltura(e.target.value)} 
                                 type="number" 
                                 inputMode="decimal"
-                                className="pl-10 h-12 text-lg font-medium bg-slate-50 border-slate-200 focus:bg-white transition-colors"
+                                className="pl-10 h-12 text-lg font-medium bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 dark:text-slate-100 focus:bg-white dark:focus:bg-slate-900 transition-colors"
                             />
                         </div>
                     </div>
@@ -238,7 +238,7 @@ export default function IMCCalculator() {
                     <Button onClick={() => calcular()} className="flex-1 bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-700 hover:to-rose-700 text-white h-14 text-lg font-bold shadow-lg shadow-red-200 rounded-xl transition-all active:scale-[0.99]">
                         Calcular Agora
                     </Button>
-                    <Button variant="outline" onClick={limpar} size="icon" className="h-14 w-14 shrink-0 border-slate-200 text-slate-400 hover:text-red-500 hover:bg-red-50 hover:border-red-200 rounded-xl transition-colors" title="Limpar dados">
+                    <Button variant="outline" onClick={limpar} size="icon" className="h-14 w-14 shrink-0 border-slate-200 dark:border-slate-700 text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 hover:border-red-200 dark:hover:border-red-800 bg-white dark:bg-slate-900 rounded-xl transition-colors" title="Limpar dados">
                         <X className="h-5 w-5" />
                     </Button>
                 </div>
@@ -247,15 +247,15 @@ export default function IMCCalculator() {
 
             {/* HISTÓRICO RÁPIDO */}
             {!isIframe && historico.length > 0 && !resultado && (
-                <div className="bg-white rounded-xl border border-slate-200 p-5 shadow-sm animate-in fade-in">
+                <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-5 shadow-sm animate-in fade-in">
                     <h4 className="text-xs font-bold text-slate-400 uppercase mb-4 flex items-center gap-2 tracking-wider">
                         <History size={14} /> Histórico Recente
                     </h4>
                     <div className="space-y-1">
                         {historico.map((item, idx) => (
-                            <div key={idx} className="flex justify-between items-center text-sm border-b border-slate-50 pb-2 last:border-0 last:pb-0 p-2 hover:bg-slate-50 rounded-lg transition-colors cursor-pointer" onClick={() => { setPeso(item.peso); setAltura(item.altura); }}>
-                                <span className="text-slate-600 font-medium">{item.peso}kg / {item.altura}m</span>
-                                <span className="font-bold text-slate-700 bg-slate-100 px-2 py-0.5 rounded text-xs tabular-nums">{item.imc}</span>
+                            <div key={idx} className="flex justify-between items-center text-sm border-b border-slate-50 dark:border-slate-800 pb-2 last:border-0 last:pb-0 p-2 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors cursor-pointer active:bg-slate-100 dark:active:bg-slate-700" onClick={() => { setPeso(item.peso); setAltura(item.altura); }}>
+                                <span className="text-slate-600 dark:text-slate-300 font-medium">{item.peso}kg / {item.altura}m</span>
+                                <span className="font-bold text-slate-700 dark:text-slate-100 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded text-xs tabular-nums">{item.imc}</span>
                             </div>
                         ))}
                     </div>
@@ -265,7 +265,7 @@ export default function IMCCalculator() {
 
         {/* --- COLUNA DIREITA: RESULTADO --- */}
         <div className="lg:col-span-7">
-            <Card className={`h-full border-0 shadow-lg shadow-slate-200/50 ring-1 ring-slate-200 rounded-2xl overflow-hidden ${resultado ? 'bg-white' : 'bg-slate-50'}`}>
+            <Card className={`h-full border-0 shadow-lg shadow-slate-200/50 dark:shadow-none ring-1 ring-slate-200 dark:ring-slate-800 rounded-2xl overflow-hidden ${resultado ? 'bg-white dark:bg-slate-900' : 'bg-slate-50 dark:bg-slate-950'}`}>
                 <CardContent className="p-6 md:p-8 flex flex-col justify-center h-full">
                     {!resultado ? (
                         <div className="text-center text-slate-400 py-12 flex flex-col items-center gap-4">
@@ -281,32 +281,32 @@ export default function IMCCalculator() {
                         <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
                             
                             {/* CARD DESTAQUE DINÂMICO */}
-                            <div className={`p-8 rounded-2xl border-2 text-center relative overflow-hidden transition-colors duration-500 ${resultado.cor} ${resultado.bg}`}>
+                            <div className={`p-8 rounded-2xl border-2 text-center relative overflow-hidden transition-colors duration-500 ${resultado.cor} ${resultado.bg} dark:bg-opacity-10 dark:text-slate-100`}>
                                 <p className="text-xs font-bold uppercase tracking-widest mb-2 opacity-80">Seu Índice de Massa Corporal</p>
                                 <div className="text-7xl font-extrabold tracking-tighter mb-4">{resultado.imc}</div>
-                                <div className={`inline-block px-4 py-1.5 rounded-full text-sm font-black uppercase tracking-wide border bg-white/50 backdrop-blur-sm ${resultado.cor}`}>
+                                <div className={`inline-block px-4 py-1.5 rounded-full text-sm font-black uppercase tracking-wide border bg-white/50 dark:bg-black/30 backdrop-blur-sm ${resultado.cor}`}>
                                     {resultado.classificacao}
                                 </div>
                             </div>
 
                             {/* DADOS DETALHADOS */}
                             <div className="grid grid-cols-2 gap-4">
-                                <div className="bg-slate-50 p-4 rounded-xl border border-slate-100 text-center">
+                                <div className="bg-slate-50 dark:bg-slate-800 p-4 rounded-xl border border-slate-100 dark:border-slate-700 text-center">
                                     <p className="text-xs text-slate-400 uppercase font-bold mb-1">Peso</p>
-                                    <p className="text-2xl font-bold text-slate-700">{resultado.peso} <span className="text-sm font-medium text-slate-400">kg</span></p>
+                                    <p className="text-2xl font-bold text-slate-700 dark:text-slate-100">{resultado.peso} <span className="text-sm font-medium text-slate-400">kg</span></p>
                                 </div>
-                                <div className="bg-slate-50 p-4 rounded-xl border border-slate-100 text-center">
+                                <div className="bg-slate-50 dark:bg-slate-800 p-4 rounded-xl border border-slate-100 dark:border-slate-700 text-center">
                                     <p className="text-xs text-slate-400 uppercase font-bold mb-1">Altura</p>
-                                    <p className="text-2xl font-bold text-slate-700">{resultado.altura} <span className="text-sm font-medium text-slate-400">m</span></p>
+                                    <p className="text-2xl font-bold text-slate-700 dark:text-slate-100">{resultado.altura} <span className="text-sm font-medium text-slate-400">m</span></p>
                                 </div>
                             </div>
 
                             {/* AÇÕES */}
                             <div className="grid grid-cols-2 gap-3 pt-2">
-                                <Button className="h-12 border-slate-200 hover:bg-blue-50 text-blue-700 font-bold" variant="outline" onClick={() => handleAction("share")}>
+                                <Button className="h-12 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 hover:bg-blue-50 dark:hover:bg-blue-900/10 text-blue-700 dark:text-blue-400 font-bold" variant="outline" onClick={() => handleAction("share")}>
                                     {copiado === "link" ? <span className="flex items-center gap-2"><CheckCircle2 size={18}/> Copiado</span> : <span className="flex items-center gap-2"><Share2 size={18}/> Compartilhar</span>}
                                 </Button>
-                                <Button className="h-12 border-slate-200 hover:bg-slate-100 text-slate-700 font-bold" variant="outline" onClick={() => handleAction("pdf")}>
+                                <Button className="h-12 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-100 font-bold" variant="outline" onClick={() => handleAction("pdf")}>
                                     <span className="flex items-center gap-2"><Printer size={18}/> Baixar PDF</span>
                                 </Button>
                             </div>
@@ -367,16 +367,16 @@ export default function IMCCalculator() {
       {/* --- EMBED MODAL --- */}
       {showEmbedModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 animate-in fade-in backdrop-blur-sm print:hidden" onClick={() => setShowEmbedModal(false)}>
-            <div className="bg-white rounded-2xl shadow-2xl p-6 max-w-lg w-full relative" onClick={e => e.stopPropagation()}>
-                <button onClick={() => setShowEmbedModal(false)} className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 transition-colors"><X size={20}/></button>
-                <h3 className="text-lg font-bold text-slate-900 mb-2">Incorporar no seu Site</h3>
-                <p className="text-sm text-slate-500 mb-4">Copie o código abaixo para adicionar essa calculadora no seu blog ou site.</p>
+            <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-2xl p-6 max-w-lg w-full relative" onClick={e => e.stopPropagation()}>
+                <button onClick={() => setShowEmbedModal(false)} className="absolute top-4 right-4 text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300 transition-colors"><X size={20}/></button>
+                <h3 className="text-lg font-bold text-slate-900 dark:text-slate-100 mb-2">Incorporar no seu Site</h3>
+                <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">Copie o código abaixo para adicionar essa calculadora no seu blog ou site.</p>
                 <div className="bg-slate-950 p-4 rounded-xl relative mb-4 overflow-hidden group">
                     <code className="text-xs font-mono text-blue-300 break-all block leading-relaxed selection:bg-blue-900">
                         {`<iframe src="https://mestredascontas.com.br/saude/imc?embed=true" width="100%" height="750" frameborder="0" style="border:0; border-radius:12px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);" title="Calculadora de IMC"></iframe>`}
                     </code>
                 </div>
-                <Button onClick={copiarEmbedCode} className="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold h-12 rounded-xl">
+                <Button onClick={copiarEmbedCode} className="w-full bg-slate-900 hover:bg-slate-800 dark:bg-blue-600 dark:hover:bg-blue-700 text-white font-bold h-12 rounded-xl">
                     {copiado === "embed" ? "Código Copiado!" : "Copiar Código HTML"}
                 </Button>
             </div>

@@ -46,16 +46,16 @@ export default function SobrePage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
       {/* --- HERO SECTION --- */}
-      <div className="bg-slate-50 py-16 md:py-20 border-b border-slate-200">
+      <div className="bg-slate-50 dark:bg-slate-950 py-16 md:py-20 border-b border-slate-200 dark:border-slate-900">
         <div className="max-w-4xl mx-auto px-4 text-center">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-white rounded-2xl shadow-sm mb-8 text-blue-600 ring-1 ring-slate-100">
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-white dark:bg-slate-900 rounded-2xl shadow-sm mb-8 text-blue-600 dark:text-blue-400 ring-1 ring-slate-100 dark:ring-slate-800">
                 <Target size={32} strokeWidth={2} />
             </div>
-            <h1 className="text-4xl md:text-5xl font-extrabold text-slate-900 mb-6 tracking-tight">
+            <h1 className="text-4xl md:text-5xl font-extrabold text-slate-900 dark:text-slate-100 mb-6 tracking-tight">
                 Matemática complexa.<br/>
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">Explicada de forma simples.</span>
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-400">Explicada de forma simples.</span>
             </h1>
-            <p className="text-lg md:text-xl text-slate-600 leading-relaxed max-w-2xl mx-auto">
+            <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 leading-relaxed max-w-2xl mx-auto">
                 Nossa missão é desmistificar a burocracia brasileira. Transformamos leis complicadas e fórmulas difíceis em ferramentas que qualquer pessoa consegue usar em segundos.
             </p>
         </div>
@@ -66,34 +66,34 @@ export default function SobrePage() {
         {/* PILARES DA MARCA */}
         <div className="grid md:grid-cols-3 gap-8 -mt-20 mb-16 relative z-10">
             {/* Card 1 */}
-            <div className="bg-white p-8 rounded-3xl shadow-xl shadow-slate-200/50 border border-slate-100 flex flex-col items-center text-center group hover:-translate-y-1 transition-transform duration-300">
-                <div className="w-14 h-14 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+            <div className="bg-white dark:bg-slate-900 p-8 rounded-3xl shadow-xl shadow-slate-200/50 dark:shadow-none border border-slate-100 dark:border-slate-800 flex flex-col items-center text-center group hover:-translate-y-1 transition-transform duration-300">
+                <div className="w-14 h-14 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 rounded-2xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
                     <Calculator size={28} />
                 </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-3">Precisão Absoluta</h3>
-                <p className="text-slate-600 text-sm leading-relaxed">
+                <h3 className="text-xl font-bold text-slate-900 dark:text-slate-100 mb-3">Precisão Absoluta</h3>
+                <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
                     Nossos algoritmos são auditados e atualizados constantemente conforme a legislação vigente (CLT, Receita Federal e Previdência).
                 </p>
             </div>
 
             {/* Card 2 */}
-            <div className="bg-white p-8 rounded-3xl shadow-xl shadow-slate-200/50 border border-slate-100 flex flex-col items-center text-center group hover:-translate-y-1 transition-transform duration-300">
-                <div className="w-14 h-14 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+            <div className="bg-white dark:bg-slate-900 p-8 rounded-3xl shadow-xl shadow-slate-200/50 dark:shadow-none border border-slate-100 dark:border-slate-800 flex flex-col items-center text-center group hover:-translate-y-1 transition-transform duration-300">
+                <div className="w-14 h-14 bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 rounded-2xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
                     <ShieldCheck size={28} />
                 </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-3">Privacidade Total</h3>
-                <p className="text-slate-600 text-sm leading-relaxed">
+                <h3 className="text-xl font-bold text-slate-900 dark:text-slate-100 mb-3">Privacidade Total</h3>
+                <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
                     Seus dados não saem do seu navegador. Não armazenamos salários ou informações pessoais. A segurança é nossa prioridade nº 1.
                 </p>
             </div>
 
             {/* Card 3 */}
-            <div className="bg-white p-8 rounded-3xl shadow-xl shadow-slate-200/50 border border-slate-100 flex flex-col items-center text-center group hover:-translate-y-1 transition-transform duration-300">
-                <div className="w-14 h-14 bg-amber-50 text-amber-600 rounded-2xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+            <div className="bg-white dark:bg-slate-900 p-8 rounded-3xl shadow-xl shadow-slate-200/50 dark:shadow-none border border-slate-100 dark:border-slate-800 flex flex-col items-center text-center group hover:-translate-y-1 transition-transform duration-300">
+                <div className="w-14 h-14 bg-amber-50 dark:bg-amber-900/20 text-amber-600 dark:text-amber-400 rounded-2xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
                     <Zap size={28} />
                 </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-3">Alta Performance</h3>
-                <p className="text-slate-600 text-sm leading-relaxed">
+                <h3 className="text-xl font-bold text-slate-900 dark:text-slate-100 mb-3">Alta Performance</h3>
+                <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
                     Sem loading infinito. Desenvolvido com a stack mais moderna da web para garantir resultados instantâneos, mesmo no 4G.
                 </p>
             </div>
@@ -101,27 +101,27 @@ export default function SobrePage() {
 
         {/* CONTEÚDO INSTITUCIONAL */}
         <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
-            <div className="prose prose-slate prose-lg">
-                <h3 className="text-2xl font-bold text-slate-900 flex items-center gap-2">
-                    <Users className="text-indigo-600"/> Quem somos nós?
+            <div className="prose prose-slate dark:prose-invert prose-lg">
+                <h3 className="text-2xl font-bold text-slate-900 dark:text-slate-100 flex items-center gap-2">
+                    <Users className="text-indigo-600 dark:text-indigo-400"/> Quem somos nós?
                 </h3>
                 <p>
                     O <strong>Mestre das Contas</strong> nasceu de uma frustração comum: por que é tão difícil saber quanto vamos receber nas férias ou quanto custa um financiamento de verdade?
                 </p>
                 <p>
-                    Somos um time de engenheiros, designers e especialistas em finanças focados em criar utilitários digitais de alta qualidade.
+                    Somos uma equipe multidisciplinar formada por <strong>Desenvolvedores Seniores</strong> e consultada por especialistas em <strong>Contabilidade e Direito Trabalhista</strong>.
                 </p>
                 <p>
-                    Acreditamos que a informação financeira deve ser:
+                    Nosso compromisso é com a verdade matemática. Não vendemos empréstimos nem temos vínculos com bancos. Somos 100% independentes.
                 </p>
                 <ul className="not-prose space-y-2 mt-4">
-                    <li className="flex items-center gap-2 text-slate-700 font-medium">
+                    <li className="flex items-center gap-2 text-slate-700 dark:text-slate-300 font-medium">
                         <div className="w-1.5 h-1.5 bg-indigo-500 rounded-full"></div> Gratuita e acessível.
                     </li>
-                    <li className="flex items-center gap-2 text-slate-700 font-medium">
+                    <li className="flex items-center gap-2 text-slate-700 dark:text-slate-300 font-medium">
                         <div className="w-1.5 h-1.5 bg-indigo-500 rounded-full"></div> Livre de jargões técnicos ("economês").
                     </li>
-                    <li className="flex items-center gap-2 text-slate-700 font-medium">
+                    <li className="flex items-center gap-2 text-slate-700 dark:text-slate-300 font-medium">
                         <div className="w-1.5 h-1.5 bg-indigo-500 rounded-full"></div> Rápida e direta ao ponto.
                     </li>
                 </ul>
@@ -149,13 +149,13 @@ export default function SobrePage() {
         </div>
 
         {/* CTA FINAL */}
-        <div className="border-t border-slate-200 pt-10 text-center">
-            <p className="text-slate-600 mb-6">Tem alguma dúvida ou sugestão de melhoria?</p>
+        <div className="border-t border-slate-200 dark:border-slate-800 pt-10 text-center">
+            <p className="text-slate-600 dark:text-slate-400 mb-6">Tem alguma dúvida ou sugestão de melhoria?</p>
             <div className="flex justify-center gap-4">
-                <Link href="/fale-conosco" className="px-6 py-3 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 transition-colors shadow-lg shadow-blue-200">
+                <Link href="/fale-conosco" className="px-6 py-3 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 transition-colors shadow-lg shadow-blue-200 dark:shadow-none">
                     Fale Conosco
                 </Link>
-                <Link href="/politica-privacidade" className="px-6 py-3 bg-white text-slate-600 font-bold rounded-xl border border-slate-200 hover:bg-slate-50 transition-colors">
+                <Link href="/politica-privacidade" className="px-6 py-3 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 font-bold rounded-xl border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
                     Privacidade
                 </Link>
             </div>

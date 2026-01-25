@@ -18,7 +18,7 @@ export default function GoogleAnalytics() {
       if (preferences.analytics) setConsent(true);
     }
 
-    // 2. Ouve atualizações em tempo real
+    // 2. Ouve atualizações em tempo real (Evento customizado + Storage)
     const checkConsent = () => {
         const updated = localStorage.getItem("mestre_contas_consent");
         if (updated) {
@@ -27,12 +27,12 @@ export default function GoogleAnalytics() {
         }
     };
 
+    window.addEventListener("consent_updated", checkConsent);
     window.addEventListener("storage", checkConsent);
-    const interval = setInterval(checkConsent, 2000);
 
     return () => {
+        window.removeEventListener("consent_updated", checkConsent);
         window.removeEventListener("storage", checkConsent);
-        clearInterval(interval);
     };
   }, []);
 

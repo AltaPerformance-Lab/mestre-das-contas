@@ -61,26 +61,26 @@ export default function PregnancyCalculator() {
   const getTheme = () => {
       if (sexo === "menino") return { 
           bgHeader: "bg-blue-500", 
-          bgLight: "bg-blue-50", 
-          text: "text-blue-600", 
-          border: "border-blue-200", 
-          ring: "ring-blue-100",
+          bgLight: "bg-blue-50 dark:bg-blue-900/10", 
+          text: "text-blue-600 dark:text-blue-400", 
+          border: "border-blue-200 dark:border-blue-800", 
+          ring: "ring-blue-100 dark:ring-blue-900",
           btn: "bg-blue-600 hover:bg-blue-700" 
       };
       if (sexo === "menina") return { 
           bgHeader: "bg-pink-500", 
-          bgLight: "bg-pink-50", 
-          text: "text-pink-600", 
-          border: "border-pink-200", 
-          ring: "ring-pink-100",
+          bgLight: "bg-pink-50 dark:bg-pink-900/10", 
+          text: "text-pink-600 dark:text-pink-400", 
+          border: "border-pink-200 dark:border-pink-800", 
+          ring: "ring-pink-100 dark:ring-pink-900",
           btn: "bg-pink-600 hover:bg-pink-700" 
       };
       return { 
           bgHeader: "bg-teal-500", 
-          bgLight: "bg-teal-50", 
-          text: "text-teal-600", 
-          border: "border-teal-200", 
-          ring: "ring-teal-100",
+          bgLight: "bg-teal-50 dark:bg-teal-900/10", 
+          text: "text-teal-600 dark:text-teal-400", 
+          border: "border-teal-200 dark:border-teal-800", 
+          ring: "ring-teal-100 dark:ring-teal-900",
           btn: "bg-teal-600 hover:bg-teal-700" 
       };
   };
@@ -186,7 +186,7 @@ export default function PregnancyCalculator() {
         
         {/* INPUTS */}
         <div className="lg:col-span-6 space-y-6">
-            <Card className="border-0 shadow-lg shadow-slate-200/50 ring-1 ring-slate-200 bg-white rounded-2xl overflow-hidden transition-all duration-500">
+            <Card className="border-0 shadow-lg shadow-slate-200/50 dark:shadow-none ring-1 ring-slate-200 dark:ring-slate-800 bg-white dark:bg-slate-900 rounded-2xl overflow-hidden transition-all duration-500">
                 <CardHeader className={`${theme.bgHeader} text-white p-6 transition-colors duration-500`}>
                     <div className="flex flex-row items-center justify-between gap-2">
                         <CardTitle className="text-xl flex items-center gap-3">
@@ -207,15 +207,15 @@ export default function PregnancyCalculator() {
                 </CardHeader>
                 <CardContent className="p-6 space-y-5">
                     <div className="space-y-2">
-                        <Label className="text-slate-600 font-medium">Data da Última Menstruação (DUM)</Label>
-                        <Input type="date" value={dum} onChange={e => setDum(e.target.value)} className="h-12 text-lg bg-slate-50 border-slate-200 focus:bg-white transition-colors" />
+                        <Label className="text-slate-600 dark:text-slate-300 font-medium">Data da Última Menstruação (DUM)</Label>
+                        <Input type="date" value={dum} onChange={e => setDum(e.target.value)} className="h-12 text-lg bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 focus:bg-white dark:focus:bg-slate-900 transition-colors dark:text-slate-100" />
                     </div>
                     
                     <div className="grid grid-cols-2 gap-5">
                         <div className="space-y-2">
-                            <Label className="text-slate-600 font-medium">Sexo do Bebê</Label>
+                            <Label className="text-slate-600 dark:text-slate-300 font-medium">Sexo do Bebê</Label>
                             <Select value={sexo} onValueChange={setSexo}>
-                                <SelectTrigger className="h-12 bg-slate-50 border-slate-200"><SelectValue/></SelectTrigger>
+                                <SelectTrigger className="h-12 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 dark:text-slate-200"><SelectValue/></SelectTrigger>
                                 <SelectContent>
                                     <SelectItem value="surpresa">🎁 Vou descobrir</SelectItem>
                                     <SelectItem value="menino">💙 Menino</SelectItem>
@@ -224,8 +224,8 @@ export default function PregnancyCalculator() {
                             </Select>
                         </div>
                         <div className="space-y-2">
-                            <Label className="text-slate-600 font-medium">Nome (Opcional)</Label>
-                            <Input placeholder="Ex: Gabriel" value={nomeBebe} onChange={e => setNomeBebe(e.target.value)} className="h-12 bg-slate-50 border-slate-200 focus:bg-white transition-colors" />
+                            <Label className="text-slate-600 dark:text-slate-300 font-medium">Nome (Opcional)</Label>
+                            <Input placeholder="Ex: Gabriel" value={nomeBebe} onChange={e => setNomeBebe(e.target.value)} className="h-12 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 focus:bg-white dark:focus:bg-slate-900 transition-colors dark:text-slate-100" />
                         </div>
                     </div>
 
@@ -236,12 +236,12 @@ export default function PregnancyCalculator() {
             </Card>
 
             {!isIframe && historico.length > 0 && (
-                <div className="bg-white rounded-xl border border-slate-200 p-5 shadow-sm animate-in fade-in">
+                <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-5 shadow-sm animate-in fade-in">
                     <h4 className="text-xs font-bold text-slate-400 uppercase mb-4 flex items-center gap-2 tracking-wider"><History size={14}/> Consultas Recentes</h4>
                     <div className="space-y-1">
                     {historico.map((h, i) => (
-                        <div key={i} className="flex justify-between text-sm border-b border-slate-50 last:border-0 py-2 px-2 hover:bg-slate-50 rounded transition-colors">
-                            <span className="font-medium text-slate-700">{h.semanas}</span>
+                        <div key={i} className="flex justify-between text-sm border-b border-slate-50 dark:border-slate-800 last:border-0 py-2 px-2 hover:bg-slate-50 dark:hover:bg-slate-800 rounded transition-colors">
+                            <span className="font-medium text-slate-700 dark:text-slate-300">{h.semanas}</span>
                             <span className={`font-bold ${theme.text}`}>{h.dpp}</span>
                         </div>
                     ))}
@@ -252,7 +252,7 @@ export default function PregnancyCalculator() {
 
         {/* RESULTADO */}
         <div className="lg:col-span-6 h-full">
-            <Card className={`h-full border-0 shadow-lg shadow-slate-200/50 ring-1 ring-slate-200 transition-all duration-500 overflow-hidden ${resultado ? 'bg-white' : 'bg-slate-50'}`}>
+            <Card className={`h-full border-0 shadow-lg shadow-slate-200/50 dark:shadow-none ring-1 ring-slate-200 dark:ring-slate-800 transition-all duration-500 overflow-hidden ${resultado ? 'bg-white dark:bg-slate-900' : 'bg-slate-50 dark:bg-slate-950'}`}>
                 <CardContent className="p-6 flex flex-col justify-center h-full min-h-[400px]">
                     {!resultado ? (
                         <div className="text-center text-slate-400">
@@ -273,25 +273,25 @@ export default function PregnancyCalculator() {
                             </div>
 
                             <div className="grid grid-cols-2 gap-4">
-                                <div className="bg-slate-50 p-5 rounded-2xl border border-slate-100">
+                                <div className="bg-slate-50 dark:bg-slate-800 p-5 rounded-2xl border border-slate-100 dark:border-slate-700">
                                     <p className="text-xs text-slate-400 font-bold uppercase mb-1">Tempo de Gestação</p>
-                                    <p className="text-2xl font-bold text-slate-800">{resultado.semanas} <span className="text-sm font-medium text-slate-500">semanas</span></p>
+                                    <p className="text-2xl font-bold text-slate-800 dark:text-slate-100">{resultado.semanas} <span className="text-sm font-medium text-slate-500">semanas</span></p>
                                     <p className="text-xs text-slate-400 mt-1">+ {resultado.dias} dias</p>
                                 </div>
-                                <div className="bg-slate-50 p-5 rounded-2xl border border-slate-100">
+                                <div className="bg-slate-50 dark:bg-slate-800 p-5 rounded-2xl border border-slate-100 dark:border-slate-700">
                                     <p className="text-xs text-slate-400 font-bold uppercase mb-1">Tamanho Estimado</p>
-                                    <p className="text-lg font-bold text-slate-800 flex items-center justify-center gap-2">
+                                    <p className="text-lg font-bold text-slate-800 dark:text-slate-100 flex items-center justify-center gap-2">
                                         {resultado.tamanho === 'Melancia' ? '🍉' : '🥑'} {resultado.tamanho}
                                     </p>
-                                    <p className="text-[10px] uppercase font-bold tracking-wide text-slate-400 mt-1 bg-white px-2 py-0.5 rounded-full inline-block border border-slate-100">{resultado.trimestre}</p>
+                                    <p className="text-[10px] uppercase font-bold tracking-wide text-slate-400 mt-1 bg-white dark:bg-slate-900 px-2 py-0.5 rounded-full inline-block border border-slate-100 dark:border-slate-700">{resultado.trimestre}</p>
                                 </div>
                             </div>
-
+                            
                             <div className="grid grid-cols-2 gap-3 pt-2">
-                                <Button variant="outline" onClick={() => handleShare("link")} className="h-12 border-slate-200 hover:bg-slate-50 text-slate-600 text-xs uppercase font-bold tracking-wide">
+                                <Button variant="outline" onClick={() => handleShare("link")} className="h-12 border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 text-xs uppercase font-bold tracking-wide bg-white dark:bg-slate-900">
                                     {copiado === "link" ? <span className="flex items-center gap-2"><CheckCircle2 size={16} className="text-green-500"/> Link Copiado</span> : <span className="flex items-center gap-2"><Share2 size={16}/> Compartilhar</span>}
                                 </Button>
-                                <Button variant="outline" onClick={handlePrint} className="h-12 border-slate-200 hover:bg-slate-50 text-slate-600 text-xs uppercase font-bold tracking-wide">
+                                <Button variant="outline" onClick={handlePrint} className="h-12 border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 text-xs uppercase font-bold tracking-wide bg-white dark:bg-slate-900">
                                     <span className="flex items-center gap-2"><Printer size={16}/> Salvar Cartão</span>
                                 </Button>
                             </div>
@@ -357,16 +357,16 @@ export default function PregnancyCalculator() {
       {/* MODAL DE EMBED */}
       {showEmbedModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 animate-in fade-in backdrop-blur-sm print:hidden" onClick={() => setShowEmbedModal(false)}>
-            <div className="bg-white rounded-2xl shadow-2xl p-6 max-w-lg w-full relative" onClick={e => e.stopPropagation()}>
-                <button onClick={() => setShowEmbedModal(false)} className="absolute top-4 right-4 text-slate-400 hover:text-slate-600"><X size={20}/></button>
-                <h3 className="text-lg font-bold text-slate-900 mb-2">Incorporar em seu Blog</h3>
-                <p className="text-sm text-slate-500 mb-4">Compartilhe essa ferramenta com seus leitores.</p>
-                <div className="bg-slate-950 p-4 rounded-xl relative mb-4 overflow-hidden">
-                    <code className="text-xs font-mono text-blue-300 break-all block leading-relaxed">
+            <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-2xl p-6 max-w-lg w-full relative" onClick={e => e.stopPropagation()}>
+                <button onClick={() => setShowEmbedModal(false)} className="absolute top-4 right-4 text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300 transition-colors"><X size={20}/></button>
+                <h3 className="text-lg font-bold text-slate-900 dark:text-slate-100 mb-2">Incorporar no seu Site</h3>
+                <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">Compartilhe essa ferramenta com seus leitores.</p>
+                <div className="bg-slate-950 p-4 rounded-xl relative mb-4 overflow-hidden group">
+                    <code className="text-xs font-mono text-blue-300 break-all block leading-relaxed selection:bg-blue-900">
                         {`<iframe src="https://mestredascontas.com.br/saude/gestacional?embed=true" width="100%" height="700" frameborder="0" style="border:0; border-radius:12px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);" title="Calculadora Gestacional"></iframe>`}
                     </code>
                 </div>
-                <Button onClick={() => handleShare("embed")} className="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold h-12 rounded-xl">
+                <Button onClick={() => handleShare("embed")} className="w-full bg-slate-900 hover:bg-slate-800 dark:bg-blue-600 dark:hover:bg-blue-700 text-white font-bold h-12 rounded-xl">
                     {copiado === "embed" ? "Código Copiado!" : "Copiar Código HTML"}
                 </Button>
             </div>

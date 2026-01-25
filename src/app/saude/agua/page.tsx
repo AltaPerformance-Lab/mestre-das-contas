@@ -11,6 +11,8 @@ import {
   GlassWater, Zap, Brain, AlertOctagon, HeartPulse,
   Landmark, ExternalLink, Scale, Apple, Dna, AlertTriangle
 } from "lucide-react";
+import PrivacyBadge from "@/components/ui/PrivacyBadge";
+import RelatedTools from "@/components/layout/RelatedTools";
 
 // --- 1. METADATA DE ALTA PERFORMANCE (SEO) ---
 export const metadata: Metadata = {
@@ -119,7 +121,8 @@ export default async function AguaPage({ searchParams }: Props) {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
       {/* --- PAGE HEADER PADRONIZADO --- */}
-      <div className="px-4 pt-4 md:pt-6">
+      {/* --- PAGE HEADER PADRONIZADO --- */}
+      <div className="px-4 sm:px-6 pt-4 md:pt-6 max-w-7xl mx-auto w-full">
         <PageHeader 
           title="Calculadora de Água Diária"
           description="Você bebe água suficiente? Use a regra dos 35ml/kg e descubra sua meta diária personalizada de hidratação para ter mais energia e saúde."
@@ -140,21 +143,22 @@ export default async function AguaPage({ searchParams }: Props) {
       <div className="flex flex-col gap-8 px-4 sm:px-6 max-w-7xl mx-auto">
 
         {/* ANÚNCIO TOPO (FIX CLS) */}
-        <div className="w-full max-w-5xl mx-auto overflow-hidden flex justify-center bg-cyan-50/30 rounded-lg border border-dashed border-cyan-200/50 print:hidden min-h-[100px]">
+        <div className="w-full mx-auto overflow-hidden flex justify-center bg-cyan-50/30 dark:bg-slate-900/50 rounded-3xl border border-dashed border-cyan-200/50 dark:border-slate-800 print:hidden min-h-[100px]">
            <LazyAdUnit slot="agua_top" format="horizontal" variant="agency" />
         </div>
 
         {/* FERRAMENTA PRINCIPAL */}
         <section id="ferramenta" className="scroll-mt-28 w-full max-w-full">
-          <div className="bg-white rounded-3xl border border-cyan-100 shadow-xl shadow-cyan-100/50 p-1 md:p-2">
+          <div className="bg-white dark:bg-slate-900 rounded-3xl border border-cyan-100 dark:border-slate-800 shadow-xl shadow-cyan-100/50 dark:shadow-none p-1 md:p-2">
               <Suspense fallback={
-                <div className="h-96 w-full bg-cyan-50 rounded-2xl animate-pulse flex items-center justify-center text-cyan-300 border border-cyan-100">
+                <div className="h-96 w-full bg-cyan-50 dark:bg-slate-800 rounded-2xl animate-pulse flex items-center justify-center text-cyan-300 dark:text-slate-600 border border-cyan-100 dark:border-slate-800">
                     <div className="flex flex-col items-center gap-2">
                         <Droplet className="animate-bounce" size={32}/>
                         <span>Carregando Calculadora...</span>
                     </div>
                 </div>
               }>
+                  <PrivacyBadge />
                   <WaterCalculator />
               </Suspense>
           </div>
@@ -165,17 +169,17 @@ export default async function AguaPage({ searchParams }: Props) {
         </section>
 
         {/* ANÚNCIO MEIO */}
-        <div className="w-full max-w-4xl mx-auto flex justify-center my-6 print:hidden min-h-[250px]">
+        <div className="w-full mx-auto flex justify-center my-6 print:hidden min-h-[250px] rounded-3xl overflow-hidden">
             <LazyAdUnit slot="agua_mid" format="auto" />
         </div>
 
         {/* --- CONTEÚDO EDUCACIONAL --- */}
-        <div className="prose prose-slate prose-sm md:prose-lg max-w-4xl mx-auto bg-white p-6 md:p-12 rounded-3xl border border-slate-100 shadow-xl shadow-slate-200/40 overflow-hidden w-full print:hidden">
+        <div className="prose prose-slate dark:prose-invert prose-sm md:prose-lg max-w-4xl mx-auto bg-white dark:bg-slate-900 p-6 md:p-12 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-xl shadow-slate-200/40 dark:shadow-none overflow-hidden w-full print:hidden">
           
-          <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-6 flex items-center gap-2 border-l-4 border-cyan-500 pl-4">
+          <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-slate-100 mb-6 flex items-center gap-2 border-l-4 border-cyan-500 pl-4">
               A Água: O Combustível do Seu Corpo
           </h2>
-          <p className="lead text-slate-700 text-lg font-medium">
+          <p className="lead text-slate-700 dark:text-slate-300 text-lg font-medium">
             Você não é feito de aço, é feito de água. Cerca de <strong>60% a 70%</strong> do seu corpo é líquido. Cada célula, tecido e órgão precisa de água para funcionar corretamente.
           </p>
           <p>
@@ -200,7 +204,7 @@ export default async function AguaPage({ searchParams }: Props) {
               </div>
           </div>
 
-          <h3 className="text-xl font-bold text-slate-800 mt-12 mb-6 flex items-center gap-2">
+          <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100 mt-12 mb-6 flex items-center gap-2">
               <Zap className="text-orange-500" /> Atividade Física e Clima
           </h3>
           <p>
@@ -213,73 +217,97 @@ export default async function AguaPage({ searchParams }: Props) {
           </ul>
 
           {/* TABELA HTML PURA (RESPONSIVA) */}
-          <div className="not-prose my-10 border rounded-xl overflow-hidden border-slate-200 shadow-sm bg-white">
-              <div className="bg-slate-100 p-3 border-b border-slate-200 flex items-center justify-between">
-                  <h4 className="text-sm font-bold text-slate-700 uppercase tracking-wide">Tabela de Referência (Sedentário)</h4>
-                  <span className="text-xs text-slate-500 font-medium">Base: 35ml/kg</span>
+          <div className="not-prose my-10 border rounded-xl overflow-hidden border-slate-200 dark:border-slate-800 shadow-sm bg-white dark:bg-slate-900">
+              <div className="bg-slate-100 dark:bg-slate-800 p-3 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
+                  <h4 className="text-sm font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wide">Tabela de Referência (Sedentário)</h4>
+                  <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">Base: 35ml/kg</span>
               </div>
-              <div className="overflow-x-auto">
-                  <table className="w-full text-sm text-left border-collapse min-w-[300px]">
-                      <thead className="bg-slate-50 text-slate-600 text-xs">
+              
+              {/* DESKTOP TABLE */}
+              <div className="hidden md:block">
+                  <table className="w-full text-sm text-left border-collapse">
+                      <thead className="bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-xs">
                           <tr>
-                              <th className="px-6 py-3 font-bold border-b border-slate-200">Peso</th>
-                              <th className="px-6 py-3 font-bold border-b border-slate-200 text-center">Meta (Litros)</th>
-                              <th className="px-6 py-3 font-bold border-b border-slate-200 text-center hidden sm:table-cell">Copos (250ml)</th>
+                              <th className="px-6 py-3 font-bold border-b border-slate-200 dark:border-slate-700">Peso</th>
+                              <th className="px-6 py-3 font-bold border-b border-slate-200 dark:border-slate-700 text-center">Meta (Litros)</th>
+                              <th className="px-6 py-3 font-bold border-b border-slate-200 dark:border-slate-700 text-center hidden sm:table-cell">Copos (250ml)</th>
                           </tr>
                       </thead>
-                      <tbody className="divide-y divide-slate-100">
-                          <tr className="hover:bg-slate-50 transition-colors">
-                              <td className="px-6 py-3 font-medium text-slate-900">50 kg</td>
-                              <td className="px-6 py-3 text-center font-bold text-cyan-600">1,75 L</td>
-                              <td className="px-6 py-3 text-center text-slate-500 hidden sm:table-cell">~ 7</td>
+                      <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+                          <tr className="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                              <td className="px-6 py-3 font-medium text-slate-900 dark:text-slate-100">50 kg</td>
+                              <td className="px-6 py-3 text-center font-bold text-cyan-600 dark:text-cyan-400">1,75 L</td>
+                              <td className="px-6 py-3 text-center text-slate-500 dark:text-slate-400 hidden sm:table-cell">~ 7</td>
                           </tr>
-                          <tr className="hover:bg-slate-50 transition-colors">
-                              <td className="px-6 py-3 font-medium text-slate-900">60 kg</td>
-                              <td className="px-6 py-3 text-center font-bold text-cyan-600">2,10 L</td>
-                              <td className="px-6 py-3 text-center text-slate-500 hidden sm:table-cell">~ 8</td>
+                          <tr className="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                              <td className="px-6 py-3 font-medium text-slate-900 dark:text-slate-100">60 kg</td>
+                              <td className="px-6 py-3 text-center font-bold text-cyan-600 dark:text-cyan-400">2,10 L</td>
+                              <td className="px-6 py-3 text-center text-slate-500 dark:text-slate-400 hidden sm:table-cell">~ 8</td>
                           </tr>
-                          <tr className="hover:bg-slate-50 transition-colors">
-                              <td className="px-6 py-3 font-medium text-slate-900">70 kg</td>
-                              <td className="px-6 py-3 text-center font-bold text-cyan-600">2,45 L</td>
-                              <td className="px-6 py-3 text-center text-slate-500 hidden sm:table-cell">~ 10</td>
+                          <tr className="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                              <td className="px-6 py-3 font-medium text-slate-900 dark:text-slate-100">70 kg</td>
+                              <td className="px-6 py-3 text-center font-bold text-cyan-600 dark:text-cyan-400">2,45 L</td>
+                              <td className="px-6 py-3 text-center text-slate-500 dark:text-slate-400 hidden sm:table-cell">~ 10</td>
                           </tr>
-                          <tr className="hover:bg-slate-50 transition-colors">
-                              <td className="px-6 py-3 font-medium text-slate-900">80 kg</td>
-                              <td className="px-6 py-3 text-center font-bold text-cyan-600">2,80 L</td>
-                              <td className="px-6 py-3 text-center text-slate-500 hidden sm:table-cell">~ 11</td>
+                          <tr className="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                              <td className="px-6 py-3 font-medium text-slate-900 dark:text-slate-100">80 kg</td>
+                              <td className="px-6 py-3 text-center font-bold text-cyan-600 dark:text-cyan-400">2,80 L</td>
+                              <td className="px-6 py-3 text-center text-slate-500 dark:text-slate-400 hidden sm:table-cell">~ 11</td>
                           </tr>
-                          <tr className="hover:bg-slate-50 transition-colors">
-                              <td className="px-6 py-3 font-medium text-slate-900">90 kg</td>
-                              <td className="px-6 py-3 text-center font-bold text-cyan-600">3,15 L</td>
-                              <td className="px-6 py-3 text-center text-slate-500 hidden sm:table-cell">~ 13</td>
+                          <tr className="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                              <td className="px-6 py-3 font-medium text-slate-900 dark:text-slate-100">90 kg</td>
+                              <td className="px-6 py-3 text-center font-bold text-cyan-600 dark:text-cyan-400">3,15 L</td>
+                              <td className="px-6 py-3 text-center text-slate-500 dark:text-slate-400 hidden sm:table-cell">~ 13</td>
                           </tr>
-                          <tr className="hover:bg-slate-50 transition-colors">
-                              <td className="px-6 py-3 font-medium text-slate-900">100 kg</td>
-                              <td className="px-6 py-3 text-center font-bold text-cyan-600">3,50 L</td>
-                              <td className="px-6 py-3 text-center text-slate-500 hidden sm:table-cell">~ 14</td>
+                          <tr className="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                              <td className="px-6 py-3 font-medium text-slate-900 dark:text-slate-100">100 kg</td>
+                              <td className="px-6 py-3 text-center font-bold text-cyan-600 dark:text-cyan-400">3,50 L</td>
+                              <td className="px-6 py-3 text-center text-slate-500 dark:text-slate-400 hidden sm:table-cell">~ 14</td>
                           </tr>
                       </tbody>
                   </table>
               </div>
+
+              {/* MOBILE CARDS */}
+              <div className="md:hidden divide-y divide-slate-100 dark:divide-slate-800">
+                  {[
+                        { peso: "50kg", meta: "1,75 L", copos: "7 copos" },
+                        { peso: "60kg", meta: "2,10 L", copos: "8 copos" },
+                        { peso: "70kg", meta: "2,45 L", copos: "10 copos" },
+                        { peso: "80kg", meta: "2,80 L", copos: "11 copos" },
+                        { peso: "90kg", meta: "3,15 L", copos: "13 copos" },
+                        { peso: "100kg", meta: "3,50 L", copos: "14 copos" },
+                  ].map((item, idx) => (
+                      <div key={idx} className="p-4 flex justify-between items-center bg-white dark:bg-slate-900">
+                          <div>
+                              <span className="text-sm font-bold text-slate-800 dark:text-slate-100 block">Peso: {item.peso}</span>
+                              <span className="text-xs text-slate-500 dark:text-slate-400 block mt-0.5">{item.copos} (250ml)</span>
+                          </div>
+                          <div className="text-xl font-black text-cyan-600 dark:text-cyan-400">
+                              {item.meta}
+                          </div>
+                      </div>
+                  ))}
+              </div>
           </div>
 
-          <h3 className="text-xl font-bold text-slate-800 mt-10 mb-6 flex items-center gap-2">
+          <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100 mt-10 mb-6 flex items-center gap-2">
               <Activity className="text-blue-600" /> Sinais que seu corpo pede água
           </h3>
           
           <div className="grid md:grid-cols-2 gap-6 not-prose mb-10">
-              <div className="bg-red-50 p-5 rounded-xl border border-red-100 shadow-sm">
-                  <h4 className="font-bold text-red-800 mb-3 flex items-center gap-2"><AlertTriangle size={20}/> Você já está desidratado se:</h4>
-                  <ul className="text-sm text-red-700 space-y-2">
+              <div className="bg-red-50 dark:bg-red-900/20 p-5 rounded-xl border border-red-100 dark:border-red-900/30 shadow-sm">
+                  <h4 className="font-bold text-red-800 dark:text-red-300 mb-3 flex items-center gap-2"><AlertTriangle size={20}/> Você já está desidratado se:</h4>
+                  <ul className="text-sm text-red-700 dark:text-red-400 space-y-2">
                       <li className="flex gap-2"><div className="w-1.5 h-1.5 rounded-full bg-red-500 mt-1.5 shrink-0"/> Sente sede (a sede é um sinal tardio).</li>
                       <li className="flex gap-2"><div className="w-1.5 h-1.5 rounded-full bg-red-500 mt-1.5 shrink-0"/> Sua urina está amarela escura.</li>
                       <li className="flex gap-2"><div className="w-1.5 h-1.5 rounded-full bg-red-500 mt-1.5 shrink-0"/> Tem boca seca ou lábios rachados.</li>
                   </ul>
               </div>
               
-              <div className="bg-cyan-50 p-5 rounded-xl border border-cyan-100 shadow-sm">
-                  <h4 className="font-bold text-cyan-800 mb-3 flex items-center gap-2"><CheckCircle2 size={20}/> Benefícios da Meta Batida:</h4>
-                  <ul className="text-sm text-cyan-700 space-y-2">
+              <div className="bg-cyan-50 dark:bg-cyan-900/20 p-5 rounded-xl border border-cyan-100 dark:border-cyan-900/30 shadow-sm">
+                  <h4 className="font-bold text-cyan-800 dark:text-cyan-300 mb-3 flex items-center gap-2"><CheckCircle2 size={20}/> Benefícios da Meta Batida:</h4>
+                  <ul className="text-sm text-cyan-700 dark:text-cyan-400 space-y-2">
                       <li className="flex gap-2"><div className="w-1.5 h-1.5 rounded-full bg-cyan-500 mt-1.5 shrink-0"/> Pele mais elástica e jovem.</li>
                       <li className="flex gap-2"><div className="w-1.5 h-1.5 rounded-full bg-cyan-500 mt-1.5 shrink-0"/> Intestino funcionando bem.</li>
                       <li className="flex gap-2"><div className="w-1.5 h-1.5 rounded-full bg-cyan-500 mt-1.5 shrink-0"/> Menos inchaço e retenção.</li>
@@ -289,21 +317,21 @@ export default async function AguaPage({ searchParams }: Props) {
 
           {/* FAQ ACORDION */}
           <div className="mt-16 not-prose">
-            <h3 className="text-2xl font-bold text-slate-900 mb-8 flex items-center gap-3 border-b pb-4">
-                <HelpCircle className="text-cyan-600" /> Dúvidas Frequentes
+            <h3 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-8 flex items-center gap-3 border-b border-gray-200 dark:border-slate-800 pb-4">
+                <HelpCircle className="text-cyan-600 dark:text-cyan-500" /> Dúvidas Frequentes
             </h3>
             
             <div className="space-y-4">
               {faqList.map((item, idx) => (
-                  <details key={idx} className="group bg-white p-5 rounded-xl border border-slate-200 shadow-sm cursor-pointer open:ring-2 open:ring-cyan-100 transition-all">
-                      <summary className="font-semibold text-slate-800 list-none flex justify-between items-center select-none">
+                  <details key={idx} className="group bg-white dark:bg-slate-900 p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm cursor-pointer open:ring-2 open:ring-cyan-100 dark:open:ring-cyan-900/30 transition-all">
+                      <summary className="font-semibold text-slate-800 dark:text-slate-100 list-none flex justify-between items-center select-none">
                           <div className="flex items-start gap-3">
                               <span className="text-cyan-500 font-bold text-xs mt-1">#</span>
                               <span className="leading-snug">{item.q}</span>
                           </div>
                           <span className="text-slate-400 group-open:rotate-180 transition-transform ml-2 shrink-0">▼</span>
                       </summary>
-                      <p className="mt-3 text-slate-600 leading-relaxed border-t border-slate-100 pt-3 text-sm animate-in fade-in">
+                      <p className="mt-3 text-slate-600 dark:text-slate-400 leading-relaxed border-t border-slate-100 dark:border-slate-800 pt-3 text-sm animate-in fade-in">
                           {item.a}
                       </p>
                   </details>
@@ -312,46 +340,25 @@ export default async function AguaPage({ searchParams }: Props) {
           </div>
 
           {/* REFERÊNCIAS OFICIAIS */}
-          <div className="mt-12 pt-8 border-t border-slate-200 print:hidden not-prose bg-slate-50 p-6 rounded-xl">
+          <div className="mt-12 pt-8 border-t border-slate-200 dark:border-slate-800 print:hidden not-prose bg-slate-50 dark:bg-slate-800/50 p-6 rounded-xl">
               <h3 className="text-sm font-bold text-slate-500 uppercase tracking-wider mb-4 flex items-center gap-2">
                   <Landmark size={16} /> Fontes de Saúde
               </h3>
               <p className="text-xs text-slate-500 mb-3">Conteúdo baseado em diretrizes internacionais:</p>
-              <div className="flex flex-wrap gap-4 text-xs font-medium text-blue-600">
-                  <a href="https://www.sbn.org.br/publico/dicas-de-saude-renal/" target="_blank" rel="nofollow noopener noreferrer" className="hover:underline flex items-center gap-1 bg-white px-3 py-1 rounded border shadow-sm">
+              <div className="flex flex-wrap gap-4 text-xs font-medium text-blue-600 dark:text-blue-400">
+                  <a href="https://www.sbn.org.br/publico/dicas-de-saude-renal/" target="_blank" rel="nofollow noopener noreferrer" className="hover:underline flex items-center gap-1 bg-white dark:bg-slate-900 px-3 py-1 rounded border dark:border-slate-700 shadow-sm">
                       Sociedade Brasileira de Nefrologia <ExternalLink size={10}/>
                   </a>
-                  <a href="https://www.mayoclinic.org/healthy-lifestyle/nutrition-and-healthy-eating/in-depth/water/art-20044256" target="_blank" rel="nofollow noopener noreferrer" className="hover:underline flex items-center gap-1 bg-white px-3 py-1 rounded border shadow-sm">
+                  <a href="https://www.mayoclinic.org/healthy-lifestyle/nutrition-and-healthy-eating/in-depth/water/art-20044256" target="_blank" rel="nofollow noopener noreferrer" className="hover:underline flex items-center gap-1 bg-white dark:bg-slate-900 px-3 py-1 rounded border dark:border-slate-700 shadow-sm">
                       Mayo Clinic (Nutrition) <ExternalLink size={10}/>
                   </a>
               </div>
           </div>
 
           {/* NAVEGAÇÃO FINAL */}
-          <div className="mt-16 pt-8 border-t border-slate-200 print:hidden not-prose">
-            <p className="font-bold text-slate-900 mb-6 text-sm uppercase tracking-wider flex items-center gap-2">
-               <CheckCircle2 size={16} className="text-emerald-500"/> Cuide da sua saúde:
-            </p>
-            <div className="grid md:grid-cols-3 gap-4">
-              <Link href="/saude/imc" className="flex flex-col p-5 bg-white border border-slate-200 rounded-xl hover:border-rose-400 hover:shadow-lg transition-all group">
-                  <div className="bg-rose-50 w-10 h-10 rounded-lg flex items-center justify-center mb-3 text-rose-600 shadow-sm group-hover:scale-110 transition-transform"><Scale size={20}/></div>
-                  <span className="font-bold text-slate-800 text-lg">IMC Online</span>
-                  <span className="text-sm text-slate-500 mt-1">Peso ideal</span>
-              </Link>
-              <Link href="/saude/calorias-diarias" className="flex flex-col p-5 bg-white border border-slate-200 rounded-xl hover:border-orange-400 hover:shadow-lg transition-all group">
-                  <div className="bg-orange-50 w-10 h-10 rounded-lg flex items-center justify-center mb-3 text-orange-600 shadow-sm group-hover:scale-110 transition-transform"><Apple size={20}/></div>
-                  <span className="font-bold text-slate-800 text-lg">Calorias (TMB)</span>
-                  <span className="text-sm text-slate-500 mt-1">Meta para dieta</span>
-              </Link>
-              <Link href="/financeiro/salario-liquido" className="flex flex-col p-5 bg-white border border-slate-200 rounded-xl hover:border-green-400 hover:shadow-lg transition-all group">
-                  <div className="bg-green-50 w-10 h-10 rounded-lg flex items-center justify-center mb-3 text-green-600 shadow-sm group-hover:scale-110 transition-transform"><Calculator size={20}/></div>
-                  <span className="font-bold text-slate-800 text-lg">Salário Líquido</span>
-                  <span className="text-sm text-slate-500 mt-1">Planejamento</span>
-              </Link>
-            </div>
           </div>
 
-        </div>
+          <RelatedTools currentTool="agua" />
 
         {/* --- ANÚNCIO BOTTOM (ESTRATÉGICO) --- */}
         <div className="w-full flex justify-center my-8 print:hidden min-h-[250px]">

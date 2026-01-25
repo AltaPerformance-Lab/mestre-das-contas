@@ -1,4 +1,6 @@
 import InternalAdUnit from "./InternalAdUnit";
+import GoogleAd from "./GoogleAd";
+import { ADS_SLOTS } from "@/config/ad-slots";
 
 interface AdUnitProps {
   slot: string;
@@ -25,14 +27,20 @@ export default function AdUnit({
       }
   }
 
-  // 2. ESTILOS DO CONTAINER
+  // 2. VERIFICAÇÃO DE ADSENSE
+  // Só mostra AdSense se tivermos o ID do Publisher configurado E o slot mapeado
+  const publisherId = process.env.NEXT_PUBLIC_ADSENSE_ID;
+  const adSlotId = ADS_SLOTS[slot];
+  const useAdSense = publisherId && adSlotId && adSlotId.trim() !== "";
+
+  // 3. ESTILOS DO CONTAINER
   const containerClasses = finalFormat === "vertical" || finalFormat === "rectangle"
     ? "w-full my-6" 
     : "w-full flex flex-col justify-center items-center my-8 md:my-12"; 
 
   return (
     <div className={`print:hidden ${containerClasses} ${className}`}>
-      <div className={finalFormat === "vertical" ? "w-full" : "w-full max-w-6xl"}>
+      <div className={finalFormat === "vertical" ? "w-full" : "w-full"}>
           
           {/* Label "Publicidade" (Acessibilidade + Compliance) */}
           <div className="flex items-center justify-center gap-2 mb-2 opacity-40 select-none">
@@ -43,12 +51,21 @@ export default function AdUnit({
              <div className="h-px w-4 bg-slate-400"></div>
           </div>
           
-          {/* Renderiza o Anúncio Interno */}
-          <InternalAdUnit 
-             format={finalFormat} 
-             variant={variant} 
-             slot={slot} 
-          />
+          {useAdSense ? (
+             <GoogleAd 
+                slot={adSlotId} 
+                format={finalFormat as any} 
+                responsive={true}
+             />
+          ) : (
+             /* Fallback: Anúncios Internos (House Ads) 
+                Mostra quando não tem AdSense configurado ou slot não existe */
+             <InternalAdUnit 
+                format={finalFormat} 
+                variant={variant} 
+                slot={slot} 
+             />
+          )}
       </div>
     </div>
   );

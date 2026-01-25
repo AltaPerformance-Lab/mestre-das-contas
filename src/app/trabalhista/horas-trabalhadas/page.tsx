@@ -10,6 +10,7 @@ import {
   Wallet, FileText, Scale, Landmark, ExternalLink, Timer, 
   CheckCircle2, AlertTriangle, Moon, Coins
 } from "lucide-react";
+import PrivacyBadge from "@/components/ui/PrivacyBadge";
 
 // --- 1. METADATA DE ALTA PERFORMANCE (SEO) ---
 export const metadata: Metadata = {
@@ -138,24 +139,24 @@ export default async function HorasPage({ searchParams }: Props) {
       <div className="flex flex-col gap-8 px-4 sm:px-6 max-w-7xl mx-auto">
 
         {/* ALERTA DE TOLERÂNCIA */}
-        <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 flex gap-3 items-start text-left max-w-3xl mx-auto w-full shadow-sm">
-          <AlertTriangle className="text-amber-600 shrink-0 mt-0.5" size={20} />
+        <div className="bg-amber-50 dark:bg-amber-900/10 border border-amber-200 dark:border-amber-800 rounded-xl p-4 flex gap-3 items-start text-left max-w-3xl mx-auto w-full shadow-sm">
+          <AlertTriangle className="text-amber-600 dark:text-amber-500 shrink-0 mt-0.5" size={20} />
           <div className="space-y-1">
-            <p className="text-sm font-bold text-amber-900 uppercase tracking-wide">Regra dos 10 Minutos</p>
-            <p className="text-sm text-amber-800/90 leading-relaxed">
+            <p className="text-sm font-bold text-amber-900 dark:text-amber-400 uppercase tracking-wide">Regra dos 10 Minutos</p>
+            <p className="text-sm text-amber-800/90 dark:text-amber-300 leading-relaxed">
               Pela CLT, atrasos ou horas extras de até <strong>10 minutos diários</strong> (5 na entrada, 5 na saída) não são contabilizados. Passou disso, conta tudo!
             </p>
           </div>
         </div>
 
         {/* ANÚNCIO TOPO */}
-        <div className="w-full max-w-5xl mx-auto overflow-hidden flex justify-center bg-indigo-50/30 rounded-lg border border-dashed border-indigo-200/50 print:hidden min-h-[100px]">
+        <div className="w-full max-w-5xl mx-auto overflow-hidden flex justify-center bg-indigo-50/30 dark:bg-slate-900/50 rounded-lg border border-dashed border-indigo-200/50 dark:border-slate-800/50 print:hidden min-h-[100px]">
            <LazyAdUnit slot="ponto_top" format="horizontal" variant="agency" />
         </div>
 
         {/* FERRAMENTA */}
         <section id="ferramenta" className="scroll-mt-28 w-full max-w-full">
-          <div className="bg-white rounded-3xl border border-indigo-100 shadow-xl shadow-indigo-100/50 p-1 md:p-2">
+          <div className="bg-white dark:bg-slate-900 rounded-3xl border border-indigo-100 dark:border-slate-800 shadow-xl shadow-indigo-100/50 dark:shadow-none p-1 md:p-2">
               <Suspense fallback={
                 <div className="h-96 w-full bg-indigo-50 rounded-2xl animate-pulse flex items-center justify-center text-indigo-300 border border-indigo-100">
                     <div className="flex flex-col items-center gap-2">
@@ -164,6 +165,7 @@ export default async function HorasPage({ searchParams }: Props) {
                     </div>
                 </div>
               }>
+                  <PrivacyBadge />
                   <TimeCalculator />
               </Suspense>
           </div>
@@ -179,69 +181,69 @@ export default async function HorasPage({ searchParams }: Props) {
         </div>
 
         {/* --- CONTEÚDO EDUCACIONAL --- */}
-        <div className="prose prose-slate prose-sm md:prose-lg max-w-4xl mx-auto bg-white p-6 md:p-12 rounded-3xl border border-slate-100 shadow-xl shadow-slate-200/40 overflow-hidden w-full print:hidden">
+        <div className="prose prose-slate dark:prose-invert prose-sm md:prose-lg max-w-4xl mx-auto bg-white dark:bg-slate-900 p-6 md:p-12 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-xl shadow-slate-200/40 dark:shadow-none overflow-hidden w-full print:hidden">
           
-          <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-6 flex items-center gap-2 border-l-4 border-indigo-500 pl-4">
+          <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2 border-l-4 border-indigo-500 pl-4">
               Como controlar o Banco de Horas?
           </h2>
-          <p className="lead text-slate-700 text-lg font-medium">
+          <p className="lead text-slate-700 dark:text-slate-300 text-lg font-medium">
             Somar horas não é como somar dinheiro. O sistema de tempo é sexagesimal (base 60), o que confunde muita gente. Se você somar 8,50 + 8,50 na calculadora comum, dá 17,00. Mas em horas, 8h50 + 8h50 são 17h40!
           </p>
           <p>
             Essa confusão gera erros graves no apontamento do cartão de ponto, resultando em descontos indevidos no salário ou horas extras não pagas.
           </p>
 
-          <div className="my-10 bg-purple-50 p-6 rounded-xl border border-purple-100 not-prose">
-              <h3 className="text-xl font-bold text-purple-900 mb-4 flex items-center gap-2">
-                  <Moon className="text-purple-600" /> A Hora Noturna é Diferente
+          <div className="my-10 bg-purple-50 dark:bg-purple-900/10 p-6 rounded-xl border border-purple-100 dark:border-purple-800 not-prose">
+              <h3 className="text-xl font-bold text-purple-900 dark:text-purple-300 mb-4 flex items-center gap-2">
+                  <Moon className="text-purple-600 dark:text-purple-400" /> A Hora Noturna é Diferente
               </h3>
-              <p className="text-purple-800 text-sm mb-4">
+              <p className="text-purple-800 dark:text-purple-300 text-sm mb-4">
                   Quem trabalha entre <strong>22h e 5h</strong> tem um "superpoder" legal: a hora passa mais rápido.
               </p>
-              <ul className="space-y-3 text-sm text-purple-900 bg-white p-4 rounded-lg border border-purple-200 shadow-sm">
+              <ul className="space-y-3 text-sm text-purple-900 dark:text-purple-300 bg-white dark:bg-purple-900/20 p-4 rounded-lg border border-purple-200 dark:border-purple-800/50 shadow-sm">
                   <li className="flex gap-2 font-bold"><Clock size={18}/> 1 hora relógio = 60 minutos</li>
                   <li className="flex gap-2 font-bold"><Moon size={18}/> 1 hora noturna = 52 minutos e 30 segundos</li>
               </ul>
-              <p className="mt-4 text-xs text-purple-700 font-medium">
+              <p className="mt-4 text-xs text-purple-700 dark:text-purple-400 font-medium">
                   Isso significa que 7 horas de relógio trabalhadas à noite equivalem a 8 horas de pagamento + Adicional Noturno (mínimo 20%).
               </p>
           </div>
 
-          <h3 className="text-xl font-bold text-slate-800 mt-10 mb-4 flex items-center gap-2">
-              <Scale className="text-blue-600" /> Direitos Básicos do Ponto
+          <h3 className="text-xl font-bold text-slate-800 dark:text-white mt-10 mb-4 flex items-center gap-2">
+              <Scale className="text-blue-600 dark:text-blue-400" /> Direitos Básicos do Ponto
           </h3>
           <ul className="space-y-3 not-prose mb-8">
-              <li className="flex items-start gap-3 bg-white p-4 rounded-lg border border-slate-100 shadow-sm hover:border-indigo-100 transition-colors">
+              <li className="flex items-start gap-3 bg-white dark:bg-slate-900 p-4 rounded-lg border border-slate-100 dark:border-slate-800 shadow-sm hover:border-indigo-100 dark:hover:border-indigo-900 transition-colors">
                   <CheckCircle2 className="text-green-500 mt-0.5 shrink-0" size={18} />
-                  <span className="text-slate-700 text-sm"><strong>Intervalo Intrajornada:</strong> Quem trabalha mais de 6h tem direito a no mínimo 1h de almoço.</span>
+                  <span className="text-slate-700 dark:text-slate-300 text-sm"><strong>Intervalo Intrajornada:</strong> Quem trabalha mais de 6h tem direito a no mínimo 1h de almoço.</span>
               </li>
-              <li className="flex items-start gap-3 bg-white p-4 rounded-lg border border-slate-100 shadow-sm hover:border-indigo-100 transition-colors">
+              <li className="flex items-start gap-3 bg-white dark:bg-slate-900 p-4 rounded-lg border border-slate-100 dark:border-slate-800 shadow-sm hover:border-indigo-100 dark:hover:border-indigo-900 transition-colors">
                   <CheckCircle2 className="text-green-500 mt-0.5 shrink-0" size={18} />
-                  <span className="text-slate-700 text-sm"><strong>Intervalo Interjornada:</strong> Entre um dia de trabalho e outro, deve haver um descanso mínimo de 11 horas.</span>
+                  <span className="text-slate-700 dark:text-slate-300 text-sm"><strong>Intervalo Interjornada:</strong> Entre um dia de trabalho e outro, deve haver um descanso mínimo de 11 horas.</span>
               </li>
-              <li className="flex items-start gap-3 bg-white p-4 rounded-lg border border-slate-100 shadow-sm hover:border-indigo-100 transition-colors">
+              <li className="flex items-start gap-3 bg-white dark:bg-slate-900 p-4 rounded-lg border border-slate-100 dark:border-slate-800 shadow-sm hover:border-indigo-100 dark:hover:border-indigo-900 transition-colors">
                   <CheckCircle2 className="text-green-500 mt-0.5 shrink-0" size={18} />
-                  <span className="text-slate-700 text-sm"><strong>Limite de Extras:</strong> Máximo de 2 horas extras por dia (salvo regime 12x36 ou força maior).</span>
+                  <span className="text-slate-700 dark:text-slate-300 text-sm"><strong>Limite de Extras:</strong> Máximo de 2 horas extras por dia (salvo regime 12x36 ou força maior).</span>
               </li>
           </ul>
 
           {/* FAQ ACORDION */}
           <div className="mt-16 not-prose">
-            <h3 className="text-2xl font-bold text-slate-900 mb-8 flex items-center gap-3 border-b pb-4">
-                <HelpCircle className="text-indigo-600" /> Dúvidas Frequentes
+            <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-8 flex items-center gap-3 border-b border-slate-200 dark:border-slate-800 pb-4">
+                <HelpCircle className="text-indigo-600 dark:text-indigo-400" /> Dúvidas Frequentes
             </h3>
             
             <div className="space-y-4">
               {faqList.map((item, idx) => (
-                  <details key={idx} className="group bg-white p-5 rounded-xl border border-slate-200 shadow-sm cursor-pointer open:ring-2 open:ring-indigo-100 transition-all">
-                      <summary className="font-semibold text-slate-800 list-none flex justify-between items-center select-none">
+                  <details key={idx} className="group bg-white dark:bg-slate-900 p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm cursor-pointer open:ring-2 open:ring-indigo-100 dark:open:ring-indigo-900/30 transition-all">
+                      <summary className="font-semibold text-slate-800 dark:text-slate-100 list-none flex justify-between items-center select-none">
                           <div className="flex items-start gap-3">
-                              <span className="text-indigo-500 font-bold text-xs mt-1">#</span>
+                              <span className="text-indigo-500 dark:text-indigo-400 font-bold text-xs mt-1">#</span>
                               <span className="leading-snug">{item.q}</span>
                           </div>
                           <span className="text-slate-400 group-open:rotate-180 transition-transform ml-2 shrink-0">▼</span>
                       </summary>
-                      <p className="mt-3 text-slate-600 leading-relaxed border-t border-slate-100 pt-3 text-sm animate-in fade-in">
+                      <p className="mt-3 text-slate-600 dark:text-slate-400 leading-relaxed border-t border-slate-100 dark:border-slate-800 pt-3 text-sm animate-in fade-in">
                           {item.a}
                       </p>
                   </details>
@@ -250,41 +252,41 @@ export default async function HorasPage({ searchParams }: Props) {
           </div>
 
           {/* REFERÊNCIAS OFICIAIS */}
-          <div className="mt-12 pt-8 border-t border-slate-200 print:hidden not-prose bg-slate-50 p-6 rounded-xl">
-              <h3 className="text-sm font-bold text-slate-500 uppercase tracking-wider mb-4 flex items-center gap-2">
+          <div className="mt-12 pt-8 border-t border-slate-200 dark:border-slate-800 print:hidden not-prose bg-slate-50 dark:bg-slate-900 p-6 rounded-xl">
+              <h3 className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-4 flex items-center gap-2">
                   <Landmark size={16} /> Base Legal (CLT)
               </h3>
-              <p className="text-xs text-slate-500 mb-3">Saiba onde estão seus direitos:</p>
-              <div className="flex flex-wrap gap-4 text-xs font-medium text-blue-600">
-                  <a href="https://www.planalto.gov.br/ccivil_03/decreto-lei/del5452.htm" target="_blank" rel="nofollow noopener noreferrer" className="hover:underline flex items-center gap-1 bg-white px-3 py-1 rounded border shadow-sm">
+              <p className="text-xs text-slate-500 dark:text-slate-400 mb-3">Saiba onde estão seus direitos:</p>
+              <div className="flex flex-wrap gap-4 text-xs font-medium text-blue-600 dark:text-blue-400">
+                  <a href="https://www.planalto.gov.br/ccivil_03/decreto-lei/del5452.htm" target="_blank" rel="nofollow noopener noreferrer" className="hover:underline flex items-center gap-1 bg-white dark:bg-slate-800 px-3 py-1 rounded border dark:border-slate-700 shadow-sm">
                       CLT - Artigo 58 (Jornada) <ExternalLink size={10}/>
                   </a>
-                  <a href="https://www.planalto.gov.br/ccivil_03/decreto-lei/del5452.htm" target="_blank" rel="nofollow noopener noreferrer" className="hover:underline flex items-center gap-1 bg-white px-3 py-1 rounded border shadow-sm">
+                  <a href="https://www.planalto.gov.br/ccivil_03/decreto-lei/del5452.htm" target="_blank" rel="nofollow noopener noreferrer" className="hover:underline flex items-center gap-1 bg-white dark:bg-slate-800 px-3 py-1 rounded border dark:border-slate-700 shadow-sm">
                       CLT - Artigo 71 (Intervalos) <ExternalLink size={10}/>
                   </a>
               </div>
           </div>
 
           {/* NAVEGAÇÃO FINAL */}
-          <div className="mt-16 pt-8 border-t border-slate-200 print:hidden not-prose">
-            <p className="font-bold text-slate-900 mb-6 text-sm uppercase tracking-wider flex items-center gap-2">
+          <div className="mt-16 pt-8 border-t border-slate-200 dark:border-slate-800 print:hidden not-prose">
+            <p className="font-bold text-slate-900 dark:text-slate-100 mb-6 text-sm uppercase tracking-wider flex items-center gap-2">
                <CheckCircle2 size={16} className="text-emerald-500"/> Converta seu tempo em dinheiro:
             </p>
             <div className="grid md:grid-cols-3 gap-4">
-              <Link href="/trabalhista/horas-extras" className="flex flex-col p-5 bg-white border border-slate-200 rounded-xl hover:border-purple-400 hover:shadow-lg transition-all group">
-                  <div className="bg-purple-50 w-10 h-10 rounded-lg flex items-center justify-center mb-3 text-purple-600 shadow-sm group-hover:scale-110 transition-transform"><Coins size={20}/></div>
-                  <span className="font-bold text-slate-800 text-lg">Horas Extras</span>
-                  <span className="text-sm text-slate-500 mt-1">Quanto valem?</span>
+              <Link href="/trabalhista/horas-extras" className="flex flex-col p-5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl hover:border-purple-400 dark:hover:border-purple-500 hover:shadow-lg transition-all group">
+                  <div className="bg-purple-50 dark:bg-purple-900/30 w-10 h-10 rounded-lg flex items-center justify-center mb-3 text-purple-600 dark:text-purple-400 shadow-sm group-hover:scale-110 transition-transform"><Coins size={20}/></div>
+                  <span className="font-bold text-slate-800 dark:text-slate-100 text-lg">Horas Extras</span>
+                  <span className="text-sm text-slate-500 dark:text-slate-400 mt-1">Quanto valem?</span>
               </Link>
-              <Link href="/financeiro/salario-liquido" className="flex flex-col p-5 bg-white border border-slate-200 rounded-xl hover:border-green-400 hover:shadow-lg transition-all group">
-                  <div className="bg-green-50 w-10 h-10 rounded-lg flex items-center justify-center mb-3 text-green-600 shadow-sm group-hover:scale-110 transition-transform"><Wallet size={20}/></div>
-                  <span className="font-bold text-slate-800 text-lg">Salário Líquido</span>
-                  <span className="text-sm text-slate-500 mt-1">Holerite completo</span>
+              <Link href="/financeiro/salario-liquido" className="flex flex-col p-5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl hover:border-green-400 dark:hover:border-green-500 hover:shadow-lg transition-all group">
+                  <div className="bg-green-50 dark:bg-green-900/30 w-10 h-10 rounded-lg flex items-center justify-center mb-3 text-green-600 dark:text-green-400 shadow-sm group-hover:scale-110 transition-transform"><Wallet size={20}/></div>
+                  <span className="font-bold text-slate-800 dark:text-slate-100 text-lg">Salário Líquido</span>
+                  <span className="text-sm text-slate-500 dark:text-slate-400 mt-1">Holerite completo</span>
               </Link>
-              <Link href="/trabalhista/rescisao" className="flex flex-col p-5 bg-white border border-slate-200 rounded-xl hover:border-blue-400 hover:shadow-lg transition-all group">
-                  <div className="bg-blue-50 w-10 h-10 rounded-lg flex items-center justify-center mb-3 text-blue-600 shadow-sm group-hover:scale-110 transition-transform"><FileText size={20}/></div>
-                  <span className="font-bold text-slate-800 text-lg">Rescisão CLT</span>
-                  <span className="text-sm text-slate-500 mt-1">Cálculo demissão</span>
+              <Link href="/trabalhista/rescisao" className="flex flex-col p-5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl hover:border-blue-400 dark:hover:border-blue-500 hover:shadow-lg transition-all group">
+                  <div className="bg-blue-50 dark:bg-blue-900/30 w-10 h-10 rounded-lg flex items-center justify-center mb-3 text-blue-600 dark:text-blue-400 shadow-sm group-hover:scale-110 transition-transform"><FileText size={20}/></div>
+                  <span className="font-bold text-slate-800 dark:text-slate-100 text-lg">Rescisão CLT</span>
+                  <span className="text-sm text-slate-500 dark:text-slate-400 mt-1">Cálculo demissão</span>
               </Link>
             </div>
           </div>

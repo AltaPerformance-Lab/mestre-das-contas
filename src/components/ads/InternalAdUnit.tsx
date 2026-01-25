@@ -296,7 +296,7 @@ export default function InternalAdUnit({
     return (
       <a 
         href={finalLink} target="_blank" rel="noopener noreferrer"
-        className={`group relative flex w-full flex-col overflow-hidden rounded-2xl ${selectedAd.themeBg} p-8 text-center shadow-xl border ${selectedAd.themeBorder} min-h-[400px] justify-between ${className} hover:ring-2 ring-white/10 transition-all isolate`}
+        className={`group relative flex w-full flex-col overflow-hidden rounded-3xl ${selectedAd.themeBg} p-8 text-center shadow-xl border ${selectedAd.themeBorder} min-h-[400px] justify-between ${className} hover:ring-2 ring-white/10 transition-all isolate`}
       >
         <TextureLayer type={selectedAd.texture} />
 
@@ -327,7 +327,7 @@ export default function InternalAdUnit({
   return (
     <a 
       href={finalLink} target="_blank" rel="noopener noreferrer"
-      className={`group relative flex w-full flex-col sm:flex-row overflow-hidden rounded-2xl px-6 py-8 sm:py-6 shadow-lg items-center justify-between border ${selectedAd.themeBg} ${selectedAd.themeBorder} ${className} hover:shadow-2xl transition-all isolate`}
+      className={`group relative flex w-full flex-col sm:flex-row overflow-hidden rounded-3xl px-6 py-8 sm:py-6 shadow-lg items-center justify-between border ${selectedAd.themeBg} ${selectedAd.themeBorder} ${className} hover:shadow-2xl transition-all isolate`}
     >
       <TextureLayer type={selectedAd.texture} />
 

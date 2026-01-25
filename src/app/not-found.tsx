@@ -47,28 +47,28 @@ export default function NotFound() {
   ];
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-slate-50 relative overflow-hidden">
+    <div className="min-h-[80vh] flex flex-col items-center justify-center p-4 bg-slate-50 dark:bg-slate-950 relative overflow-hidden transition-colors duration-300">
       
       {/* Background Decorativo Suave */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-        <div className="absolute top-[-10%] right-[-5%] w-96 h-96 bg-blue-100 rounded-full blur-3xl opacity-30"></div>
-        <div className="absolute bottom-[-10%] left-[-5%] w-96 h-96 bg-indigo-100 rounded-full blur-3xl opacity-30"></div>
+        <div className="absolute top-[-10%] right-[-5%] w-96 h-96 bg-blue-100 dark:bg-blue-900/20 rounded-full blur-3xl opacity-30"></div>
+        <div className="absolute bottom-[-10%] left-[-5%] w-96 h-96 bg-indigo-100 dark:bg-indigo-900/20 rounded-full blur-3xl opacity-30"></div>
       </div>
 
       <div className="relative z-10 w-full max-w-5xl mx-auto flex flex-col items-center text-center">
         
         {/* Ícone 404 Animado */}
-        <div className="w-24 h-24 bg-white rounded-3xl shadow-xl shadow-slate-200/50 flex items-center justify-center mb-8 animate-bounce ring-1 ring-slate-100">
-           <FileQuestion size={48} className="text-slate-400" strokeWidth={1.5}/>
+        <div className="w-24 h-24 bg-white dark:bg-slate-900 rounded-3xl shadow-xl shadow-slate-200/50 dark:shadow-none flex items-center justify-center mb-8 animate-bounce ring-1 ring-slate-100 dark:ring-slate-800">
+           <FileQuestion size={48} className="text-slate-400 dark:text-slate-500" strokeWidth={1.5}/>
         </div>
 
-        <h1 className="text-6xl md:text-8xl font-extrabold text-slate-900 tracking-tighter mb-2">
+        <h1 className="text-6xl md:text-8xl font-extrabold text-slate-900 dark:text-white tracking-tighter mb-2">
           404
         </h1>
-        <h2 className="text-2xl md:text-3xl font-bold text-slate-700 mb-4">
+        <h2 className="text-2xl md:text-3xl font-bold text-slate-700 dark:text-slate-200 mb-4">
           Ops! Cálculo não encontrado.
         </h2>
-        <p className="text-slate-500 text-lg mb-12 max-w-lg leading-relaxed">
+        <p className="text-slate-500 dark:text-slate-400 text-lg mb-12 max-w-lg leading-relaxed">
           A página que você procura mudou de endereço ou não existe mais. 
           Aproveite para conferir nossas ferramentas mais acessadas:
         </p>
@@ -79,18 +79,18 @@ export default function NotFound() {
             <Link 
               key={index} 
               href={tool.href}
-              className={`group bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ${tool.border}`}
+              className={`group bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ${tool.border} dark:hover:border-slate-700`}
             >
-              <div className={`w-10 h-10 ${tool.bg} ${tool.color} rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
+              <div className={`w-10 h-10 ${tool.bg} dark:bg-opacity-10 ${tool.color} rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
                 <tool.icon size={20} strokeWidth={2.5}/>
               </div>
-              <h3 className="font-bold text-slate-900 mb-1 group-hover:text-blue-600 transition-colors">
+              <h3 className="font-bold text-slate-900 dark:text-white mb-1 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                 {tool.label}
               </h3>
-              <p className="text-xs text-slate-500 leading-snug">
+              <p className="text-xs text-slate-500 dark:text-slate-400 leading-snug">
                 {tool.description}
               </p>
-              <div className="mt-4 flex items-center text-xs font-bold text-slate-400 group-hover:text-slate-900 transition-colors">
+              <div className="mt-4 flex items-center text-xs font-bold text-slate-400 dark:text-slate-500 group-hover:text-slate-900 dark:group-hover:text-white transition-colors">
                 Acessar <ArrowRight size={12} className="ml-1 group-hover:translate-x-1 transition-transform"/>
               </div>
             </Link>
@@ -99,7 +99,7 @@ export default function NotFound() {
 
         {/* BOTÃO HOME */}
         <Link href="/">
-          <button className="inline-flex items-center gap-2 px-8 py-4 bg-slate-900 text-white font-bold rounded-xl hover:bg-slate-800 hover:shadow-lg hover:shadow-slate-900/20 transition-all transform active:scale-95">
+          <button className="inline-flex items-center gap-2 px-8 py-4 bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold rounded-xl hover:bg-slate-800 dark:hover:bg-slate-100 hover:shadow-lg hover:shadow-slate-900/20 dark:hover:shadow-white/10 transition-all transform active:scale-95">
              <Home size={20} />
              Voltar para o Início
           </button>
@@ -107,7 +107,7 @@ export default function NotFound() {
 
       </div>
 
-      <p className="absolute bottom-6 text-xs text-slate-400 font-medium tracking-widest uppercase">
+      <p className="absolute bottom-6 text-xs text-slate-400 dark:text-slate-600 font-medium tracking-widest uppercase">
         Mestre das Contas
       </p>
     </div>

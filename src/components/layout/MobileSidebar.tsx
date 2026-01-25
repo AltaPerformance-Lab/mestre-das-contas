@@ -17,6 +17,7 @@ const menuGroups: MenuGroup[] = [
     title: "Destaques",
     items: [
       { label: "Gerador de QR Code", href: "/ferramentas/gerador-qr-code", icon: QrCode, highlight: true },
+      { label: "Criar Orçamento", href: "/ferramentas/criador-orcamentos", icon: Calculator, highlight: true },
       { label: "Reforma Tributária 2026", href: "/financeiro/reforma-tributaria", icon: Sparkles },
     ]
   },

@@ -90,15 +90,15 @@ export default function PDFWorkspace() {
             <div 
                 {...getRootProps()} 
                 className={`w-full max-w-full h-full flex flex-col items-center justify-center border-2 border-dashed rounded-xl transition-colors cursor-pointer p-4
-                    ${isDragActive ? 'border-violet-500 bg-violet-50' : 'border-slate-300 hover:border-violet-400 hover:bg-slate-50'}
+                    ${isDragActive ? 'border-violet-500 bg-violet-50 dark:bg-violet-900/20' : 'border-slate-300 dark:border-slate-700 hover:border-violet-400 dark:hover:border-violet-500 hover:bg-slate-50 dark:hover:bg-slate-800'}
                 `}
             >
                 <input {...getInputProps()} />
-                <div className="w-20 h-20 bg-violet-100 text-violet-600 rounded-full flex items-center justify-center mb-6 shadow-sm">
+                <div className="w-20 h-20 bg-violet-100 dark:bg-violet-900/30 text-violet-600 dark:text-violet-400 rounded-full flex items-center justify-center mb-6 shadow-sm">
                    <FileText size={40} />
                 </div>
-                <h3 className="text-2xl font-bold text-slate-800 mb-2">Editor de PDF Ultimate</h3>
-                <p className="text-slate-500 text-center max-w-md mb-8">
+                <h3 className="text-2xl font-bold text-slate-800 dark:text-slate-100 mb-2">Editor de PDF Ultimate</h3>
+                <p className="text-slate-500 dark:text-slate-400 text-center max-w-md mb-8">
                     Arraste seu arquivo aqui ou clique para selecionar. 
                     <br/><span className="text-sm">Edite textos, assine e junte documentos. 100% Grátis.</span>
                 </p>
@@ -114,9 +114,9 @@ export default function PDFWorkspace() {
 
   // --- Render: Workspace (Full Width, No Sidebar) ---
   return (
-    <div className="w-full h-full flex flex-col bg-slate-100 relative">
+    <div className="w-full h-full flex flex-col bg-slate-100 dark:bg-slate-900 relative">
         {/* Header / Toolbar */}
-        <header className="bg-white border-b border-slate-200 shadow-sm z-30 flex-none h-auto min-h-[4rem]">
+        <header className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 shadow-sm z-30 flex-none h-auto min-h-[4rem]">
             <div className="w-full">
                  <PDFToolbar />
             </div>
@@ -131,18 +131,18 @@ export default function PDFWorkspace() {
              {/* Viewer (Scrollable) */}
              <div 
                 ref={viewportRef}
-                className="flex-1 overflow-auto bg-slate-100 relative custom-scrollbar flex justify-center p-4 md:p-6"
+                className="flex-1 overflow-auto bg-slate-100 dark:bg-slate-900 relative custom-scrollbar flex justify-center p-4 md:p-6"
              >
-                  <div className="relative shadow-2xl transition-transform duration-75 ease-out origin-top">
+                  <div className="relative shadow-2xl transition-transform duration-75 ease-out origin-top border border-slate-200 dark:border-slate-800">
                       <PDFViewer viewportWidth={viewportWidth} />
                   </div>
              </div>
         </main>
 
         {isProcessing && (
-            <div className="absolute inset-0 bg-white/80 backdrop-blur-sm z-50 flex flex-col items-center justify-center">
+            <div className="absolute inset-0 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm z-50 flex flex-col items-center justify-center">
                 <Loader2 className="w-12 h-12 text-violet-600 animate-spin mb-4" />
-                <p className="text-slate-600 font-medium animate-pulse">Processando documento...</p>
+                <p className="text-slate-600 dark:text-slate-300 font-medium animate-pulse">Processando documento...</p>
             </div>
         )}
     </div>

@@ -76,16 +76,16 @@ export default function PDFToolbar() {
     };
 
     return (
-        <div className="w-full h-auto min-h-[4rem] flex flex-wrap items-center justify-between px-2 md:px-4 py-2 gap-4 bg-white">
+        <div className="w-full h-auto min-h-[4rem] flex flex-wrap items-center justify-between px-2 md:px-4 py-2 gap-4 bg-white dark:bg-slate-900">
             <div className="flex items-center gap-2 flex-shrink-0">
                 <button
                     onClick={() => setFile(null as any)}
-                    className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors flex-shrink-0"
+                    className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors flex-shrink-0"
                     title="Fechar e Sair"
                 >
                     <X size={20} />
                 </button>
-                <div className="hidden md:block h-8 w-px bg-slate-200 mx-1 flex-shrink-0" />
+                <div className="hidden md:block h-8 w-px bg-slate-200 dark:bg-slate-700 mx-1 flex-shrink-0" />
             </div>
 
             <div className="flex flex-wrap items-center justify-center gap-1 md:gap-2">
@@ -97,8 +97,8 @@ export default function PDFToolbar() {
                         className={`
                             p-2 rounded-lg transition-all flex flex-col items-center justify-center gap-1 min-w-[3rem]
                             ${selectedTool === tool.id 
-                                ? 'bg-cyan-100 text-cyan-700 shadow-inner' 
-                                : 'text-slate-600 hover:bg-slate-100 hover:text-cyan-600'}
+                                ? 'bg-cyan-100 dark:bg-cyan-900/30 text-cyan-700 dark:text-cyan-400 shadow-inner' 
+                                : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-cyan-600 dark:hover:text-cyan-400'}
                         `}
                     >
                         <tool.icon size={20} />
@@ -109,41 +109,41 @@ export default function PDFToolbar() {
 
             <div className="flex items-center gap-4 flex-shrink-0 ml-auto pr-2">
                 {/* Page Navigation */}
-                <div className="flex items-center gap-1 bg-slate-50 p-1 rounded-lg border border-slate-200 shadow-sm">
+                <div className="flex items-center gap-1 bg-slate-50 dark:bg-slate-800 p-1 rounded-lg border border-slate-200 dark:border-slate-700 shadow-sm">
                     <button
                         onClick={() => usePDFStore.getState().setCurrentPage(Math.max(1, usePDFStore.getState().currentPage - 1))}
                         disabled={usePDFStore.getState().currentPage <= 1}
-                        className="p-1.5 text-slate-500 hover:bg-slate-200 rounded disabled:opacity-30"
+                        className="p-1.5 text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 rounded disabled:opacity-30"
                     >
                         <ChevronLeft size={18} />
                     </button>
-                    <span className="text-xs font-mono font-bold text-slate-600 w-12 md:w-16 text-center select-none">
+                    <span className="text-xs font-mono font-bold text-slate-600 dark:text-slate-300 w-12 md:w-16 text-center select-none">
                         {usePDFStore.getState().currentPage} / {usePDFStore.getState().numPages || '-'}
                     </span>
                     <button
                         onClick={() => usePDFStore.getState().setCurrentPage(Math.min(usePDFStore.getState().numPages, usePDFStore.getState().currentPage + 1))}
                         disabled={usePDFStore.getState().currentPage >= usePDFStore.getState().numPages}
-                        className="p-1.5 text-slate-500 hover:bg-slate-200 rounded disabled:opacity-30"
+                        className="p-1.5 text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 rounded disabled:opacity-30"
                     >
                         <ChevronRight size={18} />
                     </button>
                 </div>
 
-                <div className="h-8 w-px bg-slate-200 hidden md:block" />
+                <div className="h-8 w-px bg-slate-200 dark:bg-slate-700 hidden md:block" />
 
-                <div className="flex items-center gap-1 bg-slate-50 p-1 rounded-lg border border-slate-200 shadow-sm">
+                <div className="flex items-center gap-1 bg-slate-50 dark:bg-slate-800 p-1 rounded-lg border border-slate-200 dark:border-slate-700 shadow-sm">
                     <button
                         onClick={() => setScale(Math.max(0.5, scale - 0.1))}
-                        className="p-1.5 text-slate-500 hover:bg-slate-200 rounded"
+                        className="p-1.5 text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 rounded"
                     >
                         <Minus size={16} />
                     </button>
-                    <span className="text-xs font-mono font-bold text-slate-600 w-10 text-center select-none">
+                    <span className="text-xs font-mono font-bold text-slate-600 dark:text-slate-300 w-10 text-center select-none">
                         {Math.round(scale * 100)}%
                     </span>
                     <button 
                         onClick={() => setScale(Math.min(3.0, scale + 0.1))}
-                        className="p-1.5 text-slate-500 hover:bg-slate-200 rounded"
+                        className="p-1.5 text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 rounded"
                     >
                         <Plus size={16} />
                     </button>
@@ -151,7 +151,7 @@ export default function PDFToolbar() {
 
                 <button 
                     onClick={handleDownload}
-                    className="flex-shrink-0 flex items-center gap-2 bg-slate-900 hover:bg-slate-800 text-white px-4 py-2 rounded-lg text-sm font-bold shadow-md transition-all active:scale-95 whitespace-nowrap"
+                    className="flex-shrink-0 flex items-center gap-2 bg-slate-900 dark:bg-slate-100 hover:bg-slate-800 dark:hover:bg-white text-white dark:text-slate-900 px-4 py-2 rounded-lg text-sm font-bold shadow-md transition-all active:scale-95 whitespace-nowrap"
                 >
                     <Download size={18} />
                     <span className="hidden md:inline">Baixar PDF</span>

@@ -12,6 +12,7 @@ import {
   Clock, DollarSign, RefreshCcw, 
   Share2, Printer, History, Code2, CheckCircle2, Link as LinkIcon, X, Sun, Moon
 } from "lucide-react";
+import ShareAsImage from "@/components/ui/ShareAsImage";
 
 // --- TIPAGEM ---
 type HistoricoHoras = {
@@ -203,7 +204,7 @@ export default function OvertimeCalculator() {
         
         {/* --- COLUNA ESQUERDA: INPUTS --- */}
         <div className="lg:col-span-7 space-y-6 w-full">
-          <Card className="border-0 shadow-lg shadow-slate-200/50 ring-1 ring-slate-200 bg-white rounded-2xl overflow-hidden">
+          <Card className="border-0 shadow-lg shadow-slate-200/50 dark:shadow-none ring-1 ring-slate-200 dark:ring-slate-800 bg-white dark:bg-slate-900 rounded-2xl overflow-hidden">
             <CardHeader className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white p-6">
               <div className="flex flex-row items-center justify-between gap-4">
                   <CardTitle className="text-xl flex items-center gap-3">
@@ -228,22 +229,22 @@ export default function OvertimeCalculator() {
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   <div className="space-y-2">
-                    <Label className="text-slate-600 font-medium">Salário Base</Label>
+                    <Label className="text-slate-600 dark:text-slate-300 font-medium">Salário Base</Label>
                     <div className="relative">
                       <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400" />
                       <Input 
                         placeholder="R$ 0,00" 
                         value={salario} 
                         onChange={handleSalarioChange} 
-                        className="pl-10 h-12 text-lg font-medium bg-slate-50 border-slate-200 focus:bg-white transition-colors" 
+                        className="pl-10 h-12 text-lg font-medium bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 dark:text-slate-100 focus:bg-white dark:focus:bg-slate-900 transition-colors" 
                         inputMode="numeric"
                       />
                     </div>
                   </div>
                   <div className="space-y-2">
-                    <Label className="text-slate-600 font-medium">Jornada Mensal</Label>
+                    <Label className="text-slate-600 dark:text-slate-300 font-medium">Jornada Mensal</Label>
                     <Select value={jornada} onValueChange={setJornada}>
-                        <SelectTrigger className="h-12 bg-slate-50 border-slate-200 text-slate-700 font-medium text-base">
+                        <SelectTrigger className="h-12 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-100 font-medium text-base">
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
@@ -257,39 +258,39 @@ export default function OvertimeCalculator() {
 
               <div className="grid grid-cols-2 gap-5">
                   <div className="space-y-2">
-                    <Label className="text-slate-600 font-medium flex items-center gap-1.5"><Sun size={16} className="text-orange-500"/> Horas 50% (Úteis)</Label>
+                    <Label className="text-slate-600 dark:text-slate-300 font-medium flex items-center gap-1.5"><Sun size={16} className="text-orange-500"/> Horas 50% (Úteis)</Label>
                     <Input 
                         type="number" 
                         placeholder="0" 
                         value={horas50} 
                         onChange={e => setHoras50(e.target.value)} 
-                        className="h-12 text-lg font-medium bg-slate-50 border-slate-200 focus:bg-white transition-colors" 
+                        className="h-12 text-lg font-medium bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 dark:text-slate-100 focus:bg-white dark:focus:bg-slate-900 transition-colors" 
                         inputMode="decimal"
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label className="text-slate-600 font-medium flex items-center gap-1.5"><Moon size={16} className="text-blue-500"/> Horas 100% (Feriados)</Label>
+                    <Label className="text-slate-600 dark:text-slate-300 font-medium flex items-center gap-1.5"><Moon size={16} className="text-blue-500"/> Horas 100% (Feriados)</Label>
                     <Input 
                         type="number" 
                         placeholder="0" 
                         value={horas100} 
                         onChange={e => setHoras100(e.target.value)} 
-                        className="h-12 text-lg font-medium bg-slate-50 border-slate-200 focus:bg-white transition-colors" 
+                        className="h-12 text-lg font-medium bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 dark:text-slate-100 focus:bg-white dark:focus:bg-slate-900 transition-colors" 
                         inputMode="decimal"
                     />
                   </div>
               </div>
 
-              <div className="bg-slate-50 p-4 rounded-xl border border-slate-200">
+              <div className="bg-slate-50 dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700">
                   <p className="text-xs font-bold text-slate-500 uppercase mb-3 tracking-wider">Configuração do DSR (Mês)</p>
                   <div className="grid grid-cols-2 gap-5">
                       <div className="space-y-1.5">
                           <Label className="text-xs text-slate-500 font-medium">Dias Úteis</Label>
-                          <Input type="number" value={diasUteis} onChange={e => setDiasUteis(e.target.value)} className="h-10 bg-white border-slate-200" />
+                          <Input type="number" value={diasUteis} onChange={e => setDiasUteis(e.target.value)} className="h-10 bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700 dark:text-slate-100" />
                       </div>
                       <div className="space-y-1.5">
                           <Label className="text-xs text-slate-500 font-medium">Domingos/Feriados</Label>
-                          <Input type="number" value={domingosFeriados} onChange={e => setDomingosFeriados(e.target.value)} className="h-10 bg-white border-slate-200" />
+                          <Input type="number" value={domingosFeriados} onChange={e => setDomingosFeriados(e.target.value)} className="h-10 bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700 dark:text-slate-100" />
                       </div>
                   </div>
               </div>
@@ -298,7 +299,7 @@ export default function OvertimeCalculator() {
                   <Button onClick={() => calcular()} className="flex-1 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white h-14 text-lg font-bold shadow-lg shadow-purple-200 rounded-xl transition-all active:scale-[0.99]">
                     Calcular
                   </Button>
-                  <Button variant="outline" onClick={limpar} size="icon" className="h-14 w-14 shrink-0 border-slate-200 text-slate-400 hover:text-red-500 hover:bg-red-50 hover:border-red-200 rounded-xl transition-colors" title="Limpar dados">
+                  <Button variant="outline" onClick={limpar} size="icon" className="h-14 w-14 shrink-0 border-slate-200 dark:border-slate-700 text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 hover:border-red-200 dark:hover:border-red-800 rounded-xl transition-colors" title="Limpar dados">
                     <RefreshCcw className="h-5 w-5" />
                   </Button>
               </div>
@@ -307,18 +308,18 @@ export default function OvertimeCalculator() {
 
           {/* HISTÓRICO RÁPIDO */}
           {!isIframe && historico.length > 0 && (
-            <div className="bg-white rounded-xl border border-slate-200 p-5 shadow-sm animate-in fade-in">
+            <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-5 shadow-sm animate-in fade-in">
                 <h4 className="text-xs font-bold text-slate-400 uppercase mb-4 flex items-center gap-2 tracking-wider">
                   <History size={14} /> Cálculos Recentes
                 </h4>
                 <div className="space-y-1">
                 {historico.map((item, idx) => (
-                    <div key={idx} className="flex justify-between items-center text-sm border-b border-slate-50 pb-2 last:border-0 last:pb-0 p-2 hover:bg-slate-50 rounded-lg transition-colors cursor-pointer active:bg-slate-100">
+                    <div key={idx} className="flex justify-between items-center text-sm border-b border-slate-50 dark:border-slate-800 pb-2 last:border-0 last:pb-0 p-2 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors cursor-pointer active:bg-slate-100 dark:active:bg-slate-700">
                         <div className="flex flex-col">
-                            <span className="text-slate-800 font-bold">{item.salario}</span>
+                            <span className="text-slate-800 dark:text-slate-200 font-bold">{item.salario}</span>
                             <span className="text-[10px] text-slate-400 font-medium">{item.qtd50} (50%) + {item.qtd100} (100%)</span>
                         </div>
-                        <span className="block font-bold text-purple-700 bg-purple-50 px-2 py-0.5 rounded text-xs tabular-nums">Total: {item.total}</span>
+                        <span className="block font-bold text-purple-700 dark:text-purple-300 bg-purple-50 dark:bg-purple-900/30 px-2 py-0.5 rounded text-xs tabular-nums">Total: {item.total}</span>
                     </div>
                 ))}
                 </div>
@@ -328,9 +329,9 @@ export default function OvertimeCalculator() {
 
         {/* --- COLUNA DIREITA: RESULTADOS --- */}
         <div className="lg:col-span-5 w-full flex flex-col gap-6">
-          <Card className={`h-full w-full transition-all duration-500 border-0 shadow-lg shadow-slate-200/50 ring-1 ring-slate-200 overflow-hidden flex flex-col ${resultado ? 'bg-white' : 'bg-slate-50'}`}>
-            <CardHeader className="px-6 py-5 border-b border-slate-100 bg-white shrink-0">
-              <CardTitle className="text-slate-800 text-lg font-bold">Extrato de Horas Extras</CardTitle>
+          <Card id="resultado-horas-card" className={`h-full w-full transition-all duration-500 border-0 shadow-lg shadow-slate-200/50 dark:shadow-none ring-1 ring-slate-200 dark:ring-slate-800 overflow-hidden flex flex-col ${resultado ? 'bg-white dark:bg-slate-900' : 'bg-slate-50 dark:bg-slate-950'}`}>
+            <CardHeader className="px-6 py-5 border-b border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 shrink-0">
+              <CardTitle className="text-slate-800 dark:text-slate-100 text-lg font-bold">Extrato de Horas Extras</CardTitle>
             </CardHeader>
             
             <CardContent className="p-6 flex-1 flex flex-col">
@@ -350,8 +351,8 @@ export default function OvertimeCalculator() {
                     <div className="absolute bottom-0 left-0 w-32 h-32 bg-indigo-500/10 rounded-full blur-3xl -ml-10 -mb-10"></div>
                     
                     <p className="text-[11px] text-slate-400 font-bold uppercase tracking-widest relative z-10 mb-1">Total a Receber (HE + DSR)</p>
-                    <div className="flex items-center justify-center gap-1 relative z-10">
-                        <span className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight break-words">{resultado.totalFinal}</span>
+                    <div className="w-full flex items-center justify-center px-4 relative z-10">
+                        <span className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight break-words leading-tight text-center">{resultado.totalFinal}</span>
                     </div>
                     <p className="text-[10px] text-slate-400 mt-2 relative z-10 border-t border-white/10 pt-2 inline-block px-4">
                         Valor da sua hora normal: <strong className="text-slate-300">{resultado.valorHora}</strong>
@@ -359,18 +360,18 @@ export default function OvertimeCalculator() {
                   </div>
 
                   {/* LISTA DETALHADA */}
-                  <div className="space-y-1 w-full bg-white rounded-xl border border-slate-100 shadow-sm overflow-hidden">
-                    <div className="flex justify-between items-center p-3 border-b border-slate-50 hover:bg-slate-50 transition-colors">
+                  <div className="space-y-1 w-full bg-white dark:bg-slate-800 rounded-xl border border-slate-100 dark:border-slate-700 shadow-sm overflow-hidden">
+                    <div className="flex justify-between items-center p-3 border-b border-slate-50 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
                         <span className="text-sm text-slate-600 font-medium">H.E. 50% (Dias Úteis)</span>
-                        <span className="text-sm font-bold text-slate-900">{resultado.total50}</span>
+                        <span className="text-sm font-bold text-slate-900 dark:text-slate-100">{resultado.total50}</span>
                     </div>
-                    <div className="flex justify-between items-center p-3 border-b border-slate-50 hover:bg-slate-50 transition-colors">
+                    <div className="flex justify-between items-center p-3 border-b border-slate-50 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
                         <span className="text-sm text-slate-600 font-medium">H.E. 100% (Feriados)</span>
-                        <span className="text-sm font-bold text-slate-900">{resultado.total100}</span>
+                        <span className="text-sm font-bold text-slate-900 dark:text-slate-100">{resultado.total100}</span>
                     </div>
-                    <div className="flex justify-between items-center p-3 bg-purple-50/50 hover:bg-purple-50 transition-colors">
-                        <span className="text-sm text-purple-700 font-bold flex items-center gap-2">Reflexo DSR</span>
-                        <span className="text-sm font-extrabold text-purple-700">{resultado.dsr}</span>
+                    <div className="flex justify-between items-center p-3 bg-purple-50/50 dark:bg-purple-900/20 hover:bg-purple-50 dark:hover:bg-purple-900/30 transition-colors">
+                        <span className="text-sm text-purple-700 dark:text-purple-300 font-bold flex items-center gap-2">Reflexo DSR</span>
+                        <span className="text-sm font-extrabold text-purple-700 dark:text-purple-300">{resultado.dsr}</span>
                     </div>
                   </div>
                   
@@ -381,7 +382,7 @@ export default function OvertimeCalculator() {
                       <Button 
                         variant="outline" 
                         onClick={() => handleShare("result")} 
-                        className="h-11 border-slate-200 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200 text-xs font-bold uppercase tracking-wide"
+                        className="h-11 border-slate-200 dark:border-slate-700 hover:bg-blue-50 dark:hover:bg-blue-900/10 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-200 dark:hover:border-blue-900 text-xs font-bold uppercase tracking-wide bg-white dark:bg-slate-900 dark:text-slate-100"
                       >
                           {copiado === "result" ? <span className="flex items-center gap-2"><CheckCircle2 size={16}/> Copiado</span> : <span className="flex items-center gap-2"><Share2 size={16}/> Resultado</span>}
                       </Button>
@@ -389,10 +390,13 @@ export default function OvertimeCalculator() {
                       <Button 
                         variant="outline" 
                         onClick={handlePrint} 
-                        className="h-11 border-slate-200 hover:bg-slate-100 hover:text-slate-900 text-xs font-bold uppercase tracking-wide"
+                        className="h-11 border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-100 text-xs font-bold uppercase tracking-wide bg-white dark:bg-slate-900 dark:text-slate-100"
                       >
                           <span className="flex items-center gap-2"><Printer size={16}/> Imprimir/PDF</span>
                       </Button>
+                      <div className="col-span-2">
+                        <ShareAsImage elementId="resultado-horas-card" className="w-full h-11 bg-slate-900 dark:bg-slate-800 text-white hover:bg-slate-800 dark:hover:bg-slate-700 border-none" />
+                      </div>
                   </div>
                   
                   <div className="text-center">
@@ -497,10 +501,10 @@ export default function OvertimeCalculator() {
       {/* --- MODAL DE EMBED --- */}
       {showEmbedModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 animate-in fade-in backdrop-blur-sm print:hidden" onClick={() => setShowEmbedModal(false)}>
-            <div className="bg-white rounded-2xl shadow-2xl p-6 max-w-lg w-full relative" onClick={e => e.stopPropagation()}>
-                <button onClick={() => setShowEmbedModal(false)} className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 transition-colors"><X size={20}/></button>
-                <h3 className="text-lg font-bold text-slate-900 mb-2">Incorporar no seu Site</h3>
-                <p className="text-sm text-slate-500 mb-4">Copie o código abaixo para adicionar essa calculadora no seu blog ou site.</p>
+            <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-2xl p-6 max-w-lg w-full relative" onClick={e => e.stopPropagation()}>
+                <button onClick={() => setShowEmbedModal(false)} className="absolute top-4 right-4 text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300 transition-colors"><X size={20}/></button>
+                <h3 className="text-lg font-bold text-slate-900 dark:text-slate-100 mb-2">Incorporar no seu Site</h3>
+                <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">Copie o código abaixo para adicionar essa calculadora no seu blog ou site.</p>
                 <div className="bg-slate-950 p-4 rounded-xl relative mb-4 overflow-hidden group">
                     <code className="text-xs font-mono text-blue-300 break-all block leading-relaxed selection:bg-blue-900">
                         {`<iframe src="https://mestredascontas.com.br/trabalhista/horas-extras?embed=true" width="100%" height="750" frameborder="0" style="border:0; border-radius:12px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);" title="Calculadora Horas Extras"></iframe>`}
@@ -510,7 +514,7 @@ export default function OvertimeCalculator() {
                     navigator.clipboard.writeText(`<iframe src="https://mestredascontas.com.br/trabalhista/horas-extras?embed=true" width="100%" height="750" frameborder="0" style="border:0; border-radius:12px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);" title="Calculadora Horas Extras"></iframe>`);
                     setCopiado("embed");
                     setTimeout(() => setCopiado(null), 2000);
-                }} className="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold h-12 rounded-xl">
+                }} className="w-full bg-slate-900 hover:bg-slate-800 dark:bg-blue-600 dark:hover:bg-blue-700 text-white font-bold h-12 rounded-xl">
                     {copiado === "embed" ? "Código Copiado!" : "Copiar Código HTML"}
                 </Button>
             </div>

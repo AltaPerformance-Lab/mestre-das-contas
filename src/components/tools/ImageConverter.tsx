@@ -176,8 +176,8 @@ export default function ImageConverter({ initialTarget }: ImageConverterProps) {
   return (
     <div className="w-full space-y-8">
       
-      <Card className="border-0 shadow-lg shadow-slate-200/50 bg-white rounded-2xl overflow-hidden">
-        <CardHeader className="bg-slate-900 text-white p-6">
+      <Card className="border-0 shadow-lg shadow-slate-200/50 dark:shadow-none bg-white dark:bg-slate-900 rounded-2xl overflow-hidden border-slate-200 dark:border-slate-800">
+        <CardHeader className="bg-slate-900 dark:bg-slate-950 text-white p-6">
           <CardTitle className="text-xl flex items-center gap-3">
              <div className="bg-white/20 p-2 rounded-xl backdrop-blur-sm">
                <ImageIcon size={22} strokeWidth={2.5} />
@@ -222,7 +222,7 @@ export default function ImageConverter({ initialTarget }: ImageConverterProps) {
           </div>
 
           <div 
-            className={`border-2 border-dashed rounded-2xl p-10 text-center cursor-pointer transition-all ${isDragging ? "border-blue-500 bg-blue-50" : "border-slate-300 hover:border-blue-400 hover:bg-slate-50"}`}
+            className={`border-2 border-dashed rounded-2xl p-10 text-center cursor-pointer transition-all ${isDragging ? "border-blue-500 bg-blue-50 dark:bg-blue-900/20" : "border-slate-300 dark:border-slate-700 hover:border-blue-400 dark:hover:border-blue-500 hover:bg-slate-50 dark:hover:bg-slate-800"}`}
             onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
             onDragLeave={() => setIsDragging(false)}
             onDrop={(e) => {
@@ -240,12 +240,12 @@ export default function ImageConverter({ initialTarget }: ImageConverterProps) {
                 // Aceita quase tudo na entrada
                 accept="image/png, image/jpeg, image/webp, image/jpg, image/bmp, image/gif, image/svg+xml, image/avif"
               />
-              <div className="flex flex-col items-center gap-4 text-slate-500">
-                  <div className="bg-blue-100 p-4 rounded-full text-blue-600">
+              <div className="flex flex-col items-center gap-4 text-slate-500 dark:text-slate-400">
+                  <div className="bg-blue-100 dark:bg-blue-900/40 p-4 rounded-full text-blue-600 dark:text-blue-400">
                       <UploadCloud size={40} />
                   </div>
                   <div>
-                      <p className="font-bold text-lg text-slate-700">Clique ou arraste imagens aqui</p>
+                      <p className="font-bold text-lg text-slate-700 dark:text-slate-200">Clique ou arraste imagens aqui</p>
                       <p className="text-sm">Suporta JPG, PNG, WEBP, AVIF, SVG, BMP</p>
                   </div>
               </div>
@@ -257,7 +257,7 @@ export default function ImageConverter({ initialTarget }: ImageConverterProps) {
       {files.length > 0 && (
           <div className="space-y-4 animate-in fade-in slide-in-from-bottom-4">
               <div className="flex justify-between items-center">
-                  <h3 className="font-bold text-slate-700 text-lg">Fila de Conversão ({files.length})</h3>
+                  <h3 className="font-bold text-slate-700 dark:text-slate-200 text-lg">Fila de Conversão ({files.length})</h3>
                   <Button onClick={handleConvertAll} className="bg-green-600 hover:bg-green-700 text-white font-bold shadow-md">
                       <RefreshCw size={18} className="mr-2"/> Converter Todas
                   </Button>
@@ -265,9 +265,9 @@ export default function ImageConverter({ initialTarget }: ImageConverterProps) {
 
               <div className="grid gap-3">
                   {files.map((file) => (
-                      <div key={file.id} className="bg-white p-3 rounded-xl border border-slate-200 flex items-center gap-4 shadow-sm">
+                      <div key={file.id} className="bg-white dark:bg-slate-800 p-3 rounded-xl border border-slate-200 dark:border-slate-700 flex items-center gap-4 shadow-sm">
                           {/* CORREÇÃO AQUI: Uso do componente Image para evitar erro do ESLint */}
-                          <div className="relative w-14 h-14 shrink-0 rounded-lg overflow-hidden bg-slate-100 border border-slate-200">
+                          <div className="relative w-14 h-14 shrink-0 rounded-lg overflow-hidden bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
                              <Image 
                                src={file.previewUrl} 
                                alt="Preview" 
@@ -278,13 +278,13 @@ export default function ImageConverter({ initialTarget }: ImageConverterProps) {
                           </div>
                           
                           <div className="flex-1 min-w-0">
-                              <p className="font-bold text-slate-800 truncate text-sm">{file.originalName}</p>
-                              <div className="flex items-center gap-2 text-xs text-slate-500">
+                              <p className="font-bold text-slate-800 dark:text-slate-100 truncate text-sm">{file.originalName}</p>
+                              <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
                                   <span>{formatBytes(file.originalSize)}</span>
                                   {file.convertedSize && (
                                       <>
                                         <ArrowRightIcon size={12}/>
-                                        <span className="text-green-600 font-bold">{formatBytes(file.convertedSize)}</span>
+                                        <span className="text-green-600 dark:text-green-400 font-bold">{formatBytes(file.convertedSize)}</span>
                                       </>
                                   )}
                               </div>
@@ -298,10 +298,10 @@ export default function ImageConverter({ initialTarget }: ImageConverterProps) {
                               ) : file.status === "converting" ? (
                                   <RefreshCw size={20} className="animate-spin text-blue-500"/>
                               ) : (
-                                  <span className="text-[10px] bg-slate-100 text-slate-500 px-2 py-1 rounded font-medium">Pronto</span>
+                                  <span className="text-[10px] bg-slate-100 dark:bg-slate-700 text-slate-500 dark:text-slate-300 px-2 py-1 rounded font-medium">Pronto</span>
                               )}
 
-                              <Button variant="ghost" size="icon" onClick={() => removeFile(file.id)} className="text-slate-400 hover:text-red-500 w-9 h-9">
+                              <Button variant="ghost" size="icon" onClick={() => removeFile(file.id)} className="text-slate-400 hover:text-red-500 dark:hover:text-red-400 w-9 h-9">
                                   <Trash2 size={16}/>
                               </Button>
                           </div>

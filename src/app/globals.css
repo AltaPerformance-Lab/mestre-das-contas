@@ -32,10 +32,13 @@
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
+    --background: 222.2 84% 4.9%; /* Slate-950 (Aprox) - Deep Dark */
     --foreground: 210 40% 98%;
-    --card: 222.2 84% 4.9%;
+    
+    /* Slight lift for cards to distinguish from background */
+    --card: 222.2 47.4% 11.2%; /* Slate-900 - Lighter than background */
     --card-foreground: 210 40% 98%;
+    
     --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
     --primary: 210 40% 98%;
@@ -65,5 +68,78 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+  
+  /* Heading Font Override */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading tracking-tight;
+  }
+
+  html {
+     scroll-behavior: smooth;
+  }
+}
+
+@layer utilities {
+  .font-heading {
+    font-family: var(--font-outfit), sans-serif;
+  }
+  
+  /* Scrollbar Customizada Global */
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    @apply bg-slate-300 dark:bg-slate-700 rounded-full;
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    @apply bg-slate-400 dark:bg-slate-600;
+  }
+}
+
+/* --- PRINT STYLES --- */
+@media print {
+  @page {
+    margin: 0;
+    size: auto;
+  }
+  
+  body {
+    background: white !important;
+    color: black !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Force hide elements that might be sticky or fixed */
+  body > div[class*="fixed"], 
+  nav, 
+  footer, 
+  aside {
+    display: none !important;
+  }
+
+  /* Ensure main content takes full width */
+  main {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    position: static !important;
+    display: block !important;
+  }
+  
+  /* Reset shadows and borders for cleaner print */
+  * {
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+  
+  /* Hide URLs in links */
+  a[href]:after {
+    content: none !important;
   }
 }

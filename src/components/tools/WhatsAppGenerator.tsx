@@ -12,9 +12,14 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 
-export default function WhatsAppGenerator() {
-  const [phone, setPhone] = useState("");
-  const [message, setMessage] = useState("");
+interface Props {
+  initialPhone?: string;
+  initialMessage?: string;
+}
+
+export default function WhatsAppGenerator({ initialPhone = "", initialMessage = "" }: Props) {
+  const [phone, setPhone] = useState(initialPhone);
+  const [message, setMessage] = useState(initialMessage);
   const [generatedLink, setGeneratedLink] = useState("");
   const [cleanNum, setCleanNum] = useState(""); 
   const [copied, setCopied] = useState(false);
@@ -77,7 +82,7 @@ export default function WhatsAppGenerator() {
       
       {/* --- COLUNA 1: CONFIGURAÇÃO --- */}
       <div className="lg:col-span-7 space-y-6">
-        <Card className="border-0 shadow-lg shadow-slate-200/50 ring-1 ring-slate-200 bg-white rounded-2xl overflow-hidden">
+        <Card className="border-0 shadow-lg shadow-slate-200/50 dark:shadow-none ring-1 ring-slate-200 dark:ring-slate-800 bg-white dark:bg-slate-900 rounded-2xl overflow-hidden">
           <CardHeader className="bg-gradient-to-r from-green-600 to-emerald-600 text-white p-6">
             <CardTitle className="text-xl flex items-center gap-3">
                <div className="bg-white/20 p-2 rounded-xl backdrop-blur-sm">
@@ -89,13 +94,13 @@ export default function WhatsAppGenerator() {
           <CardContent className="space-y-5 p-6">
             
             <div className="space-y-2">
-              <Label htmlFor="phone" className="text-slate-600 font-medium">Seu Número de WhatsApp</Label>
+              <Label htmlFor="phone" className="text-slate-600 dark:text-slate-300 font-medium">Seu Número de WhatsApp</Label>
               <Input 
                 id="phone" 
                 placeholder="(11) 99999-9999" 
                 value={phone} 
                 onChange={handlePhoneChange}
-                className="h-12 text-lg bg-slate-50 border-slate-200 focus:bg-white transition-colors"
+                className="h-12 text-lg bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 dark:text-white focus:bg-white dark:focus:bg-slate-800 transition-colors"
                 inputMode="numeric"
                 maxLength={15}
               />
@@ -103,13 +108,13 @@ export default function WhatsAppGenerator() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="message" className="text-slate-600 font-medium">Mensagem Personalizada (Opcional)</Label>
+              <Label htmlFor="message" className="text-slate-600 dark:text-slate-300 font-medium">Mensagem Personalizada (Opcional)</Label>
               <Textarea 
                 id="message" 
                 placeholder="Olá! Vi seu anúncio e gostaria de mais informações..." 
                 value={message} 
                 onChange={(e) => setMessage(e.target.value)}
-                className="min-h-[120px] bg-slate-50 border-slate-200 focus:bg-white transition-colors resize-y text-base leading-relaxed"
+                className="min-h-[120px] bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 dark:text-slate-200 focus:bg-white dark:focus:bg-slate-800 transition-colors resize-y text-base leading-relaxed"
               />
               <p className="text-xs text-slate-400">Essa mensagem aparecerá escrita automaticamente no celular do seu cliente.</p>
             </div>
@@ -120,7 +125,7 @@ export default function WhatsAppGenerator() {
                     <Button 
                         onClick={copyToClipboard} 
                         disabled={!generatedLink}
-                        className="flex-1 h-14 text-lg font-bold bg-slate-900 hover:bg-slate-800 text-white shadow-lg shadow-slate-200 rounded-xl transition-all active:scale-[0.99]"
+                        className="flex-1 h-14 text-lg font-bold bg-slate-900 hover:bg-slate-800 dark:bg-slate-800 dark:hover:bg-slate-700 text-white shadow-lg shadow-slate-200 dark:shadow-none rounded-xl transition-all active:scale-[0.99]"
                     >
                         {copied ? (
                             <span className="flex items-center gap-2"><CheckCircle2 /> Copiado!</span>
@@ -133,7 +138,7 @@ export default function WhatsAppGenerator() {
                         <Button 
                             variant="outline"
                             asChild
-                            className="h-14 w-14 shrink-0 border-green-200 text-green-600 hover:bg-green-50 hover:border-green-300 rounded-xl"
+                            className="h-14 w-14 shrink-0 border-green-200 text-green-600 hover:bg-green-50 hover:border-green-300 dark:border-green-800 dark:text-green-400 dark:hover:bg-green-900/30 rounded-xl"
                             title="Testar Link"
                         >
                             <a href={generatedLink} target="_blank" rel="noopener noreferrer">
@@ -145,15 +150,15 @@ export default function WhatsAppGenerator() {
                 
                 {/* LINK CRUZADO PARA QR CODE */}
                 {generatedLink && (
-                    <div className="p-4 bg-blue-50 border border-blue-100 rounded-xl flex items-center justify-between gap-4 animate-in fade-in slide-in-from-top-2">
-                        <div className="text-sm text-blue-800 font-medium">
+                    <div className="p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-100 dark:border-blue-900/30 rounded-xl flex items-center justify-between gap-4 animate-in fade-in slide-in-from-top-2">
+                        <div className="text-sm text-blue-800 dark:text-blue-300 font-medium">
                             <strong>Dica:</strong> Transforme este link em um QR Code para imprimir.
                         </div>
                         <Link 
                             // O encodeURIComponent garante que espaços e quebras de linha passem corretamente
                             href={`/ferramentas/gerador-qr-code?type=whatsapp&num=55${cleanNum}&msg=${encodeURIComponent(message)}`}
                         >
-                            <Button size="sm" variant="ghost" className="text-blue-700 hover:bg-blue-100 hover:text-blue-900 font-bold gap-2">
+                            <Button size="sm" variant="ghost" className="text-blue-700 dark:text-blue-300 hover:bg-blue-100 dark:hover:bg-blue-900/50 hover:text-blue-900 font-bold gap-2">
                                 <QrCode size={16}/> Gerar QR Code
                             </Button>
                         </Link>

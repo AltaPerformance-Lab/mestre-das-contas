@@ -76,15 +76,16 @@ export default function SaudeHubPage() {
       <div className="flex flex-col gap-8 px-4 sm:px-6 max-w-7xl mx-auto w-full">
 
         {/* ANÚNCIO TOPO */}
-        <div className="w-full max-w-5xl mx-auto overflow-hidden flex justify-center bg-slate-50/50 rounded-lg border border-dashed border-slate-200/50 print:hidden min-h-[100px]">
-           <LazyAdUnit slot="saude_hub_top" format="horizontal" variant="agency" />
+        {/* ANÚNCIO TOPO */}
+        <div className="w-full flex justify-center mb-10">
+           <LazyAdUnit slot="saude_hub_top" format="horizontal" variant="agency" className="min-h-[100px] w-full" />
         </div>
 
         {/* --- GRID DE FERRAMENTAS --- */}
         <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
           
           {/* Card IMC */}
-          <Link href="/saude/imc" className="group relative overflow-hidden bg-white rounded-3xl border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full flex flex-col">
+          <Link href="/saude/imc" className="group relative overflow-hidden bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full flex flex-col">
             <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-opacity">
               <Scale size={100} className="text-blue-600" />
             </div>
@@ -92,8 +93,8 @@ export default function SaudeHubPage() {
               <div className="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-600 mb-6 group-hover:scale-110 transition-transform shadow-sm ring-1 ring-blue-100">
                 <Activity size={28} strokeWidth={2.5} />
               </div>
-              <h2 className="text-2xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors">Calculadora de IMC</h2>
-              <p className="text-slate-600 mb-6 leading-relaxed flex-1">
+              <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">Calculadora de IMC</h2>
+              <p className="text-slate-600 dark:text-slate-400 mb-6 leading-relaxed flex-1">
                 O ponto de partida. Verifique se seu peso está adequado para sua altura segundo a tabela oficial da OMS.
               </p>
               <div className="mt-auto">
@@ -105,7 +106,7 @@ export default function SaudeHubPage() {
           </Link>
 
           {/* Card Calorias */}
-          <Link href="/saude/calorias-diarias" className="group relative overflow-hidden bg-white rounded-3xl border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full flex flex-col">
+          <Link href="/saude/calorias-diarias" className="group relative overflow-hidden bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full flex flex-col">
             <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-opacity">
               <Flame size={100} className="text-orange-600" />
             </div>
@@ -113,8 +114,8 @@ export default function SaudeHubPage() {
               <div className="w-14 h-14 bg-orange-50 rounded-2xl flex items-center justify-center text-orange-600 mb-6 group-hover:scale-110 transition-transform shadow-sm ring-1 ring-orange-100">
                 <Apple size={28} strokeWidth={2.5} />
               </div>
-              <h2 className="text-2xl font-bold text-slate-900 mb-3 group-hover:text-orange-600 transition-colors">Calorias Diárias (TMB)</h2>
-              <p className="text-slate-600 mb-6 leading-relaxed flex-1">
+              <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-3 group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors">Calorias Diárias (TMB)</h2>
+              <p className="text-slate-600 dark:text-slate-400 mb-6 leading-relaxed flex-1">
                 Quer emagrecer ou ganhar massa? Descubra seu Gasto Energético Basal e monte a estratégia perfeita.
               </p>
               <div className="mt-auto">
@@ -126,7 +127,7 @@ export default function SaudeHubPage() {
           </Link>
 
           {/* Card Gestacional */}
-          <Link href="/saude/gestacional" className="group relative overflow-hidden bg-white rounded-3xl border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full flex flex-col">
+          <Link href="/saude/gestacional" className="group relative overflow-hidden bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full flex flex-col">
             <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-opacity">
               <Baby size={100} className="text-pink-500" />
             </div>
@@ -134,8 +135,8 @@ export default function SaudeHubPage() {
               <div className="w-14 h-14 bg-pink-50 rounded-2xl flex items-center justify-center text-pink-600 mb-6 group-hover:scale-110 transition-transform shadow-sm ring-1 ring-pink-100">
                 <Baby size={28} strokeWidth={2.5} />
               </div>
-              <h2 className="text-2xl font-bold text-slate-900 mb-3 group-hover:text-pink-600 transition-colors">Calculadora Gestacional</h2>
-              <p className="text-slate-600 mb-6 leading-relaxed flex-1">
+              <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-3 group-hover:text-pink-600 dark:group-hover:text-pink-400 transition-colors">Calculadora Gestacional</h2>
+              <p className="text-slate-600 dark:text-slate-400 mb-6 leading-relaxed flex-1">
                 Calcule a Data Provável do Parto (DPP) e acompanhe o desenvolvimento do bebê semana a semana.
               </p>
               <div className="mt-auto">
@@ -147,7 +148,7 @@ export default function SaudeHubPage() {
           </Link>
 
           {/* Card Água */}
-          <Link href="/saude/agua" className="group relative overflow-hidden bg-white rounded-3xl border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full flex flex-col">
+          <Link href="/saude/agua" className="group relative overflow-hidden bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full flex flex-col">
             <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-opacity">
               <Droplet size={100} className="text-cyan-500" />
             </div>
@@ -155,8 +156,8 @@ export default function SaudeHubPage() {
               <div className="w-14 h-14 bg-cyan-50 rounded-2xl flex items-center justify-center text-cyan-600 mb-6 group-hover:scale-110 transition-transform shadow-sm ring-1 ring-cyan-100">
                 <GlassWater size={28} strokeWidth={2.5} />
               </div>
-              <h2 className="text-2xl font-bold text-slate-900 mb-3 group-hover:text-cyan-600 transition-colors">Ingestão de Água</h2>
-              <p className="text-slate-600 mb-6 leading-relaxed flex-1">
+              <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-3 group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">Ingestão de Água</h2>
+              <p className="text-slate-600 dark:text-slate-400 mb-6 leading-relaxed flex-1">
                 Hidratação personalizada. Calcule a quantidade ideal de água para o seu peso e nível de atividade.
               </p>
               <div className="mt-auto">
@@ -169,69 +170,72 @@ export default function SaudeHubPage() {
 
         </section>
 
+
         {/* --- CONTEÚDO RICO (SEO) --- */}
-        <div className="prose prose-sm md:prose-lg max-w-none bg-white p-6 md:p-12 rounded-3xl border border-slate-100 shadow-sm mt-8">
+        <div className="prose prose-slate dark:prose-invert prose-sm md:prose-lg max-w-none bg-white dark:bg-slate-900 p-6 md:p-12 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-sm mt-10">
           
-          <h2 className="text-3xl font-bold text-slate-900 mb-6 flex items-center gap-3">
-            <Dna className="text-rose-600" size={32} /> Biomatemática: O Segredo da Longevidade
+          <h2 className="text-3xl font-bold text-slate-900 dark:text-slate-100 mb-6 flex items-center gap-3">
+            <Activity className="text-rose-600" size={32} /> Monitoramento Inteligente: Sua Saúde em Números
           </h2>
-          <p className="lead text-slate-700 text-lg">
-            Muitas pessoas tentam melhorar a saúde na base da intuição. O segredo dos atletas e das pessoas longevas é transformar "achismos" em <strong>dados</strong>.
+          <p className="lead text-slate-700 dark:text-slate-300 text-lg">
+            A saúde moderna vai além do check-up anual. Monitorar indicadores vitais como IMC, taxa metabólica e hidratação no dia a dia é a chave para a longevidade e prevenção de doenças crônicas.
           </p>
 
-          {/* BLOCO DE DICAS */}
           <div className="grid md:grid-cols-2 gap-8 my-10 not-prose">
-              <div className="bg-slate-900 p-8 rounded-3xl text-white relative overflow-hidden shadow-2xl shadow-slate-900/20">
-                  <div className="absolute top-0 right-0 p-4 opacity-10"><Brain size={120} className="text-white"/></div>
-                  <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2 relative z-10">
-                      <Stethoscope size={24} className="text-teal-400"/> Prevenção é Cálculo
+              <div className="bg-slate-50 dark:bg-slate-800 p-8 rounded-2xl border border-slate-200 dark:border-slate-700 relative overflow-hidden group hover:border-blue-400 dark:hover:border-blue-500 transition-colors">
+                  <div className="absolute top-0 right-0 p-4 opacity-5 dark:opacity-10 group-hover:scale-110 transition-transform">
+                     <Brain size={120} className="text-blue-600 dark:text-blue-400"/>
+                  </div>
+                  <h3 className="text-xl font-bold text-slate-900 dark:text-slate-100 mb-4 flex items-center gap-2 relative z-10">
+                      <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg text-blue-600 dark:text-blue-400">
+                        <Dna size={24}/>
+                      </div>
+                      Metabolismo e Energia
                   </h3>
-                  <ul className="space-y-4 text-slate-300 relative z-10 text-sm font-medium">
-                      <li className="flex gap-3"><CheckCircle2 className="text-teal-400 shrink-0" size={18}/> Manter o IMC na faixa normal reduz risco cardíaco em 40%.</li>
-                      <li className="flex gap-3"><CheckCircle2 className="text-teal-400 shrink-0" size={18}/> Beber a água correta melhora a função renal e a pele.</li>
-                      <li className="flex gap-3"><CheckCircle2 className="text-teal-400 shrink-0" size={18}/> O controle calórico é a única forma comprovada de gerir peso.</li>
-                  </ul>
+                  <p className="text-slate-600 dark:text-slate-300 text-sm leading-relaxed relative z-10">
+                      Entender sua Taxa Metabólica Basal (TMB) é fundamental. Não existe dieta universal; existe o balanço energético calculado para o <strong>seu</strong> corpo.
+                  </p>
               </div>
 
-              <div className="bg-white p-8 rounded-3xl border border-slate-200 relative overflow-hidden shadow-sm">
-                  <div className="absolute top-0 right-0 p-4 opacity-5"><ShieldPlus size={120} className="text-slate-900"/></div>
-                  <h3 className="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2 relative z-10">
-                      <Activity size={24} className="text-rose-600"/> Saúde da Mulher
+              <div className="bg-slate-50 dark:bg-slate-800 p-8 rounded-2xl border border-slate-200 dark:border-slate-700 relative overflow-hidden group hover:border-cyan-400 dark:hover:border-cyan-500 transition-colors">
+                   <div className="absolute top-0 right-0 p-4 opacity-5 dark:opacity-10 group-hover:scale-110 transition-transform">
+                     <Droplet size={120} className="text-cyan-600 dark:text-cyan-400"/>
+                  </div>
+                  <h3 className="text-xl font-bold text-slate-900 dark:text-slate-100 mb-4 flex items-center gap-2 relative z-10">
+                       <div className="p-2 bg-cyan-100 dark:bg-cyan-900/30 rounded-lg text-cyan-600 dark:text-cyan-400">
+                        <GlassWater size={24}/>
+                      </div>
+                      Hidratação Eficiente
                   </h3>
-                  <ul className="space-y-4 text-slate-600 relative z-10 text-sm font-medium">
-                      <li className="flex gap-3"><div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-rose-600 shrink-0"/> Acompanhar a Idade Gestacional é vital para o pré-natal.</li>
-                      <li className="flex gap-3"><div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-rose-600 shrink-0"/> O metabolismo basal feminino varia conforme o ciclo hormonal.</li>
-                      <li className="flex gap-3"><div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-rose-600 shrink-0"/> Nossas ferramentas consideram as diferenças biológicas.</li>
-                  </ul>
+                  <p className="text-slate-600 dark:text-slate-300 text-sm leading-relaxed relative z-10">
+                      Beber água não é apenas matar a sede. A hidratação correta melhora a cognição, a pele e a performance física. Calcule sua meta diária.
+                  </p>
               </div>
           </div>
 
-        </div>
+          <h3 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mt-8 mb-4">Perguntas Frequentes</h3>
+          <div className="not-prose space-y-4">
+            <details className="group bg-slate-50 dark:bg-slate-800/50 p-4 rounded-xl cursor-pointer open:ring-1 open:ring-rose-500/20">
+              <summary className="font-semibold text-slate-800 dark:text-slate-200 flex justify-between items-center select-none">
+                O IMC é uma medida confiável?
+                <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
+              </summary>
+              <p className="mt-3 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                O IMC é um excelente indicador populacional e de triagem inicial. Porém, ele não distingue massa muscular de gordura. Para atletas muito musculosos, o IMC pode dar "sobrepeso" incorretamente.
+              </p>
+            </details>
+            <details className="group bg-slate-50 dark:bg-slate-800/50 p-4 rounded-xl cursor-pointer open:ring-1 open:ring-rose-500/20">
+              <summary className="font-semibold text-slate-800 dark:text-slate-200 flex justify-between items-center select-none">
+                Quantas calorias devo comer para emagrecer?
+                <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
+              </summary>
+              <p className="mt-3 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                Geralmente recomenda-se um déficit calórico moderado (entre 300 a 500 kcal abaixo do seu gasto total diário). Isso promove uma perda de peso sustentável sem sacrificar massa magra.
+              </p>
+            </details>
+          </div>
 
-        {/* --- NAVEGAÇÃO CRUZADA (CROSS-LINKING) --- */}
-        <div className="mt-8 pt-8 border-t border-slate-200 print:hidden not-prose">
-            <p className="font-bold text-slate-900 mb-6 text-xs uppercase tracking-wider flex items-center gap-2">
-               <CheckCircle2 size={16} className="text-emerald-500"/> Cuide também do seu bolso:
-            </p>
-            <div className="grid md:grid-cols-3 gap-4">
-              <Link href="/financeiro/juros-compostos" className="flex flex-col p-5 bg-white border border-slate-200 rounded-xl hover:border-emerald-400 hover:shadow-lg transition-all group">
-                  <div className="bg-emerald-50 w-10 h-10 rounded-lg flex items-center justify-center mb-3 text-emerald-600 shadow-sm group-hover:scale-110 transition-transform"><TrendingUp size={20}/></div>
-                  <span className="font-bold text-slate-800 text-lg">Juros Compostos</span>
-                  <span className="text-sm text-slate-500 mt-1">Investimentos</span>
-              </Link>
-              <Link href="/trabalhista/rescisao" className="flex flex-col p-5 bg-white border border-slate-200 rounded-xl hover:border-blue-400 hover:shadow-lg transition-all group">
-                  <div className="bg-blue-50 w-10 h-10 rounded-lg flex items-center justify-center mb-3 text-blue-600 shadow-sm group-hover:scale-110 transition-transform"><Wallet size={20}/></div>
-                  <span className="font-bold text-slate-800 text-lg">Rescisão CLT</span>
-                  <span className="text-sm text-slate-500 mt-1">Trabalhista</span>
-              </Link>
-              <Link href="/financeiro/salario-liquido" className="flex flex-col p-5 bg-white border border-slate-200 rounded-xl hover:border-indigo-400 hover:shadow-lg transition-all group">
-                  <div className="bg-indigo-50 w-10 h-10 rounded-lg flex items-center justify-center mb-3 text-indigo-600 shadow-sm group-hover:scale-110 transition-transform"><Coins size={20}/></div>
-                  <span className="font-bold text-slate-800 text-lg">Salário Líquido</span>
-                  <span className="text-sm text-slate-500 mt-1">Financeiro</span>
-              </Link>
-            </div>
         </div>
-
         {/* ANÚNCIO RODAPÉ */}
         <div className="w-full max-w-4xl mx-auto flex justify-center mt-4 print:hidden">
           <LazyAdUnit slot="saude_hub_bottom" format="auto" />

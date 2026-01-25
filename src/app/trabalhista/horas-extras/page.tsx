@@ -11,35 +11,59 @@ import {
   Wallet, FileText, Sun, Moon, CalendarDays,
   TrendingUp, Calculator, Landmark, ExternalLink, Scale
 } from "lucide-react";
+import PrivacyBadge from "@/components/ui/PrivacyBadge";
+import RelatedTools from "@/components/ui/RelatedTools";
 
 // --- 1. METADATA (SEO 2026) ---
-export const metadata: Metadata = {
-  title: "Calculadora de Horas Extras 2026 | 50%, 100% e DSR (Cálculo Exato)",
-  description: "Não perca dinheiro. Calcule o valor exato das suas horas extras (50% e 100%) e o reflexo no Descanso Semanal Remunerado (DSR). Simulador CLT atualizado.",
-  keywords: [
-    "calculadora horas extras", 
-    "calcular hora extra 50 e 100", 
-    "reflexo dsr horas extras", 
-    "valor hora de trabalho", 
-    "cálculo hora extra sábado", 
-    "hora extra noturna",
-    "divisor 220 ou 180"
-  ],
-  alternates: { canonical: "https://mestredascontas.com.br/trabalhista/horas-extras" },
-  openGraph: {
-    title: "Calculadora de Horas Extras + DSR - Mestre das Contas",
-    description: "Não deixe dinheiro na mesa. Descubra quanto vale o seu tempo extra trabalhado.",
-    url: "https://mestredascontas.com.br/trabalhista/horas-extras",
-    siteName: "Mestre das Contas",
-    locale: "pt_BR",
-    type: "article",
-    images: [{ url: "https://mestredascontas.com.br/opengraph-image", width: 1200, height: 630, alt: "Simulador de Horas Extras" }],
-  },
-  robots: {
-    index: true, follow: true,
-    googleBot: { index: true, follow: true, "max-video-preview": -1, "max-image-preview": "large", "max-snippet": -1 },
-  },
-};
+// --- 1. METADATA DINÂMICA (SEO MAXIMIZADO) ---
+export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
+  const resolvedParams = await searchParams;
+  const salarioRaw = resolvedParams.salario as string;
+  
+  let title = "Calculadora de Horas Extras 2026 | 50%, 100% e DSR (Cálculo Exato)";
+  let description = "Não perca dinheiro. Calcule o valor exato das suas horas extras (50% e 100%) e o reflexo no Descanso Semanal Remunerado (DSR). Simulador CLT atualizado.";
+
+  if (salarioRaw) {
+    const valorFormatado = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(Number(salarioRaw));
+    title = `Cálculo de Horas Extras: Salário de ${valorFormatado} - Calculadora 2026`;
+    description = `Veja quanto vale a hora extra para um salário de ${valorFormatado}. Cálculo com adicional de 50%, 100% e DSR.`;
+  }
+
+  return {
+    title,
+    description,
+    keywords: [
+      "calculadora horas extras", 
+      "calcular hora extra 50 e 100", 
+      "reflexo dsr horas extras", 
+      "valor hora de trabalho", 
+      "cálculo hora extra sábado", 
+      "hora extra noturna",
+      "divisor 220 ou 180",
+      ...(salarioRaw ? [`hora extra salário ${salarioRaw}`, `calcular HE ${salarioRaw}`] : [])
+    ],
+    alternates: { canonical: "https://mestredascontas.com.br/trabalhista/horas-extras" },
+    openGraph: {
+      title,
+      description,
+      url: "https://mestredascontas.com.br/trabalhista/horas-extras",
+      siteName: "Mestre das Contas",
+      locale: "pt_BR",
+      type: "article",
+      images: [{ url: "https://mestredascontas.com.br/opengraph-image", width: 1200, height: 630, alt: "Simulador de Horas Extras" }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: ["https://mestredascontas.com.br/opengraph-image"],
+    },
+    robots: {
+      index: true, follow: true,
+      googleBot: { index: true, follow: true, "max-video-preview": -1, "max-image-preview": "large", "max-snippet": -1 },
+    },
+  };
+}
 
 // --- FAQ LIST (DRY Content) ---
 const faqList = [
@@ -68,6 +92,29 @@ const jsonLd = {
         "bestRating": "5", 
         "worstRating": "1" 
       }
+    },
+    {
+      "@type": "HowTo",
+      "name": "Como Calcular Horas Extras",
+      "description": "Aprenda a calcular o valor da sua hora extra passo a passo.",
+      "image": "https://mestredascontas.com.br/opengraph-image",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "name": "Valor da Hora Normal",
+          "text": "Divida seu salário mensal por 220 (jornada padrão de 44h) para achar o valor da hora normal."
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Acrescente o Adicional",
+          "text": "Se for dia útil, multiplique por 1.5 (50%). Se for domingo/feriado, multiplique por 2 (100%)."
+        },
+        {
+           "@type": "HowToStep",
+           "name": "Reflexo no DSR",
+           "text": "Some todas as horas extras, divida pelos dias úteis do mês e multiplique pelos domingos/feriados."
+        }
+      ]
     },
     {
       "@type": "Article",
@@ -153,13 +200,13 @@ export default async function HorasExtrasPage({ searchParams }: Props) {
         </div>
 
         {/* ANÚNCIO TOPO */}
-        <div className="w-full max-w-5xl mx-auto overflow-hidden flex justify-center bg-slate-50/50 rounded-lg border border-dashed border-slate-200/50 print:hidden min-h-[100px]">
+        <div className="w-full max-w-5xl mx-auto overflow-hidden flex justify-center bg-slate-50/50 dark:bg-slate-900/50 rounded-lg border border-dashed border-slate-200/50 dark:border-slate-800/50 print:hidden min-h-[100px]">
            <LazyAdUnit slot="horas_top" format="horizontal" variant="agency" />
         </div>
 
         {/* FERRAMENTA */}
         <section id="ferramenta" className="scroll-mt-28 w-full max-w-full">
-          <div className="bg-white rounded-3xl border border-slate-200 shadow-xl shadow-slate-200/40 p-1 md:p-2">
+          <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/40 dark:shadow-none p-1 md:p-2">
               <Suspense fallback={
                 <div className="h-96 w-full bg-slate-50 rounded-2xl animate-pulse flex items-center justify-center text-slate-400 border border-slate-200">
                     <div className="flex flex-col items-center gap-2">
@@ -168,6 +215,7 @@ export default async function HorasExtrasPage({ searchParams }: Props) {
                     </div>
                 </div>
               }>
+                  <PrivacyBadge />
                   <OvertimeCalculator />
               </Suspense>
           </div>
@@ -183,9 +231,9 @@ export default async function HorasExtrasPage({ searchParams }: Props) {
         </div>
 
         {/* --- CONTEÚDO EDUCACIONAL DENSO --- */}
-        <div className="prose prose-slate prose-sm md:prose-lg max-w-4xl mx-auto bg-white p-6 md:p-12 rounded-3xl border border-slate-100 shadow-xl shadow-slate-200/40 overflow-hidden w-full print:hidden">
+        <div className="prose prose-slate dark:prose-invert prose-sm md:prose-lg max-w-4xl mx-auto bg-white dark:bg-slate-900 p-6 md:p-12 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-xl shadow-slate-200/40 dark:shadow-none overflow-hidden w-full print:hidden">
           
-          <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-6 flex items-center gap-2 border-l-4 border-purple-600 pl-4">
+          <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2 border-l-4 border-purple-600 pl-4">
               A Matemática da Hora Extra
           </h2>
           <p className="lead text-slate-700 text-lg font-medium">
@@ -196,59 +244,81 @@ export default async function HorasExtrasPage({ searchParams }: Props) {
           </p>
 
           {/* TABELA DE ADICIONAIS (HTML PURO) */}
-          <div className="not-prose my-8 border rounded-xl overflow-hidden border-slate-200 shadow-sm bg-white">
-              <div className="bg-slate-100 p-3 border-b border-slate-200 flex items-center justify-between">
-                  <h4 className="text-sm font-bold text-slate-700 uppercase tracking-wide">Tabela de Adicionais</h4>
-                  <span className="text-xs text-slate-500 font-medium">Base CLT</span>
+          <div className="not-prose my-8 border rounded-xl overflow-hidden border-slate-200 dark:border-slate-800 shadow-sm bg-white dark:bg-slate-900">
+              <div className="bg-slate-100 dark:bg-slate-800 p-3 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
+                  <h4 className="text-sm font-bold text-slate-700 dark:text-slate-200 uppercase tracking-wide">Tabela de Adicionais</h4>
+                  <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">Base CLT</span>
               </div>
-              <div className="overflow-x-auto">
-                  <table className="w-full text-sm text-left border-collapse min-w-[500px]">
-                      <thead className="bg-slate-50 text-slate-600 text-xs">
+              
+              {/* DESKTOP TABLE */}
+              <div className="hidden md:block">
+                  <table className="w-full text-sm text-left border-collapse">
+                      <thead className="bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-xs">
                           <tr>
-                              <th className="px-6 py-3 font-bold border-b border-slate-200">Tipo de Dia</th>
-                              <th className="px-6 py-3 font-bold border-b border-slate-200">Adicional Mínimo</th>
-                              <th className="px-6 py-3 font-bold border-b border-slate-200">Fórmula</th>
+                              <th className="px-6 py-3 font-bold border-b border-slate-200 dark:border-slate-700">Tipo de Dia</th>
+                              <th className="px-6 py-3 font-bold border-b border-slate-200 dark:border-slate-700">Adicional Mínimo</th>
+                              <th className="px-6 py-3 font-bold border-b border-slate-200 dark:border-slate-700">Fórmula</th>
                           </tr>
                       </thead>
-                      <tbody className="divide-y divide-slate-100">
-                          <tr className="hover:bg-slate-50 transition-colors">
-                              <td className="px-6 py-4 font-medium text-slate-900">Dias Úteis (Seg a Sáb)</td>
-                              <td className="px-6 py-4 font-bold text-orange-600">50%</td>
-                              <td className="px-6 py-4 text-slate-600">Hora Normal × 1,5</td>
+                      <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+                          <tr className="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                              <td className="px-6 py-4 font-medium text-slate-900 dark:text-slate-100">Dias Úteis (Seg a Sáb)</td>
+                              <td className="px-6 py-4 font-bold text-orange-600 dark:text-orange-400">50%</td>
+                              <td className="px-6 py-4 text-slate-600 dark:text-slate-400">Hora Normal × 1,5</td>
                           </tr>
-                          <tr className="hover:bg-slate-50 transition-colors">
-                              <td className="px-6 py-4 font-medium text-slate-900">Domingos e Feriados</td>
-                              <td className="px-6 py-4 font-bold text-purple-600">100%</td>
-                              <td className="px-6 py-4 text-slate-600">Hora Normal × 2</td>
+                          <tr className="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                              <td className="px-6 py-4 font-medium text-slate-900 dark:text-slate-100">Domingos e Feriados</td>
+                              <td className="px-6 py-4 font-bold text-purple-600 dark:text-purple-400">100%</td>
+                              <td className="px-6 py-4 text-slate-600 dark:text-slate-400">Hora Normal × 2</td>
                           </tr>
-                          <tr className="bg-slate-50/50 hover:bg-slate-50 transition-colors">
-                              <td className="px-6 py-4 font-medium text-slate-900">Hora Noturna (22h-5h)</td>
-                              <td className="px-6 py-4 font-bold text-indigo-600">50% + 20% (Adc. Noturno)</td>
-                              <td className="px-6 py-4 text-slate-600">Hora Normal × 1,5 × 1,2</td>
+                          <tr className="bg-slate-50/50 dark:bg-slate-800/50 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                              <td className="px-6 py-4 font-medium text-slate-900 dark:text-slate-100">Hora Noturna (22h-5h)</td>
+                              <td className="px-6 py-4 font-bold text-indigo-600 dark:text-indigo-400">50% + 20% (Adc. Noturno)</td>
+                              <td className="px-6 py-4 text-slate-600 dark:text-slate-400">Hora Normal × 1,5 × 1,2</td>
                           </tr>
                       </tbody>
                   </table>
               </div>
-              <p className="text-[10px] text-slate-400 p-2 bg-slate-50 text-center border-t border-slate-100">* Convenções coletivas podem estipular percentuais maiores (ex: 60%, 110%).</p>
+
+              {/* MOBILE CARDS */}
+              <div className="md:hidden divide-y divide-slate-100 dark:divide-slate-800">
+                  {[
+                        { tipo: "Dias Úteis", add: "50%", form: "Hora × 1,5", color: "text-orange-600" },
+                        { tipo: "Domingos/Feriados", add: "100%", form: "Hora × 2", color: "text-purple-600" },
+                        { tipo: "Hora Noturna", add: "+50% e +20%", form: "Hora × 1,5 × 1,2", color: "text-indigo-600" }
+                  ].map((item, idx) => (
+                      <div key={idx} className="p-4 flex justify-between items-center bg-white dark:bg-slate-900">
+                          <div>
+                              <span className="text-sm font-bold text-slate-800 dark:text-slate-200 block">{item.tipo}</span>
+                              <span className="text-xs text-slate-500 dark:text-slate-400 block mt-0.5">Fórmula: {item.form}</span>
+                          </div>
+                          <div className={`text-lg font-bold ${item.color} dark:text-opacity-80`}>
+                              {item.add}
+                          </div>
+                      </div>
+                  ))}
+              </div>
+
+              <p className="text-[10px] text-slate-400 dark:text-slate-500 p-2 bg-slate-50 dark:bg-slate-800 text-center border-t border-slate-100 dark:border-slate-700">* Convenções coletivas podem estipular percentuais maiores (ex: 60%, 110%).</p>
           </div>
 
           {/* O VILÃO ESQUECIDO: DSR */}
-          <div className="bg-blue-50/60 p-6 md:p-8 rounded-2xl border border-blue-100 my-10 not-prose relative overflow-hidden">
+          <div className="bg-blue-50/60 dark:bg-blue-900/20 p-6 md:p-8 rounded-2xl border border-blue-100 dark:border-blue-900 my-10 not-prose relative overflow-hidden">
               <div className="absolute top-0 right-0 p-4 opacity-10">
-                  <Coins size={140} className="text-blue-900"/>
+                  <Coins size={140} className="text-blue-900 dark:text-blue-300"/>
               </div>
-              <h3 className="text-xl font-bold text-blue-900 mb-4 flex items-center gap-2 relative z-10">
-                  <Wallet size={24} className="text-blue-600"/> O "Bônus Oculto": Reflexo no DSR
+              <h3 className="text-xl font-bold text-blue-900 dark:text-blue-300 mb-4 flex items-center gap-2 relative z-10">
+                  <Wallet size={24} className="text-blue-600 dark:text-blue-400"/> O "Bônus Oculto": Reflexo no DSR
               </h3>
-              <div className="space-y-4 text-slate-700 relative z-10 text-sm md:text-base leading-relaxed">
+              <div className="space-y-4 text-slate-700 dark:text-slate-300 relative z-10 text-sm md:text-base leading-relaxed">
                   <p>
                       Muita gente esquece, mas as horas extras geram um "filho": o reflexo no <strong>Descanso Semanal Remunerado (DSR)</strong>.
                   </p>
                   <p>
                       A lógica é justa: se você trabalhou mais durante a semana, seu dia de descanso (que é remunerado) deve valer mais também.
                   </p>
-                  <div className="bg-white p-4 rounded-xl border border-blue-200 shadow-sm mt-4 text-center">
-                      <p className="font-mono text-xs md:text-sm text-blue-800 font-bold">
+                  <div className="bg-white dark:bg-slate-900 p-4 rounded-xl border border-blue-200 dark:border-blue-800 shadow-sm mt-4 text-center">
+                      <p className="font-mono text-xs md:text-sm text-blue-800 dark:text-blue-300 font-bold">
                           (Total Horas Extras R$ ÷ Dias Úteis) × Domingos/Feriados
                       </p>
                   </div>
@@ -259,30 +329,30 @@ export default async function HorasExtrasPage({ searchParams }: Props) {
           </div>
 
           <div className="mt-12 mb-8">
-              <h3 className="text-xl font-bold text-slate-800 mb-4 flex items-center gap-2">
-                  <History className="text-slate-500" /> A Conquista de 1988
+              <h3 className="text-xl font-bold text-slate-800 dark:text-white mb-4 flex items-center gap-2">
+                  <History className="text-slate-500 dark:text-slate-400" /> A Conquista de 1988
               </h3>
-              <p className="text-slate-600">
+              <p className="text-slate-600 dark:text-slate-300">
                   Antes da Constituição de 1988, a jornada de trabalho padrão no Brasil era de 48 horas semanais, e o adicional de hora extra era de apenas 20%. A Constituição Cidadã reduziu a jornada para 44h e aumentou o adicional mínimo para <strong>50%</strong>, visando a saúde do trabalhador e o convívio familiar.
               </p>
           </div>
-
+          
           {/* FAQ ACORDION */}
           <div className="mt-16 not-prose">
-            <h2 className="text-2xl font-bold text-slate-900 mb-8 flex items-center gap-3 border-b pb-4">
-                <HelpCircle className="text-blue-600" /> Dúvidas Frequentes
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-8 flex items-center gap-3 border-b border-slate-200 dark:border-slate-800 pb-4">
+                <HelpCircle className="text-blue-600 dark:text-blue-400" /> Dúvidas Frequentes
             </h2>
             <div className="space-y-4">
               {faqList.map((item, idx) => (
-                  <details key={idx} className="group bg-slate-50 p-5 rounded-xl border border-slate-200 shadow-sm cursor-pointer open:bg-white open:ring-1 open:ring-purple-100 transition-all">
-                      <summary className="font-semibold text-slate-800 list-none flex justify-between items-center select-none">
+                  <details key={idx} className="group bg-slate-50 dark:bg-slate-800/50 p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm cursor-pointer open:bg-white dark:open:bg-slate-900/50 open:ring-1 open:ring-purple-100 dark:open:ring-purple-900/30 transition-all">
+                      <summary className="font-semibold text-slate-800 dark:text-slate-100 list-none flex justify-between items-center select-none">
                           <div className="flex items-start gap-3">
-                              <span className="text-purple-500 font-bold text-xs mt-1">#</span>
+                              <span className="text-purple-500 dark:text-purple-400 font-bold text-xs mt-1">#</span>
                               <span className="leading-snug">{item.q}</span>
                           </div>
                           <span className="text-slate-400 group-open:rotate-180 transition-transform ml-2 shrink-0">▼</span>
                       </summary>
-                      <p className="mt-3 text-slate-600 leading-relaxed border-t border-slate-100 pt-3 text-sm">
+                      <p className="mt-3 text-slate-600 dark:text-slate-300 leading-relaxed border-t border-slate-100 dark:border-slate-800 pt-3 text-sm">
                           {item.a}
                       </p>
                   </details>
@@ -291,44 +361,22 @@ export default async function HorasExtrasPage({ searchParams }: Props) {
           </div>
 
           {/* REFERÊNCIAS OFICIAIS */}
-          <div className="mt-12 pt-8 border-t border-slate-200 print:hidden not-prose bg-slate-50 p-6 rounded-xl">
-              <h3 className="text-sm font-bold text-slate-500 uppercase tracking-wider mb-4 flex items-center gap-2">
+          <div className="mt-12 pt-8 border-t border-slate-200 dark:border-slate-800 print:hidden not-prose bg-slate-50 dark:bg-slate-900 p-6 rounded-xl">
+              <h3 className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-4 flex items-center gap-2">
                   <Landmark size={16} /> Base Legal
               </h3>
-              <p className="text-xs text-slate-500 mb-3">Consulte a legislação original para mais detalhes:</p>
-              <div className="flex flex-wrap gap-4 text-xs font-medium text-blue-600">
-                  <a href="https://www.planalto.gov.br/ccivil_03/decreto-lei/del5452.htm" target="_blank" rel="nofollow noopener noreferrer" className="hover:underline flex items-center gap-1 bg-white px-3 py-1 rounded border shadow-sm">
+              <p className="text-xs text-slate-500 dark:text-slate-400 mb-3">Consulte a legislação original para mais detalhes:</p>
+              <div className="flex flex-wrap gap-4 text-xs font-medium text-blue-600 dark:text-blue-400">
+                  <a href="https://www.planalto.gov.br/ccivil_03/decreto-lei/del5452.htm" target="_blank" rel="nofollow noopener noreferrer" className="hover:underline flex items-center gap-1 bg-white dark:bg-slate-800 px-3 py-1 rounded border dark:border-slate-700 shadow-sm">
                       CLT - Artigo 59 <ExternalLink size={10}/>
                   </a>
-                  <a href="https://www.planalto.gov.br/ccivil_03/constituicao/constituicao.htm" target="_blank" rel="nofollow noopener noreferrer" className="hover:underline flex items-center gap-1 bg-white px-3 py-1 rounded border shadow-sm">
+                  <a href="https://www.planalto.gov.br/ccivil_03/constituicao/constituicao.htm" target="_blank" rel="nofollow noopener noreferrer" className="hover:underline flex items-center gap-1 bg-white dark:bg-slate-800 px-3 py-1 rounded border dark:border-slate-700 shadow-sm">
                       CF/88 - Artigo 7º <ExternalLink size={10}/>
                   </a>
               </div>
           </div>
 
-          {/* NAVEGAÇÃO FINAL */}
-          <div className="mt-16 pt-8 border-t border-slate-200 print:hidden not-prose">
-            <p className="font-bold text-slate-900 mb-6 text-sm uppercase tracking-wider flex items-center gap-2">
-               <CheckCircle2 size={16} className="text-emerald-500"/> Calcule outros direitos:
-            </p>
-            <div className="grid md:grid-cols-3 gap-4">
-              <Link href="/financeiro/salario-liquido" className="flex flex-col p-5 bg-white border border-slate-200 rounded-xl hover:border-emerald-400 hover:shadow-lg transition-all group">
-                  <div className="bg-emerald-50 w-10 h-10 rounded-lg flex items-center justify-center mb-3 text-emerald-600 shadow-sm group-hover:scale-110 transition-transform"><Coins size={20}/></div>
-                  <span className="font-bold text-slate-800 text-lg">Salário Líquido</span>
-                  <span className="text-sm text-slate-500 mt-1">Veja os descontos</span>
-              </Link>
-              <Link href="/trabalhista/rescisao" className="flex flex-col p-5 bg-white border border-slate-200 rounded-xl hover:border-blue-400 hover:shadow-lg transition-all group">
-                  <div className="bg-blue-50 w-10 h-10 rounded-lg flex items-center justify-center mb-3 text-blue-600 shadow-sm group-hover:scale-110 transition-transform"><Wallet size={20}/></div>
-                  <span className="font-bold text-slate-800 text-lg">Rescisão CLT</span>
-                  <span className="text-sm text-slate-500 mt-1">Cálculo de saída</span>
-              </Link>
-              <Link href="/trabalhista/decimo-terceiro" className="flex flex-col p-5 bg-white border border-slate-200 rounded-xl hover:border-purple-400 hover:shadow-lg transition-all group">
-                  <div className="bg-purple-50 w-10 h-10 rounded-lg flex items-center justify-center mb-3 text-purple-600 shadow-sm group-hover:scale-110 transition-transform"><FileText size={20}/></div>
-                  <span className="font-bold text-slate-800 text-lg">13º Salário</span>
-                  <span className="text-sm text-slate-500 mt-1">1ª e 2ª parcelas</span>
-              </Link>
-            </div>
-          </div>
+          <RelatedTools currentToolLink="/trabalhista/horas-extras" category="trabalhista" />
 
         </div>
         

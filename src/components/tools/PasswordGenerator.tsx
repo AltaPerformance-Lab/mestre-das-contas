@@ -89,8 +89,8 @@ export default function PasswordGenerator() {
       
       {/* --- COLUNA 1: DISPLAY E FORÇA --- */}
       <div className="lg:col-span-7 space-y-6">
-        <Card className="border-0 shadow-lg shadow-slate-200/50 ring-1 ring-slate-200 bg-white rounded-2xl overflow-hidden">
-          <CardHeader className="bg-slate-900 text-white p-6">
+        <Card className="border-0 shadow-lg shadow-slate-200/50 dark:shadow-none ring-1 ring-slate-200 dark:ring-slate-800 bg-white dark:bg-slate-900 rounded-2xl overflow-hidden">
+          <CardHeader className="bg-slate-900 dark:bg-slate-950 text-white p-6">
             <CardTitle className="text-xl flex items-center gap-3">
                <div className="bg-white/20 p-2 rounded-xl backdrop-blur-sm">
                  <Lock size={22} strokeWidth={2.5} />
@@ -102,13 +102,13 @@ export default function PasswordGenerator() {
             
             {/* Display da Senha */}
             <div className="relative group">
-                <div className="absolute inset-0 bg-slate-100 rounded-xl transform translate-y-1"></div>
-                <div className="relative bg-white border-2 border-slate-200 rounded-xl p-4 flex items-center justify-between shadow-sm transition-all group-hover:border-blue-300">
-                    <p className="font-mono text-xl sm:text-2xl text-slate-800 break-all pr-4 tracking-wider">
+                <div className="absolute inset-0 bg-slate-100 dark:bg-slate-800 rounded-xl transform translate-y-1"></div>
+                <div className="relative bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-700 rounded-xl p-4 flex items-center justify-between shadow-sm transition-all group-hover:border-blue-300 dark:group-hover:border-blue-700">
+                    <p className="font-mono text-xl sm:text-2xl text-slate-800 dark:text-slate-100 break-all pr-4 tracking-wider">
                         {password}
                     </p>
                     <div className="flex gap-2 shrink-0">
-                        <Button variant="ghost" size="icon" onClick={generatePassword} className="text-slate-400 hover:text-blue-600" title="Gerar Nova">
+                        <Button variant="ghost" size="icon" onClick={generatePassword} className="text-slate-400 hover:text-blue-600 dark:hover:text-blue-400" title="Gerar Nova">
                             <RefreshCw size={20} />
                         </Button>
                         <Button 
@@ -124,12 +124,12 @@ export default function PasswordGenerator() {
             {/* Barra de Força */}
             <div className="space-y-2">
                 <div className="flex justify-between items-center text-sm">
-                    <span className="font-medium text-slate-500">Nível de Segurança:</span>
+                    <span className="font-medium text-slate-500 dark:text-slate-400">Nível de Segurança:</span>
                     <span className={`font-bold flex items-center gap-1.5 ${strInfo.textCol}`}>
                         <StrengthIcon size={16}/> {strInfo.text}
                     </span>
                 </div>
-                <div className="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
+                <div className="h-2 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
                     <div 
                         className={`h-full transition-all duration-500 ease-out ${strInfo.color}`} 
                         style={{ width: `${(strength / 5) * 100}%` }}
@@ -143,9 +143,9 @@ export default function PasswordGenerator() {
 
       {/* --- COLUNA 2: CONFIGURAÇÕES --- */}
       <div className="lg:col-span-5 w-full min-w-0">
-         <Card className="border-0 shadow-lg shadow-slate-200/60 ring-1 ring-slate-200 bg-white h-full">
-            <CardHeader className="border-b border-slate-100 pb-4">
-                <h3 className="font-bold text-slate-700 flex items-center gap-2">
+         <Card className="border-0 shadow-lg shadow-slate-200/60 dark:shadow-none ring-1 ring-slate-200 dark:ring-slate-800 bg-white dark:bg-slate-900 h-full">
+            <CardHeader className="border-b border-slate-100 dark:border-slate-800 pb-4">
+                <h3 className="font-bold text-slate-700 dark:text-slate-200 flex items-center gap-2">
                     <Settings2 size={18} className="text-slate-400"/> Personalizar
                 </h3>
             </CardHeader>
@@ -154,8 +154,8 @@ export default function PasswordGenerator() {
                 {/* Slider de Tamanho */}
                 <div className="space-y-4">
                     <div className="flex justify-between items-center">
-                        <Label className="text-base font-medium text-slate-700">Tamanho da Senha</Label>
-                        <span className="bg-slate-900 text-white px-3 py-1 rounded-lg font-mono text-sm font-bold">{length[0]}</span>
+                        <Label className="text-base font-medium text-slate-700 dark:text-slate-300">Tamanho da Senha</Label>
+                        <span className="bg-slate-900 dark:bg-slate-700 text-white px-3 py-1 rounded-lg font-mono text-sm font-bold">{length[0]}</span>
                     </div>
                     <Slider
                         value={length}
@@ -171,7 +171,7 @@ export default function PasswordGenerator() {
                 <div className="space-y-5">
                     <div className="flex items-center justify-between">
                         <div className="flex flex-col">
-                            <Label htmlFor="upper" className="text-base font-medium text-slate-700 cursor-pointer">Maiúsculas (A-Z)</Label>
+                            <Label htmlFor="upper" className="text-base font-medium text-slate-700 dark:text-slate-300 cursor-pointer">Maiúsculas (A-Z)</Label>
                             <span className="text-xs text-slate-400">ABCD...</span>
                         </div>
                         <Switch id="upper" checked={useUppercase} onCheckedChange={setUseUppercase} />
@@ -179,7 +179,7 @@ export default function PasswordGenerator() {
                     
                     <div className="flex items-center justify-between">
                         <div className="flex flex-col">
-                            <Label htmlFor="lower" className="text-base font-medium text-slate-700 cursor-pointer">Minúsculas (a-z)</Label>
+                            <Label htmlFor="lower" className="text-base font-medium text-slate-700 dark:text-slate-300 cursor-pointer">Minúsculas (a-z)</Label>
                             <span className="text-xs text-slate-400">abcd...</span>
                         </div>
                         <Switch id="lower" checked={useLowercase} onCheckedChange={setUseLowercase} />
@@ -187,7 +187,7 @@ export default function PasswordGenerator() {
 
                     <div className="flex items-center justify-between">
                         <div className="flex flex-col">
-                            <Label htmlFor="number" className="text-base font-medium text-slate-700 cursor-pointer">Números (0-9)</Label>
+                            <Label htmlFor="number" className="text-base font-medium text-slate-700 dark:text-slate-300 cursor-pointer">Números (0-9)</Label>
                             <span className="text-xs text-slate-400">1234...</span>
                         </div>
                         <Switch id="number" checked={useNumbers} onCheckedChange={setUseNumbers} />
@@ -195,7 +195,7 @@ export default function PasswordGenerator() {
 
                     <div className="flex items-center justify-between">
                         <div className="flex flex-col">
-                            <Label htmlFor="symbol" className="text-base font-medium text-slate-700 cursor-pointer">Símbolos (!@#)</Label>
+                            <Label htmlFor="symbol" className="text-base font-medium text-slate-700 dark:text-slate-300 cursor-pointer">Símbolos (!@#)</Label>
                             <span className="text-xs text-slate-400">!@#$%...</span>
                         </div>
                         <Switch id="symbol" checked={useSymbols} onCheckedChange={setUseSymbols} />

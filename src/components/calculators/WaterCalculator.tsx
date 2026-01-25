@@ -147,7 +147,7 @@ export default function WaterCalculator() {
         
         {/* --- FORMULÁRIO (Esq) --- */}
         <div className="lg:col-span-6 space-y-6">
-            <Card className="border-0 shadow-lg shadow-cyan-100/50 ring-1 ring-cyan-100 w-full overflow-hidden bg-white rounded-2xl">
+            <Card className="border-0 shadow-lg shadow-cyan-100/50 dark:shadow-none ring-1 ring-cyan-100 dark:ring-cyan-900 w-full overflow-hidden bg-white dark:bg-slate-900 rounded-2xl">
                 <CardHeader className="bg-gradient-to-r from-cyan-500 to-blue-500 text-white p-6">
                     <div className="flex flex-row items-center justify-between gap-2">
                         <CardTitle className="text-xl flex items-center gap-3">
@@ -163,16 +163,16 @@ export default function WaterCalculator() {
                 </CardHeader>
                 <CardContent className="p-6 space-y-5">
                     <div className="space-y-2">
-                        <Label className="text-slate-600 font-medium">Seu Peso (kg)</Label>
+                        <Label className="text-slate-600 dark:text-slate-300 font-medium">Seu Peso (kg)</Label>
                         <div className="relative">
-                            <Input type="number" value={peso} onChange={e => setPeso(e.target.value)} placeholder="Ex: 70" className="h-12 border-slate-200 pl-4 text-lg font-medium" inputMode="decimal"/>
+                            <Input type="number" value={peso} onChange={e => setPeso(e.target.value)} placeholder="Ex: 70" className="h-12 border-slate-200 dark:border-slate-700 pl-4 text-lg font-medium bg-slate-50 dark:bg-slate-800 focus:bg-white dark:focus:bg-slate-900 transition-colors dark:text-slate-100" inputMode="decimal"/>
                             <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm font-bold">kg</span>
                         </div>
                     </div>
                     <div className="space-y-2">
-                        <Label className="text-slate-600 font-medium">Nível de Atividade</Label>
+                        <Label className="text-slate-600 dark:text-slate-300 font-medium">Nível de Atividade</Label>
                         <Select value={atividade} onValueChange={setAtividade}>
-                            <SelectTrigger className="h-12 bg-slate-50 border-slate-200"><SelectValue/></SelectTrigger>
+                            <SelectTrigger className="h-12 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200"><SelectValue/></SelectTrigger>
                             <SelectContent>
                                 <SelectItem value="sedentario">Sedentário (Pouco exercício)</SelectItem>
                                 <SelectItem value="leve">Leve (1-3x por semana)</SelectItem>
@@ -189,16 +189,16 @@ export default function WaterCalculator() {
 
             {/* HISTÓRICO */}
             {!isIframe && historico.length > 0 && (
-                <div className="bg-white rounded-xl border border-slate-200 p-5 shadow-sm animate-in fade-in">
+                <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-5 shadow-sm animate-in fade-in">
                     <h4 className="text-xs font-bold text-slate-400 uppercase mb-4 flex items-center gap-2 tracking-wider"><History size={14}/> Recentes</h4>
                     <div className="space-y-1">
                     {historico.map((h, i) => (
-                        <div key={i} className="flex justify-between items-center text-sm border-b border-slate-50 pb-2 last:border-0 last:pb-0 p-2 hover:bg-slate-50 rounded-lg transition-colors cursor-pointer" onClick={() => handleRestaurarHistorico(h)}>
+                        <div key={i} className="flex justify-between items-center text-sm border-b border-slate-50 dark:border-slate-800 pb-2 last:border-0 last:pb-0 p-2 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors cursor-pointer" onClick={() => handleRestaurarHistorico(h)}>
                             <div className="flex flex-col">
-                                <span className="text-slate-900 font-bold">{h.peso}</span>
+                                <span className="text-slate-900 dark:text-slate-100 font-bold">{h.peso}</span>
                                 <span className="text-[10px] text-slate-400 capitalize">{h.atividade}</span>
                             </div>
-                            <span className="font-bold text-cyan-600 bg-cyan-50 px-2 py-0.5 rounded text-xs">{h.meta}</span>
+                            <span className="font-bold text-cyan-600 dark:text-cyan-400 bg-cyan-50 dark:bg-cyan-900/20 px-2 py-0.5 rounded text-xs">{h.meta}</span>
                         </div>
                     ))}
                     </div>
@@ -208,7 +208,7 @@ export default function WaterCalculator() {
 
         {/* --- RESULTADO (Dir) --- */}
         <div className="lg:col-span-6">
-            <Card className={`h-full border-0 shadow-lg shadow-slate-200/50 ring-1 ring-slate-200 ${resultado ? 'bg-white' : 'bg-slate-50'} transition-all duration-500`}>
+            <Card className={`h-full border-0 shadow-lg shadow-slate-200/50 dark:shadow-none ring-1 ring-slate-200 dark:ring-slate-800 ${resultado ? 'bg-white dark:bg-slate-900' : 'bg-slate-50 dark:bg-slate-950'} transition-all duration-500`}>
                 <CardContent className="p-6 flex flex-col justify-center h-full min-h-[400px]">
                     {!resultado ? (
                         <div className="text-center text-slate-400 flex flex-col items-center">
@@ -223,35 +223,35 @@ export default function WaterCalculator() {
                             {/* Círculo Principal */}
                             <div className="relative w-56 h-56 mx-auto flex flex-col items-center justify-center">
                                 <div className="absolute inset-0 rounded-full border-4 border-cyan-100 animate-pulse"></div>
-                                <div className="absolute inset-2 rounded-full border-2 border-dashed border-cyan-200"></div>
+                                <div className="absolute inset-2 rounded-full border-2 border-dashed border-cyan-200 dark:border-cyan-800"></div>
                                 <div className="z-10 flex flex-col items-center">
-                                    <span className="text-xs font-bold text-cyan-600 uppercase tracking-widest mb-1">Sua Meta Diária</span>
-                                    <span className="text-6xl font-extrabold text-cyan-800 tracking-tight">{resultado.totalLitros}</span>
-                                    <span className="text-xs text-slate-400 mt-2 bg-slate-50 px-2 py-1 rounded-full">Baseado na OMS</span>
+                                    <span className="text-xs font-bold text-cyan-600 dark:text-cyan-400 uppercase tracking-widest mb-1">Sua Meta Diária</span>
+                                    <span className="text-6xl font-extrabold text-cyan-800 dark:text-cyan-100 tracking-tight">{resultado.totalLitros}</span>
+                                    <span className="text-xs text-slate-400 mt-2 bg-slate-50 dark:bg-slate-800 px-2 py-1 rounded-full">Baseado na OMS</span>
                                 </div>
                             </div>
 
                             <div className="grid grid-cols-2 gap-4">
-                                <div className="bg-slate-50 p-4 rounded-xl border border-slate-100 hover:border-cyan-200 transition-colors">
+                                <div className="bg-slate-50 dark:bg-slate-800 p-4 rounded-xl border border-slate-100 dark:border-slate-700 hover:border-cyan-200 dark:hover:border-cyan-700 transition-colors">
                                     <div className="flex justify-center mb-2 text-cyan-500"><GlassWater size={24} /></div>
-                                    <p className="text-xs text-slate-500 font-bold uppercase mb-1">Em Copos</p>
-                                    <p className="text-2xl font-bold text-slate-800">~{resultado.copos}</p>
+                                    <p className="text-xs text-slate-500 dark:text-slate-400 font-bold uppercase mb-1">Em Copos</p>
+                                    <p className="text-2xl font-bold text-slate-800 dark:text-slate-100">~{resultado.copos}</p>
                                     <p className="text-[10px] text-slate-400">de 250ml</p>
                                 </div>
-                                <div className="bg-slate-50 p-4 rounded-xl border border-slate-100 hover:border-cyan-200 transition-colors">
+                                <div className="bg-slate-50 dark:bg-slate-800 p-4 rounded-xl border border-slate-100 dark:border-slate-700 hover:border-cyan-200 dark:hover:border-cyan-700 transition-colors">
                                     <div className="flex justify-center mb-2 text-cyan-500"><Activity size={24} /></div>
-                                    <p className="text-xs text-slate-500 font-bold uppercase mb-1">Em Garrafas</p>
-                                    <p className="text-2xl font-bold text-slate-800">~{resultado.garrafas}</p>
+                                    <p className="text-xs text-slate-500 dark:text-slate-400 font-bold uppercase mb-1">Em Garrafas</p>
+                                    <p className="text-2xl font-bold text-slate-800 dark:text-slate-100">~{resultado.garrafas}</p>
                                     <p className="text-[10px] text-slate-400">de 500ml</p>
                                 </div>
                             </div>
 
                             <div className="grid grid-cols-2 gap-3 pt-2">
-                                <Button variant="outline" onClick={() => handleAction('share')} className="h-11 border-slate-200 hover:bg-cyan-50 hover:text-cyan-600 hover:border-cyan-200">
+                                <Button variant="outline" onClick={() => handleAction('share')} className="h-11 border-slate-200 dark:border-slate-700 hover:bg-cyan-50 dark:hover:bg-cyan-900/10 hover:text-cyan-600 dark:hover:text-cyan-400 hover:border-cyan-200 dark:hover:border-cyan-700 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200">
                                     {isIframe ? <span className="flex gap-2 items-center"><ExternalLink size={16}/> Ver Completo</span> : 
                                     (copiado === "link" ? <span className="flex gap-2 items-center"><CheckCircle2 size={16}/> Copiado</span> : "Compartilhar")}
                                 </Button>
-                                <Button variant="outline" onClick={() => handleAction('pdf')} className="h-11 border-slate-200 hover:bg-slate-100 hover:text-slate-900">
+                                <Button variant="outline" onClick={() => handleAction('pdf')} className="h-11 border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-100 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200">
                                     {isIframe ? <span className="flex gap-2 items-center"><ExternalLink size={16}/> Baixar PDF</span> : 
                                     <span className="flex gap-2 items-center"><Printer size={16}/> Imprimir PDF</span>}
                                 </Button>
@@ -301,19 +301,19 @@ export default function WaterCalculator() {
       {/* MODAL EMBED */}
       {showEmbedModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 animate-in fade-in backdrop-blur-sm print:hidden" onClick={() => setShowEmbedModal(false)}>
-            <div className="bg-white rounded-2xl shadow-2xl p-6 max-w-lg w-full relative" onClick={e => e.stopPropagation()}>
-                <button onClick={() => setShowEmbedModal(false)} className="absolute top-4 right-4 text-slate-400 hover:text-slate-600"><X size={20}/></button>
-                <h3 className="text-lg font-bold text-slate-900 mb-2">Incorporar Calculadora</h3>
-                <p className="text-sm text-slate-500 mb-4">Copie o código abaixo.</p>
-                <div className="bg-slate-950 p-4 rounded-xl relative mb-4 overflow-hidden">
-                    <code className="text-xs font-mono text-cyan-300 break-all block">{`<iframe src="https://mestredascontas.com.br/saude/agua?embed=true" width="100%" height="600" frameborder="0" style="border:0; border-radius:12px;" title="Calculadora de Água"></iframe>`}</code>
+            <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-2xl p-6 max-w-lg w-full relative" onClick={e => e.stopPropagation()}>
+                <button onClick={() => setShowEmbedModal(false)} className="absolute top-4 right-4 text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300 transition-colors"><X size={20}/></button>
+                <h3 className="text-lg font-bold text-slate-900 dark:text-slate-100 mb-2">Incorporar no seu Site</h3>
+                <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">Copie o código abaixo para adicionar essa calculadora no seu blog ou site.</p>
+                <div className="bg-slate-950 p-4 rounded-xl relative mb-4 overflow-hidden group">
+                    <code className="text-xs font-mono text-cyan-300 break-all block leading-relaxed selection:bg-blue-900">{`<iframe src="https://mestredascontas.com.br/saude/agua?embed=true" width="100%" height="600" frameborder="0" style="border:0; border-radius:12px;" title="Calculadora de Água"></iframe>`}</code>
                 </div>
                 <Button onClick={() => {
                     navigator.clipboard.writeText(`<iframe src="https://mestredascontas.com.br/saude/agua?embed=true" width="100%" height="600" frameborder="0" style="border:0; border-radius:12px;" title="Calculadora de Água"></iframe>`);
                     setCopiado('embed');
                     setTimeout(() => setCopiado(null), 2000);
-                }} className="w-full bg-slate-900 hover:bg-slate-800 h-12 rounded-xl text-white font-bold">
-                    {copiado === 'embed' ? "Copiado!" : "Copiar Código HTML"}
+                }} className="w-full bg-slate-900 hover:bg-slate-800 dark:bg-blue-600 dark:hover:bg-blue-700 text-white font-bold h-12 rounded-xl">
+                    {copiado === 'embed' ? "Código Copiado!" : "Copiar Código HTML"}
                 </Button>
             </div>
         </div>

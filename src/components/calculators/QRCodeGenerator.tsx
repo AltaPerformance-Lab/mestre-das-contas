@@ -221,8 +221,8 @@ export default function QRCodeGenerator({ initialType, initialValues }: QRCodeGe
       
       {/* ESQUERDA: CONFIGURAÇÃO */}
       <div className="lg:col-span-7 space-y-6 w-full min-w-0">
-        <Card className="border-0 shadow-lg shadow-slate-200/60 ring-1 ring-slate-200 bg-white overflow-hidden">
-          <CardHeader className="bg-slate-900 text-white p-6">
+        <Card className="border-0 shadow-lg shadow-slate-200/60 dark:shadow-none ring-1 ring-slate-200 dark:ring-slate-800 bg-white dark:bg-slate-900 overflow-hidden">
+          <CardHeader className="bg-slate-900 dark:bg-slate-950 text-white p-6">
             <CardTitle className="text-xl flex items-center gap-3">
               <div className="bg-white/20 p-2 rounded-lg"><Settings2 size={20}/></div>
               Configurar QR Code
@@ -235,7 +235,7 @@ export default function QRCodeGenerator({ initialType, initialValues }: QRCodeGe
               {/* UX MOBILE: Abas Deslizantes */}
               <div className="relative">
                   <div className="overflow-x-auto pb-2 -mx-2 px-2 scrollbar-hide relative z-10">
-                      <TabsList className="flex w-max h-auto p-1 bg-slate-100/50 space-x-1">
+                      <TabsList className="flex w-max h-auto p-1 bg-slate-100/50 dark:bg-slate-800 space-x-1">
                         <TabsTrigger value="link" className="flex-col gap-1 py-2 px-4 h-16 w-20"><LinkIcon size={18}/> <span className="text-[10px]">Link</span></TabsTrigger>
                         <TabsTrigger value="pix" className="flex-col gap-1 py-2 px-4 h-16 w-20"><DollarSign size={18}/> <span className="text-[10px]">Pix</span></TabsTrigger>
                         <TabsTrigger value="whatsapp" className="flex-col gap-1 py-2 px-4 h-16 w-20"><MessageCircle size={18}/> <span className="text-[10px]">Whats</span></TabsTrigger>
@@ -245,7 +245,7 @@ export default function QRCodeGenerator({ initialType, initialValues }: QRCodeGe
                         <TabsTrigger value="email" className="flex-col gap-1 py-2 px-4 h-16 w-20"><Mail size={18}/> <span className="text-[10px]">E-mail</span></TabsTrigger>
                       </TabsList>
                   </div>
-                  <div className="absolute right-0 top-0 bottom-2 w-12 bg-gradient-to-l from-white to-transparent z-20 pointer-events-none md:hidden"></div>
+                  <div className="absolute right-0 top-0 bottom-2 w-12 bg-gradient-to-l from-white dark:from-slate-900 to-transparent z-20 pointer-events-none md:hidden"></div>
               </div>
               
               <div className="flex items-center justify-center gap-2 text-[10px] text-slate-400 uppercase font-bold tracking-wide md:hidden mb-4 animate-pulse">
@@ -256,7 +256,7 @@ export default function QRCodeGenerator({ initialType, initialValues }: QRCodeGe
                   
                   {/* ABA PIX */}
                   <TabsContent value="pix" className="space-y-4 animate-in fade-in">
-                    <div className="p-4 bg-emerald-50 border border-emerald-100 rounded-lg text-sm text-emerald-800 mb-4 flex gap-2">
+                    <div className="p-4 bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-100 dark:border-emerald-800 rounded-lg text-sm text-emerald-800 dark:text-emerald-300 mb-4 flex gap-2">
                         <DollarSign size={18} className="shrink-0"/>
                         <p>Gere um QR Code estático para receber pagamentos instantâneos.</p>
                     </div>
@@ -357,8 +357,8 @@ export default function QRCodeGenerator({ initialType, initialValues }: QRCodeGe
             </Tabs>
 
             {/* OPÇÕES AVANÇADAS */}
-            <div className="border-t border-slate-100 pt-6 mt-6">
-                <h4 className="font-bold text-slate-700 flex items-center gap-2 mb-4 text-sm uppercase tracking-wide">
+            <div className="border-t border-slate-100 dark:border-slate-800 pt-6 mt-6">
+                <h4 className="font-bold text-slate-700 dark:text-slate-200 flex items-center gap-2 mb-4 text-sm uppercase tracking-wide">
                     <Palette size={16}/> Aparência
                 </h4>
                 
@@ -420,12 +420,12 @@ export default function QRCodeGenerator({ initialType, initialValues }: QRCodeGe
 
       {/* DIREITA: PREVIEW & AÇÃO */}
       <div className="lg:col-span-5 w-full min-w-0">
-        <Card className="border-0 shadow-lg shadow-slate-200/60 ring-1 ring-slate-200 bg-slate-50 h-auto lg:sticky lg:top-6">
+        <Card className="border-0 shadow-lg shadow-slate-200/60 dark:shadow-none ring-1 ring-slate-200 dark:ring-slate-800 bg-slate-50 dark:bg-slate-900 h-auto lg:sticky lg:top-6">
             <CardContent className="p-6 md:p-8 flex flex-col items-center justify-center min-h-[400px]">
                 
                 <div className="text-center mb-6 w-full">
-                    <h3 className="font-bold text-slate-900 text-lg mb-1 flex items-center justify-center gap-2"><QrCode size={20}/> Resultado</h3>
-                    <p className="text-xs text-slate-500 font-medium bg-white px-3 py-1 rounded-full shadow-sm inline-block truncate max-w-full">
+                    <h3 className="font-bold text-slate-900 dark:text-white text-lg mb-1 flex items-center justify-center gap-2"><QrCode size={20}/> Resultado</h3>
+                    <p className="text-xs text-slate-500 dark:text-slate-400 font-medium bg-white dark:bg-slate-800 px-3 py-1 rounded-full shadow-sm inline-block truncate max-w-full">
                         {printTitle || "Seu Código"}
                     </p>
                 </div>
@@ -459,7 +459,7 @@ export default function QRCodeGenerator({ initialType, initialValues }: QRCodeGe
 
                 <div className="w-full space-y-3">
                     {activeTab === 'pix' && (
-                        <div className="bg-emerald-50 text-emerald-800 text-[10px] sm:text-xs p-3 rounded-lg border border-emerald-100 text-center mb-2 font-mono break-all">
+                        <div className="bg-emerald-50 dark:bg-emerald-900/20 text-emerald-800 dark:text-emerald-300 text-[10px] sm:text-xs p-3 rounded-lg border border-emerald-100 dark:border-emerald-800 text-center mb-2 font-mono break-all">
                             {getFinalValue()}
                         </div>
                     )}
@@ -472,10 +472,10 @@ export default function QRCodeGenerator({ initialType, initialValues }: QRCodeGe
                     </Button>
                     
                     <div className="grid grid-cols-2 gap-3">
-                        <Button variant="outline" onClick={() => download("svg")} className="h-12 border-slate-300 rounded-xl">
+                        <Button variant="outline" onClick={() => download("svg")} className="h-12 border-slate-300 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 rounded-xl">
                             <ImageIcon size={16} className="mr-2"/> SVG
                         </Button>
-                        <Button variant="outline" onClick={handlePrint} className="h-12 border-slate-300 rounded-xl">
+                        <Button variant="outline" onClick={handlePrint} className="h-12 border-slate-300 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 rounded-xl">
                             <Printer size={16} className="mr-2"/> Imprimir
                         </Button>
                     </div>

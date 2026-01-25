@@ -134,7 +134,7 @@ export default function TimeCalculator() {
         
         {/* --- FORMULÁRIO --- */}
         <div className="lg:col-span-6 space-y-6">
-            <Card className="border-0 shadow-lg shadow-indigo-100/50 ring-1 ring-indigo-100 bg-white rounded-2xl overflow-hidden">
+            <Card className="border-0 shadow-lg shadow-indigo-100/50 dark:shadow-none ring-1 ring-indigo-100 dark:ring-indigo-900 bg-white dark:bg-slate-900 rounded-2xl overflow-hidden">
                 <CardHeader className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white p-6">
                     <div className="flex justify-between items-center">
                         <CardTitle className="text-xl flex items-center gap-3">
@@ -149,30 +149,30 @@ export default function TimeCalculator() {
                 <CardContent className="p-6 space-y-5">
                     <div className="grid grid-cols-2 gap-4">
                         <div className="space-y-2">
-                            <Label className="text-slate-600 font-medium flex items-center gap-2"><Sun size={14} className="text-orange-500"/> Entrada</Label>
-                            <Input type="time" value={entrada1} onChange={e => setEntrada1(e.target.value)} className="h-12 border-slate-200 bg-slate-50 focus:bg-white transition-colors text-lg" />
+                            <Label className="text-slate-600 dark:text-slate-300 font-medium flex items-center gap-2"><Sun size={14} className="text-orange-500"/> Entrada</Label>
+                            <Input type="time" value={entrada1} onChange={e => setEntrada1(e.target.value)} className="h-12 border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 focus:bg-white dark:focus:bg-slate-900 transition-colors text-lg dark:text-slate-100" />
                         </div>
                         <div className="space-y-2">
-                            <Label className="text-slate-600 font-medium flex items-center gap-2"><Moon size={14} className="text-slate-400"/> Saída Almoço</Label>
-                            <Input type="time" value={saida1} onChange={e => setSaida1(e.target.value)} className="h-12 border-slate-200 bg-slate-50 focus:bg-white transition-colors text-lg" />
+                            <Label className="text-slate-600 dark:text-slate-300 font-medium flex items-center gap-2"><Moon size={14} className="text-slate-400"/> Saída Almoço</Label>
+                            <Input type="time" value={saida1} onChange={e => setSaida1(e.target.value)} className="h-12 border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 focus:bg-white dark:focus:bg-slate-900 transition-colors text-lg dark:text-slate-100" />
                         </div>
                     </div>
                     
                     <div className="grid grid-cols-2 gap-4">
                         <div className="space-y-2">
-                            <Label className="text-slate-600 font-medium flex items-center gap-2"><Sun size={14} className="text-orange-500"/> Volta Almoço</Label>
-                            <Input type="time" value={entrada2} onChange={e => setEntrada2(e.target.value)} className="h-12 border-slate-200 bg-slate-50 focus:bg-white transition-colors text-lg" />
+                            <Label className="text-slate-600 dark:text-slate-300 font-medium flex items-center gap-2"><Sun size={14} className="text-orange-500"/> Volta Almoço</Label>
+                            <Input type="time" value={entrada2} onChange={e => setEntrada2(e.target.value)} className="h-12 border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 focus:bg-white dark:focus:bg-slate-900 transition-colors text-lg dark:text-slate-100" />
                         </div>
                         <div className="space-y-2">
-                            <Label className="text-slate-600 font-medium flex items-center gap-2"><Moon size={14} className="text-slate-400"/> Saída</Label>
-                            <Input type="time" value={saida2} onChange={e => setSaida2(e.target.value)} className="h-12 border-slate-200 bg-slate-50 focus:bg-white transition-colors text-lg" />
+                            <Label className="text-slate-600 dark:text-slate-300 font-medium flex items-center gap-2"><Moon size={14} className="text-slate-400"/> Saída</Label>
+                            <Input type="time" value={saida2} onChange={e => setSaida2(e.target.value)} className="h-12 border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 focus:bg-white dark:focus:bg-slate-900 transition-colors text-lg dark:text-slate-100" />
                         </div>
                     </div>
 
                     <div className="pt-2 border-t border-slate-100">
                         <div className="space-y-2">
                             <Label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Jornada Esperada</Label>
-                            <Input type="time" value={jornada} onChange={e => setJornada(e.target.value)} className="h-10 border-slate-200 w-full text-center font-mono text-slate-600" />
+                            <Input type="time" value={jornada} onChange={e => setJornada(e.target.value)} className="h-10 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 w-full text-center font-mono text-slate-600 dark:text-slate-200" />
                         </div>
                     </div>
 
@@ -180,7 +180,7 @@ export default function TimeCalculator() {
                         <Button onClick={calcular} className="flex-1 bg-indigo-600 hover:bg-indigo-700 h-14 text-lg font-bold shadow-lg shadow-indigo-200 rounded-xl transition-all active:scale-[0.99]">
                             Calcular Dia
                         </Button>
-                        <Button variant="outline" onClick={limpar} size="icon" className="h-14 w-14 shrink-0 border-slate-200 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-xl">
+                        <Button variant="outline" onClick={limpar} size="icon" className="h-14 w-14 shrink-0 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-xl">
                             <X size={20} />
                         </Button>
                     </div>
@@ -189,14 +189,14 @@ export default function TimeCalculator() {
 
             {/* HISTÓRICO */}
             {historico.length > 0 && (
-                <div className="bg-white rounded-xl border border-slate-200 p-5 shadow-sm animate-in fade-in">
+                <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-5 shadow-sm animate-in fade-in">
                     <h4 className="text-xs font-bold text-slate-400 uppercase mb-4 flex items-center gap-2 tracking-wider"><History size={14}/> Últimos Dias</h4>
                     <div className="space-y-1">
                         {historico.map((h, i) => (
-                            <div key={i} className="flex justify-between items-center text-sm border-b border-slate-50 pb-2 last:border-0 py-2">
-                                <span className="text-slate-500">{h.data}</span>
+                            <div key={i} className="flex justify-between items-center text-sm border-b border-slate-50 dark:border-slate-800 pb-2 last:border-0 py-2">
+                                <span className="text-slate-500 dark:text-slate-400">{h.data}</span>
                                 <div className="flex gap-4">
-                                    <span className="font-mono text-slate-700">{h.trabalhado}</span>
+                                    <span className="font-mono text-slate-700 dark:text-slate-300">{h.trabalhado}</span>
                                     <span className={`font-bold font-mono w-16 text-right ${h.status === 'positivo' ? 'text-green-600' : h.status === 'negativo' ? 'text-red-600' : 'text-slate-400'}`}>
                                         {h.status === 'positivo' ? '+' : ''}{h.saldo}
                                     </span>
@@ -210,7 +210,7 @@ export default function TimeCalculator() {
 
         {/* --- RESULTADO (Dir) --- */}
         <div className="lg:col-span-6">
-            <Card className={`h-full border-0 shadow-lg shadow-slate-200/50 ring-1 ring-slate-200 ${resultado ? 'bg-white' : 'bg-slate-50'} transition-all duration-500`}>
+            <Card className={`h-full border-0 shadow-lg shadow-slate-200/50 dark:shadow-none ring-1 ring-slate-200 dark:ring-slate-800 ${resultado ? 'bg-white dark:bg-slate-900' : 'bg-slate-50 dark:bg-slate-950'} transition-all duration-500`}>
                 <CardContent className="p-6 flex flex-col justify-center h-full min-h-[400px]">
                     {!resultado ? (
                         <div className="text-center text-slate-400 flex flex-col items-center">
@@ -227,13 +227,13 @@ export default function TimeCalculator() {
                                 <div className={`absolute inset-0 rounded-full border-4 animate-pulse opacity-20 ${resultado.status === 'positivo' ? 'border-green-500 bg-green-50' : resultado.status === 'negativo' ? 'border-red-500 bg-red-50' : 'border-slate-300 bg-slate-50'}`}></div>
                                 <div className="z-10 flex flex-col items-center">
                                     <span className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Total Trabalhado</span>
-                                    <span className="text-6xl font-extrabold text-slate-800 tracking-tight font-mono">{resultado.totalTrabalhado}</span>
-                                    {resultado.almoco !== "00:00" && <span className="text-xs text-slate-400 mt-2 bg-white/50 px-2 py-1 rounded-full border border-slate-100">Almoço: {resultado.almoco}</span>}
+                                    <span className="text-6xl font-extrabold text-slate-800 dark:text-slate-100 tracking-tight font-mono">{resultado.totalTrabalhado}</span>
+                                    {resultado.almoco !== "00:00" && <span className="text-xs text-slate-400 mt-2 bg-white/50 dark:bg-white/10 px-2 py-1 rounded-full border border-slate-100 dark:border-slate-700">Almoço: {resultado.almoco}</span>}
                                 </div>
                             </div>
 
                             {/* Saldo */}
-                            <div className={`p-4 rounded-xl border ${resultado.status === 'positivo' ? 'bg-green-50 border-green-200 text-green-800' : resultado.status === 'negativo' ? 'bg-red-50 border-red-200 text-red-800' : 'bg-slate-100 border-slate-200 text-slate-600'}`}>
+                            <div className={`p-4 rounded-xl border ${resultado.status === 'positivo' ? 'bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800 text-green-800 dark:text-green-300' : resultado.status === 'negativo' ? 'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800 text-red-800 dark:text-red-300' : 'bg-slate-100 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300'}`}>
                                 <p className="text-xs font-bold uppercase mb-1">Saldo do Dia</p>
                                 <p className="text-3xl font-extrabold font-mono flex items-center justify-center gap-2">
                                     {resultado.status === 'positivo' && <CheckCircle2 size={24}/>}
@@ -246,10 +246,10 @@ export default function TimeCalculator() {
                             </div>
 
                             <div className="grid grid-cols-2 gap-3 pt-2">
-                                <Button variant="outline" onClick={handleShare} className="h-11 border-slate-200 hover:bg-indigo-50 hover:text-indigo-600">
+                                <Button variant="outline" onClick={handleShare} className="h-11 border-slate-200 dark:border-slate-700 hover:bg-indigo-50 dark:hover:bg-indigo-900/20 hover:text-indigo-600 dark:hover:text-indigo-400 bg-white dark:bg-slate-900 dark:text-slate-200">
                                     {copiado === "embed" ? "Copiado!" : "Compartilhar"}
                                 </Button>
-                                <Button variant="outline" onClick={reactToPrintFn} className="h-11 border-slate-200 hover:bg-slate-100 hover:text-slate-900">
+                                <Button variant="outline" onClick={reactToPrintFn} className="h-11 border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-100 bg-white dark:bg-slate-900 dark:text-slate-200">
                                     <Printer size={16} className="mr-2"/> Imprimir
                                 </Button>
                             </div>
@@ -286,12 +286,24 @@ export default function TimeCalculator() {
 
       {/* EMBED */}
       {showEmbed && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
-            <div className="bg-white p-6 rounded-xl w-full max-w-lg relative">
-                <button onClick={() => setShowEmbed(false)} className="absolute top-4 right-4"><X size={20}/></button>
-                <h3 className="font-bold mb-4">Incorporar Calculadora</h3>
-                <code className="block bg-slate-100 p-3 rounded text-xs break-all text-slate-600">{`<iframe src="https://mestredascontas.com.br/trabalhista/horas-trabalhadas?embed=true" width="100%" height="600" frameborder="0"></iframe>`}</code>
-                <Button onClick={handleShare} className="w-full mt-4 bg-indigo-600 hover:bg-indigo-700 text-white">Copiar Código</Button>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 animate-in fade-in backdrop-blur-sm print:hidden" onClick={() => setShowEmbed(false)}>
+            <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-2xl p-6 max-w-lg w-full relative" onClick={e => e.stopPropagation()}>
+                <button onClick={() => setShowEmbed(false)} className="absolute top-4 right-4 text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300 transition-colors"><X size={20}/></button>
+                <h3 className="text-lg font-bold text-slate-900 dark:text-slate-100 mb-2">Incorporar no seu Site</h3>
+                <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">Copie o código abaixo para adicionar essa calculadora no seu blog ou site.</p>
+                <div className="bg-slate-950 p-4 rounded-xl relative mb-4 overflow-hidden group">
+                    <code className="text-xs font-mono text-blue-300 break-all block leading-relaxed selection:bg-blue-900">
+                        {`<iframe src="https://mestredascontas.com.br/trabalhista/horas-trabalhadas?embed=true" width="100%" height="600" frameborder="0" style="border:0; border-radius:12px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);" title="Calculadora de Horas Trabalhadas"></iframe>`}
+                    </code>
+                </div>
+                <Button onClick={() => {
+                     const code = `<iframe src="https://mestredascontas.com.br/trabalhista/horas-trabalhadas?embed=true" width="100%" height="600" frameborder="0" style="border:0; border-radius:12px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);" title="Calculadora de Horas Trabalhadas"></iframe>`;
+                     navigator.clipboard.writeText(code);
+                     setCopiado("embed");
+                     setTimeout(() => setCopiado(null), 2000);
+                }} className="w-full bg-slate-900 hover:bg-slate-800 dark:bg-blue-600 dark:hover:bg-blue-700 text-white font-bold h-12 rounded-xl">
+                    {copiado === "embed" ? "Código Copiado!" : "Copiar Código HTML"}
+                </Button>
             </div>
         </div>
       )}
