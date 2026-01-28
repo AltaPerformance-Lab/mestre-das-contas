@@ -1,6 +1,5 @@
 
 import { Metadata } from "next";
-export const runtime = 'edge';
 import Link from "next/link";
 import ContentDeclarationGenerator from "@/components/tools/ContentDeclarationGenerator";
 import AdUnit from "@/components/ads/AdUnit";
