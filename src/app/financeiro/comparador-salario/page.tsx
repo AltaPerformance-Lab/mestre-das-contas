@@ -1,6 +1,5 @@
 import { Suspense } from 'react';
 import type { Metadata } from "next";
-export const runtime = 'edge';
 import SalaryComparator from "@/components/calculators/SalaryComparator";
 import AdUnit from "@/components/ads/AdUnit";
 import PageHeader from "@/components/layout/PageHeader";

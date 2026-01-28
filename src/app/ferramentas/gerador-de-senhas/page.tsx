@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-export const runtime = 'edge';
 import Link from "next/link";
 import PasswordGenerator from "@/components/tools/PasswordGenerator";
 import LazyAdUnit from "@/components/ads/LazyAdUnit";

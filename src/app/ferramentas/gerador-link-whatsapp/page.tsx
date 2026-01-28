@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-export const runtime = 'edge';
 import Link from "next/link";
 import WhatsAppGenerator from "@/components/tools/WhatsAppGenerator";
 import LazyAdUnit from "@/components/ads/LazyAdUnit";

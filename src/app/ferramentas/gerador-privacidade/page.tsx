@@ -1,6 +1,5 @@
 
 import { Metadata } from "next";
-export const runtime = 'edge';
 import PrivacyPolicyGenerator from "@/components/tools/PrivacyPolicyGenerator";
 import AdUnit from "@/components/ads/AdUnit";
 import PageHeader from "@/components/layout/PageHeader";

@@ -1,6 +1,5 @@
 
 import dynamic from 'next/dynamic';
-export const runtime = 'edge';
 import { Metadata } from "next";
 import { 
   Briefcase, 

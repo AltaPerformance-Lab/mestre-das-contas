@@ -1,6 +1,5 @@
 import { Suspense } from "react";
 import type { Metadata } from "next";
-export const runtime = 'edge';
 import Link from "next/link";
 import TerminationCalculator from "@/components/calculators/TerminationCalculator";
 import LazyAdUnit from "@/components/ads/LazyAdUnit";
