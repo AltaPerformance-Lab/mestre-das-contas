@@ -1,5 +1,6 @@
 
 import { Metadata } from "next";
+export const runtime = 'edge';
 import Link from "next/link";
 import ContentDeclarationGenerator from "@/components/tools/ContentDeclarationGenerator";
 import AdUnit from "@/components/ads/AdUnit";
@@ -13,7 +14,7 @@ import {
 import DisclaimerBox from "@/components/ui/DisclaimerBox";
 
 export const metadata: Metadata = {
-  title: "Gerador de Declaração de Conteúdo Correios (PDF Grátis) | 2026",
+  title: "Declaração de Conteúdo Correios: Gerador PDF (Modelo 2026)",
   description: "Preencha e imprima a Declaração de Conteúdo oficial dos Correios. Obrigatório para envio de encomendas sem Nota Fiscal. Grátis, rápido e seguro.",
   keywords: [
     "declaração de conteudo correios", 

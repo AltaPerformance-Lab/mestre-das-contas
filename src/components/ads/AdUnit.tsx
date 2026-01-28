@@ -31,7 +31,9 @@ export default function AdUnit({
   // Só mostra AdSense se tivermos o ID do Publisher configurado E o slot mapeado
   const publisherId = process.env.NEXT_PUBLIC_ADSENSE_ID;
   const adSlotId = ADS_SLOTS[slot];
-  const useAdSense = publisherId && adSlotId && adSlotId.trim() !== "";
+  
+  // Lógica: AdSense só ativa se AMBOS existirem
+  const useAdSense = !!(publisherId && adSlotId && adSlotId.trim() !== "");
 
   // 3. ESTILOS DO CONTAINER
   const containerClasses = finalFormat === "vertical" || finalFormat === "rectangle"

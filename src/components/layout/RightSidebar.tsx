@@ -2,8 +2,14 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import AdUnit from "@/components/ads/AdUnit"; 
+import dynamic from "next/dynamic";
 import { TrendingUp, ArrowRight, Sparkles, Coins, Baby, QrCode, Briefcase, Calculator, FileText, Percent, Car } from "lucide-react";
+
+// Lazy load do AdUnit (Client Side Only para performance)
+const AdUnit = dynamic(() => import("@/components/ads/AdUnit"), {
+  loading: () => <div className="w-full h-[250px] bg-slate-100 dark:bg-slate-800 animate-pulse rounded-xl" />,
+  ssr: false
+});
 
 const TRENDING_GROUPS = [
     [

@@ -23,21 +23,28 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
     if (!customCase) return {};
 
+    // Título Magnético (CTR Booster)
+    const year = new Date().getFullYear();
+    const title = `${customCase.title}: Simulador e Cálculo Exato (${year})`;
+    
+    // Descrição Focada em Dor/Solução
+    const description = `Vai sair da empresa? Calcule agora sua ${customCase.title}. Veja o valor da multa, férias, 13º e saldo de salário. Simulação gratuita e atualizada pela CLT.`;
+
     return {
-        title: `${customCase.title} | Mestre das Contas`,
-        description: customCase.description,
+        title,
+        description,
         keywords: customCase.keywords,
         alternates: { canonical: `https://mestredascontas.com.br/trabalhista/rescisao/${slug}` },
         openGraph: {
-            title: customCase.title,
-            description: customCase.description,
+            title,
+            description,
             url: `https://mestredascontas.com.br/trabalhista/rescisao/${slug}`,
             type: "article",
         },
         twitter: {
             card: "summary_large_image",
-            title: customCase.title,
-            description: customCase.description,
+            title,
+            description,
         }
     };
 }

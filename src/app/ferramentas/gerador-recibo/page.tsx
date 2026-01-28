@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+export const runtime = 'edge';
 import Link from "next/link";
 import ReceiptGenerator from "@/components/tools/ReceiptGenerator";
 import LazyAdUnit from "@/components/ads/LazyAdUnit";
@@ -13,7 +14,7 @@ import PrivacyBadge from "@/components/ui/PrivacyBadge";
 
 // --- SEO 2026 ---
 export const metadata: Metadata = {
-  title: "Gerador de Recibo Online Grátis | PDF para Imprimir (Simples e Rápido)",
+  title: "Gerador de Recibo Online: Simples, PDF e WhatsApp (Grátis)",
   description: "Crie recibos profissionais em segundos. Preenchimento automático, valor por extenso e opção de 2 vias. Ideal para autônomos, aluguel e prestação de serviços.",
   keywords: [
     "gerador de recibo", "recibo online gratis", "modelo de recibo pdf", 

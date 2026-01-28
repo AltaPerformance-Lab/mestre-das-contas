@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import type { Metadata } from "next";
+export const runtime = 'edge';
 import Link from "next/link";
 import VacationCalculator from "@/components/calculators/VacationCalculator";
 import LazyAdUnit from "@/components/ads/LazyAdUnit";
@@ -20,8 +21,8 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
   const resolvedParams = await searchParams;
   const salarioRaw = resolvedParams.salario as string;
   
-  let title = "Calculadora de Férias 2026 | Vender 10 Dias e Adiantar 13º";
-  let description = "Calcule suas férias online em segundos. Simule venda de 10 dias (abono pecuniário), adiantamento do 13º salário e descontos de INSS/IRRF. Tabela oficial CLT.";
+  let title = "Férias 2026: Simulador Líquido (Com Venda de 10 Dias)";
+  let description = "Quanto cai na conta? Simule suas Férias + 1/3 Constitucional. Veja se vale a pena vender 10 dias (abono) e adiantar o 13º. Cálculo Gratuito.";
 
   if (salarioRaw) {
     const valorFormatado = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(Number(salarioRaw));

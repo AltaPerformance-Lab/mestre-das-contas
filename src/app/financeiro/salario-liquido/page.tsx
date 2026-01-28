@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import type { Metadata } from "next";
+export const runtime = 'edge';
 import Link from "next/link";
 import SalaryCalculator from "@/components/calculators/SalaryCalculator";
 import LazyAdUnit from "@/components/ads/LazyAdUnit";
@@ -19,13 +20,13 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
   const resolvedParams = await searchParams;
   const salarioRaw = resolvedParams.salario as string;
   
-  let title = "Calculadora de Salário Líquido 2026 | Cálculo Exato (INSS e IRRF)";
-  let description = "Descubra quanto cai na sua conta hoje. Simulador gratuito e atualizado com as novas tabelas de INSS e Imposto de Renda 2026.";
+  let title = "Salário Líquido 2026: Calculadora Real (Nova Tabela INSS/IRRF)";
+  let description = "Quanto cai na sua conta em 2026? Simule GRÁTIS com a Nova Tabela INSS e IRRF. Cálculo exato e sem cadastro. Veja seus descontos agora!";
 
   if (salarioRaw) {
     const valorFormatado = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(Number(salarioRaw));
-    title = `Salário Líquido de ${valorFormatado} - Calculadora 2026`;
-    description = `Veja o cálculo exato dos descontos de INSS e IRRF para um salário bruto de ${valorFormatado}. Simulação completa e gratuita.`;
+    title = `Salário Líquido de ${valorFormatado} - Tabela 2026 (Cálculo Real)`;
+    description = `Ganhar ${valorFormatado} bruto dá quanto líquido? Veja o cálculo exato dos descontos (INSS/IRRF) pela nova lei. Simulação gratuita.`;
   }
 
   return {

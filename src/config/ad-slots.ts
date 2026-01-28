@@ -4,47 +4,47 @@
 
 export const ADS_SLOTS: Record<string, string> = {
     // --- HOME ---
-    "home_top_feed": "",      // Topo da Home
-    "home_middle_feed": "",   // Entre categorias
-    "home_sidebar": "",       // Barra lateral (Desktop)
+    "home_top_feed": "5870296706",      // Home - Topo Feed (Responsivo)
+    "home_middle_feed": "8804948780",   // Home - Meio Feed (Responsivo)
+    "home_sidebar": "8757849344",       // Reutiliza: Sidebar Sticky
 
     // --- TRABALHISTA ---
-    "hub_top": "",            // Topo do Hub Trabalhista
-    "hub_bottom": "",         // Rodapé do Hub Trabalhista
-    "rescisao_top": "",       // Calculadora Rescisão (Topo)
-    "rescisao_mid": "",       // Calculadora Rescisão (Meio)
-    "rescisao_bottom": "",    // Calculadora Rescisão (Fim)
-    "termination_top": "",    // pSEO Rescisão (Topo)
-    "termination_mid": "",    // pSEO Rescisão (Meio)
-    "termination_bottom": "", // pSEO Rescisão (Fim)
+    "hub_top": "2498969854",            // Reutiliza: Reforma Topo
+    "hub_bottom": "3428908143",         // Reutiliza: Reforma Bottom
+    "rescisao_top": "2498969854",       // Reutiliza: Reforma Topo
+    "rescisao_mid": "4429561835",       // Reutiliza: Reforma Meio
+    "rescisao_bottom": "3428908143",    // Reutiliza: Reforma Bottom
+    "termination_top": "2498969854",    // Reutiliza: Reforma Topo (pSEO)
+    "termination_mid": "4429561835",    // Reutiliza: Reforma Meio (pSEO)
+    "termination_bottom": "3428908143", // Reutiliza: Reforma Bottom (pSEO)
 
     // --- FINANCEIRO ---
-    "fin_hub_top": "",        // Topo do Hub Financeiro
-    "fin_hub_bottom": "",     // Rodapé do Hub Financeiro
-    "card_top": "",           // Maquininha (Topo)
-    "card_mid": "",           // Maquininha (Meio)
-    "card_bottom": "",        // Maquininha (Fim)
+    "fin_hub_top": "2498969854",        // Reutiliza: Reforma Topo
+    "fin_hub_bottom": "3428908143",     // Reutiliza: Reforma Bottom
+    "card_top": "2498969854",           // Reutiliza: Reforma Topo (Maquininha)
+    "card_mid": "4429561835",           // Reutiliza: Reforma Meio (Maquininha)
+    "card_bottom": "3428908143",        // Reutiliza: Reforma Bottom (Maquininha)
     
     // --- FERRAMENTAS ---
-    "pix_top": "",
-    "pix_mid": "",
-    "pix_bottom": "",
+    "pix_top": "2498969854",            // Reutiliza: Reforma Topo
+    "pix_mid": "4429561835",            // Reutiliza: Reforma Meio
+    "pix_bottom": "3428908143",         // Reutiliza: Reforma Bottom
 
     // --- GERADOR QR CODE ---
-    "qrcode_top": "",
-    "qrcode_mid": "",
-    "qrcode_bottom": "",
-    "qr_case_top": "",
-    "qr_case_mobile_mid": "",
-    "qr_case_bottom": "",
+    "qrcode_top": "2498969854",         // Reutiliza: Reforma Topo
+    "qrcode_mid": "4429561835",         // Reutiliza: Reforma Meio
+    "qrcode_bottom": "3428908143",      // Reutiliza: Reforma Bottom
+    "qr_case_top": "2498969854",        // Reutiliza: Reforma Topo (pSEO)
+    "qr_case_mobile_mid": "4429561835", // Reutiliza: Reforma Meio (pSEO)
+    "qr_case_bottom": "3428908143",     // Reutiliza: Reforma Bottom (pSEO)
     
     // --- REFORMA TRIBUTÁRIA ---
-    "reforma_top": "",
-    "reforma_mid": "",
-    "reforma_bottom": "",
+    "reforma_top": "2498969854",        // Reforma - Topo (Responsivo)
+    "reforma_mid": "4429561835",        // Reforma - Meio (Responsivo)
+    "reforma_bottom": "3428908143",     // Reforma - Bottom (Responsivo)
     
     // --- SIDEBAR GLOBAL ---
-    "sidebar_sticky": "",     // Anúncio fixo na sidebar
-    "right_sidebar_1": "",
-    "right_sidebar_2": "",
+    "sidebar_sticky": "8757849344",     // Sidebar - Sticky (Responsivo)
+    "right_sidebar_1": "8757849344",    // Reutiliza: Sidebar Sticky
+    "right_sidebar_2": "8757849344",    // Reutiliza: Sidebar Sticky
 };

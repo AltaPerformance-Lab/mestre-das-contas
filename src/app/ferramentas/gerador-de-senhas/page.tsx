@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+export const runtime = 'edge';
 import Link from "next/link";
 import PasswordGenerator from "@/components/tools/PasswordGenerator";
 import LazyAdUnit from "@/components/ads/LazyAdUnit";
@@ -15,7 +16,7 @@ import PrivacyBadge from "@/components/ui/PrivacyBadge";
 
 // --- METADATA DE ALTA PERFORMANCE (SEO) ---
 export const metadata: Metadata = {
-  title: "Gerador de Senhas Fortes | Crie Senhas Seguras e Indecifráveis",
+  title: "Gerador de Senhas Fortes: Criar Senha Segura (Aleatória)",
   description: "Proteja suas contas hoje. Gere senhas aleatórias de alta entropia, personalizadas e 100% seguras (processamento local). Guia completo de cibersegurança.",
   keywords: [
     "gerador de senhas", 

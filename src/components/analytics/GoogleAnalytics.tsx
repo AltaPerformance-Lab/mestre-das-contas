@@ -12,21 +12,36 @@ export default function GoogleAnalytics() {
 
   useEffect(() => {
     // 1. Verifica consentimento salvo
-    const stored = localStorage.getItem("mestre_contas_consent");
-    if (stored) {
-      const { preferences } = JSON.parse(stored);
-      if (preferences.analytics) setConsent(true);
-    }
-
-    // 2. Ouve atualizações em tempo real (Evento customizado + Storage)
     const checkConsent = () => {
-        const updated = localStorage.getItem("mestre_contas_consent");
-        if (updated) {
-            const { preferences } = JSON.parse(updated);
-            if (preferences.analytics) setConsent(true);
+        const stored = localStorage.getItem("mestre_contas_consent");
+        let hasConsent = false;
+        
+        if (stored) {
+            const { preferences } = JSON.parse(stored);
+            if (preferences.analytics) hasConsent = true;
+        }
+
+        if (hasConsent) {
+            setConsent(true);
+            
+            // Configurar GA com performance otimizada e privacidade
+            if (typeof window !== 'undefined' && (window as any).gtag && GA_MEASUREMENT_ID) {
+                (window as any).gtag('config', GA_MEASUREMENT_ID, {
+                    page_path: window.location.pathname,
+                    send_page_view: true,
+                    anonymize_ip: true, // LGPD compliance
+                    cookie_flags: 'SameSite=None;Secure', // Segurança
+                });
+            }
+        } else {
+          setConsent(false);
         }
     };
 
+    // Verifica ao montar
+    checkConsent();
+
+    // 2. Ouve atualizações em tempo real
     window.addEventListener("consent_updated", checkConsent);
     window.addEventListener("storage", checkConsent);
 
@@ -34,7 +49,7 @@ export default function GoogleAnalytics() {
         window.removeEventListener("consent_updated", checkConsent);
         window.removeEventListener("storage", checkConsent);
     };
-  }, []);
+  }, [GA_MEASUREMENT_ID]);
 
   // Se não tiver ID ou não tiver consentimento, não renderiza nada
   if (!GA_MEASUREMENT_ID || !consent) return null;

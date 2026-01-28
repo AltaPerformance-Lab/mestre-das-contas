@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+export const runtime = 'edge';
 import Link from "next/link";
 import WhatsAppGenerator from "@/components/tools/WhatsAppGenerator";
 import LazyAdUnit from "@/components/ads/LazyAdUnit";
@@ -21,8 +22,8 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
   const num = sp.num as string;
   const msg = sp.msg as string;
   
-  let title = "Gerador de Link WhatsApp Grátis e Personalizado";
-  let description = "Crie links curtos para WhatsApp com mensagem personalizada em 1 clique. Ferramenta grátis, sem cadastro e ideal para Instagram, Bio e Anúncios.";
+  let title = "Gerador de Link WhatsApp: Criar Link Curto (Personalizado)";
+  let description = "Crie links curtos para WhatsApp (wa.me) com mensagem personalizada em 1 clique. Ideal para Bio do Instagram e Vendas. Grátis e sem cadastro.";
 
   if (num) {
     title = "Link WhatsApp Gerado: Clique para Conversar";

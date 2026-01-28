@@ -9,25 +9,45 @@ import GoogleAnalytics from "@/components/analytics/GoogleAnalytics";
 
 // --- Componentes de Layout ---
 import Sidebar from "@/components/layout/Sidebar";
-import RightSidebar from "@/components/layout/RightSidebar";
 import HeaderMobile from "@/components/layout/HeaderMobile"; 
 import HeaderDesktop from "@/components/layout/HeaderDesktop"; 
-import Footer from "@/components/layout/Footer";
+import dynamic from "next/dynamic";
 import PageTransition from "@/components/layout/PageTransition";
 import { ToastProvider } from "@/components/ui/toaster"; 
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import InstallPrompt from "@/components/pwa/InstallPrompt";
 
+// Lazy load do Footer (não é crítico para above-the-fold)
+const Footer = dynamic(() => import("@/components/layout/Footer"), {
+  loading: () => <div className="h-64 bg-slate-100 dark:bg-slate-900 animate-pulse" />,
+  ssr: true
+});
+
+// Lazy load do RightSidebar (não é crítico inicial)
+const RightSidebar = dynamic(() => import("@/components/layout/RightSidebar"), {
+  loading: () => <div className="h-screen bg-slate-50 dark:bg-slate-900 border-l border-slate-100 dark:border-slate-800" />,
+  ssr: true 
+});
+
+// --- SEO ---
+import PreloadLinks from "@/components/seo/PreloadLinks";
+
 const inter = Inter({ 
   subsets: ["latin"],
   display: 'swap',
   variable: '--font-inter',
+  preload: true,
+  fallback: ['system-ui', 'arial'],
+  adjustFontFallback: true,
 });
 
 const outfit = Outfit({
   subsets: ["latin"],
   display: 'swap',
   variable: '--font-outfit',
+  preload: true,
+  fallback: ['system-ui', 'arial'],
+  adjustFontFallback: true,
 });
 
 export const viewport: Viewport = {
@@ -71,6 +91,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR" className={`${inter.variable} ${outfit.variable}`} suppressHydrationWarning>
+      <head>
+        <PreloadLinks />
+      </head>
       <body className="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 antialiased font-sans selection:bg-indigo-500 selection:text-white min-h-screen flex flex-col overflow-x-hidden transition-colors duration-300 scroll-smooth">
         
         {/* PROVIDER DE TEMA (DARK MODE) */}

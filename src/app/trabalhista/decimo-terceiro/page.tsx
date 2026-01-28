@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import type { Metadata } from "next";
+export const runtime = 'edge';
 import Link from "next/link";
 import ThirteenthCalculator from "@/components/calculators/ThirteenthCalculator";
 import LazyAdUnit from "@/components/ads/LazyAdUnit";
@@ -20,8 +21,8 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
   const resolvedParams = await searchParams;
   const salarioRaw = resolvedParams.salario as string;
   
-  let title = "Calculadora Décimo Terceiro 2025 | 1ª e 2ª Parcela Exatas";
-  let description = "Calcule seu 13º salário online. Descubra o valor exato da primeira parcela (sem descontos) e da segunda (com INSS e IRRF). Simulação gratuita e atualizada.";
+  let title = "Décimo Terceiro 2025/2026: Valor da 1ª e 2ª Parcela (Sem Erros)";
+  let description = "Descubra exatamente quando e quanto você vai receber. Cálculo das duas parcelas com descontos de INSS/IRRF. Simulador gratuito e tabela atualizada.";
 
   if (salarioRaw) {
     const valorFormatado = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(Number(salarioRaw));

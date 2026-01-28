@@ -15,7 +15,7 @@ import PrivacyBadge from "@/components/ui/PrivacyBadge";
 
 // --- 1. METADATA DE DOMINAÇÃO (SEO 2026) ---
 export const metadata: Metadata = {
-  title: "Conversor de Imagem Grátis e Ilimitado | JPG, PNG, WEBP e AVIF",
+  title: "Conversor de Imagem Grátis (Sem Limites): JPG, PNG e WebP",
   description: "Converta imagens online sem enviar seus arquivos para a nuvem. Transforme WEBP em PNG, JPG em WEBP, crie ícones (ICO) e muito mais. Rápido, privado e gratuito.",
   keywords: [
     "conversor de imagem", 

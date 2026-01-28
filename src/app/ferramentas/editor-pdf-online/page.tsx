@@ -14,7 +14,7 @@ import PrivacyBadge from "@/components/ui/PrivacyBadge";
 
 // --- SEO METADATA ---
 export const metadata: Metadata = {
-  title: "Editor de PDF Online Grátis | Editar, Assinar e Juntar PDF",
+  title: "Editor de PDF Grátis: Editar Texto, Assinar e Juntar (Online)",
   description: "A melhor ferramenta para editar PDF online. Adicione textos, assinaturas, imagens e junte arquivos. 100% Gratuito, Seguro (Client-Side) e sem marca d'água.",
   keywords: [
     "editor pdf online", "editar pdf grátis", "juntar pdf", 

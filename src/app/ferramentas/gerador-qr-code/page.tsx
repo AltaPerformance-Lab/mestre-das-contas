@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+export const runtime = 'edge';
 import Link from "next/link";
 import LazyAdUnit from "@/components/ads/LazyAdUnit";
 import DisclaimerBox from "@/components/ui/DisclaimerBox";
@@ -21,8 +22,8 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
   const sp = await searchParams;
   const initialType = (sp.type as string);
   
-  let title = "Gerador de QR Code Grátis e Vitalício | Pix, Wi-Fi e Links";
-  let description = "A única ferramenta que você precisa. Crie QR Codes personalizados (com Logo e Cor) que nunca expiram. Ideal para Pix, Wi-Fi e Impressão. 100% Gratuito.";
+  let title = "QR Code Generator: Criar Grátis e Vitalício (Com Logo)";
+  let description = "O melhor Gerador de QR Code Gratuito. Crie códigos personalizados com Cores e Logo. Vitalício, ilimitado e em alta resolução (PNG/SVG).";
 
   if (initialType === "pix") {
       title = "Gerador de QR Code Pix Grátis (Com Chave e Valor)";

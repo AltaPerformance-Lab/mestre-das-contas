@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import type { Metadata } from "next";
+export const runtime = 'edge';
 import Link from "next/link";
 import MEICalculator from "@/components/tools/MEICalculator";
 import LazyAdUnit from "@/components/ads/LazyAdUnit";
@@ -14,8 +15,8 @@ import PrivacyBadge from "@/components/ui/PrivacyBadge";
 
 // --- 1. METADATA DE ALTA PERFORMANCE (SEO 2026) ---
 export const metadata: Metadata = {
-  title: "Calculadora MEI 2026 | Calcular DAS e Limite Anual (R$ 81k)",
-  description: "Simulador MEI 2026: Calcule o valor exato do DAS (INSS + ICMS/ISS) e verifique se você estourou o limite de faturamento de R$ 81.000.",
+  title: "MEI 2026: Calcular DAS e Limite de Faturamento (Novo Teto?)",
+  description: "Vai estourar o limite de R$ 81 mil? Calcule seu DAS 2026 e veja se você ainda se enquadra. Tabela atualizada com novo salário mínimo.",
   keywords: [
     "calculadora mei 2026", 
     "calcular das mei", 

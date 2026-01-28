@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+export const runtime = 'edge';
 import Link from "next/link";
 import JsonFormatter from "@/components/tools/JsonFormatter";
 import LazyAdUnit from "@/components/ads/LazyAdUnit";
@@ -12,7 +13,7 @@ import PrivacyBadge from "@/components/ui/PrivacyBadge";
 
 // --- SEO 2026 ---
 export const metadata: Metadata = {
-  title: "Formatador JSON Online e Validator Grátis | Beautify & Minify",
+  title: "Formatador JSON Online: Validar, Beautify e Minificar (Lint)",
   description: "Ferramenta para formatar, validar e minificar JSON. Identifique erros de sintaxe, converta para uma só linha ou indente para leitura. Seguro e 100% no navegador.",
   keywords: [
     "formatador json online", "json validator", "json beautifier",

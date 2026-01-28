@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+export const runtime = 'edge';
 import Link from "next/link";
 import BudgetCreator from "@/components/tools/BudgetCreator";
 import LazyAdUnit from "@/components/ads/LazyAdUnit";
@@ -13,7 +14,7 @@ import PrivacyBadge from "@/components/ui/PrivacyBadge";
 
 // --- SEO 2026 ---
 export const metadata: Metadata = {
-  title: "Criador de Orçamento Online Grátis | Gerar PDF com Logo e Desconto",
+  title: "Criador de Orçamento PDF: Modelo Profissional (Com Logo e Descontos)",
   description: "Faça orçamentos profissionais em PDF. Inclui cálculo de desconto, opções de pagamento (Pix/Boleto) e sua logo. Ferramenta grátis sem cadastro.",
   keywords: [
     "criador de orçamento online", "gerar orçamento pdf gratis", "modelo de orçamento editavel",

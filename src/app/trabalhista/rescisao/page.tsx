@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import type { Metadata } from "next";
+export const runtime = 'edge';
 import Link from "next/link";
 import TerminationCalculator from "@/components/calculators/TerminationCalculator";
 import LazyAdUnit from "@/components/ads/LazyAdUnit";
@@ -20,8 +21,8 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
   const resolvedParams = await searchParams;
   const salarioRaw = resolvedParams.salario as string;
   
-  let title = "Calculadora de Rescisão CLT 2026 | Cálculo Exato (Com Multa FGTS)";
-  let description = "Foi demitido ou pediu demissão? Simule seu acerto trabalhista agora. Cálculo exato de Aviso Prévio, Férias, 13º Salário e Multa de 40% do FGTS. Atualizado 2026.";
+  let title = "Rescisão CLT 2026: Calcule Agora (Com Multa de 40% e Férias)";
+  let description = "Vai sair da empresa? Evite prejuízo. Simulador Grátis de Rescisão com cálculo exato de Multa FGTS, Aviso Prévio e Férias. Verifique seus direitos!";
 
   if (salarioRaw) {
     const valorFormatado = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(Number(salarioRaw));

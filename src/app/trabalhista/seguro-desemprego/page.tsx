@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import type { Metadata } from "next";
+export const runtime = 'edge';
 import Link from "next/link";
 import UnemploymentCalculator from "@/components/calculators/UnemploymentCalculator";
 import LazyAdUnit from "@/components/ads/LazyAdUnit";
@@ -20,8 +21,8 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
   const resolvedParams = await searchParams;
   const salarioRaw = resolvedParams.salario as string;
   
-  let title = "Calculadora de Seguro-Desemprego 2026 | Valor e Parcelas (Atualizado)";
-  let description = "Foi demitido? Simule agora o valor exato e a quantidade de parcelas do seu Seguro-Desemprego. Tabela oficial 2026, novas regras de carência e prazos.";
+  let title = "Seguro-Desemprego 2026: Valor e Parcelas (Regra Nova)";
+  let description = "Foi demitido? Veja quanto você vai receber e quantas parcelas. Cálculo atualizado com o novo teto 2026 e regras de carência. Simule Grátis.";
 
   if (salarioRaw) {
     const valorFormatado = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(Number(salarioRaw));

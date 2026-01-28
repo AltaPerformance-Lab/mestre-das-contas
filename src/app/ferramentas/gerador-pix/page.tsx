@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+export const runtime = 'edge';
 import Link from "next/link";
 import LazyAdUnit from "@/components/ads/LazyAdUnit";
 import PageHeader from "@/components/layout/PageHeader";
@@ -20,8 +21,8 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
   const amount = sp.amount as string;
   const name = sp.name as string;
 
-  let title = "Gerador de Pix Copia e Cola com Valor | QR Code Oficial";
-  let description = "Crie cobranças Pix profissionais em segundos. Defina o valor exato, gere QR Code compatível com todos os bancos e o código Copia e Cola. Grátis e Seguro.";
+  let title = "Gerador de Pix: QR Code e Copia e Cola (Com Valor Definido)";
+  let description = "Crie cobranças Pix profissionais em segundos. Defina o valor exato, gere o QR Code oficial e o código Copia e Cola. Grátis e Seguro (Sem Taxas).";
 
   if (amount) {
     const valorFormatado = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(Number(amount));

@@ -20,8 +20,8 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
   const resolvedParams = await searchParams;
   const salarioRaw = resolvedParams.salario as string;
   
-  let title = "Calculadora de Horas Extras 2026 | 50%, 100% e DSR (Cálculo Exato)";
-  let description = "Não perca dinheiro. Calcule o valor exato das suas horas extras (50% e 100%) e o reflexo no Descanso Semanal Remunerado (DSR). Simulador CLT atualizado.";
+  let title = "Horas Extras 2026: Calculadora 50% e 100% (Com DSR)";
+  let description = "Você sabe quanto vale o seu tempo? Calcule horas extras (dias úteis e feriados) e o reflexo no DSR que a empresa deve pagar. Simule já.";
 
   if (salarioRaw) {
     const valorFormatado = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(Number(salarioRaw));

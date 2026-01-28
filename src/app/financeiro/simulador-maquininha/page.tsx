@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+export const runtime = 'edge';
 import Link from "next/link";
 import LazyAdUnit from "@/components/ads/LazyAdUnit";
 import PageHeader from "@/components/layout/PageHeader";
@@ -11,7 +12,7 @@ import PrivacyBadge from "@/components/ui/PrivacyBadge";
 import RelatedTools from "@/components/layout/RelatedTools";
 
 export const metadata: Metadata = {
-  title: "Simulador de Taxas Maquininha 2026 | Calculadora de Antecipação",
+  title: "Calculadora de Taxas Maquininha: Quanto Cai na Conta? (Todas)",
   description: "Quanto você realmente recebe? Calcule as taxas MDR e Antecipação de Recebíveis. Descubra o custo real de vender parcelado e receber na hora.",
   keywords: ["simulador taxas maquininha", "calculadora antecipação recebiveis", "mdr cartão credito", "calcular juros maquininha", "taxa sumup moderninha mercado pago"],
   alternates: { canonical: "https://mestredascontas.com.br/financeiro/simulador-maquininha" },

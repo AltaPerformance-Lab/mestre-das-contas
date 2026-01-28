@@ -1,5 +1,6 @@
 import { Suspense } from 'react';
 import type { Metadata } from "next";
+export const runtime = 'edge';
 import SalaryComparator from "@/components/calculators/SalaryComparator";
 import AdUnit from "@/components/ads/AdUnit";
 import PageHeader from "@/components/layout/PageHeader";
@@ -9,9 +10,9 @@ import RelatedTools from "@/components/ui/RelatedTools";
 import { Users, BarChart3, TrendingUp, CheckCircle2, HelpCircle, BookOpen, AlertTriangle } from "lucide-react";
 
 export const metadata: Metadata = {
-    title: "Comparador de Renda Brasil 2026: Você é Rico ou Pobre?",
-    description: "Digite seu salário e descubra se você ganha mais que 90% dos brasileiros. Veja sua classe social e posição no ranking nacional de renda.",
-    keywords: ["comparador de renda", "salario brasil", "classe social", "renda per capita", "ranking salarial", "calculadora renda"],
+    title: "Comparador de Renda 2026: Você é Rico? (Ranking IBGE)",
+    description: "A verdade choca: Ganhe mais que 90% do Brasil com apenas... Digite seu salário e descubra sua classe social real (Dados IBGE 2026).",
+    keywords: ["comparador de renda", "salario ibge 2026", "classe social calculadora", "riqueza brasil ranking", "renda per capita"],
     alternates: {
         canonical: "https://mestredascontas.com.br/financeiro/comparador-salario"
     },

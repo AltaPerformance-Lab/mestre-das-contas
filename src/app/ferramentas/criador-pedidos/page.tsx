@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+export const runtime = 'edge';
 import Link from "next/link";
 import OrderCreator from "@/components/tools/OrderCreator";
 import LazyAdUnit from "@/components/ads/LazyAdUnit";
@@ -14,7 +15,7 @@ import PrivacyBadge from "@/components/ui/PrivacyBadge";
 
 // --- SEO 2026 ---
 export const metadata: Metadata = {
-  title: "Criador de Pedido de Venda Grátis | Bloco e Talão PDF",
+  title: "Gerador de Pedido de Venda: Talão e Bloco PDF (Imprimir)",
   description: "Faça pedidos de venda e ordens de serviço em PDF. Adicione frete, cálculos automáticos e sua logo. Ideal para vendas, representantes e lojas.",
   keywords: [
     "criador de pedido eletronico", "bloco de pedido pdf", "talão de pedido gratis",

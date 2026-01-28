@@ -16,8 +16,8 @@ import PrivacyBadge from "@/components/ui/PrivacyBadge";
 
 // --- 1. METADATA DE ALTO VALOR (SEO 2026) ---
 export const metadata: Metadata = {
-  title: "Calculadora de Juros Compostos 2026 | Simular Investimentos Online",
-  description: "Simule seus investimentos com juros compostos. Veja o poder dos juros sobre juros, calcule a rentabilidade mensal e descubra quanto seu dinheiro vai render no futuro.",
+  title: "Juros Compostos: Calculadora Online (Simule sua Riqueza)",
+  description: "O segredo para ficar rico? Juros sobre juros. Simule investimentos mensais e veja quanto seu dinheiro vai render em 5, 10 ou 20 anos.",
   keywords: [
     "calculadora juros compostos", 
     "simulador de investimentos", 

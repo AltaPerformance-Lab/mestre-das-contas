@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import type { Metadata } from "next";
+export const runtime = 'edge';
 import Link from "next/link";
 import FinancingCalculator from "@/components/calculators/FinancingCalculator"; // Usando a calculadora base
 import LazyAdUnit from "@/components/ads/LazyAdUnit";
@@ -16,7 +17,7 @@ import RelatedTools from "@/components/layout/RelatedTools";
 
 // --- 1. METADATA DE ALTA PERFORMANCE (SEO 2026) ---
 export const metadata: Metadata = {
-  title: "Simulador de Financiamento de Veículos 2026 | Carros e Motos",
+  title: "Simulador de Financiamento de Veículos: Parcelas e Juros Reais",
   description: "Quer comprar seu carro ou moto? Simule o financiamento (CDC), calcule o valor da parcela com juros e descubra o Custo Efetivo Total (CET) antes de ir à concessionária.",
   keywords: [
     "simulador financiamento veiculo", 

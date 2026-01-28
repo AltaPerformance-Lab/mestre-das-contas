@@ -46,6 +46,57 @@ async function getVeiculosData() {
   }
 }
 
+// --- FUNÇÕES DE OTIMIZAÇÃO SEO ---
+
+// Calcula prioridade baseada na importância da rota
+function calculatePriority(route: string): number {
+  if (route === '') return 1.0; // Home - máxima prioridade
+  
+  // Páginas de alta conversão
+  if (route.includes('reforma-tributaria')) return 0.95;
+  if (route.includes('rescisao')) return 0.90;
+  if (route.includes('ferias')) return 0.90;
+  if (route.includes('salario-liquido')) return 0.85;
+  if (route.includes('gerador-qr-code')) return 0.85;
+  if (route.includes('gerador-pix')) return 0.85;
+  
+  // Hubs de categoria
+  if (route.match(/^\/(financeiro|trabalhista|ferramentas|saude)$/)) return 0.80;
+  
+  // Calculadoras principais
+  if (route.includes('juros-compostos')) return 0.75;
+  if (route.includes('decimo-terceiro')) return 0.75;
+  if (route.includes('imc')) return 0.75;
+  
+  // pSEO e páginas dinâmicas
+  if (route.includes('/[slug]') || route.includes('/[')) return 0.70;
+  
+  // Outras páginas
+  return 0.65;
+}
+
+// Define frequência de mudança baseada no tipo de conteúdo
+function getChangeFrequency(route: string): 'daily' | 'weekly' | 'monthly' {
+  if (route === '') return 'daily'; // Home atualiza frequentemente
+  
+  // Conteúdo que muda com legislação
+  if (route.includes('reforma-tributaria')) return 'weekly';
+  if (route.includes('salario-liquido')) return 'weekly';
+  if (route.includes('mei')) return 'weekly';
+  
+  // Ferramentas e calculadoras (estáveis)
+  if (route.includes('/ferramentas/')) return 'monthly';
+  
+  // Hubs (atualizam com novo conteúdo)
+  if (route.match(/^\/(financeiro|trabalhista|ferramentas|saude)$/)) return 'weekly';
+  
+  // Páginas pSEO (raramente mudam)
+  if (route.includes('/[slug]') || route.includes('/[')) return 'monthly';
+  
+  // Padrão
+  return 'monthly';
+}
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://mestredascontas.com.br'
 
@@ -111,8 +162,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ].map((route) => ({
     url: `${baseUrl}${route}`,
     lastModified: new Date(),
-    changeFrequency: route === '' ? 'daily' : 'weekly',
-    priority: route === '' ? 1 : 0.8,
+    changeFrequency: getChangeFrequency(route),
+    priority: calculatePriority(route),
   }))
 
   // --- 2. ROTAS DINÂMICAS (pSEO) ---

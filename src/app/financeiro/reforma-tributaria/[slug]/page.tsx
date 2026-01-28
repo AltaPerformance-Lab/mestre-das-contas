@@ -37,14 +37,14 @@ export async function generateMetadata({ params, searchParams }: Props): Promise
 
   const valor = resolvedSearchParams.valor ? parseFloat(resolvedSearchParams.valor as string) : 0;
   
-  let title = `${data.title} - Simulação Oficial 2026`;
-  let description = `Veja o cálculo exato do imposto para ${data.jobTitle} com a Reforma Tributária. Carga atual (${data.currentTax}%) vs Nova alíquota do IVA Dual.`;
+  let title = `${data.title} na Reforma Tributária: Vai Aumentar? (Simulador 2026)`;
+  let description = `O imposto para ${data.jobTitle} vai subir ou cair com o IVA? Faça a simulação gratuita e veja o impacto exato no seu bolso. Comparativo Oficial ${new Date().getFullYear()}.`;
 
   // SEO DINÂMICO DE COMPARTILHAMENTO
   if (valor > 0) {
       const valorFormatado = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(valor);
-      title = `Impacto de ${valorFormatado} para ${data.jobTitle} | Reforma Tributária`;
-      description = `Simulação: Faturando ${valorFormatado} como ${data.jobTitle}, quanto sobra? Veja o comparativo Carga Atual vs Novo IVA.`;
+      title = `Ganho ${valorFormatado} como ${data.jobTitle}: Quanto vou pagar de imposto?`;
+      description = `Resultado da Simulação: Veja quanto sobra líquido de um faturamento de ${valorFormatado} no novo sistema (CBS + IBS). Clique para conferir.`;
   }
 
   return {

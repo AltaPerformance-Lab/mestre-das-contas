@@ -1,5 +1,6 @@
 
 import { Metadata } from "next";
+export const runtime = 'edge';
 import PrivacyPolicyGenerator from "@/components/tools/PrivacyPolicyGenerator";
 import AdUnit from "@/components/ads/AdUnit";
 import PageHeader from "@/components/layout/PageHeader";
@@ -11,8 +12,8 @@ import {
 import DisclaimerBox from "@/components/ui/DisclaimerBox";
 
 export const metadata: Metadata = {
-  title: "Gerador de Política de Privacidade Grátis (LGPD & AdSense) | 2026",
-  description: "Crie uma Política de Privacidade profissional para seu site, blog ou loja. Compatível com LGPD, Google AdSense e GDPR. Gerador gratuito e instantâneo.",
+  title: "Gerador de Política de Privacidade: Sites e AdSense (LGPD)",
+  description: "Crie uma Política de Privacidade profissional para seu site ou blog. Compatível com LGPD, Google AdSense e GDPR. Gerador gratuito e instantâneo.",
   keywords: [
     "gerador politica de privacidade", 
     "modelo politica privacidade lgpd", 

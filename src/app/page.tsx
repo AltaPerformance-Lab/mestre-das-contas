@@ -1,5 +1,6 @@
 
 import dynamic from 'next/dynamic';
+export const runtime = 'edge';
 import { Metadata } from "next";
 import { 
   Briefcase, 
@@ -23,8 +24,8 @@ import { laborCards, financeCards, healthCards, toolsCards } from "@/data/home-c
 
 // --- METADATA AVANÇADA PARA SEO ---
 export const metadata: Metadata = {
-  title: "Mestre das Contas - Calculadoras Trabalhistas, Financeiras e Reforma Tributária",
-  description: "Faça cálculos exatos de Rescisão, Férias, 13º Salário e simule o impacto da Reforma Tributária 2026. Ferramentas gratuitas e atualizadas pela Lei vigente.",
+  title: "Mestre das Contas: Calculadoras Trabalhistas e Financeiras (2026)",
+  description: "Cálculos exatos de Rescisão, Férias, Salário Líquido e Reforma Tributária. Ferramentas gratuitas, online e atualizadas com a nova lei 2026. Acesse já.",
   keywords: ["calculadora rescisão", "calculadora férias", "reforma tributária 2026", "simulador iva", "gerador qr code", "mestre das contas", "conversor imagem", "gerador senhas"],
   alternates: {
     canonical: "https://mestredascontas.com.br",
@@ -33,8 +34,8 @@ export const metadata: Metadata = {
     type: "website",
     locale: "pt_BR",
     url: "https://mestredascontas.com.br",
-    title: "Mestre das Contas - Ferramentas de Precisão",
-    description: "Simplifique sua vida financeira com calculadoras que funcionam.",
+    title: "Mestre das Contas: Todas as Calculadoras (2026)",
+    description: "Simplifique sua vida. Cálculos exatos de Rescisão, Férias, Salário e Impostos.",
     siteName: "Mestre das Contas",
   },
 };
