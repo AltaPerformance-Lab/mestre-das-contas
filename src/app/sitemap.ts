@@ -8,6 +8,7 @@ import { meiActivities } from '@/data/mei-activities'
 import { rentPSeoCases } from '@/data/rent-pseo' // Data de Reajuste Aluguel
 import { terminationCases } from '@/data/termination-pseo' // Data de Rescisão
 import { cardMachineCases } from '@/data/card-machine-pseo' // Data de Maquininha
+import { financingCases } from '@/data/financing-pseo' // Data de Financiamento
 import fs from 'fs'
 import path from 'path'
 
@@ -281,6 +282,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
        priority: 0.8 
     }))
 
+  // O. Financiamento pSEO (NOVO)
+  const financingRoutes: MetadataRoute.Sitemap = financingCases.map((item) => ({
+    url: `${baseUrl}/financeiro/financiamento/${item.slug}`,
+    lastModified: new Date(),
+    changeFrequency: 'weekly',
+    priority: 0.85, 
+  }))
+
   // Junta tudo
   return [
     ...staticRoutes, 
@@ -291,12 +300,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...budgetRoutes,
     ...orderRoutes,
     ...meiRoutes,
-    //...salarioRoutes, 
-    //...veiculosRoutes, 
+    ...salarioRoutes, 
+    ...veiculosRoutes, 
     ...rentRoutes,
     ...terminationRoutes,
     ...cardMachineRoutes,
     ...comparatorRoutes,
-    ...comparatorPseoRoutes
+    ...comparatorPseoRoutes,
+    ...financingRoutes
   ]
 }
