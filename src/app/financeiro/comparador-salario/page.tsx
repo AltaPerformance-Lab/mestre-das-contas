@@ -5,12 +5,13 @@ import AdUnit from "@/components/ads/AdUnit";
 import PageHeader from "@/components/layout/PageHeader";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
 import DisclaimerBox from "@/components/ui/DisclaimerBox";
-import RelatedTools from "@/components/ui/RelatedTools";
-import { Users, BarChart3, TrendingUp, CheckCircle2, HelpCircle, BookOpen, AlertTriangle } from "lucide-react";
+import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
+import { Users, BarChart3, TrendingUp, CheckCircle2, HelpCircle, BookOpen, AlertTriangle, ShieldCheck } from "lucide-react";
 
+// --- 1. METADATA DE ALTA PERFORMANCE (SEO 2026) ---
 export const metadata: Metadata = {
-    title: "Comparador de Renda 2026: Você é Rico? (Ranking IBGE)",
-    description: "A verdade choca: Ganhe mais que 90% do Brasil com apenas... Digite seu salário e descubra sua classe social real (Dados IBGE 2026).",
+    title: "Comparador de Renda 2026 (Grátis) | Você é Rico? (Dados IBGE)",
+    description: "Digite seu salário e descubra sua classe social real e posição no ranking nacional em segundos. Dados oficiais IBGE 2026 atualizados. Simule Grátis.",
     keywords: ["comparador de renda", "salario ibge 2026", "classe social calculadora", "riqueza brasil ranking", "renda per capita"],
     alternates: {
         canonical: "https://mestredascontas.com.br/financeiro/comparador-salario"
@@ -110,6 +111,12 @@ export default function SalaryComparatorPage() {
             </div>
 
             <div className="flex flex-col gap-8 px-4 sm:px-6 max-w-7xl mx-auto w-full">
+                
+                {/* REVISÃO ESTATÍSTICA (E-E-A-T) */}
+                <div className="bg-blue-50/50 dark:bg-blue-900/10 border border-blue-100 dark:border-blue-800 p-4 rounded-2xl flex items-center gap-3 text-xs text-blue-700 dark:text-blue-300 mb-2">
+                    <ShieldCheck size={18} className="text-blue-600 shrink-0" />
+                    <span>Dados estatísticos baseados na PNAD Contínua do IBGE e projeções socioeconômicas para 2026.</span>
+                </div>
                 
                 {/* ANÚNCIO TOP */}
                 <div className="w-full max-w-5xl mx-auto overflow-hidden flex justify-center min-h-[100px] bg-slate-50/50 dark:bg-slate-900/50 rounded-lg p-2 border border-dashed border-slate-200/50 dark:border-slate-800">
@@ -335,7 +342,7 @@ export default function SalaryComparatorPage() {
                     <AdUnit slot="comparator_bottom" format="horizontal" variant="software" />
                 </div>
 
-                <RelatedTools currentToolLink="/financeiro/comparador-salario" category="financeiro" />
+                <SmartCrossLinker currentHref="/financeiro/comparador-salario" category="financeiro" />
 
             </div>
         </article>

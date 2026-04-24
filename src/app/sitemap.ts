@@ -123,6 +123,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     '/ferramentas/formatador-json',
     '/ferramentas/declaracao-conteudo',
     '/ferramentas/gerador-privacidade',
+    '/ferramentas/fases-da-lua',
     
     // Trabalhista
     '/trabalhista',
@@ -149,7 +150,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // Saúde
     '/saude',
     '/saude/imc',
-    '/saude/calorias',
+    '/saude/calorias-diarias',
     '/saude/gestacional', 
     '/saude/agua',
     

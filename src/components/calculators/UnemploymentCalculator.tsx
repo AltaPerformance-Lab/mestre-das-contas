@@ -13,6 +13,7 @@ import {
   Share2, Printer, History, Code2, ExternalLink, CheckCircle2, X, ShieldAlert, Link as LinkIcon
 } from "lucide-react";
 import ShareAsImage from "@/components/ui/ShareAsImage";
+import { trackEvent } from "@/lib/analytics";
 
 // --- TIPAGEM ---
 type HistoricoSeguro = {
@@ -109,7 +110,7 @@ export default function UnemploymentCalculator() {
     }
   }, [searchParams]);
 
-  // LÓGICA OFICIAL 2025
+  // LÓGICA OFICIAL 2026
   const calcular = (
       s1 = parseMoeda(salario1), 
       s2 = parseMoeda(salario2), 
@@ -129,16 +130,16 @@ export default function UnemploymentCalculator() {
     
     const mediaSalarial = divisor > 0 ? soma / divisor : 0;
 
-    // 2. Calcular Valor da Parcela (Tabela 2025 - Base Salário Mínimo R$ 1.509 - Estimativa)
+    // 2. Calcular Valor da Parcela (Tabela 2026 - Base Salário Mínimo R$ 1.621)
     let valorParcela = 0;
-    const salarioMinimo = 1509.00; // Estimativa 2025
+    const salarioMinimo = 1621.00; // Oficial 2026
 
-    if (mediaSalarial <= 2128.84) { // Faixas ajustadas proporcionalmente (estimativa)
+    if (mediaSalarial <= 2222.17) {
         valorParcela = mediaSalarial * 0.8;
-    } else if (mediaSalarial <= 3548.47) {
-        valorParcela = 1703.07 + ((mediaSalarial - 2128.84) * 0.5);
+    } else if (mediaSalarial <= 3703.99) {
+        valorParcela = 1777.74 + ((mediaSalarial - 2222.17) * 0.5);
     } else {
-        valorParcela = 2412.98; // Teto estimado
+        valorParcela = 2518.65; // Teto oficial 2026
     }
 
     if (valorParcela < salarioMinimo) valorParcela = salarioMinimo;
@@ -175,6 +176,7 @@ export default function UnemploymentCalculator() {
     };
 
     setResultado(novoResultado);
+    trackEvent("calculate_seguro", { meses, vez, direito: qtdParcelas > 0 });
     if (!isIframe) salvarHistorico(novoResultado);
   };
 
@@ -210,8 +212,10 @@ export default function UnemploymentCalculator() {
             params.set("sol", resultado.rawVez.toString());
         }
         navigator.clipboard.writeText(`${baseUrl}?${params.toString()}`);
+        trackEvent("share_seguro_link");
     } else {
         navigator.clipboard.writeText(`<iframe src="https://mestredascontas.com.br/trabalhista/seguro-desemprego?embed=true" width="100%" height="750" frameborder="0" style="border:0; overflow:hidden; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.1);" title="Calculadora Seguro Desemprego"></iframe>`);
+        trackEvent("share_seguro_embed");
     }
 
     setCopiado(type);
@@ -219,6 +223,7 @@ export default function UnemploymentCalculator() {
   };
 
   const handlePrint = () => {
+    trackEvent("print_seguro");
     if (reactToPrintFn) reactToPrintFn();
   };
 

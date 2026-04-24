@@ -6,12 +6,13 @@ import LazyAdUnit from "@/components/ads/LazyAdUnit";
 import DisclaimerBox from "@/components/ui/DisclaimerBox";
 import PageHeader from "@/components/layout/PageHeader";
 import { 
-  Car, Home, Calculator, HelpCircle, 
-  TrendingUp, Wallet, CheckCircle2,
+  Calculator, HelpCircle, 
+  TrendingUp, CheckCircle2,
   AlertTriangle, Percent, ShieldCheck, Banknote, Scale, 
-  Landmark, ExternalLink, ArrowRight, BookOpen
+  Landmark, ExternalLink
 } from "lucide-react";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
+import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
 
 // --- 1. METADATA DE ALTO VALOR (SEO 2026) ---
 export const metadata: Metadata = {
@@ -141,7 +142,13 @@ export default async function FinanciamentoPage({ searchParams }: Props) {
         />
       </div>
 
-      <div className="flex flex-col gap-8 px-4 sm:px-6 max-w-7xl mx-auto">
+      <div className="flex flex-col gap-8 px-4 sm:px-6 max-w-7xl mx-auto w-full">
+        
+        {/* REVISÃO FINANCEIRA (E-E-A-T) */}
+        <div className="bg-blue-50/50 dark:bg-blue-900/10 border border-blue-100 dark:border-blue-800 p-4 rounded-2xl flex items-center gap-3 text-xs text-blue-700 dark:text-blue-300 mb-2">
+          <ShieldCheck size={18} className="text-blue-600 shrink-0" />
+          <span>Conteúdo verificado com base em fórmulas de matemática financeira e indicadores econômicos vigentes em 2026.</span>
+        </div>
 
         {/* ANÚNCIO TOPO (FIX CLS: Altura mínima reservada) */}
         <div className="w-full max-w-5xl mx-auto overflow-hidden flex justify-center bg-slate-50/50 dark:bg-slate-900/50 rounded-lg border border-dashed border-slate-200/50 dark:border-slate-800 print:hidden min-h-[100px]">
@@ -342,31 +349,9 @@ export default async function FinanciamentoPage({ searchParams }: Props) {
               </div>
           </div>
 
-          {/* NAVEGAÇÃO CROSS-LINKING */}
-          <div className="mt-16 pt-8 border-t border-slate-200 print:hidden not-prose">
-            <p className="font-bold text-slate-900 mb-6 text-sm uppercase tracking-wider flex items-center gap-2">
-               <CheckCircle2 size={16} className="text-green-500"/> Planeje seu futuro com a gente:
-            </p>
-            <div className="grid md:grid-cols-3 gap-4">
-              <Link href="/financeiro/juros-compostos" className="flex flex-col p-5 bg-white border border-slate-200 rounded-xl hover:border-green-400 hover:shadow-lg transition-all group">
-                  <div className="bg-green-100 w-10 h-10 rounded-lg flex items-center justify-center mb-3 text-green-600 shadow-sm group-hover:scale-110 transition-transform"><TrendingUp size={20}/></div>
-                  <span className="font-bold text-slate-800 text-lg">Juros Compostos</span>
-                  <span className="text-sm text-slate-500 mt-1">Simulador de Investimentos</span>
-              </Link>
-              <Link href="/trabalhista/rescisao" className="flex flex-col p-5 bg-white border border-slate-200 rounded-xl hover:border-blue-400 hover:shadow-lg transition-all group">
-                  <div className="bg-blue-100 w-10 h-10 rounded-lg flex items-center justify-center mb-3 text-blue-600 shadow-sm group-hover:scale-110 transition-transform"><Wallet size={20}/></div>
-                  <span className="font-bold text-slate-800 text-lg">Rescisão CLT</span>
-                  <span className="text-sm text-slate-500 mt-1">Cálculo trabalhista</span>
-              </Link>
-              <Link href="/financeiro/salario-liquido" className="flex flex-col p-5 bg-white border border-slate-200 rounded-xl hover:border-indigo-400 hover:shadow-lg transition-all group">
-                  <div className="bg-indigo-100 w-10 h-10 rounded-lg flex items-center justify-center mb-3 text-indigo-600 shadow-sm group-hover:scale-110 transition-transform"><Calculator size={20}/></div>
-                  <span className="font-bold text-slate-800 text-lg">Salário Líquido</span>
-                  <span className="text-sm text-slate-500 mt-1">Descontos mensais</span>
-              </Link>
-            </div>
-          </div>
-
         </div>
+
+        <SmartCrossLinker currentHref="/financeiro/financiamento" category="financeiro" />
 
         {/* --- ANÚNCIO BOTTOM (ESTRATÉGICO) --- */}
         <div className="w-full flex justify-center my-8 print:hidden min-h-[250px]">

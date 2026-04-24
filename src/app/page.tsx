@@ -130,7 +130,9 @@ export default function Home() {
 
       {/* --- PUBLICIDADE (SLOT 1 - ALTA VISIBILIDADE) --- */}
       <section className="max-w-5xl mx-auto px-4 mb-16 min-h-[100px]">
-        <LazyAdUnit slot="home_top_feed" format="horizontal" />
+        <div className="w-full flex justify-center bg-slate-50/50 dark:bg-slate-900/50 rounded-lg border border-dashed border-slate-200/50 dark:border-slate-800/50 min-h-[100px]">
+            <LazyAdUnit slot="home_top_feed" format="horizontal" variant="agency" className="w-full" />
+        </div>
       </section>
 
       {/* --- CATEGORIAS DE CALCULADORAS --- */}
@@ -151,7 +153,9 @@ export default function Home() {
           />
 
           {/* --- PUBLICIDADE (SLOT 2 - ENTRE CATEGORIAS) --- */}
-          <LazyAdUnit slot="home_middle_feed" format="horizontal" />
+          <div className="w-full flex justify-center my-8 min-h-[100px]">
+              <LazyAdUnit slot="home_middle_feed" format="horizontal" variant="software" className="w-full" />
+          </div>
 
           {/* BLOCO FINANCEIRO */}
           <CalculatorCategory 

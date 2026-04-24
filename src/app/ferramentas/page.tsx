@@ -6,13 +6,14 @@ import {
   QrCode, Zap, Lock, FileJson, Image as ImageIcon, 
   Wrench, ArrowRight, MousePointer2, Smartphone, 
   CheckCircle2, Box, MessageCircle, FileText, ShieldCheck,
-  Cpu, Calculator, Briefcase, ShoppingBag
+  Cpu, Calculator, Briefcase, ShoppingBag, MoonStar
 } from "lucide-react";
+import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
 
 // --- METADATA (SEO 2026) ---
 export const metadata: Metadata = {
-  title: "Ferramentas e Utilitários Online Grátis | Mestre das Contas",
-  description: "Aumente sua produtividade. Gere QR Codes, Links de WhatsApp, Recibos em PDF e converta Imagens. Tudo gratuito, ilimitado e seguro (sem upload).",
+  title: "Ferramentas e Utilitários Online Grátis 2026 | Mestre das Contas",
+  description: "Aumente sua produtividade em 2026 com nossa suíte de utilitários. Gere QR Codes, Links de WhatsApp, Recibos em PDF e converta Imagens. Tudo gratuito e seguro.",
   keywords: [
     "ferramentas online gratis", 
     "gerador de qr code", 
@@ -26,13 +27,12 @@ export const metadata: Metadata = {
     canonical: "https://mestredascontas.com.br/ferramentas",
   },
   openGraph: {
-    title: "Ferramentas Digitais - Mestre das Contas",
+    title: "Ferramentas Digitais 2026 - Mestre das Contas",
     description: "Utilitários gratuitos para facilitar seu dia a dia. Acesse agora.",
     url: "https://mestredascontas.com.br/ferramentas",
     siteName: "Mestre das Contas",
     locale: "pt_BR",
     type: "website",
-    // images: fallen back to root
   },
 };
 
@@ -53,7 +53,8 @@ const jsonLd = {
     { "@type": "SoftwareApplication", "name": "Gerador de Recibo", "url": "https://mestredascontas.com.br/ferramentas/gerador-recibo" },
     { "@type": "SoftwareApplication", "name": "Formatador JSON", "url": "https://mestredascontas.com.br/ferramentas/formatador-json" },
     { "@type": "SoftwareApplication", "name": "Declaração de Conteúdo", "url": "https://mestredascontas.com.br/ferramentas/declaracao-conteudo" },
-    { "@type": "SoftwareApplication", "name": "Gerador de Privacidade", "url": "https://mestredascontas.com.br/ferramentas/gerador-privacidade" }
+    { "@type": "SoftwareApplication", "name": "Gerador de Privacidade", "url": "https://mestredascontas.com.br/ferramentas/gerador-privacidade" },
+    { "@type": "SoftwareApplication", "name": "Calendário Lunar 2026", "url": "https://mestredascontas.com.br/ferramentas/fases-da-lua" }
   ]
 };
 
@@ -342,6 +343,27 @@ export default function FerramentasHubPage() {
               </div>
             </div>
           </Link>
+          
+          {/* 9. Calendário Lunar 2026 (NOVO) */}
+          <Link href="/ferramentas/fases-da-lua" className="group relative overflow-hidden bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full flex flex-col">
+            <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-opacity">
+              <MoonStar size={80} className="text-indigo-600" />
+            </div>
+            <div className="p-6 md:p-8 flex-1 flex flex-col">
+              <div className="w-14 h-14 bg-indigo-50 rounded-2xl flex items-center justify-center text-indigo-600 mb-6 group-hover:scale-110 transition-transform shadow-sm ring-1 ring-indigo-100">
+                <MoonStar size={28} strokeWidth={2.5} />
+              </div>
+              <h2 className="text-xl font-bold text-slate-900 dark:text-slate-100 mb-3 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">Calendário Lunar 2026</h2>
+              <p className="text-slate-600 dark:text-slate-400 mb-6 leading-relaxed flex-1 text-sm">
+                Confira as fases da lua hoje, eclipses e influências nas marés e agricultura. Guia completo e preciso.
+              </p>
+              <div className="mt-auto">
+                <span className="inline-flex items-center text-sm font-bold text-white bg-indigo-600 px-4 py-2 rounded-lg group-hover:bg-indigo-700 transition-colors">
+                  Ver Calendário <ArrowRight size={16} className="ml-2 group-hover:translate-x-1 transition-transform" />
+                </span>
+              </div>
+            </div>
+          </Link>
 
         </section>
 
@@ -413,6 +435,8 @@ export default function FerramentasHubPage() {
 
         </div>
 
+        <SmartCrossLinker currentHref="/ferramentas" category="financeiro" />
+        
         {/* ANÚNCIO RODAPÉ */}
         <div className="w-full flex justify-center mt-4">
           <LazyAdUnit slot="tools_hub_bottom" format="auto" />

@@ -1,1 +1,21 @@
-{}
+{
+  "name": "Mestre das Contas",
+  "short_name": "MestreContas",
+  "description": "Calculadoras Financeiras, Trabalhistas e de Saúde precisas.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#2563eb",
+  "icons": [
+    {
+      "src": "/globe.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "/globe.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml"
+    }
+  ]
+}

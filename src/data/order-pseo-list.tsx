@@ -170,5 +170,68 @@ export const orderCases: OrderPSeoCase[] = [
                 </div>
             </div>
         )
+    },
+    {
+        slug: "lembrancinhas",
+        title: "Pedido de Lembrancinhas e Brindes",
+        description: "Modelo para festas e eventos. Detalhe personalização, cores e prazo de entrega de lembrancinhas.",
+        longDescription: "Organize seus pedidos de mimos. Especifique aroma, cor da fita, nome na tag e quantidade mínima para garantir o lucro na produção em lote.",
+        keywords: ["pedido lembrancinhas personalizado", "bloco pedido brindes", "modelo encomenda festa infantil", "recibo lembrancinha"],
+        rating: 4.9,
+        reviewsCount: 650,
+        initialValues: {
+            items: [
+                { id: '1', description: 'Velas Aromáticas (Pote Vidro + Tampa Cortiça) - 40g', quantity: 50, price: 12.50 },
+                { id: '2', description: 'Personalização de Tags e Laços (Incluso)', quantity: 1, price: 0.00 },
+                { id: '3', description: 'Taxa de Urgência (Entrega em 5 dias)', quantity: 1, price: 50.00 },
+            ],
+            shipping: { value: 45.00, notes: "Sedex com Seguro" },
+            terms: "1. Produção inicia após aprovação do layout digital.\n2. Cores podem variar de acordo com o lote do fornecedor.\n3. Prazo de entrega conta a partir do sinal de 50%.\n4. Pedido mínimo: 20 unidades."
+        },
+        articleContent: (
+            <div className="space-y-6">
+                <h3 className="text-xl font-bold text-slate-900 dark:text-white">Dicas para Produção em Escala</h3>
+                <p className="text-slate-700 dark:text-slate-300">
+                    Ao vender lembrancinhas, o segredo é o <strong>Pedido Mínimo</strong>. Pequenas quantidades dão o mesmo trabalho de layout que grandes, mas lucram menos.
+                    Use o campo de termos para definir o lote mínimo e a antecedência necessária.
+                </p>
+                <div className="bg-amber-50 dark:bg-amber-950/30 p-4 rounded-xl border border-amber-200 dark:border-amber-900">
+                    <p className="text-amber-900 dark:text-amber-100 text-sm italic">"Importante: Deixe claro que por ser um item artesanal, pequenas variações de cor e aroma são normais e não configuram defeito."</p>
+                </div>
+            </div>
+        )
+    },
+    {
+        slug: "marmitas",
+        title: "Pedido de Marmitas Fitness e Congelados",
+        description: "Controle de pedidos de comida saudável. Monte cardápios semanais e pacotes de marmitas.",
+        longDescription: "Ideal para cozinheiras e empresas de marmitex. Liste opções de carboidratos, proteínas e legumes para cada dia da semana.",
+        keywords: ["pedido marmita fitness pdf", "cardapio semanal encomendas", "bloco pedido marmitex", "venda comida congelada modelo"],
+        rating: 4.8,
+        reviewsCount: 1560,
+        initialValues: {
+            items: [
+                { id: '1', description: 'Combo 10 Marmitas (Proteína + Carbo + Legume)', quantity: 1, price: 180.00 },
+                { id: '2', description: 'Sopa Funcional (Pote 500ml)', quantity: 5, price: 15.00 },
+                { id: '3', description: 'Taxa de Entrega Local', quantity: 1, price: 10.00 },
+            ],
+            shipping: { value: 0, notes: "Entrega programada domingo à tarde" },
+            terms: "1. Pedidos devem ser feitos até quinta-feira para entrega no domingo.\n2. Pagamento via Pix na confirmação do pedido.\n3. Embalagens próprias para microondas e freezer.\n4. Alerta: Contém glúten/lactose em alguns itens (consultar)."
+        },
+        articleContent: (
+            <div className="space-y-6">
+                <h3 className="text-xl font-bold text-slate-900 dark:text-white">Organizando o Fluxo da Cozinha</h3>
+                <p className="text-slate-700 dark:text-slate-300">
+                    Trabalhar com comida requer pontualidade. Use o pedido para definir a <strong>data de corte</strong> (até quando o cliente pode pedir).
+                    Isso permite que você compre os ingredientes frescos na sexta e produza tudo no sábado/domingo.
+                </p>
+                <div className="bg-green-50 dark:bg-green-950/30 p-6 rounded-2xl border-l-4 border-green-500">
+                    <h4 className="font-bold text-green-900 dark:text-green-200 mb-2 flex items-center gap-2"><CheckCircle2 size={18}/> Alerta de Alergias</h4>
+                    <p className="text-green-800 dark:text-green-300 text-sm">
+                        Sempre pergunte sobre restrições alimentares. Deixe um espaço no campo de observações para anotar "Sem Cebola" ou "Sem Sal", isso fideliza o cliente.
+                    </p>
+                </div>
+            </div>
+        )
     }
 ];

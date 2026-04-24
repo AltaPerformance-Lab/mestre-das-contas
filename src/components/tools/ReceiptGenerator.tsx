@@ -12,6 +12,7 @@ import {
   MapPin, CalendarDays, ArrowDown, Scissors,
   Maximize2, X
 } from "lucide-react";
+import { trackEvent } from "@/lib/analytics";
 
 // --- FUNÇÃO AUXILIAR: NÚMERO POR EXTENSO (LÓGICA STRING PURA) ---
 const numeroParaExtenso = (valorStr: string): string => {

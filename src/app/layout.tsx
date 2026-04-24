@@ -6,6 +6,7 @@ import "./globals.css";
 // --- Componentes de "Compliance" ---
 import CookieConsent from "@/components/layout/CookieConsent";
 import GoogleAnalytics from "@/components/analytics/GoogleAnalytics";
+import WebVitals from "@/components/analytics/WebVitals";
 
 // --- Componentes de Layout ---
 import Sidebar from "@/components/layout/Sidebar";
@@ -81,6 +82,9 @@ export const metadata: Metadata = {
     locale: "pt_BR",
     type: "website",
     images: [{ url: "https://mestredascontas.com.br/opengraph-image", width: 1200, height: 630, alt: "Mestre das Contas", }],
+  },
+  other: {
+    ...(process.env.NEXT_PUBLIC_ADSENSE_ID ? { "google-adsense-account": `ca-pub-${process.env.NEXT_PUBLIC_ADSENSE_ID}` } : {})
   }
 };
 
@@ -106,6 +110,7 @@ export default function RootLayout({
 
           {/* --- 1. ANALYTICS --- */}
           <GoogleAnalytics />
+          <WebVitals />
 
           <ToastProvider>
             
@@ -152,11 +157,26 @@ export default function RootLayout({
             <Script
               id="adsense-init"
               async
-              src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${process.env.NEXT_PUBLIC_ADSENSE_ID}`}
+              src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-${process.env.NEXT_PUBLIC_ADSENSE_ID}`}
               crossOrigin="anonymous"
-              strategy="lazyOnload" 
+              strategy="afterInteractive" 
             />
           )}
+
+          {/* --- 3. SERVICE WORKER REGISTRATION --- */}
+          <Script id="register-sw" strategy="afterInteractive">
+            {`
+              if ('serviceWorker' in navigator) {
+                window.addEventListener('load', function() {
+                  navigator.serviceWorker.register('/sw.js').then(function(registration) {
+                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                  }, function(err) {
+                    console.log('ServiceWorker registration failed: ', err);
+                  });
+                });
+              }
+            `}
+          </Script>
           
           {/* --- 3. BANNER DE COOKIES --- */}
           <div className="print:hidden">

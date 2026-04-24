@@ -6,8 +6,9 @@ import LazyAdUnit from "@/components/ads/LazyAdUnit";
 import PageHeader from "@/components/layout/PageHeader";
 import DisclaimerBox from "@/components/ui/DisclaimerBox";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
+import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
 import { budgetCases, BudgetPSeoCase } from "@/data/budget-pseo-list";
-import { Calculator, ArrowLeft, Star, Briefcase, BookOpen, PenTool, CheckCircle2 } from "lucide-react";
+import { Calculator, ArrowLeft, Star, Briefcase, BookOpen, PenTool, CheckCircle2, ShieldCheck } from "lucide-react";
 
 // --- GERAR ROTAS ESTÁTICAS (SSG) ---
 export async function generateStaticParams() {
@@ -115,9 +116,9 @@ export default async function BudgetPseoPage({ params }: { params: Promise<{ slu
                     description={customCase.longDescription}
                     category="Modelos Prontos"
                     icon={<Briefcase size={32} strokeWidth={2} />}
-                    variant="default"
+                    variant="tools"
                     categoryColor="indigo"
-                    badge="Template 2026"
+                    badge="Atualizado 2026"
                     breadcrumbs={[
                         { label: "Ferramentas", href: "/ferramentas" },
                         { label: "Criar Orçamento", href: "/ferramentas/criador-orcamentos" },
@@ -139,6 +140,12 @@ export default async function BudgetPseoPage({ params }: { params: Promise<{ slu
                 {/* ANÚNCIO */}
                 <div className="w-full max-w-5xl mx-auto overflow-hidden flex justify-center bg-slate-50/50 dark:bg-slate-900/50 rounded-lg border border-dashed border-slate-200/50 dark:border-slate-800 print:hidden min-h-[100px]">
                     <LazyAdUnit slot="orcamento_top" format="horizontal" variant="agency" />
+                </div>
+
+                {/* REVISÃO PROFISSIONAL (E-E-A-T) */}
+                <div className="bg-blue-50/50 dark:bg-blue-900/10 border border-blue-100 dark:border-blue-800 p-4 rounded-2xl flex items-center gap-3 text-xs text-blue-700 dark:text-blue-300 mb-2">
+                  <ShieldCheck size={18} className="text-blue-600 shrink-0" />
+                  <span>Estrutura de orçamento profissional auditada para máxima conversão e clareza comercial em 2026.</span>
                 </div>
 
                 {/* FERRAMENTA PRE-FILLED */}
@@ -220,31 +227,7 @@ export default async function BudgetPseoPage({ params }: { params: Promise<{ slu
                     </div>
                 </div>
 
-                {/* OUTROS MODELOS (LINKS INTERNOS) */}
-                <div className="mt-12 pt-8 border-t border-slate-200 print:hidden not-prose">
-                    <h3 className="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2">
-                        <Briefcase size={20} className="text-slate-500"/> Outras Profissões
-                    </h3>
-                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-                        {budgetCases.filter(c => c.slug !== slug).map((c) => (
-                            <Link 
-                                key={c.slug} 
-                                href={`/ferramentas/criador-orcamentos/${c.slug}`}
-                                className="flex flex-col p-3 bg-white border border-slate-200 rounded-xl hover:border-indigo-400 hover:shadow-md transition-all group"
-                            >
-                                <span className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Modelo</span>
-                                <span className="font-bold text-slate-800 text-sm group-hover:text-indigo-600 line-clamp-2">{c.title.replace("Modelo de Orçamento ", "").replace("para ", "")}</span>
-                            </Link>
-                        ))}
-                         <Link 
-                            href="/ferramentas/criador-orcamentos"
-                            className="flex flex-col p-3 bg-slate-800 border border-slate-800 rounded-xl hover:bg-slate-900 hover:shadow-md transition-all group"
-                        >
-                            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Versão Completa</span>
-                            <span className="font-bold text-white text-sm">Criar em Branco</span>
-                        </Link>
-                    </div>
-                </div>
+                <SmartCrossLinker currentHref={`/ferramentas/criador-orcamentos/${slug}`} category="ferramentas" />
 
             </div>
         </article>

@@ -8,7 +8,7 @@ import {
 import React from "react";
 
 // --- CONFIGURAÇÃO ---
-const WHATSAPP_NUMBER = "5564981296245"; 
+const WHATSAPP_NUMBER = "5564992514471"; 
 const BASE_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=`;
 
 interface InternalAdUnitProps {

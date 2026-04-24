@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import PDFEditorWrapper from '@/components/pdf-editor/PDFEditorWrapper';
 import PageHeader from '@/components/layout/PageHeader';
+import SmartCrossLinker from '@/components/layout/SmartCrossLinker';
 import { 
     FileText, ShieldCheck, Zap, Lock, Layers, 
     CheckCircle2, HelpCircle, Star, PenTool, 
@@ -14,8 +15,8 @@ import PrivacyBadge from "@/components/ui/PrivacyBadge";
 
 // --- SEO METADATA ---
 export const metadata: Metadata = {
-  title: "Editor de PDF Grátis: Editar Texto, Assinar e Juntar (Online)",
-  description: "A melhor ferramenta para editar PDF online. Adicione textos, assinaturas, imagens e junte arquivos. 100% Gratuito, Seguro (Client-Side) e sem marca d'água.",
+  title: "Editor de PDF Grátis 2026: Editar, Assinar e Juntar Online",
+  description: "A melhor ferramenta para editar PDF online em 2026. Adicione textos, assinaturas, imagens e junte arquivos. 100% Gratuito e Seguro (Client-Side).",
   keywords: [
     "editor pdf online", "editar pdf grátis", "juntar pdf", 
     "assinar pdf digitalmente", "preencher pdf", "pdf filler", 
@@ -107,6 +108,12 @@ export default function PDFEditorPage() {
         {/* ANÚNCIO TOPO (PADRÃO) */}
         <div className="w-full max-w-5xl mx-auto overflow-hidden flex justify-center bg-slate-50/50 dark:bg-slate-900/50 rounded-lg border border-dashed border-slate-200/50 dark:border-slate-800 print:hidden min-h-[100px]">
            <LazyAdUnit slot="pdf_top" format="horizontal" variant="software" />
+        </div>
+
+        {/* PRIVACIDADE E SEGURANÇA (E-E-A-T) */}
+        <div className="bg-violet-50/50 dark:bg-violet-900/10 border border-violet-100 dark:border-violet-800 p-4 rounded-2xl flex items-center gap-3 text-xs text-violet-700 dark:text-violet-300 mb-2">
+          <ShieldCheck size={18} className="text-violet-600 shrink-0" />
+          <span>Editor de PDF com Privacidade Total: Seus documentos não saem do seu navegador. Processamento 100% local em 2026.</span>
         </div>
         
         <PrivacyBadge />
@@ -248,28 +255,7 @@ export default function PDFEditorPage() {
              </Accordion>
         </section>
 
-        {/* --- CROSS LINKING --- */}
-        <div className="border-t border-slate-200 dark:border-slate-800 pt-10">
-            <h3 className="text-center font-bold text-slate-400 dark:text-slate-500 text-sm uppercase tracking-widest mb-8">Descubra mais ferramentas</h3>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <Link href="/ferramentas/conversor-imagem" className="bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-blue-400 hover:-translate-y-1 transition-all text-center group">
-                    <div className="mx-auto bg-blue-50 dark:bg-blue-900/20 w-10 h-10 rounded-lg flex items-center justify-center text-blue-600 dark:text-blue-400 mb-2 group-hover:scale-110 transition-transform"><Layers size={20}/></div>
-                    <span className="font-bold text-slate-700 dark:text-slate-300 text-sm block">Conversor Imagem</span>
-                </Link>
-                <Link href="/ferramentas/gerador-link-whatsapp" className="bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-green-400 hover:-translate-y-1 transition-all text-center group">
-                    <div className="mx-auto bg-green-50 dark:bg-green-900/20 w-10 h-10 rounded-lg flex items-center justify-center text-green-600 dark:text-green-400 mb-2 group-hover:scale-110 transition-transform"><Share2 size={20}/></div>
-                    <span className="font-bold text-slate-700 dark:text-slate-300 text-sm block">Link WhatsApp</span>
-                </Link>
-                <Link href="/ferramentas/gerador-recibo" className="bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-amber-400 hover:-translate-y-1 transition-all text-center group">
-                    <div className="mx-auto bg-amber-50 dark:bg-amber-900/20 w-10 h-10 rounded-lg flex items-center justify-center text-amber-600 dark:text-amber-400 mb-2 group-hover:scale-110 transition-transform"><FileText size={20}/></div>
-                    <span className="font-bold text-slate-700 dark:text-slate-300 text-sm block">Gerador Recibo</span>
-                </Link>
-                <Link href="/trabalhista/rescisao" className="bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-red-400 hover:-translate-y-1 transition-all text-center group">
-                    <div className="mx-auto bg-red-50 dark:bg-red-900/20 w-10 h-10 rounded-lg flex items-center justify-center text-red-600 dark:text-red-400 mb-2 group-hover:scale-110 transition-transform"><History size={20}/></div>
-                    <span className="font-bold text-slate-700 dark:text-slate-300 text-sm block">Cálculo Rescisão</span>
-                </Link>
-            </div>
-        </div>
+        <SmartCrossLinker currentHref="/ferramentas/editor-pdf-online" category="ferramentas" />
 
         {/* Ad Unit Bottom */}
         <div className="w-full flex justify-center py-6">

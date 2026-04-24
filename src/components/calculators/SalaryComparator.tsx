@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { motion } from "framer-motion";
+import { trackEvent } from "@/lib/analytics";
 
 // Dados baseados em estimativas PNAD/IBGE (simplificados para UX)
 const DISTRIBUTION_TIERS = [
@@ -76,6 +77,7 @@ export default function SalaryComparator({ initialValue = 0 }: Props) {
     const finalPercentile = Math.min(99.9, cumulative + (safePosition * tier.percent));
 
     setResult({ tier, percentile: finalPercentile });
+    trackEvent("calculate_comparador_salario", { salario: val, classe: tier.name, percentil: finalPercentile });
   };
 
   const handleShare = () => {
@@ -84,8 +86,10 @@ export default function SalaryComparator({ initialValue = 0 }: Props) {
     const url = "https://mestredascontas.com.br/financeiro/comparador-salario";
     if (navigator.share) {
         navigator.share({ title: "Comparador de Renda", text, url });
+        trackEvent("share_comparador_salario_link");
     } else {
         navigator.clipboard.writeText(`${text} ${url}`);
+        trackEvent("share_comparador_salario_link");
         alert("Link copiado!");
     }
   };

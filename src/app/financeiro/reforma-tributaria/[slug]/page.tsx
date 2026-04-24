@@ -5,7 +5,7 @@ import { Suspense } from "react";
 import { 
   ArrowLeft, AlertTriangle, HelpCircle, BookOpen, CheckCircle2, 
   Calculator, ArrowRight, ThumbsUp, ThumbsDown, Heart, Landmark, Share2,
-  TrendingUp, Coins, PiggyBank, Zap 
+  TrendingUp, Coins, PiggyBank, Zap, ShieldCheck 
 } from "lucide-react";
 import { reformData } from "@/data/reform-data";
 import TaxReformCalculator from "@/components/calculators/TaxReformCalculator";
@@ -13,6 +13,7 @@ import PageHeader from "@/components/layout/PageHeader";
 import LazyAdUnit from "@/components/ads/LazyAdUnit";
 import DisclaimerBox from "@/components/ui/DisclaimerBox";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
+import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
 
 // --- STATIC GENERATION (pSEO) ---
 export async function generateStaticParams() {
@@ -211,6 +212,12 @@ export default async function ReformPage({ params, searchParams }: Props) {
       </div>
 
       <div className="flex flex-col gap-8 px-4 sm:px-6 max-w-7xl mx-auto -mt-6 relative z-20">
+        
+        {/* REVISÃO FISCAL (E-E-A-T) */}
+        <div className="bg-emerald-50/50 dark:bg-emerald-900/10 border border-emerald-100 dark:border-emerald-800 p-4 rounded-2xl flex items-center gap-3 text-xs text-emerald-700 dark:text-emerald-300 mb-2">
+          <ShieldCheck size={18} className="text-emerald-600 shrink-0" />
+          <span>Análise baseada no texto da EC 132/2023 e PLP 68/2024, revisada para o cenário fiscal de 2026.</span>
+        </div>
 
         {/* --- SESSÃO 1: TERMÔMETRO FISCAL (VISUALIZAÇÃO DE DADOS PIONEIRA) --- */}
         <div className="grid lg:grid-cols-12 gap-6 items-stretch">
@@ -536,29 +543,7 @@ export default async function ReformPage({ params, searchParams }: Props) {
                 ))}
             </div>
 
-            {/* NAV FINAL (RETENÇÃO) */}
-            <div className="pt-8 border-t border-slate-200 dark:border-slate-800">
-                <p className="font-bold text-slate-900 dark:text-white mb-6 text-sm uppercase tracking-wider flex items-center gap-2">
-                    <CheckCircle2 size={16} className="text-emerald-500"/> Continue Planejando seu Futuro:
-                </p>
-                <div className="grid md:grid-cols-3 gap-4">
-                    <Link href="/financeiro/juros-compostos" className="flex flex-col p-5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl hover:border-emerald-400 dark:hover:border-emerald-500 hover:shadow-lg transition-all group">
-                        <div className="bg-emerald-50 dark:bg-emerald-900/30 w-10 h-10 rounded-lg flex items-center justify-center mb-3 text-emerald-600 dark:text-emerald-400 shadow-sm group-hover:scale-110 transition-transform"><TrendingUp size={20}/></div>
-                        <span className="font-bold text-slate-900 dark:text-white text-lg">Juros Compostos</span>
-                        <span className="text-sm text-slate-600 dark:text-slate-400 mt-1">Simulador de Investimento</span>
-                    </Link>
-                    <Link href="/financeiro/salario-liquido" className="flex flex-col p-5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl hover:border-blue-400 dark:hover:border-blue-500 hover:shadow-lg transition-all group">
-                        <div className="bg-blue-50 dark:bg-blue-900/30 w-10 h-10 rounded-lg flex items-center justify-center mb-3 text-blue-600 dark:text-blue-400 shadow-sm group-hover:scale-110 transition-transform"><Coins size={20}/></div>
-                        <span className="font-bold text-slate-900 dark:text-white text-lg">Salário Líquido</span>
-                        <span className="text-sm text-slate-600 dark:text-slate-400 mt-1">Calculadora CLT 2026</span>
-                    </Link>
-                    <Link href="/financeiro/porcentagem" className="flex flex-col p-5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl hover:border-purple-400 dark:hover:border-purple-500 hover:shadow-lg transition-all group">
-                        <div className="bg-purple-50 dark:bg-purple-900/30 w-10 h-10 rounded-lg flex items-center justify-center mb-3 text-purple-600 dark:text-purple-400 shadow-sm group-hover:scale-110 transition-transform"><PiggyBank size={20}/></div>
-                        <span className="font-bold text-slate-900 dark:text-white text-lg">Porcentagem</span>
-                        <span className="text-sm text-slate-600 dark:text-slate-400 mt-1">Cálculos Rápidos</span>
-                    </Link>
-                </div>
-            </div>
+            <SmartCrossLinker currentHref={`/financeiro/reforma-tributaria/${data.slug}`} category="financeiro" />
         </section>
 
         {/* Rodapé Legal */}

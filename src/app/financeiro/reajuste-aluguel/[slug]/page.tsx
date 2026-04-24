@@ -6,6 +6,7 @@ import LazyAdUnit from "@/components/ads/LazyAdUnit";
 import PageHeader from "@/components/layout/PageHeader";
 import DisclaimerBox from "@/components/ui/DisclaimerBox";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
+import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
 import { rentPSeoCases } from "@/data/rent-pseo";
 import { Home, ArrowLeft, CalendarDays, TrendingUp, Briefcase } from "lucide-react";
 
@@ -248,33 +249,7 @@ export default async function RentPSeoPage({ params }: { params: Promise<{ slug:
                      </div>
                 </div>
 
-                {/* --- OUTRAS FERRAMENTAS --- */}
-                <div className="mt-12 not-prose border-t border-slate-200 dark:border-slate-800 pt-8 print:hidden">
-                    <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
-                        <Home size={22} className="text-blue-500"/> Soluções para Imóveis
-                    </h3>
-                    <div className="grid md:grid-cols-2 gap-6">
-                        <Link href="/ferramentas/recibo-online" className="block group">
-                            <div className="bg-gradient-to-br from-emerald-500 to-teal-600 rounded-2xl p-6 text-white shadow-lg shadow-emerald-500/20 transition-transform group-hover:-translate-y-1">
-                                <div className="bg-white/20 w-12 h-12 rounded-lg flex items-center justify-center mb-4 backdrop-blur-sm">
-                                    <Home size={24} className="text-white"/>
-                                </div>
-                                <h4 className="font-bold text-lg mb-1">Recibo de Aluguel</h4>
-                                <p className="text-emerald-50 text-sm opacity-90">Emita comprovantes de pagamento de aluguel profissionais e organizados.</p>
-                            </div>
-                        </Link>
-                        
-                        <Link href="/financeiro/calculadora-mei" className="block group">
-                            <div className="bg-gradient-to-br from-indigo-500 to-blue-600 rounded-2xl p-6 text-white shadow-lg shadow-indigo-500/20 transition-transform group-hover:-translate-y-1">
-                                <div className="bg-white/20 w-12 h-12 rounded-lg flex items-center justify-center mb-4 backdrop-blur-sm">
-                                    <Briefcase size={24} className="text-white"/>
-                                </div>
-                                <h4 className="font-bold text-lg mb-1">É Corretor Autônomo?</h4>
-                                <p className="text-indigo-50 text-sm opacity-90">Veja como formalizar seus serviços no MEI e emitir nota fiscal.</p>
-                            </div>
-                        </Link>
-                    </div>
-                </div>
+                <SmartCrossLinker currentHref={"/financeiro/reajuste-aluguel/" + slug} category="financeiro" />
 
                 {/* ANÚNCIO BOTTOM */}
                 <div className="w-full flex justify-center mt-8">

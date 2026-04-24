@@ -1,10 +1,10 @@
 [
   { 
-    "slug": "1412",
-    "valor": 1412, 
-    "label": "Salário Mínimo (Vigente)",
-    "title": "Salário Líquido de R$ 1.412,00",
-    "desc": "Veja quanto sobra do Salário Mínimo vigente. Tabela oficial de descontos do INSS (7,5%) e isenção de Imposto de Renda."
+    "slug": "1621",
+    "valor": 1621, 
+    "label": "Salário Mínimo 2026 (Vigente)",
+    "title": "Salário Líquido de R$ 1.621,00",
+    "desc": "Este é o novo Salário Mínimo em vigor desde Janeiro de 2026. Veja o cálculo com as novas alíquotas do INSS."
   },
   { 
     "slug": "1500",
@@ -14,11 +14,11 @@
     "desc": "Cálculo exato para quem ganha mil e quinhentos reais. Descubra os descontos de previdência e o valor final na conta."
   },
   { 
-    "slug": "1509",
-    "valor": 1509, 
-    "label": "Salário Mínimo 2025 (Projeção)",
-    "title": "Salário Líquido de R$ 1.509,00 (Novo Mínimo 2025)",
-    "desc": "Simulação com o valor projetado para o Salário Mínimo de 2025. Prepare-se para o reajuste e veja os novos descontos."
+    "slug": "1518",
+    "valor": 1518, 
+    "label": "Salário Mínimo 2025",
+    "title": "Salário Líquido de R$ 1.518,00 (Ano Anterior)",
+    "desc": "Cálculo baseado no valor do Salário Mínimo de 2025. Útil para conferir pagamentos retroativos ou rescisões."
   },
   { 
     "slug": "1640",
@@ -63,11 +63,11 @@
     "desc": "Simulador para salário de 2 mil e quinhentos. Veja se você já começa a pagar um pouco de Imposto de Renda."
   },
   { 
-    "slug": "2824",
-    "valor": 2824, 
+    "slug": "3242",
+    "valor": 3242, 
     "label": "2 Salários Mínimos",
-    "title": "Salário Líquido de R$ 2.824,00 (2 Salários)",
-    "desc": "Exatamente dois salários mínimos vigentes. Confira o impacto do INSS e IRRF neste valor de referência."
+    "title": "Salário Líquido de R$ 3.242,00 (2 Salários 2026)",
+    "desc": "Exatamente dois salários mínimos vigentes em 2026. Confira o impacto do INSS e IRRF neste valor de referência."
   },
   { 
     "slug": "3000",
@@ -98,11 +98,11 @@
     "desc": "Para Analistas Plenos: Descubra quanto sobra de um salário bruto de 4 mil reais após todos os descontos legais."
   },
   { 
-    "slug": "4236",
-    "valor": 4236, 
+    "slug": "4863",
+    "valor": 4863, 
     "label": "3 Salários Mínimos",
-    "title": "Salário Líquido de R$ 4.236,00 (3 Salários)",
-    "desc": "Referência de 3 salários mínimos. Veja como a progressividade da tabela do INSS afeta seu ganho final."
+    "title": "Salário Líquido de R$ 4.863,00 (3 Salários 2026)",
+    "desc": "Referência de 3 salários mínimos em 2026. Veja como a progressividade da tabela do INSS afeta seu ganho final."
   },
   { 
     "slug": "4580",
@@ -140,11 +140,11 @@
     "desc": "Salário de coordenação. Nesta faixa, você se aproxima do teto do INSS. Veja como isso afeta o cálculo."
   },
   { 
-    "slug": "7786",
-    "valor": 7786, 
-    "label": "Teto do INSS",
-    "title": "Salário Líquido de R$ 7.786,00 (Teto INSS)",
-    "desc": "Valor de referência do Teto do INSS 2024. Aqui o desconto da previdência atinge seu valor máximo fixo."
+    "slug": "8475",
+    "valor": 8475.55, 
+    "label": "Teto do INSS 2026",
+    "title": "Salário Líquido de R$ 8.475,55 (Teto INSS)",
+    "desc": "Valor de referência do Teto do INSS 2026. Aqui o desconto da previdência atinge seu valor máximo fixo."
   },
   { 
     "slug": "8500",

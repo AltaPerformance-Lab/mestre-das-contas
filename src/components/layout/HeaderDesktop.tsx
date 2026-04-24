@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { 
     Search, CalendarDays, Briefcase, Calculator, 
-    TrendingUp, Heart, Baby, Landmark, Percent, Droplet, LucideIcon, QrCode, FileText, ShieldCheck
+    TrendingUp, Heart, Baby, Landmark, Percent, Droplet, LucideIcon, QrCode, FileText, ShieldCheck, MoonStar
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 
@@ -27,9 +27,10 @@ const searchablePages: SearchItem[] = [
     { title: "Formatador JSON", url: "/ferramentas/formatador-json", icon: FileText, category: "Ferramentas" },
     { title: "Declaração de Conteúdo", url: "/ferramentas/declaracao-conteudo", icon: FileText, category: "Ferramentas" },
     { title: "Gerador Política Privacidade", url: "/ferramentas/gerador-privacidade", icon: ShieldCheck, category: "Ferramentas" },
+    { title: "Calendário Lunar 2026", url: "/ferramentas/fases-da-lua", icon: MoonStar, category: "Ferramentas" },
     
     // Financeiro
-    { title: "Salário Líquido (2025)", url: "/financeiro/salario-liquido", icon: Calculator, category: "Financeiro" },
+    { title: "Salário Líquido (2026)", url: "/financeiro/salario-liquido", icon: Calculator, category: "Financeiro" },
     { title: "Financiamento Veículos", url: "/financeiro/financiamento-veiculos", icon: Landmark, category: "Financeiro" },
     { title: "Juros Compostos", url: "/financeiro/juros-compostos", icon: TrendingUp, category: "Financeiro" },
     { title: "Dias Úteis", url: "/financeiro/calculadora-dias-uteis", icon: CalendarDays, category: "Financeiro" },

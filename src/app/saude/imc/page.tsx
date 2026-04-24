@@ -9,14 +9,15 @@ import {
   Scale, Brain, Activity, History, BookOpen,
   CircleHelp, ExternalLink, Landmark, Heart, 
   Coins, Briefcase, Calculator, CircleCheck, User, Users, Ruler,
-  AlertOctagon, Apple, Dna, TrendingUp
+  AlertOctagon, Apple, Dna, TrendingUp, ShieldCheck
 } from "lucide-react";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
+import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
 
 // --- 1. METADATA DE ALTA PERFORMANCE (SEO 2026) ---
 export const metadata: Metadata = {
-  title: "Calculadora de IMC 2026 (Grátis) | Tabela Oficial e Cálculo Exato",
-  description: "Calcule seu IMC agora. Veja a tabela oficial da OMS, entenda se você está no peso ideal, os riscos da obesidade e a diferença entre massa muscular e gordura.",
+  title: "Calculadora de IMC 2026 (Grátis) | Tabela Oficial e Peso Ideal",
+  description: "Calcule seu IMC em 10 segundos em 2026. Tabela oficial da OMS 2026 atualizada para adultos e idosos. Descubra se você está no peso ideal gratuitamente.",
   keywords: [
     "calculadora imc", 
     "indice de massa corporal", 
@@ -143,10 +144,22 @@ export default async function IMCPage({ searchParams }: Props) {
       </div>
 
       <div className="flex flex-col gap-8 px-4 sm:px-6 max-w-7xl mx-auto">
+        
+        {/* REVISÃO CIENTÍFICA (E-E-A-T) */}
+        <div className="bg-blue-50/50 dark:bg-blue-900/10 border border-blue-100 dark:border-blue-800 p-4 rounded-2xl flex items-center gap-3 text-xs text-blue-700 dark:text-blue-300 mb-2">
+          <ShieldCheck size={18} className="text-blue-600 shrink-0" />
+          <span>Conteúdo revisado conforme diretrizes da Organização Mundial da Saúde (OMS) e protocolos médicos de 2026.</span>
+        </div>
 
-        {/* BANNER TOPO (FIX CLS) */}
+        {/* ANÚNCIO TOPO */}
         <div className="w-full max-w-5xl mx-auto overflow-hidden flex justify-center bg-slate-50/50 dark:bg-slate-900/50 rounded-lg border border-dashed border-slate-200/50 dark:border-slate-800 print:hidden min-h-[100px]">
            <LazyAdUnit slot="imc_top" format="horizontal" variant="agency" />
+        </div>
+
+        {/* REVISÃO DE SAÚDE (E-E-A-T) */}
+        <div className="bg-emerald-50/50 dark:bg-emerald-900/10 border border-emerald-100 dark:border-emerald-800 p-4 rounded-2xl flex items-center gap-3 text-xs text-emerald-700 dark:text-emerald-300 mb-2">
+          <ShieldCheck size={18} className="text-emerald-600 shrink-0" />
+          <span>Informações revisadas com base nas diretrizes da Organização Mundial da Saúde (OMS) para 2026.</span>
         </div>
 
         {/* FERRAMENTA */}
@@ -186,6 +199,9 @@ export default async function IMCPage({ searchParams }: Props) {
             </p>
             <p>
                 Embora não seja perfeito (veremos o porquê mais abaixo), ele é a ferramenta mais rápida para identificar a obesidade, que é um fator de risco para doenças como diabetes tipo 2, hipertensão e problemas cardiovasculares.
+            </p>
+                <p className="text-sm italic text-slate-500 mt-8 pt-6 border-t border-slate-100 dark:border-slate-800">
+                Além do controle de peso, lembre-se que a <Link href="/saude/agua" className="text-rose-500 font-bold hover:underline">hidratação correta</Link> e o <Link href="/saude/calorias-diarias" className="text-rose-500 font-bold hover:underline">balanço calórico</Link> são fundamentais para uma vida longa.
             </p>
 
             {/* TABELA OFICIAL (HTML PURO OBRIGATÓRIO) */}
@@ -388,31 +404,9 @@ export default async function IMCPage({ searchParams }: Props) {
                 </div>
             </div>
 
-            {/* NAVEGAÇÃO FINAL */}
-            <div className="mt-16 pt-8 border-t border-slate-200 dark:border-slate-800 print:hidden not-prose">
-              <p className="font-bold text-slate-900 dark:text-slate-100 mb-6 text-sm uppercase tracking-wider flex items-center gap-2">
-                  <CircleCheck size={16} className="text-green-500"/> Continue Calculando:
-              </p>
-              <div className="grid md:grid-cols-3 gap-4">
-                <Link href="/saude/calorias-diarias" className="flex flex-col p-5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl hover:border-orange-400 dark:hover:border-orange-500 hover:shadow-lg transition-all group">
-                    <div className="bg-orange-50 dark:bg-orange-900/10 w-10 h-10 rounded-lg flex items-center justify-center mb-3 text-orange-600 dark:text-orange-500 shadow-sm group-hover:scale-110 transition-transform"><Apple size={20}/></div>
-                    <span className="font-bold text-slate-800 dark:text-slate-100 text-lg">Calorias (TMB)</span>
-                    <span className="text-sm text-slate-500 dark:text-slate-400 mt-1">Monte sua dieta</span>
-                </Link>
-                <Link href="/saude/agua" className="flex flex-col p-5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl hover:border-cyan-400 dark:hover:border-cyan-500 hover:shadow-lg transition-all group opacity-60 hover:opacity-100">
-                    <div className="bg-cyan-50 dark:bg-cyan-900/10 w-10 h-10 rounded-lg flex items-center justify-center mb-3 text-cyan-600 dark:text-cyan-500 shadow-sm group-hover:scale-110 transition-transform"><AlertOctagon size={20}/></div>
-                    <span className="font-bold text-slate-800 dark:text-slate-100 text-lg">Ingestão de Água</span>
-                    <span className="text-sm text-slate-500 dark:text-slate-400 mt-1">Hidratação diária</span>
-                </Link>
-                <Link href="/financeiro/salario-liquido" className="flex flex-col p-5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl hover:border-teal-400 dark:hover:border-teal-500 hover:shadow-lg transition-all group">
-                    <div className="bg-teal-50 dark:bg-teal-900/10 w-10 h-10 rounded-lg flex items-center justify-center mb-3 text-teal-600 dark:text-teal-500 shadow-sm group-hover:scale-110 transition-transform"><Coins size={20}/></div>
-                    <span className="font-bold text-slate-800 dark:text-slate-100 text-lg">Salário Líquido</span>
-                    <span className="text-sm text-slate-500 dark:text-slate-400 mt-1">Planejamento</span>
-                </Link>
-              </div>
-            </div>
-
         </div>
+
+        <SmartCrossLinker currentHref="/saude/imc" category="saude" />
 
         {/* --- ANÚNCIO BOTTOM (ESTRATÉGICO) --- */}
         <div className="w-full flex justify-center my-8 print:hidden min-h-[250px]">

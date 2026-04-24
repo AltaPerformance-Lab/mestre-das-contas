@@ -10,8 +10,10 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { 
   DollarSign, CalendarClock, Percent, Car, Home, Wallet,
-  Share2, Printer, History, Code2, CheckCircle2, Link as LinkIcon, X, ExternalLink
+  Share2, Printer, History, Code2, CheckCircle2, Link as LinkIcon, X, ExternalLink,
+  ArrowDown, ArrowUp
 } from "lucide-react";
+import { trackEvent } from "@/lib/analytics";
 
 // --- TIPAGEM ---
 type HistoricoFinanc = {
@@ -160,6 +162,7 @@ export default function FinancingCalculator({ initialValue = 0 }: FinancingCalcu
     };
 
     setResultado(novoResultado);
+    trackEvent("calculate_financiamento", { valor: V, prazo: n, tipo });
     if (!isIframe) salvarHistorico(novoResultado);
   };
 
@@ -269,6 +272,8 @@ export default function FinancingCalculator({ initialValue = 0 }: FinancingCalcu
     }
 
     navigator.clipboard.writeText(url);
+    if (type === "result") trackEvent("share_financiamento_result");
+    else trackEvent("share_financiamento_tool");
     setCopiado(type === "result" ? "result" : "link");
     setTimeout(() => setCopiado(null), 2000);
   };
@@ -279,6 +284,7 @@ export default function FinancingCalculator({ initialValue = 0 }: FinancingCalcu
         window.open(`https://mestredascontas.com.br/financeiro/financiamento-veiculos`, '_blank');
         return;
     }
+    trackEvent("print_financiamento");
     if (reactToPrintFn) reactToPrintFn();
   };
 

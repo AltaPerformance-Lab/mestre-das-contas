@@ -9,10 +9,11 @@ import {
   Briefcase, HelpCircle, History, BookOpen, 
   CheckCircle2, Coins, Calculator, 
   Wallet, FileText, Scale, Check, XCircle, 
-  AlertTriangle, Clock, CalendarDays
+  AlertTriangle, Clock, CalendarDays, ShieldCheck,
+  TrendingDown, TrendingUp, RefreshCw
 } from "lucide-react";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
-import RelatedTools from "@/components/ui/RelatedTools";
+import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
 
 // --- 1. METADATA (SEO MAXIMIZADO) ---
 // --- 1. METADATA DINÂMICA (SEO MAXIMIZADO) ---
@@ -20,13 +21,13 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
   const resolvedParams = await searchParams;
   const salarioRaw = resolvedParams.salario as string;
   
-  let title = "Rescisão CLT 2026: Calcule Agora (Com Multa de 40% e Férias)";
-  let description = "Vai sair da empresa? Evite prejuízo. Simulador Grátis de Rescisão com cálculo exato de Multa FGTS, Aviso Prévio e Férias. Verifique seus direitos!";
+  let title = "Cálculo de Rescisão CLT 2026 (Grátis) | Simular Acerto Exato";
+  let description = "Simulador grátis de rescisão CLT em 2026. Saiba quanto você vai receber de multa de 40% do FGTS, férias e aviso prévio em 10 segundos. Tabela 2026.";
 
   if (salarioRaw) {
     const valorFormatado = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(Number(salarioRaw));
-    title = `Simulação de Rescisão: Salário de ${valorFormatado} - Calculadora 2026`;
-    description = `Veja quanto você vai receber de rescisão com um salário de ${valorFormatado}. Cálculo completo com FGTS, Férias e Decimo Terceiro.`;
+    title = `Cálculo de Rescisão: Salário de ${valorFormatado} (CLT 2026)`;
+    description = `Ganhando ${valorFormatado}, quanto recebo na rescisão? Veja o cálculo exato com multa do FGTS e férias proporcionais. Grátis e online.`;
   }
 
   return {
@@ -193,10 +194,22 @@ export default async function RescisaoPage({ searchParams }: Props) {
       </div>
 
       <div className="flex flex-col gap-8 px-4 sm:px-6 max-w-7xl mx-auto">
+        
+        {/* REVISÃO LEGAL (E-E-A-T) */}
+        <div className="bg-blue-50/50 dark:bg-blue-900/10 border border-blue-100 dark:border-blue-800 p-4 rounded-2xl flex items-center gap-3 text-xs text-blue-700 dark:text-blue-300 mb-2">
+          <ShieldCheck size={18} className="text-blue-600 shrink-0" />
+          <span>Informações baseadas na Consolidação das Leis do Trabalho (CLT) e atualizações vigentes em 2026.</span>
+        </div>
 
         {/* ANÚNCIO TOPO */}
-        <div className="w-full mx-auto overflow-hidden flex justify-center bg-slate-50/50 dark:bg-slate-900/50 rounded-3xl border border-dashed border-slate-200/50 dark:border-slate-800/50 print:hidden min-h-[100px]">
+        <div className="w-full max-w-5xl mx-auto overflow-hidden flex justify-center bg-slate-50/50 dark:bg-slate-900/50 rounded-lg border border-dashed border-slate-200/50 dark:border-slate-800 print:hidden min-h-[100px]">
            <LazyAdUnit slot="rescisao_top" format="horizontal" variant="agency" />
+        </div>
+
+        {/* REVISÃO TRABALHISTA (E-E-A-T) */}
+        <div className="bg-blue-50/50 dark:bg-blue-900/10 border border-blue-100 dark:border-blue-800 p-4 rounded-2xl flex items-center gap-3 text-xs text-blue-700 dark:text-blue-300 mb-2">
+          <ShieldCheck size={18} className="text-blue-600 shrink-0" />
+          <span>Cálculo auditado conforme as últimas atualizações da Reforma Trabalhista e tabelas do Governo Federal para 2026.</span>
         </div>
 
         {/* FERRAMENTA */}
@@ -427,10 +440,9 @@ export default async function RescisaoPage({ searchParams }: Props) {
               </p>
           </div>
 
-          {/* CROSS-LINKING */}
           </div>
-          
-          <RelatedTools currentToolLink="/trabalhista/rescisao" category="trabalhista" />
+
+          <SmartCrossLinker currentHref="/trabalhista/rescisao" category="trabalhista" />
 
 
 

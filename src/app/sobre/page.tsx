@@ -138,13 +138,42 @@ export default function SobrePage() {
                     Este portal é mantido e desenvolvido com excelência técnica pela <strong>Alta Performance Web</strong>, especializada em soluções digitais que priorizam SEO e Experiência do Usuário.
                 </p>
                 <a 
-                  href="https://altaperformance.dev.br" 
+                  href="https://alta-performance-web-site.vercel.app" 
                   target="_blank" 
                   rel="noopener noreferrer" 
                   className="inline-flex items-center gap-2 bg-white text-slate-900 px-5 py-2.5 rounded-xl font-bold hover:bg-blue-50 transition-colors relative z-10"
                 >
                   Conhecer a Agência <ArrowRight size={16}/>
                 </a>
+            </div>
+        </div>
+
+        {/* COMPROMISSO EDITORIAL (E-E-A-T) */}
+        <div className="bg-emerald-50/30 dark:bg-emerald-900/10 border border-emerald-100 dark:border-emerald-800 rounded-[2.5rem] p-8 md:p-12 mb-16">
+            <div className="max-w-3xl mx-auto">
+                <div className="flex items-center gap-3 mb-6 text-emerald-700 dark:text-emerald-400">
+                    <ShieldCheck size={32} />
+                    <h2 className="text-2xl md:text-3xl font-bold">Compromisso com a Precisão</h2>
+                </div>
+                <div className="prose prose-emerald dark:prose-invert max-w-none">
+                    <p className="text-lg">
+                        Para o <strong>Mestre das Contas</strong>, a precisão não é opcional — é nossa fundação. Entendemos que nossos cálculos impactam decisões financeiras reais na vida de milhões de brasileiros.
+                    </p>
+                    <div className="grid sm:grid-cols-2 gap-8 mt-8">
+                        <div>
+                            <h4 className="font-bold text-slate-900 dark:text-slate-100 mb-2">Revisão Técnica</h4>
+                            <p className="text-sm text-slate-600 dark:text-slate-400">
+                                Todas as ferramentas financeiras e trabalhistas passam por um rigoroso processo de conferência manual contra as calculadoras oficiais da Receita Federal e Tribunais Superiores.
+                            </p>
+                        </div>
+                        <div>
+                            <h4 className="font-bold text-slate-900 dark:text-slate-100 mb-2">Atualização 2026</h4>
+                            <p className="text-sm text-slate-600 dark:text-slate-400">
+                                Monitoramos o Diário Oficial da União diariamente. Mudanças no salário mínimo, alíquotas de impostos ou regras previdenciárias são aplicadas em tempo real.
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 

@@ -12,7 +12,7 @@ import {
   Landmark, ExternalLink, ArrowRight, Gauge, Fuel
 } from "lucide-react";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
-import RelatedTools from "@/components/layout/RelatedTools";
+import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
 
 // --- 1. METADATA DE ALTA PERFORMANCE (SEO 2026) ---
 export const metadata: Metadata = {
@@ -243,7 +243,7 @@ export default function FinanciamentoVeiculosPage() {
           {/* NAVEGAÇÃO FINAL */}
           </div>
 
-          <RelatedTools currentTool="financiamento-veiculos" />
+          <SmartCrossLinker currentHref="/financeiro/financiamento-veiculos" category="financeiro" />
 
         {/* ANÚNCIO BOTTOM */}
         <div className="w-full flex justify-center mt-8">

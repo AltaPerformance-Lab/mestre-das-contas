@@ -79,5 +79,19 @@ export const receiptCases: ReceiptCase[] = [
     desc: "Para ONGs e instituições emitirem comprovante aos doadores.",
     prefill: { referente: "Doação espontânea para auxílio em ..." },
     tips: ["Agradeça a doação no campo de observação."]
+  },
+  {
+    slug: "recibo-honorarios-advocaticios",
+    title: "Recibo de Honorários Advocatícios",
+    desc: "Modelo para advogados e sociedades de advogados. Comprovante de honorários contratuais ou sucumbenciais.",
+    prefill: { referente: "Honorários profissionais referentes a assessoria jurídica no processo nº ..." },
+    tips: ["Mencione o número do processo ou o contrato de honorários.", "Especifique se é pagamento único ou parcela."]
+  },
+  {
+    slug: "recibo-consulta-medica",
+    title: "Recibo de Consulta Médica/Saúde",
+    desc: "Para médicos, psicólogos e fisioterapeutas. Essencial para reembolso de plano de saúde e declaração de IR.",
+    prefill: { referente: "Atendimento de saúde realizado no dia ... para o paciente ..." },
+    tips: ["O paciente usará este recibo para reembolso e Imposto de Renda.", "Certifique-se de que os dados do profissional (CRM/CRP/CREFITO) estão no cabeçalho."]
   }
 ];

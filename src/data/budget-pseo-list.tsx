@@ -38,15 +38,15 @@ export const budgetCases: BudgetPSeoCase[] = [
         },
         articleContent: (
             <div className="space-y-8">
-                <div className="bg-slate-50 dark:bg-indigo-950/30 p-6 rounded-2xl border-l-4 border-blue-600 dark:border-blue-500">
+                <div className="bg-slate-50 dark:bg-slate-900 p-6 rounded-2xl border-l-4 border-blue-600">
                     <h3 className="text-xl font-bold text-slate-900 dark:text-white mt-0 mb-4">Como fazer um orçamento de pedreiro que aprova?</h3>
-                    <p className="text-slate-800 dark:text-slate-200 mb-4">
+                    <p className="text-slate-700 dark:text-slate-300 mb-4">
                         O segredo para não ter prejuízo na obra é <strong>separar muito bem a mão de obra dos materiais</strong>. Muitos pedreiros perdem dinheiro porque o cimento subiu ou o cliente pediu algo fora do combinado.
                     </p>
-                    <ul className="space-y-2 text-slate-700 dark:text-slate-300">
-                        <li className="flex gap-2 items-center"><CheckCircle2 size={16} className="text-green-600 dark:text-green-400"/> <strong>Especifique o m²:</strong> Cobre por metro sempre que possível.</li>
-                        <li className="flex gap-2 items-center"><CheckCircle2 size={16} className="text-green-600 dark:text-green-400"/> <strong>Defina o escopo:</strong> Deixe claro se inclui ou não a parte elétrica/hidráulica.</li>
-                        <li className="flex gap-2 items-center"><CheckCircle2 size={16} className="text-green-600 dark:text-green-400"/> <strong>Cronograma:</strong> Coloque uma previsão de término para evitar ansiedade do cliente.</li>
+                    <ul className="space-y-2">
+                        <li className="flex gap-2 items-center text-slate-700 dark:text-slate-300"><CheckCircle2 size={16} className="text-green-600"/> <strong>Especifique o m²:</strong> Cobre por metro sempre que possível.</li>
+                        <li className="flex gap-2 items-center text-slate-700 dark:text-slate-300"><CheckCircle2 size={16} className="text-green-600"/> <strong>Defina o escopo:</strong> Deixe claro se inclui ou não a parte elétrica/hidráulica.</li>
+                        <li className="flex gap-2 items-center text-slate-700 dark:text-slate-300"><CheckCircle2 size={16} className="text-green-600"/> <strong>Cronograma:</strong> Coloque uma previsão de término para evitar ansiedade do cliente.</li>
                     </ul>
                 </div>
 
@@ -55,7 +55,7 @@ export const budgetCases: BudgetPSeoCase[] = [
                 </h3>
                 <p className="text-slate-700 dark:text-slate-300">
                     Evite colocar apenas "Reforma do Banheiro". Isso dá margem para o cliente pedir coisas extras sem pagar.
-                    O correto é detalhar: <em className="text-slate-900 dark:text-white font-medium">"Demolição de revestimento antigo (15m²), Regularização de parede, Instalação de porcelanato, Rejunte epóxi"</em>.
+                    O correto é detalhar: <em>"Demolição de revestimento antigo (15m²), Regularização de parede, Instalação de porcelanato, Rejunte epóxi"</em>.
                 </p>
                 <p className="text-slate-700 dark:text-slate-300">
                     Use nosso campo de <strong>Termos e Condições</strong> para proteger seu trabalho. Especifique que o entulho é responsabilidade do cliente contratar a caçamba.
@@ -87,7 +87,7 @@ export const budgetCases: BudgetPSeoCase[] = [
                     <h3 className="text-lg font-bold text-amber-900 dark:text-amber-100 flex items-center gap-2 mb-3">
                         <AlertTriangle size={20}/> Segurança em Primeiro Lugar
                     </h3>
-                    <p className="text-amber-900 dark:text-amber-200 text-sm font-medium">
+                    <p className="text-amber-800 dark:text-amber-200 text-sm">
                         Eletricidade é coisa séria. Um orçamento bem detalhado mostra que você segue as normas técnicas (NBR-5410). 
                         Isso justifica seu preço ser maior que o do "faz-tudo".
                     </p>
@@ -132,11 +132,11 @@ export const budgetCases: BudgetPSeoCase[] = [
                 <h3 className="text-xl font-bold text-slate-900 dark:text-white">Itens Indispensáveis no Contrato</h3>
                 <div className="grid md:grid-cols-2 gap-4 not-prose">
                      <div className="bg-slate-50 dark:bg-slate-800 p-4 rounded-xl border border-slate-100 dark:border-slate-700">
-                        <strong className="text-slate-900 dark:text-white block mb-2">1. Especificação do Material</strong>
+                        <strong className="text-slate-900 dark:text-white">1. Especificação do Material</strong>
                         <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Não coloque apenas "Madeira". Coloque "MDF 18mm Duratex Branco Ártico". Isso evita que o cliente reclame da cor depois.</p>
                      </div>
                      <div className="bg-slate-50 dark:bg-slate-800 p-4 rounded-xl border border-slate-100 dark:border-slate-700">
-                        <strong className="text-slate-900 dark:text-white block mb-2">2. O que NÃO está incluso</strong>
+                        <strong className="text-slate-900 dark:text-white">2. O que NÃO está incluso</strong>
                         <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Especifique que pedras (mármore/granito), eletrodomésticos, cubas e torneiras não fazem parte do seu serviço.</p>
                      </div>
                 </div>
@@ -147,7 +147,7 @@ export const budgetCases: BudgetPSeoCase[] = [
         slug: "pintor",
         title: "Modelo de Orçamento de Pintura (Residencial)",
         description: "Gere orçamentos de pintura por metro quadrado ou empreitada. Simples e rápido.",
-        longDescription: "Ideal para pintores profissionais. Calcule tinta, massa corrida e mão de obra para pintura interna, externa e texturas.",
+        longDescription: "Ideal para pintores profissionais. Calcule tinta, masa corrida e mão de obra para pintura interna, externa e texturas.",
         keywords: ["orçamento pintura m2", "modelo orçamento pintor", "proposta comercial pintura", "recibo pintura"],
         rating: 4.7,
         reviewsCount: 1650,
@@ -171,9 +171,9 @@ export const budgetCases: BudgetPSeoCase[] = [
                     <li><strong>Por m²:</strong> Mais justo para grandes áreas. Você mede as paredes (Altura x Largura) e multiplica pelo seu preço (ex: R$ 20,00/m²).</li>
                     <li><strong>Empreitada:</strong> Melhor para serviços pequenos ou muito detalhados (recortes, janelas, grades) onde medir é difícil.</li>
                 </ul>
-                <div className="bg-blue-50 dark:bg-blue-900/30 p-4 rounded-lg flex gap-3 border border-blue-100 dark:border-blue-800">
+                <div className="bg-blue-50 dark:bg-blue-900/30 p-4 rounded-lg flex gap-3 text-blue-900 dark:text-blue-200 text-sm font-medium border border-blue-100 dark:border-blue-800">
                     <Star size={18} className="shrink-0 mt-0.5 text-blue-600 dark:text-blue-400"/>
-                    <span className="text-blue-900 dark:text-blue-100 text-sm font-medium">Dica de Ouro: Cobre um item chamado "Proteção e Limpeza". O cliente valoriza muito um pintor que não respinga tinta no chão.</span>
+                    <span>Dica de Ouro: Cobre um item chamado "Proteção e Limpeza". O cliente valoriza muito um pintor que não respinga tinta no chão.</span>
                 </div>
             </div>
         )
@@ -202,9 +202,9 @@ export const budgetCases: BudgetPSeoCase[] = [
                     Para freelancers, garantir uma renda recorrente é vital. Ao invés de cobrar por post, cobre um <strong>pacote mensal</strong>.
                     No orçamento, deixe claro o que está entregando (ex: "12 posts") para que o cliente não peça 30 posts pelo mesmo preço.
                 </p>
-                <div className="bg-slate-50 dark:bg-slate-800 p-6 rounded-2xl border border-dashed border-slate-300 dark:border-slate-600">
-                    <h4 className="font-bold text-slate-900 dark:text-white mb-2">Checklist da Proposta de Marketing:</h4>
-                    <ul className="text-sm space-y-1 text-slate-700 dark:text-slate-300">
+                <div className="bg-slate-50 dark:bg-slate-900 p-6 rounded-2xl border border-dashed border-slate-300 dark:border-slate-700">
+                    <h4 className="font-bold text-slate-800 dark:text-slate-200 mb-2">Checklist da Proposta de Marketing:</h4>
+                    <ul className="text-sm space-y-1 text-slate-600 dark:text-slate-400">
                         <li>✅ Quantidade exata de entregáveis (Posts, Stories, Vídeos).</li>
                         <li>✅ Quem paga os anúncios? (Sempre o cliente, direto no cartão dele).</li>
                         <li>✅ Prazo de aprovação das artes.</li>
@@ -270,8 +270,8 @@ export const budgetCases: BudgetPSeoCase[] = [
                     Jardinagem é um serviço visual. Seu orçamento deve ser tão bonito quanto o jardim que você entrega. Use nossa ferramenta para listar detalhadamente o que será feito: poda, corte, limpeza, adubação.
                 </p>
                 <div className="bg-green-50 dark:bg-green-950/30 p-4 rounded-xl border border-green-200 dark:border-green-900">
-                     <h4 className="font-bold text-green-900 dark:text-green-200">Dica de Venda:</h4>
-                     <p className="text-sm text-green-800 dark:text-green-300">Ofereça um pacote de "Manutenção Mensal". O cliente paga um valor fixo por mês para você cuidar do jardim 2x. Isso garante renda fixa.</p>
+                     <h4 className="font-bold text-green-900 dark:text-green-100">Dica de Venda:</h4>
+                     <p className="text-sm text-green-800 dark:text-green-200">Ofereça um pacote de "Manutenção Mensal". O cliente paga um valor fixo por mês para você cuidar do jardim 2x. Isso garante renda fixa.</p>
                 </div>
             </div>
         )
@@ -403,6 +403,126 @@ export const budgetCases: BudgetPSeoCase[] = [
                         <li>Limpeza técnica de vidros/janelas altas.</li>
                     </ul>
                 </div>
+            </div>
+        )
+    },
+    {
+        slug: "arquiteto",
+        title: "Modelo de Orçamento de Arquitetura e Interiores",
+        description: "Proposta técnica para arquitetos. Projetos residenciais, comerciais e consultorias.",
+        longDescription: "Destaque seu valor criativo. Detalhe fases do projeto (Levantamento, Anteprojeto, Executivo), renderização 3D e acompanhamento de obra.",
+        keywords: ["orçamento arquitetura pdf", "proposta projeto interiores", "contrato arquitetura simples", "honorarios arquitetura"],
+        rating: 4.9,
+        reviewsCount: 520,
+        initialValues: {
+            items: [
+                { id: '1', description: 'Projeto Arquitetônico Completo (até 100m²)', quantity: 1, price: 4500.00 },
+                { id: '2', description: 'Projeto de Interiores (por ambiente)', quantity: 3, price: 1200.00 },
+                { id: '3', description: 'Consultoria de Decoração (hora/técnica)', quantity: 4, price: 250.00 },
+                { id: '4', description: 'Renders 3D Realistas (pacote 5 imagens)', quantity: 1, price: 800.00 },
+            ],
+            terms: "1. Pagamento: 40% na assinatura, 30% na entrega do anteprojeto, 30% no executivo.\n2. Inclusas até 2 rodadas de alterações.\n3. Não inclui taxas de prefeitura ou RRT/ART.\n4. Prazo total estimado: 45 dias úteis."
+        },
+        articleContent: (
+            <div className="space-y-6">
+                <h3 className="text-xl font-bold text-slate-900 dark:text-white">Como fazer uma proposta de arquitetura?</h3>
+                <p className="text-slate-700 dark:text-slate-300">
+                    Apresente seu trabalho como um investimento. No orçamento, detalhe cada fase: do levantamento métrico ao projeto executivo. Isso ajuda o cliente a entender o valor do seu tempo.
+                </p>
+                <div className="bg-indigo-50 dark:bg-indigo-950/30 p-4 rounded-xl border border-indigo-200 dark:border-indigo-900">
+                    <p className="text-sm text-indigo-900 dark:text-indigo-200 italic">"Dica: Especifique o número de revisões. Isso evita retrabalho infinito e garante o lucro do seu escritório."</p>
+                </div>
+            </div>
+        )
+    },
+    {
+        slug: "social-media",
+        title: "Orçamento Social Media e Gestão de Redes",
+        description: "Proposta para Social Media, Gestores de Tráfego e Infoprodutores.",
+        longDescription: "Feche mais contratos recorrentes. Estruture seus pacotes de posts, stories, Reels e relatórios de performance de forma profissional.",
+        keywords: ["orçamento social media pdf", "contrato gestor de trafego", "proposta marketing digital", "quanto cobrar social media"],
+        rating: 4.8,
+        reviewsCount: 3100,
+        initialValues: {
+            items: [
+                { id: '1', description: 'Gestão Mensal (12 posts + 24 stories)', quantity: 1, price: 1800.00 },
+                { id: '2', description: 'Estratégia de Conteúdo e Linha Editorial', quantity: 1, price: 600.00 },
+                { id: '3', description: 'Relatório Mensal de Performance', quantity: 1, price: 200.00 },
+                { id: '4', description: 'Setup de Anúncios (Meta/Google Ads)', quantity: 1, price: 500.00 },
+            ],
+            terms: "1. Contrato mínimo de 3 meses de prestação de serviços.\n2. Pagamento antecipado (todo dia 05).\n3. Verba de tráfego pago investida pelo cliente direto nas plataformas.\n4. Artes extras fora do pacote serão cobradas à parte."
+        },
+        articleContent: (
+            <div className="space-y-6">
+                <h3 className="text-xl font-bold text-slate-900 dark:text-white">Venda Estratégia, não apenas Post</h3>
+                <p className="text-slate-700 dark:text-slate-300">
+                    O cliente não quer "um post bonitinho", ele quer vender. No seu orçamento, destaque como sua estratégia de conteúdo vai atrair e converter seguidores em clientes.
+                </p>
+                <ul className="text-sm text-slate-600 dark:text-slate-400 list-disc pl-5 space-y-2">
+                    <li>Destaque a frequência de postagens.</li>
+                    <li>Inclua relatórios de métricas (Alcance, Engajamento, Cliques).</li>
+                    <li>Especifique o tempo de resposta para comentários e directs.</li>
+                </ul>
+            </div>
+        )
+    },
+    {
+        slug: "personal-trainer",
+        title: "Orçamento de Consultoria Personal Trainer",
+        description: "Modelo de proposta para personal trainers e consultoria fitness online.",
+        longDescription: "Profissionalize seu atendimento fitness. Calcule planos mensais, trimestrais e pacotes de aulas presenciais ou remotas.",
+        keywords: ["orçamento personal trainer", "contrato consultoria fitness", "plano de treino mensal valor", "recibo personal"],
+        rating: 4.9,
+        reviewsCount: 1400,
+        initialValues: {
+            items: [
+                { id: '1', description: 'Acompanhamento Presencial (3x por semana)', quantity: 1, price: 800.00 },
+                { id: '2', description: 'Consultoria Online (Treino + Suporte Whats)', quantity: 1, price: 250.00 },
+                { id: '3', description: 'Avaliação Física (Bioimpedância/Dobras)', quantity: 1, price: 150.00 },
+                { id: '4', description: 'Planejamento Nutricional (Parceria)', quantity: 1, price: 120.00 },
+            ],
+            terms: "1. Pagamento mensal recorrente.\n2. Desmarcação de aula com 24h de antecedência.\n3. Reposição de aulas sujeita a disponibilidade de agenda.\n4. Necessário atestado médico de aptidão física."
+        },
+        articleContent: (
+            <div className="space-y-6">
+                <h3 className="text-xl font-bold text-slate-900 dark:text-white">Venda Saúde e Resultado</h3>
+                <p className="text-slate-700 dark:text-slate-300">
+                    Para um Personal, o orçamento é o primeiro passo da motivação do aluno. Mostre profissionalismo com planos estruturados e regras claras de cancelamento e reposição.
+                </p>
+                <div className="bg-orange-50 dark:bg-orange-950/30 p-4 rounded-xl border border-orange-200 dark:border-orange-900">
+                    <p className="text-sm text-orange-900 dark:text-orange-200 font-bold italic">"Dica: Planos semestrais ou trimestrais garantem a recorrência do seu caixa e o comprometimento do aluno."</p>
+                </div>
+            </div>
+        )
+    },
+    {
+        slug: "consultor-ti",
+        title: "Proposta de Consultoria e Suporte de TI",
+        description: "Modelo para técnicos de TI, programadores e empresas de infraestrutura.",
+        longDescription: "Transmita confiança técnica. Detalhe níveis de serviço (SLA), manutenção preventiva e suporte emergencial.",
+        keywords: ["orçamento suporte ti pdf", "proposta consultoria informatica", "contrato manutenção mensal", "sla suporte ti"],
+        rating: 4.8,
+        reviewsCount: 920,
+        initialValues: {
+            items: [
+                { id: '1', description: 'Contrato Mensal Suporte (até 10 máquinas)', quantity: 1, price: 1200.00 },
+                { id: '2', description: 'Configuração de Servidor / Backup Cloud', quantity: 1, price: 1500.00 },
+                { id: '3', description: 'Visita Técnica Avulsa (Hora/Técnica)', quantity: 2, price: 180.00 },
+                { id: '4', description: 'Setup de Segurança e Firewall', quantity: 1, price: 800.00 },
+            ],
+            terms: "1. SLA de atendimento: 4 horas para chamados críticos.\n2. Suporte remoto ilimitado em horário comercial.\n3. Não inclui peças de reposição (hardware).\n4. Pagamento via boleto bancário dia 10."
+        },
+        articleContent: (
+            <div className="space-y-6">
+                <h3 className="text-xl font-bold text-slate-900 dark:text-white">A importância do SLA no Orçamento</h3>
+                <p className="text-slate-700 dark:text-slate-300">
+                    O que diferencia um técnico avulso de um consultor de TI é o <strong>SLA (Service Level Agreement)</strong>. Deixe claro em quanto tempo você garante o atendimento. Isso traz paz para o cliente e valor para o seu contrato.
+                </p>
+                <ul className="text-sm text-slate-600 dark:text-slate-400 list-disc pl-5 space-y-1">
+                    <li>Especifique o horário de atendimento.</li>
+                    <li>Detalhe o que é suporte 'Preventivo' e 'Corretivo'.</li>
+                    <li>Inclua auditorias de segurança mensais como diferencial.</li>
+                </ul>
             </div>
         )
     }

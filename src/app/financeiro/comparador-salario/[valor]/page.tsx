@@ -5,7 +5,7 @@ import AdUnit from "@/components/ads/AdUnit";
 import PageHeader from "@/components/layout/PageHeader";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
 import DisclaimerBox from "@/components/ui/DisclaimerBox";
-import RelatedTools from "@/components/ui/RelatedTools";
+import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
 import { Users, BarChart3, TrendingUp, CheckCircle2, ArrowLeft, Share2, HelpCircle, BookOpen, AlertTriangle } from "lucide-react";
 import Link from 'next/link';
 
@@ -356,7 +356,7 @@ export default async function PseoSalaryComparatorPage({ params }: Props) {
                     <AdUnit slot="comparator_bottom" format="horizontal" variant="software" />
                 </div>
 
-                <RelatedTools currentToolLink={"/financeiro/comparador-salario/" + valor} category="financeiro" />
+                <SmartCrossLinker currentHref={"/financeiro/comparador-salario/" + valor} category="financeiro" />
 
             </div>
         </article>

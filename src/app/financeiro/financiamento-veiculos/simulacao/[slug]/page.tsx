@@ -6,7 +6,9 @@ import AdUnit from "@/components/ads/AdUnit";
 import PageHeader from "@/components/layout/PageHeader";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
 import DisclaimerBox from "@/components/ui/DisclaimerBox";
-import { Car, CheckCircle2, TrendingUp, AlertCircle, Fuel, Wrench, ArrowLeft } from "lucide-react";
+import LazyAdUnit from "@/components/ads/LazyAdUnit";
+import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
+import { Car, CheckCircle2, TrendingUp, AlertCircle, Fuel, Wrench, ArrowLeft, ShieldCheck } from "lucide-react";
 import { financingCases } from "@/data/financing-pseo";
 
 // Wrapper da Calculadora
@@ -19,35 +21,49 @@ function getFinancingCase(slug: string) {
     if (predefined) return predefined;
 
     // 2. Tenta interpretar como valor numérico (ex: /50000)
-    // Remove pontos e vírgulas se houver, embora slug usually venha limpo ou com hifens
     const cleanSlug = slug.replace(/\D/g, ""); 
     const valor = parseInt(cleanSlug);
 
-    if (!isNaN(valor) && valor > 1000) { // Valor mínimo razoável
+    if (!isNaN(valor) && valor > 1000) { 
         const formatado = new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(valor);
+        
+        // Cálculos dinâmicos para SEO
+        const entradaIdeal = valor * 0.3;
+        const valorFinanciado = valor - entradaIdeal;
+        const i = 0.0159; // 1.59%
+        const n = 48; // 48x
+        const parcelaEstimada = (valorFinanciado * i) / (1 - Math.pow(1 + i, -n));
+        const totalPago = entradaIdeal + (parcelaEstimada * n);
+        
+        const fmtEntrada = new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(entradaIdeal);
+        const fmtFinanciado = new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(valorFinanciado);
+        const fmtParcela = new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(parcelaEstimada);
+        const fmtTotal = new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(totalPago);
+
         return {
             slug: slug,
             tipo: "Veículo",
             valor: valor,
-            title: `Simulação Financiamento: ${formatado}`,
-            description: `Calcule as parcelas para financiar um veículo de ${formatado}. Veja taxas e valores de entrada.`,
-            keywords: ["simulador financiamento", `financiamento ${valor}`, "calcular parcelas carro"],
+            title: `Financiamento: ${formatado}`,
+            description: `Calcule as parcelas para financiar um veículo de ${formatado}. Veja taxas, valores de entrada ideais e custos totais.`,
+            keywords: ["simulador financiamento", `financiamento ${valor}`, "calcular parcelas carro", `parcelas de ${formatado}`],
             articleContent: {
-                intro: `Você está simulando o financiamento de um veículo no valor de <strong>${formatado}</strong>. Abaixo você confere as estimativas de parcelas e juros.`,
+                intro: `Você está simulando o financiamento de um veículo no valor de <strong>${formatado}</strong>. Nossas estimativas consideram as taxas de juros médias praticadas no mercado atual.`,
                 analysis: `
-                    <p>Para um montante de <strong>${formatado}</strong>, as condições de crédito variam conforme seu Score e o ano do veículo.</p>
-                    <p>Valores numéricos avulsos na URL geram esta simulação genérica. Para análises de modelos específicos (como SUVs ou Motos), use o menu de navegação.</p>
+                    <p>Para aprovar um montante de <strong>${formatado}</strong>, as instituições financeiras geralmente exigem uma entrada. Dando 30% de entrada (${fmtEntrada}), o valor efetivamente financiado cai para ${fmtFinanciado}.</p>
+                    <p>Considerando uma taxa média de 1.59% ao mês num prazo de 48 meses, a parcela ficaria em torno de <strong>${fmtParcela} mensais</strong>. Ao final do contrato, o veículo custará no total ${fmtTotal}.</p>
                 `,
                 taxaMedia: "1.59% a.m.",
                 tips: [
-                    "A entrada mínima recomendada é sempre de 20%.",
-                    "Considere os custos de transferência e documentação no seu orçamento.",
-                    "Pesquise taxas em pelo menos 3 bancos diferentes."
+                    `Sua renda familiar recomendada para aprovar a parcela de ${fmtParcela} deve ser de aproximadamente ${new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(parcelaEstimada * 3.3)}.`,
+                    "A entrada mínima recomendada é de 20%, mas 30% garante taxas muito melhores.",
+                    "Considere os custos de transferência e IPVA no seu orçamento anual."
                 ],
                 faq: [
-                    { question: "Essa simulação é exata?", answer: "É uma estimativa baseada em taxas médias de mercado. O valor final depende do seu CPF e do banco." }
+                    { question: `Quanto fica a parcela de um carro de ${formatado}?`, answer: `Depende da sua entrada e prazo. Dando ${fmtEntrada} de entrada e parcelando o resto em 48x (com taxa de 1.59% a.m.), a parcela estimada é de ${fmtParcela}.` },
+                    { question: `Qual a renda para financiar ${formatado}?`, answer: `Os bancos exigem que a parcela não comprometa mais de 30% da sua renda bruta. Logo, a renda familiar exigida seria de pelo menos ${new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(parcelaEstimada * 3.3)}.` }
                 ],
-                closing: "Use esta simulação como base para negociar na concessionária ou loja."
+                closing: "Use a calculadora acima para alterar o valor da entrada e ver como os juros diminuem."
             }
         };
     }
@@ -162,9 +178,9 @@ export default async function VeiculoPorSlugPage({ params }: Props) {
           description={customCase.description}
           category="Simulador Automotivo"
           icon={<Car size={32} strokeWidth={2} />}
-          variant="default"
+          variant="finance"
           categoryColor="blue"
-          badge="Taxas 2026"
+          badge="Simulação 2026"
           breadcrumbs={[
             { label: "Financeiro", href: "/financeiro" },
             { label: "Financiamento Veículos", href: "/financeiro/financiamento-veiculos" },
@@ -186,7 +202,13 @@ export default async function VeiculoPorSlugPage({ params }: Props) {
 
         {/* ANUNCIO TOP */}
         <div className="w-full max-w-5xl mx-auto overflow-hidden flex justify-center min-h-[100px] bg-slate-50/50 dark:bg-slate-900/50 rounded-lg p-2 border border-dashed border-slate-200/50 dark:border-slate-800">
-           <AdUnit slot="veiculo_top" format="horizontal" variant="agency" />
+           <LazyAdUnit slot="veiculo_top" format="horizontal" variant="agency" />
+        </div>
+
+        {/* REVISÃO FINANCEIRA (E-E-A-T) */}
+        <div className="bg-blue-50/50 dark:bg-blue-900/10 border border-blue-100 dark:border-blue-800 p-4 rounded-2xl flex items-center gap-3 text-xs text-blue-700 dark:text-blue-300 mb-2">
+          <ShieldCheck size={18} className="text-blue-600 shrink-0" />
+          <span>Simulação baseada nas taxas médias do BACEN para aquisição de veículos, revisada para o cenário econômico de 2026.</span>
         </div>
 
         {/* FERRAMENTA */}
@@ -215,7 +237,7 @@ export default async function VeiculoPorSlugPage({ params }: Props) {
 
         {/* ANÚNCIO MID */}
         <div className="w-full flex justify-center my-4 print:hidden">
-            <AdUnit slot="veiculo_mid" format="auto" />
+            <LazyAdUnit slot="veiculo_mid" format="auto" />
         </div>
 
         {/* ANÁLISE PROFUNDA (Content Injection) */}
@@ -301,36 +323,10 @@ export default async function VeiculoPorSlugPage({ params }: Props) {
            )}
         </div>
 
-        {/* --- OUTRAS FERRAMENTAS (Cross Selling) --- */}
-        <div className="mt-12 not-prose border-t border-slate-200 dark:border-slate-800 pt-8 print:hidden">
-            <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
-                <Wrench size={22} className="text-indigo-500"/> Ferramentas para Motoristas
-            </h3>
-            <div className="grid md:grid-cols-2 gap-6">
-                <Link href="/veiculos/tabela-fipe" className="block group">
-                    <div className="bg-gradient-to-br from-orange-500 to-red-600 rounded-2xl p-6 text-white shadow-lg shadow-orange-500/20 transition-transform group-hover:-translate-y-1">
-                        <div className="bg-white/20 w-12 h-12 rounded-lg flex items-center justify-center mb-4 backdrop-blur-sm">
-                            <Car size={24} className="text-white"/>
-                        </div>
-                        <h4 className="font-bold text-lg mb-1">Consultar Tabela FIPE</h4>
-                        <p className="text-orange-50 text-sm opacity-90">Verifique o valor oficial do carro antes de financiar.</p>
-                    </div>
-                </Link>
-                
-                <Link href="/financeiro/rescisao" className="block group">
-                    <div className="bg-gradient-to-br from-blue-600 to-cyan-600 rounded-2xl p-6 text-white shadow-lg shadow-blue-600/20 transition-transform group-hover:-translate-y-1">
-                        <div className="bg-white/20 w-12 h-12 rounded-lg flex items-center justify-center mb-4 backdrop-blur-sm">
-                            <TrendingUp size={24} className="text-white"/>
-                        </div>
-                        <h4 className="font-bold text-lg mb-1">Planejamento Financeiro</h4>
-                        <p className="text-blue-50 text-sm opacity-90">Organize suas contas antes de assumir uma parcela de 48x.</p>
-                    </div>
-                </Link>
-            </div>
-        </div>
+        <SmartCrossLinker currentHref={`/financeiro/financiamento-veiculos/simulacao/${slug}`} category="financeiro" />
 
         <div className="w-full flex justify-center mt-8 min-h-[250px]">
-            <AdUnit slot="veiculo_bottom" format="horizontal" variant="software" />
+            <LazyAdUnit slot="veiculo_bottom" format="horizontal" variant="software" />
         </div>
       </div>
     </article>

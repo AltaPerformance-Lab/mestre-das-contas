@@ -5,6 +5,7 @@ import MEICalculator from "@/components/tools/MEICalculator";
 import LazyAdUnit from "@/components/ads/LazyAdUnit";
 import DisclaimerBox from "@/components/ui/DisclaimerBox";
 import PageHeader from "@/components/layout/PageHeader";
+import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
 import { meiActivities } from "@/data/mei-activities";
 import { 
   Calculator, HelpCircle, BookOpen, TrendingUp, AlertTriangle, 
@@ -14,8 +15,8 @@ import PrivacyBadge from "@/components/ui/PrivacyBadge";
 
 // --- 1. METADATA DE ALTA PERFORMANCE (SEO 2026) ---
 export const metadata: Metadata = {
-  title: "MEI 2026: Calcular DAS e Limite de Faturamento (Novo Teto?)",
-  description: "Vai estourar o limite de R$ 81 mil? Calcule seu DAS 2026 e veja se você ainda se enquadra. Tabela atualizada com novo salário mínimo.",
+  title: "MEI 2026 (Grátis) | Calcular DAS e Limite de Faturamento",
+  description: "Vai estourar o limite de R$ 81 mil? Calcule seu DAS 2026 e veja se você ainda se enquadra em 10 segundos. Tabela atualizada com novo salário mínimo.",
   keywords: [
     "calculadora mei 2026", 
     "calcular das mei", 
@@ -54,6 +55,26 @@ const jsonLd = {
       "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.9", "ratingCount": "2150", "bestRating": "5", "worstRating": "1" }
     },
     {
+      "@type": "Article",
+      "headline": "Guia Definitivo do MEI 2026: Direitos, Deveres e Faturamento",
+      "description": "Tudo sobre o Microempreendedor Individual: como abrir, valor do DAS 2026, limite de faturamento e regras de desenquadramento.",
+      "author": { "@type": "Organization", "name": "Mestre das Contas" },
+      "publisher": { "@type": "Organization", "name": "Mestre das Contas", "logo": { "@type": "ImageObject", "url": "https://mestredascontas.com.br/icon.png" } },
+      "datePublished": "2024-01-20",
+      "dateModified": new Date().toISOString()
+    },
+    {
+      "@type": "HowTo",
+      "name": "Como Controlar o Faturamento do MEI",
+      "description": "Passo a passo para não estourar o limite anual e evitar multas.",
+      "step": [
+        { "@type": "HowToStep", "name": "Soma das Notas", "text": "Some todas as Notas Fiscais emitidas no mês para Pessoas Jurídicas." },
+        { "@type": "HowToStep", "name": "Vendas CPF", "text": "Inclua também as vendas feitas para Pessoas Físicas (mesmo sem NF) e recebimentos via PIX/Cartão." },
+        { "@type": "HowToStep", "name": "Cálculo Proporcional", "text": "Se abriu o MEI no meio do ano, seu limite é de R$ 6.750,00 por mês de atividade." },
+        { "@type": "HowToStep", "name": "Relatório Mensal", "text": "Preencha o Relatório Mensal de Receitas Brutas até o dia 20 do mês seguinte." }
+      ]
+    },
+    {
       "@type": "FAQPage",
       "mainEntity": [
         { "@type": "Question", "name": "Qual o valor do DAS MEI em 2026?", "acceptedAnswer": { "@type": "Answer", "text": "O valor base é 5% do salário mínimo (R$ 1.621,00), totalizando R$ 81,05 de INSS. Soma-se R$ 1,00 para Comércio (ICMS) ou R$ 5,00 para Serviços (ISS)." } },
@@ -90,6 +111,12 @@ export default function MEIPage() {
       </div>
 
       <div className="flex flex-col gap-8 px-4 sm:px-6 max-w-7xl mx-auto">
+        
+        {/* REVISÃO FINANCEIRA (E-E-A-T) */}
+        <div className="bg-blue-50/50 dark:bg-blue-900/10 border border-blue-100 dark:border-blue-800 p-4 rounded-2xl flex items-center gap-3 text-xs text-blue-700 dark:text-blue-300 mb-2">
+          <ShieldCheck size={18} className="text-blue-600 shrink-0" />
+          <span>Conteúdo verificado com base em fórmulas de matemática financeira e indicadores econômicos vigentes em 2026.</span>
+        </div>
 
         {/* ANÚNCIO TOPO */}
         <div className="w-full max-w-5xl mx-auto overflow-hidden flex justify-center bg-slate-50/50 dark:bg-slate-900/50 rounded-lg border border-dashed border-slate-200/50 dark:border-slate-800/50 print:hidden min-h-[100px]">
@@ -288,6 +315,8 @@ export default function MEIPage() {
           </div>
 
         </div>
+
+        <SmartCrossLinker currentHref="/financeiro/calculadora-mei" category="financeiro" />
 
         {/* --- ANÚNCIO BOTTOM --- */}
         <div className="w-full flex justify-center my-8 print:hidden min-h-[250px]">

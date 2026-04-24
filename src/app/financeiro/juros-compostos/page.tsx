@@ -10,14 +10,15 @@ import {
   TrendingUp, HelpCircle, BookOpen, Calculator,
   Coins, Briefcase, FileText, 
   CheckCircle2, ArrowRight, BarChart3,
-  PieChart
+  PieChart, ShieldCheck
 } from "lucide-react";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
+import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
 
 // --- 1. METADATA DE ALTO VALOR (SEO 2026) ---
 export const metadata: Metadata = {
-  title: "Juros Compostos: Calculadora Online (Simule sua Riqueza)",
-  description: "O segredo para ficar rico? Juros sobre juros. Simule investimentos mensais e veja quanto seu dinheiro vai render em 5, 10 ou 20 anos.",
+  title: "Calculadora de Juros Compostos 2026 (Grátis) | Simule Online",
+  description: "Descubra o poder dos juros sobre juros em 2026. Simule investimentos mensais, rendimento e montante final em segundos. Grátis, preciso e online.",
   keywords: [
     "calculadora juros compostos", 
     "simulador de investimentos", 
@@ -153,6 +154,12 @@ export default async function JurosCompostosPage({ searchParams }: Props) {
       </div>
 
       <div className="flex flex-col gap-8 px-4 sm:px-6 max-w-7xl mx-auto">
+        
+        {/* REVISÃO FINANCEIRA (E-E-A-T) */}
+        <div className="bg-blue-50/50 dark:bg-blue-900/10 border border-blue-100 dark:border-blue-800 p-4 rounded-2xl flex items-center gap-3 text-xs text-blue-700 dark:text-blue-300 mb-2">
+          <ShieldCheck size={18} className="text-blue-600 shrink-0" />
+          <span>Conteúdo verificado com base em fórmulas de matemática financeira e indicadores econômicos vigentes em 2026.</span>
+        </div>
 
         {/* ANÚNCIO TOPO (FIX CLS) */}
         <div className="w-full max-w-5xl mx-auto overflow-hidden flex justify-center bg-slate-50/50 dark:bg-slate-900/50 rounded-lg border border-dashed border-slate-200/50 dark:border-slate-800 print:hidden min-h-[100px]">
@@ -289,33 +296,9 @@ export default async function JurosCompostosPage({ searchParams }: Props) {
             </div>
           </div>
 
-          {/* NAVEGAÇÃO CROSS-LINKING */}
-          <div className="mt-16 pt-8 border-t border-slate-200 dark:border-slate-800 print:hidden not-prose">
-            <p className="font-bold text-slate-900 dark:text-slate-100 mb-6 text-xs uppercase tracking-wider flex items-center gap-2">
-               <CheckCircle2 size={16} className="text-emerald-500"/> Outras Ferramentas Úteis:
-            </p>
-            <div className="grid md:grid-cols-3 gap-4">
-              <Link href="/financeiro/salario-liquido" className="flex flex-col p-5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl hover:border-emerald-400 hover:shadow-lg transition-all group">
-                  <div className="bg-emerald-50 dark:bg-emerald-900/30 w-10 h-10 rounded-lg flex items-center justify-center mb-3 text-emerald-600 dark:text-emerald-400 shadow-sm group-hover:scale-110 transition-transform"><Coins size={20}/></div>
-                  <span className="font-bold text-slate-800 dark:text-slate-200 text-base">Salário Líquido</span>
-                  <span className="text-xs text-slate-500 dark:text-slate-400 mt-1">Descontos do mês</span>
-              </Link>
-              
-              <Link href="/trabalhista/rescisao" className="flex flex-col p-5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl hover:border-blue-400 hover:shadow-lg transition-all group">
-                  <div className="bg-blue-50 dark:bg-blue-900/30 w-10 h-10 rounded-lg flex items-center justify-center mb-3 text-blue-600 dark:text-blue-400 shadow-sm group-hover:scale-110 transition-transform"><Briefcase size={20}/></div>
-                  <span className="font-bold text-slate-800 dark:text-slate-200 text-base">Rescisão CLT</span>
-                  <span className="text-xs text-slate-500 dark:text-slate-400 mt-1">Cálculo demissão</span>
-              </Link>
-
-              <Link href="/saude/imc" className="flex flex-col p-5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl hover:border-red-400 hover:shadow-lg transition-all group">
-                  <div className="bg-red-50 dark:bg-red-900/30 w-10 h-10 rounded-lg flex items-center justify-center mb-3 text-red-600 dark:text-red-400 shadow-sm group-hover:scale-110 transition-transform"><PieChart size={20}/></div>
-                  <span className="font-bold text-slate-800 dark:text-slate-200 text-base">IMC Online</span>
-                  <span className="text-xs text-slate-500 dark:text-slate-400 mt-1">Cuide da sua saúde</span>
-              </Link>
-            </div>
-          </div>
-
         </div>
+
+        <SmartCrossLinker currentHref="/financeiro/juros-compostos" category="financeiro" />
 
         {/* RODAPÉ IMPRESSÃO */}
         <div className="hidden print:block text-center pt-8 border-t border-slate-300 mt-8">

@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { 
   Clock, Share2, Printer, History, Code2, CheckCircle2, X, RefreshCcw
 } from "lucide-react";
+import { trackEvent } from "@/lib/analytics";
 
 type HistoricoHoras = {
   data: string;
@@ -116,6 +117,7 @@ export default function WorkHoursCalculator({ initialValue }: WorkHoursCalculato
     };
 
     setResultado(novoResultado);
+    trackEvent("calculate_horas", { total: novoResultado.horasTrabalhadas });
     if (!isIframe) salvarHistorico(pEntrada, pSaida, pIntervalo, novoResultado.horasTrabalhadas);
   };
 
@@ -151,14 +153,17 @@ export default function WorkHoursCalculator({ initialValue }: WorkHoursCalculato
         params.set("saida", saida);
         params.set("intervalo", intervalo);
         navigator.clipboard.writeText(`${baseUrl}?${params.toString()}`);
+        trackEvent("share_horas_link");
     } else {
         navigator.clipboard.writeText(`<iframe src="https://mestredascontas.com.br/calculos/horas-trabalhadas?embed=true" width="100%" height="600" frameborder="0" style="border:0; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.1);" title="Calculadora de Horas"></iframe>`);
+        trackEvent("share_horas_embed");
     }
     setCopiado(type);
     setTimeout(() => setCopiado(null), 2000);
   };
 
   const handlePrint = () => {
+    trackEvent("print_horas");
     if (reactToPrintFn) reactToPrintFn();
   };
 

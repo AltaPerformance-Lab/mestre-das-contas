@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Download, Share2, Loader2, Check } from "lucide-react";
+import { Download, Loader2, Check } from "lucide-react";
 import { toPng } from "html-to-image";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/toaster";

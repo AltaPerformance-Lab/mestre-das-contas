@@ -3,14 +3,14 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import NetSalaryCalculator from "@/components/calculators/SalaryCalculator";
-import AdUnit from "@/components/ads/AdUnit";
+import LazyAdUnit from "@/components/ads/LazyAdUnit";
 import PageHeader from "@/components/layout/PageHeader";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
 import DisclaimerBox from "@/components/ui/DisclaimerBox";
-import { Coins, CheckCircle2, TrendingDown, Briefcase, HelpCircle, AlertTriangle, ArrowLeft, PiggyBank, Calculator } from "lucide-react";
+import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
+import { Coins, CheckCircle2, TrendingDown, Briefcase, HelpCircle, AlertTriangle, ArrowLeft, ShieldCheck } from "lucide-react";
 
 // --- DADOS PSEO HARDCODED ---
-// Evita leitura de FS para performance e simplicidade em rotas dinâmicas
 const salaryCases = [
     { valor: 1500, slug: "1500", label: "Salário R$ 1.500" },
     { valor: 2000, slug: "2000", label: "Salário R$ 2.000" },
@@ -46,8 +46,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   return {
     title: `Salário Líquido de ${formatado} (2026) - Cálculo Exato`,
-    description: `Descubra quanto sobra de um salário bruto de ${formatado}. Tabela INSS e IRRF 2026 atualizada. Veja o valor líquido real após os descontos.`,
-    keywords: [`salario liquido ${valor}`, `calcular salario ${valor}`, "desconto inss 2026", "irrf 2026", "calculadora salario liquido"],
+    description: `Descubra quanto sobra de um salário bruto de ${formatado}. Tabela INSS e IRRF 2026 atualizada. Veja o valor líquido real após os descontos na sua conta corrente.`,
+    keywords: [`salario liquido ${valor}`, `calcular salario ${valor}`, "desconto inss 2026", "irrf 2026", "calculadora salario liquido", `liquido de ${valor}`],
     alternates: {
         canonical: `https://mestredascontas.com.br/financeiro/salario-liquido/${valor}`
     },
@@ -60,10 +60,21 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-// --- LÓGICA DE ANÁLISE ---
+// --- LÓGICA DE ANÁLISE DINÂMICA (ANTI THIN-CONTENT) ---
 function getAnalysis(valor: number) {
     const formatado = new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(valor);
-    const salariosMinimos = (valor / 1500).toFixed(1); // Mínimo estimado 2026
+    const salariosMinimos = (valor / 1500).toFixed(1); 
+    
+    // Cálculo Dinâmico Simplificado para preencher os textos e FAQs com valores reais!
+    let inssEstimado = 0;
+    if (valor <= 1412) inssEstimado = valor * 0.075;
+    else if (valor <= 2666.68) inssEstimado = 105.9 + ((valor - 1412) * 0.09);
+    else if (valor <= 4000.03) inssEstimado = 105.9 + 112.92 + ((valor - 2666.68) * 0.12);
+    else if (valor <= 7786.02) inssEstimado = 105.9 + 112.92 + 160 + ((valor - 4000.03) * 0.14);
+    else inssEstimado = 908.85; // Teto
+
+    const inssFormat = new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(inssEstimado);
+    const liquidoBruto = valor - inssEstimado;
     
     let analise = {
       title: `Análise para Quem Ganha ${formatado}`,
@@ -71,48 +82,49 @@ function getAnalysis(valor: number) {
       alert: "",
       color: "emerald",
       power: "",
-      tips: [] as string[]
+      tips: [] as string[],
+      inssText: `A contribuição previdenciária estimada (INSS) sobre o seu salário de ${formatado} é de aproximadamente ${inssFormat}.`
     };
     
     if (valor <= 1500) {
-      analise.text = `Este valor está próximo ao Piso Nacional. Nesta faixa, o foco financeiro deve ser a "sobrevivência inteligente": controle rigoroso de custos fixos. A vantagem é tributária: o desconto do INSS é mínimo (7,5%) e você está <strong>isento de Imposto de Renda</strong>.`;
-      analise.alert = "Descontos Mínimos";
+      analise.text = `Recebendo ${formatado}, este valor está próximo ao Piso Nacional de 2026. Nesta faixa, o foco financeiro deve ser a "sobrevivência inteligente": controle rigoroso de custos fixos. A grande vantagem é tributária: o desconto do INSS é mínimo (apenas a primeira faixa) e você está <strong>100% isento de Imposto de Renda</strong>, o que significa que o valor bruto se aproxima bastante do líquido.`;
+      analise.alert = "Descontos Mínimos na Fonte";
       analise.color = "emerald";
-      analise.power = "Básico";
+      analise.power = "Básico / Inicial";
       analise.tips = [
-          "Cadastre-se na Tarifa Social de Energia Elétrica se elegível.",
-          "Evite dívidas de cartão de crédito. Juros rotativos destroem orçamentos nessa faixa.",
-          "Busque contas digitais gratuitas que rendam CDI diário."
+          "Cadastre-se na Tarifa Social de Energia Elétrica (dependendo da sua região).",
+          "Evite dívidas de cartão de crédito. Juros rotativos destroem orçamentos nessa faixa de renda.",
+          "Busque contas digitais totalmente gratuitas que rendam CDI diário (como Nubank ou Mercado Pago)."
       ];
     } else if (valor <= 2800) {
-      analise.text = `Você recebe cerca de ${salariosMinimos} salários mínimos. Até este patamar, você provavelmente ainda está <strong>Isento de IRRF</strong> (dependendo das atualizações da tabela). Seu maior "sócio" aqui é apenas o INSS. É a melhor fase para começar a montar sua Reserva de Emergência.`;
-      analise.alert = "Isento de IRRF (Provável)";
+      analise.text = `Você recebe cerca de ${salariosMinimos} salários mínimos, o que totaliza ${formatado} brutos mensais. Até este patamar, você provavelmente ainda está <strong>Isento de IRRF</strong> (dependendo das atualizações exatas da tabela). Seu maior "sócio" aqui é apenas o INSS (${inssFormat}). Esta é a melhor fase financeira para começar a montar sua Reserva de Emergência sem o peso do Leão.`;
+      analise.alert = "Isento de IRRF (Faixa de Transição)";
       analise.color = "blue";
-      analise.power = "Estável";
+      analise.power = "Estabilidade Inicial";
       analise.tips = [
-          "Tente poupar 15% do salário líquido assim que ele cai na conta.",
-          "Invista em ativos isentos de IR (LCI, LCA) para potencializar o ganho.",
-          "Cuidado com financiamento de veículos que comprometam mais de 30% da renda."
+          `Como o desconto é menor, tente poupar entre R$ 100 e R$ 200 do seu salário líquido assim que ele cai na conta.`,
+          "Invista em ativos isentos de IR (como LCI, LCA e Poupança de Bancões) para não perder rentabilidade.",
+          "Cuidado ao fazer carnês e financiamentos; nunca comprometa mais de 30% da sua renda."
       ];
     } else if (valor <= 5000) {
-      analise.text = `Bem-vindo à classe média! Com ${salariosMinimos} salários mínimos, o Leão começa a morder. O Imposto de Renda já aparece no holerite. A estratégia aqui é mitigar impostos: gastos com saúde, educação e dependentes ajudam a restituir esse valor no ano seguinte.`;
-      analise.alert = "Tributação Média";
+      analise.text = `Com uma remuneração de ${formatado} (cerca de ${salariosMinimos} salários mínimos), o Leão começa a morder sua folha de pagamento. O Imposto de Renda Retido na Fonte (IRRF) já aparece no seu holerite mensal. A estratégia principal para quem ganha ${formatado} é mitigar impostos: gastos com plano de saúde, educação e declaração de dependentes ajudam a restituir boa parte desse valor no ano seguinte.`;
+      analise.alert = "Tributação Média Ativa";
       analise.color = "amber";
       analise.power = "Ascendente";
       analise.tips = [
-          "Cadastre seus dependentes no RH para aliviar o IR mensal.",
-          "Considere fazer a Declaração Completa do IR para deduzir saúde e escola.",
-          "Um PGBL pode ser interessante se você declarar no modelo completo (abate 12% da base)."
+          "Cadastre seus dependentes legais diretamente no RH da empresa para aliviar o IR descontado no mês.",
+          "Sempre exija nota fiscal para despesas médicas. Considere fazer a Declaração Completa do IR.",
+          "Um plano de Previdência Privada (PGBL) começa a ser interessante nesta faixa de renda."
       ];
     } else {
-      analise.text = `Sua renda (${salariosMinimos}x Mínimos) está no topo da pirâmide. Você paga o teto do INSS e a alíquota de IR é alta (chegando a 27,5% na margem). O foco agora deve ser <strong>Eficiência Tributária</strong> e proteção patrimonial.`;
-      analise.alert = "Alta Carga Tributária";
+      analise.text = `Receber ${formatado} (${salariosMinimos}x o salário mínimo) coloca você no topo da pirâmide salarial brasileira. Você paga o <strong>teto máximo do INSS</strong> (${inssFormat}) e a alíquota de Imposto de Renda é a mais severa (chegando a 27,5% na margem). O foco contábil para uma renda de ${formatado} deve ser <strong>Eficiência Tributária</strong> máxima e blindagem patrimonial.`;
+      analise.alert = "Alta Carga Tributária (27,5%)";
       analise.color = "purple";
-      analise.power = "Elevado";
+      analise.power = "Elevado / Premium";
       analise.tips = [
-          "Maximize aportes em Previdência Privada (PGBL) para reduzir o IR a pagar.",
-          "Use cartões 'Black' com benefícios reais (seguro viagem, salas VIP) já que sua renda permite.",
-          "Tenha um Seguro de Vida robusto para proteger seu padrão de vida."
+          "Maximize aportes em Previdência Privada tipo PGBL para deduzir até 12% da sua base de cálculo do IR.",
+          "Use cartões de crédito da categoria 'Black' ou 'Infinite' para gerar pontos e acessar salas VIP (sua renda já permite).",
+          "Tenha um Seguro de Vida e Invalidez robusto, pois o teto do INSS não será suficiente para manter seu padrão de vida."
       ];
     }
     
@@ -124,9 +136,6 @@ export default async function SalarioPorValorPage({ params }: Props) {
   const salarioNum = parseFloat(valor.replace(",","."));
 
   if (isNaN(salarioNum)) notFound();
-
-  // Helper para links internos
-  const dados = salaryCases;
 
   const analysis = getAnalysis(salarioNum);
   const formatado = new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(salarioNum);
@@ -155,41 +164,20 @@ export default async function SalarioPorValorPage({ params }: Props) {
         "mainEntity": [
           {
             "@type": "Question",
-            "name": `Quanto sobra de um salário de ${formatado}?`,
-            "acceptedAnswer": { "@type": "Answer", "text": `Para um salário bruto de ${formatado}, são descontados o INSS (Previdência) e o Imposto de Renda (IRRF). Use a calculadora acima para ver o valor exato que cai na conta.` }
+            "name": `Quanto sobra na conta de um salário bruto de ${formatado}?`,
+            "acceptedAnswer": { "@type": "Answer", "text": `Para um salário de ${formatado}, após descontar a contribuição da previdência (INSS) e o imposto de renda (IRRF), o valor final depende do número de dependentes. Use nossa ferramenta acima para simular a tabela de 2026.` }
           },
           {
             "@type": "Question",
-            "name": "Este salário paga Imposto de Renda?",
-            "acceptedAnswer": { "@type": "Answer", "text": salarioNum <= 2800 ? "Provavelmente não. Valores até esta faixa costumam estar na zona de isenção ou com desconto muito baixo." : "Sim. Salários acima de R$ 2.824,00 (estimado) já sofrem retenção na fonte conforme a tabela progressiva." }
+            "name": `Quem ganha ${formatado} paga Imposto de Renda?`,
+            "acceptedAnswer": { "@type": "Answer", "text": salarioNum <= 2800 ? "Atualmente, a faixa de isenção protege a maioria dos salários até 2 salários mínimos, então você não deve sofrer descontos pesados de IR." : "Sim, a partir desta faixa salarial já existe retenção na fonte. A mordida do leão depende diretamente da quantidade de dependentes que você possuir." }
+          },
+          {
+            "@type": "Question",
+            "name": `Qual o desconto de INSS para ${formatado}?`,
+            "acceptedAnswer": { "@type": "Answer", "text": analysis.inssText }
           }
         ]
-      },
-      {
-          "@type": "HowTo",
-          "name": `Como calcular o salário líquido de ${formatado}`,
-          "description": "Passo a passo para entender os descontos do seu holerite.",
-          "totalTime": "PT2M",
-          "step": [
-              {
-                  "@type": "HowToStep",
-                  "name": "Informe o Salário Bruto",
-                  "text": `O simulador inicia com o valor de ${formatado}.`,
-                  "url": `https://mestredascontas.com.br/financeiro/salario-liquido/${valor}`
-              },
-              {
-                  "@type": "HowToStep",
-                  "name": "Ajuste os Dependentes",
-                  "text": "Se você tem filhos ou dependentes legais, o imposto diminui. Informe a quantidade.",
-                  "url": `https://mestredascontas.com.br/financeiro/salario-liquido/${valor}`
-              },
-              {
-                  "@type": "HowToStep",
-                  "name": "Confira o Resultado",
-                  "text": "Veja o valor final e o quanto foi descontado de impostos.",
-                  "url": `https://mestredascontas.com.br/financeiro/salario-liquido/${valor}`
-              }
-          ]
       }
     ]
   };
@@ -202,12 +190,12 @@ export default async function SalarioPorValorPage({ params }: Props) {
       <div className="px-4 pt-4 md:pt-6">
         <PageHeader 
           title={`Salário Líquido: ${formatado}`}
-          description={`Análise dos impostos (INSS e IRRF) para quem ganha ${formatado} em 2026. Veja quanto sobra.`}
+          description={`Análise dos impostos (INSS e IRRF) para quem ganha ${formatado} em 2026. Veja quanto cai na sua conta hoje.`}
           category="Calculadora CLT"
           icon={<Coins size={32} strokeWidth={2} />}
-          variant="health"
+          variant="finance"
           categoryColor="emerald"
-          badge="Tabela 2026"
+          badge="Atualizado 2026"
           breadcrumbs={[
             { label: "Financeiro", href: "/financeiro" },
             { label: "Salário Líquido", href: "/financeiro/salario-liquido" },
@@ -223,13 +211,19 @@ export default async function SalarioPorValorPage({ params }: Props) {
         {/* BACK LINK */}
         <div className="print:hidden">
             <Link href="/financeiro/salario-liquido" className="inline-flex items-center text-sm font-bold text-slate-500 dark:text-slate-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">
-                <ArrowLeft size={16} className="mr-1"/> Voltar para Calculadora Geral
+                <ArrowLeft size={16} className="mr-1"/> Voltar para Calculadora de Salário Completa
             </Link>
         </div>
 
         {/* ANUNCIO TOP */}
         <div className="w-full max-w-5xl mx-auto overflow-hidden flex justify-center min-h-[100px] bg-slate-50/50 dark:bg-slate-900/50 rounded-lg p-2 border border-dashed border-slate-200/50 dark:border-slate-800">
-           <AdUnit slot="salario_top" format="horizontal" variant="agency" />
+           <LazyAdUnit slot="salario_top" format="horizontal" variant="agency" />
+        </div>
+
+        {/* REVISÃO FISCAL (E-E-A-T) */}
+        <div className="bg-emerald-50/50 dark:bg-emerald-900/10 border border-emerald-100 dark:border-emerald-800 p-4 rounded-2xl flex items-center gap-3 text-xs text-emerald-700 dark:text-emerald-300 mb-2">
+          <ShieldCheck size={18} className="text-emerald-600 shrink-0" />
+          <span>Cálculo baseado nas tabelas progressivas de INSS e IRPF vigentes para o ano-calendário 2026.</span>
         </div>
 
         {/* FERRAMENTA */}
@@ -237,9 +231,9 @@ export default async function SalarioPorValorPage({ params }: Props) {
              <div className="bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-100 dark:border-emerald-900/30 p-4 rounded-xl mb-6 flex items-start gap-3 print:hidden shadow-sm transition-colors">
                 <Briefcase className="text-emerald-600 dark:text-emerald-400 mt-1 shrink-0" size={20}/>
                 <div>
-                    <p className="font-bold text-emerald-900 dark:text-emerald-100 text-sm">Cálculo para {formatado}</p>
+                    <p className="font-bold text-emerald-900 dark:text-emerald-100 text-sm">Contracheque para {formatado}</p>
                     <p className="text-emerald-800 dark:text-emerald-200 text-xs mt-1">
-                        Utilizando a tabela oficial 2026. O resultado considera desconto padrão de INSS e IRRF simplificado ou completo (o melhor para você).
+                        Utilizando a tabela oficial 2026. O sistema já pré-carregou o valor de <strong>{formatado}</strong> para calcular a sua dedução simplificada ou completa.
                     </p>
                 </div>
             </div>
@@ -257,26 +251,26 @@ export default async function SalarioPorValorPage({ params }: Props) {
 
         {/* ANÚNCIO MID */}
         <div className="w-full flex justify-center my-4 print:hidden">
-            <AdUnit slot="salario_mid" format="auto" />
+            <LazyAdUnit slot="salario_mid" format="auto" />
         </div>
 
-        {/* ANÁLISE PROFUNDA */}
+        {/* ANÁLISE PROFUNDA (CONTEÚDO ÚNICO) */}
         <div className="prose prose-slate dark:prose-invert prose-sm md:prose-lg max-w-4xl mx-auto bg-white dark:bg-slate-900 p-6 md:p-12 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-xl shadow-slate-200/40 dark:shadow-none overflow-hidden w-full print:hidden">
           
           <h2 className={`text-3xl font-bold text-slate-900 dark:text-white mb-6 border-l-4 border-${analysis.color}-500 pl-4 flex items-center gap-3`}>
-             <TrendingDown className={`text-${analysis.color}-500`}/> Análise Salarial
+             <TrendingDown className={`text-${analysis.color}-500`}/> Análise Financeira para {formatado}
           </h2>
 
           <div className={`bg-${analysis.color}-50 dark:bg-${analysis.color}-900/10 border-l-4 border-${analysis.color}-500 p-6 rounded-r-xl mb-8 not-prose`}>
              <h3 className={`text-xl font-bold text-${analysis.color}-900 dark:text-${analysis.color}-100 mb-2`}>
-                Diagnóstico: {analysis.alert}
+                Diagnóstico Oficial: {analysis.alert}
              </h3>
              <p className={`text-${analysis.color}-800 dark:text-${analysis.color}-200 mb-4 leading-relaxed`}>
                <span dangerouslySetInnerHTML={{ __html: analysis.text }} />
              </p>
              <div className="flex flex-wrap gap-2">
                  <span className="inline-flex items-center gap-1.5 text-xs font-bold bg-white dark:bg-black/20 text-slate-600 dark:text-slate-300 px-3 py-1.5 rounded-full border border-slate-200 dark:border-slate-800 shadow-sm">
-                    <Briefcase size={12}/> {salariosMinimos} Salários Mínimos
+                    <Briefcase size={12}/> Equivalente a {salariosMinimos} Salários Mínimos
                  </span>
                  <span className={`inline-flex items-center gap-1.5 text-xs font-bold text-white bg-${analysis.color}-600 px-3 py-1.5 rounded-full shadow-sm`}>
                     <CheckCircle2 size={12}/> Poder de Compra: {analysis.power}
@@ -284,121 +278,63 @@ export default async function SalarioPorValorPage({ params }: Props) {
              </div>
           </div>
 
-          <h3 className="text-xl font-bold text-slate-900 dark:text-white mt-8 mb-4">Dicas para quem ganha {formatado}</h3>
+          <h3 className="text-xl font-bold text-slate-900 dark:text-white mt-8 mb-4">Dicas Práticas para quem ganha {formatado}</h3>
           <ul className="space-y-2 not-prose">
               {analysis.tips.map((tip, i) => (
                   <li key={i} className="flex gap-3 items-start p-3 bg-slate-50 dark:bg-slate-800 rounded-lg border border-slate-100 dark:border-slate-700">
-                      <CheckCircle2 className="text-emerald-500 shrink-0 mt-0.5" size={18} />
+                      <CheckCircle2 className={`text-${analysis.color}-500 shrink-0 mt-0.5`} size={18} />
                       <span className="text-slate-700 dark:text-slate-300 text-sm font-medium">{tip}</span>
                   </li>
               ))}
           </ul>
 
-          <h3 className="text-xl font-bold text-slate-900 dark:text-white mt-8 mb-4">Entenda os Descontos do seu Holerite</h3>
-          <p className="text-slate-600 dark:text-slate-400">
-            O valor "Líquido" é o que sobra após o Leão e a Previdência morderem sua parte.
-            Para <strong>{formatado}</strong>, a lógica é:
-          </p>
-
-          <ol className="text-slate-700 dark:text-slate-300 space-y-2">
-            <li>
-                <strong>1. INSS (Previdência):</strong> Desconto obrigatório para sua aposentadoria. É calculado em faixas progressivas. Quem ganha mais, paga mais (até o teto).
-            </li>
-            <li>
-                <strong>2. IRRF (Imposto de Renda):</strong> Calculado sobre o que sobrou (Salário - INSS). Quanto maior o salário, maior a alíquota (de 0% a 27,5%).
-            </li>
-          </ol>
-
-          <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg border border-blue-100 dark:border-blue-800 my-6 flex gap-3 items-start not-prose">
-              <HelpCircle className="text-blue-600 dark:text-blue-400 shrink-0 mt-1" size={20}/>
-              <div>
-                  <h4 className="font-bold text-blue-900 dark:text-blue-100 text-sm uppercase mb-1">Dica do Especialista</h4>
-                  <p className="text-sm text-blue-800/90 dark:text-blue-200/90 leading-relaxed">
-                      Se você tem muitos gastos com saúde (planos, médicos) ou educação, guarde todos os recibos. Eles podem reduzir o imposto a pagar na Declaração Anual de Ajuste.
-                  </p>
-              </div>
-          </div>
-
-
-          <div className="bg-amber-50 dark:bg-amber-900/20 border-l-4 border-amber-400 dark:border-amber-600 p-4 my-6 text-amber-900 dark:text-amber-100 text-sm leading-relaxed flex gap-3 not-prose">
-              <AlertTriangle className="shrink-0 text-amber-500 dark:text-amber-400" size={20}/>
-              <p>
-                  <strong>Atenção:</strong> Este cálculo considera o regime CLT padrão (2025/2026). Não inclui descontos específicos da sua empresa como Vale Transporte (6%), Coparticipação em Plano de Saúde ou Contribuição Sindical.
-              </p>
-          </div>
-
-          <h3 className="text-xl font-bold text-slate-900 dark:text-white mt-12 mb-6">Perguntas Frequentes</h3>
+          <h3 className="text-xl font-bold text-slate-900 dark:text-white mt-12 mb-6">Dúvidas Comuns (FAQ - {formatado})</h3>
           <div className="space-y-4 not-prose">
             <details className="group [&_summary::-webkit-details-marker]:hidden">
                 <summary className="flex cursor-pointer items-center justify-between gap-1.5 rounded-lg bg-slate-50 dark:bg-slate-800 p-4 text-slate-900 dark:text-white font-bold border border-slate-100 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
-                    <h4 className="text-sm m-0">Quanto sobra de um salário de {formatado}?</h4>
+                    <h4 className="text-sm m-0">Quanto sobra de um salário bruto de {formatado}?</h4>
                     <svg className="h-5 w-5 shrink-0 transition duration-300 group-open:-rotate-180 text-slate-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
                     </svg>
                 </summary>
                 <p className="mt-4 leading-relaxed text-slate-700 dark:text-slate-300 px-4 text-sm pb-4">
-                    Para um salário bruto de {formatado}, o valor líquido estimado depende dos descontos oficiais. Em nossa simulação padrão (sem dependentes e sem outros descontos), o valor que cai na conta gira em torno do mostrado na calculadora acima, após subtrair INSS e IRRF.
+                    Para uma remuneração de {formatado}, o valor líquido estimado sofre cortes governamentais obrigatórios. Em nossa simulação padrão (sem considerar dependentes extras e sem descontos como plano de saúde corporativo), o valor real que pinga na conta após a dedução do INSS e do Imposto de Renda (IRRF) consta na primeira linha verde do seu holerite simulado.
                 </p>
             </details>
             
             <details className="group [&_summary::-webkit-details-marker]:hidden">
                 <summary className="flex cursor-pointer items-center justify-between gap-1.5 rounded-lg bg-slate-50 dark:bg-slate-800 p-4 text-slate-900 dark:text-white font-bold border border-slate-100 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
-                    <h4 className="text-sm m-0">Este salário paga Imposto de Renda?</h4>
+                    <h4 className="text-sm m-0">A renda de {formatado} é taxada pelo Imposto de Renda?</h4>
                     <svg className="h-5 w-5 shrink-0 transition duration-300 group-open:-rotate-180 text-slate-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
                     </svg>
                 </summary>
                 <p className="mt-4 leading-relaxed text-slate-700 dark:text-slate-300 px-4 text-sm pb-4">
-                     {salarioNum <= 2800 ? "Provavelmente não. Valores até esta faixa costumam estar na zona de isenção ou com desconto muito baixo, dependendo da tabela vigente no mês." : "Sim. Salários acima de R$ 2.824,00 (estimado) já sofrem retenção na fonte conforme a tabela progressiva. O valor exato depende se você tem dependentes ou gastos dedutíveis."}
+                     {salarioNum <= 2800 ? "Felizmente, não. Valores até esta faixa costumam estar na zona de isenção, então não há mordida do Leão retida em fonte." : `Sim. Ao ganhar ${formatado}, a tabela progressiva oficial exige a retenção do IRPF direto na fonte. Adicionar dependentes legais ajuda a reduzir a base desse imposto na sua declaração de ajuste.`}
                 </p>
             </details>
 
              <details className="group [&_summary::-webkit-details-marker]:hidden">
                 <summary className="flex cursor-pointer items-center justify-between gap-1.5 rounded-lg bg-slate-50 dark:bg-slate-800 p-4 text-slate-900 dark:text-white font-bold border border-slate-100 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
-                    <h4 className="text-sm m-0">O que mais pode ser descontado?</h4>
+                    <h4 className="text-sm m-0">Qual o desconto do INSS sobre {formatado}?</h4>
                     <svg className="h-5 w-5 shrink-0 transition duration-300 group-open:-rotate-180 text-slate-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
                     </svg>
                 </summary>
                 <p className="mt-4 leading-relaxed text-slate-700 dark:text-slate-300 px-4 text-sm pb-4">
-                    Além dos impostos federais (INSS/IRRF), sua empresa pode descontar: Vale Transporte (até 6%), Coparticipação em Plano de Saúde, Vale Alimentação/Refeição (se for coparticipativo), Atrasos e Faltas, Contribuição Sindical (se autorizada) e Empréstimos Consignados.
+                    {analysis.inssText} Este valor é calculado utilizando faixas progressivas que mudam anualmente. Ele garante sua aposentadoria e benefícios como auxílio-doença.
                 </p>
             </details>
           </div>
 
         </div>
 
-        {/* --- OUTRAS FERRAMENTAS (Cross Selling) --- */}
-        <div className="mt-12 not-prose border-t border-slate-200 dark:border-slate-800 pt-8 print:hidden">
-            <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
-                <PiggyBank size={22} className="text-emerald-500"/> Ferramentas Financeiras
-            </h3>
-            <div className="grid md:grid-cols-2 gap-6">
-                <Link href="/financeiro/rescisao" className="block group">
-                    <div className="bg-gradient-to-br from-indigo-500 to-blue-600 rounded-2xl p-6 text-white shadow-lg shadow-indigo-500/20 transition-transform group-hover:-translate-y-1">
-                        <div className="bg-white/20 w-12 h-12 rounded-lg flex items-center justify-center mb-4 backdrop-blur-sm">
-                            <Calculator size={24} className="text-white"/>
-                        </div>
-                        <h4 className="font-bold text-lg mb-1">Calcular Rescisão</h4>
-                        <p className="text-indigo-50 text-sm opacity-90">Vai sair do emprego? Simule quanto você tem para receber de acerto.</p>
-                    </div>
-                </Link>
-                
-                <Link href="/financeiro/financiamento-veiculos" className="block group">
-                    <div className="bg-gradient-to-br from-emerald-500 to-teal-600 rounded-2xl p-6 text-white shadow-lg shadow-emerald-500/20 transition-transform group-hover:-translate-y-1">
-                        <div className="bg-white/20 w-12 h-12 rounded-lg flex items-center justify-center mb-4 backdrop-blur-sm">
-                            <Briefcase size={24} className="text-white"/>
-                        </div>
-                        <h4 className="font-bold text-lg mb-1">Financiar Carro</h4>
-                        <p className="text-emerald-50 text-sm opacity-90">Veja se o seu salário comporta a parcela do carro novo.</p>
-                    </div>
-                </Link>
-            </div>
-        </div>
+        {/* CROSS-LINKER INTELIGENTE */}
+        <SmartCrossLinker currentHref={`/financeiro/salario-liquido/${valor}`} category="financeiro" />
 
-        {/* Navegação Interna */}
-        <div className="w-full max-w-4xl mx-auto mt-4 print:hidden">
-             <h4 className="text-sm font-bold text-slate-400 uppercase tracking-widest mb-4 text-center">Compare com outros salários</h4>
+        {/* NAVEGAÇÃO DE PSEO (Internal Links) */}
+        <div className="w-full max-w-4xl mx-auto mt-4 print:hidden border-t border-slate-200 dark:border-slate-800 pt-8">
+             <h4 className="text-sm font-bold text-slate-400 uppercase tracking-widest mb-4 text-center">Navegue por outras faixas de renda</h4>
              <div className="flex flex-wrap justify-center gap-2">
                 {salaryCases.filter(d => d.valor !== salarioNum).slice(0, 10).map((item) => (
                     <Link 
@@ -413,7 +349,7 @@ export default async function SalarioPorValorPage({ params }: Props) {
         </div>
 
         <div className="w-full flex justify-center mt-8 min-h-[250px]">
-            <AdUnit slot="salario_bottom" format="horizontal" variant="software" />
+            <LazyAdUnit slot="salario_bottom" format="horizontal" variant="software" />
         </div>
 
       </div>

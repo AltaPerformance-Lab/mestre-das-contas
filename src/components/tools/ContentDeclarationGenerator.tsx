@@ -14,6 +14,7 @@ import {
   Table, TableBody, TableCell, TableHead, 
   TableHeader, TableRow 
 } from "@/components/ui/table";
+import { trackEvent } from "@/lib/analytics";
 
 // --- TYPES ---
 type Address = {
@@ -50,7 +51,8 @@ export default function ContentDeclarationGenerator() {
   const [date, setDate] = useState<string>(new Date().toISOString().split('T')[0]);
 
   // --- ACTIONS ---
-  const addItem = () => {
+   const addItem = () => {
+    trackEvent("add_item_declaracao", { items_count: items.length + 1 });
     setItems([...items, { id: crypto.randomUUID(), description: "", quantity: 1, weight: 0, value: 0 }]);
   };
 
@@ -77,7 +79,8 @@ export default function ContentDeclarationGenerator() {
   const componentRef = useRef<HTMLDivElement>(null);
   const handlePrint = useReactToPrint({
     contentRef: componentRef,
-    documentTitle: `Declaracao_Conteudo_${recipient.name || 'Correios'}`
+    documentTitle: `Declaracao_Conteudo_${recipient.name || 'Correios'}`,
+    onAfterPrint: () => trackEvent("print_declaration_success", { value: totalValue, qty: totalQty })
   });
 
   // --- FORMATTERS ---
@@ -95,30 +98,30 @@ export default function ContentDeclarationGenerator() {
           </CardHeader>
           <CardContent className="space-y-3">
             <div>
-              <Label className="dark:text-slate-300">Nome Completo / Razão Social</Label>
+                  <Label className="dark:text-slate-300 mb-1.5 block">Nome Completo / Razão Social</Label>
               <Input className="dark:bg-slate-950 dark:border-slate-700 dark:text-slate-100" value={sender.name} onChange={e => setSender({...sender, name: e.target.value})} placeholder="Seu nome ou da loja" />
             </div>
             <div className="grid grid-cols-2 gap-3">
                <div>
-                 <Label className="dark:text-slate-300">CPF / CNPJ</Label>
+                 <Label className="dark:text-slate-300 mb-1.5 block">CPF / CNPJ</Label>
                  <Input className="dark:bg-slate-950 dark:border-slate-700 dark:text-slate-100" value={sender.doc} onChange={e => setSender({...sender, doc: e.target.value})} placeholder="000.000.000-00" />
                </div>
                <div>
-                  <Label className="dark:text-slate-300">CEP</Label>
+                  <Label className="dark:text-slate-300 mb-1.5 block">CEP</Label>
                   <Input className="dark:bg-slate-950 dark:border-slate-700 dark:text-slate-100" value={sender.cep} onChange={e => setSender({...sender, cep: e.target.value})} placeholder="00000-000" />
                </div>
             </div>
             <div>
-              <Label className="dark:text-slate-300">Endereço Completo</Label>
+              <Label className="dark:text-slate-300 mb-1.5 block">Endereço Completo</Label>
               <Input className="dark:bg-slate-950 dark:border-slate-700 dark:text-slate-100" value={sender.address} onChange={e => setSender({...sender, address: e.target.value})} placeholder="Rua, Número, Bairro, Compl." />
             </div>
             <div className="grid grid-cols-3 gap-3">
                <div className="col-span-2">
-                 <Label className="dark:text-slate-300">Cidade</Label>
+                 <Label className="dark:text-slate-300 mb-1.5 block">Cidade</Label>
                  <Input className="dark:bg-slate-950 dark:border-slate-700 dark:text-slate-100" value={sender.city} onChange={e => setSender({...sender, city: e.target.value})} />
                </div>
                <div>
-                  <Label className="dark:text-slate-300">UF</Label>
+                  <Label className="dark:text-slate-300 mb-1.5 block">UF</Label>
                   <Input className="uppercase dark:bg-slate-950 dark:border-slate-700 dark:text-slate-100" value={sender.state} onChange={e => setSender({...sender, state: e.target.value})} maxLength={2} />
                </div>
             </div>
@@ -132,30 +135,30 @@ export default function ContentDeclarationGenerator() {
           </CardHeader>
           <CardContent className="space-y-3">
             <div>
-              <Label className="dark:text-slate-300">Nome Completo / Razão Social</Label>
+                  <Label className="dark:text-slate-300 mb-1.5 block">Nome Completo / Razão Social</Label>
               <Input className="dark:bg-slate-950 dark:border-slate-700 dark:text-slate-100" value={recipient.name} onChange={e => setRecipient({...recipient, name: e.target.value})} placeholder="Nome do cliente" />
             </div>
             <div className="grid grid-cols-2 gap-3">
                <div>
-                 <Label className="dark:text-slate-300">CPF / CNPJ</Label>
+                 <Label className="dark:text-slate-300 mb-1.5 block">CPF / CNPJ</Label>
                  <Input className="dark:bg-slate-950 dark:border-slate-700 dark:text-slate-100" value={recipient.doc} onChange={e => setRecipient({...recipient, doc: e.target.value})} placeholder="000.000.000-00" />
                </div>
                <div>
-                  <Label className="dark:text-slate-300">CEP</Label>
+                  <Label className="dark:text-slate-300 mb-1.5 block">CEP</Label>
                   <Input className="dark:bg-slate-950 dark:border-slate-700 dark:text-slate-100" value={recipient.cep} onChange={e => setRecipient({...recipient, cep: e.target.value})} placeholder="00000-000" />
                </div>
             </div>
             <div>
-              <Label className="dark:text-slate-300">Endereço Completo</Label>
+              <Label className="dark:text-slate-300 mb-1.5 block">Endereço Completo</Label>
               <Input className="dark:bg-slate-950 dark:border-slate-700 dark:text-slate-100" value={recipient.address} onChange={e => setRecipient({...recipient, address: e.target.value})} placeholder="Rua, Número, Bairro, Compl." />
             </div>
             <div className="grid grid-cols-3 gap-3">
                <div className="col-span-2">
-                 <Label className="dark:text-slate-300">Cidade</Label>
+                 <Label className="dark:text-slate-300 mb-1.5 block">Cidade</Label>
                  <Input className="dark:bg-slate-950 dark:border-slate-700 dark:text-slate-100" value={recipient.city} onChange={e => setRecipient({...recipient, city: e.target.value})} />
                </div>
                <div>
-                  <Label className="dark:text-slate-300">UF</Label>
+                  <Label className="dark:text-slate-300 mb-1.5 block">UF</Label>
                   <Input className="uppercase dark:bg-slate-950 dark:border-slate-700 dark:text-slate-100" value={recipient.state} onChange={e => setRecipient({...recipient, state: e.target.value})} maxLength={2} />
                </div>
             </div>
@@ -173,87 +176,119 @@ export default function ContentDeclarationGenerator() {
             </Button>
          </CardHeader>
          <CardContent>
-            <div className="overflow-x-auto">
-               <Table>
-                 <TableHeader>
-                   <TableRow className="dark:border-slate-800 dark:hover:bg-slate-800/50">
-                     <TableHead className="w-[40%] dark:text-slate-400">Descrição do Conteúdo</TableHead>
-                     <TableHead className="w-[15%] text-center dark:text-slate-400">Qtd.</TableHead>
-                     <TableHead className="w-[15%] text-center dark:text-slate-400">Peso (kg)</TableHead>
-                     <TableHead className="w-[20%] text-right dark:text-slate-400">Valor unit. (R$)</TableHead>
-                     <TableHead className="w-[10%]"></TableHead>
-                   </TableRow>
-                 </TableHeader>
-                 <TableBody>
-                   {items.map((item) => (
-                     <TableRow key={item.id} className="dark:border-slate-800 dark:hover:bg-slate-800/50">
-                       <TableCell>
-                          <Input 
-                            className="dark:bg-slate-950 dark:border-slate-700 dark:text-slate-100"
-                            value={item.description} 
-                            onChange={(e) => updateItem(item.id, 'description', e.target.value)} 
-                            placeholder="Ex: Camiseta, Livro..."
-                          />
-                       </TableCell>
-                       <TableCell>
-                          <Input 
+            {/* CABEÇALHO DESKTOP */}
+            <div className="hidden md:grid grid-cols-[1fr_80px_100px_140px_40px] gap-4 mb-2 px-2 text-xs font-bold text-slate-500 uppercase tracking-wider">
+               <div>Descrição do Conteúdo</div>
+               <div className="text-center">Qtd.</div>
+               <div className="text-center">Peso (kg)</div>
+               <div className="text-right pr-4">Valor unit.</div>
+               <div></div>
+            </div>
+
+            <div className="space-y-4 md:space-y-2">
+              {items.map((item, idx) => (
+                <div key={item.id} className="relative py-4 md:py-2 border-b border-slate-100 dark:border-slate-800 last:border-0">
+                  
+                  {/* MOBILE HEADER */}
+                  <div className="md:hidden flex justify-between items-center mb-3">
+                    <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Item #{idx + 1}</span>
+                    {items.length > 1 && (
+                      <Button variant="ghost" size="sm" onClick={() => removeItem(item.id)} className="text-red-500 h-7 px-2 hover:bg-red-50 dark:hover:bg-red-900/20">
+                          <Trash2 size={14} className="mr-1"/> Excluir
+                      </Button>
+                    )}
+                  </div>
+
+                  <div className="grid grid-cols-2 md:grid-cols-[1fr_80px_100px_140px_40px] gap-3 md:gap-4 items-end md:items-center">
+                    <div className="col-span-2 md:col-span-1">
+                      <Label className="md:hidden mb-1.5 text-xs text-slate-500">Descrição do Produto</Label>
+                      <Input 
+                        className="dark:bg-slate-950 dark:border-slate-700 dark:text-slate-100"
+                        value={item.description} 
+                        onChange={(e) => updateItem(item.id, 'description', e.target.value)} 
+                        placeholder="Ex: Camiseta, Livro..."
+                      />
+                    </div>
+                    
+                    <div>
+                      <Label className="md:hidden mb-1.5 text-xs text-slate-500">Quantidade</Label>
+                      <Input 
+                        type="number" 
+                        min="1"
+                        className="text-center dark:bg-slate-950 dark:border-slate-700 dark:text-slate-100"
+                        value={item.quantity} 
+                        onChange={(e) => updateItem(item.id, 'quantity', Number(e.target.value))} 
+                      />
+                    </div>
+
+                    <div>
+                      <Label className="md:hidden mb-1.5 text-xs text-slate-500">Peso (kg)</Label>
+                      <div className="relative">
+                        <Input 
                             type="number" 
-                            min="1"
-                            className="text-center dark:bg-slate-950 dark:border-slate-700 dark:text-slate-100"
-                            value={item.quantity} 
-                            onChange={(e) => updateItem(item.id, 'quantity', Number(e.target.value))} 
+                            min="0" 
+                            step="0.1"
+                            className="pl-2 pr-6 text-center dark:bg-slate-950 dark:border-slate-700 dark:text-slate-100"
+                            value={item.weight} 
+                            onChange={(e) => updateItem(item.id, 'weight', Number(e.target.value))} 
+                        />
+                        <span className="absolute right-2 top-2.5 text-[10px] font-bold text-slate-400 uppercase">kg</span>
+                      </div>
+                    </div>
+
+                    <div>
+                      <Label className="md:hidden mb-1.5 text-xs text-slate-500">Valor Unitário</Label>
+                      <div className="relative">
+                          <span className="absolute left-2 top-2.5 text-[10px] font-bold text-slate-500">R$</span>
+                          <Input 
+                              type="number" 
+                              min="0"
+                              step="0.01" 
+                              className="pl-7 text-right dark:bg-slate-950 dark:border-slate-700 dark:text-slate-100"
+                              value={item.value} 
+                              onChange={(e) => updateItem(item.id, 'value', Number(e.target.value))} 
                           />
-                       </TableCell>
-                       <TableCell>
-                          <div className="relative">
-                            <Input 
-                                type="number" 
-                                min="0" 
-                                step="0.1"
-                                className="pl-2 pr-6 text-center dark:bg-slate-950 dark:border-slate-700 dark:text-slate-100"
-                                value={item.weight} 
-                                onChange={(e) => updateItem(item.id, 'weight', Number(e.target.value))} 
-                            />
-                            <span className="absolute right-2 top-2.5 text-xs text-slate-400">kg</span>
-                          </div>
-                       </TableCell>
-                       <TableCell>
-                            <div className="relative">
-                                <span className="absolute left-2 top-2.5 text-xs text-slate-500">R$</span>
-                                <Input 
-                                    type="number" 
-                                    min="0"
-                                    step="0.01" 
-                                    className="pl-7 text-right dark:bg-slate-950 dark:border-slate-700 dark:text-slate-100"
-                                    value={item.value} 
-                                    onChange={(e) => updateItem(item.id, 'value', Number(e.target.value))} 
-                                />
-                            </div>
-                       </TableCell>
-                       <TableCell className="text-center">
-                          {items.length > 1 && (
-                            <Button variant="ghost" size="icon" onClick={() => removeItem(item.id)} className="text-red-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20">
-                                <Trash2 size={16}/>
-                            </Button>
-                          )}
-                       </TableCell>
-                     </TableRow>
-                   ))}
-                 </TableBody>
-               </Table>
+                      </div>
+                    </div>
+
+                    <div className="hidden md:flex justify-center">
+                      {items.length > 1 && (
+                        <Button variant="ghost" size="icon" onClick={() => removeItem(item.id)} className="text-red-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 h-9 w-9">
+                            <Trash2 size={16}/>
+                        </Button>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
             
-            <div className="mt-4 flex justify-end gap-6 text-sm font-medium p-4 bg-slate-50 dark:bg-slate-950 rounded-lg border border-slate-100 dark:border-slate-800">
-               <div className="dark:text-slate-300">Total Itens: <span className="text-slate-900 dark:text-white font-bold">{totalQty}</span></div>
-               <div className="dark:text-slate-300">Peso Total: <span className="text-slate-900 dark:text-white font-bold">{totalWeight.toFixed(3)} kg</span></div>
-               <div className="dark:text-slate-300">Valor Total: <span className="text-emerald-600 dark:text-emerald-400 font-bold">{formatCurrency(totalValue)}</span></div>
+            <div className="mt-6 flex flex-col md:flex-row justify-end gap-3 md:gap-6 text-sm font-medium p-4 bg-slate-50 dark:bg-slate-950 rounded-xl border border-slate-100 dark:border-slate-800">
+               <div className="flex justify-between md:block dark:text-slate-300">
+                  <span className="md:mr-1">Total Itens:</span> 
+                  <span className="text-slate-900 dark:text-white font-bold">{totalQty}</span>
+               </div>
+               <div className="flex justify-between md:block dark:text-slate-300">
+                  <span className="md:mr-1">Peso Total:</span> 
+                  <span className="text-slate-900 dark:text-white font-bold">{totalWeight.toFixed(3)} kg</span>
+               </div>
+               <div className="flex justify-between md:block dark:text-slate-300">
+                  <span className="md:mr-1">Valor Total:</span> 
+                  <span className="text-emerald-600 dark:text-emerald-400 font-bold">{formatCurrency(totalValue)}</span>
+               </div>
             </div>
-         </CardContent>
+          </CardContent>
       </Card>
 
       {/* AÇÕES */}
       <div className="flex justify-center gap-4 print:hidden p-4 sticky bottom-0 bg-white/90 dark:bg-slate-900/90 backdrop-blur border-t border-slate-200 dark:border-slate-800 z-20">
-         <Button onClick={() => window.print()} className="bg-blue-600 hover:bg-blue-700 text-white font-bold px-8 shadow-lg shadow-blue-200 dark:shadow-none">
+         <Button 
+            onClick={() => {
+              trackEvent("click_print_declaracao");
+              handlePrint();
+            }} 
+            className="bg-blue-600 hover:bg-blue-700 text-white font-bold px-8 shadow-lg shadow-blue-200 dark:shadow-none"
+          >
             <Printer size={20} className="mr-2"/> Imprimir Declaração
          </Button>
       </div>

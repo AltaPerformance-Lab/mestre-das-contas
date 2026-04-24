@@ -5,18 +5,19 @@ import PercentageCalculator from "@/components/calculators/PercentageCalculator"
 import AdUnit from "@/components/ads/AdUnit";
 import DisclaimerBox from "@/components/ui/DisclaimerBox";
 import PageHeader from "@/components/layout/PageHeader";
+import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
 import { 
   Percent, HelpCircle, Calculator, 
   TrendingUp, CheckCircle2, ArrowRight,
   ShoppingCart, PieChart, GraduationCap, Wallet,
-  Brain, Lightbulb, Landmark, ExternalLink, Divide
+  Brain, Lightbulb, Landmark, ExternalLink, Divide, ShieldCheck
 } from "lucide-react";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
 
 // --- 1. METADATA DE ALTO PERFORMANCE (SEO 2026) ---
 export const metadata: Metadata = {
-  title: "Calculadora de Porcentagem 2026 | Simples, Descontos e Aumentos",
-  description: "Resolva qualquer conta de % em segundos. Calcule descontos, aumentos de salário e variação percentual. Ferramenta 4 em 1 com truques de cálculo mental.",
+  title: "Calculadora de Porcentagem 2026 (Grátis) | Descontos e Aumentos",
+  description: "Resolva qualquer conta de % em segundos. Calcule descontos, aumentos de salário e variação percentual com nossa ferramenta 4 em 1 gratuita e online.",
   keywords: [
     "calculadora porcentagem", 
     "como calcular porcentagem", 
@@ -150,6 +151,12 @@ export default async function PorcentagemPage({ searchParams }: Props) {
       </div>
 
       <div className="flex flex-col gap-8 px-4 sm:px-6 max-w-7xl mx-auto">
+        
+        {/* REVISÃO FINANCEIRA (E-E-A-T) */}
+        <div className="bg-blue-50/50 dark:bg-blue-900/10 border border-blue-100 dark:border-blue-800 p-4 rounded-2xl flex items-center gap-3 text-xs text-blue-700 dark:text-blue-300 mb-2">
+          <ShieldCheck size={18} className="text-blue-600 shrink-0" />
+          <span>Conteúdo verificado com base em fórmulas de matemática financeira e indicadores econômicos vigentes em 2026.</span>
+        </div>
 
         {/* ANÚNCIO TOPO */}
         <div className="w-full max-w-5xl mx-auto overflow-hidden flex justify-center bg-slate-50/50 dark:bg-slate-900/50 rounded-lg border border-dashed border-slate-200/50 dark:border-slate-800 print:hidden min-h-[100px]">
@@ -347,32 +354,9 @@ export default async function PorcentagemPage({ searchParams }: Props) {
                   </a>
               </div>
           </div>
-
-          {/* CROSS-LINKING */}
-          <div className="mt-16 pt-8 border-t border-slate-200 print:hidden not-prose">
-            <p className="font-bold text-slate-900 dark:text-white mb-6 text-sm uppercase tracking-wider flex items-center gap-2">
-               <CheckCircle2 size={16} className="text-emerald-500"/> Aplique o conhecimento:
-            </p>
-            <div className="grid md:grid-cols-3 gap-4">
-              <Link href="/financeiro/juros-compostos" className="flex flex-col p-5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl hover:border-emerald-400 dark:hover:border-emerald-500 hover:shadow-lg transition-all group">
-                  <div className="bg-emerald-50 dark:bg-emerald-900/30 w-10 h-10 rounded-lg flex items-center justify-center mb-3 text-emerald-600 dark:text-emerald-400 shadow-sm group-hover:scale-110 transition-transform"><TrendingUp size={20}/></div>
-                  <span className="font-bold text-slate-800 dark:text-slate-100 text-lg">Juros Compostos</span>
-                  <span className="text-sm text-slate-500 dark:text-slate-400 mt-1">Investimentos</span>
-              </Link>
-              <Link href="/financeiro/salario-liquido" className="flex flex-col p-5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl hover:border-blue-400 dark:hover:border-blue-500 hover:shadow-lg transition-all group">
-                  <div className="bg-blue-50 dark:bg-blue-900/30 w-10 h-10 rounded-lg flex items-center justify-center mb-3 text-blue-600 dark:text-blue-400 shadow-sm group-hover:scale-110 transition-transform"><Wallet size={20}/></div>
-                  <span className="font-bold text-slate-800 dark:text-slate-100 text-lg">Salário Líquido</span>
-                  <span className="text-sm text-slate-500 dark:text-slate-400 mt-1">Descontos mensais</span>
-              </Link>
-              <Link href="/financeiro/financiamento" className="flex flex-col p-5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl hover:border-indigo-400 dark:hover:border-indigo-500 hover:shadow-lg transition-all group">
-                  <div className="bg-indigo-50 dark:bg-indigo-900/30 w-10 h-10 rounded-lg flex items-center justify-center mb-3 text-indigo-600 dark:text-indigo-400 shadow-sm group-hover:scale-110 transition-transform"><Calculator size={20}/></div>
-                  <span className="font-bold text-slate-800 dark:text-slate-100 text-lg">Financiamento</span>
-                  <span className="text-sm text-slate-500 dark:text-slate-400 mt-1">Simular parcelas</span>
-              </Link>
-            </div>
-          </div>
-
         </div>
+        
+        <SmartCrossLinker currentHref="/financeiro/porcentagem" category="financeiro" />
 
         {/* ANÚNCIO BOTTOM */}
         <div className="w-full flex justify-center my-8 print:hidden min-h-[250px]">

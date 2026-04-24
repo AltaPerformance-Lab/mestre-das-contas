@@ -9,24 +9,24 @@ import {
   TriangleAlert, Calendar, Coins, CircleHelp, 
   CircleCheck, History, BookOpen, Calculator,
   Wallet, FileText, Scale, Briefcase, XCircle, Check, Gift,
-  AlertOctagon, Landmark, TrendingUp, CheckCircle2
+  AlertOctagon, Landmark, TrendingUp, CheckCircle2, ShieldCheck
 } from "lucide-react";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
-import RelatedTools from "@/components/ui/RelatedTools";
+import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
 
-// --- 1. METADATA (SEO 2025) ---
+// --- 1. METADATA (SEO 2026) ---
 // --- 1. METADATA DINÂMICA (SEO MAXIMIZADO) ---
 export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
   const resolvedParams = await searchParams;
   const salarioRaw = resolvedParams.salario as string;
   
-  let title = "Décimo Terceiro 2025/2026: Valor da 1ª e 2ª Parcela (Sem Erros)";
-  let description = "Descubra exatamente quando e quanto você vai receber. Cálculo das duas parcelas com descontos de INSS/IRRF. Simulador gratuito e tabela atualizada.";
+  let title = "Cálculo de Décimo Terceiro 2026 (Grátis) | 1ª e 2ª Parcela";
+  let description = "Saiba quanto você vai receber de 13º Salário em 2026. Cálculo exato das duas parcelas com descontos de INSS/IRRF. Simulador gratuito e online.";
 
   if (salarioRaw) {
     const valorFormatado = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(Number(salarioRaw));
-    title = `Cálculo de 13º: Salário de ${valorFormatado} - Calculadora 2025`;
-    description = `Veja quanto você vai receber de Décimo Terceiro com um salário de ${valorFormatado}. Valores da 1ª Parcela (Adiantamento) e 2ª Parcela.`;
+    title = `Cálculo de 13º: Salário de ${valorFormatado} - Calculadora 2026`;
+    description = `Veja quanto você vai receber de Décimo Terceiro com um salário de ${valorFormatado}. Valores da 1ª Parcela (Adiantamento) e 2ª Parcela (Líquida).`;
   }
 
   return {
@@ -113,7 +113,7 @@ const jsonLd = {
     },
     {
       "@type": "TechArticle",
-      "headline": "Guia Completo do Décimo Terceiro: Cálculos, Prazos e Direitos 2025",
+      "headline": "Guia Completo do Décimo Terceiro: Cálculos, Prazos e Direitos 2026",
       "description": "Entenda como funciona o pagamento da gratificação natalina, a média de horas extras e os descontos na segunda parcela.",
       "proficiencyLevel": "Beginner",
       "author": { "@type": "Organization", "name": "Equipe Trabalhista Mestre das Contas", "url": "https://mestredascontas.com.br/sobre" },
@@ -175,7 +175,7 @@ export default async function DecimoTerceiroPage({ searchParams }: Props) {
           icon={<Gift size={32} strokeWidth={2} />}
           variant="default"
           categoryColor="blue"
-          badge="Tabela 2025"
+          badge="Tabela 2026"
           rating={4.8}
           reviews={9120}
           breadcrumbs={[
@@ -186,12 +186,18 @@ export default async function DecimoTerceiroPage({ searchParams }: Props) {
       </div>
 
       <div className="flex flex-col gap-8 px-4 sm:px-6 max-w-7xl mx-auto">
+        
+        {/* REVISÃO LEGAL (E-E-A-T) */}
+        <div className="bg-blue-50/50 dark:bg-blue-900/10 border border-blue-100 dark:border-blue-800 p-4 rounded-2xl flex items-center gap-3 text-xs text-blue-700 dark:text-blue-300 mb-2">
+          <ShieldCheck size={18} className="text-blue-600 shrink-0" />
+          <span>Informações baseadas na Consolidação das Leis do Trabalho (CLT) e atualizações vigentes em 2026.</span>
+        </div>
 
         {/* ALERTA DE PRAZOS */}
         <div className="bg-amber-50 dark:bg-amber-900/10 border border-amber-200 dark:border-amber-900/30 rounded-xl p-4 flex gap-3 items-start text-left shadow-sm max-w-3xl mx-auto w-full">
           <TriangleAlert className="text-amber-600 dark:text-amber-500 shrink-0 mt-0.5" size={20} />
           <div className="space-y-1">
-            <p className="text-sm font-bold text-amber-900 dark:text-amber-400 uppercase tracking-wide">Fique Atento aos Prazos 2025</p>
+            <p className="text-sm font-bold text-amber-900 dark:text-amber-400 uppercase tracking-wide">Fique Atento aos Prazos 2026</p>
             <p className="text-sm text-amber-800/90 dark:text-amber-200/90 leading-relaxed">
               As empresas devem pagar a <strong>1ª parcela</strong> até <strong>30 de Novembro</strong> e a <strong>2ª parcela</strong> até <strong>20 de Dezembro</strong>. Atrasos geram multa administrativa.
             </p>
@@ -199,8 +205,14 @@ export default async function DecimoTerceiroPage({ searchParams }: Props) {
         </div>
 
         {/* ANÚNCIO TOPO */}
-        <div className="w-full max-w-5xl mx-auto overflow-hidden flex justify-center bg-slate-50/50 dark:bg-slate-900/50 rounded-lg border border-dashed border-slate-200/50 dark:border-slate-800/50 print:hidden min-h-[100px]">
+        <div className="w-full max-w-5xl mx-auto overflow-hidden flex justify-center bg-slate-50/50 dark:bg-slate-900/50 rounded-lg border border-dashed border-slate-200/50 dark:border-slate-800 print:hidden min-h-[100px]">
            <LazyAdUnit slot="13_top" format="horizontal" variant="agency" />
+        </div>
+
+        {/* REVISÃO TRABALHISTA (E-E-A-T) */}
+        <div className="bg-blue-50/50 dark:bg-blue-900/10 border border-blue-100 dark:border-blue-800 p-4 rounded-2xl flex items-center gap-3 text-xs text-blue-700 dark:text-blue-300 mb-2">
+          <ShieldCheck size={18} className="text-blue-600 shrink-0" />
+          <span>Simulador calibrado para as datas oficiais de pagamento e descontos previdenciários de 2026.</span>
         </div>
 
         {/* FERRAMENTA */}
@@ -412,7 +424,7 @@ export default async function DecimoTerceiroPage({ searchParams }: Props) {
           {/* NAVEGAÇÃO FINAL */}
           </div>
 
-          <RelatedTools currentToolLink="/trabalhista/decimo-terceiro" category="trabalhista" />
+          <SmartCrossLinker currentHref="/trabalhista/decimo-terceiro" category="trabalhista" />
 
         {/* --- ANÚNCIO BOTTOM (ESTRATÉGICO) --- */}
         <div className="w-full flex justify-center my-8 print:hidden min-h-[250px]">

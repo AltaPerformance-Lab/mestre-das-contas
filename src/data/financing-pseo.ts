@@ -113,5 +113,57 @@ export const financingCases: FinancingPSeoCase[] = [
                 "Peça carência de 30 a 60 dias para a primeira parcela (tempo de documentar e começar a rodar)."
             ]
         }
+    },
+    {
+        slug: "energia-solar-residencial",
+        tipo: "Energia Solar Residencial",
+        valor: 25000,
+        title: "Financiamento de Energia Solar (Simulador 2026)",
+        description: "Pague sua parcela com a economia na conta de luz. Simule financiamento de placas solares com carência de até 120 dias.",
+        keywords: ["financiar energia solar", "emprestimo placas solares", "parcela sistema solar 25k", "banco do brasil energia solar"],
+        articleContent: {
+            intro: "O <strong>Financiamento de Energia Solar</strong> é um dos poucos investimentos que se 'paga sozinho'. A economia gerada na sua conta de luz costuma ser superior ao valor da parcela do financiamento, tornando a transição para energia limpa financeiramente viável para a classe média.",
+            analysis: `
+                <p>Em 2026, as taxas para projetos 'verdes' continuam subsidiadas por muitos bancos. É possível conseguir carência de até 4 meses, ou seja, você instala o sistema, começa a economizar e só depois paga a primeira parcela.</p>
+                <p>O prazo de retorno do investimento (payback) em um sistema de R$ 25.000,00 no Brasil gira em torno de 4 a 5 anos, enquanto os painéis duram mais de 25 anos.</p>
+            `,
+            taxaMedia: "0.99% a 1.49% a.m.",
+            tips: [
+                "Procure linhas específicas como o 'FNE Sol' ou 'BB Agro' (se produtor).",
+                "Verifique se a parcela é fixa (tabela PRICE) para não ter surpresas.",
+                "Sempre inclua o custo do seguro dos painéis no seu planejamento."
+            ],
+            faq: [
+                { question: "O banco financia 100% do projeto?", answer: "Sim, a maioria das linhas solares cobre desde os painéis e inversores até a mão de obra de instalação." },
+                { question: "O que acontece se eu mudar de casa?", answer: "O sistema solar valoriza o imóvel em até 15%. Você pode vender a casa por um preço maior e quitar o financiamento." }
+            ],
+            closing: "Invista em sustentabilidade: além de ajudar o planeta, você se protege contra os constantes aumentos da tarifa de energia elétrica."
+        }
+    },
+    {
+        slug: "construcao-casa-terreno",
+        tipo: "Construção em Terreno Próprio",
+        valor: 250000,
+        title: "Financiamento de Construção (Caixa/SBPE)",
+        description: "Vai construir? Veja como funciona o financiamento de construção em terreno próprio. Cronograma de obras e liberações da Caixa.",
+        keywords: ["financiar construcao caixa", "simulador construcao terreno proprio", "parcela casa 250 mil", "financiamento aquisição e construção"],
+        articleContent: {
+            intro: "Financiar a <strong>Construção da Casa Própria</strong> é bem diferente de comprar um imóvel pronto. O banco libera o dinheiro em parcelas, conforme a evolução da obra medida por um engenheiro da instituição.",
+            analysis: `
+                <p>A modalidade mais famosa é a 'Aquisição de Terreno e Construção'. Se você já tem o terreno, pode usar o valor dele como parte da entrada. O juros costuma ser menor que o de imóveis prontos, pois o risco para o banco diminui conforme a casa sobe.</p>
+                <p>É obrigatório ter um projeto aprovado na prefeitura e um engenheiro/arquiteto responsável para que o banco aprove o crédito.</p>
+            `,
+            taxaMedia: "8.5% a 10.5% ao ano (TR)",
+            tips: [
+                "Tenha uma reserva de emergência de 20% do valor da obra para imprevistos.",
+                "Não atrase o cronograma: o banco só libera a próxima fase se a anterior estiver 100% concluída.",
+                "Compare as taxas de juros com e sem relacionamento (abertura de conta, seguros)."
+            ],
+            faq: [
+                { question: "Posso usar o FGTS na construção?", answer: "Sim! O FGTS pode ser usado para amortizar o saldo devedor ou pagar parte das parcelas, desde que seja seu único imóvel residencial no município." },
+                { question: "E se a obra atrasar?", answer: "Você continuará pagando apenas os juros da obra sobre o que já foi liberado, atrasando o início da amortização da dívida principal." }
+            ],
+            closing: "Construir permite ter uma casa com o seu estilo e, geralmente, o custo final é 20% a 30% menor do que comprar uma casa similar pronta na mesma região."
+        }
     }
 ];

@@ -6,8 +6,9 @@ import LazyAdUnit from "@/components/ads/LazyAdUnit";
 import PageHeader from "@/components/layout/PageHeader";
 import DisclaimerBox from "@/components/ui/DisclaimerBox";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
+import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
 import { cardMachineCases } from "@/data/card-machine-pseo";
-import { CreditCard, ArrowLeft, Star, ShoppingCart, TrendingDown } from "lucide-react";
+import { CreditCard, ArrowLeft, Star, ShoppingCart, TrendingDown, ShieldCheck } from "lucide-react";
 
 // --- SSG ---
 export async function generateStaticParams() {
@@ -121,9 +122,9 @@ export default async function CardMachinePSeoPage({ params }: { params: Promise<
                     description={customCase.description}
                     category="Simulador de Taxas"
                     icon={<CreditCard size={32} strokeWidth={2} />}
-                    variant="default"
+                    variant="finance"
                     categoryColor={customCase.brandColor}
-                    badge="Atualizado 2026"
+                    badge="Taxas 2026"
                     breadcrumbs={[
                         { label: "Financeiro", href: "/financeiro" },
                         { label: "Maquininha", href: "/financeiro/simulador-maquininha" },
@@ -135,6 +136,11 @@ export default async function CardMachinePSeoPage({ params }: { params: Promise<
             </div>
 
             <div className="flex flex-col gap-8 px-4 sm:px-6 max-w-7xl mx-auto w-full">
+                {/* REVISÃO COMERCIAL (E-E-A-T) */}
+                <div className="bg-blue-50/50 dark:bg-blue-900/10 border border-blue-100 dark:border-blue-800 p-4 rounded-2xl flex items-center gap-3 text-xs text-blue-700 dark:text-blue-300 mb-2">
+                  <ShieldCheck size={18} className="text-blue-600 shrink-0" />
+                  <span>Cálculo auditado conforme os planos vigentes de 2026 para taxas de MDR e antecipação bancária.</span>
+                </div>
                 
                 {/* BACK LINK */}
                 <div className="print:hidden">
@@ -259,33 +265,7 @@ export default async function CardMachinePSeoPage({ params }: { params: Promise<
                      </div>
                 </div>
 
-                {/* --- FERRAMENTAS DO ECOSSISTEMA --- */}
-                <div className="mt-12 not-prose border-t border-slate-200 dark:border-slate-800 pt-8 print:hidden">
-                    <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
-                        <ShoppingCart size={22} className="text-emerald-500"/> Ferramentas para seu Negócio
-                    </h3>
-                    <div className="grid md:grid-cols-2 gap-6">
-                        <Link href="/financeiro/calculadora-mei" className="block group">
-                            <div className="bg-gradient-to-br from-blue-600 to-indigo-700 rounded-2xl p-6 text-white shadow-lg shadow-blue-600/20 transition-transform group-hover:-translate-y-1">
-                                <div className="bg-white/20 w-12 h-12 rounded-lg flex items-center justify-center mb-4 backdrop-blur-sm">
-                                    <Star size={24} className="text-white"/>
-                                </div>
-                                <h4 className="font-bold text-lg mb-1">Precisa de CNPJ?</h4>
-                                <p className="text-blue-50 text-sm opacity-90">Abra seu MEI gratuitamente e pague taxas menores na maquininha.</p>
-                            </div>
-                        </Link>
-                        
-                        <Link href="/ferramentas/criador-pedidos" className="block group">
-                            <div className="bg-gradient-to-br from-purple-600 to-violet-700 rounded-2xl p-6 text-white shadow-lg shadow-purple-600/20 transition-transform group-hover:-translate-y-1">
-                                <div className="bg-white/20 w-12 h-12 rounded-lg flex items-center justify-center mb-4 backdrop-blur-sm">
-                                    <ShoppingCart size={24} className="text-white"/>
-                                </div>
-                                <h4 className="font-bold text-lg mb-1">Talão de Pedidos Digital</h4>
-                                <p className="text-purple-50 text-sm opacity-90">Organize as vendas que você passa na maquininha sem usar papel.</p>
-                            </div>
-                        </Link>
-                    </div>
-                </div>
+                <SmartCrossLinker currentHref={"/financeiro/simulador-maquininha/" + slug} category="financeiro" />
 
                 {/* ANÚNCIO BOTTOM */}
                 <div className="w-full flex justify-center mt-8">

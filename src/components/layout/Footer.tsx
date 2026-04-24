@@ -30,7 +30,7 @@ export default function Footer() {
           <div className="lg:col-span-3">
             <h3 className="font-bold text-slate-900 dark:text-slate-100 mb-5 text-xs uppercase tracking-widest">Mais Acessadas</h3>
             <ul className="space-y-3 text-sm text-slate-600 dark:text-slate-400 font-medium">
-              <li><Link href="/financeiro/salario-liquido" className="hover:text-blue-600 dark:hover:text-blue-400 hover:translate-x-1 transition-all inline-block">Salário Líquido 2025</Link></li>
+              <li><Link href="/financeiro/salario-liquido" className="hover:text-blue-600 dark:hover:text-blue-400 hover:translate-x-1 transition-all inline-block">Salário Líquido 2026</Link></li>
               <li><Link href="/ferramentas/gerador-qr-code" className="hover:text-blue-600 dark:hover:text-blue-400 hover:translate-x-1 transition-all inline-flex items-center gap-2"><QrCode size={14} className="text-blue-500 dark:text-blue-400"/> Gerador de QR Code</Link></li>
               <li><Link href="/trabalhista/rescisao" className="hover:text-blue-600 dark:hover:text-blue-400 hover:translate-x-1 transition-all inline-block">Rescisão CLT</Link></li>
               <li><Link href="/trabalhista/ferias" className="hover:text-blue-600 dark:hover:text-blue-400 hover:translate-x-1 transition-all inline-block">Calculadora de Férias</Link></li>
@@ -95,7 +95,7 @@ export default function Footer() {
              <p className="flex items-center gap-1.5">
                Desenvolvido com <span className="text-red-500 animate-pulse">❤</span> por 
                <a 
-                 href="https://altaperformance.dev.br" 
+                 href="https://alta-performance-web-site.vercel.app" 
                  target="_blank" 
                  rel="noopener noreferrer nofollow" 
                  className="font-bold text-slate-600 hover:text-blue-600 transition-colors"

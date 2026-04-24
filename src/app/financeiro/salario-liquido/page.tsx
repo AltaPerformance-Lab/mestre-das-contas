@@ -8,10 +8,10 @@ import PageHeader from "@/components/layout/PageHeader";
 import { 
   Calculator, HelpCircle, History, BookOpen, 
   TrendingUp, AlertTriangle, CheckCircle2, 
-  Coins, Briefcase, Wallet, FileText, Lightbulb, Landmark, Scale
+  Coins, Briefcase, Wallet, FileText, Lightbulb, Landmark, Scale, ShieldCheck
 } from "lucide-react";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
-import RelatedTools from "@/components/ui/RelatedTools";
+import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
 
 // --- 1. METADATA DE ALTA PERFORMANCE (SEO 2026) ---
 // --- 1. METADATA DINÂMICA (SEO DE COMPARTILHAMENTO) ---
@@ -19,13 +19,13 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
   const resolvedParams = await searchParams;
   const salarioRaw = resolvedParams.salario as string;
   
-  let title = "Salário Líquido 2026: Calculadora Real (Nova Tabela INSS/IRRF)";
-  let description = "Quanto cai na sua conta em 2026? Simule GRÁTIS com a Nova Tabela INSS e IRRF. Cálculo exato e sem cadastro. Veja seus descontos agora!";
+  let title = "Calculadora de Salário Líquido 2026 (Grátis) | Nova Tabela";
+  let description = "Quanto cai na sua conta em 2026? Simule com a Nova Tabela INSS e IRRF em 10 segundos. Cálculo exato dos descontos, sem cadastro e online.";
 
   if (salarioRaw) {
     const valorFormatado = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(Number(salarioRaw));
-    title = `Salário Líquido de ${valorFormatado} - Tabela 2026 (Cálculo Real)`;
-    description = `Ganhar ${valorFormatado} bruto dá quanto líquido? Veja o cálculo exato dos descontos (INSS/IRRF) pela nova lei. Simulação gratuita.`;
+    title = `Salário Líquido de ${valorFormatado} - Tabela 2026 (Grátis)`;
+    description = `Ganhando ${valorFormatado} bruto, quanto recebo líquido? Veja o cálculo exato dos descontos (INSS/IRRF) pela nova lei 2026. Simulação online.`;
   }
 
   return {
@@ -188,6 +188,12 @@ export default async function SalarioLiquidoPage({ searchParams }: Props) {
       </div>
 
       <div className="flex flex-col gap-8 px-4 sm:px-6 max-w-7xl mx-auto">
+        
+        {/* REVISÃO FINANCEIRA (E-E-A-T) */}
+        <div className="bg-blue-50/50 dark:bg-blue-900/10 border border-blue-100 dark:border-blue-800 p-4 rounded-2xl flex items-center gap-3 text-xs text-blue-700 dark:text-blue-300 mb-2">
+          <ShieldCheck size={18} className="text-blue-600 shrink-0" />
+          <span>Conteúdo verificado com base em fórmulas de matemática financeira e indicadores econômicos vigentes em 2026.</span>
+        </div>
 
         {/* ANÚNCIO TOPO */}
         <div className="w-full mx-auto overflow-hidden flex justify-center bg-slate-50/50 dark:bg-slate-900/50 rounded-3xl border border-dashed border-slate-200/50 dark:border-slate-800/50 print:hidden min-h-[100px]">
@@ -276,10 +282,10 @@ export default async function SalarioLiquidoPage({ searchParams }: Props) {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-slate-600 dark:text-slate-300">
-                    <tr className="hover:bg-slate-50 dark:hover:bg-slate-800"><td className="px-6 py-3 font-medium">Até 1.412,00</td><td className="px-6 py-3 font-bold text-green-600 dark:text-green-500">7,5%</td></tr>
-                    <tr className="hover:bg-slate-50 dark:hover:bg-slate-800"><td className="px-6 py-3 font-medium">De 1.412,01 até 2.666,68</td><td className="px-6 py-3 font-bold text-blue-600 dark:text-blue-500">9%</td></tr>
-                    <tr className="hover:bg-slate-50 dark:hover:bg-slate-800"><td className="px-6 py-3 font-medium">De 2.666,69 até 4.000,03</td><td className="px-6 py-3 font-bold text-amber-600 dark:text-amber-500">12%</td></tr>
-                    <tr className="hover:bg-slate-50 dark:hover:bg-slate-800"><td className="px-6 py-3 font-medium">De 4.000,04 até 7.786,02</td><td className="px-6 py-3 font-bold text-red-600 dark:text-red-500">14%</td></tr>
+                    <tr className="hover:bg-slate-50 dark:hover:bg-slate-800"><td className="px-6 py-3 font-medium">Até 1.621,00</td><td className="px-6 py-3 font-bold text-green-600 dark:text-green-500">7,5%</td></tr>
+                    <tr className="hover:bg-slate-50 dark:hover:bg-slate-800"><td className="px-6 py-3 font-medium">De 1.621,01 até 2.902,84</td><td className="px-6 py-3 font-bold text-blue-600 dark:text-blue-500">9%</td></tr>
+                    <tr className="hover:bg-slate-50 dark:hover:bg-slate-800"><td className="px-6 py-3 font-medium">De 2.902,85 até 4.354,27</td><td className="px-6 py-3 font-bold text-amber-600 dark:text-amber-500">12%</td></tr>
+                    <tr className="hover:bg-slate-50 dark:hover:bg-slate-800"><td className="px-6 py-3 font-medium">De 4.354,28 até 8.475,55</td><td className="px-6 py-3 font-bold text-red-600 dark:text-red-500">14%</td></tr>
                   </tbody>
                 </table>
               </div>
@@ -287,10 +293,10 @@ export default async function SalarioLiquidoPage({ searchParams }: Props) {
               {/* VERSÃO MOBILE (Cards) */}
               <div className="md:hidden space-y-3">
                   {[
-                      { faixa: "Até 1.412,00", aliq: "7,5%", color: "text-green-600" },
-                      { faixa: "1.412,01 a 2.666,68", aliq: "9,0%", color: "text-blue-600" },
-                      { faixa: "2.666,69 a 4.000,03", aliq: "12,0%", color: "text-amber-600" },
-                      { faixa: "4.000,04 a 7.786,02", aliq: "14,0%", color: "text-red-600" }
+                      { faixa: "Até 1.621,00", aliq: "7,5%", color: "text-green-600" },
+                      { faixa: "1.621,01 a 2.902,84", aliq: "9,0%", color: "text-blue-600" },
+                      { faixa: "2.902,85 a 4.354,27", aliq: "12,0%", color: "text-amber-600" },
+                      { faixa: "4.354,28 a 8.475,55", aliq: "14,0%", color: "text-red-600" }
                   ].map((item, idx) => (
                       <div key={idx} className="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-xl border border-slate-200 dark:border-slate-700 flex justify-between items-center">
                           <div>
@@ -326,8 +332,8 @@ export default async function SalarioLiquidoPage({ searchParams }: Props) {
                 </thead>
                 <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-slate-600 dark:text-slate-300">
                   <tr className="hover:bg-green-50 dark:hover:bg-green-900/20"><td className="px-6 py-3 font-medium">Até 5.000,00</td><td className="px-6 py-3">-</td><td className="px-6 py-3 font-bold text-green-600 dark:text-green-500">Isento</td></tr>
-                  <tr className="hover:bg-slate-50 dark:hover:bg-slate-800"><td className="px-6 py-3 font-medium">De 5.000,01 até 7.500,00</td><td className="px-6 py-3 font-bold">7,5%</td><td className="px-6 py-3">R$ 375,00</td></tr>
-                  <tr className="hover:bg-slate-50 dark:hover:bg-slate-800"><td className="px-6 py-3 font-medium">De 7.500,01 até 10.000,00</td><td className="px-6 py-3 font-bold">15%</td><td className="px-6 py-3">R$ 937,50</td></tr>
+                  <tr className="hover:bg-slate-50 dark:hover:bg-slate-800"><td className="px-6 py-3 font-medium">De 5.000,01 até 7.350,00</td><td className="px-6 py-3 font-bold">Fórmula</td><td className="px-6 py-3">Redução Parcial</td></tr>
+                  <tr className="hover:bg-slate-50 dark:hover:bg-slate-800"><td className="px-6 py-3 font-medium">De 7.350,01 até 10.000,00</td><td className="px-6 py-3 font-bold">15%</td><td className="px-6 py-3">R$ 937,50</td></tr>
                   <tr className="hover:bg-slate-50 dark:hover:bg-slate-800"><td className="px-6 py-3 font-medium">De 10.000,01 até 12.500,00</td><td className="px-6 py-3 font-bold">22,5%</td><td className="px-6 py-3">R$ 1.687,50</td></tr>
                   <tr className="hover:bg-slate-50 dark:hover:bg-slate-800"><td className="px-6 py-3 font-medium">Acima de 12.500,00</td><td className="px-6 py-3 font-bold text-red-600 dark:text-red-500">27,5%</td><td className="px-6 py-3">R$ 2.312,50</td></tr>
                 </tbody>
@@ -338,8 +344,8 @@ export default async function SalarioLiquidoPage({ searchParams }: Props) {
             <div className="md:hidden space-y-3">
                  {[
                     { base: "Até 5.000,00", aliq: "Isento", deducao: "-", color: "text-green-600", border: "border-green-200 dark:border-green-900/50", bg: "bg-green-50/50 dark:bg-green-900/10" },
-                    { base: "5.000,01 a 7.500,00", aliq: "7,5%", deducao: "R$ 375,00", color: "text-slate-800" },
-                    { base: "7.500,01 a 10.000,00", aliq: "15%", deducao: "R$ 937,50", color: "text-slate-800" },
+                    { base: "5.000,01 a 7.350,00", aliq: "Fórmula", deducao: "Redução Parcial", color: "text-slate-800" },
+                    { base: "7.350,01 a 10.000,00", aliq: "15%", deducao: "R$ 937,50", color: "text-slate-800" },
                     { base: "10.000,01 a 12.500,00", aliq: "22,5%", deducao: "R$ 1.687,50", color: "text-slate-800" },
                     { base: "Acima de 12.500,00", aliq: "27,5%", deducao: "R$ 2.312,50", color: "text-red-600" },
                  ].map((item, idx) => (
@@ -422,7 +428,7 @@ export default async function SalarioLiquidoPage({ searchParams }: Props) {
           {/* NAVEGAÇÃO FINAL */}
           </div>
 
-          <RelatedTools currentToolLink="/financeiro/salario-liquido" category="financeiro" />
+          <SmartCrossLinker currentHref="/financeiro/salario-liquido" category="financeiro" />
 
         {/* --- ANÚNCIO BOTTOM (SLOT SOFTWARE) --- */}
         <div className="w-full flex justify-center my-8 print:hidden">

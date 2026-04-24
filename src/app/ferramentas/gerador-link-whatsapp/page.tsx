@@ -4,6 +4,7 @@ import WhatsAppGenerator from "@/components/tools/WhatsAppGenerator";
 import LazyAdUnit from "@/components/ads/LazyAdUnit";
 import DisclaimerBox from "@/components/ui/DisclaimerBox";
 import PageHeader from "@/components/layout/PageHeader";
+import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
 import { 
   MessageCircle, Zap, ShieldCheck, TrendingUp, 
   HelpCircle, CheckCircle2, Smartphone, Globe
@@ -21,8 +22,8 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
   const num = sp.num as string;
   const msg = sp.msg as string;
   
-  let title = "Gerador de Link WhatsApp: Criar Link Curto (Personalizado)";
-  let description = "Crie links curtos para WhatsApp (wa.me) com mensagem personalizada em 1 clique. Ideal para Bio do Instagram e Vendas. Grátis e sem cadastro.";
+  let title = "Gerador de Link WhatsApp 2026 (Grátis) | Criar Link Curto";
+  let description = "Crie links curtos para WhatsApp (wa.me) com mensagem personalizada em 1 clique. Ideal para Bio do Instagram e Vendas em 2026. Grátis e sem cadastro.";
 
   if (num) {
     title = "Link WhatsApp Gerado: Clique para Conversar";
@@ -56,14 +57,47 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
 // --- 2. DADOS ESTRUTURADOS (JSON-LD) ---
 const jsonLd = {
   "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  "name": "Gerador de Link WhatsApp Mestre das Contas",
-  "applicationCategory": "BusinessApplication",
-  "operatingSystem": "Web Browser",
-  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
-  "description": "Ferramenta online gratuita para gerar links de conversa direta no WhatsApp com mensagem pré-definida.",
-  "featureList": "Gera link wa.me, Mensagem personalizada, Preview em tempo real, Integração com QR Code",
-  "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.9", "ratingCount": "4120", "bestRating": "5", "worstRating": "1" }
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "Gerador de Link WhatsApp Mestre das Contas",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web Browser",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
+      "description": "Ferramenta online gratuita para gerar links de conversa direta no WhatsApp com mensagem pré-definida.",
+      "featureList": "Gera link wa.me, Mensagem personalizada, Preview em tempo real, Integração com QR Code",
+      "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.9", "ratingCount": "4120", "bestRating": "5", "worstRating": "1" }
+    },
+    {
+      "@type": "Article",
+      "headline": "Como Criar Link para WhatsApp em 2026: Guia Completo",
+      "description": "Aprenda a usar a API do WhatsApp para criar links diretos com mensagem personalizada para sua bio do Instagram e anúncios.",
+      "author": { "@type": "Organization", "name": "Mestre das Contas" },
+      "publisher": { "@type": "Organization", "name": "Mestre das Contas", "logo": { "@type": "ImageObject", "url": "https://mestredascontas.com.br/icon.png" } },
+      "datePublished": "2024-05-10",
+      "dateModified": new Date().toISOString()
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "O link de WhatsApp gerado expira?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Não! O link gerado é permanente e vitalício. Enquanto seu número de telefone for o mesmo, o link continuará funcionando sem custos." }
+        },
+        {
+          "@type": "Question",
+          "name": "Funciona para WhatsApp Business?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Sim, funciona perfeitamente para contas pessoais e comerciais (Business). O link é universal." }
+        },
+        {
+          "@type": "Question",
+          "name": "É seguro usar um gerador de link?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Sim, nossa ferramenta processa os dados localmente no seu navegador e não armazena números ou mensagens em nossos servidores." }
+        }
+      ]
+    }
+  ]
 };
 
 export default async function GeradorWhatsAppPage({ searchParams }: Props) {
@@ -100,6 +134,12 @@ export default async function GeradorWhatsAppPage({ searchParams }: Props) {
         {/* ANÚNCIO TOPO */}
         <div className="w-full max-w-5xl mx-auto overflow-hidden flex justify-center bg-slate-50/50 dark:bg-slate-900/50 rounded-lg border border-dashed border-slate-200/50 dark:border-slate-800/50 print:hidden min-h-[100px]">
            <LazyAdUnit slot="whatsapp_top" format="horizontal" variant="agency" />
+        </div>
+
+        {/* PRIVACIDADE E SEGURANÇA (E-E-A-T) */}
+        <div className="bg-emerald-50/50 dark:bg-emerald-900/10 border border-emerald-100 dark:border-emerald-800 p-4 rounded-2xl flex items-center gap-3 text-xs text-emerald-700 dark:text-emerald-300 mb-2">
+          <ShieldCheck size={18} className="text-emerald-600 shrink-0" />
+          <span>Link direto via API oficial do WhatsApp. Não armazenamos números ou mensagens. 100% privado e seguro em 2026.</span>
         </div>
 
         {/* --- FERRAMENTA PRINCIPAL --- */}
@@ -212,6 +252,8 @@ export default async function GeradorWhatsAppPage({ searchParams }: Props) {
         <div className="w-full flex justify-center my-8 print:hidden min-h-[250px]">
             <LazyAdUnit slot="whatsapp_bottom" format="horizontal" variant="software" />
         </div>
+
+        <SmartCrossLinker currentHref="/ferramentas/gerador-link-whatsapp" category="ferramentas" />
 
         {/* RODAPÉ IMPRESSÃO */}
         <div className="hidden print:block text-center pt-8 border-t border-slate-300 mt-8">

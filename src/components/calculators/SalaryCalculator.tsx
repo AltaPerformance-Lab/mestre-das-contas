@@ -14,6 +14,7 @@ import {
 import { CountUp } from "@/components/ui/CountUp";
 import { SimpleDonut } from "@/components/ui/SimpleDonut";
 import ShareAsImage from "@/components/ui/ShareAsImage";
+import { trackEvent } from "@/lib/analytics";
 
 // --- TIPAGEM ---
 type HistoricoItem = {
@@ -146,12 +147,13 @@ export default function SalaryCalculator({ initialValue }: SalaryCalculatorProps
     let inss = 0;
     let resto = salario;
 
-    if (salario > 7786.02) {
-        inss = 908.85; 
+    // INSS 2026
+    if (salario > 8475.55) {
+        inss = 988.10; 
     } else {
-        if (salario > 4000.03) { inss += (salario - 4000.03) * 0.14; resto = 4000.03; }
-        if (resto > 2666.68) { inss += (resto - 2666.68) * 0.12; resto = 2666.68; }
-        if (resto > 1412.00) { inss += (resto - 1412.00) * 0.09; resto = 1412.00; }
+        if (salario > 4354.27) { inss += (salario - 4354.27) * 0.14; resto = 4354.27; }
+        if (resto > 2902.84) { inss += (resto - 2902.84) * 0.12; resto = 2902.84; }
+        if (resto > 1621.00) { inss += (resto - 1621.00) * 0.09; resto = 1621.00; }
         inss += resto * 0.075;
     }
 
@@ -159,14 +161,20 @@ export default function SalaryCalculator({ initialValue }: SalaryCalculatorProps
     const baseIRRF = salario - inss - deducaoDependentes;
     let irrf = 0;
 
-    // NOVA TABELA IRRF 2026 (Projeção Isenção 5k)
-    // Tabela progressiva ajustada para continuidade matemática
-    if (baseIRRF <= 5000.00) { irrf = 0; }
-    else if (baseIRRF <= 7500.00) { irrf = (baseIRRF * 0.075) - 375.00; }
-    else if (baseIRRF <= 10000.00) { irrf = (baseIRRF * 0.15) - 937.50; }
-    else if (baseIRRF <= 12500.00) { irrf = (baseIRRF * 0.225) - 1687.50; }
-    else { irrf = (baseIRRF * 0.275) - 2312.50; }
-    
+    // NOVA TABELA IRRF 2026 (Isenção até R$ 5.000)
+    if (baseIRRF <= 5000.00) {
+        irrf = 0;
+    } else if (baseIRRF <= 7350.00) {
+        // Regra de Redução Parcial: R$ 978,62 – (0,133145 × base mensal)
+        irrf = 978.62 - (0.133145 * baseIRRF);
+    } else {
+        // Tabela Progressiva Padrão (Rendas Altas)
+        if (baseIRRF <= 2428.80) irrf = 0;
+        else if (baseIRRF <= 2826.65) irrf = (baseIRRF * 0.075) - 182.16;
+        else if (baseIRRF <= 3751.05) irrf = (baseIRRF * 0.15) - 394.16;
+        else if (baseIRRF <= 4664.68) irrf = (baseIRRF * 0.225) - 675.49;
+        else irrf = (baseIRRF * 0.275) - 908.73;
+    }
     if (irrf < 0) irrf = 0;
 
     const totalDescontos = inss + irrf + pOutros;
@@ -186,6 +194,7 @@ export default function SalaryCalculator({ initialValue }: SalaryCalculatorProps
     };
 
     setResultado(novoResultado);
+    trackEvent("calculate_salario", { bruto: salario });
     if (!isIframe) salvarHistorico(novoResultado);
   };
 
@@ -220,8 +229,10 @@ export default function SalaryCalculator({ initialValue }: SalaryCalculatorProps
         if (resultado?.rawDeps) params.set("dependentes", resultado.rawDeps.toString());
         if (resultado?.rawOutros) params.set("outros", resultado.rawOutros.toString());
         navigator.clipboard.writeText(`${baseUrl}?${params.toString()}`);
+        trackEvent("share_salario_link");
     } else {
         navigator.clipboard.writeText(`<iframe src="https://mestredascontas.com.br/financeiro/salario-liquido?embed=true" width="100%" height="700" frameborder="0" style="border:0; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.1);" title="Calculadora de Salário Líquido"></iframe>`);
+        trackEvent("share_salario_embed");
     }
     setCopiado(type);
     setTimeout(() => setCopiado(null), 2000);
@@ -232,6 +243,7 @@ export default function SalaryCalculator({ initialValue }: SalaryCalculatorProps
         window.open(`https://mestredascontas.com.br/financeiro/salario-liquido`, '_blank');
         return;
     }
+    trackEvent("print_salario");
     if (reactToPrintFn) reactToPrintFn();
   };
 

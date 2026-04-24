@@ -13,6 +13,7 @@ import {
   Share2, Printer, History, Code2, CheckCircle2, X, Link as LinkIcon
 } from "lucide-react";
 import ShareAsImage from "@/components/ui/ShareAsImage";
+import { trackEvent } from "@/lib/analytics";
 
 // TIPO PARA HISTÓRICO
 type Historico13 = {
@@ -119,25 +120,32 @@ export default function ThirteenthCalculator() {
     // 1ª Parcela (50% do total, sem descontos)
     const primeiraParcela = valorTotal13 / 2;
 
-    // Descontos (Sobre o CHEIO) - INSS 2025
+    // Descontos (Sobre o CHEIO) - INSS 2026
     let inss = 0;
     let baseCalculo = valorTotal13;
     
-    if (baseCalculo <= 1412.00) inss = baseCalculo * 0.075;
-    else if (baseCalculo <= 2666.68) inss = (1412.00 * 0.075) + ((baseCalculo - 1412.00) * 0.09);
-    else if (baseCalculo <= 4000.03) inss = (1412.00 * 0.075) + ((2666.68 - 1412.00) * 0.09) + ((baseCalculo - 2666.68) * 0.12);
-    else if (baseCalculo <= 7786.02) inss = (1412.00 * 0.075) + ((2666.68 - 1412.00) * 0.09) + ((4000.03 - 2666.68) * 0.12) + ((baseCalculo - 4000.03) * 0.14);
-    else inss = 908.85;
+    if (baseCalculo <= 1621.00) inss = baseCalculo * 0.075;
+    else if (baseCalculo <= 2902.84) inss = (1621.00 * 0.075) + ((baseCalculo - 1621.00) * 0.09);
+    else if (baseCalculo <= 4354.27) inss = (1621.00 * 0.075) + ((2902.84 - 1621.00) * 0.09) + ((baseCalculo - 2902.84) * 0.12);
+    else if (baseCalculo <= 8475.55) inss = (1621.00 * 0.075) + ((2902.84 - 1621.00) * 0.09) + ((4354.27 - 2902.84) * 0.12) + ((baseCalculo - 4354.27) * 0.14);
+    else inss = 988.10; // Teto Máximo INSS 2026
 
-    // IRRF
+    // IRRF 2026 (Regra Nova - Isenção até R$ 5.000)
     const deducaoDependentes = pDeps * 189.59;
     const baseIRRF = baseCalculo - inss - deducaoDependentes;
     let irrf = 0;
-    if (baseIRRF <= 5000.00) irrf = 0;
-    else if (baseIRRF <= 7500.00) irrf = (baseIRRF * 0.075) - 375.00;
-    else if (baseIRRF <= 10000.00) irrf = (baseIRRF * 0.15) - 937.50;
-    else if (baseIRRF <= 12500.00) irrf = (baseIRRF * 0.225) - 1687.50;
-    else irrf = (baseIRRF * 0.275) - 2312.50;
+
+    if (baseIRRF <= 5000.00) {
+        irrf = 0;
+    } else if (baseIRRF <= 7350.00) {
+        irrf = 978.62 - (0.133145 * baseIRRF);
+    } else {
+        if (baseIRRF <= 2428.80) irrf = 0;
+        else if (baseIRRF <= 2826.65) irrf = (baseIRRF * 0.075) - 182.16;
+        else if (baseIRRF <= 3751.05) irrf = (baseIRRF * 0.15) - 394.16;
+        else if (baseIRRF <= 4664.68) irrf = (baseIRRF * 0.225) - 675.49;
+        else irrf = (baseIRRF * 0.275) - 908.73;
+    }
     if (irrf < 0) irrf = 0;
 
     // 2ª Parcela (Total - 1ª - Descontos)
@@ -157,6 +165,7 @@ export default function ThirteenthCalculator() {
     };
 
     setResultado(novoResultado);
+    trackEvent("calculate_13", { meses: pMeses, salario: pSalario });
     if (!isIframe) salvarHistorico(novoResultado);
   };
 
@@ -190,8 +199,10 @@ export default function ThirteenthCalculator() {
             params.set("dependentes", resultado.rawDeps.toString());
         }
         navigator.clipboard.writeText(`${baseUrl}?${params.toString()}`);
+        trackEvent("share_13_link");
     } else {
         navigator.clipboard.writeText(`<iframe src="https://mestredascontas.com.br/trabalhista/decimo-terceiro?embed=true" width="100%" height="700" frameborder="0" style="border:0; overflow:hidden; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.1);" title="Calculadora de 13º Salário"></iframe>`);
+        trackEvent("share_13_embed");
     }
 
     setCopiado(type);
@@ -199,6 +210,7 @@ export default function ThirteenthCalculator() {
   };
 
   const handlePrint = () => {
+    trackEvent("print_13");
     if (reactToPrintFn) reactToPrintFn();
   };
 

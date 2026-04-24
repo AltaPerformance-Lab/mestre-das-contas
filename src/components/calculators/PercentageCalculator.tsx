@@ -12,6 +12,7 @@ import {
   Percent, Calculator, TrendingUp, TrendingDown,
   Share2, Printer, History, Code2, CheckCircle2, X, ArrowRight, Link as LinkIcon
 } from "lucide-react";
+import { trackEvent } from "@/lib/analytics";
 
 // --- TIPAGEM ---
 type HistoricoPercent = {
@@ -128,6 +129,7 @@ export default function PercentageCalculator() {
     };
 
     setResultado(novoResultado);
+    trackEvent("calculate_porcentagem", { modo: m, valor_a: a, valor_b: b });
     if (!isIframe) salvarHistorico(novoResultado);
   };
 
@@ -166,11 +168,14 @@ export default function PercentageCalculator() {
     }
 
     navigator.clipboard.writeText(url);
+    if (type === "result") trackEvent("share_porcentagem_result");
+    else trackEvent("share_porcentagem_tool");
     setCopiado(type === "result" ? "result" : "link");
     setTimeout(() => setCopiado(null), 2000);
   };
 
   const handlePrint = () => {
+    trackEvent("print_porcentagem");
     if (reactToPrintFn) reactToPrintFn();
   };
 

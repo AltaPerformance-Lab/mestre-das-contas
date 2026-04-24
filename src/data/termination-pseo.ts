@@ -149,5 +149,91 @@ export const terminationCases: TerminationPSeoCase[] = [
                 text: "Na Justa Causa, você PERDE: Aviso Prévio, 13º Proporcional, Férias Proporcionais, Saque do FGTS, Multa de 40% e Seguro Desemprego."
             }
         }
+    },
+    {
+        slug: "rescisao-estagio",
+        title: "Calcular Rescisão de Estágio (Lei 11.788)",
+        reasonLabel: "Rescisão de Estágio",
+        description: "Terminou o estágio? Calcule seu acerto. Veja como funciona o recesso proporcional e por que estagiário não tem aviso prévio nem FGTS.",
+        keywords: ["rescisão contrato estagio", "acerto estagio calcular", "estagiário tem direito a 13", "recesso proporcional estagio"],
+        rating: 4.7,
+        reviewsCount: 2100,
+        articleContent: {
+            intro: "A rescisão do <strong>Contrato de Estágio</strong> segue uma legislação própria (Lei 11.788/08), que é diferente da CLT comum. Como o estágio tem finalidade educativa, ele não gera vínculo empregatício, o que significa que o estagiário não tem direito a aviso prévio, multa de 40% ou saque do FGTS.",
+            analysis: `
+                <p>No acerto do estagiário, o item mais importante é o <strong>Recesso Remunerado</strong> (equivalente às férias). Se o estagiário sair antes de completar 1 ano, ele deve receber esse recesso de forma proporcional aos meses trabalhados.</p>
+                <p>O contrato pode ser encerrado a qualquer momento por ambas as partes, sem necessidade de justificativa ou aviso prévio indenizado.</p>
+            `,
+            lawText: "Lei do Estágio (Lei nº 11.788/2008), Art. 13: 'É assegurado ao estagiário, sempre que o estágio tenha duração igual ou superior a 1 (um) ano, período de recesso de 30 (trinta) dias... § 2º Os dias de recesso previstos neste artigo serão concedidos de maneira proporcional, nos casos de o estágio ter duração inferior a 1 (um) ano.'",
+            rightsList: {
+                title: "📋 O que o Estagiário recebe:",
+                items: [
+                    { label: "Bolsa-Auxílio:", desc: "Saldo dos dias estagiados no último mês." },
+                    { label: "Recesso Proporcional:", desc: "Pagamento dos dias de recesso não gozados (calculado sobre o valor da bolsa)." },
+                    { label: "Auxílio-Transporte:", desc: "Proporcional aos dias efetivamente estagiados." }
+                ]
+            },
+            faq: [
+                { question: "Estagiário recebe 13º salário?", answer: "Pela lei federal, não há obrigatoriedade. Porém, algumas empresas concedem por liberalidade ou se estiver previsto no Termo de Compromisso." },
+                { question: "Precisa de aviso prévio?", answer: "Não. O desligamento pode ser imediato sem ônus para nenhuma das partes." }
+            ]
+        }
+    },
+    {
+        slug: "menor-aprendiz",
+        title: "Calcular Rescisão Jovem Aprendiz",
+        reasonLabel: "Jovem Aprendiz",
+        description: "Contrato de Aprendizagem chegou ao fim? Calcule suas verbas rescisórias, FGTS (2%) e direitos específicos do Menor Aprendiz.",
+        keywords: ["rescisão jovem aprendiz", "direitos menor aprendiz demissão", "fgts aprendiz 2 por cento", "calculo acerto aprendiz"],
+        rating: 4.8,
+        reviewsCount: 3400,
+        articleContent: {
+            intro: "O <strong>Jovem Aprendiz</strong> possui um contrato de trabalho especial, com tempo determinado e foco em formação profissional. Diferente do estagiário, o aprendiz é registrado na CLT, mas com alíquotas e regras diferenciadas, como o FGTS de apenas 2%.",
+            analysis: `
+                <p>A rescisão pode ocorrer pelo término do prazo do contrato (normalmente 2 anos) ou por antecipação. Se o contrato terminar no prazo, o aprendiz saca o FGTS mas não recebe multa de 40%.</p>
+                <p>Se a empresa demitir o aprendiz sem justa causa antes do prazo, ela deve pagar as verbas integrais, incluindo a multa do FGTS.</p>
+            `,
+            lawText: "CLT, Art. 428. O contrato de aprendizagem é o contrato de trabalho especial, ajustado por escrito e por prazo determinado, em que o empregador se compromete a assegurar ao maior de 14 e menor de 24 anos... formação técnico-profissional metódica.",
+            rightsList: {
+                title: "📑 Direitos do Aprendiz:",
+                items: [
+                    { label: "FGTS Diferenciado:", desc: "O depósito mensal é de 2% do salário (contra 8% do CLT normal)." },
+                    { label: "Término de Contrato:", desc: "Dá direito ao saque do FGTS acumulado, mas sem a multa de 40%." },
+                    { label: "Verbas CLT:", desc: "Recebe 13º e Férias proporcionais normalmente." }
+                ]
+            },
+            faq: [
+                { question: "Aprendiz tem direito a seguro-desemprego?", answer: "Sim, caso a rescisão seja antecipada sem justa causa por iniciativa da empresa e ele preencha os requisitos de tempo." }
+            ]
+        }
+    },
+    {
+        slug: "contrato-experiencia",
+        title: "Rescisão em Contrato de Experiência",
+        reasonLabel: "Término de Experiência",
+        description: "O período de 45 ou 90 dias acabou? Veja como calcular a rescisão no término do contrato de experiência. Saque FGTS e verbas.",
+        keywords: ["rescisao contrato experiencia", "acerto 90 dias empresa", "demissao no final da experiencia", "saque fgts experiencia"],
+        rating: 4.9,
+        reviewsCount: 7200,
+        articleContent: {
+            intro: "O <strong>Contrato de Experiência</strong> é uma modalidade por prazo determinado (máximo 90 dias). Quando o contrato chega ao seu fim natural, as partes podem decidir não renovar sem que isso gere o pagamento de aviso prévio ou multa de 40% do FGTS.",
+            analysis: `
+                <p>Muitos trabalhadores confundem o 'término' com 'demissão'. Se você trabalhou os 90 dias e a empresa te dispensou no último dia, você tem direito ao saque do FGTS, mas não à multa. Se ela te dispensar no 45º dia (meio do contrato), ela deve pagar uma indenização (Art. 479 da CLT).</p>
+            `,
+            lawText: "CLT, Art. 443, § 2º: 'Considera-se como de prazo determinado o contrato de trabalho cuja vigência dependa de termo prefixado... b) de caráter probatório (experiência).'",
+            rightsList: {
+                title: "🏁 O que recebe no Término (90 dias):",
+                items: [
+                    { label: "Saldo de Salário:", desc: "Dias trabalhados no mês final." },
+                    { label: "13º Proporcional:", desc: "Referente aos meses de experiência." },
+                    { label: "Férias Proporcionais + 1/3:", desc: "Direito garantido mesmo em contratos curtos." },
+                    { label: "Saque FGTS:", desc: "Liberado pelo código 04 (Término de contrato)." }
+                ]
+            },
+            faq: [
+                { question: "Recebo multa de 40% se o contrato acabar?", answer: "Não. A multa só é devida se a empresa te demitir ANTES do prazo final da experiência chegar." },
+                { question: "Tenho direito a seguro desemprego?", answer: "No término de contrato por prazo determinado, não há direito ao seguro desemprego." }
+            ]
+        }
     }
 ];

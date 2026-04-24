@@ -21,6 +21,30 @@ const nextConfig: NextConfig = {
   compress: true,
   poweredByHeader: false,
   reactStrictMode: true,
+
+  // ===== REDIRECTS SEO (Correção de 404) =====
+  async redirects() {
+    return [
+      // 1. Redireciona a antiga rota /reforma-tributaria/* para a nova /financeiro/reforma-tributaria/*
+      {
+        source: '/reforma-tributaria/:slug*',
+        destination: '/financeiro/reforma-tributaria/:slug*',
+        permanent: true,
+      },
+      // 2. Redireciona a antiga URL com traço /simulacao-50000 para a nova com barra /simulacao/50000
+      {
+        source: '/financeiro/financiamento-veiculos/simulacao-:valor',
+        destination: '/financeiro/financiamento-veiculos/simulacao/:valor',
+        permanent: true,
+      },
+      // 3. Corrige link quebrado /saude/calorias para a nova rota correta
+      {
+        source: '/saude/calorias',
+        destination: '/saude/calorias-diarias',
+        permanent: true,
+      }
+    ];
+  },
   
   // ===== HEADERS DE SEGURANÇA E PERFORMANCE =====
   async headers() {

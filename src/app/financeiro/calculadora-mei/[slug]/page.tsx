@@ -8,7 +8,8 @@ import PageHeader from "@/components/layout/PageHeader";
 import LazyAdUnit from "@/components/ads/LazyAdUnit";
 import DisclaimerBox from "@/components/ui/DisclaimerBox";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
-import { Briefcase, ArrowLeft, CheckCircle2, AlertTriangle, Search, Star, BookOpen } from "lucide-react";
+import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
+import { Briefcase, ArrowLeft, CheckCircle2, AlertTriangle, Search, Star, BookOpen, ShieldCheck } from "lucide-react";
 
 // --- SSG ---
 export async function generateStaticParams() {
@@ -91,7 +92,7 @@ export default async function MEIPSeoPage({ params }: { params: Promise<{ slug: 
                 description={`Tudo o que um ${activity.jobTitle} precisa saber sobre o MEI em 2026. Calcule seus impostos e regularize sua atuação.`}
                 category="Guia de Profissões"
                 icon={<Briefcase size={32} strokeWidth={2} />}
-                variant="default" 
+                variant="finance" 
                 categoryColor="blue"
                 badge={`CNAE: ${activity.cnae}`}
                 breadcrumbs={[
@@ -103,6 +104,11 @@ export default async function MEIPSeoPage({ params }: { params: Promise<{ slug: 
             </div>
 
             <div className="flex flex-col gap-8 px-4 sm:px-6 max-w-7xl mx-auto">
+                {/* REVISÃO FISCAL (E-E-A-T) */}
+                <div className="bg-blue-50/50 dark:bg-blue-900/10 border border-blue-100 dark:border-blue-800 p-4 rounded-2xl flex items-center gap-3 text-xs text-blue-700 dark:text-blue-300 mb-2">
+                  <ShieldCheck size={18} className="text-blue-600 shrink-0" />
+                  <span>Guia de enquadramento atualizado conforme a Resolução CGSN nº 140/2018 e alterações para 2026.</span>
+                </div>
                 {/* ANÚNCIO TOPO */}
                 <div className="w-full max-w-5xl mx-auto overflow-hidden flex justify-center bg-slate-50/50 dark:bg-slate-900/50 rounded-lg border border-dashed border-slate-200/50 dark:border-slate-800 print:hidden min-h-[100px]">
                     <LazyAdUnit slot="mei_pseo_top" format="horizontal" variant="agency" />
@@ -141,9 +147,39 @@ export default async function MEIPSeoPage({ params }: { params: Promise<{ slug: 
                     </h2>
                     
                     <p className="lead text-lg font-medium text-slate-700 dark:text-slate-300">
-                        A profissão de <strong>{activity.jobTitle}</strong> é uma das mais procuradas para formalização. 
-                        Ao se tornar MEI, você deixa de trabalhar na informalidade e passa a ter CNPJ, o que abre portas para fechar contratos com empresas, bancos e fornecedores.
+                        {activity.articleContent?.intro || `A profissão de ${activity.jobTitle} é uma das mais procuradas para formalização. Ao se tornar MEI, você deixa de trabalhar na informalidade e passa a ter CNPJ, o que abre portas para fechar contratos com empresas, bancos e fornecedores.`}
                     </p>
+
+                    {activity.articleContent && (
+                        <div className="grid md:grid-cols-2 gap-8 my-10 not-prose">
+                            <div className="bg-emerald-50/50 dark:bg-emerald-900/10 border border-emerald-100 dark:border-emerald-800/50 p-6 rounded-3xl">
+                                <h4 className="flex items-center gap-2 font-bold text-emerald-900 dark:text-emerald-100 mb-4">
+                                    <CheckCircle2 size={20} className="text-emerald-600"/> Vantagens (Prós)
+                                </h4>
+                                <ul className="space-y-3">
+                                    {activity.articleContent.pros.map((pro, idx) => (
+                                        <li key={idx} className="text-sm text-emerald-800 dark:text-emerald-200/80 flex items-start gap-2">
+                                            <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0"/>
+                                            {pro}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                            <div className="bg-rose-50/50 dark:bg-rose-900/10 border border-rose-100 dark:border-rose-800/50 p-6 rounded-3xl">
+                                <h4 className="flex items-center gap-2 font-bold text-rose-900 dark:text-rose-100 mb-4">
+                                    <AlertTriangle size={20} className="text-rose-600"/> Pontos de Atenção (Contras)
+                                </h4>
+                                <ul className="space-y-3">
+                                    {activity.articleContent.cons.map((con, idx) => (
+                                        <li key={idx} className="text-sm text-rose-800 dark:text-rose-200/80 flex items-start gap-2">
+                                            <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-rose-500 shrink-0"/>
+                                            {con}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        </div>
+                    )}
 
                     <div className="grid md:grid-cols-2 gap-6 not-prose my-8">
                         <div className="bg-slate-50 dark:bg-slate-800 p-6 rounded-2xl border border-slate-100 dark:border-slate-700">
@@ -186,6 +222,19 @@ export default async function MEIPSeoPage({ params }: { params: Promise<{ slug: 
 
                     <h3 className="text-xl font-bold text-slate-900 dark:text-white mt-8">Perguntas Frequentes</h3>
                     <div className="space-y-4 mt-4">
+                        {activity.articleContent?.faq?.map((f, i) => (
+                            <details key={`custom-${i}`} className="group [&_summary::-webkit-details-marker]:hidden" open>
+                                <summary className="flex cursor-pointer items-center justify-between gap-1.5 rounded-lg bg-blue-50 dark:bg-blue-900/40 p-4 text-slate-900 dark:text-white font-medium border border-blue-100 dark:border-blue-800">
+                                    <h4 className="text-sm font-bold m-0 text-blue-900 dark:text-blue-100">{f.question}</h4>
+                                    <svg className="h-5 w-5 shrink-0 transition duration-300 group-open:-rotate-180 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                                    </svg>
+                                </summary>
+                                <p className="mt-4 leading-relaxed text-slate-700 dark:text-slate-300 px-4 text-sm font-medium">
+                                    {f.answer}
+                                </p>
+                            </details>
+                        ))}
                         <details className="group [&_summary::-webkit-details-marker]:hidden">
                             <summary className="flex cursor-pointer items-center justify-between gap-1.5 rounded-lg bg-slate-50 dark:bg-slate-800 p-4 text-slate-900 dark:text-white font-medium">
                                 <h4 className="text-sm font-bold m-0 text-slate-900 dark:text-white">Preciso de contador?</h4>
@@ -234,64 +283,7 @@ export default async function MEIPSeoPage({ params }: { params: Promise<{ slug: 
 
                 </div>
 
-                {/* --- OUTRAS ATIVIDADES --- */}
-                <div className="mt-12 not-prose border-t border-slate-200 dark:border-slate-800 pt-12">
-                    <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
-                        <Briefcase size={22} className="text-slate-500 dark:text-slate-400"/> Outras Profissões MEI
-                    </h3>
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                        {meiActivities.filter(a => a.slug !== slug).slice(0, 8).map((act) => (
-                            <Link 
-                                key={act.slug} 
-                                href={`/financeiro/calculadora-mei/${act.slug}`}
-                                className="flex flex-col p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl hover:border-blue-400 dark:hover:border-blue-500 hover:shadow-md transition-all group"
-                            >
-                                <span className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-2">CNAE {act.cnae.split('/')[0]}</span>
-                                <span className="font-bold text-slate-700 dark:text-slate-200 text-sm group-hover:text-blue-600 dark:group-hover:text-blue-400 line-clamp-2">
-                                    {act.jobTitle}
-                                </span>
-                            </Link>
-                        ))}
-                    </div>
-                </div>
-
-                {/* --- FERRAMENTAS ÚTEIS --- */}
-                <div className="mt-8 not-prose">
-                     <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
-                        <Star size={22} className="text-amber-500"/> Ferramentas Gratuitas para MEI
-                    </h3>
-                    <div className="grid md:grid-cols-3 gap-6">
-                        <Link href="/ferramentas/recibo-online" className="block group">
-                            <div className="bg-gradient-to-br from-emerald-500 to-teal-600 rounded-2xl p-6 text-white shadow-lg shadow-emerald-500/20 transition-transform group-hover:-translate-y-1">
-                                <div className="bg-white/20 w-12 h-12 rounded-lg flex items-center justify-center mb-4 backdrop-blur-sm">
-                                    <CheckCircle2 size={24} className="text-white"/>
-                                </div>
-                                <h4 className="font-bold text-lg mb-1">Gerador de Recibos</h4>
-                                <p className="text-emerald-50 text-sm opacity-90">Emita recibos simples e profissionais para seus clientes em PDF.</p>
-                            </div>
-                        </Link>
-                        
-                        <Link href="/ferramentas/criador-orcamentos" className="block group">
-                            <div className="bg-gradient-to-br from-blue-600 to-indigo-700 rounded-2xl p-6 text-white shadow-lg shadow-blue-600/20 transition-transform group-hover:-translate-y-1">
-                                <div className="bg-white/20 w-12 h-12 rounded-lg flex items-center justify-center mb-4 backdrop-blur-sm">
-                                    <Briefcase size={24} className="text-white"/>
-                                </div>
-                                <h4 className="font-bold text-lg mb-1">Criador de Orçamentos</h4>
-                                <p className="text-blue-50 text-sm opacity-90">Modelo de proposta comercial completa para fechar mais serviços.</p>
-                            </div>
-                        </Link>
-
-                        <Link href="/ferramentas/criador-pedidos" className="block group">
-                            <div className="bg-gradient-to-br from-purple-600 to-violet-700 rounded-2xl p-6 text-white shadow-lg shadow-purple-600/20 transition-transform group-hover:-translate-y-1">
-                                <div className="bg-white/20 w-12 h-12 rounded-lg flex items-center justify-center mb-4 backdrop-blur-sm">
-                                    <BookOpen size={24} className="text-white"/>
-                                </div>
-                                <h4 className="font-bold text-lg mb-1">Talão de Pedidos</h4>
-                                <p className="text-purple-50 text-sm opacity-90">Organize suas encomendas e vendas com um talão digital.</p>
-                            </div>
-                        </Link>
-                    </div>
-                </div>
+                <SmartCrossLinker currentHref={"/financeiro/calculadora-mei/" + slug} category="financeiro" />
 
                 <div className="w-full flex justify-center my-8 print:hidden min-h-[250px]">
                     <LazyAdUnit slot="mei_pseo_bottom" format="horizontal" variant="software" />

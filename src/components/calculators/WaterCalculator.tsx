@@ -9,9 +9,10 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { 
-  Droplet, Activity, Share2, Printer, History, Code2, 
-  CheckCircle2, X, GlassWater, Link as LinkIcon, ExternalLink 
+  CheckCircle2, X, GlassWater, Link as LinkIcon, ExternalLink,
+  Droplet, Code2, History, Activity, Printer
 } from "lucide-react";
+import { trackEvent } from "@/lib/analytics";
 
 // TIPAGEM
 type HistoricoAgua = {
@@ -98,6 +99,7 @@ export default function WaterCalculator() {
     };
 
     setResultado(novoRes);
+    trackEvent("calculate_agua", { litros: totalMl / 1000, atividade: a });
     if (!isIframe) salvarHistorico(novoRes);
   };
 
@@ -130,6 +132,7 @@ export default function WaterCalculator() {
     if (action === "share") {
         const url = `${window.location.origin}${window.location.pathname}?peso=${peso}&atividade=${atividade}`;
         navigator.clipboard.writeText(url);
+        trackEvent("share_agua_link");
         setCopiado("link");
         setTimeout(() => setCopiado(null), 2000);
     } 
@@ -137,6 +140,7 @@ export default function WaterCalculator() {
         setShowEmbedModal(true);
     }
     else if (action === "pdf") {
+        trackEvent("print_agua");
         reactToPrintFn();
     }
   };

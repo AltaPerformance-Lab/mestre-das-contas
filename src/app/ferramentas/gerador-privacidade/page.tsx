@@ -3,6 +3,7 @@ import { Metadata } from "next";
 import PrivacyPolicyGenerator from "@/components/tools/PrivacyPolicyGenerator";
 import AdUnit from "@/components/ads/AdUnit";
 import PageHeader from "@/components/layout/PageHeader";
+import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
 import { 
   ShieldCheck, FileText, AlertTriangle, Link as LinkIcon, 
@@ -32,15 +33,49 @@ export const metadata: Metadata = {
 
 export default function PrivacyGeneratorPage() {
   
+  // --- DADOS ESTRUTURADOS ---
   const jsonLd = {
     "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": "Gerador de Política de Privacidade",
-    "applicationCategory": "BusinessApplication",
-    "operatingSystem": "Web",
-    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
-    "description": "Ferramenta para criação de termos de privacidade compatíveis com LGPD e AdSense.",
-    "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.9", "ratingCount": "2150" }
+    "@graph": [
+      {
+        "@type": "SoftwareApplication",
+        "name": "Gerador de Política de Privacidade",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Web Browser",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
+        "description": "Ferramenta para criação de termos de privacidade compatíveis com LGPD e AdSense.",
+        "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.9", "ratingCount": "2150", "bestRating": "5", "worstRating": "1" }
+      },
+      {
+        "@type": "Article",
+        "headline": "O Guia da LGPD para Pequenos Sites e Blogs",
+        "description": "Entenda por que a Política de Privacidade é obrigatória para quem usa Google AdSense e como evitar multas da ANPD.",
+        "author": { "@type": "Organization", "name": "Mestre das Contas" },
+        "publisher": { "@type": "Organization", "name": "Mestre das Contas", "logo": { "@type": "ImageObject", "url": "https://mestredascontas.com.br/icon.png" } },
+        "datePublished": "2024-04-15",
+        "dateModified": new Date().toISOString()
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Onde devo colocar o link da política no meu site?",
+            "acceptedAnswer": { "@type": "Answer", "text": "A recomendação padrão é inserir o link no rodapé (footer) do seu site, de forma que ele seja visível em todas as páginas para os usuários e robôs de busca." }
+          },
+          {
+            "@type": "Question",
+            "name": "A política gerada serve para o Google AdSense?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Sim! Nosso gerador inclui as cláusulas obrigatórias exigidas pelo Google sobre o uso de cookies e publicidade personalizada." }
+          },
+          {
+            "@type": "Question",
+            "name": "Preciso atualizar minha política de privacidade?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Sim, você deve atualizar o documento sempre que houver mudanças na forma como seu site coleta ou processa dados dos usuários, como a instalação de novos pixels de rastreamento." }
+          }
+        ]
+      }
+    ]
   };
 
   return (
@@ -166,8 +201,8 @@ export default function PrivacyGeneratorPage() {
             <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100 mt-10 mb-4">
                LGPD (Brasil) vs GDPR (Europa)
             </h3>
-            <div className="not-prose overflow-hidden border rounded-xl border-slate-200 dark:border-slate-800 shadow-sm bg-white dark:bg-slate-900 mb-8">
-                <table className="w-full text-sm text-left">
+            <div className="not-prose my-8 overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm bg-white dark:bg-slate-900">
+                <table className="w-full text-sm text-left min-w-[600px]">
                     <thead className="bg-slate-900 dark:bg-slate-950 text-white">
                         <tr>
                             <th className="px-6 py-4 font-bold w-1/3">Característica</th>
@@ -228,6 +263,8 @@ export default function PrivacyGeneratorPage() {
         <div className="w-full flex justify-center my-8 print:hidden min-h-[250px]">
             <AdUnit slot="privacidade_bottom" format="horizontal" variant="software" />
         </div>
+
+        <SmartCrossLinker currentHref="/ferramentas/gerador-privacidade" category="ferramentas" />
 
       </div>
     </article>

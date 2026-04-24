@@ -10,9 +10,12 @@ import {
   Landmark, HelpCircle, BookOpen, TrendingUp, TrendingDown,
   AlertTriangle, CheckCircle2, ShoppingCart, 
   Coins, Scale, FileText, ArrowRight, History, 
-  CalendarClock, Zap, ExternalLink, Wallet, PiggyBank
+  CalendarClock, Zap, Receipt, LineChart, Globe, ShieldCheck,
+  Wallet,
+  ExternalLink
 } from "lucide-react";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
+import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
 
 // --- 1. METADATA DE DOMINAÇÃO (SEO 2026 DINÂMICO) ---
 export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
@@ -20,8 +23,8 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
   const valor = sp.valor ? parseFloat(sp.valor as string) : 0;
   const categoria = sp.cat as string;
 
-  let title = "Calculadora Reforma Tributária 2026 | Simule o Novo IVA e Cashback";
-  let description = "O guia definitivo da Reforma Tributária. Entenda o IVA Dual (CBS+IBS), o Imposto Seletivo, o Cashback e simule o impacto no seu bolso. Cronograma completo 2026-2033.";
+  let title = "Calculadora Reforma Tributária 2026 (Grátis) | Simule o Novo IVA";
+  let description = "Entenda o impacto do IVA Dual (CBS+IBS), Imposto Seletivo e Cashback em 10 segundos. Simulador gratuito atualizado com o cronograma 2026-2033.";
 
   if (valor > 0) {
       const valorFormatado = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(valor);
@@ -166,6 +169,12 @@ export default async function ReformaPage({ searchParams }: Props) {
       </div>
 
       <div className="flex flex-col gap-8 px-4 sm:px-6 max-w-7xl mx-auto">
+        
+        {/* REVISÃO FISCAL (E-E-A-T) */}
+        <div className="bg-blue-50/50 dark:bg-blue-900/10 border border-blue-100 dark:border-blue-800 p-4 rounded-2xl flex items-center gap-3 text-xs text-blue-700 dark:text-blue-300 mb-2">
+          <ShieldCheck size={18} className="text-blue-600 shrink-0" />
+          <span>Informações baseadas no texto da Emenda Constitucional 132/2023 e regulamentações vigentes para o período de transição 2026.</span>
+        </div>
 
         {/* ANÚNCIO TOPO */}
         <div className="w-full mx-auto overflow-hidden flex justify-center bg-slate-50/50 dark:bg-slate-900/50 rounded-3xl border border-dashed border-slate-200/50 dark:border-slate-800 print:hidden min-h-[100px]">
@@ -198,7 +207,7 @@ export default async function ReformaPage({ searchParams }: Props) {
 
         {/* ANÚNCIO MEIO */}
         <div className="w-full mx-auto flex justify-center my-6 print:hidden min-h-[250px] rounded-3xl overflow-hidden">
-            <LazyAdUnit slot="reforma_mid" format="auto" />
+            <LazyAdUnit slot="reforma_mid" format="auto" variant="agency" />
         </div>
 
         {/* --- CONTEÚDO PROFUNDO (HUMANIZADO + SEO) --- */}
@@ -494,31 +503,9 @@ export default async function ReformaPage({ searchParams }: Props) {
               </div>
           </div>
 
-          {/* NAVEGAÇÃO FINAL */}
-          <div className="mt-12 pt-8 border-t border-slate-200 print:hidden not-prose">
-            <p className="font-bold text-slate-900 mb-6 text-sm uppercase tracking-wider flex items-center gap-2">
-               <CheckCircle2 size={16} className="text-emerald-500"/> Continue Planejando seu Futuro:
-            </p>
-            <div className="grid md:grid-cols-3 gap-4">
-              <Link href="/financeiro/juros-compostos" className="flex flex-col p-5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl hover:border-emerald-400 hover:shadow-lg transition-all group">
-                  <div className="bg-emerald-50 dark:bg-emerald-900/30 w-10 h-10 rounded-lg flex items-center justify-center mb-3 text-emerald-600 dark:text-emerald-400 shadow-sm group-hover:scale-110 transition-transform"><TrendingUp size={20}/></div>
-                  <span className="font-bold text-slate-900 dark:text-white text-lg">Juros Compostos</span>
-                  <span className="text-sm text-slate-600 dark:text-slate-300 mt-1">Simulador de Investimento</span>
-              </Link>
-              <Link href="/financeiro/salario-liquido" className="flex flex-col p-5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl hover:border-blue-400 hover:shadow-lg transition-all group">
-                  <div className="bg-blue-50 dark:bg-blue-900/30 w-10 h-10 rounded-lg flex items-center justify-center mb-3 text-blue-600 dark:text-blue-400 shadow-sm group-hover:scale-110 transition-transform"><Coins size={20}/></div>
-                  <span className="font-bold text-slate-900 dark:text-white text-lg">Salário Líquido</span>
-                  <span className="text-sm text-slate-600 dark:text-slate-300 mt-1">Calculadora CLT 2026</span>
-              </Link>
-              <Link href="/financeiro/porcentagem" className="flex flex-col p-5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl hover:border-purple-400 hover:shadow-lg transition-all group">
-                  <div className="bg-purple-50 dark:bg-purple-900/30 w-10 h-10 rounded-lg flex items-center justify-center mb-3 text-purple-600 dark:text-purple-400 shadow-sm group-hover:scale-110 transition-transform"><PiggyBank size={20}/></div>
-                  <span className="font-bold text-slate-900 dark:text-white text-lg">Porcentagem</span>
-                  <span className="text-sm text-slate-600 dark:text-slate-300 mt-1">Cálculos Rápidos</span>
-              </Link>
-            </div>
-          </div>
-
         </div>
+
+        <SmartCrossLinker currentHref="/financeiro/reforma-tributaria" category="financeiro" />
 
         {/* --- ANÚNCIO BOTTOM (PARA DEVS/RETENÇÃO) --- */}
         <div className="w-full flex justify-center my-8 print:hidden min-h-[250px]">

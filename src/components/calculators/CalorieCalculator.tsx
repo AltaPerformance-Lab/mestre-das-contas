@@ -10,10 +10,9 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { 
-  Flame, Utensils, Share2, Printer, History, 
-  Code2, CheckCircle2, ArrowDown, ArrowUp, Minus, Link as LinkIcon,
-  X // <--- ADICIONADO: Corrige o erro do ícone faltando
+  Flame, X, Code2, History, ArrowDown, ArrowUp, Share2, Printer, Link as LinkIcon, CheckCircle2, Utensils
 } from "lucide-react";
+import { trackEvent } from "@/lib/analytics";
 
 // --- TIPAGEM ---
 type HistoricoCalorias = {
@@ -137,6 +136,7 @@ export default function CalorieCalculator() {
     };
 
     setResultado(novoResultado);
+    trackEvent("calculate_calorias", { tdee: novoResultado.tdee, genero: g });
     if (!isIframe) salvarHistorico(novoResultado);
   };
 
@@ -167,11 +167,14 @@ export default function CalorieCalculator() {
     }
 
     navigator.clipboard.writeText(url);
+    if (type === "result") trackEvent("share_calorias_result");
+    else trackEvent("share_calorias_tool");
     setCopiado(type === "result" ? "result" : "link");
     setTimeout(() => setCopiado(null), 2000);
   };
 
   const handlePrint = () => {
+    trackEvent("print_calorias");
     if (reactToPrintFn) reactToPrintFn();
   };
 

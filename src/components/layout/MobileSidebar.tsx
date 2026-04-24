@@ -33,7 +33,7 @@ const menuGroups: MenuGroup[] = [
   {
     title: "Financeiro", theme: "emerald",
     items: [
-      { label: "Salário Líquido 2025", href: "/financeiro/salario-liquido", icon: Calculator },
+      { label: "Salário Líquido 2026", href: "/financeiro/salario-liquido", icon: Calculator },
       { label: "Financiamento Veículos", href: "/financeiro/financiamento-veiculos", icon: Landmark },
       { label: "Juros Compostos", href: "/financeiro/juros-compostos", icon: TrendingUp },
     ]

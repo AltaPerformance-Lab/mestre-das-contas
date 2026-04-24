@@ -8,14 +8,15 @@ import PageHeader from "@/components/layout/PageHeader";
 import { 
   Clock, HelpCircle, History, BookOpen, Calculator,
   Wallet, FileText, Scale, Landmark, ExternalLink, Timer, 
-  CheckCircle2, AlertTriangle, Moon, Coins
+  CheckCircle2, AlertTriangle, Moon, Coins, ShieldCheck
 } from "lucide-react";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
+import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
 
 // --- 1. METADATA DE ALTA PERFORMANCE (SEO) ---
 export const metadata: Metadata = {
-  title: "Calculadora de Horas Trabalhadas Online | Somar Ponto e Banco de Horas",
-  description: "Some suas horas trabalhadas no dia. Ferramenta gratuita para calcular entrada, saída, almoço e saldo de banco de horas (horas extras ou atrasos).",
+  title: "Calculadora de Horas Trabalhadas 2026 (Grátis) | Somar Ponto Online",
+  description: "Some suas horas trabalhadas no dia em segundos. Ferramenta gratuita para calcular entrada, saída, almoço e saldo de banco de horas. Simples e Online.",
   keywords: [
     "calculadora de horas trabalhadas", 
     "somar horas e minutos", 
@@ -137,6 +138,12 @@ export default async function HorasPage({ searchParams }: Props) {
       </div>
 
       <div className="flex flex-col gap-8 px-4 sm:px-6 max-w-7xl mx-auto">
+        
+        {/* REVISÃO LEGAL (E-E-A-T) */}
+        <div className="bg-blue-50/50 dark:bg-blue-900/10 border border-blue-100 dark:border-blue-800 p-4 rounded-2xl flex items-center gap-3 text-xs text-blue-700 dark:text-blue-300 mb-2">
+          <ShieldCheck size={18} className="text-blue-600 shrink-0" />
+          <span>Informações baseadas na Consolidação das Leis do Trabalho (CLT) e atualizações vigentes em 2026.</span>
+        </div>
 
         {/* ALERTA DE TOLERÂNCIA */}
         <div className="bg-amber-50 dark:bg-amber-900/10 border border-amber-200 dark:border-amber-800 rounded-xl p-4 flex gap-3 items-start text-left max-w-3xl mx-auto w-full shadow-sm">
@@ -267,31 +274,9 @@ export default async function HorasPage({ searchParams }: Props) {
               </div>
           </div>
 
-          {/* NAVEGAÇÃO FINAL */}
-          <div className="mt-16 pt-8 border-t border-slate-200 dark:border-slate-800 print:hidden not-prose">
-            <p className="font-bold text-slate-900 dark:text-slate-100 mb-6 text-sm uppercase tracking-wider flex items-center gap-2">
-               <CheckCircle2 size={16} className="text-emerald-500"/> Converta seu tempo em dinheiro:
-            </p>
-            <div className="grid md:grid-cols-3 gap-4">
-              <Link href="/trabalhista/horas-extras" className="flex flex-col p-5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl hover:border-purple-400 dark:hover:border-purple-500 hover:shadow-lg transition-all group">
-                  <div className="bg-purple-50 dark:bg-purple-900/30 w-10 h-10 rounded-lg flex items-center justify-center mb-3 text-purple-600 dark:text-purple-400 shadow-sm group-hover:scale-110 transition-transform"><Coins size={20}/></div>
-                  <span className="font-bold text-slate-800 dark:text-slate-100 text-lg">Horas Extras</span>
-                  <span className="text-sm text-slate-500 dark:text-slate-400 mt-1">Quanto valem?</span>
-              </Link>
-              <Link href="/financeiro/salario-liquido" className="flex flex-col p-5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl hover:border-green-400 dark:hover:border-green-500 hover:shadow-lg transition-all group">
-                  <div className="bg-green-50 dark:bg-green-900/30 w-10 h-10 rounded-lg flex items-center justify-center mb-3 text-green-600 dark:text-green-400 shadow-sm group-hover:scale-110 transition-transform"><Wallet size={20}/></div>
-                  <span className="font-bold text-slate-800 dark:text-slate-100 text-lg">Salário Líquido</span>
-                  <span className="text-sm text-slate-500 dark:text-slate-400 mt-1">Holerite completo</span>
-              </Link>
-              <Link href="/trabalhista/rescisao" className="flex flex-col p-5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl hover:border-blue-400 dark:hover:border-blue-500 hover:shadow-lg transition-all group">
-                  <div className="bg-blue-50 dark:bg-blue-900/30 w-10 h-10 rounded-lg flex items-center justify-center mb-3 text-blue-600 dark:text-blue-400 shadow-sm group-hover:scale-110 transition-transform"><FileText size={20}/></div>
-                  <span className="font-bold text-slate-800 dark:text-slate-100 text-lg">Rescisão CLT</span>
-                  <span className="text-sm text-slate-500 dark:text-slate-400 mt-1">Cálculo demissão</span>
-              </Link>
-            </div>
-          </div>
-
         </div>
+
+        <SmartCrossLinker currentHref="/trabalhista/horas-trabalhadas" category="trabalhista" />
 
         {/* --- ANÚNCIO BOTTOM (ESTRATÉGICO) --- */}
         <div className="w-full flex justify-center my-8 print:hidden min-h-[250px]">

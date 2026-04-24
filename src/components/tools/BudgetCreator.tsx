@@ -14,6 +14,7 @@ import {
   Upload, Image as ImageIcon, CreditCard, Percent,
   Maximize2, X
 } from "lucide-react";
+import { trackEvent } from "@/lib/analytics";
 
 // --- INTERFACES ---
 export interface BudgetItem {
@@ -310,6 +311,7 @@ export default function BudgetCreator({ initialValues }: BudgetCreatorProps = {}
     const handlePrint = useReactToPrint({
         contentRef: printRef,
         documentTitle: `Orcamento_${budgetNumber}_${clientName || 'Cliente'}`,
+        onAfterPrint: () => trackEvent("print_budget_success", { total: calculateTotal(), items_count: items.length }),
         pageStyle: `@page { size: A4 portrait; margin: 0; } body { -webkit-print-color-adjust: exact; }`
     });
 

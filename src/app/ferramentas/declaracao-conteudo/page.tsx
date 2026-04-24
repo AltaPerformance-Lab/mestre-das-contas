@@ -2,13 +2,14 @@
 import { Metadata } from "next";
 import Link from "next/link";
 import ContentDeclarationGenerator from "@/components/tools/ContentDeclarationGenerator";
-import AdUnit from "@/components/ads/AdUnit";
+import LazyAdUnit from "@/components/ads/LazyAdUnit";
 import PageHeader from "@/components/layout/PageHeader";
+import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
 import { 
   FileText, ShieldCheck, Truck, Scale, AlertTriangle, 
   HelpCircle, BookOpen, Printer, Package, CheckCircle2,
-  AlertOctagon, Info
+  AlertOctagon, Info, Briefcase
 } from "lucide-react";
 import DisclaimerBox from "@/components/ui/DisclaimerBox";
 
@@ -46,6 +47,15 @@ export default function ContentDeclarationPage() {
         "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
         "description": "Ferramenta para gerar formulário de Declaração de Conteúdo exigido pelos Correios para envios não comerciais.",
         "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.9", "ratingCount": "1530" }
+      },
+      {
+        "@type": "Article",
+        "headline": "Guia da Declaração de Conteúdo Correios: O que é e Como Usar",
+        "description": "Entenda quando usar a declaração de conteúdo em vez da nota fiscal, as regras dos Correios e como preencher o documento corretamente.",
+        "author": { "@type": "Organization", "name": "Mestre das Contas" },
+        "publisher": { "@type": "Organization", "name": "Mestre das Contas", "logo": { "@type": "ImageObject", "url": "https://mestredascontas.com.br/icon.png" } },
+        "datePublished": "2024-02-10",
+        "dateModified": new Date().toISOString()
       },
       {
         "@type": "FAQPage",
@@ -122,9 +132,9 @@ export default function ContentDeclarationPage() {
           description="Gere o documento obrigatório para enviar encomendas sem Nota Fiscal. Preencha abaixo e imprima o modelo oficial aceito em todas as agências."
           category="Logística & Correios"
           icon={<FileText size={32} strokeWidth={2} />}
-          variant="default"
+          variant="tools"
           categoryColor="amber"
-          badge="Atualizado 2026"
+          badge="Oficial 2026"
           breadcrumbs={[
             { label: "Ferramentas", href: "/ferramentas" },
             { label: "Declaração de Conteúdo" }
@@ -138,7 +148,13 @@ export default function ContentDeclarationPage() {
 
         {/* ANÚNCIO TOPO */}
         <div className="w-full max-w-5xl mx-auto overflow-hidden flex justify-center bg-slate-50/50 dark:bg-slate-900/50 rounded-lg border border-dashed border-slate-200/50 dark:border-slate-800/50 print:hidden min-h-[100px]">
-           <AdUnit slot="declaracao_top" format="horizontal" variant="agency" />
+           <LazyAdUnit slot="declaracao_top" format="horizontal" variant="agency" />
+        </div>
+
+        {/* REVISÃO LEGAL (E-E-A-T) */}
+        <div className="bg-amber-50/50 dark:bg-amber-900/10 border border-amber-200 dark:border-amber-800 p-4 rounded-2xl flex items-center gap-3 text-xs text-amber-700 dark:text-amber-300 mb-2">
+          <ShieldCheck size={18} className="text-amber-600 shrink-0" />
+          <span>Documento obrigatório conforme o Protocolo ICMS 32/01 e a Lei Postal, revisado para os padrões de fiscalização de 2026.</span>
         </div>
 
         {/* FERRAMENTA */}
@@ -149,12 +165,43 @@ export default function ContentDeclarationPage() {
            
            <ContentDeclarationGenerator />
            
+           {/* COMBO LOGÍSTICO (Cross-selling baseado em Analytics) */}
+           <div className="mt-8 grid sm:grid-cols-2 md:grid-cols-3 gap-4 print:hidden max-w-5xl mx-auto">
+              <Link href="/ferramentas/gerador-recibo" className="flex items-center gap-3 p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl hover:border-amber-500 transition-all group shadow-sm">
+                <div className="bg-amber-100 dark:bg-amber-900/30 p-2 rounded-xl group-hover:bg-amber-500 group-hover:text-white transition-colors">
+                  <Package size={20} className="text-amber-600 group-hover:text-white" />
+                </div>
+                <div>
+                  <h4 className="text-sm font-bold text-slate-900 dark:text-white">Gerador de Recibo</h4>
+                  <p className="text-[10px] text-slate-500">Emita o recibo da venda</p>
+                </div>
+              </Link>
+              <Link href="/ferramentas/criador-pedidos" className="flex items-center gap-3 p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl hover:border-amber-500 transition-all group shadow-sm">
+                <div className="bg-amber-100 dark:bg-amber-900/30 p-2 rounded-xl group-hover:bg-amber-500 group-hover:text-white transition-colors">
+                  <Briefcase size={20} className="text-amber-600 group-hover:text-white" />
+                </div>
+                <div>
+                  <h4 className="text-sm font-bold text-slate-900 dark:text-white">Criador de Pedidos</h4>
+                  <p className="text-[10px] text-slate-500">Organize suas vendas</p>
+                </div>
+              </Link>
+              <Link href="/ferramentas/editor-pdf-online" className="flex items-center gap-3 p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl hover:border-amber-500 transition-all group shadow-sm">
+                <div className="bg-amber-100 dark:bg-amber-900/30 p-2 rounded-xl group-hover:bg-amber-500 group-hover:text-white transition-colors">
+                  <FileText size={20} className="text-amber-600 group-hover:text-white" />
+                </div>
+                <div>
+                  <h4 className="text-sm font-bold text-slate-900 dark:text-white">Editor de PDF</h4>
+                  <p className="text-[10px] text-slate-500">Assine documentos online</p>
+                </div>
+              </Link>
+           </div>
+           
            <div className="mt-8 print:hidden max-w-5xl mx-auto"><DisclaimerBox /></div>
         </section>
 
         {/* ANÚNCIO MEIO */}
         <div className="w-full max-w-4xl mx-auto flex justify-center my-6 print:hidden min-h-[250px]">
-            <AdUnit slot="declaracao_mid" format="auto" />
+            <LazyAdUnit slot="declaracao_mid" format="auto" />
         </div>
 
         {/* --- CONTEÚDO PROFUNDO (DEEP CONTENT) --- */}
@@ -214,8 +261,8 @@ export default function ContentDeclarationPage() {
             </p>
 
             {/* TABELA COMPARATIVA */}
-            <div className="not-prose my-8 overflow-hidden border rounded-xl border-slate-200 dark:border-slate-800 shadow-sm bg-white dark:bg-slate-900">
-                <table className="w-full text-sm text-left">
+            <div className="not-prose my-8 overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm bg-white dark:bg-slate-900">
+                <table className="w-full text-sm text-left min-w-[600px]">
                     <thead className="bg-slate-900 dark:bg-slate-950 text-white">
                         <tr>
                             <th className="px-6 py-4 font-bold border-b border-slate-700 w-1/3">Cenário</th>
@@ -396,9 +443,11 @@ export default function ContentDeclarationPage() {
 
         </div>
 
+        <SmartCrossLinker currentHref="/ferramentas/declaracao-conteudo" category="ferramentas" />
+        
         {/* ANÚNCIO FINAL */}
         <div className="w-full flex justify-center my-8 print:hidden min-h-[250px]">
-            <AdUnit slot="declaracao_bottom" format="horizontal" variant="software" />
+            <LazyAdUnit slot="declaracao_bottom" format="horizontal" variant="software" />
         </div>
 
       </div>

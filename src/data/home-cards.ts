@@ -18,7 +18,8 @@ import {
   Wrench,
   Home,
   CreditCard,
-  BarChart3
+  BarChart3,
+  MoonStar
 } from "lucide-react";
 
 export interface FeatureCardData {
@@ -262,6 +263,14 @@ export const toolsCards: FeatureCardData[] = [
     title: "Gerador de Pix",
     desc: "Crie QR Code Pix com valor fixo e código Copia e Cola para cobranças.",
     icon: Zap,
+    highlight: true,
+    theme: "violet"
+  },
+  {
+    href: "/ferramentas/fases-da-lua",
+    title: "Calendário Lunar 2026",
+    desc: "Acompanhe as fases da lua, eclipses e influências nas marés e agricultura.",
+    icon: MoonStar,
     highlight: true,
     theme: "violet"
   },

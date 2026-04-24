@@ -8,9 +8,10 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { 
-  TrendingUp, DollarSign, Coins, CalendarClock, Percent, 
-  Share2, Printer, History, Code2, CheckCircle2, Link as LinkIcon, X
+  Share2, Printer, History, Code2, CheckCircle2, Link as LinkIcon, X,
+  TrendingUp, DollarSign, Coins, Percent, CalendarClock
 } from "lucide-react";
+import { trackEvent } from "@/lib/analytics";
 
 // --- TIPAGEM ---
 type HistoricoJuros = {
@@ -160,6 +161,7 @@ export default function CompoundInterestCalculator() {
     };
 
     setResultado(novoResultado);
+    trackEvent("calculate_juros", { total: totalFinal, taxa: pTaxa, tempo: pTempo });
     if (!isIframe) salvarHistorico(novoResultado);
   };
 
@@ -199,11 +201,14 @@ export default function CompoundInterestCalculator() {
     }
 
     navigator.clipboard.writeText(url);
+    if (type === "result") trackEvent("share_juros_result");
+    else trackEvent("share_juros_tool");
     setCopiado(type === "result" ? "result" : "link");
     setTimeout(() => setCopiado(null), 2000);
   };
 
   const handlePrint = () => {
+    trackEvent("print_juros");
     if (reactToPrintFn) reactToPrintFn();
   };
 

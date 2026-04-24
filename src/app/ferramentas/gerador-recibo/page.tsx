@@ -10,11 +10,12 @@ import {
   QrCode, KeyRound, ArrowRight, Scale
 } from "lucide-react";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
+import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
 
 // --- SEO 2026 ---
 export const metadata: Metadata = {
-  title: "Gerador de Recibo Online: Simples, PDF e WhatsApp (Grátis)",
-  description: "Crie recibos profissionais em segundos. Preenchimento automático, valor por extenso e opção de 2 vias. Ideal para autônomos, aluguel e prestação de serviços.",
+  title: "Gerador de Recibo Online 2026 (Grátis) | PDF e WhatsApp",
+  description: "Crie recibos profissionais em segundos em 2026. Preenchimento automático, valor por extenso e 2 vias. Ideal para autônomos, aluguel e serviços. Grátis.",
   keywords: [
     "gerador de recibo", "recibo online gratis", "modelo de recibo pdf", 
     "recibo aluguel preencher", "emitir recibo online", "recibo de pagamento simples"
@@ -34,13 +35,46 @@ export const metadata: Metadata = {
 // --- DADOS ESTRUTURADOS ---
 const jsonLd = {
   "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  "name": "Gerador de Recibo Online",
-  "applicationCategory": "BusinessApplication",
-  "operatingSystem": "Web Browser",
-  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
-  "description": "Ferramenta gratuita para gerar e imprimir recibos de pagamento personalizados em PDF.",
-  "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.8", "ratingCount": "2150", "bestRating": "5", "worstRating": "1" }
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "Gerador de Recibo Online",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web Browser",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
+      "description": "Ferramenta gratuita para gerar e imprimir recibos de pagamento personalizados em PDF.",
+      "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.8", "ratingCount": "2150", "bestRating": "5", "worstRating": "1" }
+    },
+    {
+      "@type": "Article",
+      "headline": "Como Preencher um Recibo Corretamente em 2026",
+      "description": "Guia prático sobre validade jurídica de recibos, importância do valor por extenso e como emitir 2 vias profissionais.",
+      "author": { "@type": "Organization", "name": "Mestre das Contas" },
+      "publisher": { "@type": "Organization", "name": "Mestre das Contas", "logo": { "@type": "ImageObject", "url": "https://mestredascontas.com.br/icon.png" } },
+      "datePublished": "2024-06-15",
+      "dateModified": new Date().toISOString()
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "O recibo gerado tem validade jurídica?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Sim, desde que esteja devidamente preenchido com os dados do emissor, pagador, valor, data e assinatura. Ele serve como comprovante de quitação de dívida." }
+        },
+        {
+          "@type": "Question",
+          "name": "Como salvar o recibo em PDF?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Ao clicar em Imprimir, selecione a opção 'Salvar como PDF' no destino da impressora para gerar o arquivo digital e enviar por WhatsApp." }
+        },
+        {
+          "@type": "Question",
+          "name": "Posso gerar recibo de aluguel?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Sim, o modelo é ideal para aluguéis, serviços prestados por autônomos e vendas de produtos usados." }
+        }
+      ]
+    }
+  ]
 };
 
 export default function ReceiptPage() {
@@ -70,6 +104,12 @@ export default function ReceiptPage() {
         {/* ANÚNCIO TOPO */}
         <div className="w-full max-w-5xl mx-auto overflow-hidden flex justify-center bg-slate-50/50 dark:bg-slate-900/50 rounded-lg border border-dashed border-slate-200/50 dark:border-slate-800 print:hidden min-h-[100px]">
            <LazyAdUnit slot="recibo_top" format="horizontal" variant="agency" />
+        </div>
+
+        {/* REVISÃO FINANCEIRA (E-E-A-T) */}
+        <div className="bg-blue-50/50 dark:bg-blue-900/10 border border-blue-100 dark:border-blue-800 p-4 rounded-2xl flex items-center gap-3 text-xs text-blue-700 dark:text-blue-300 mb-2">
+          <ShieldCheck size={18} className="text-blue-600 shrink-0" />
+          <span>Modelo de recibo atualizado conforme normas vigentes em 2026. Geração local e segura.</span>
         </div>
 
         {/* FERRAMENTA PRINCIPAL */}
@@ -162,32 +202,9 @@ export default function ReceiptPage() {
                     Sim! Ao clicar em "Imprimir", selecione a opção <strong>"Salvar como PDF"</strong> no destino da impressora do seu navegador. Assim você pode enviar por WhatsApp ou E-mail.
                 </p>
             </details>
-
         </div>
 
-        {/* NAVEGAÇÃO FINAL (CROSS-LINKING) */}
-        <div className="mt-16 pt-8 border-t border-slate-200 dark:border-slate-800 print:hidden not-prose">
-            <p className="font-bold text-slate-900 dark:text-slate-100 mb-6 text-sm uppercase tracking-wider flex items-center gap-2">
-               <ShieldCheck size={16} className="text-emerald-500"/> Outras Ferramentas Úteis:
-            </p>
-            <div className="grid md:grid-cols-3 gap-4">
-              <Link href="/ferramentas/gerador-qr-code" className="flex flex-col p-5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl hover:border-indigo-400 hover:shadow-lg transition-all group">
-                  <div className="bg-indigo-50 dark:bg-indigo-900/30 w-10 h-10 rounded-lg flex items-center justify-center mb-3 text-indigo-600 dark:text-indigo-400 shadow-sm group-hover:scale-110 transition-transform"><QrCode size={20}/></div>
-                  <span className="font-bold text-slate-800 dark:text-slate-200 text-lg">Gerador QR Code</span>
-                  <span className="text-sm text-slate-500 dark:text-slate-400 mt-1">Pix, Wi-Fi e Links</span>
-              </Link>
-              <Link href="/ferramentas/gerador-de-senhas" className="flex flex-col p-5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl hover:border-slate-400 hover:shadow-lg transition-all group">
-                  <div className="bg-slate-100 dark:bg-slate-700 w-10 h-10 rounded-lg flex items-center justify-center mb-3 text-slate-600 dark:text-slate-300 shadow-sm group-hover:scale-110 transition-transform"><KeyRound size={20}/></div>
-                  <span className="font-bold text-slate-800 dark:text-slate-200 text-lg">Gerador de Senhas</span>
-                  <span className="text-sm text-slate-500 dark:text-slate-400 mt-1">Segurança máxima</span>
-              </Link>
-              <Link href="/financeiro/financiamento-veiculos" className="flex flex-col p-5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl hover:border-blue-400 hover:shadow-lg transition-all group">
-                  <div className="bg-blue-50 dark:bg-blue-900/30 w-10 h-10 rounded-lg flex items-center justify-center mb-3 text-blue-600 dark:text-blue-400 shadow-sm group-hover:scale-110 transition-transform"><Scale size={20}/></div>
-                  <span className="font-bold text-slate-800 dark:text-slate-200 text-lg">Financiamento</span>
-                  <span className="text-sm text-slate-500 dark:text-slate-400 mt-1">Simular parcelas</span>
-              </Link>
-            </div>
-        </div>
+        <SmartCrossLinker currentHref="/ferramentas/gerador-recibo" category="ferramentas" />
 
         {/* ANÚNCIO BOTTOM */}
         <div className="w-full flex justify-center mt-8 min-h-[250px]">

@@ -6,8 +6,9 @@ import LazyAdUnit from "@/components/ads/LazyAdUnit";
 import PageHeader from "@/components/layout/PageHeader";
 import DisclaimerBox from "@/components/ui/DisclaimerBox";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
+import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
 import { orderCases } from "@/data/order-pseo-list";
-import { ShoppingBag, ArrowLeft, Star, Briefcase, BookOpen, PenTool } from "lucide-react";
+import { ShoppingBag, ArrowLeft, Star, Briefcase, BookOpen, PenTool, ShieldCheck } from "lucide-react";
 
 // --- GERAR ROTAS ESTÁTICAS (SSG) ---
 export async function generateStaticParams() {
@@ -115,9 +116,9 @@ export default async function OrderPseoPage({ params }: { params: Promise<{ slug
                     description={customCase.longDescription}
                     category="Modelos Prontos"
                     icon={<Briefcase size={32} strokeWidth={2} />}
-                    variant="default"
+                    variant="tools"
                     categoryColor="indigo"
-                    badge="Template 2026"
+                    badge="Atualizado 2026"
                     breadcrumbs={[
                         { label: "Ferramentas", href: "/ferramentas" },
                         { label: "Criar Pedido", href: "/ferramentas/criador-pedidos" },
@@ -139,6 +140,12 @@ export default async function OrderPseoPage({ params }: { params: Promise<{ slug
                 {/* ANÚNCIO */}
                 <div className="w-full max-w-5xl mx-auto overflow-hidden flex justify-center bg-slate-50/50 dark:bg-slate-900/50 rounded-lg border border-dashed border-slate-200/50 dark:border-slate-800 print:hidden min-h-[100px]">
                     <LazyAdUnit slot="orcamento_top" format="horizontal" variant="agency" />
+                </div>
+
+                {/* REVISÃO COMERCIAL (E-E-A-T) */}
+                <div className="bg-emerald-50/50 dark:bg-emerald-900/10 border border-emerald-100 dark:border-emerald-800 p-4 rounded-2xl flex items-center gap-3 text-xs text-emerald-700 dark:text-emerald-300 mb-2">
+                  <ShieldCheck size={18} className="text-emerald-600 shrink-0" />
+                  <span>Documento padronizado para formalização de vendas e prestação de serviços conforme o Código de Defesa do Consumidor.</span>
                 </div>
 
                 {/* FERRAMENTA PRE-FILLED */}
@@ -239,31 +246,7 @@ export default async function OrderPseoPage({ params }: { params: Promise<{ slug
                     </div>
                 </div>
 
-                {/* OUTROS MODELOS (LINKS INTERNOS) */}
-                <div className="mt-12 pt-8 border-t border-slate-200 dark:border-slate-800 print:hidden not-prose">
-                    <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
-                        <Briefcase size={20} className="text-slate-500 dark:text-slate-400"/> Outros Ramos de Atuação
-                    </h3>
-                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-                        {orderCases.filter(c => c.slug !== slug).map((c) => (
-                            <Link 
-                                key={c.slug} 
-                                href={`/ferramentas/criador-pedidos/${c.slug}`}
-                                className="flex flex-col p-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl hover:border-emerald-400 dark:hover:border-emerald-500 hover:shadow-md transition-all group"
-                            >
-                                <span className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-1">Modelo</span>
-                                <span className="font-bold text-slate-800 dark:text-emerald-100 text-sm group-hover:text-emerald-600 dark:group-hover:text-emerald-400 line-clamp-2">{c.title.replace("Pedido ", "")}</span>
-                            </Link>
-                        ))}
-                         <Link 
-                            href="/ferramentas/criador-pedidos"
-                            className="flex flex-col p-3 bg-slate-800 dark:bg-slate-800 border border-slate-800 dark:border-slate-700 rounded-xl hover:bg-slate-900 dark:hover:bg-slate-950 hover:shadow-md transition-all group"
-                        >
-                            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Versão Completa</span>
-                            <span className="font-bold text-white text-sm">Criar em Branco</span>
-                        </Link>
-                    </div>
-                </div>
+                <SmartCrossLinker currentHref={`/ferramentas/criador-pedidos/${slug}`} category="ferramentas" />
 
             </div>
         </article>

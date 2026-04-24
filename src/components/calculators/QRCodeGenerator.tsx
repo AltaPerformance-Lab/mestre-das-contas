@@ -14,6 +14,7 @@ import {
   QrCode, Download, Settings2, Link as LinkIcon, 
   Type, Wifi, Palette, Image as ImageIcon, Mail, MessageCircle, Contact, Printer, DollarSign, MoveRight
 } from "lucide-react";
+import { trackEvent } from "@/lib/analytics";
 
 type QRLevel = "L" | "M" | "Q" | "H";
 
@@ -174,6 +175,7 @@ export default function QRCodeGenerator({ initialType, initialValues }: QRCodeGe
   const handlePrint = useReactToPrint({
     contentRef: printRef,
     documentTitle: "QRCode_MestreDasContas",
+    onAfterPrint: () => trackEvent("print_qrcode", { type: activeTab }),
     pageStyle: `@page { size: A4 portrait; margin: 0; } @media print { body, html { height: 100%; margin: 0; } .print-page { display: flex !important; flex-direction: column; align-items: center; justify-content: center; height: 100vh; width: 100%; padding: 20px; } .print-moldura { page-break-inside: avoid; } }`
   });
 
@@ -196,6 +198,7 @@ export default function QRCodeGenerator({ initialType, initialValues }: QRCodeGe
             const link = document.createElement("a");
             link.download = `qrcode-${activeTab}.png`;
             link.href = url;
+            trackEvent("download_qrcode", { type: activeTab, format: "png" });
             link.click();
         }
     } else {
@@ -207,6 +210,7 @@ export default function QRCodeGenerator({ initialType, initialValues }: QRCodeGe
             const link = document.createElement("a");
             link.download = `qrcode-${activeTab}.svg`;
             link.href = url;
+            trackEvent("download_qrcode", { type: activeTab, format: "svg" });
             link.click();
         }
     }
@@ -230,7 +234,11 @@ export default function QRCodeGenerator({ initialType, initialValues }: QRCodeGe
           </CardHeader>
           <CardContent className="p-4 sm:p-6 space-y-6">
             
-            <Tabs value={activeTab} onValueChange={(val) => { setActiveTab(val); if(val !== 'pix') setQrValue(""); }} className="w-full">
+            <Tabs value={activeTab} onValueChange={(val) => { 
+                setActiveTab(val); 
+                if(val !== 'pix') setQrValue(""); 
+                trackEvent("generate_qrcode", { type: val });
+            }} className="w-full">
               
               {/* UX MOBILE: Abas Deslizantes */}
               <div className="relative">

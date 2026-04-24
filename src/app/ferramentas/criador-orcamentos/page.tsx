@@ -10,6 +10,7 @@ import {
   TrendingUp, AlertTriangle, PenTool
 } from "lucide-react";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
+import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
 
 // --- SEO 2026 ---
 export const metadata: Metadata = {
@@ -30,37 +31,48 @@ export const metadata: Metadata = {
   },
 };
 
-// --- DADOS ESTRUTURADOS (Software + Reviews) ---
+// --- DADOS ESTRUTURADOS ---
 const jsonLd = {
   "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  "name": "Criador de Orçamento Online Profissional",
-  "applicationCategory": "BusinessApplication",
-  "operatingSystem": "Web Browser, Android, iOS",
-  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
-  "description": "Ferramenta completa para criação de orçamentos em PDF com gestão de itens, descontos e logotipo.",
-  "featureList": "Gerar PDF, Adicionar Logo, Calcular Descontos, Termos Personalizáveis, Impressão A4",
-  "aggregateRating": { 
-      "@type": "AggregateRating", 
-      "ratingValue": "4.9", 
-      "ratingCount": "3420", 
-      "bestRating": "5", 
-      "worstRating": "1" 
-  },
-  "review": [
+  "@graph": [
     {
-      "@type": "Review",
-      "author": { "@type": "Person", "name": "Ricardo Mendes" },
-      "datePublished": "2026-01-15",
-      "reviewBody": "Ferramenta excelente! Consigo colocar minha logo e gerar o PDF na hora para enviar no WhatsApp do cliente.",
-      "reviewRating": { "@type": "Rating", "ratingValue": "5" }
+      "@type": "SoftwareApplication",
+      "name": "Criador de Orçamento Online Profissional",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web Browser, Android, iOS",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
+      "description": "Ferramenta completa para criação de orçamentos em PDF com gestão de itens, descontos e logotipo.",
+      "featureList": "Gerar PDF, Adicionar Logo, Calcular Descontos, Termos Personalizáveis, Impressão A4",
+      "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.9", "ratingCount": "3420", "bestRating": "5", "worstRating": "1" }
     },
     {
-      "@type": "Review",
-      "author": { "@type": "Person", "name": "Ana Paula Design" },
-      "datePublished": "2026-01-10",
-      "reviewBody": "Muito prático. A opção de desconto e selecionar Pix facilitou muito meu dia a dia.",
-      "reviewRating": { "@type": "Rating", "ratingValue": "5" }
+      "@type": "Article",
+      "headline": "Como Criar um Orçamento Irresistível para seus Clientes",
+      "description": "Descubra como estruturar uma proposta comercial profissional, usar gatilhos mentais de escassez e transmitir confiança com sua marca.",
+      "author": { "@type": "Organization", "name": "Mestre das Contas" },
+      "publisher": { "@type": "Organization", "name": "Mestre das Contas", "logo": { "@type": "ImageObject", "url": "https://mestredascontas.com.br/icon.png" } },
+      "datePublished": "2024-05-20",
+      "dateModified": new Date().toISOString()
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Como enviar o orçamento pelo WhatsApp?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Após clicar em 'Salvar PDF', o arquivo será baixado no seu dispositivo. Basta abrir o WhatsApp, selecionar o contato e anexar o documento baixado." }
+        },
+        {
+          "@type": "Question",
+          "name": "Posso colocar minha própria logo no orçamento?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Sim! O criador permite o upload de imagens nos formatos PNG ou JPG para que seu orçamento seja 100% personalizado com sua identidade visual." }
+        },
+        {
+          "@type": "Question",
+          "name": "A ferramenta de orçamento é gratuita?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Sim, é totalmente gratuita e ilimitada. Você pode gerar quantos orçamentos precisar sem pagar nada e sem precisar de cadastro." }
+        }
+      ]
     }
   ]
 };
@@ -270,29 +282,7 @@ export default function BudgetPage() {
 
         </div>
 
-        {/* NAVEGAÇÃO FINAL */}
-        <div className="mt-16 pt-8 border-t border-slate-200 dark:border-slate-800 print:hidden not-prose">
-            <p className="font-bold text-slate-900 dark:text-slate-100 mb-6 text-sm uppercase tracking-wider flex items-center gap-2">
-               <ShieldCheck size={16} className="text-indigo-500"/> Ferramentas que você pode gostar:
-            </p>
-            <div className="grid md:grid-cols-3 gap-4">
-              <Link href="/ferramentas/gerador-recibo" className="flex flex-col p-5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl hover:border-indigo-400 hover:shadow-lg transition-all group">
-                  <div className="bg-indigo-50 dark:bg-indigo-900/30 w-10 h-10 rounded-lg flex items-center justify-center mb-3 text-indigo-600 dark:text-indigo-400 shadow-sm group-hover:scale-110 transition-transform"><FileText size={20}/></div>
-                  <span className="font-bold text-slate-800 dark:text-slate-200 text-lg">Gerador de Recibo</span>
-                  <span className="text-sm text-slate-500 dark:text-slate-400 mt-1">Emitir recibo simples</span>
-              </Link>
-              <Link href="/financeiro/calculadora-mei" className="flex flex-col p-5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl hover:border-green-400 hover:shadow-lg transition-all group">
-                  <div className="bg-green-50 dark:bg-green-900/30 w-10 h-10 rounded-lg flex items-center justify-center mb-3 text-green-600 dark:text-green-400 shadow-sm group-hover:scale-110 transition-transform"><Calculator size={20}/></div>
-                  <span className="font-bold text-slate-800 dark:text-slate-200 text-lg">Calculadora MEI</span>
-                  <span className="text-sm text-slate-500 dark:text-slate-400 mt-1">Calcular faturamento</span>
-              </Link>
-              <Link href="/ferramentas/gerador-qr-code" className="flex flex-col p-5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl hover:border-purple-400 hover:shadow-lg transition-all group">
-                  <div className="bg-purple-50 dark:bg-purple-900/30 w-10 h-10 rounded-lg flex items-center justify-center mb-3 text-purple-600 dark:text-purple-400 shadow-sm group-hover:scale-110 transition-transform"><Zap size={20}/></div>
-                  <span className="font-bold text-slate-800 dark:text-slate-200 text-lg">Gerador QR Code</span>
-                  <span className="text-sm text-slate-500 dark:text-slate-400 mt-1">Criar QR Code Pix e Wi-Fi</span>
-              </Link>
-            </div>
-        </div>
+        <SmartCrossLinker currentHref="/ferramentas/criador-orcamentos" category="ferramentas" />
 
         {/* ANÚNCIO BOTTOM */}
         <div className="w-full flex justify-center mt-8 min-h-[250px]">

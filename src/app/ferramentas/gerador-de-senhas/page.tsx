@@ -4,6 +4,7 @@ import PasswordGenerator from "@/components/tools/PasswordGenerator";
 import LazyAdUnit from "@/components/ads/LazyAdUnit";
 import DisclaimerBox from "@/components/ui/DisclaimerBox";
 import PageHeader from "@/components/layout/PageHeader";
+import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
 import { 
   Lock, Shield, Key, RefreshCcw, 
   HelpCircle, CheckCircle2, ShieldAlert,
@@ -15,8 +16,8 @@ import PrivacyBadge from "@/components/ui/PrivacyBadge";
 
 // --- METADATA DE ALTA PERFORMANCE (SEO) ---
 export const metadata: Metadata = {
-  title: "Gerador de Senhas Fortes: Criar Senha Segura (Aleatória)",
-  description: "Proteja suas contas hoje. Gere senhas aleatórias de alta entropia, personalizadas e 100% seguras (processamento local). Guia completo de cibersegurança.",
+  title: "Gerador de Senhas Fortes 2026 (Grátis) | Criar Senha Segura",
+  description: "Proteja suas contas em 2026. Gere senhas aleatórias de alta entropia, personalizadas e 100% seguras (processamento local). Guia de cibersegurança atualizado.",
   keywords: [
     "gerador de senhas", 
     "senha forte", 
@@ -107,6 +108,12 @@ export default function GeradorSenhasPage() {
         {/* ANÚNCIO TOPO */}
         <div className="w-full max-w-5xl mx-auto overflow-hidden flex justify-center bg-slate-50/50 dark:bg-slate-900/50 rounded-lg border border-dashed border-slate-200/50 dark:border-slate-800 print:hidden min-h-[100px]">
            <LazyAdUnit slot="pass_top" format="horizontal" variant="agency" />
+        </div>
+
+        {/* PRIVACIDADE E SEGURANÇA (E-E-A-T) */}
+        <div className="bg-emerald-50/50 dark:bg-emerald-900/10 border border-emerald-100 dark:border-emerald-800 p-4 rounded-2xl flex items-center gap-3 text-xs text-emerald-700 dark:text-emerald-300 mb-2">
+          <ShieldCheck size={18} className="text-emerald-600 shrink-0" />
+          <span>Criptografia de Nível Militar: As senhas são geradas localmente em 2026 e nunca são enviadas ou armazenadas por nós.</span>
         </div>
 
         {/* FERRAMENTA PRINCIPAL */}
@@ -260,6 +267,8 @@ export default function GeradorSenhasPage() {
               ))}
             </div>
         </section>
+
+        <SmartCrossLinker currentHref="/ferramentas/gerador-de-senhas" category="ferramentas" />
 
         {/* --- ANÚNCIO BOTTOM --- */}
         <div className="w-full flex justify-center my-8 print:hidden min-h-[250px]">

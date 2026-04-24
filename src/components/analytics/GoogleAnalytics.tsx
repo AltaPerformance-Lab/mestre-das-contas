@@ -21,39 +21,65 @@ export default function GoogleAnalytics() {
             if (preferences.analytics) hasConsent = true;
         }
 
-        if (hasConsent) {
-            setConsent(true);
-            
-            // Configurar GA com performance otimizada e privacidade
-            if (typeof window !== 'undefined' && (window as any).gtag && GA_MEASUREMENT_ID) {
-                (window as any).gtag('config', GA_MEASUREMENT_ID, {
-                    page_path: window.location.pathname,
-                    send_page_view: true,
-                    anonymize_ip: true, // LGPD compliance
-                    cookie_flags: 'SameSite=None;Secure', // Segurança
+        if (typeof window !== 'undefined' && window.gtag) {
+            if (hasConsent) {
+                // Atualiza o consentimento para concedido
+                window.gtag('consent', 'update', {
+                    'analytics_storage': 'granted'
+                });
+                
+                // Configurações adicionais
+                if (GA_MEASUREMENT_ID) {
+                    window.gtag('config', GA_MEASUREMENT_ID, {
+                        page_path: window.location.pathname,
+                        anonymize_ip: true,
+                        cookie_flags: 'SameSite=None;Secure',
+                    });
+                }
+            } else {
+                // Atualiza para negado
+                window.gtag('consent', 'update', {
+                    'analytics_storage': 'denied'
                 });
             }
-        } else {
-          setConsent(false);
         }
     };
 
-    // Verifica ao montar
-    checkConsent();
+    // Dá um pequeno tempo para o script do GA carregar
+    const timer = setTimeout(checkConsent, 500);
 
     // 2. Ouve atualizações em tempo real
     window.addEventListener("consent_updated", checkConsent);
     window.addEventListener("storage", checkConsent);
 
     return () => {
+        clearTimeout(timer);
         window.removeEventListener("consent_updated", checkConsent);
         window.removeEventListener("storage", checkConsent);
     };
   }, [GA_MEASUREMENT_ID]);
 
-  // Se não tiver ID ou não tiver consentimento, não renderiza nada
-  if (!GA_MEASUREMENT_ID || !consent) return null;
+  if (!GA_MEASUREMENT_ID) return null;
 
-  // Retorna o componente oficial do Next.js agora que temos permissão
-  return <GoogleAnalyticsScript gaId={GA_MEASUREMENT_ID} />;
+  return (
+    <>
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('consent', 'default', {
+              'analytics_storage': 'denied',
+              'ad_storage': 'denied',
+              'ad_user_data': 'denied',
+              'ad_personalization': 'denied',
+              'wait_for_update': 500
+            });
+            gtag('set', 'url_passthrough', true);
+          `,
+        }}
+      />
+      <GoogleAnalyticsScript gaId={GA_MEASUREMENT_ID} />
+    </>
+  );
 }

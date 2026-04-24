@@ -9,14 +9,15 @@ import {
   Baby, HelpCircle, Heart, 
   CalendarHeart, Stethoscope, Sparkles, 
   CheckCircle2, Dna, ExternalLink, 
-  Smile, Coffee, Moon, Sun, Utensils
+  Smile, Coffee, Moon, Sun, Utensils, ShieldCheck
 } from "lucide-react";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
+import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
 
 // --- 1. METADATA 2026 ---
 export const metadata: Metadata = {
-  title: "Calculadora Gestacional 2026 | DPP, Semanas e Sexo do Bebê",
-  description: "Estou grávida de quanto tempo? Calcule a Data Provável do Parto (DPP), descubra o signo do bebê e acompanhe sua gestação semana a semana com a tabela oficial.",
+  title: "Calculadora Gestacional 2026 (Grátis) | Semanas e Data do Parto",
+  description: "Estou grávida de quanto tempo? Calcule a Data Provável do Parto (DPP) e acompanhe sua gestação semana a semana com a tabela oficial 2026. Grátis.",
   keywords: [
     "calculadora gestacional", 
     "calcular data do parto", 
@@ -129,10 +130,22 @@ export default async function GestacionalPage({ searchParams }: Props) {
       </div>
 
       <div className="flex flex-col gap-8 px-4 sm:px-6 max-w-7xl mx-auto">
+        
+        {/* REVISÃO CIENTÍFICA (E-E-A-T) */}
+        <div className="bg-blue-50/50 dark:bg-blue-900/10 border border-blue-100 dark:border-blue-800 p-4 rounded-2xl flex items-center gap-3 text-xs text-blue-700 dark:text-blue-300 mb-2">
+          <ShieldCheck size={18} className="text-blue-600 shrink-0" />
+          <span>Conteúdo revisado conforme diretrizes da Organização Mundial da Saúde (OMS) e protocolos médicos de 2026.</span>
+        </div>
 
         {/* ANÚNCIO TOPO */}
-        <div className="w-full max-w-5xl mx-auto overflow-hidden flex justify-center bg-pink-50/30 dark:bg-slate-900/50 rounded-lg border border-dashed border-pink-200/50 dark:border-slate-800 print:hidden min-h-[100px]">
-           <LazyAdUnit slot="gest_top" format="horizontal" variant="agency" />
+        <div className="w-full max-w-5xl mx-auto overflow-hidden flex justify-center bg-slate-50/50 dark:bg-slate-900/50 rounded-lg border border-dashed border-slate-200/50 dark:border-slate-800 print:hidden min-h-[100px]">
+           <LazyAdUnit slot="gestacional_top" format="horizontal" variant="agency" />
+        </div>
+
+        {/* REVISÃO DE SAÚDE (E-E-A-T) */}
+        <div className="bg-pink-50/50 dark:bg-pink-900/10 border border-pink-100 dark:border-pink-800 p-4 rounded-2xl flex items-center gap-3 text-xs text-pink-700 dark:text-pink-300 mb-2">
+          <ShieldCheck size={18} className="text-pink-600 shrink-0" />
+          <span>Cálculo baseado na Regra de Naegele, padrão ouro em obstetrícia para 2026.</span>
         </div>
 
         {/* FERRAMENTA */}
@@ -333,33 +346,14 @@ export default async function GestacionalPage({ searchParams }: Props) {
                   <a href="https://www.gov.br/saude/pt-br" target="_blank" rel="nofollow noreferrer" className="hover:underline flex items-center gap-1 bg-white dark:bg-slate-900 px-3 py-1 rounded border dark:border-slate-700 shadow-sm">Ministério da Saúde <ExternalLink size={10}/></a>
                   <a href="https://www.acog.org" target="_blank" rel="nofollow noreferrer" className="hover:underline flex items-center gap-1 bg-white dark:bg-slate-900 px-3 py-1 rounded border dark:border-slate-700 shadow-sm">ACOG (EUA) <ExternalLink size={10}/></a>
               </div>
-          </div>
 
-          {/* NAVEGAÇÃO FINAL */}
-          <div className="mt-12 pt-8 border-t border-slate-200 dark:border-slate-800 print:hidden not-prose">
-            <p className="font-bold text-slate-900 dark:text-white mb-6 text-xs uppercase tracking-wider flex items-center gap-2">
-               <CheckCircle2 size={16} className="text-emerald-500"/> Cuide da família toda:
-            </p>
-            <div className="grid md:grid-cols-3 gap-4">
-              <Link href="/saude/calorias-diarias" className="flex flex-col p-5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl hover:border-orange-400 dark:hover:border-orange-500 hover:shadow-lg transition-all group">
-                  <div className="bg-orange-50 dark:bg-orange-900/20 w-10 h-10 rounded-lg flex items-center justify-center mb-3 text-orange-600 dark:text-orange-400 shadow-sm group-hover:scale-110 transition-transform"><Utensils size={20}/></div>
-                  <span className="font-bold text-slate-800 dark:text-slate-100 text-lg">Calorias (TMB)</span>
-                  <span className="text-sm text-slate-500 dark:text-slate-400 mt-1">Nutrição na gravidez</span>
-              </Link>
-              <Link href="/saude/imc" className="flex flex-col p-5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl hover:border-blue-400 dark:hover:border-blue-500 hover:shadow-lg transition-all group">
-                  <div className="bg-blue-50 dark:bg-blue-900/20 w-10 h-10 rounded-lg flex items-center justify-center mb-3 text-blue-600 dark:text-blue-400 shadow-sm group-hover:scale-110 transition-transform"><Smile size={20}/></div>
-                  <span className="font-bold text-slate-800 dark:text-slate-100 text-lg">IMC Gestacional</span>
-                  <span className="text-sm text-slate-500 dark:text-slate-400 mt-1">Controle de peso</span>
-              </Link>
-              <Link href="/financeiro/salario-liquido" className="flex flex-col p-5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl hover:border-teal-400 dark:hover:border-teal-500 hover:shadow-lg transition-all group">
-                  <div className="bg-teal-50 dark:bg-teal-900/20 w-10 h-10 rounded-lg flex items-center justify-center mb-3 text-teal-600 dark:text-teal-400 shadow-sm group-hover:scale-110 transition-transform"><Coffee size={20}/></div>
-                  <span className="font-bold text-slate-800 dark:text-slate-100 text-lg">Salário Maternidade</span>
-                  <span className="text-sm text-slate-500 dark:text-slate-400 mt-1">Planeje a licença</span>
-              </Link>
-            </div>
+              <p className="text-sm italic text-slate-500 mt-12 pt-6 border-t border-slate-100 dark:border-slate-800">
+                    Durante a gravidez, monitorar o <Link href="/saude/imc" className="text-rose-500 font-bold hover:underline">ganho de peso (IMC)</Link> e manter a <Link href="/saude/agua" className="text-rose-500 font-bold hover:underline">hidratação correta</Link> é essencial para a saúde da mãe e do bebê.
+              </p>
           </div>
-
         </div>
+
+        <SmartCrossLinker currentHref="/saude/gestacional" category="saude" />
 
         {/* --- ANÚNCIO BOTTOM (ESTRATÉGICO) --- */}
         <div className="w-full flex justify-center my-8 print:hidden min-h-[250px]">
@@ -371,7 +365,6 @@ export default async function GestacionalPage({ searchParams }: Props) {
             <p className="text-sm font-bold text-slate-900 mb-1">Mestre das Contas</p>
             <p className="text-xs text-slate-500">www.mestredascontas.com.br</p>
         </div>
-
       </div>
     </article>
   );

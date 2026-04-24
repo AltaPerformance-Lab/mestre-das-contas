@@ -12,7 +12,7 @@ import {
   Landmark, AlertOctagon, Link as LinkIcon, ExternalLink
 } from "lucide-react";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
-import RelatedTools from "@/components/ui/RelatedTools";
+import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
 
 // --- 1. METADATA DE DOMINAÇÃO (SEO 2026) ---
 // --- 1. METADATA DINÂMICA (SEO MAXIMIZADO) ---
@@ -20,13 +20,13 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
   const resolvedParams = await searchParams;
   const salarioRaw = resolvedParams.salario as string;
   
-  let title = "Seguro-Desemprego 2026: Valor e Parcelas (Regra Nova)";
-  let description = "Foi demitido? Veja quanto você vai receber e quantas parcelas. Cálculo atualizado com o novo teto 2026 e regras de carência. Simule Grátis.";
+  let title = "Calculadora de Seguro-Desemprego 2026 (Grátis) | Valor e Parcelas";
+  let description = "Foi demitido em 2026? Veja quanto você vai receber e quantas parcelas em 10 segundos. Cálculo com novo teto 2026 e regras de carência. Simulador Grátis.";
 
   if (salarioRaw) {
     const valorFormatado = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(Number(salarioRaw));
-    title = `Cálculo de Seguro-Desemprego: Média de ${valorFormatado} - Calculadora 2026`;
-    description = `Veja quanto você vai receber de Seguro-Desemprego com uma média salarial de ${valorFormatado}. Simule o valor e a quantidade de parcelas.`;
+    title = `Cálculo de Seguro-Desemprego: Salário de ${valorFormatado} (2026)`;
+    description = `Ganhando ${valorFormatado}, quanto recebo de Seguro-Desemprego? Veja o valor exato e a quantidade de parcelas. Cálculo grátis e online.`;
   }
 
   return {
@@ -192,6 +192,12 @@ export default async function SeguroPage({ searchParams }: Props) {
       </div>
 
       <div className="flex flex-col gap-8 px-4 sm:px-6 max-w-7xl mx-auto">
+        
+        {/* REVISÃO LEGAL (E-E-A-T) */}
+        <div className="bg-blue-50/50 dark:bg-blue-900/10 border border-blue-100 dark:border-blue-800 p-4 rounded-2xl flex items-center gap-3 text-xs text-blue-700 dark:text-blue-300 mb-2">
+          <ShieldCheck size={18} className="text-blue-600 shrink-0" />
+          <span>Informações baseadas na Consolidação das Leis do Trabalho (CLT) e atualizações vigentes em 2026.</span>
+        </div>
 
         {/* ALERTA DE PRAZO CRÍTICO */}
         <div className="bg-amber-50 dark:bg-amber-900/10 border border-amber-200 dark:border-amber-900/30 rounded-xl p-4 flex gap-3 items-start text-left shadow-sm max-w-3xl mx-auto w-full">
@@ -205,8 +211,14 @@ export default async function SeguroPage({ searchParams }: Props) {
         </div>
 
         {/* ANÚNCIO TOPO */}
-        <div className="w-full max-w-5xl mx-auto overflow-hidden flex justify-center bg-slate-50/50 dark:bg-slate-900/50 rounded-lg border border-dashed border-slate-200/50 dark:border-slate-800/50 print:hidden min-h-[100px]">
+        <div className="w-full max-w-5xl mx-auto overflow-hidden flex justify-center bg-slate-50/50 dark:bg-slate-900/50 rounded-lg border border-dashed border-slate-200/50 dark:border-slate-800 print:hidden min-h-[100px]">
            <LazyAdUnit slot="seguro_top" format="horizontal" variant="agency" />
+        </div>
+
+        {/* REVISÃO TRABALHISTA (E-E-A-T) */}
+        <div className="bg-blue-50/50 dark:bg-blue-900/10 border border-blue-100 dark:border-blue-800 p-4 rounded-2xl flex items-center gap-3 text-xs text-blue-700 dark:text-blue-300 mb-2">
+          <ShieldCheck size={18} className="text-blue-600 shrink-0" />
+          <span>Simulador atualizado com o novo teto do Seguro-Desemprego e regras de solicitação para 2026.</span>
         </div>
 
         {/* FERRAMENTA */}
@@ -448,10 +460,9 @@ export default async function SeguroPage({ searchParams }: Props) {
                   </a>
               </div>
           </div>
-
-          <RelatedTools currentToolLink="/trabalhista/seguro-desemprego" category="trabalhista" />
-
         </div>
+
+        <SmartCrossLinker currentHref="/trabalhista/seguro-desemprego" category="trabalhista" />
 
         {/* --- ANÚNCIO BOTTOM (ESTRATÉGICO) --- */}
         <div className="w-full flex justify-center my-8 print:hidden min-h-[250px]">

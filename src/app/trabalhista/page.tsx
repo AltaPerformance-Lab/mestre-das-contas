@@ -3,23 +3,24 @@ import Link from "next/link";
 import LazyAdUnit from "@/components/ads/LazyAdUnit";
 import PageHeader from "@/components/layout/PageHeader";
 import { 
-  Briefcase, Calculator, Calendar, Coins, 
-  BookOpen, History, ShieldCheck, HelpCircle, 
-  ArrowRight, Scale, AlertTriangle, Clock, Timer, Gift, Wallet
+  Briefcase, History, BookOpen, 
+  CheckCircle2, Coins, Calculator, 
+  Wallet, FileText, Scale, ArrowRight,
+  TrendingUp, Clock, CalendarDays, Zap, ShieldCheck
 } from "lucide-react";
+import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
 
-// --- METADATA (SEO DE CATEGORIA 2026) ---
+// --- METADATA (SEO 2026) ---
 export const metadata: Metadata = {
-  title: "Cálculos Trabalhistas 2026 | Rescisão, Férias e Horas Extras",
-  description: "Central de cálculos trabalhistas gratuitos. Simule Rescisão CLT, Férias, Décimo Terceiro, Horas Extras e Seguro-Desemprego com as tabelas oficiais de 2026.",
+  title: "Cálculos Trabalhistas CLT 2026 | Rescisão, Férias e 13º Salário",
+  description: "Confira seus direitos trabalhistas em 2026. Simuladores gratuitos de rescisão CLT, férias, 13º salário, seguro-desemprego e horas extras. Tudo atualizado.",
   keywords: [
-    "calculadoras trabalhistas", 
-    "direitos clt", 
-    "simulador rescisão", 
-    "calcular ferias online", 
-    "tabela inss 2026", 
-    "cálculo exato trabalhista",
-    "banco de horas"
+    "cálculos trabalhistas", 
+    "rescisão clt", 
+    "férias proporcionais", 
+    "décimo terceiro salário",
+    "seguro desemprego 2026",
+    "direitos do trabalhador"
   ],
   alternates: {
     canonical: "https://mestredascontas.com.br/trabalhista",
@@ -31,49 +32,22 @@ export const metadata: Metadata = {
     siteName: "Mestre das Contas",
     locale: "pt_BR",
     type: "website",
-    images: [{ url: "https://mestredascontas.com.br/opengraph-image", width: 1200, height: 630, alt: "Cálculos Trabalhistas" }],
   },
 };
 
-// --- SCHEMA.ORG (COLLECTION PAGE) ---
+// --- SCHEMA.ORG (COLLECTION) ---
 const jsonLd = {
   "@context": "https://schema.org",
-  "@graph": [
-    {
-        "@type": "CollectionPage",
-        "name": "Calculadoras Trabalhistas",
-        "description": "Coleção de ferramentas para cálculo de direitos trabalhistas no Brasil.",
-        "url": "https://mestredascontas.com.br/trabalhista",
-        "hasPart": [
-            { "@type": "SoftwareApplication", "name": "Calculadora de Rescisão", "url": "https://mestredascontas.com.br/trabalhista/rescisao" },
-            { "@type": "SoftwareApplication", "name": "Calculadora de Férias", "url": "https://mestredascontas.com.br/trabalhista/ferias" },
-            { "@type": "SoftwareApplication", "name": "Calculadora de 13º Salário", "url": "https://mestredascontas.com.br/trabalhista/decimo-terceiro" },
-            { "@type": "SoftwareApplication", "name": "Calculadora de Horas Extras", "url": "https://mestredascontas.com.br/trabalhista/horas-extras" },
-            { "@type": "SoftwareApplication", "name": "Calculadora de Seguro-Desemprego", "url": "https://mestredascontas.com.br/trabalhista/seguro-desemprego" },
-            { "@type": "SoftwareApplication", "name": "Calculadora de Horas Trabalhadas", "url": "https://mestredascontas.com.br/trabalhista/horas-trabalhadas" }
-        ]
-    },
-    {
-        "@type": "FAQPage",
-        "mainEntity": [
-            {
-                "@type": "Question",
-                "name": "Qual a diferença entre Salário Bruto e Remuneração?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Salário base é o valor fixo contratado. Remuneração é a soma do salário com outras vantagens como comissões, gratificações, horas extras e adicionais. O 13º e as férias são calculados sobre a remuneração (média), e não apenas sobre o salário base."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "O que é o desconto do \"Sistema S\"?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "São contribuições para entidades como SESC, SENAI e SEBRAE. Geralmente, esse custo é da empresa, mas em alguns casos específicos pode haver reflexos. Para o trabalhador CLT padrão, o foco principal é INSS e IRRF."
-                }
-            }
-        ]
-    }
+  "@type": "CollectionPage",
+  "name": "Cálculos Trabalhistas",
+  "description": "Ferramentas para cálculo de benefícios e verbas rescisórias CLT.",
+  "url": "https://mestredascontas.com.br/trabalhista",
+  "hasPart": [
+    { "@type": "SoftwareApplication", "name": "Cálculo de Rescisão", "url": "https://mestredascontas.com.br/trabalhista/rescisao" },
+    { "@type": "SoftwareApplication", "name": "Cálculo de Férias", "url": "https://mestredascontas.com.br/trabalhista/ferias" },
+    { "@type": "SoftwareApplication", "name": "Cálculo de 13º Salário", "url": "https://mestredascontas.com.br/trabalhista/decimo-terceiro" },
+    { "@type": "SoftwareApplication", "name": "Seguro-Desemprego", "url": "https://mestredascontas.com.br/trabalhista/seguro-desemprego" },
+    { "@type": "SoftwareApplication", "name": "Horas Extras", "url": "https://mestredascontas.com.br/trabalhista/horas-extras" }
   ]
 };
 
@@ -86,13 +60,13 @@ export default function TrabalhistaHubPage() {
       {/* --- HERO SECTION --- */}
       <div className="px-4 pt-4 md:pt-6">
         <PageHeader 
-          title="Cálculos Trabalhistas"
-          description="A legislação brasileira é complexa, mas seus cálculos não precisam ser. Escolha uma ferramenta abaixo e descubra exatamente quanto você tem a receber."
-          category="Direitos & Deveres"
-          icon={<Scale size={32} strokeWidth={2} />}
+          title="Direitos Trabalhistas"
+          description="Acesse simuladores precisos e atualizados com a legislação vigente. Proteja seu bolso e entenda cada centavo do seu holerite."
+          category="CLT 2026"
+          icon={<Briefcase size={32} strokeWidth={2} />}
           variant="labor" 
           categoryColor="blue"
-          badge="Atualizado CLT 2026"
+          badge="Atualizado 2026"
           breadcrumbs={[
             { label: "Home", href: "/" },
             { label: "Trabalhista" }
@@ -113,19 +87,19 @@ export default function TrabalhistaHubPage() {
           {/* 1. Rescisão */}
           <Link href="/trabalhista/rescisao" className="group relative overflow-hidden bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full flex flex-col">
             <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-opacity">
-              <Briefcase size={80} className="text-blue-600" />
+              <FileText size={80} className="text-blue-600" />
             </div>
             <div className="p-6 md:p-8 flex-1 flex flex-col">
               <div className="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-600 mb-6 group-hover:scale-110 transition-transform shadow-sm ring-1 ring-blue-100">
-                <Briefcase size={28} strokeWidth={2.5} />
+                <FileText size={28} strokeWidth={2.5} />
               </div>
-              <h2 className="text-xl font-bold text-slate-900 dark:text-slate-100 mb-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">Rescisão de Contrato</h2>
+              <h2 className="text-xl font-bold text-slate-900 dark:text-slate-100 mb-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">Cálculo de Rescisão</h2>
               <p className="text-slate-600 dark:text-slate-400 mb-6 leading-relaxed flex-1 text-sm">
-                Foi demitido ou pediu demissão? Calcule saldo de salário, aviso prévio, férias vencidas e a multa de 40% do FGTS.
+                Simule seu acerto trabalhista completo: saldo de salário, aviso prévio, férias e multa de 40% do FGTS.
               </p>
               <div className="mt-auto">
                 <span className="inline-flex items-center text-sm font-bold text-white bg-blue-600 px-4 py-2 rounded-lg group-hover:bg-blue-700 transition-colors">
-                  Calcular Acerto <ArrowRight size={16} className="ml-2 group-hover:translate-x-1 transition-transform" />
+                  Simular Acerto <ArrowRight size={16} className="ml-2 group-hover:translate-x-1 transition-transform" />
                 </span>
               </div>
             </div>
@@ -134,19 +108,19 @@ export default function TrabalhistaHubPage() {
           {/* 2. Férias */}
           <Link href="/trabalhista/ferias" className="group relative overflow-hidden bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full flex flex-col">
             <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-opacity">
-              <Coins size={80} className="text-amber-500" />
+              <CalendarDays size={80} className="text-indigo-600" />
             </div>
             <div className="p-6 md:p-8 flex-1 flex flex-col">
-              <div className="w-14 h-14 bg-amber-50 rounded-2xl flex items-center justify-center text-amber-600 mb-6 group-hover:scale-110 transition-transform shadow-sm ring-1 ring-amber-100">
-                <Coins size={28} strokeWidth={2.5} />
+              <div className="w-14 h-14 bg-indigo-50 rounded-2xl flex items-center justify-center text-indigo-600 mb-6 group-hover:scale-110 transition-transform shadow-sm ring-1 ring-indigo-100">
+                <CalendarDays size={28} strokeWidth={2.5} />
               </div>
-              <h2 className="text-xl font-bold text-slate-900 dark:text-slate-100 mb-3 group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">Calculadora de Férias</h2>
+              <h2 className="text-xl font-bold text-slate-900 dark:text-slate-100 mb-3 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">Cálculo de Férias</h2>
               <p className="text-slate-600 dark:text-slate-400 mb-6 leading-relaxed flex-1 text-sm">
-                Planeje seu descanso. Veja o valor líquido com 1/3 constitucional, venda de 10 dias (abono) e adiantamento do 13º.
+                Saiba quanto vai receber de férias líquidas com 1/3 constitucional, abono pecuniário e descontos.
               </p>
               <div className="mt-auto">
-                <span className="inline-flex items-center text-sm font-bold text-white bg-amber-500 px-4 py-2 rounded-lg group-hover:bg-amber-600 transition-colors">
-                  Simular Férias <ArrowRight size={16} className="ml-2 group-hover:translate-x-1 transition-transform" />
+                <span className="inline-flex items-center text-sm font-bold text-white bg-indigo-600 px-4 py-2 rounded-lg group-hover:bg-indigo-700 transition-colors">
+                  Calcular Férias <ArrowRight size={16} className="ml-2 group-hover:translate-x-1 transition-transform" />
                 </span>
               </div>
             </div>
@@ -155,185 +129,140 @@ export default function TrabalhistaHubPage() {
           {/* 3. 13º Salário */}
           <Link href="/trabalhista/decimo-terceiro" className="group relative overflow-hidden bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full flex flex-col">
             <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-opacity">
-              <Gift size={80} className="text-green-600" />
+              <Coins size={80} className="text-emerald-600" />
             </div>
             <div className="p-6 md:p-8 flex-1 flex flex-col">
-              <div className="w-14 h-14 bg-green-50 rounded-2xl flex items-center justify-center text-green-600 mb-6 group-hover:scale-110 transition-transform shadow-sm ring-1 ring-green-100">
-                <Gift size={28} strokeWidth={2.5} />
+              <div className="w-14 h-14 bg-emerald-50 rounded-2xl flex items-center justify-center text-emerald-600 mb-6 group-hover:scale-110 transition-transform shadow-sm ring-1 ring-emerald-100">
+                <Coins size={28} strokeWidth={2.5} />
               </div>
-              <h2 className="text-xl font-bold text-slate-900 dark:text-slate-100 mb-3 group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors">13º Salário</h2>
+              <h2 className="text-xl font-bold text-slate-900 dark:text-slate-100 mb-3 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">13º Salário</h2>
               <p className="text-slate-600 dark:text-slate-400 mb-6 leading-relaxed flex-1 text-sm">
-                Gratificação natalina. Descubra quanto cairá na 1ª parcela (novembro) e na 2ª parcela (dezembro) com os descontos.
+                Calcule o valor exato da primeira e segunda parcela do seu décimo terceiro com descontos de 2026.
               </p>
               <div className="mt-auto">
-                <span className="inline-flex items-center text-sm font-bold text-white bg-green-600 px-4 py-2 rounded-lg group-hover:bg-green-700 transition-colors">
-                  Ver Parcelas <ArrowRight size={16} className="ml-2 group-hover:translate-x-1 transition-transform" />
+                <span className="inline-flex items-center text-sm font-bold text-white bg-emerald-600 px-4 py-2 rounded-lg group-hover:bg-emerald-700 transition-colors">
+                  Calcular 13º <ArrowRight size={16} className="ml-2 group-hover:translate-x-1 transition-transform" />
                 </span>
               </div>
             </div>
           </Link>
 
-          {/* 4. Horas Extras */}
-          <Link href="/trabalhista/horas-extras" className="group relative overflow-hidden bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full flex flex-col">
-            <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-opacity">
-              <Clock size={80} className="text-purple-600" />
-            </div>
-            <div className="p-6 md:p-8 flex-1 flex flex-col">
-              <div className="w-14 h-14 bg-purple-50 rounded-2xl flex items-center justify-center text-purple-600 mb-6 group-hover:scale-110 transition-transform shadow-sm ring-1 ring-purple-100">
-                <Clock size={28} strokeWidth={2.5} />
-              </div>
-              <h2 className="text-xl font-bold text-slate-900 dark:text-slate-100 mb-3 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">Horas Extras</h2>
-              <p className="text-slate-600 dark:text-slate-400 mb-6 leading-relaxed flex-1 text-sm">
-                Quanto vale seu tempo? Calcule horas 50%, 100%, adicional noturno e o reflexo no Descanso Semanal Remunerado (DSR).
-              </p>
-              <div className="mt-auto">
-                <span className="inline-flex items-center text-sm font-bold text-white bg-purple-600 px-4 py-2 rounded-lg group-hover:bg-purple-700 transition-colors">
-                  Calcular Extras <ArrowRight size={16} className="ml-2 group-hover:translate-x-1 transition-transform" />
-                </span>
-              </div>
-            </div>
-          </Link>
-
-          {/* 5. Seguro Desemprego */}
+          {/* 4. Seguro-Desemprego */}
           <Link href="/trabalhista/seguro-desemprego" className="group relative overflow-hidden bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full flex flex-col">
             <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-opacity">
-              <ShieldCheck size={80} className="text-indigo-600" />
+              <Wallet size={80} className="text-amber-500" />
             </div>
             <div className="p-6 md:p-8 flex-1 flex flex-col">
-              <div className="w-14 h-14 bg-indigo-50 rounded-2xl flex items-center justify-center text-indigo-600 mb-6 group-hover:scale-110 transition-transform shadow-sm ring-1 ring-indigo-100">
-                <ShieldCheck size={28} strokeWidth={2.5} />
+              <div className="w-14 h-14 bg-amber-50 rounded-2xl flex items-center justify-center text-amber-600 mb-6 group-hover:scale-110 transition-transform shadow-sm ring-1 ring-amber-100">
+                <Wallet size={28} strokeWidth={2.5} />
               </div>
-              <h2 className="text-xl font-bold text-slate-900 dark:text-slate-100 mb-3 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">Seguro Desemprego</h2>
+              <h2 className="text-xl font-bold text-slate-900 dark:text-slate-100 mb-3 group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">Seguro-Desemprego</h2>
               <p className="text-slate-600 dark:text-slate-400 mb-6 leading-relaxed flex-1 text-sm">
-                Foi demitido sem justa causa? Veja se tem direito, quantas parcelas receberá e o valor atualizado do benefício.
+                Veja o valor das parcelas e quantas você tem direito a receber baseado no seu histórico.
               </p>
               <div className="mt-auto">
-                <span className="inline-flex items-center text-sm font-bold text-white bg-indigo-600 px-4 py-2 rounded-lg group-hover:bg-indigo-700 transition-colors">
-                  Simular Benefício <ArrowRight size={16} className="ml-2 group-hover:translate-x-1 transition-transform" />
+                <span className="inline-flex items-center text-sm font-bold text-white bg-amber-500 px-4 py-2 rounded-lg group-hover:bg-amber-600 transition-colors">
+                  Simular Seguro <ArrowRight size={16} className="ml-2 group-hover:translate-x-1 transition-transform" />
                 </span>
               </div>
             </div>
           </Link>
 
-          {/* 6. Horas Trabalhadas (Ponto) */}
-          <Link href="/trabalhista/horas-trabalhadas" className="group relative overflow-hidden bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full flex flex-col">
+          {/* 5. Horas Extras */}
+          <Link href="/trabalhista/horas-extras" className="group relative overflow-hidden bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full flex flex-col">
             <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-opacity">
-              <Timer size={80} className="text-cyan-600" />
+              <Clock size={80} className="text-orange-600" />
             </div>
             <div className="p-6 md:p-8 flex-1 flex flex-col">
-              <div className="w-14 h-14 bg-cyan-50 rounded-2xl flex items-center justify-center text-cyan-600 mb-6 group-hover:scale-110 transition-transform shadow-sm ring-1 ring-cyan-100">
-                <Timer size={28} strokeWidth={2.5} />
+              <div className="w-14 h-14 bg-orange-50 rounded-2xl flex items-center justify-center text-orange-600 mb-6 group-hover:scale-110 transition-transform shadow-sm ring-1 ring-orange-100">
+                <Clock size={28} strokeWidth={2.5} />
               </div>
-              <h2 className="text-xl font-bold text-slate-900 dark:text-slate-100 mb-3 group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">Horas Trabalhadas</h2>
+              <h2 className="text-xl font-bold text-slate-900 dark:text-slate-100 mb-3 group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors">Horas Extras</h2>
               <p className="text-slate-600 dark:text-slate-400 mb-6 leading-relaxed flex-1 text-sm">
-                Calculadora de ponto. Some horas e minutos, desconte o almoço e descubra seu saldo diário de banco de horas.
+                Calcule o valor da sua hora extra com 50%, 100% e DSR. Saiba exatamente quanto deve vir no holerite.
               </p>
               <div className="mt-auto">
-                <span className="inline-flex items-center text-sm font-bold text-white bg-cyan-600 px-4 py-2 rounded-lg group-hover:bg-cyan-700 transition-colors">
-                  Somar Horas <ArrowRight size={16} className="ml-2 group-hover:translate-x-1 transition-transform" />
+                <span className="inline-flex items-center text-sm font-bold text-white bg-orange-600 px-4 py-2 rounded-lg group-hover:bg-orange-700 transition-colors">
+                  Calcular Horas <ArrowRight size={16} className="ml-2 group-hover:translate-x-1 transition-transform" />
                 </span>
               </div>
             </div>
           </Link>
+
+          {/* 6. FGTS */}
+          <div className="group relative overflow-hidden bg-slate-50 dark:bg-slate-950 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm opacity-60 cursor-not-allowed h-full flex flex-col">
+            <div className="p-6 md:p-8 flex-1 flex flex-col">
+              <div className="w-14 h-14 bg-slate-200 dark:bg-slate-800 rounded-2xl flex items-center justify-center text-slate-400 mb-6 shadow-sm">
+                <TrendingUp size={28} strokeWidth={2.5} />
+              </div>
+              <h2 className="text-xl font-bold text-slate-500 dark:text-slate-400 mb-3">Saldo FGTS</h2>
+              <p className="text-slate-400 dark:text-slate-600 mb-6 leading-relaxed flex-1 text-sm">
+                Simule a evolução do seu saldo do FGTS com juros e correções. (Em breve).
+              </p>
+              <div className="mt-auto">
+                <span className="inline-flex items-center text-sm font-bold text-slate-400 bg-slate-200 dark:bg-slate-800 px-4 py-2 rounded-lg">
+                  Em breve
+                </span>
+              </div>
+            </div>
+          </div>
 
         </section>
 
-        {/* --- CONTEÚDO RICO & HISTÓRIA --- */}
+        {/* --- CONTEÚDO SEO (ARTIGO) --- */}
         <div className="prose prose-slate dark:prose-invert prose-sm md:prose-lg max-w-none bg-white dark:bg-slate-900 p-6 md:p-12 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-sm mt-10">
           
           <h2 className="text-3xl font-bold text-slate-900 dark:text-slate-100 mb-6 flex items-center gap-3">
-            <ShieldCheck className="text-blue-600" size={32} /> A Proteção do Trabalhador Brasileiro
+            <Scale className="text-blue-600" size={32} /> Seus Direitos Protegidos pela Tecnologia
           </h2>
           <p className="lead text-slate-700 dark:text-slate-300 text-lg">
-            O Brasil possui uma das legislações trabalhistas mais completas do mundo. A CLT (Consolidação das Leis do Trabalho) não é apenas um livro de regras; é o escudo que protege o tempo, a saúde e a dignidade de quem trabalha.
+            No <strong>Mestre das Contas</strong>, nossa missão é traduzir a complexidade da legislação trabalhista brasileira em ferramentas simples e poderosas. Seja em uma demissão sem justa causa ou no planejamento das férias, você merece saber os valores exatos.
           </p>
 
-          {/* BLOCO DE HISTÓRIA */}
-          <div className="bg-gradient-to-r from-slate-900 to-slate-800 p-8 rounded-3xl text-white my-10 relative overflow-hidden shadow-2xl shadow-slate-900/20">
+          <div className="grid md:grid-cols-2 gap-8 my-10 not-prose">
+              <div className="bg-slate-50 dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 hover:border-blue-400 dark:hover:border-blue-500 transition-colors group">
+                  <h3 className="text-xl font-bold text-slate-900 dark:text-slate-100 mb-4 flex items-center gap-2">
+                      <Zap className="text-amber-500" size={24}/> Cálculos Instantâneos
+                  </h3>
+                  <p className="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">
+                      Nossas calculadoras processam milhares de regras tributárias e trabalhistas em milissegundos. Você informa os dados e o resultado aparece na hora, com memória de cálculo detalhada.
+                  </p>
+              </div>
+
+              <div className="bg-slate-50 dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 hover:border-emerald-400 dark:hover:border-emerald-500 transition-colors group">
+                  <h3 className="text-xl font-bold text-slate-900 dark:text-slate-100 mb-4 flex items-center gap-2">
+                      <ShieldCheck className="text-emerald-500" size={24}/> 100% Auditado
+                  </h3>
+                  <p className="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">
+                      Todas as ferramentas são baseadas na <strong>CLT (Consolidação das Leis do Trabalho)</strong> e nas tabelas oficiais da Receita Federal e Previdência Social atualizadas para 2026.
+                  </p>
+              </div>
+          </div>
+
+          <div className="bg-slate-900 rounded-3xl p-8 text-white relative overflow-hidden shadow-xl shadow-slate-900/20">
               <div className="absolute top-0 right-0 p-6 opacity-10">
-                  <History size={150} className="text-white"/>
+                  <BookOpen size={150} className="text-white"/>
               </div>
-              <h3 className="text-2xl font-bold text-white mb-6 flex items-center gap-2 relative z-10">
-                  <BookOpen size={28} className="text-yellow-400"/> Um Marco Histórico: 1943
+              <h3 className="text-2xl font-bold text-white mb-4 flex items-center gap-2 relative z-10">
+                  Educação Financeira
               </h3>
-              <div className="space-y-4 text-slate-300 relative z-10 leading-relaxed text-base font-medium">
-                  <p>
-                      Imagine um Brasil sem férias remuneradas, sem 13º salário e sem jornada de trabalho definida. Essa era a realidade antes da Era Vargas.
-                  </p>
-                  <p>
-                      Em <strong>1º de Maio de 1943</strong>, o presidente Getúlio Vargas anunciou a CLT em um estádio lotado. Foi um momento divisor de águas: pela primeira vez, direitos esparsos foram unificados em um código robusto, inspirado nas cartas sociais modernas da época.
-                  </p>
-                  <p>
-                      Desde então, direitos como o FGTS (1966) e o Seguro-Desemprego (1986) foram adicionados, fortalecendo a rede de segurança social que hoje calculamos aqui com precisão.
-                  </p>
+              <p className="text-slate-300 mb-6 relative z-10">
+                  Mais do que apenas números, oferecemos guias completos em cada ferramenta para que você entenda conceitos como Aviso Prévio Indenizado, Proporcionalidade de Férias e Alíquotas Progressivas do INSS.
+              </p>
+              <div className="flex gap-4 relative z-10">
+                  <div className="flex items-center gap-2 text-xs font-bold bg-white/10 px-3 py-1.5 rounded-full">
+                      <CheckCircle2 size={14} className="text-emerald-400"/> Tabela INSS 2026
+                  </div>
+                  <div className="flex items-center gap-2 text-xs font-bold bg-white/10 px-3 py-1.5 rounded-full">
+                      <CheckCircle2 size={14} className="text-emerald-400"/> IRRF Atualizado
+                  </div>
               </div>
           </div>
 
-          <h3 className="text-2xl font-bold text-slate-800 dark:text-slate-100 mt-12 mb-6">Por que é tão difícil calcular "de cabeça"?</h3>
-          <p className="text-slate-600 dark:text-slate-400 mb-8">
-              Muitos trabalhadores tentam fazer a conta na calculadora simples e o resultado nunca bate. Isso acontece porque a tributação brasileira funciona em "Cascata" e "Faixas Progressivas":
-          </p>
-          
-          <div className="grid md:grid-cols-2 gap-6 not-prose my-8">
-              <div className="bg-slate-50 dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 hover:border-blue-400 dark:hover:border-blue-500 transition-colors relative overflow-hidden group">
-                  <div className="absolute top-0 right-0 p-4 opacity-5 dark:opacity-10 group-hover:scale-110 transition-transform">
-                     <Scale size={100} className="text-blue-600 dark:text-blue-400"/>
-                  </div>
-                  <h4 className="font-bold text-slate-800 dark:text-slate-100 mb-3 flex items-center gap-2 text-lg relative z-10">
-                      <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg text-blue-600 dark:text-blue-400">
-                        <Scale size={24}/> 
-                      </div>
-                      Tabela Progressiva
-                  </h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed relative z-10">
-                      Você não paga 9% sobre todo o salário. Você paga 7,5% sobre a primeira parte, 9% sobre a segunda... É um cálculo fatiado que reduz o imposto final.
-                  </p>
-              </div>
-              <div className="bg-slate-50 dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 hover:border-amber-400 dark:hover:border-amber-500 transition-colors relative overflow-hidden group">
-                  <div className="absolute top-0 right-0 p-4 opacity-5 dark:opacity-10 group-hover:scale-110 transition-transform">
-                     <AlertTriangle size={100} className="text-amber-500"/>
-                  </div>
-                  <h4 className="font-bold text-slate-800 dark:text-slate-100 mb-3 flex items-center gap-2 text-lg relative z-10">
-                      <div className="p-2 bg-amber-100 dark:bg-amber-900/30 rounded-lg text-amber-600 dark:text-amber-500">
-                        <AlertTriangle size={24}/>
-                      </div>
-                      Dedução em Cascata
-                  </h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed relative z-10">
-                      O Imposto de Renda (IRRF) só é calculado DEPOIS que o INSS e os dependentes são subtraídos. Se errar a ordem, erra o valor final.
-                  </p>
-              </div>
-          </div>
-
-          {/* FAQ GERAL */}
-          <div className="mt-16 not-prose">
-            <h3 className="text-xl font-bold text-slate-900 dark:text-slate-100 mb-6 flex items-center gap-2">
-                <HelpCircle className="text-blue-600" /> Perguntas Frequentes sobre CLT
-            </h3>
-            <div className="space-y-4">
-              <details className="group bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm cursor-pointer open:ring-2 open:ring-blue-100 dark:open:ring-blue-900/30 transition-all">
-                <summary className="font-semibold text-slate-800 dark:text-slate-100 list-none flex justify-between items-center select-none">
-                  Qual a diferença entre Salário Bruto e Remuneração?
-                  <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
-                </summary>
-                <p className="mt-3 text-slate-600 dark:text-slate-300 leading-relaxed border-t border-slate-100 dark:border-slate-800 pt-3 text-sm">
-                  Salário base é o valor fixo contratado. Remuneração é a soma do salário com outras vantagens como comissões, gratificações, horas extras e adicionais. O 13º e as férias são calculados sobre a <strong>remuneração</strong> (média), e não apenas sobre o salário base.
-                </p>
-              </details>
-              
-              <details className="group bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm cursor-pointer open:ring-2 open:ring-blue-100 dark:open:ring-blue-900/30 transition-all">
-                <summary className="font-semibold text-slate-800 dark:text-slate-100 list-none flex justify-between items-center select-none">
-                  O que é o desconto do "Sistema S"?
-                  <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
-                </summary>
-                <p className="mt-3 text-slate-600 dark:text-slate-300 leading-relaxed border-t border-slate-100 dark:border-slate-800 pt-3 text-sm">
-                  São contribuições para entidades como SESC, SENAI e SEBRAE. Geralmente, esse custo é da empresa, mas em alguns casos específicos pode haver reflexos. Para o trabalhador CLT padrão, o foco principal é INSS e IRRF.
-                </p>
-              </details>
-            </div>
-          </div>
         </div>
 
+        <SmartCrossLinker currentHref="/trabalhista" category="financeiro" />
+        
         {/* ANÚNCIO RODAPÉ */}
         <div className="w-full flex justify-center mt-4">
           <LazyAdUnit slot="hub_bottom" format="auto" />

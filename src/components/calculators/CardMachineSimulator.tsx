@@ -7,7 +7,8 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
-import { CreditCard, DollarSign, Calculator, AlertCircle, ArrowDown, ArrowRight, Wallet, Percent } from 'lucide-react';
+import { CreditCard, DollarSign, Calculator, AlertCircle, ArrowDown, ArrowRight, Wallet, CirclePercent } from 'lucide-react';
+import { trackEvent } from "@/lib/analytics";
 
 interface SimulationResult {
     totalSale: number;
@@ -101,6 +102,7 @@ export default function CardMachineSimulator({
 
         difference: liquidNoAnticipation - liquidAnticipated
     });
+    trackEvent("calculate_maquininha", { valor: total, parcelas: n });
   };
 
   return (
@@ -153,12 +155,12 @@ export default function CardMachineSimulator({
 
                     <div className="grid grid-cols-2 gap-4">
                         <div className="space-y-2">
-                            <Label className="flex items-center gap-1 text-xs">Taxa MDR (%) <Percent size={10}/></Label>
+                            <Label className="flex items-center gap-1 text-xs">Taxa MDR (%) <CirclePercent size={10}/></Label>
                             <Input value={mdr} onChange={(e) => setMdr(e.target.value)} className="h-11 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 dark:text-slate-100" placeholder="3.5"/>
                             <p className="text-[9px] text-slate-400">Intermediação (Ex: 3.19%)</p>
                         </div>
                         <div className="space-y-2">
-                            <Label className="flex items-center gap-1 text-xs">Taxa Antecipação (%) <Percent size={10}/></Label>
+                            <Label className="flex items-center gap-1 text-xs">Taxa Antecipação (%) <CirclePercent size={10}/></Label>
                             <Input value={anticipation} onChange={(e) => setAnticipation(e.target.value)} className="h-11 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 dark:text-slate-100" placeholder="2.5"/>
                             <p className="text-[9px] text-slate-400">Juros Mensal (Ex: 2.99%)</p>
                         </div>

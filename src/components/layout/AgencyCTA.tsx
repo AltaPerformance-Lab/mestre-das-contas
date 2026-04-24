@@ -30,7 +30,7 @@ export default function AgencyCTA() {
         </div>
 
         <a 
-          href="https://wa.me/5564981296245?text=Ol%C3%A1%2C%20vi%20o%20rodap%C3%A9%20do%20Mestre%20das%20Contas%20e%20quero%20um%20or%C3%A7amento." 
+          href="https://wa.me/5564992514471?text=Ol%C3%A1%2C%20vi%20o%20rodap%C3%A9%20do%20Mestre%20das%20Contas%20e%20quero%20um%20or%C3%A7amento." 
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center gap-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 px-6 py-3.5 text-sm font-bold text-white transition-all transform hover:-translate-y-1 shadow-lg shadow-blue-600/20 whitespace-nowrap active:scale-95"

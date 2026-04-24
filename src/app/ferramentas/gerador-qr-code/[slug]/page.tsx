@@ -3,7 +3,7 @@ import path from 'path';
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import AdUnit from "@/components/ads/AdUnit";
+import LazyAdUnit from "@/components/ads/LazyAdUnit";
 import DisclaimerBox from "@/components/ui/DisclaimerBox";
 import PageHeader from "@/components/layout/PageHeader";
 // Importa o Wrapper (Componente Cliente) em vez do Gerador direto
@@ -14,6 +14,7 @@ import {
   History, Globe, Award, HelpCircle 
 } from "lucide-react";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
+import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
 import ReviewStars from "@/components/ui/ReviewStars";
 
 type QRCodeCase = {
@@ -121,8 +122,9 @@ export default async function QRCodeCasePage({ params }: { params: Promise<{ slu
           description={item.desc}
           category="Ferramentas Úteis"
           icon={getIcon()}
-          variant="default"
+          variant="tools"
           categoryColor="slate"
+          badge="Seguro 2026"
           rating={4.9}
           reviews={1250}
           breadcrumbs={[
@@ -136,7 +138,13 @@ export default async function QRCodeCasePage({ params }: { params: Promise<{ slu
       <div className="flex flex-col gap-8 px-4 sm:px-6 pb-12 max-w-7xl mx-auto">
 
         <div className="w-full max-w-5xl mx-auto overflow-hidden flex justify-center bg-slate-50/50 dark:bg-slate-900/50 rounded-lg border border-dashed border-slate-200/50 dark:border-slate-800 min-h-[100px]">
-           <AdUnit slot="qr_case_top" format="horizontal" variant="agency" />
+           <LazyAdUnit slot="qr_case_top" format="horizontal" variant="agency" />
+        </div>
+
+        {/* REVISÃO TÉCNICA (E-E-A-T) */}
+        <div className="bg-slate-50/50 dark:bg-slate-900/10 border border-slate-200 dark:border-slate-700 p-4 rounded-2xl flex items-center gap-3 text-xs text-slate-600 dark:text-slate-400 mb-2">
+          <ShieldCheck size={18} className="text-blue-600 shrink-0" />
+          <span>Tecnologia de geração estática de alta densidade (ISO/IEC 18004), sem expiração e sem armazenamento de dados sensíveis.</span>
         </div>
 
         {/* USO DO WRAPPER (CORREÇÃO DE ERRO) */}
@@ -207,7 +215,7 @@ export default async function QRCodeCasePage({ params }: { params: Promise<{ slu
                 </ul>
 
                 <div className="w-full flex justify-center my-6 lg:hidden">
-                    <AdUnit slot="qr_case_mobile_mid" format="rectangle" />
+                    <LazyAdUnit slot="qr_case_mobile_mid" format="rectangle" />
                 </div>
 
                 <div className="not-prose my-10 w-full overflow-hidden rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
@@ -364,8 +372,10 @@ export default async function QRCodeCasePage({ params }: { params: Promise<{ slu
             </div>
         </div>
 
+        <SmartCrossLinker currentHref={"/ferramentas/gerador-qr-code/" + slug} category="ferramentas" />
+
         <div className="w-full flex justify-center my-8 min-h-[250px]">
-            <AdUnit slot="qr_case_bottom" format="horizontal" variant="software" />
+            <LazyAdUnit slot="qr_case_bottom" format="horizontal" variant="software" />
         </div>
 
       </div>

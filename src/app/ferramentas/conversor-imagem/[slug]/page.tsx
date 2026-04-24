@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import Link from "next/link";
 import ImageConverter from "@/components/tools/ImageConverter";
-import AdUnit from "@/components/ads/AdUnit";
+import LazyAdUnit from "@/components/ads/LazyAdUnit";
 import DisclaimerBox from "@/components/ui/DisclaimerBox";
 import PageHeader from "@/components/layout/PageHeader";
 import { 
@@ -11,6 +11,7 @@ import {
   FileImage, HelpCircle
 } from "lucide-react";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
+import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
 import { conversionData } from "@/data/image-conversions";
 import FeaturedTools from "@/components/home/FeaturedTools";
 
@@ -104,9 +105,9 @@ export default async function ConversionPage({ params }: Props) {
           description={data.desc}
           category="Conversão de Arquivos"
           icon={<ImageIcon size={32} strokeWidth={2} />}
-          variant="default"
+          variant="tools"
           categoryColor="slate"
-          badge="Sem Upload"
+          badge="Seguro 2026"
           breadcrumbs={[
             { label: "Ferramentas", href: "/ferramentas" },
             { label: "Conversor", href: "/ferramentas/conversor-imagem" },
@@ -119,7 +120,13 @@ export default async function ConversionPage({ params }: Props) {
         
         {/* ANÚNCIO TOPO */}
         <div className="w-full max-w-5xl mx-auto overflow-hidden flex justify-center bg-slate-50/50 dark:bg-slate-900/50 rounded-lg border border-dashed border-slate-200/50 dark:border-slate-800 print:hidden min-h-[100px]">
-           <AdUnit slot="convert_top" format="horizontal" variant="agency" />
+           <LazyAdUnit slot="convert_top" format="horizontal" variant="agency" />
+        </div>
+
+        {/* REVISÃO TÉCNICA (E-E-A-T) */}
+        <div className="bg-slate-50/50 dark:bg-slate-900/10 border border-slate-200 dark:border-slate-700 p-4 rounded-2xl flex items-center gap-3 text-xs text-slate-600 dark:text-slate-400 mb-2">
+          <ShieldCheck size={18} className="text-blue-600 shrink-0" />
+          <span>Conversão baseada em processamento cliente-side (WASM/JS) de alto desempenho, garantindo 100% de privacidade em 2026.</span>
         </div>
 
         {/* FERRAMENTA (Com pre-set do destino) */}
@@ -238,27 +245,10 @@ export default async function ConversionPage({ params }: Props) {
 
         {/* ANÚNCIO BOTTOM */}
         <div className="w-full flex justify-center mt-8 min-h-[250px]">
-            <AdUnit slot="convert_bottom" format="horizontal" variant="software" />
+            <LazyAdUnit slot="convert_bottom" format="horizontal" variant="software" />
         </div>
 
-        {/* NAVEGAÇÃO ENTRE FORMATOS */}
-        <div className="mt-12 pt-8 border-t border-slate-200 dark:border-slate-800 print:hidden not-prose">
-            <p className="font-bold text-slate-900 dark:text-white mb-6 text-sm uppercase tracking-wider flex items-center gap-2">
-               <Layers size={16} className="text-blue-500"/> Outras Conversões Populares:
-            </p>
-            <div className="flex flex-wrap gap-3 mb-12">
-               {conversionData.filter(d => d.slug !== slug).map((item) => (
-                   <Link key={item.slug} href={`/ferramentas/conversor-imagem/${item.slug}`} className="px-4 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-sm text-slate-600 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-700 dark:hover:text-blue-400 hover:border-blue-200 dark:hover:border-blue-700 transition-colors shadow-sm">
-                      {item.from} para {item.to}
-                   </Link>
-               ))}
-            </div>
-            
-            {/* FERRAMENTAS RELACIONADAS */}
-            <div className="mt-16 pt-10 border-t border-slate-200 dark:border-slate-800 isolate [&>section]:mt-0 [&>section]:mb-0 [&>section]:px-0">
-                <FeaturedTools />
-            </div>
-        </div>
+        <SmartCrossLinker currentHref={`/ferramentas/conversor-imagem/${slug}`} category="ferramentas" />
 
       </div>
     </article>

@@ -9,9 +9,10 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { 
-  Baby, CalendarHeart, Share2, Printer, History, Code2, 
-  ExternalLink, CheckCircle2, X, Sparkles, Link as LinkIcon
+  ExternalLink, CheckCircle2, X, Sparkles, Link as LinkIcon,
+  Baby, Code2, History, CalendarHeart, Share2, Printer
 } from "lucide-react";
+import { trackEvent } from "@/lib/analytics";
 import { addDays, differenceInWeeks, differenceInDays, format, isValid, parseISO } from "date-fns";
 import { ptBR } from "date-fns/locale";
 
@@ -132,6 +133,7 @@ export default function PregnancyCalculator() {
     };
 
     setResultado(novoResultado);
+    trackEvent("calculate_gestacao", { semanas: novoResultado.semanas, sexo });
     if (!isIframe) salvarHistorico(novoResultado);
   };
 
@@ -168,8 +170,10 @@ export default function PregnancyCalculator() {
         if (nomeBebe) params.set("nome", nomeBebe);
         params.set("sexo", sexo);
         navigator.clipboard.writeText(`${baseUrl}?${params.toString()}`);
+        trackEvent("share_gestacao_link");
     } else {
         navigator.clipboard.writeText(`<iframe src="https://mestredascontas.com.br/saude/gestacional?embed=true" width="100%" height="700" frameborder="0" style="border:0; border-radius:12px;" title="Calculadora Gestacional"></iframe>`);
+        trackEvent("share_gestacao_embed");
     }
 
     setCopiado(type);
@@ -177,6 +181,7 @@ export default function PregnancyCalculator() {
   };
 
   const handlePrint = () => {
+    trackEvent("print_gestacao");
     if (reactToPrintFn) reactToPrintFn();
   };
 

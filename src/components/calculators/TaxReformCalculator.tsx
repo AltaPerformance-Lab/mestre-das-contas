@@ -9,9 +9,10 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { 
-  Landmark, TrendingDown, TrendingUp, History, CalendarClock, Share2, 
-  Download, CheckCircle2, Code2, Link as LinkIcon, ExternalLink, X 
+  Download, CheckCircle2, Code2, Link as LinkIcon, ExternalLink, X,
+  Landmark, History, CalendarClock, TrendingDown, TrendingUp, Share2
 } from "lucide-react";
+import { trackEvent } from "@/lib/analytics";
 
 // --- TIPOS ---
 type HistoricoTax = {
@@ -142,6 +143,7 @@ export default function TaxReformCalculator({
     };
 
     setResultado(novoResultado);
+    trackEvent("calculate_reforma", { valor: V, categoria: Cat, situacao: diferenca > 0 ? "Aumento" : "Redução" });
     if (!isIframe) salvarHistorico(novoResultado);
   };
 
@@ -217,13 +219,20 @@ export default function TaxReformCalculator({
           return;
       }
 
-      if (action === 'pdf') reactToPrintFn();
-      if (action === 'embed') setShowEmbedModal(true);
+      if (action === 'pdf') {
+          trackEvent("print_reforma");
+          reactToPrintFn();
+      }
+      if (action === 'embed') {
+          trackEvent("share_reforma_embed");
+          setShowEmbedModal(true);
+      }
       if (action === 'share') {
           const params = new URLSearchParams();
           params.set("valor", resultado.rawValor.toString());
           params.set("cat", resultado.rawCat);
           navigator.clipboard.writeText(`${window.location.origin}${window.location.pathname}?${params.toString()}`);
+          trackEvent("share_reforma_link");
           setCopiado("link");
           setTimeout(() => setCopiado(null), 2000);
       }

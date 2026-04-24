@@ -7,6 +7,7 @@ import {
   Landmark, ArrowRight, PiggyBank, Coins,
   LineChart, DollarSign, ShieldCheck, Briefcase, Calendar, Car, BarChart3
 } from "lucide-react";
+import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
 
 // --- METADATA (SEO DE CATEGORIA) ---
 export const metadata: Metadata = {
@@ -300,6 +301,8 @@ export default function FinanceiroHubPage() {
 
           </div>
 
+          <SmartCrossLinker currentHref="/financeiro" category="trabalhista" />
+          
           {/* ANÚNCIO RODAPÉ */}
           <div className="w-full flex justify-center mt-8">
             <LazyAdUnit slot="fin_hub_bottom" format="auto" />

@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { CountUp } from "@/components/ui/CountUp";
 import ShareAsImage from "@/components/ui/ShareAsImage";
+import { trackEvent } from "@/lib/analytics";
 
 // Tipo para o histórico
 type HistoricoRescisao = {
@@ -306,6 +307,7 @@ export default function TerminationCalculator({ initialReason }: TerminationCalc
     };
 
     setResultado(novoResultado);
+    trackEvent("calculate_rescisao", { motivo: pMotivo, salario: pSalario });
     if (!isIframe) salvarHistorico(novoResultado);
   };
 
@@ -350,8 +352,10 @@ export default function TerminationCalculator({ initialReason }: TerminationCalc
             params.set("motivo", resultado.raw.motivo);
         }
         navigator.clipboard.writeText(`${baseUrl}?${params.toString()}`);
+        trackEvent("share_rescisao_link");
     } else {
         navigator.clipboard.writeText(`<iframe src="https://mestredascontas.com.br/trabalhista/rescisao?embed=true" width="100%" height="800" frameborder="0" style="border:0; overflow:hidden; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.1);" title="Calculadora de Rescisão"></iframe>`);
+        trackEvent("share_rescisao_embed");
     }
 
     setCopiado(type);
@@ -359,6 +363,7 @@ export default function TerminationCalculator({ initialReason }: TerminationCalc
   };
 
   const handlePrint = () => {
+    trackEvent("print_rescisao");
     if (reactToPrintFn) reactToPrintFn();
   };
 

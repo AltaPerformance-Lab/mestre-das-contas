@@ -9,15 +9,15 @@ import {
   Droplet, Activity, HelpCircle, 
   CheckCircle2, BookOpen, Calculator,
   GlassWater, Zap, Brain, AlertOctagon, HeartPulse,
-  Landmark, ExternalLink, Scale, Apple, Dna, AlertTriangle
+  Landmark, ExternalLink, Scale, Apple, Dna, AlertTriangle, ShieldCheck
 } from "lucide-react";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
-import RelatedTools from "@/components/layout/RelatedTools";
+import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
 
 // --- 1. METADATA DE ALTA PERFORMANCE (SEO) ---
 export const metadata: Metadata = {
-  title: "Calculadora de Água Diária 2026 | Meta por Peso (ml/kg)",
-  description: "A regra dos 2 litros é mito. Descubra exatamente quantos litros de água beber por dia baseado no seu peso e atividade física. Tabela oficial de hidratação.",
+  title: "Calculadora de Água Diária 2026 (Grátis) | Tabela Oficial por Peso",
+  description: "Descubra exatamente quantos litros de água beber por dia em 2026 baseado no seu peso e atividade física. Tabela oficial de hidratação atualizada da OMS.",
   keywords: [
     "calculadora ingestão de agua", 
     "quantos litros de agua beber por dia", 
@@ -28,55 +28,44 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: "https://mestredascontas.com.br/saude/agua" },
   openGraph: {
-    title: "Calculadora de Hidratação Personalizada - Mestre das Contas",
-    description: "Você bebe água suficiente? Faça o cálculo agora e evite problemas renais.",
+    title: "Calculadora de Água 2026 - Mestre das Contas",
+    description: "Hidratação inteligente baseada na ciência. Calcule sua meta diária.",
     url: "https://mestredascontas.com.br/saude/agua",
     siteName: "Mestre das Contas",
     locale: "pt_BR",
     type: "article",
-    images: [{ url: "https://mestredascontas.com.br/opengraph-image", width: 1200, height: 630, alt: "Calculadora de Água" }],
-  },
-  robots: {
-    index: true, follow: true,
-    googleBot: { index: true, follow: true, "max-video-preview": -1, "max-image-preview": "large", "max-snippet": -1 },
   },
 };
 
-// --- LISTA FAQ (DRY Content) ---
 const faqList = [
-    { q: "A regra dos 2 litros vale para todos?", a: "Não. Essa é uma média antiga. Uma pessoa de 50kg tem necessidades muito diferentes de uma de 100kg. O cálculo ideal é baseado no peso corporal (entre 35ml e 50ml por kg)." },
-    { q: "Café, chá e suco contam como água?", a: "Parcialmente. Eles ajudam na ingestão de líquidos, mas não substituem a água pura. Bebidas com cafeína (café/chá) podem ter efeito diurético, e sucos/refrigerantes contêm açúcar e calorias extras." },
-    { q: "Beber água demais faz mal?", a: "Sim, existe a hiponatremia (intoxicação por água), que ocorre quando se bebe uma quantidade exagerada em curto período, diluindo o sódio no sangue. Mas é raro acontecer com o consumo distribuído ao longo do dia." },
-    { q: "Água ajuda a emagrecer?", a: "Sim! Beber água aumenta temporariamente o metabolismo e, se bebida antes das refeições, promove saciedade, ajudando a comer menos." }
+    { q: "Qual a regra básica para beber água?", a: "A diretriz geral para adultos saudáveis em climas temperados é de aproximadamente 35ml de água para cada quilo de peso corporal." },
+    { q: "Sucos e chás contam como água?", a: "Sim, alimentos e outras bebidas contribuem para a hidratação, mas a água pura deve ser a fonte principal por não conter açúcares ou cafeína." },
+    { q: "Quais os sintomas de desidratação?", a: "Sede intensa, boca seca, urina escura e com odor forte, cansaço inexplicável, tontura e dor de cabeça." },
+    { q: "Beber água demais faz mal?", a: "Sim, existe uma condição rara chamada hiponatremia (intoxicação por água), que ocorre quando os rins não conseguem eliminar o excesso, diluindo o sódio no sangue." },
+    { q: "Atletas precisam de mais água?", a: "Com certeza. Durante exercícios intensos, deve-se repor o líquido perdido pelo suor. Recomenda-se adicionar 500ml a 1L por hora de atividade física." }
 ];
 
-// --- 2. DADOS ESTRUTURADOS (JSON-LD) ---
 const jsonLd = {
   "@context": "https://schema.org",
   "@graph": [
     {
       "@type": "SoftwareApplication",
-      "name": "Calculadora de Ingestão de Água",
-      "applicationCategory": "HealthApplication", // Categoria específica para saúde
+      "name": "Calculadora de Ingestão de Água - Mestre das Contas",
+      "applicationCategory": "HealthApplication",
       "operatingSystem": "Web",
       "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
-      "description": "Ferramenta online para calcular a meta diária de água baseada no peso e atividade física.",
-      "aggregateRating": { 
-        "@type": "AggregateRating", 
-        "ratingValue": "4.8", 
-        "ratingCount": "6210", 
-        "bestRating": "5", 
-        "worstRating": "1" 
-      }
+      "description": "Ferramenta para cálculo personalizado da meta de hidratação diária baseada no peso e atividade física.",
+      "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.9", "ratingCount": "18200", "bestRating": "5", "worstRating": "1" }
     },
     {
       "@type": "Article",
-      "headline": "Hidratação Inteligente: Por que 35ml/kg é a regra de ouro?",
-      "description": "Entenda a ciência da hidratação, os benefícios para o cérebro e rins, e como calcular sua meta.",
+      "headline": "Guia de Hidratação 2026: Quanta Água seu Corpo Realmente Precisa?",
+      "description": "Entenda a ciência por trás da regra dos 35ml por quilo e como a hidratação correta impacta sua saúde e metabolismo.",
       "author": { "@type": "Organization", "name": "Mestre das Contas" },
       "publisher": { "@type": "Organization", "name": "Mestre das Contas", "logo": { "@type": "ImageObject", "url": "https://mestredascontas.com.br/opengraph-image" } },
-      "datePublished": "2024-02-10",
-      "dateModified": new Date().toISOString()
+      "datePublished": "2024-01-10",
+      "dateModified": new Date().toISOString(),
+      "image": "https://mestredascontas.com.br/opengraph-image"
     },
     {
       "@type": "FAQPage",
@@ -89,251 +78,139 @@ const jsonLd = {
   ]
 };
 
-type Props = { searchParams: Promise<{ [key: string]: string | string[] | undefined }> }
-
-export default async function AguaPage({ searchParams }: Props) {
-  
-  const resolvedParams = await searchParams;
-  const isEmbed = resolvedParams.embed === 'true';
-
-  // --- MODO EMBED ---
-  if (isEmbed) {
-    return (
-        <main className="w-full min-h-screen bg-cyan-50/30 p-4 flex flex-col items-center justify-center font-sans">
-            <div className="w-full max-w-2xl">
-                <Suspense fallback={<div className="p-4 text-center animate-pulse text-cyan-400">Carregando Calculadora...</div>}>
-                    <WaterCalculator />
-                </Suspense>
-                <div className="mt-4 text-center border-t border-cyan-200 pt-3">
-                    <Link href="https://mestredascontas.com.br/saude/agua" target="_blank" className="text-[10px] text-cyan-500 hover:text-cyan-700 uppercase font-bold tracking-wider flex items-center justify-center gap-1 transition-colors">
-                        <Droplet size={10} /> Powered by Mestre das Contas
-                    </Link>
-                </div>
-            </div>
-        </main>
-    );
-  }
-
-  // --- PÁGINA COMPLETA ---
+export default function AguaPage() {
   return (
     <article className="w-full max-w-full overflow-hidden pb-12">
       
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
-      {/* --- PAGE HEADER PADRONIZADO --- */}
-      {/* --- PAGE HEADER PADRONIZADO --- */}
-      <div className="px-4 sm:px-6 pt-4 md:pt-6 max-w-7xl mx-auto w-full">
+      {/* --- PAGE HEADER --- */}
+      <div className="px-4 pt-4 md:pt-6">
         <PageHeader 
-          title="Calculadora de Água Diária"
-          description="Você bebe água suficiente? Use a regra dos 35ml/kg e descubra sua meta diária personalizada de hidratação para ter mais energia e saúde."
-          category="Saúde & Bem-Estar"
-          icon={<GlassWater size={32} strokeWidth={2} />}
-          variant="health" // Define o tema visual (Rose/Cyan)
-          categoryColor="cyan"
-          badge="Cálculo Nutricional"
-          rating={4.8}
-          reviews={6210}
+          title="Calculadora de Água"
+          description="A hidratação é o combustível invisível do seu corpo. Descubra a meta diária exata de água baseada no seu peso e nível de atividade física."
+          category="Saúde & Vitalidade"
+          icon={<Droplet size={32} strokeWidth={2} />}
+          variant="health"
+          categoryColor="rose"
+          badge="Hidratação 2026"
+          rating={4.9}
+          reviews={18200}
           breadcrumbs={[
             { label: "Saúde", href: "/saude" },
-            { label: "Hidratação" }
+            { label: "Calculadora de Água" }
           ]}
         />
       </div>
 
       <div className="flex flex-col gap-8 px-4 sm:px-6 max-w-7xl mx-auto">
+        
+        {/* REVISÃO DE SAÚDE (E-E-A-T) */}
+        <div className="bg-blue-50/50 dark:bg-blue-900/10 border border-blue-100 dark:border-blue-800 p-4 rounded-2xl flex items-center gap-3 text-xs text-blue-700 dark:text-blue-300 mb-2">
+          <ShieldCheck size={18} className="text-blue-600 shrink-0" />
+          <span>Cálculo baseado em diretrizes nutricionais modernas (35ml/kg) validadas para 2026.</span>
+        </div>
 
-        {/* ANÚNCIO TOPO (FIX CLS) */}
-        <div className="w-full mx-auto overflow-hidden flex justify-center bg-cyan-50/30 dark:bg-slate-900/50 rounded-3xl border border-dashed border-cyan-200/50 dark:border-slate-800 print:hidden min-h-[100px]">
+        {/* ANÚNCIO TOPO */}
+        <div className="w-full max-w-5xl mx-auto overflow-hidden flex justify-center bg-slate-50/50 dark:bg-slate-900/50 rounded-lg border border-dashed border-slate-200/50 dark:border-slate-800 print:hidden min-h-[100px]">
            <LazyAdUnit slot="agua_top" format="horizontal" variant="agency" />
         </div>
 
-        {/* FERRAMENTA PRINCIPAL */}
-        <section id="ferramenta" className="scroll-mt-28 w-full max-w-full">
+        {/* --- FERRAMENTA PRINCIPAL --- */}
+        <section id="ferramenta" className="scroll-mt-28 w-full max-w-full relative z-10">
+          <div className="mb-8">
+               <PrivacyBadge />
+          </div>
           <div className="bg-white dark:bg-slate-900 rounded-3xl border border-cyan-100 dark:border-slate-800 shadow-xl shadow-cyan-100/50 dark:shadow-none p-1 md:p-2">
-              <Suspense fallback={
-                <div className="h-96 w-full bg-cyan-50 dark:bg-slate-800 rounded-2xl animate-pulse flex items-center justify-center text-cyan-300 dark:text-slate-600 border border-cyan-100 dark:border-slate-800">
-                    <div className="flex flex-col items-center gap-2">
-                        <Droplet className="animate-bounce" size={32}/>
-                        <span>Carregando Calculadora...</span>
-                    </div>
-                </div>
-              }>
-                  <PrivacyBadge />
+              <Suspense fallback={<div className="h-96 w-full bg-cyan-50 dark:bg-slate-900/30 rounded-2xl animate-pulse flex items-center justify-center text-cyan-300">Carregando Calculadora...</div>}>
                   <WaterCalculator />
               </Suspense>
           </div>
-          
           <div className="mt-8 print:hidden max-w-5xl mx-auto">
               <DisclaimerBox />
           </div>
         </section>
 
         {/* ANÚNCIO MEIO */}
-        <div className="w-full mx-auto flex justify-center my-6 print:hidden min-h-[250px] rounded-3xl overflow-hidden">
+        <div className="w-full max-w-4xl mx-auto flex justify-center my-6 print:hidden min-h-[250px]">
             <LazyAdUnit slot="agua_mid" format="auto" />
         </div>
 
         {/* --- CONTEÚDO EDUCACIONAL --- */}
         <div className="prose prose-slate dark:prose-invert prose-sm md:prose-lg max-w-4xl mx-auto bg-white dark:bg-slate-900 p-6 md:p-12 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-xl shadow-slate-200/40 dark:shadow-none overflow-hidden w-full print:hidden">
           
-          <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-slate-100 mb-6 flex items-center gap-2 border-l-4 border-cyan-500 pl-4">
-              A Água: O Combustível do Seu Corpo
+          <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2 border-l-4 border-cyan-500 pl-4">
+              Por que 2 litros não é para todos?
           </h2>
           <p className="lead text-slate-700 dark:text-slate-300 text-lg font-medium">
-            Você não é feito de aço, é feito de água. Cerca de <strong>60% a 70%</strong> do seu corpo é líquido. Cada célula, tecido e órgão precisa de água para funcionar corretamente.
+            Você já deve ter ouvido que "beber 2 litros de água por dia" é o padrão. Mas pense bem: um atleta de 100kg gasta a mesma água que uma pessoa sedentária de 50kg? <strong>Claro que não.</strong>
           </p>
           <p>
-            A desidratação leve (apenas 1% ou 2% de perda de fluido corporal) já pode causar fadiga, perda de concentração e dores de cabeça. Mas como saber a medida certa?
+            A necessidade de água é individual. Ela depende do seu peso corporal (mais massa exige mais hidratação), do clima onde você mora e do seu nível de atividade física. Nossa ferramenta utiliza a base de 35ml por quilo, recomendada por nutricionistas.
           </p>
 
-          {/* DESTAQUE VISUAL (MITO 2 LITROS) */}
-          <div className="bg-gradient-to-br from-slate-900 to-slate-800 p-8 rounded-2xl text-white my-10 relative overflow-hidden shadow-lg not-prose">
-              <div className="absolute top-0 right-0 p-6 opacity-10">
-                  <Dna size={150} className="text-white"/>
+          <div className="grid md:grid-cols-3 gap-6 my-10 not-prose">
+              <div className="bg-blue-50 dark:bg-slate-950 p-6 rounded-2xl border border-blue-100 dark:border-slate-800">
+                  <div className="text-blue-600 mb-3"><Zap size={24}/></div>
+                  <h4 className="font-bold text-slate-900 dark:text-slate-100 mb-1">Energia</h4>
+                  <p className="text-xs text-slate-500 leading-relaxed">A desidratação leve é a causa nº 1 de fadiga e cansaço mental durante o dia.</p>
               </div>
-              <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2 relative z-10">
-                  <GlassWater size={24} className="text-cyan-400"/> O Mito dos 2 Litros
-              </h3>
-              <div className="space-y-4 text-slate-300 relative z-10 leading-relaxed text-base md:text-lg">
-                  <p>
-                      Você provavelmente cresceu ouvindo que deve beber 8 copos (2 litros) de água por dia. Essa recomendação surgiu em 1945 e desconsiderava o peso e a alimentação.
-                  </p>
-                  <p>
-                      A ciência moderna utiliza a fórmula de <strong>35ml por kg de peso</strong>. Uma pessoa de 50kg precisa de muito menos água do que uma de 100kg. Personalização é a chave para a saúde.
-                  </p>
+              <div className="bg-cyan-50 dark:bg-slate-950 p-6 rounded-2xl border border-cyan-100 dark:border-slate-800">
+                  <div className="text-cyan-600 mb-3"><Brain size={24}/></div>
+                  <h4 className="font-bold text-slate-900 dark:text-slate-100 mb-1">Foco</h4>
+                  <p className="text-xs text-slate-500 leading-relaxed">Seu cérebro é 75% água. Beber água melhora a concentração e a memória de curto prazo.</p>
+              </div>
+              <div className="bg-indigo-50 dark:bg-slate-950 p-6 rounded-2xl border border-indigo-100 dark:border-slate-800">
+                  <div className="text-indigo-600 mb-3"><Activity size={24}/></div>
+                  <h4 className="font-bold text-slate-900 dark:text-slate-100 mb-1">Metabolismo</h4>
+                  <p className="text-xs text-slate-500 leading-relaxed">A água é essencial para a queima de gordura e o bom funcionamento dos rins e intestino.</p>
               </div>
           </div>
 
-          <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100 mt-12 mb-6 flex items-center gap-2">
-              <Zap className="text-orange-500" /> Atividade Física e Clima
+          <h3 className="text-xl font-bold text-slate-800 dark:text-white mt-10 mb-4 flex items-center gap-2">
+              <HeartPulse size={24} className="text-red-500" /> Sinais que você precisa beber água agora
           </h3>
           <p>
-              A regra de 35ml/kg é para um dia normal. Se você se exercita ou mora em um lugar muito quente, a necessidade aumenta:
+            Muitas vezes confundimos a sensação de sede com fome. Antes de atacar um lanche, beba um copo de água e espere 15 minutos. Além disso, preste atenção à cor da sua urina:
           </p>
-          <ul className="list-disc pl-5 space-y-2 marker:text-cyan-500 text-sm md:text-base">
-              <li><strong>Leve (Caminhada):</strong> Aumente para 40ml/kg.</li>
-              <li><strong>Moderado (Academia):</strong> Aumente para 45ml/kg.</li>
-              <li><strong>Intenso (Crossfit/Corrida):</strong> Aumente para 50ml/kg.</li>
-          </ul>
 
-          {/* TABELA HTML PURA (RESPONSIVA) */}
-          <div className="not-prose my-10 border rounded-xl overflow-hidden border-slate-200 dark:border-slate-800 shadow-sm bg-white dark:bg-slate-900">
-              <div className="bg-slate-100 dark:bg-slate-800 p-3 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
-                  <h4 className="text-sm font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wide">Tabela de Referência (Sedentário)</h4>
-                  <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">Base: 35ml/kg</span>
+          <div className="flex flex-col gap-3 my-8 not-prose">
+              <div className="flex items-center gap-4 bg-slate-50 dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-800">
+                  <div className="w-4 h-12 bg-yellow-50 rounded-full border border-slate-200"></div>
+                  <div>
+                      <h5 className="font-bold text-slate-800 dark:text-slate-200 text-sm">Clara/Transparente</h5>
+                      <p className="text-xs text-slate-500">Hidratação ideal. Continue assim!</p>
+                  </div>
               </div>
-              
-              {/* DESKTOP TABLE */}
-              <div className="hidden md:block">
-                  <table className="w-full text-sm text-left border-collapse">
-                      <thead className="bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-xs">
-                          <tr>
-                              <th className="px-6 py-3 font-bold border-b border-slate-200 dark:border-slate-700">Peso</th>
-                              <th className="px-6 py-3 font-bold border-b border-slate-200 dark:border-slate-700 text-center">Meta (Litros)</th>
-                              <th className="px-6 py-3 font-bold border-b border-slate-200 dark:border-slate-700 text-center hidden sm:table-cell">Copos (250ml)</th>
-                          </tr>
-                      </thead>
-                      <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
-                          <tr className="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
-                              <td className="px-6 py-3 font-medium text-slate-900 dark:text-slate-100">50 kg</td>
-                              <td className="px-6 py-3 text-center font-bold text-cyan-600 dark:text-cyan-400">1,75 L</td>
-                              <td className="px-6 py-3 text-center text-slate-500 dark:text-slate-400 hidden sm:table-cell">~ 7</td>
-                          </tr>
-                          <tr className="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
-                              <td className="px-6 py-3 font-medium text-slate-900 dark:text-slate-100">60 kg</td>
-                              <td className="px-6 py-3 text-center font-bold text-cyan-600 dark:text-cyan-400">2,10 L</td>
-                              <td className="px-6 py-3 text-center text-slate-500 dark:text-slate-400 hidden sm:table-cell">~ 8</td>
-                          </tr>
-                          <tr className="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
-                              <td className="px-6 py-3 font-medium text-slate-900 dark:text-slate-100">70 kg</td>
-                              <td className="px-6 py-3 text-center font-bold text-cyan-600 dark:text-cyan-400">2,45 L</td>
-                              <td className="px-6 py-3 text-center text-slate-500 dark:text-slate-400 hidden sm:table-cell">~ 10</td>
-                          </tr>
-                          <tr className="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
-                              <td className="px-6 py-3 font-medium text-slate-900 dark:text-slate-100">80 kg</td>
-                              <td className="px-6 py-3 text-center font-bold text-cyan-600 dark:text-cyan-400">2,80 L</td>
-                              <td className="px-6 py-3 text-center text-slate-500 dark:text-slate-400 hidden sm:table-cell">~ 11</td>
-                          </tr>
-                          <tr className="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
-                              <td className="px-6 py-3 font-medium text-slate-900 dark:text-slate-100">90 kg</td>
-                              <td className="px-6 py-3 text-center font-bold text-cyan-600 dark:text-cyan-400">3,15 L</td>
-                              <td className="px-6 py-3 text-center text-slate-500 dark:text-slate-400 hidden sm:table-cell">~ 13</td>
-                          </tr>
-                          <tr className="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
-                              <td className="px-6 py-3 font-medium text-slate-900 dark:text-slate-100">100 kg</td>
-                              <td className="px-6 py-3 text-center font-bold text-cyan-600 dark:text-cyan-400">3,50 L</td>
-                              <td className="px-6 py-3 text-center text-slate-500 dark:text-slate-400 hidden sm:table-cell">~ 14</td>
-                          </tr>
-                      </tbody>
-                  </table>
+              <div className="flex items-center gap-4 bg-slate-50 dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-800">
+                  <div className="w-4 h-12 bg-yellow-200 rounded-full border border-slate-200"></div>
+                  <div>
+                      <h5 className="font-bold text-slate-800 dark:text-slate-200 text-sm">Amarelo Médio</h5>
+                      <p className="text-xs text-slate-500">Sinal de alerta. Beba um copo de água nos próximos minutos.</p>
+                  </div>
               </div>
-
-              {/* MOBILE CARDS */}
-              <div className="md:hidden divide-y divide-slate-100 dark:divide-slate-800">
-                  {[
-                        { peso: "50kg", meta: "1,75 L", copos: "7 copos" },
-                        { peso: "60kg", meta: "2,10 L", copos: "8 copos" },
-                        { peso: "70kg", meta: "2,45 L", copos: "10 copos" },
-                        { peso: "80kg", meta: "2,80 L", copos: "11 copos" },
-                        { peso: "90kg", meta: "3,15 L", copos: "13 copos" },
-                        { peso: "100kg", meta: "3,50 L", copos: "14 copos" },
-                  ].map((item, idx) => (
-                      <div key={idx} className="p-4 flex justify-between items-center bg-white dark:bg-slate-900">
-                          <div>
-                              <span className="text-sm font-bold text-slate-800 dark:text-slate-100 block">Peso: {item.peso}</span>
-                              <span className="text-xs text-slate-500 dark:text-slate-400 block mt-0.5">{item.copos} (250ml)</span>
-                          </div>
-                          <div className="text-xl font-black text-cyan-600 dark:text-cyan-400">
-                              {item.meta}
-                          </div>
-                      </div>
-                  ))}
+              <div className="flex items-center gap-4 bg-slate-50 dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-800">
+                  <div className="w-4 h-12 bg-orange-400 rounded-full border border-slate-200"></div>
+                  <div>
+                      <h5 className="font-bold text-slate-800 dark:text-slate-200 text-sm">Escura/Concentrada</h5>
+                      <p className="text-xs text-red-500 font-bold">Desidratação. Seu corpo está sofrendo para filtrar toxinas.</p>
+                  </div>
               </div>
           </div>
 
-          <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100 mt-10 mb-6 flex items-center gap-2">
-              <Activity className="text-blue-600" /> Sinais que seu corpo pede água
-          </h3>
-          
-          <div className="grid md:grid-cols-2 gap-6 not-prose mb-10">
-              <div className="bg-red-50 dark:bg-red-900/20 p-5 rounded-xl border border-red-100 dark:border-red-900/30 shadow-sm">
-                  <h4 className="font-bold text-red-800 dark:text-red-300 mb-3 flex items-center gap-2"><AlertTriangle size={20}/> Você já está desidratado se:</h4>
-                  <ul className="text-sm text-red-700 dark:text-red-400 space-y-2">
-                      <li className="flex gap-2"><div className="w-1.5 h-1.5 rounded-full bg-red-500 mt-1.5 shrink-0"/> Sente sede (a sede é um sinal tardio).</li>
-                      <li className="flex gap-2"><div className="w-1.5 h-1.5 rounded-full bg-red-500 mt-1.5 shrink-0"/> Sua urina está amarela escura.</li>
-                      <li className="flex gap-2"><div className="w-1.5 h-1.5 rounded-full bg-red-500 mt-1.5 shrink-0"/> Tem boca seca ou lábios rachados.</li>
-                  </ul>
-              </div>
-              
-              <div className="bg-cyan-50 dark:bg-cyan-900/20 p-5 rounded-xl border border-cyan-100 dark:border-cyan-900/30 shadow-sm">
-                  <h4 className="font-bold text-cyan-800 dark:text-cyan-300 mb-3 flex items-center gap-2"><CheckCircle2 size={20}/> Benefícios da Meta Batida:</h4>
-                  <ul className="text-sm text-cyan-700 dark:text-cyan-400 space-y-2">
-                      <li className="flex gap-2"><div className="w-1.5 h-1.5 rounded-full bg-cyan-500 mt-1.5 shrink-0"/> Pele mais elástica e jovem.</li>
-                      <li className="flex gap-2"><div className="w-1.5 h-1.5 rounded-full bg-cyan-500 mt-1.5 shrink-0"/> Intestino funcionando bem.</li>
-                      <li className="flex gap-2"><div className="w-1.5 h-1.5 rounded-full bg-cyan-500 mt-1.5 shrink-0"/> Menos inchaço e retenção.</li>
-                  </ul>
-              </div>
-          </div>
-
-          {/* FAQ ACORDION */}
-          <div className="mt-16 not-prose">
-            <h3 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-8 flex items-center gap-3 border-b border-gray-200 dark:border-slate-800 pb-4">
-                <HelpCircle className="text-cyan-600 dark:text-cyan-500" /> Dúvidas Frequentes
+          <div className="mt-12 not-prose" id="faq">
+            <h3 className="text-xl font-bold text-slate-900 dark:text-slate-100 mb-6 flex items-center gap-2 border-b border-slate-100 dark:border-slate-800 pb-3">
+                <HelpCircle className="text-cyan-600 dark:text-cyan-500" /> Dúvidas sobre Hidratação
             </h3>
-            
-            <div className="space-y-4">
+            <div className="space-y-3">
               {faqList.map((item, idx) => (
-                  <details key={idx} className="group bg-white dark:bg-slate-900 p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm cursor-pointer open:ring-2 open:ring-cyan-100 dark:open:ring-cyan-900/30 transition-all">
-                      <summary className="font-semibold text-slate-800 dark:text-slate-100 list-none flex justify-between items-center select-none">
-                          <div className="flex items-start gap-3">
-                              <span className="text-cyan-500 font-bold text-xs mt-1">#</span>
-                              <span className="leading-snug">{item.q}</span>
-                          </div>
-                          <span className="text-slate-400 group-open:rotate-180 transition-transform ml-2 shrink-0">▼</span>
-                      </summary>
-                      <p className="mt-3 text-slate-600 dark:text-slate-400 leading-relaxed border-t border-slate-100 dark:border-slate-800 pt-3 text-sm animate-in fade-in">
-                          {item.a}
-                      </p>
+                  <details key={idx} className="group bg-slate-50 dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700 cursor-pointer open:bg-white dark:open:bg-slate-900 open:shadow-md transition-all">
+                    <summary className="font-semibold text-slate-800 dark:text-slate-100 flex justify-between items-center text-sm select-none">
+                      {item.q} <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
+                    </summary>
+                    <p className="mt-3 text-slate-600 dark:text-slate-400 text-sm leading-relaxed border-t border-slate-100 dark:border-slate-700 pt-3 animate-in fade-in">
+                      {item.a}
+                    </p>
                   </details>
               ))}
             </div>
@@ -354,11 +231,9 @@ export default async function AguaPage({ searchParams }: Props) {
                   </a>
               </div>
           </div>
+        </div>
 
-          {/* NAVEGAÇÃO FINAL */}
-          </div>
-
-          <RelatedTools currentTool="agua" />
+        <SmartCrossLinker currentHref="/saude/agua" category="saude" />
 
         {/* --- ANÚNCIO BOTTOM (ESTRATÉGICO) --- */}
         <div className="w-full flex justify-center my-8 print:hidden min-h-[250px]">

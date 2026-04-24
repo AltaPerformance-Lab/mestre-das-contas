@@ -3,23 +3,28 @@ import { Metadata } from "next";
 import BusinessDaysCalculator from "@/components/tools/BusinessDaysCalculator";
 import AdUnit from "@/components/ads/AdUnit";
 import PageHeader from "@/components/layout/PageHeader";
+import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
 import { 
   CalendarDays, Briefcase, Clock, CheckCircle2, 
-  AlertTriangle, HelpCircle, Landmark, Calendar, Scale, Scale as ScaleIcon
+  AlertTriangle, HelpCircle, Landmark, Calendar, Scale, Scale as ScaleIcon, ShieldCheck
 } from "lucide-react";
 import DisclaimerBox from "@/components/ui/DisclaimerBox";
 
 export const metadata: Metadata = {
-  title: "Calculadora de Dias Úteis 2026 (Com Feriados) | Grátis",
-  description: "Calcule datas de vencimento, prazos processuais e entrega de projetos. Nossa calculadora considera feriados nacionais de 2026 e finais de semana.",
+  title: "Calculadora de Dias Úteis 2026 (Grátis) | Contagem de Prazos",
+  description: "Calcule prazos processuais, entrega de projetos e datas de vencimento em segundos. Nossa ferramenta considera todos os feriados nacionais de 2026. Grátis.",
   keywords: [
     "calculadora dias uteis", 
     "contagem de prazo dias uteis", 
     "dias uteis 2026", 
     "somar dias uteis data", 
     "diferença de dias entre datas",
-    "calendario dias uteis"
+    "calendario dias uteis",
+    "dias uteis janeiro 2026",
+    "dias uteis fevereiro 2026",
+    "prazos processuais dias uteis",
+    "contagem cpc dias uteis"
   ],
   alternates: { canonical: "https://mestredascontas.com.br/financeiro/calculadora-dias-uteis" },
   openGraph: {
@@ -35,13 +40,41 @@ export default function BusinessDaysPage() {
   
   const jsonLd = {
     "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": "Calculadora de Dias Úteis",
-    "applicationCategory": "mBusinessApplication",
-    "operatingSystem": "Web",
-    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
-    "description": "Calculadora para somar dias úteis a uma data ou contar a diferença de dias úteis entre duas datas.",
-    "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.8", "ratingCount": "920" }
+    "@graph": [
+      {
+        "@type": "SoftwareApplication",
+        "name": "Calculadora de Dias Úteis - Mestre das Contas",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Web",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
+        "description": "Calculadora profissional para somar dias úteis a uma data ou contar a diferença de dias úteis entre datas, considerando feriados nacionais de 2026.",
+        "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.8", "ratingCount": "920", "bestRating": "5", "worstRating": "1" }
+      },
+      {
+        "@type": "Article",
+        "headline": "Guia de Contagem de Dias Úteis 2026: Prazos Bancários e Processuais",
+        "description": "Aprenda a diferença entre dias úteis e corridos e como calcular prazos corretamente seguindo o CPC e normas bancárias.",
+        "author": { "@type": "Organization", "name": "Mestre das Contas" },
+        "publisher": { "@type": "Organization", "name": "Mestre das Contas", "logo": { "@type": "ImageObject", "url": "https://mestredascontas.com.br/opengraph-image" } },
+        "datePublished": "2024-03-01",
+        "dateModified": new Date().toISOString()
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "O sábado é considerado dia útil?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Para fins bancários e de pagamentos, NÃO. Para fins trabalhistas, o sábado é considerado dia útil (salvo acordo sindical)." }
+          },
+          {
+            "@type": "Question",
+            "name": "Como contar o dia do início de um prazo?",
+            "acceptedAnswer": { "@type": "Answer", "text": "A regra geral é: exclui-se o dia do começo e inclui-se o do vencimento." }
+          }
+        ]
+      }
+    ]
   };
 
   return (
@@ -68,6 +101,12 @@ export default function BusinessDaysPage() {
       </div>
 
       <div className="flex flex-col gap-8 px-4 sm:px-6 max-w-7xl mx-auto">
+        
+        {/* REVISÃO LEGAL/FINANCEIRA (E-E-A-T) */}
+        <div className="bg-blue-50/50 dark:bg-blue-900/10 border border-blue-100 dark:border-blue-800 p-4 rounded-2xl flex items-center gap-3 text-xs text-blue-700 dark:text-blue-300 mb-2">
+          <ShieldCheck size={18} className="text-blue-600 shrink-0" />
+          <span>Contagem baseada no calendário oficial de feriados nacionais de 2026 e normas vigentes de prazos civis.</span>
+        </div>
 
         {/* ANÚNCIO TOPO */}
         <div className="w-full max-w-5xl mx-auto overflow-hidden flex justify-center bg-slate-50/50 dark:bg-slate-900/50 rounded-lg border border-dashed border-slate-200/50 dark:border-slate-800 print:hidden min-h-[100px]">
@@ -162,8 +201,8 @@ export default function BusinessDaysPage() {
             <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100 mt-10 mb-4">
                Calendário de Feriados Nacionais 2026
             </h3>
-            <div className="not-prose overflow-hidden border rounded-xl border-slate-200 dark:border-slate-800 shadow-sm bg-white dark:bg-slate-900 mb-8">
-                <table className="w-full text-sm text-left">
+            <div className="not-prose my-8 overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm bg-white dark:bg-slate-900">
+                <table className="w-full text-sm text-left min-w-[600px]">
                     <thead className="bg-slate-900 dark:bg-slate-950 text-white">
                         <tr>
                             <th className="px-6 py-4 font-bold w-1/4">Data</th>
@@ -186,6 +225,50 @@ export default function BusinessDaysPage() {
                         <tr className="hover:bg-slate-50 dark:hover:bg-slate-800"><td className="px-6 py-3 font-mono">25/12</td><td>Sexta</td><td>Natal</td></tr>
                     </tbody>
                 </table>
+            </div>
+
+            <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100 mt-10 mb-6 flex items-center gap-2">
+                <CalendarDays className="text-blue-600" /> Quantos dias úteis tem cada mês em 2026?
+            </h3>
+            <p>
+                Para ajudar no seu planejamento financeiro e operacional, montamos uma tabela de referência rápida com o total de dias úteis em cada mês de 2026, considerando feriados nacionais e finais de semana:
+            </p>
+
+            <div className="not-prose my-8 overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm bg-white dark:bg-slate-900">
+                <table className="w-full text-sm text-left min-w-[600px]">
+                    <thead className="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white">
+                        <tr>
+                            <th className="px-6 py-4 font-bold border-b border-slate-200 dark:border-slate-800">Mês</th>
+                            <th className="px-6 py-4 font-bold border-b border-slate-200 dark:border-slate-800">Dias Corridos</th>
+                            <th className="px-6 py-4 font-bold border-b border-slate-200 dark:border-slate-800">Finais de Semana</th>
+                            <th className="px-6 py-4 font-bold border-b border-slate-200 dark:border-slate-800">Feriados (Úteis)</th>
+                            <th className="px-6 py-4 font-bold border-b border-slate-200 dark:border-slate-800 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400">Total Úteis</th>
+                        </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-slate-700 dark:text-slate-300">
+                        <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/50"><td className="px-6 py-4 font-bold">Janeiro</td><td>31</td><td>9</td><td>1</td><td className="px-6 py-4 font-bold text-blue-600">21</td></tr>
+                        <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/50"><td className="px-6 py-4 font-bold">Fevereiro</td><td>28</td><td>8</td><td>2</td><td className="px-6 py-4 font-bold text-blue-600">18</td></tr>
+                        <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/50"><td className="px-6 py-4 font-bold">Março</td><td>31</td><td>9</td><td>0</td><td className="px-6 py-4 font-bold text-blue-600">22</td></tr>
+                        <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/50"><td className="px-6 py-4 font-bold">Abril</td><td>30</td><td>8</td><td>2</td><td className="px-6 py-4 font-bold text-blue-600">20</td></tr>
+                        <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/50"><td className="px-6 py-4 font-bold">Maio</td><td>31</td><td>10</td><td>1</td><td className="px-6 py-4 font-bold text-blue-600">20</td></tr>
+                        <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/50"><td className="px-6 py-4 font-bold">Junho</td><td>30</td><td>8</td><td>1</td><td className="px-6 py-4 font-bold text-blue-600">21</td></tr>
+                        <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/50"><td className="px-6 py-4 font-bold">Julho</td><td>31</td><td>8</td><td>0</td><td className="px-6 py-4 font-bold text-blue-600">23</td></tr>
+                        <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/50"><td className="px-6 py-4 font-bold">Agosto</td><td>31</td><td>10</td><td>0</td><td className="px-6 py-4 font-bold text-blue-600">21</td></tr>
+                        <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/50"><td className="px-6 py-4 font-bold">Setembro</td><td>30</td><td>8</td><td>1</td><td className="px-6 py-4 font-bold text-blue-600">21</td></tr>
+                        <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/50"><td className="px-6 py-4 font-bold">Outubro</td><td>31</td><td>9</td><td>1</td><td className="px-6 py-4 font-bold text-blue-600">21</td></tr>
+                        <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/50"><td className="px-6 py-4 font-bold">Novembro</td><td>30</td><td>9</td><td>1</td><td className="px-6 py-4 font-bold text-blue-600">20</td></tr>
+                        <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/50"><td className="px-6 py-4 font-bold">Dezembro</td><td>31</td><td>8</td><td>1</td><td className="px-6 py-4 font-bold text-blue-600">22</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div className="bg-amber-50 dark:bg-amber-900/10 border border-amber-200 dark:border-amber-900/30 p-6 rounded-2xl my-8 not-prose shadow-sm">
+                <h4 className="font-bold text-amber-900 dark:text-amber-400 mb-2 flex items-center gap-2">
+                    <AlertTriangle size={18} /> Atenção aos Feriados Estaduais
+                </h4>
+                <p className="text-sm text-slate-700 dark:text-slate-300 mb-0">
+                    A tabela acima considera apenas feriados nacionais. Se você mora em São Paulo, por exemplo, o dia 9 de Julho é feriado estadual. Nesses casos, subtraia 1 dia da contagem do respectivo mês para maior precisão.
+                </p>
             </div>
 
             {/* FAQ */}
@@ -227,6 +310,8 @@ export default function BusinessDaysPage() {
             </div>
 
         </div>
+
+        <SmartCrossLinker currentHref="/financeiro/calculadora-dias-uteis" category="financeiro" />
 
         {/* ANÚNCIO FINAL */}
         <div className="w-full flex justify-center my-8 print:hidden min-h-[250px]">

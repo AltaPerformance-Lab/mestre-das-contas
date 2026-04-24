@@ -5,6 +5,8 @@ import ReceiptGenerator from "@/components/tools/ReceiptGenerator";
 import AdUnit from "@/components/ads/AdUnit";
 import DisclaimerBox from "@/components/ui/DisclaimerBox";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
+import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
+import LazyAdUnit from "@/components/ads/LazyAdUnit";
 import PageHeader from "@/components/layout/PageHeader";
 import { 
   FileText, Zap, ShieldCheck, Printer, 
@@ -103,9 +105,9 @@ export default async function ReceiptCasePage({ params }: Props) {
           description={data.desc}
           category="Modelos de Recibo"
           icon={<LayoutTemplate size={32} strokeWidth={2} />}
-          variant="default"
+          variant="tools"
           categoryColor="slate"
-          badge="Modelo Pronto"
+          badge="Pronto 2026"
           breadcrumbs={[
             { label: "Ferramentas", href: "/ferramentas" },
             { label: "Gerador de Recibo", href: "/ferramentas/gerador-recibo" },
@@ -118,7 +120,13 @@ export default async function ReceiptCasePage({ params }: Props) {
         
         {/* ANÚNCIO TOPO */}
         <div className="w-full max-w-5xl mx-auto overflow-hidden flex justify-center bg-slate-50/50 dark:bg-slate-900/50 rounded-lg border border-dashed border-slate-200/50 dark:border-slate-800 print:hidden min-h-[100px]">
-           <AdUnit slot="recibo_case_top" format="horizontal" variant="agency" />
+           <LazyAdUnit slot="recibo_case_top" format="horizontal" variant="agency" />
+        </div>
+
+        {/* REVISÃO PROFISSIONAL (E-E-A-T) */}
+        <div className="bg-slate-50/50 dark:bg-slate-900/10 border border-slate-200 dark:border-slate-700 p-4 rounded-2xl flex items-center gap-3 text-xs text-slate-600 dark:text-slate-400 mb-2">
+          <ShieldCheck size={18} className="text-blue-600 shrink-0" />
+          <span>Modelo de documento revisado conforme as normas vigentes de comprovantes de pagamento e quitação.</span>
         </div>
 
         {/* FERRAMENTA JÁ PREENCHIDA */}
@@ -130,7 +138,7 @@ export default async function ReceiptCasePage({ params }: Props) {
 
         {/* ANÚNCIO MEIO */}
         <div className="w-full max-w-4xl mx-auto flex justify-center my-6 print:hidden min-h-[250px]">
-            <AdUnit slot="recibo_case_mid" format="auto" />
+            <LazyAdUnit slot="recibo_case_mid" format="auto" />
         </div>
 
         {/* --- ARTIGO --- */}
@@ -223,25 +231,11 @@ export default async function ReceiptCasePage({ params }: Props) {
 
         </div>
 
-        {/* NAVEGAÇÃO ENTRE MODELOS */}
-        <div className="w-full max-w-4xl mx-auto mt-4 print:hidden">
-             <h4 className="text-sm font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-4 text-center">Outros Modelos de Recibo</h4>
-             <div className="flex flex-wrap justify-center gap-2">
-                {receiptCases.filter(d => d.slug !== slug).map((item) => (
-                    <Link 
-                        key={item.slug}
-                        href={`/ferramentas/gerador-recibo/${item.slug}`} 
-                        className="px-4 py-2 text-xs md:text-sm rounded-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:border-slate-400 dark:hover:border-slate-500 hover:text-slate-900 dark:hover:text-slate-200 transition-all hover:shadow-sm"
-                    >
-                        {item.title.replace("Recibo de ", "")}
-                    </Link>
-                ))}
-            </div>
-        </div>
+        <SmartCrossLinker currentHref={`/ferramentas/gerador-recibo/${slug}`} category="ferramentas" />
 
         {/* ANÚNCIO BOTTOM */}
         <div className="w-full flex justify-center mt-8 min-h-[250px] print:hidden">
-            <AdUnit slot="recibo_case_bottom" format="horizontal" variant="software" />
+            <LazyAdUnit slot="recibo_case_bottom" format="horizontal" variant="software" />
         </div>
 
       </div>

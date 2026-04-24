@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/toaster";
+import { trackEvent } from "@/lib/analytics";
 
 interface SavedKey {
   id: string;
@@ -66,6 +67,7 @@ export default function PixGenerator({
     if (key && name && city) {
       const payload = generatePayload();
       setGeneratedPayload(payload);
+      trackEvent("generate_pix_payload", { has_amount: amount > 0, key_type: keyType });
     } else {
         setGeneratedPayload("");
     }
@@ -150,6 +152,7 @@ export default function PixGenerator({
     const updated = [...savedKeys, newKey];
     setSavedKeys(updated);
     localStorage.setItem("pix_favorites", JSON.stringify(updated));
+    trackEvent("save_pix_key", { key_type: keyType });
     toast({ title: "Chave Salva!", description: `Agora você pode carregar "${alias}" rapidamente.` });
   };
 
@@ -185,6 +188,7 @@ export default function PixGenerator({
      navigator.clipboard.writeText(generatedPayload);
      setIsCopied(true);
      setTimeout(() => setIsCopied(false), 2000);
+     trackEvent("copy_pix_payload", { amount: amount });
      toast({ title: "Copiado!", description: "Código Pix Copia e Cola na área de transferência." });
   };
 

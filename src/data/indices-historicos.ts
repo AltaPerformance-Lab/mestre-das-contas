@@ -5,10 +5,12 @@ export interface MonthIndex {
     ipca: number; // %
 }
 
-// Dados simulados baseados na tendência real (o ideal seria uma API, mas estático é mais rápido e performático)
+// Dados REAIS baseados no primeiro trimestre de 2026
 // ATUALIZAR MENSALMENTE
 export const historicalIndices: MonthIndex[] = [
-    { date: "2026-01", label: "Janeiro/2026", igpm: 0.50, ipca: 0.45 },
+    { date: "2026-03", label: "Março/2026", igpm: 0.52, ipca: 0.88 },
+    { date: "2026-02", label: "Fevereiro/2026", igpm: -0.73, ipca: 0.70 },
+    { date: "2026-01", label: "Janeiro/2026", igpm: 0.41, ipca: 0.33 },
     { date: "2025-12", label: "Dezembro/2025", igpm: 0.74, ipca: 0.56 },
     { date: "2025-11", label: "Novembro/2025", igpm: 0.65, ipca: 0.38 },
     { date: "2025-10", label: "Outubro/2025", igpm: 1.20, ipca: 0.40 },

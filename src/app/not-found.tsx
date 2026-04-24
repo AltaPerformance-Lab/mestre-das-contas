@@ -1,51 +1,11 @@
 import Link from 'next/link';
 import { 
-  FileQuestion, Home, Briefcase, 
-  Wallet, ArrowRight, Landmark, QrCode 
+  FileQuestion, Home, ArrowRight 
 } from "lucide-react";
+import SmartNotFoundSuggestions from '@/components/layout/SmartNotFoundSuggestions';
 
 export default function NotFound() {
   
-  // Lista de ferramentas atualizada com Reforma e QR Code
-  const suggestedTools = [
-    {
-      label: "Reforma Tributária",
-      description: "Simule o impacto do novo IVA no seu bolso.",
-      href: "/financeiro/reforma-tributaria",
-      icon: Landmark,
-      color: "text-emerald-600",
-      bg: "bg-emerald-50",
-      border: "group-hover:border-emerald-200"
-    },
-    {
-      label: "Gerador de QR Code",
-      description: "Crie códigos para PIX, Wi-Fi e links.",
-      href: "/ferramentas/gerador-qr-code",
-      icon: QrCode,
-      color: "text-slate-600",
-      bg: "bg-slate-50",
-      border: "group-hover:border-slate-200"
-    },
-    {
-      label: "Rescisão CLT",
-      description: "Foi demitido? Calcule seu acerto exato.",
-      href: "/trabalhista/rescisao",
-      icon: Briefcase,
-      color: "text-blue-600",
-      bg: "bg-blue-50",
-      border: "group-hover:border-blue-200"
-    },
-    {
-      label: "Salário Líquido",
-      description: "Veja os descontos do seu holerite.",
-      href: "/financeiro/salario-liquido",
-      icon: Wallet,
-      color: "text-indigo-600",
-      bg: "bg-indigo-50",
-      border: "group-hover:border-indigo-200"
-    }
-  ];
-
   return (
     <div className="min-h-[80vh] flex flex-col items-center justify-center p-4 bg-slate-50 dark:bg-slate-950 relative overflow-hidden transition-colors duration-300">
       
@@ -70,32 +30,11 @@ export default function NotFound() {
         </h2>
         <p className="text-slate-500 dark:text-slate-400 text-lg mb-12 max-w-lg leading-relaxed">
           A página que você procura mudou de endereço ou não existe mais. 
-          Aproveite para conferir nossas ferramentas mais acessadas:
+          Aproveite para conferir nossas sugestões:
         </p>
 
-        {/* GRID DE RECUPERAÇÃO (CARDS MODERNOS) */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 w-full mb-12 text-left">
-          {suggestedTools.map((tool, index) => (
-            <Link 
-              key={index} 
-              href={tool.href}
-              className={`group bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ${tool.border} dark:hover:border-slate-700`}
-            >
-              <div className={`w-10 h-10 ${tool.bg} dark:bg-opacity-10 ${tool.color} rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
-                <tool.icon size={20} strokeWidth={2.5}/>
-              </div>
-              <h3 className="font-bold text-slate-900 dark:text-white mb-1 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                {tool.label}
-              </h3>
-              <p className="text-xs text-slate-500 dark:text-slate-400 leading-snug">
-                {tool.description}
-              </p>
-              <div className="mt-4 flex items-center text-xs font-bold text-slate-400 dark:text-slate-500 group-hover:text-slate-900 dark:group-hover:text-white transition-colors">
-                Acessar <ArrowRight size={12} className="ml-1 group-hover:translate-x-1 transition-transform"/>
-              </div>
-            </Link>
-          ))}
-        </div>
+        {/* COMPONENTE DE SUGESTÕES INTELIGENTES */}
+        <SmartNotFoundSuggestions />
 
         {/* BOTÃO HOME */}
         <Link href="/">
@@ -112,4 +51,4 @@ export default function NotFound() {
       </p>
     </div>
   );
-}
+}

@@ -3,6 +3,7 @@ import Link from "next/link";
 import LazyAdUnit from "@/components/ads/LazyAdUnit";
 import DisclaimerBox from "@/components/ui/DisclaimerBox";
 import PageHeader from "@/components/layout/PageHeader";
+import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
 // O Wrapper garante que o componente pesado só carregue no cliente (sem erro 500)
 import QRCodeWrapper from "@/components/calculators/QRCodeWrapper";
 import { 
@@ -21,8 +22,8 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
   const sp = await searchParams;
   const initialType = (sp.type as string);
   
-  let title = "QR Code Generator: Criar Grátis e Vitalício (Com Logo)";
-  let description = "O melhor Gerador de QR Code Gratuito. Crie códigos personalizados com Cores e Logo. Vitalício, ilimitado e em alta resolução (PNG/SVG).";
+  let title = "Gerador de QR Code 2026 (Grátis) | Criar com Logo e Vitalício";
+  let description = "O melhor Gerador de QR Code Gratuito em 2026. Crie códigos personalizados com Cores e Logo. Vitalício, ilimitado e em alta resolução (PNG/SVG).";
 
   if (initialType === "pix") {
       title = "Gerador de QR Code Pix Grátis (Com Chave e Valor)";
@@ -68,6 +69,15 @@ const jsonLd = {
           "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.9", "ratingCount": "3102" },
           "description": "Ferramenta profissional para criação de códigos QR estáticos de alta resolução.",
           "featureList": "Pix, Wi-Fi, vCard, WhatsApp, Download SVG/PNG"
+      },
+      {
+          "@type": "Article",
+          "headline": "Guia Definitivo do QR Code: Como Criar e Usar Estrategicamente",
+          "description": "Tudo sobre códigos QR: a diferença entre estático e dinâmico, como personalizar com sua marca e as melhores práticas de uso em 2026.",
+          "author": { "@type": "Organization", "name": "Mestre das Contas" },
+          "publisher": { "@type": "Organization", "name": "Mestre das Contas", "logo": { "@type": "ImageObject", "url": "https://mestredascontas.com.br/icon.png" } },
+          "datePublished": "2024-04-12",
+          "dateModified": new Date().toISOString()
       },
       {
           "@type": "HowTo",
@@ -149,6 +159,12 @@ export default async function QRCodePage({ searchParams }: Props) {
         {/* ANÚNCIO TOPO */}
         <div className="w-full max-w-5xl mx-auto overflow-hidden flex justify-center bg-slate-50/50 dark:bg-slate-900/50 rounded-lg border border-dashed border-slate-200/50 dark:border-slate-800 print:hidden min-h-[100px]">
            <LazyAdUnit slot="qrcode_top" format="horizontal" variant="agency" />
+        </div>
+
+        {/* PRIVACIDADE E SEGURANÇA (E-E-A-T) */}
+        <div className="bg-emerald-50/50 dark:bg-emerald-900/10 border border-emerald-100 dark:border-emerald-800 p-4 rounded-2xl flex items-center gap-3 text-xs text-emerald-700 dark:text-emerald-300 mb-2">
+          <ShieldCheck size={18} className="text-emerald-600 shrink-0" />
+          <span>Ferramenta 100% Client-Side: Seus dados não saem do seu computador. Segurança e privacidade total garantidas em 2026.</span>
         </div>
 
         {/* FERRAMENTA PRINCIPAL (Com Props Dinâmicas) */}
@@ -388,6 +404,8 @@ export default async function QRCodePage({ searchParams }: Props) {
           </details>
 
         </div>
+
+        <SmartCrossLinker currentHref="/ferramentas/gerador-qr-code" category="ferramentas" />
 
         {/* --- ANÚNCIO BOTTOM --- */}
         <div className="w-full flex justify-center my-8 print:hidden min-h-[250px]">

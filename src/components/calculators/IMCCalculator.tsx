@@ -11,6 +11,7 @@ import {
   HeartPulse, Share2, Printer, History, 
   Code2, CheckCircle2, Link as LinkIcon, X, Scale, Ruler 
 } from "lucide-react";
+import { trackEvent } from "@/lib/analytics";
 
 // --- TIPAGEM ---
 type HistoricoItem = {
@@ -132,6 +133,7 @@ export default function IMCCalculator() {
     };
     
     setResultado(novoResultado);
+    trackEvent("calculate_imc", { imc: imc.toFixed(2), classificacao });
     if (!isIframe) salvarHistorico(novoResultado);
   };
 
@@ -157,11 +159,18 @@ export default function IMCCalculator() {
 
   // --- ACTIONS ---
   const handleAction = (action: string) => {
-    if (action === 'pdf') reactToPrintFn();
-    if (action === 'embed') setShowEmbedModal(true);
+    if (action === 'pdf') {
+        trackEvent("print_imc");
+        reactToPrintFn();
+    }
+    if (action === 'embed') {
+        trackEvent("share_imc_embed");
+        setShowEmbedModal(true);
+    }
     if (action === 'share') {
         const url = `${window.location.origin}${window.location.pathname}?peso=${peso}&altura=${altura}`;
         navigator.clipboard.writeText(url);
+        trackEvent("share_imc_link");
         setCopiado("link");
         setTimeout(() => setCopiado(null), 2000);
     }

@@ -8,22 +8,24 @@ interface GoogleAdProps {
   format?: "auto" | "fluid" | "rectangle" | "vertical" | "horizontal";
   className?: string;
   responsive?: boolean;
+  onUnfilled?: () => void;
 }
 
 export default function GoogleAd({ 
   slot, 
   format = "auto", 
   className = "",
-  responsive = true
+  responsive = true,
+  onUnfilled
 }: GoogleAdProps) {
   
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const adRef = useRef<HTMLModElement>(null);
-  const [consent, setConsent] = useState(false);
+  const [consent, setConsent] = useState<'granted' | 'denied' | 'pending'>('pending');
 
-  // CRIA UMA CHAVE ÚNICA BASEADA NA ROTA
-  const keyTrigger = `${pathname}-${searchParams.toString()}-${slot}`;
+  // CRIA UMA CHAVE ÚNICA BASEADA NA ROTA E CONSENTIMENTO
+  const keyTrigger = `${pathname}-${searchParams.toString()}-${slot}-${consent}`;
 
   // 1. GERENCIAMENTO DE CONSENTIMENTO
   useEffect(() => {
@@ -33,13 +35,13 @@ export default function GoogleAd({
         if (stored) {
             const { preferences } = JSON.parse(stored);
             if (preferences.marketing) {
-                setConsent(true);
+                setConsent('granted');
             } else {
-                setConsent(false);
+                setConsent('denied');
             }
         } else {
-             // Se não tem nada salvo, assumimos false (esperando aceite)
-             setConsent(false);
+             // Se não tem nada salvo, está aguardando (pending)
+             setConsent('pending');
         }
     };
 
@@ -59,33 +61,63 @@ export default function GoogleAd({
 
   // 2. INICIALIZAÇÃO DO ADSENSE
   useEffect(() => {
-    if (!consent) return; // Se não tem consentimento, não faz nada
+    // Se consentimento foi negado, não injeta o AdSense
+    if (consent === 'denied') return;
+
+    let observer: MutationObserver | null = null;
 
     try {
       const timeoutId = setTimeout(() => {
           if (adRef.current && (window as any).adsbygoogle) {
+             
+             // Observer para detectar se o AdSense não conseguiu preencher o anúncio (unfilled)
+             if (onUnfilled) {
+                 observer = new MutationObserver((mutations) => {
+                     mutations.forEach((mutation) => {
+                         if (mutation.attributeName === 'data-ad-status') {
+                             const status = adRef.current?.getAttribute('data-ad-status');
+                             if (status === 'unfilled') {
+                                 onUnfilled();
+                             }
+                         }
+                     });
+                 });
+                 observer.observe(adRef.current, { attributes: true });
+             }
+
+             // Verifica se o anúncio já foi preenchido
              if (adRef.current.innerHTML.trim() !== "") {
                 return;
              }
+             
+             // Se estiver pendente, pode definir NPA (Non-Personalized Ads) 
+             if (consent === 'pending') {
+               (window as any).adsbygoogle.requestNonPersonalizedAds = 1;
+             }
+
              (window as any).adsbygoogle.push({});
           }
-      }, 100);
+      }, 300); // Um pequeno delay para garantir que a div esteja pronta
 
-      return () => clearTimeout(timeoutId);
+      return () => {
+          clearTimeout(timeoutId);
+          if (observer) observer.disconnect();
+      };
 
     } catch (err) {
       console.error("AdSense Error:", err);
     }
-  }, [keyTrigger, consent]); // Roda quando a chave ou o consentimento mudarem
+  }, [keyTrigger, consent, onUnfilled]);
 
-  // Se não tiver consentimento, não renderiza nada (ou renderize um placeholder se preferir evitar CLS)
-  // Por enquanto, vamos retornar null para não carregar scripts indesejados.
-  // Se quiser evitar CLS (Cumulative Layout Shift), renderize a div vazia com a altura min.
   // Altura mínima lógica para evitar CLS (Cumulative Layout Shift)
   const minHeightClass = format === "horizontal" ? "min-h-[90px]" : "min-h-[250px]";
 
-  if (!consent) return null;
+  // Se o consentimento foi explicitamente negado, renderizamos apenas o espaço vazio
+  if (consent === 'denied') {
+    return <div className={`overflow-hidden ${className} ${minHeightClass} bg-slate-50 dark:bg-slate-900 flex items-center justify-center`} />;
+  }
 
+  // Renderizamos a tag <ins> se consentimento for granted ou pending (para o Googlebot poder ler)
   return (
     <div 
       key={keyTrigger} 

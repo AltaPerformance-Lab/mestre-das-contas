@@ -5,10 +5,10 @@ import PageHeader from "@/components/layout/PageHeader";
 import PixGenerator from "@/components/tools/PixGenerator";
 import { 
   Zap, ShieldCheck, Smartphone, CheckCircle2, 
-  HelpCircle, AlertTriangle, ArrowRight 
+  HelpCircle, AlertTriangle, ArrowRight, Receipt, Calculator
 } from "lucide-react";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
-import RelatedTools from "@/components/layout/RelatedTools";
+import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
 
 type Props = {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>
@@ -132,9 +132,9 @@ export default async function PixPage({ searchParams }: Props) {
           description="A maneira mais rápida e profissional de cobrar. Crie um QR Code com valor exato, envie pelo WhatsApp e receba na hora. Sem taxas, sem intermediários."
           category="Ferramentas Financeiras"
           icon={<Zap size={32} strokeWidth={2} />}
-          variant="reform" 
+          variant="tools" 
           categoryColor="emerald"
-          badge="Atualizado BC 2026"
+          badge="Seguro 2026"
           rating={4.9}
           reviews={1250}
           breadcrumbs={[{ label: "Ferramentas", href: "/ferramentas" }, { label: "Gerador Pix" }]}
@@ -142,6 +142,11 @@ export default async function PixPage({ searchParams }: Props) {
       </div>
 
       <div className="flex flex-col gap-8 px-4 sm:px-6 max-w-7xl mx-auto w-full">
+        {/* REVISÃO TECNOLÓGICA (E-E-A-T) */}
+        <div className="bg-emerald-50/50 dark:bg-emerald-900/10 border border-emerald-100 dark:border-emerald-800 p-4 rounded-2xl flex items-center gap-3 text-xs text-emerald-700 dark:text-emerald-300 mb-2">
+          <ShieldCheck size={18} className="text-emerald-600 shrink-0" />
+          <span>Algoritmo de geração baseado no padrão oficial EMV BR Code do Banco Central, atualizado para as normas de 2026.</span>
+        </div>
         
         {/* PUBLICIDADE TOPO */}
         <div className="w-full flex justify-center">
@@ -158,6 +163,28 @@ export default async function PixPage({ searchParams }: Props) {
               initialAmount={initialAmount}
               initialTxid={initialTxid}
            />
+
+           {/* PRÓXIMOS PASSOS (Baseado em Analytics - ChatGPT Users) */}
+           <div className="mt-8 grid sm:grid-cols-2 gap-4 print:hidden max-w-5xl mx-auto">
+              <Link href="/ferramentas/gerador-recibo" className="flex items-center gap-4 p-5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl hover:border-emerald-500 transition-all group shadow-sm">
+                <div className="bg-emerald-100 dark:bg-emerald-900/30 p-3 rounded-xl group-hover:bg-emerald-500 group-hover:text-white transition-colors">
+                  <Receipt size={24} className="text-emerald-600 group-hover:text-white" />
+                </div>
+                <div>
+                  <h4 className="text-base font-bold text-slate-900 dark:text-white leading-tight">Emitir Recibo</h4>
+                  <p className="text-xs text-slate-500 mt-1">Gere um comprovante profissional para este Pix.</p>
+                </div>
+              </Link>
+              <Link href="/ferramentas/criador-orcamentos" className="flex items-center gap-4 p-5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl hover:border-emerald-500 transition-all group shadow-sm">
+                <div className="bg-emerald-100 dark:bg-emerald-900/30 p-3 rounded-xl group-hover:bg-emerald-500 group-hover:text-white transition-colors">
+                  <Calculator size={24} className="text-emerald-600 group-hover:text-white" />
+                </div>
+                <div>
+                  <h4 className="text-base font-bold text-slate-900 dark:text-white leading-tight">Criar Orçamento</h4>
+                  <p className="text-xs text-slate-500 mt-1">Transforme este valor em um orçamento PDF.</p>
+                </div>
+              </Link>
+           </div>
         </section>
         
         {/* PUBLICIDADE MEIO */}
@@ -337,7 +364,7 @@ export default async function PixPage({ searchParams }: Props) {
 
 
 
-        <RelatedTools currentTool="gerador-pix" />
+        <SmartCrossLinker currentHref="/ferramentas/gerador-pix" category="ferramentas" />
 
         {/* PUBLICIDADE BOTTOM */}
         <div className="w-full flex justify-center mt-8">

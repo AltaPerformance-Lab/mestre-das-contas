@@ -7,9 +7,10 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { 
-  Clock, Share2, Printer, History, Code2, 
-  CheckCircle2, X, AlertTriangle, Moon, Sun, Timer
+  CheckCircle2, X, AlertTriangle, Moon, Sun, Timer,
+  Clock, Code2, History, Printer
 } from "lucide-react";
+import { trackEvent } from "@/lib/analytics";
 
 type HistoricoPonto = {
   data: string;
@@ -104,6 +105,7 @@ export default function TimeCalculator() {
     };
 
     setResultado(novoRes);
+    trackEvent("calculate_ponto", { total: novoRes.totalTrabalhado, status: novoRes.status });
 
     const novoHist = [{ 
         data: new Date().toLocaleDateString("pt-BR"), 
@@ -124,8 +126,14 @@ export default function TimeCalculator() {
   const handleShare = () => {
       const code = `<iframe src="https://mestredascontas.com.br/trabalhista/horas-trabalhadas?embed=true" width="100%" height="600" frameborder="0"></iframe>`;
       navigator.clipboard.writeText(code);
+      trackEvent("share_ponto_embed");
       setCopiado("embed");
       setTimeout(() => setCopiado(null), 2000);
+  };
+
+  const handlePrint = () => {
+      trackEvent("print_ponto");
+      reactToPrintFn();
   };
 
   return (
@@ -249,7 +257,7 @@ export default function TimeCalculator() {
                                 <Button variant="outline" onClick={handleShare} className="h-11 border-slate-200 dark:border-slate-700 hover:bg-indigo-50 dark:hover:bg-indigo-900/20 hover:text-indigo-600 dark:hover:text-indigo-400 bg-white dark:bg-slate-900 dark:text-slate-200">
                                     {copiado === "embed" ? "Copiado!" : "Compartilhar"}
                                 </Button>
-                                <Button variant="outline" onClick={reactToPrintFn} className="h-11 border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-100 bg-white dark:bg-slate-900 dark:text-slate-200">
+                                <Button variant="outline" onClick={handlePrint} className="h-11 border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-100 bg-white dark:bg-slate-900 dark:text-slate-200">
                                     <Printer size={16} className="mr-2"/> Imprimir
                                 </Button>
                             </div>

@@ -2,16 +2,17 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import LazyAdUnit from "@/components/ads/LazyAdUnit";
 import PageHeader from "@/components/layout/PageHeader";
+import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
 import RentCalculator from "@/components/calculators/RentCalculator";
 import { 
   Home, TrendingUp, AlertTriangle, HelpCircle, 
-  BarChart3, Scale, Calculator 
+  BarChart3, Scale, Calculator, ShieldCheck
 } from "lucide-react";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
 
 export const metadata: Metadata = {
-  title: "Calculadora de Reajuste de Aluguel 2026 (IGP-M e IPCA)",
-  description: "Descubra o novo valor do aluguel. Tabela oficial acumulada de 2025/2026. Compare IGP-M vs IPCA e saiba como negociar com o proprietário.",
+  title: "Calculadora de Reajuste de Aluguel 2026 (Grátis) | IGP-M e IPCA",
+  description: "Descubra o novo valor do seu aluguel em segundos. Tabela oficial acumulada 2026. Compare IGP-M vs IPCA e aprenda a negociar com o proprietário. Grátis.",
   keywords: ["calculadora reajuste aluguel", "indice igpm 2026", "calcular aumento aluguel", "ipca acumulado aluguel", "reajuste anual aluguel"],
   alternates: { canonical: "https://mestredascontas.com.br/financeiro/reajuste-aluguel" },
   openGraph: {
@@ -26,13 +27,41 @@ export const metadata: Metadata = {
 
 const jsonLd = {
   "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  "name": "Calculadora de Reajuste de Aluguel",
-  "applicationCategory": "FinanceApplication",
-  "operatingSystem": "Web",
-  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
-  "description": "Calcula o reajuste anual de aluguel baseado nos índices IGP-M ou IPCA acumulados.",
-  "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.8", "ratingCount": "850", "bestRating": "5", "worstRating": "1" }
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "Calculadora de Reajuste de Aluguel - Mestre das Contas",
+      "applicationCategory": "FinanceApplication",
+      "operatingSystem": "Web",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
+      "description": "Ferramenta oficial para calcular o reajuste anual de aluguel baseado nos índices IGP-M ou IPCA acumulados.",
+      "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.8", "ratingCount": "850", "bestRating": "5", "worstRating": "1" }
+    },
+    {
+      "@type": "Article",
+      "headline": "Reajuste de Aluguel 2026: Guia de Índices e Negociação",
+      "description": "Entenda como funciona o reajuste anual, a diferença entre IGP-M e IPCA e como negociar o valor com o proprietário.",
+      "author": { "@type": "Organization", "name": "Mestre das Contas" },
+      "publisher": { "@type": "Organization", "name": "Mestre das Contas", "logo": { "@type": "ImageObject", "url": "https://mestredascontas.com.br/opengraph-image" } },
+      "datePublished": "2024-02-10",
+      "dateModified": new Date().toISOString()
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Quando o aluguel pode aumentar?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Apenas uma vez a cada 12 meses, na data de aniversário do contrato." }
+        },
+        {
+          "@type": "Question",
+          "name": "O índice deu negativo. O aluguel abaixa?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Tecnicamente sim, mas verifique se seu contrato possui cláusula de 'reajuste zero' em caso de deflação." }
+        }
+      ]
+    }
+  ]
 };
 
 export default function RentPage() {
@@ -57,6 +86,12 @@ export default function RentPage() {
       </div>
 
       <div className="flex flex-col gap-8 px-4 sm:px-6 max-w-7xl mx-auto w-full">
+        
+        {/* REVISÃO FINANCEIRA (E-E-A-T) */}
+        <div className="bg-blue-50/50 dark:bg-blue-900/10 border border-blue-100 dark:border-blue-800 p-4 rounded-2xl flex items-center gap-3 text-xs text-blue-700 dark:text-blue-300 mb-2">
+          <ShieldCheck size={18} className="text-blue-600 shrink-0" />
+          <span>Conteúdo verificado com base nos índices oficiais (FGV/IBGE) e indicadores econômicos vigentes em 2026.</span>
+        </div>
         
         {/* PUBLICIDADE TOPO */}
         <div className="w-full flex justify-center">
@@ -213,6 +248,8 @@ export default function RentPage() {
             </div>
 
         </div>
+
+        <SmartCrossLinker currentHref="/financeiro/reajuste-aluguel" category="financeiro" />
 
         {/* PUBLICIDADE BOTTOM */}
         <div className="w-full flex justify-center mt-8">

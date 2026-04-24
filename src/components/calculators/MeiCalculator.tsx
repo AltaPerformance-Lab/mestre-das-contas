@@ -8,18 +8,24 @@ import {
   AlertTriangle, 
   CheckCircle2, 
   HelpCircle,
-  Briefcase
+  Briefcase,
+  Share2,
+  Printer
 } from 'lucide-react';
-// toBRL dependency removed
+import { Button } from "@/components/ui/button";
+import { trackEvent } from "@/lib/analytics";
 
 export default function MeiCalculator() {
-  // Constants for 2026 (Hypothetical/Projected)
-  const SALARIO_MINIMO_2026 = 1500.00; // Projection
+  // Constants for 2026 (Official)
+  const SALARIO_MINIMO_2026 = 1621.00;
   const LIMITE_ANUAL = 81000.00;
   
   const [faturamentoMensal, setFaturamentoMensal] = useState('');
   const [atividade, setAtividade] = useState('servicos'); // comercio, industria, servicos, comercio_servicos
   const [mesesTrabalhados, setMesesTrabalhados] = useState(12);
+  const [copiado, setCopiado] = useState(false);
+
+  const formatBRL = (val: number) => val.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 
   // Calculate DAS
   const calculateDas = () => {
@@ -39,7 +45,11 @@ export default function MeiCalculator() {
        return (SALARIO_MINIMO_2026 * 0.12) + 6.00; 
     }
 
-    return inss + icms + iss;
+    const res = inss + icms + iss;
+    
+    // Tracking is handled by a side effect or on manual change if we want, 
+    // but here it's reactive. We'll track when faturamento is entered.
+    return res;
   };
 
   const dasValue = calculateDas();
@@ -55,6 +65,24 @@ export default function MeiCalculator() {
   const isEstourou = faturamentoAnualEstimado > limiteProporcional;
   const estouroValor = faturamentoAnualEstimado - limiteProporcional;
   const estouroPercentual = (estouroValor / limiteProporcional) * 100;
+
+  const handleShare = () => {
+    const url = window.location.href;
+    navigator.clipboard.writeText(url);
+    trackEvent("share_mei_link");
+    setCopiado(true);
+    setTimeout(() => setCopiado(false), 2000);
+  };
+
+  // Track calculation when user finishes typing/changing
+  React.useEffect(() => {
+    if (faturamentoAtual > 0) {
+      const timer = setTimeout(() => {
+        trackEvent("calculate_mei", { faturamento: faturamentoAtual, atividade });
+      }, 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [faturamentoAtual, atividade]);
 
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
@@ -195,7 +223,29 @@ export default function MeiCalculator() {
           </div>
 
       </div>
-      
+
+      {/* --- ACTIONS --- */}
+      <div className="flex flex-wrap gap-4 pt-2">
+          <Button 
+            variant="outline" 
+            onClick={handleShare}
+            className="flex-1 h-12 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 font-bold gap-2 rounded-xl flex items-center justify-center"
+          >
+              {copiado ? <CheckCircle2 size={18} className="text-emerald-500" /> : <Share2 size={18} />}
+              {copiado ? "Link Copiado" : "Compartilhar"}
+          </Button>
+          <Button 
+            variant="outline" 
+            onClick={() => {
+                trackEvent("print_mei");
+                window.print();
+            }}
+            className="flex-1 h-12 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 font-bold gap-2 rounded-xl flex items-center justify-center"
+          >
+              <Printer size={18} />
+              Imprimir / PDF
+          </Button>
+      </div>
     </div>
   );
 }

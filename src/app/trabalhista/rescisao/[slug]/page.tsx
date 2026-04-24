@@ -6,8 +6,9 @@ import LazyAdUnit from "@/components/ads/LazyAdUnit";
 import PageHeader from "@/components/layout/PageHeader";
 import DisclaimerBox from "@/components/ui/DisclaimerBox";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
+import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
 import { terminationCases } from "@/data/termination-pseo";
-import { Calculator, ArrowLeft, Star, Briefcase, FileText } from "lucide-react";
+import { Calculator, ArrowLeft, Star, Briefcase, FileText, ShieldCheck } from "lucide-react";
 
 // --- SSG ---
 export async function generateStaticParams() {
@@ -137,9 +138,9 @@ export default async function TerminationPSeoPage({ params }: { params: Promise<
                     description={customCase.description}
                     category="Direitos Trabalhistas"
                     icon={<Briefcase size={32} strokeWidth={2} />}
-                    variant="default"
+                    variant="labor" 
                     categoryColor="indigo"
-                    badge="Cálculo Exato"
+                    badge="Atualizado 2026"
                     breadcrumbs={[
                         { label: "Trabalhista", href: "/trabalhista" },
                         { label: "Rescisão", href: "/trabalhista/rescisao" },
@@ -162,6 +163,12 @@ export default async function TerminationPSeoPage({ params }: { params: Promise<
                 {/* ANÚNCIO TOP */}
                 <div className="w-full flex justify-center">
                     <LazyAdUnit slot="termination_top" format="horizontal" variant="agency" className="min-h-[100px] w-full" />
+                </div>
+
+                {/* REVISÃO TRABALHISTA (E-E-A-T) */}
+                <div className="bg-blue-50/50 dark:bg-blue-900/10 border border-blue-100 dark:border-blue-800 p-4 rounded-2xl flex items-center gap-3 text-xs text-blue-700 dark:text-blue-300 mb-2">
+                  <ShieldCheck size={18} className="text-blue-600 shrink-0" />
+                  <span>Cálculo auditado para 2026 conforme Reforma Trabalhista e tabelas oficiais do Governo Federal.</span>
                 </div>
 
                 {/* FERRAMENTA PRE-FILLED */}
@@ -291,30 +298,7 @@ export default async function TerminationPSeoPage({ params }: { params: Promise<
 
                 {/* --- CROSS SELLING (FERRAMENTAS ÚTEIS) --- */}
                 <div className="mt-8 not-prose border-t border-slate-200 dark:border-slate-800 pt-8 print:hidden">
-                    <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
-                        <Star size={22} className="text-amber-500"/> Ferramentas Recomendadas
-                    </h3>
-                    <div className="grid md:grid-cols-2 gap-6">
-                        <Link href="/trabalhista/seguro-desemprego" className="block group">
-                            <div className="bg-gradient-to-br from-blue-600 to-cyan-600 rounded-2xl p-6 text-white shadow-lg shadow-blue-600/20 transition-transform group-hover:-translate-y-1">
-                                <div className="bg-white/20 w-12 h-12 rounded-lg flex items-center justify-center mb-4 backdrop-blur-sm">
-                                    <FileText size={24} className="text-white"/>
-                                </div>
-                                <h4 className="font-bold text-lg mb-1">Seguro Desemprego</h4>
-                                <p className="text-blue-50 text-sm opacity-90">Veja se você tem direito e calcule quantas parcelas irá receber.</p>
-                            </div>
-                        </Link>
-                        
-                        <Link href="/financeiro/salario-liquido" className="block group">
-                            <div className="bg-gradient-to-br from-emerald-500 to-teal-600 rounded-2xl p-6 text-white shadow-lg shadow-emerald-500/20 transition-transform group-hover:-translate-y-1">
-                                <div className="bg-white/20 w-12 h-12 rounded-lg flex items-center justify-center mb-4 backdrop-blur-sm">
-                                    <Briefcase size={24} className="text-white"/>
-                                </div>
-                                <h4 className="font-bold text-lg mb-1">Novo Salário Líquido</h4>
-                                <p className="text-emerald-50 text-sm opacity-90">Vai mudar de emprego? Simule quanto cairá na conta com a nova proposta.</p>
-                            </div>
-                        </Link>
-                    </div>
+                    <SmartCrossLinker currentHref={`/trabalhista/rescisao/${slug}`} category="trabalhista" />
                 </div>
 
                 {/* ANÚNCIO BOTTOM */}

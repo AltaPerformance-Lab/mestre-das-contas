@@ -5,14 +5,14 @@ import PageHeader from "@/components/layout/PageHeader";
 import CardMachineSimulator from "@/components/calculators/CardMachineSimulator";
 import { 
   CreditCard, TrendingDown, ShieldAlert, BadgePercent, 
-  HelpCircle, AlertTriangle 
+  HelpCircle, AlertTriangle, ShieldCheck
 } from "lucide-react";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
-import RelatedTools from "@/components/layout/RelatedTools";
+import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
 
 export const metadata: Metadata = {
-  title: "Calculadora de Taxas Maquininha: Quanto Cai na Conta? (Todas)",
-  description: "Quanto você realmente recebe? Calcule as taxas MDR e Antecipação de Recebíveis. Descubra o custo real de vender parcelado e receber na hora.",
+  title: "Calculadora de Taxas Maquininha 2026 (Grátis) | Quanto Cai na Conta",
+  description: "Quanto você realmente recebe? Calcule as taxas MDR e Antecipação de todas as maquininhas em segundos. Descubra o custo real de vender parcelado em 2026.",
   keywords: ["simulador taxas maquininha", "calculadora antecipação recebiveis", "mdr cartão credito", "calcular juros maquininha", "taxa sumup moderninha mercado pago"],
   alternates: { canonical: "https://mestredascontas.com.br/financeiro/simulador-maquininha" },
   openGraph: {
@@ -58,6 +58,12 @@ export default function CardSimulatorPage() {
       </div>
 
       <div className="flex flex-col gap-8 px-4 sm:px-6 max-w-7xl mx-auto w-full">
+        
+        {/* REVISÃO FINANCEIRA (E-E-A-T) */}
+        <div className="bg-blue-50/50 dark:bg-blue-900/10 border border-blue-100 dark:border-blue-800 p-4 rounded-2xl flex items-center gap-3 text-xs text-blue-700 dark:text-blue-300 mb-2">
+          <ShieldCheck size={18} className="text-blue-600 shrink-0" />
+          <span>Conteúdo verificado com base em taxas padrão de mercado e indicadores financeiros vigentes em 2026.</span>
+        </div>
         
         {/* PUBLICIDADE TOPO */}
         <div className="w-full flex justify-center bg-slate-50/50 dark:bg-slate-900/50 rounded-lg border border-dashed border-slate-200/50 dark:border-slate-800/50 min-h-[100px]">
@@ -196,7 +202,7 @@ export default function CardSimulatorPage() {
 
         </div>
 
-        <RelatedTools currentTool="simulador-maquininha" /> 
+        <SmartCrossLinker currentHref="/financeiro/simulador-maquininha" category="financeiro" /> 
 
         {/* PUBLICIDADE BOTTOM */}
         <div className="w-full flex justify-center mt-8">

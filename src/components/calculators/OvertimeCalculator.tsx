@@ -12,6 +12,7 @@ import {
   Clock, DollarSign, RefreshCcw, 
   Share2, Printer, History, Code2, CheckCircle2, Link as LinkIcon, X, Sun, Moon
 } from "lucide-react";
+import { trackEvent } from "@/lib/analytics";
 import ShareAsImage from "@/components/ui/ShareAsImage";
 
 // --- TIPAGEM ---
@@ -152,6 +153,7 @@ export default function OvertimeCalculator() {
     };
 
     setResultado(novoResultado);
+    trackEvent("calculate_horas_extras", { salario: Sal, h50: H50, h100: H100 });
     if (!isIframe) salvarHistorico(novoResultado);
   };
 
@@ -188,11 +190,17 @@ export default function OvertimeCalculator() {
     }
 
     navigator.clipboard.writeText(url);
+    if (type === "result") {
+        trackEvent("share_horas_extras_result");
+    } else {
+        trackEvent("share_horas_extras_tool");
+    }
     setCopiado(type === "result" ? "result" : "link");
     setTimeout(() => setCopiado(null), 2000);
   };
 
   const handlePrint = () => {
+    trackEvent("print_horas_extras");
     if (reactToPrintFn) reactToPrintFn();
   };
 
@@ -512,6 +520,7 @@ export default function OvertimeCalculator() {
                 </div>
                 <Button onClick={() => {
                     navigator.clipboard.writeText(`<iframe src="https://mestredascontas.com.br/trabalhista/horas-extras?embed=true" width="100%" height="750" frameborder="0" style="border:0; border-radius:12px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);" title="Calculadora Horas Extras"></iframe>`);
+                    trackEvent("share_horas_extras_embed");
                     setCopiado("embed");
                     setTimeout(() => setCopiado(null), 2000);
                 }} className="w-full bg-slate-900 hover:bg-slate-800 dark:bg-blue-600 dark:hover:bg-blue-700 text-white font-bold h-12 rounded-xl">

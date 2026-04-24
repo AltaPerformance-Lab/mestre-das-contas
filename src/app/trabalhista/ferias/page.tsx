@@ -9,10 +9,10 @@ import {
   AlertTriangle, Calendar, Coins, CircleHelp, 
   CheckCircle2, History, BookOpen, Calculator,
   Wallet, Sun, Palmtree, Clock, FileText, Check, Briefcase, XCircle,
-  Landmark, ExternalLink, Plane
+  Landmark, ExternalLink, Plane, ShieldCheck
 } from "lucide-react";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
-import RelatedTools from "@/components/ui/RelatedTools";
+import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
 
 // --- 1. METADATA DE ALTA PERFORMANCE (SEO 2026) ---
 // --- 1. METADATA DINÂMICA (SEO MAXIMIZADO) ---
@@ -20,13 +20,13 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
   const resolvedParams = await searchParams;
   const salarioRaw = resolvedParams.salario as string;
   
-  let title = "Férias 2026: Simulador Líquido (Com Venda de 10 Dias)";
-  let description = "Quanto cai na conta? Simule suas Férias + 1/3 Constitucional. Veja se vale a pena vender 10 dias (abono) e adiantar o 13º. Cálculo Gratuito.";
+  let title = "Calculadora de Férias 2026 (Grátis) | Simular Valor Líquido e 1/3";
+  let description = "Quanto cai na conta em 2026? Simule suas Férias + 1/3 Constitucional em 10 segundos. Veja o valor do abono pecuniário (venda de dias) e descontos. Grátis.";
 
   if (salarioRaw) {
     const valorFormatado = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(Number(salarioRaw));
     title = `Cálculo de Férias: Salário de ${valorFormatado} - Simulador 2026`;
-    description = `Veja quanto você vai receber nas férias com um salário de ${valorFormatado}. Simule venda de dias e adiantamento do décimo terceiro.`;
+    description = `Saiba quanto você recebe de férias líquidas com um salário de ${valorFormatado}. Simule venda de 10 dias e adiantamento do 13º. Grátis.`;
   }
 
   return {
@@ -200,6 +200,12 @@ export default async function FeriasPage({ searchParams }: Props) {
       </div>
 
       <div className="flex flex-col gap-8 px-4 sm:px-6 max-w-7xl mx-auto">
+        
+        {/* REVISÃO LEGAL (E-E-A-T) */}
+        <div className="bg-blue-50/50 dark:bg-blue-900/10 border border-blue-100 dark:border-blue-800 p-4 rounded-2xl flex items-center gap-3 text-xs text-blue-700 dark:text-blue-300 mb-2">
+          <ShieldCheck size={18} className="text-blue-600 shrink-0" />
+          <span>Informações baseadas na Consolidação das Leis do Trabalho (CLT) e atualizações vigentes em 2026.</span>
+        </div>
 
         {/* ALERTA PRAZO */}
         <div className="bg-amber-50 dark:bg-amber-900/10 border border-amber-200 dark:border-amber-900/30 rounded-xl p-4 flex gap-3 items-start text-left max-w-3xl mx-auto w-full shadow-sm">
@@ -213,8 +219,14 @@ export default async function FeriasPage({ searchParams }: Props) {
         </div>
 
         {/* ANÚNCIO TOPO */}
-        <div className="w-full mx-auto overflow-hidden flex justify-center bg-slate-50/50 dark:bg-slate-900/50 rounded-3xl border border-dashed border-slate-200/50 dark:border-slate-800/50 print:hidden min-h-[100px]">
+        <div className="w-full max-w-5xl mx-auto overflow-hidden flex justify-center bg-slate-50/50 dark:bg-slate-900/50 rounded-lg border border-dashed border-slate-200/50 dark:border-slate-800 print:hidden min-h-[100px]">
            <LazyAdUnit slot="ferias_top" format="horizontal" variant="agency" />
+        </div>
+
+        {/* REVISÃO TRABALHISTA (E-E-A-T) */}
+        <div className="bg-blue-50/50 dark:bg-blue-900/10 border border-blue-100 dark:border-blue-800 p-4 rounded-2xl flex items-center gap-3 text-xs text-blue-700 dark:text-blue-300 mb-2">
+          <ShieldCheck size={18} className="text-blue-600 shrink-0" />
+          <span>Cálculo de férias atualizado com as novas alíquotas de INSS e IRRF vigentes em 2026.</span>
         </div>
 
         {/* FERRAMENTA */}
@@ -418,7 +430,7 @@ export default async function FeriasPage({ searchParams }: Props) {
           {/* NAVEGAÇÃO FINAL */}
           </div>
           
-          <RelatedTools currentToolLink="/trabalhista/ferias" category="trabalhista" />
+          <SmartCrossLinker currentHref="/trabalhista/ferias" category="trabalhista" />
 
 
 

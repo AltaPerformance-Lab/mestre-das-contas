@@ -308,5 +308,37 @@ export const reformData: ReformData[] = [
       { question: "Arroz e feijão?", answer: "Alíquota ZERO na Cesta Básica Nacional." },
       { question: "Carne é isenta?", answer: "Tendência forte de inclusão na Cesta Básica Zero no texto final da regulamentação." }
     ]
+  },
+  {
+    slug: "motoristas-aplicativo-entregadores",
+    title: "Reforma para Motoristas de App (Uber/99)",
+    description_seo: "Motorista de app paga mais imposto? Entenda a nova regulamentação e a Reforma Tributária para entregadores.",
+    category: "servico",
+    jobTitle: "Motorista de App",
+    currentTax: 5.0,
+    verdict: "Neutro / Depende",
+    painPoint: "A nova categoria de 'Trabalhador Autônomo por Plataforma' exige recolhimento previdenciário e tributário que pode reduzir o ganho líquido por corrida.",
+    benefit: "Possibilidade de dedução total de gastos com combustível e manutenção do veículo como crédito de IBS/CBS, o que hoje é impossível para o motorista pessoa física.",
+    legislationNote: "Regulamentação específica de plataformas em tramitação paralela à Reforma.",
+    related_tags: ["Plataformas", "Uber", "Entregas"],
+    faq: [
+      { question: "O MEI acaba para motorista?", answer: "O MEI continua sendo a melhor opção para pequenos faturamentos, mas a Reforma pode criar um limite de crédito que favoreça o MEI 'Contribuinte'." }
+    ]
+  },
+  {
+    slug: "caminhoneiros-transportadoras",
+    title: "Reforma Tributária no Transporte de Cargas",
+    description_seo: "Impacto da Reforma para Caminhoneiros e Transportadoras. Frete vai ficar mais caro com o novo IVA?",
+    category: "servico",
+    jobTitle: "Caminhoneiro / Transportador",
+    currentTax: 12.0,
+    verdict: "Redução de Carga",
+    painPoint: "O preço do diesel é o maior custo e a gestão dos créditos desse combustível será o ponto crítico para a margem do frete.",
+    benefit: "Fim da Substituição Tributária e do ICMS-ST sobre o frete, que é uma dor de cabeça logística. Crédito integral sobre a compra do caminhão e pneus.",
+    legislationNote: "Transporte de cargas segue regra geral, mas com alto potencial de tomada de crédito.",
+    related_tags: ["Logística", "Fretes", "Caminhões"],
+    faq: [
+      { question: "Combustível gera crédito?", answer: "Sim! O IBS/CBS pago no diesel será integralmente compensável no imposto devido sobre o frete." }
+    ]
   }
 ];

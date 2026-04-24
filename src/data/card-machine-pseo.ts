@@ -155,5 +155,69 @@ export const cardMachineCases: CardMachinePSeo[] = [
             ],
             closingText: "Se o seu negócio depende de vouchers refeição/alimentação ou você quer a segurança de uma marca consolidada, a Moderninha é a escolha segura."
         }
+    },
+    {
+        slug: "sumup-solo",
+        name: "SumUp Solo",
+        brandColor: "cyan",
+        mdr: 1.90,
+        anticipation: 10.50,
+        title: "Calculadora de Taxas SumUp Solo",
+        description: "Simule suas vendas na SumUp Solo. Veja as taxas no débito, crédito e parcelado em 12x para autônomos e pequenos negócios.",
+        keywords: ["taxas sumup", "simulador sumup solo", "calculadora sumup", "tarifa sumup parcelado"],
+        rating: 4.8,
+        reviewsCount: 1560,
+        initialInstallments: "1",
+        articleContent: {
+            introTitle: "SumUp Solo: A Máquina que Não Precisa de Celular",
+            introText: "A <strong>SumUp Solo</strong> é a opção ideal para quem busca simplicidade e transparência. Sem aluguel, ela é compacta, possui tela touch e vem com base de carregamento. A SumUp é mundialmente conhecida pelo excelente atendimento ao cliente.",
+            analysis: `
+                <p>O grande trunfo da SumUp é a <strong>clareza das taxas</strong>. Você sabe exatamente quanto vai pagar sem letras miúdas. Para quem está começando e não quer se preocupar com planos complexos de faturamento mínimo, ela é a escolha racional.</p>
+                <p>Ela aceita as principais bandeiras (Visa, Master, Elo, Hipercard e Amex) e o dinheiro cai na sua conta bancária em até 1 dia útil.</p>
+            `,
+            highlightsTitle: "💎 Diferenciais SumUp",
+            highlights: [
+                "Transparência total nas taxas (sem planos escondidos).",
+                "Suporte humanizado premiado.",
+                "Design moderno e base de carregamento inclusa."
+            ],
+            faq: [
+                { question: "Tem aluguel?", answer: "Não. Você compra a máquina e ela é sua." },
+                { question: "Aceita aproximação (NFC)?", answer: "Sim, aceita cartões de aproximação, Apple Pay e Google Pay." }
+            ],
+            closingText: "Para o pequeno empreendedor que quer uma máquina confiável e fácil de usar, a SumUp Solo é um dos melhores investimentos do mercado."
+        }
+    },
+    {
+        slug: "stone-maquininha",
+        name: "Stone (Plano Personalizado)",
+        brandColor: "green",
+        mdr: 0.85,
+        anticipation: 8.50,
+        title: "Calculadora de Taxas Stone para Empresas",
+        description: "Simule as taxas da maquininha Stone. Ideal para negócios com faturamento acima de R$ 15 mil mensais. Planos sob medida.",
+        keywords: ["taxas stone", "simulador stone", "calculadora stone", "maquininha stone para empresas"],
+        rating: 4.9,
+        reviewsCount: 4120,
+        initialInstallments: "12",
+        articleContent: {
+            introTitle: "Stone: Soluções para quem quer crescer",
+            introText: "A <strong>Stone</strong> é focada no lojista médio e grande. Diferente da Ton (focada em autônomos), a Stone oferece um gerente de conta dedicado e taxas negociáveis de acordo com o seu faturamento real. Se você vende mais de R$ 15 mil por mês, a Stone é para você.",
+            analysis: `
+                <p>A Stone se destaca pelo <strong>atendimento em até 5 segundos</strong> e pela logística verde (os "Green Angels") que trocam sua máquina em tempo recorde caso ela apresente defeito. O ecossistema Stone inclui conta PJ, ERP e integração total com o balcão.</p>
+                <p>As taxas aqui são simuladas para faturamentos maiores, onde a margem de negociação é maior. O "Efeito Stone" é ter um parceiro de negócio, não apenas uma maquininha.</p>
+            `,
+            highlightsTitle: "🏢 Foco no Varejo",
+            highlights: [
+                "Gerente de conta exclusivo para o seu negócio.",
+                "Taxas reduzidas conforme o aumento do faturamento.",
+                "Atendimento ultra rápido e troca presencial da máquina."
+            ],
+            faq: [
+                { question: "A Stone tem aluguel?", answer: "Geralmente sim, mas o valor do aluguel pode ser zerado (isento) se o seu faturamento atingir uma meta mensal combinada com o gerente." },
+                { question: "Aceita todos os vouchers?", answer: "Sim, a Stone possui uma das maiores compatibilidades de vales (refeição, alimentação, combustível) do Brasil." }
+            ],
+            closingText: "Se o seu negócio já está consolidado e você precisa de suporte de alto nível, a Stone é o padrão ouro do mercado brasileiro."
+        }
     }
 ];

@@ -123,11 +123,11 @@ export default function BusinessDaysCalculator() {
                     <CardContent className="p-6 space-y-6">
                         <div className="grid sm:grid-cols-2 gap-4">
                             <div className="space-y-2">
-                                <Label>Data Inicial</Label>
+                                <Label className="mb-1.5 block">Data Inicial</Label>
                                 <Input type="date" value={startDate} onChange={e => setStartDate(e.target.value)} className="bg-slate-50 dark:bg-slate-800 dark:border-slate-700"/>
                             </div>
                             <div className="space-y-2">
-                                <Label>Dias Úteis a Somar</Label>
+                                <Label className="mb-1.5 block">Dias Úteis a Somar</Label>
                                 <Input type="number" value={daysToAdd} onChange={e => setDaysToAdd(Number(e.target.value))} className="bg-slate-50 dark:bg-slate-800 dark:border-slate-700"/>
                             </div>
                         </div>
@@ -156,11 +156,11 @@ export default function BusinessDaysCalculator() {
                     <CardContent className="p-6 space-y-6">
                         <div className="grid sm:grid-cols-2 gap-4">
                             <div className="space-y-2">
-                                <Label>Data Inicial</Label>
+                                <Label className="mb-1.5 block">Data Inicial</Label>
                                 <Input type="date" value={startDate} onChange={e => setStartDate(e.target.value)} className="bg-slate-50 dark:bg-slate-800 dark:border-slate-700"/>
                             </div>
                             <div className="space-y-2">
-                                <Label>Data Final</Label>
+                                <Label className="mb-1.5 block">Data Final</Label>
                                 <Input type="date" value={endDate} onChange={e => setEndDate(e.target.value)} className="bg-slate-50 dark:bg-slate-800 dark:border-slate-700"/>
                             </div>
                         </div>
@@ -193,12 +193,12 @@ export default function BusinessDaysCalculator() {
               </CardHeader>
               <CardContent className="space-y-4">
                   <div className="flex items-center justify-between">
-                      <Label htmlFor="saturday" className="cursor-pointer text-slate-700 dark:text-slate-300">Considerar Sábado Útil?</Label>
+                      <Label htmlFor="saturday" className="mb-1.5 block cursor-pointer text-slate-700 dark:text-slate-300">Considerar Sábado Útil?</Label>
                       <Switch id="saturday" checked={includeSaturdays} onCheckedChange={setIncludeSaturdays} />
                   </div>
                   
                   <div className="pt-4 border-t border-slate-100 dark:border-slate-800">
-                      <Label className="mb-2 block text-slate-700 dark:text-slate-300">Adicionar Feriado Local</Label>
+                      <Label className="mb-1.5 block text-slate-700 dark:text-slate-300">Adicionar Feriado Local</Label>
                       <div className="flex gap-2">
                           <Input type="date" value={newHoliday} onChange={e => setNewHoliday(e.target.value)} className="bg-slate-50 dark:bg-slate-800 dark:border-slate-700 h-9"/>
                           <Button size="icon" onClick={addCustomHoliday} className="h-9 w-9 bg-green-600 hover:bg-green-700 text-white"><Plus size={16}/></Button>

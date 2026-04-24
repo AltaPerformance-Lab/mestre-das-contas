@@ -11,6 +11,7 @@ import {
   TrendingUp, AlertTriangle, PenTool, Truck, Calculator
 } from "lucide-react";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
+import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
 
 // --- SEO 2026 ---
 export const metadata: Metadata = {
@@ -34,34 +35,45 @@ export const metadata: Metadata = {
 // --- DADOS ESTRUTURADOS ---
 const jsonLd = {
   "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  "name": "Criador de Pedidos de Venda Online",
-  "applicationCategory": "BusinessApplication",
-  "operatingSystem": "Web Browser",
-  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
-  "description": "Ferramenta para emissão de pedidos de venda, orçamentos e ordens de serviço com cálculo de frete e layout profissional.",
-  "featureList": "Gerar PDF, Adicionar Logo, Calcular Frete, Termos de Garantia, Impressão A4",
-  "aggregateRating": { 
-      "@type": "AggregateRating", 
-      "ratingValue": "4.8", 
-      "ratingCount": "1250", 
-      "bestRating": "5", 
-      "worstRating": "1" 
-  },
-  "review": [
+  "@graph": [
     {
-      "@type": "Review",
-      "author": { "@type": "Person", "name": "Loja das Cores" },
-      "datePublished": "2026-01-20",
-      "reviewBody": "Amei! Consigo colocar taxa de entrega e enviar pro cliente na hora. Muito melhor que anotar no caderno.",
-      "reviewRating": { "@type": "Rating", "ratingValue": "5" }
+      "@type": "SoftwareApplication",
+      "name": "Criador de Pedidos de Venda Online",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web Browser",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
+      "description": "Ferramenta para emissão de pedidos de venda, orçamentos e ordens de serviço com cálculo de frete e layout profissional.",
+      "featureList": "Gerar PDF, Adicionar Logo, Calcular Frete, Termos de Garantia, Impressão A4",
+      "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.8", "ratingCount": "1250", "bestRating": "5", "worstRating": "1" }
     },
     {
-      "@type": "Review",
-      "author": { "@type": "Person", "name": "Carlos Representante" },
-      "datePublished": "2026-01-18",
-      "reviewBody": "Prático para tirar pedido na rua. O cálculo de frete ajuda muito.",
-      "reviewRating": { "@type": "Rating", "ratingValue": "5" }
+      "@type": "Article",
+      "headline": "Guia do Pedido de Venda Profissional: Como Organizar sua Empresa",
+      "description": "Aprenda a diferença jurídica entre pedido e orçamento, como calcular frete corretamente e a importância de documentar prazos de entrega.",
+      "author": { "@type": "Organization", "name": "Mestre das Contas" },
+      "publisher": { "@type": "Organization", "name": "Mestre das Contas", "logo": { "@type": "ImageObject", "url": "https://mestredascontas.com.br/icon.png" } },
+      "datePublished": "2024-06-10",
+      "dateModified": new Date().toISOString()
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "O pedido de venda tem validade jurídica?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Sim, funciona como um contrato de compra e venda entre as partes. Se assinado, comprova o acordo comercial, embora não substitua a Nota Fiscal para fins de impostos." }
+        },
+        {
+          "@type": "Question",
+          "name": "Como incluir o frete no pedido?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Nossa ferramenta possui um campo dedicado para frete/transporte. O valor é somado automaticamente ao total final do pedido, facilitando a transparência com o cliente." }
+        },
+        {
+          "@type": "Question",
+          "name": "Posso usar para ordem de serviço?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Sim! Muitos profissionais autônomos e assistências técnicas utilizam o gerador como um talão de ordem de serviço digital para documentar a entrada de itens e serviços prestados." }
+        }
+      ]
     }
   ]
 };
@@ -225,24 +237,7 @@ export default function OrderPage() {
 
         </div>
 
-        {/* NAVEGAÇÃO FINAL */}
-        <div className="mt-16 pt-8 border-t border-slate-200 dark:border-slate-800 print:hidden not-prose">
-            <p className="font-bold text-slate-900 dark:text-slate-100 mb-6 text-sm uppercase tracking-wider flex items-center gap-2">
-               <ShieldCheck size={16} className="text-indigo-500"/> Veja também:
-            </p>
-            <div className="grid md:grid-cols-3 gap-4">
-              <Link href="/ferramentas/criador-orcamentos" className="flex flex-col p-5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl hover:border-blue-400 hover:shadow-lg transition-all group">
-                  <div className="bg-blue-50 dark:bg-blue-900/30 w-10 h-10 rounded-lg flex items-center justify-center mb-3 text-blue-600 dark:text-blue-400 shadow-sm group-hover:scale-110 transition-transform"><Calculator size={20}/></div>
-                  <span className="font-bold text-slate-800 dark:text-slate-200 text-lg">Criador de Orçamento</span>
-                  <span className="text-sm text-slate-500 dark:text-slate-400 mt-1">Para propostas comerciais</span>
-              </Link>
-              <Link href="/ferramentas/gerador-recibo" className="flex flex-col p-5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl hover:border-indigo-400 hover:shadow-lg transition-all group">
-                  <div className="bg-indigo-50 dark:bg-indigo-900/30 w-10 h-10 rounded-lg flex items-center justify-center mb-3 text-indigo-600 dark:text-indigo-400 shadow-sm group-hover:scale-110 transition-transform"><FileText size={20}/></div>
-                  <span className="font-bold text-slate-800 dark:text-slate-200 text-lg">Gerador de Recibo</span>
-                  <span className="text-sm text-slate-500 dark:text-slate-400 mt-1">Comprovante de pagamento</span>
-              </Link>
-            </div>
-        </div>
+        <SmartCrossLinker currentHref="/ferramentas/criador-pedidos" category="ferramentas" />
 
         {/* ANÚNCIO BOTTOM */}
         <div className="w-full flex justify-center mt-8 min-h-[250px]">

@@ -9,6 +9,7 @@ import {
   Maximize2, Minimize2, Lock
 } from "lucide-react";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
+import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
 
 // --- SEO 2026 ---
 export const metadata: Metadata = {
@@ -33,20 +34,53 @@ export const metadata: Metadata = {
 // --- DADOS ESTRUTURADOS ---
 const jsonLd = {
   "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  "name": "Formatador JSON Online",
-  "applicationCategory": "DeveloperApplication",
-  "operatingSystem": "Web Browser",
-  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
-  "description": "Ferramenta online para validar, formatar (beautify) e minificar dados JSON. Processamento local no navegador para total privacidade.",
-  "featureList": "Validação de Sintaxe, Beautify (Pretty Print), Minificação, Download de Arquivo, Copiar para Clipboard",
-  "aggregateRating": { 
-      "@type": "AggregateRating", 
-      "ratingValue": "4.9", 
-      "ratingCount": "850", 
-      "bestRating": "5", 
-      "worstRating": "1" 
-  }
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "Formatador JSON Online",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "Web Browser",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
+      "description": "Ferramenta online para validar, formatar (beautify) e minificar dados JSON. Processamento local no navegador para total privacidade.",
+      "featureList": "Validação de Sintaxe, Beautify (Pretty Print), Minificação, Download de Arquivo, Copiar para Clipboard",
+      "aggregateRating": { 
+          "@type": "AggregateRating", 
+          "ratingValue": "4.9", 
+          "ratingCount": "850", 
+          "bestRating": "5", 
+          "worstRating": "1" 
+      }
+    },
+    {
+      "@type": "Article",
+      "headline": "Guia de Formatação e Validação JSON para Desenvolvedores",
+      "description": "Aprenda a identificar erros de sintaxe em JSON, as diferenças entre formatar e minificar, e por que a segurança local é essencial.",
+      "author": { "@type": "Organization", "name": "Mestre das Contas" },
+      "publisher": { "@type": "Organization", "name": "Mestre das Contas", "logo": { "@type": "ImageObject", "url": "https://mestredascontas.com.br/icon.png" } },
+      "datePublished": "2024-07-02",
+      "dateModified": new Date().toISOString()
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "É seguro formatar JSON com dados sensíveis online?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Nossa ferramenta processa tudo localmente no seu navegador. Os dados nunca são enviados para nossos servidores, garantindo total privacidade para suas chaves de API e segredos." }
+        },
+        {
+          "@type": "Question",
+          "name": "O que é um JSON Beautifier?",
+          "acceptedAnswer": { "@type": "Answer", "text": "É uma ferramenta que organiza o código JSON (que muitas vezes vem em uma única linha) com espaços e quebras de linha para torná-lo legível por humanos." }
+        },
+        {
+          "@type": "Question",
+          "name": "Como validar se um JSON é válido?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Basta colar o código na nossa ferramenta. Ela apontará erros de sintaxe como aspas simples, vírgulas sobrando ou chaves não fechadas." }
+        }
+      ]
+    }
+  ]
 };
 
 export default function JsonFormatterPage() {
@@ -264,29 +298,7 @@ export default function JsonFormatterPage() {
 
         </div>
 
-        {/* NAVEGAÇÃO FINAL */}
-        <div className="mt-16 pt-8 border-t border-slate-200 dark:border-slate-700 print:hidden not-prose">
-            <p className="font-bold text-slate-900 dark:text-white mb-6 text-sm uppercase tracking-wider flex items-center gap-2">
-               <ShieldCheck size={16} className="text-indigo-500"/> Outras Ferramentas para Você:
-            </p>
-            <div className="grid md:grid-cols-3 gap-4">
-              <Link href="/ferramentas/gerador-de-senhas" className="flex flex-col p-5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl hover:border-slate-400 hover:shadow-lg transition-all group">
-                  <div className="bg-slate-100 dark:bg-slate-800 w-10 h-10 rounded-lg flex items-center justify-center mb-3 text-slate-600 dark:text-slate-300 shadow-sm group-hover:scale-110 transition-transform"><BookOpen size={20}/></div>
-                  <span className="font-bold text-slate-800 dark:text-slate-200 text-lg">Gerador de Senhas</span>
-                  <span className="text-sm text-slate-500 dark:text-slate-400 mt-1">Crie chaves seguras</span>
-              </Link>
-              <Link href="/ferramentas/conversor-imagem" className="flex flex-col p-5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl hover:border-blue-400 hover:shadow-lg transition-all group">
-                  <div className="bg-blue-50 dark:bg-blue-900/30 w-10 h-10 rounded-lg flex items-center justify-center mb-3 text-blue-600 dark:text-blue-400 shadow-sm group-hover:scale-110 transition-transform"><Zap size={20}/></div>
-                  <span className="font-bold text-slate-800 dark:text-slate-200 text-lg">Conversor de Imagem</span>
-                  <span className="text-sm text-slate-500 dark:text-slate-400 mt-1">WebP, PNG e JPG</span>
-              </Link>
-              <Link href="/ferramentas/gerador-qr-code" className="flex flex-col p-5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl hover:border-indigo-400 hover:shadow-lg transition-all group">
-                  <div className="bg-indigo-50 dark:bg-indigo-900/30 w-10 h-10 rounded-lg flex items-center justify-center mb-3 text-indigo-600 dark:text-indigo-400 shadow-sm group-hover:scale-110 transition-transform"><Code2 size={20}/></div>
-                  <span className="font-bold text-slate-800 dark:text-slate-200 text-lg">Gerador QR Code</span>
-                  <span className="text-sm text-slate-500 dark:text-slate-400 mt-1">Pix, Links e Wi-Fi</span>
-              </Link>
-            </div>
-        </div>
+        <SmartCrossLinker currentHref="/ferramentas/formatador-json" category="ferramentas" />
 
         {/* ANÚNCIO BOTTOM */}
         <div className="w-full flex justify-center mt-8 min-h-[250px]">

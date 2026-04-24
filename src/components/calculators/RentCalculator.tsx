@@ -7,7 +7,8 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { historicalIndices } from "@/data/indices-historicos";
-import { TrendingUp, Calculator, AlertTriangle, ArrowRight, Calendar, DollarSign, BarChart3, Info } from 'lucide-react';
+import { TrendingUp, Calculator, AlertTriangle, ArrowRight, Calendar, DollarSign, BarChart3, Info, Share2, Printer, CheckCircle2 } from 'lucide-react';
+import { trackEvent } from "@/lib/analytics";
 
 interface RentCalculatorProps {
     initialIgpm?: number;
@@ -20,6 +21,7 @@ export default function RentCalculator({ initialIgpm, initialIpca, periodLabel }
   const [anniversaryMonth, setAnniversaryMonth] = useState("");
   const [indexType, setIndexType] = useState("ipca"); // ipca ou igpm
   const [result, setResult] = useState<any>(null);
+  const [copiado, setCopiado] = useState(false);
 
   const calculate = () => {
     if (!currentRent || !anniversaryMonth) return;
@@ -58,11 +60,10 @@ export default function RentCalculator({ initialIgpm, initialIpca, periodLabel }
 
     const finalRate = (accumulatedFactor - 1) * 100;
     const finalRateOpposite = (accumulatedOpposite - 1) * 100;
-
     const newRent = rentValue * accumulatedFactor;
     const difference = newRent - rentValue;
 
-    setResult({
+    const novoRes = {
         oldRent: rentValue,
         newRent,
         difference,
@@ -71,7 +72,18 @@ export default function RentCalculator({ initialIgpm, initialIpca, periodLabel }
         months: relevantMonths,
         indexUsed: indexType.toUpperCase(),
         indexOpposite: indexType === 'ipca' ? 'IGP-M' : 'IPCA'
-    });
+    };
+
+    setResult(novoRes);
+    trackEvent("calculate_aluguel", { valor_antigo: rentValue, novo_valor: newRent, indice: indexType });
+  };
+
+  const handleShare = () => {
+    const url = window.location.href;
+    navigator.clipboard.writeText(url);
+    trackEvent("share_aluguel_link");
+    setCopiado(true);
+    setTimeout(() => setCopiado(false), 2000);
   };
 
   return (
@@ -200,6 +212,28 @@ export default function RentCalculator({ initialIgpm, initialIpca, periodLabel }
                     <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-xl border border-blue-100 dark:border-blue-900/30 flex gap-3 text-sm text-blue-800 dark:text-blue-300">
                         <Info className="shrink-0 mt-0.5" size={18}/>
                         <p>O reajuste é calculado multiplicando os índices mensalmente (Juros Compostos), não apenas somando. Por isso o valor final pode ser ligeiramente maior que a soma simples.</p>
+                    </div>
+
+                    <div className="flex flex-wrap gap-4 pt-2">
+                        <Button 
+                            variant="outline" 
+                            onClick={handleShare}
+                            className="flex-1 h-12 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 font-bold gap-2 rounded-xl"
+                        >
+                            {copiado ? <CheckCircle2 size={18} className="text-emerald-500" /> : <Share2 size={18} />}
+                            {copiado ? "Link Copiado" : "Compartilhar"}
+                        </Button>
+                        <Button 
+                            variant="outline" 
+                            onClick={() => {
+                                trackEvent("print_aluguel");
+                                window.print();
+                            }}
+                            className="flex-1 h-12 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 font-bold gap-2 rounded-xl"
+                        >
+                            <Printer size={18} />
+                            Imprimir / PDF
+                        </Button>
                     </div>
                 </div>
             ) : (

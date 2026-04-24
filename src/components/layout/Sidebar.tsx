@@ -8,7 +8,7 @@ import {
   QrCode, LucideIcon, Zap, Coins, Timer,
   Palmtree, Gift, ShieldCheck, Flame, Baby,
   MessageCircle, Image as ImageIcon, Lock, FileText, CalendarDays,
-  Home, CreditCard, BarChart3
+  Home, CreditCard, BarChart3, MoonStar
 } from "lucide-react";
 
 // --- TIPAGEM ---
@@ -62,6 +62,7 @@ const menuGroups: MenuGroup[] = [
       { label: "Formatador JSON", href: "/ferramentas/formatador-json", icon: FileText, badge: "Dev" },
       { label: "Declaração Conteúdo", href: "/ferramentas/declaracao-conteudo", icon: FileText, badge: "Correios" },
       { label: "Gerador Privacidade", href: "/ferramentas/gerador-privacidade", icon: ShieldCheck, badge: "LGPD" },
+      { label: "Calendário Lunar", href: "/ferramentas/fases-da-lua", icon: MoonStar, badge: "2026" },
     ]
   },
   {
@@ -83,7 +84,7 @@ const menuGroups: MenuGroup[] = [
     href: "/financeiro",
     items: [
       { label: "Comparador de Renda", href: "/financeiro/comparador-salario", icon: BarChart3, badge: "Novo" },
-      { label: "Salário Líquido", href: "/financeiro/salario-liquido", icon: Coins, badge: "2025" },
+      { label: "Salário Líquido 2026", href: "/financeiro/salario-liquido", icon: Coins, badge: "2026" },
       { label: "Calculadora MEI", href: "/financeiro/calculadora-mei", icon: Briefcase, badge: "2026" },
       { label: "Reajuste Aluguel", href: "/financeiro/reajuste-aluguel", icon: Home },
       { label: "Simulador Maquininha", href: "/financeiro/simulador-maquininha", icon: CreditCard },
