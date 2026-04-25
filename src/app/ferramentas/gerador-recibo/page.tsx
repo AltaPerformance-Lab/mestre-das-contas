@@ -57,21 +57,9 @@ const jsonLd = {
     {
       "@type": "FAQPage",
       "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "O recibo gerado tem validade jurídica?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Sim, desde que esteja devidamente preenchido com os dados do emissor, pagador, valor, data e assinatura. Ele serve como comprovante de quitação de dívida." }
-        },
-        {
-          "@type": "Question",
-          "name": "Como salvar o recibo em PDF?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Ao clicar em Imprimir, selecione a opção 'Salvar como PDF' no destino da impressora para gerar o arquivo digital e enviar por WhatsApp." }
-        },
-        {
-          "@type": "Question",
-          "name": "Posso gerar recibo de aluguel?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Sim, o modelo é ideal para aluguéis, serviços prestados por autônomos e vendas de produtos usados." }
-        }
+        { "@type": "Question", "name": "O recibo gerado tem validade jurídica?", "acceptedAnswer": { "@type": "Answer", "text": "Sim, desde que esteja devidamente preenchido com os dados do emissor, pagador, valor, data e assinatura. Ele serve como comprovante de quitação de dívida." } },
+        { "@type": "Question", "name": "Como salvar o recibo em PDF?", "acceptedAnswer": { "@type": "Answer", "text": "Ao clicar em Imprimir, selecione a opção 'Salvar como PDF' no destino da impressora para gerar o arquivo digital e enviar por WhatsApp." } },
+        { "@type": "Question", "name": "Posso gerar recibo de aluguel?", "acceptedAnswer": { "@type": "Answer", "text": "Sim, o modelo é ideal para aluguéis, serviços prestados por autônomos e vendas de produtos usados." } }
       ]
     }
   ]
@@ -185,21 +173,31 @@ export default function ReceiptPage() {
             
             <details className="group border-b border-slate-200 dark:border-slate-800 pb-4 mb-4 cursor-pointer">
                 <summary className="font-bold text-slate-800 dark:text-slate-200 flex justify-between items-center list-none">
-                    Recibo substitui Nota Fiscal?
+                    O recibo gerado tem validade jurídica?
                     <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
                 </summary>
                 <p className="mt-2 text-slate-600 dark:text-slate-400">
-                    <strong>Não.</strong> O recibo comprova o pagamento, mas não recolhe impostos. Para empresas (CNPJ), a Nota Fiscal é obrigatória. O recibo é ideal para autônomos (RPA), aluguéis entre pessoas físicas ou venda de bens usados.
+                    Sim, desde que esteja devidamente preenchido com os dados do emissor, pagador, valor, data e assinatura. Ele serve como comprovante de quitação de dívida.
                 </p>
             </details>
             
             <details className="group border-b border-slate-200 dark:border-slate-800 pb-4 mb-4 cursor-pointer">
                 <summary className="font-bold text-slate-800 dark:text-slate-200 flex justify-between items-center list-none">
-                    Posso salvar em PDF?
+                    Como salvar o recibo em PDF?
                     <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
                 </summary>
                 <p className="mt-2 text-slate-600 dark:text-slate-400">
-                    Sim! Ao clicar em "Imprimir", selecione a opção <strong>"Salvar como PDF"</strong> no destino da impressora do seu navegador. Assim você pode enviar por WhatsApp ou E-mail.
+                    Ao clicar em Imprimir, selecione a opção <strong>'Salvar como PDF'</strong> no destino da impressora para gerar o arquivo digital e enviar por WhatsApp.
+                </p>
+            </details>
+
+            <details className="group border-b border-slate-200 dark:border-slate-800 pb-4 mb-4 cursor-pointer">
+                <summary className="font-bold text-slate-800 dark:text-slate-200 flex justify-between items-center list-none">
+                    Posso gerar recibo de aluguel?
+                    <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
+                </summary>
+                <p className="mt-2 text-slate-600 dark:text-slate-400">
+                    Sim, o modelo é ideal para aluguéis, serviços prestados por autônomos e vendas de produtos usados.
                 </p>
             </details>
         </div>

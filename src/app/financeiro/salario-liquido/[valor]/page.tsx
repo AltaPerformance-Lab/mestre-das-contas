@@ -160,25 +160,13 @@ export default async function SalarioPorValorPage({ params }: Props) {
         }
       },
       {
-        "@type": "FAQPage",
-        "mainEntity": [
-          {
-            "@type": "Question",
-            "name": `Quanto sobra na conta de um salário bruto de ${formatado}?`,
-            "acceptedAnswer": { "@type": "Answer", "text": `Para um salário de ${formatado}, após descontar a contribuição da previdência (INSS) e o imposto de renda (IRRF), o valor final depende do número de dependentes. Use nossa ferramenta acima para simular a tabela de 2026.` }
-          },
-          {
-            "@type": "Question",
-            "name": `Quem ganha ${formatado} paga Imposto de Renda?`,
-            "acceptedAnswer": { "@type": "Answer", "text": salarioNum <= 2800 ? "Atualmente, a faixa de isenção protege a maioria dos salários até 2 salários mínimos, então você não deve sofrer descontos pesados de IR." : "Sim, a partir desta faixa salarial já existe retenção na fonte. A mordida do leão depende diretamente da quantidade de dependentes que você possuir." }
-          },
-          {
-            "@type": "Question",
-            "name": `Qual o desconto de INSS para ${formatado}?`,
-            "acceptedAnswer": { "@type": "Answer", "text": analysis.inssText }
-          }
-        ]
-      }
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "Quanto sobra de um salário bruto de {formatado}?", "acceptedAnswer": { "@type": "Answer", "text": "Para uma remuneração de {formatado}, o valor líquido estimado sofre cortes governamentais obrigatórios. Em nossa simulação padrão (sem considerar dependentes extras e sem descontos como plano de saúde corporativo), o valor real que pinga na conta após a dedução do INSS e do Imposto de Renda (IRRF) consta na primeira linha verde do seu holerite simulado." } },
+        { "@type": "Question", "name": "A renda de {formatado} é taxada pelo Imposto de Renda?", "acceptedAnswer": { "@type": "Answer", "text": "{salarioNum <= 2800 ? 'Felizmente, não. Valores até esta faixa costumam estar na zona de isenção, então não há mordida do Leão retida em fonte.' : `Sim. Ao ganhar ${formatado}, a tabela progressiva oficial exige a retenção do IRPF direto na fonte. Adicionar dependentes legais ajuda a reduzir a base desse imposto na sua declaração de ajuste.`}" } },
+        { "@type": "Question", "name": "Qual o desconto do INSS sobre {formatado}?", "acceptedAnswer": { "@type": "Answer", "text": "{analysis.inssText} Este valor é calculado utilizando faixas progressivas que mudam anualmente. Ele garante sua aposentadoria e benefícios como auxílio-doença." } }
+      ]
+    }
     ]
   };
 

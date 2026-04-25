@@ -12,6 +12,7 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
-  // Estratégia de Network Only ou Cache conforme necessário no futuro
-  event.respondWith(fetch(event.request));
+  // Apenas registrar o evento para satisfazer o requisito de PWA.
+  // Deixamos o navegador lidar com o fetch nativamente para evitar erros de rede interceptados.
+  return;
 });

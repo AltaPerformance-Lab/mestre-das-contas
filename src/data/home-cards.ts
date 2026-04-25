@@ -224,7 +224,7 @@ export const toolsCards: FeatureCardData[] = [
   },
   {
     href: "/ferramentas/gerador-recibo",
-    title: "Gerador de Recibo",
+    title: "Gerador de Recibo em PDF",
     desc: "Emita recibos simples e profissionais prontos para imprimir ou salvar em PDF.",
     icon: Receipt,
     theme: "violet"

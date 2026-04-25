@@ -53,26 +53,6 @@ const jsonLd = {
       "publisher": { "@type": "Organization", "name": "Mestre das Contas", "logo": { "@type": "ImageObject", "url": "https://mestredascontas.com.br/icon.png" } },
       "datePublished": "2024-05-20",
       "dateModified": new Date().toISOString()
-    },
-    {
-      "@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "Como enviar o orçamento pelo WhatsApp?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Após clicar em 'Salvar PDF', o arquivo será baixado no seu dispositivo. Basta abrir o WhatsApp, selecionar o contato e anexar o documento baixado." }
-        },
-        {
-          "@type": "Question",
-          "name": "Posso colocar minha própria logo no orçamento?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Sim! O criador permite o upload de imagens nos formatos PNG ou JPG para que seu orçamento seja 100% personalizado com sua identidade visual." }
-        },
-        {
-          "@type": "Question",
-          "name": "A ferramenta de orçamento é gratuita?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Sim, é totalmente gratuita e ilimitada. Você pode gerar quantos orçamentos precisar sem pagar nada e sem precisar de cadastro." }
-        }
-      ]
     }
   ]
 };

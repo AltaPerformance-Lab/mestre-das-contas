@@ -89,20 +89,13 @@ const jsonLd = {
           ]
       },
       {
-          "@type": "FAQPage",
-          "mainEntity": [
-              {
-                  "@type": "Question",
-                  "name": "O QR Code expira?",
-                  "acceptedAnswer": { "@type": "Answer", "text": "Nunca. Nossos códigos são estáticos e não dependem de redirecionamento. Eles funcionarão para sempre." }
-              },
-              {
-                  "@type": "Question",
-                  "name": "É 100% gratuito?",
-                  "acceptedAnswer": { "@type": "Answer", "text": "Sim. Não cobramos mensalidade e não limitamos o número de leituras." }
-              }
-          ]
-      }
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "Posso colocar minha logo no meio?", "acceptedAnswer": { "@type": "Answer", "text": "Sim! Use a opção 'Inserir Logo'. O QR Code possui 'Correção de Erro' que permite que até 30% do código seja coberto e ainda funcione." } },
+        { "@type": "Question", "name": "Qual formato devo baixar?", "acceptedAnswer": { "@type": "Answer", "text": "Para redes sociais e documentos, use PNG. Para impressão em banners grandes ou materiais gráficos, use SVG (vetor), pois nunca perde qualidade." } },
+        { "@type": "Question", "name": "Vocês salvam meus dados?", "acceptedAnswer": { "@type": "Answer", "text": "Não. Toda a geração do código acontece no seu navegador (Client-Side). Nenhuma informação sobre seu Wi-Fi, Pix ou links é enviada para nossos servidores." } }
+      ]
+    }
   ]
 };
 

@@ -35,6 +35,7 @@ async function submitIndexNow() {
         '/trabalhista/seguro-desemprego',
         '/trabalhista/horas-extras',
         '/trabalhista/horas-trabalhadas', 
+        '/trabalhista/horas-simples',
         '/financeiro',
         '/financeiro/juros-compostos',
         '/financeiro/calculadora-dias-uteis',
@@ -74,8 +75,9 @@ async function submitIndexNow() {
         const qrcode = JSON.parse(fs.readFileSync(path.join(dataDir, 'qrcode-cases.json'), 'utf8'));
         qrcode.forEach(item => urls.add(`${baseUrl}/ferramentas/gerador-qr-code/${item.slug}`));
 
-        // Comparador pSEO (Amostra)
-        [1500, 2000, 3000, 5000, 10000, 15000, 20000, 50000].forEach(v => {
+        // Comparador pSEO (Dataset Completo)
+        [1000, 1412, 1500, 1800, 2000, 2200, 2500, 2800, 3000, 3200, 3500, 
+         4000, 4500, 5000, 5500, 6000, 7000, 8000, 9000, 10000, 12000, 15000, 20000, 25000, 30000, 50000].forEach(v => {
             urls.add(`${baseUrl}/financeiro/comparador-salario/${v}`);
         });
 

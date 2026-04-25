@@ -134,6 +134,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     '/trabalhista/seguro-desemprego',
     '/trabalhista/horas-extras',
     '/trabalhista/horas-trabalhadas', 
+    '/trabalhista/horas-simples',
     
     // Financeiro
     '/financeiro',
@@ -274,8 +275,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.9, 
     }]
 
-    // N. Comparador pSEO (Amostra)
-    const comparatorPseoRoutes: MetadataRoute.Sitemap = [1500, 2000, 3000, 5000, 10000, 15000, 20000, 50000].map(v => ({
+    // N. Comparador pSEO (Dataset Completo)
+    const commonSalaries = [
+      1000, 1412, 1500, 1800, 2000, 2200, 2500, 2800, 3000, 3200, 3500, 
+      4000, 4500, 5000, 5500, 6000, 7000, 8000, 9000, 10000, 12000, 15000, 20000, 25000, 30000, 50000
+    ];
+    const comparatorPseoRoutes: MetadataRoute.Sitemap = commonSalaries.map(v => ({
        url: `${baseUrl}/financeiro/comparador-salario/${v}`,
        lastModified: new Date(),
        changeFrequency: 'monthly',

@@ -10,6 +10,7 @@ import LazyAdUnit from "@/components/ads/LazyAdUnit";
 import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
 import { Car, CheckCircle2, TrendingUp, AlertCircle, Fuel, Wrench, ArrowLeft, ShieldCheck } from "lucide-react";
 import { financingCases } from "@/data/financing-pseo";
+import veiculosData from "@/data/veiculos.json";
 
 // Wrapper da Calculadora
 import VehicleFinancingCalculator from "@/components/calculators/FinancingCalculator"; 
@@ -20,11 +21,14 @@ function getFinancingCase(slug: string) {
     const predefined = financingCases.find(c => c.slug === slug);
     if (predefined) return predefined;
 
-    // 2. Tenta interpretar como valor numérico (ex: /50000)
+    // 2. Tenta encontrar no JSON de Veículos (dados semi-estruturados)
+    const veiculoJson = (veiculosData as any[]).find(v => v.slug === slug);
+    
+    // 3. Tenta interpretar como valor numérico (ex: /50000)
     const cleanSlug = slug.replace(/\D/g, ""); 
-    const valor = parseInt(cleanSlug);
+    const valor = veiculoJson ? veiculoJson.valor : parseInt(cleanSlug);
 
-    if (!isNaN(valor) && valor > 1000) { 
+    if (veiculoJson || (!isNaN(valor) && valor > 1000)) { 
         const formatado = new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(valor);
         
         // Cálculos dinâmicos para SEO
@@ -42,10 +46,10 @@ function getFinancingCase(slug: string) {
 
         return {
             slug: slug,
-            tipo: "Veículo",
+            tipo: veiculoJson?.tipo || "Veículo",
             valor: valor,
-            title: `Financiamento: ${formatado}`,
-            description: `Calcule as parcelas para financiar um veículo de ${formatado}. Veja taxas, valores de entrada ideais e custos totais.`,
+            title: veiculoJson?.title || `Financiamento: ${formatado}`,
+            description: veiculoJson?.desc || `Calcule as parcelas para financiar um veículo de ${formatado}. Veja taxas, valores de entrada ideais e custos totais.`,
             keywords: ["simulador financiamento", `financiamento ${valor}`, "calcular parcelas carro", `parcelas de ${formatado}`],
             articleContent: {
                 intro: `Você está simulando o financiamento de um veículo no valor de <strong>${formatado}</strong>. Nossas estimativas consideram as taxas de juros médias praticadas no mercado atual.`,
@@ -72,9 +76,15 @@ function getFinancingCase(slug: string) {
 }
 
 export async function generateStaticParams() {
-  return financingCases.map((customCase) => ({
+  const predefinedSlugs = financingCases.map((customCase) => ({
     slug: customCase.slug, 
   }));
+
+  const jsonSlugs = veiculosData.map((v) => ({
+    slug: v.slug,
+  }));
+
+  return [...predefinedSlugs, ...jsonSlugs];
 }
 
 type Props = { params: Promise<{ slug: string }> };

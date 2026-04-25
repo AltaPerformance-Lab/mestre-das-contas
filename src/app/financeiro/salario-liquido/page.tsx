@@ -128,10 +128,9 @@ const jsonLd = {
     {
       "@type": "FAQPage",
       "mainEntity": [
-        { "@type": "Question", "name": "Qual a diferença entre Salário Bruto e Líquido?", "acceptedAnswer": { "@type": "Answer", "text": "Bruto é o valor registrado na carteira. Líquido é o que cai na conta após os descontos de INSS, IRRF e benefícios." } },
-        { "@type": "Question", "name": "Como calcular o INSS 2026?", "acceptedAnswer": { "@type": "Answer", "text": "O cálculo é progressivo. Aplica-se uma alíquota (7,5% a 14%) sobre cada faixa do seu salário, somando os resultados." } },
-        { "@type": "Question", "name": "Dependentes diminuem o imposto?", "acceptedAnswer": { "@type": "Answer", "text": "Sim! Cada dependente deduz R$ 189,59 da base de cálculo do Imposto de Renda." } },
-        { "@type": "Question", "name": "O Vale Transporte é obrigatório?", "acceptedAnswer": { "@type": "Answer", "text": "Sim, se solicitado pelo funcionário. A empresa pode descontar até 6% do salário base." } }
+        { "@type": "Question", "name": "O que são 'Outros Descontos' na calculadora?", "acceptedAnswer": { "@type": "Answer", "text": "São descontos específicos do seu contrato ou empresa. Exemplos comuns: coparticipação em plano de saúde, mensalidade sindical, previdência privada da empresa, vale alimentação (parte do funcionário) ou empréstimos consignados." } },
+        { "@type": "Question", "name": "O Vale Transporte é sempre descontado?", "acceptedAnswer": { "@type": "Answer", "text": "Sim, se você optar por receber o benefício. A lei permite que a empresa desconte até 6% do seu salário base. Se o valor do vale for menor que esses 6%, o desconto deve ser limitado ao valor real do benefício." } },
+        { "@type": "Question", "name": "O desconto do INSS mudou em 2026?", "acceptedAnswer": { "@type": "Answer", "text": "Sim. As faixas salariais são reajustadas anualmente conforme o aumento do salário mínimo e a inflação (INPC). Nossa calculadora já está configurada com a tabela vigente." } }
       ]
     }
   ]

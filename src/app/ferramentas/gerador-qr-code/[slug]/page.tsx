@@ -88,20 +88,14 @@ export default async function QRCodeCasePage({ params }: { params: Promise<{ slu
             ]
         },
         {
-            "@type": "FAQPage",
-            "mainEntity": [
-                {
-                    "@type": "Question",
-                    "name": "O QR Code expira?",
-                    "acceptedAnswer": { "@type": "Answer", "text": "Não. Como usamos tecnologia estática, o link fica gravado na imagem para sempre." }
-                },
-                {
-                    "@type": "Question",
-                    "name": "Tem limite de leituras?",
-                    "acceptedAnswer": { "@type": "Answer", "text": "Não. Você pode ter 1 ou 1 milhão de acessos, nunca cobraremos por isso." }
-                }
-            ]
-        }
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "O QR Code expira?", "acceptedAnswer": { "@type": "Answer", "text": "Não. Como usamos tecnologia estática, o link fica gravado na imagem para sempre." } },
+        { "@type": "Question", "name": "Tem limite de leituras?", "acceptedAnswer": { "@type": "Answer", "text": "Não. Você pode ter 1 ou 1 milhão de acessos, nunca cobraremos por isso." } },
+        { "@type": "Question", "name": "Posso colocar minha logo?", "acceptedAnswer": { "@type": "Answer", "text": "Sim! Use a opção 'Inserir Logo' na ferramenta. Recomendamos usar o nível de correção 'H' (Máximo) para garantir a leitura." } },
+        { "@type": "Question", "name": "É seguro para Pix?", "acceptedAnswer": { "@type": "Answer", "text": "Sim. O código apenas contém sua chave Pix e o valor. O pagamento em si é processado pelo aplicativo do banco do seu cliente, com toda a segurança bancária." } }
+      ]
+    }
     ]
   };
 

@@ -59,26 +59,6 @@ const jsonLd = {
       "publisher": { "@type": "Organization", "name": "Mestre das Contas", "logo": { "@type": "ImageObject", "url": "https://mestredascontas.com.br/icon.png" } },
       "datePublished": "2024-07-02",
       "dateModified": new Date().toISOString()
-    },
-    {
-      "@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "É seguro formatar JSON com dados sensíveis online?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Nossa ferramenta processa tudo localmente no seu navegador. Os dados nunca são enviados para nossos servidores, garantindo total privacidade para suas chaves de API e segredos." }
-        },
-        {
-          "@type": "Question",
-          "name": "O que é um JSON Beautifier?",
-          "acceptedAnswer": { "@type": "Answer", "text": "É uma ferramenta que organiza o código JSON (que muitas vezes vem em uma única linha) com espaços e quebras de linha para torná-lo legível por humanos." }
-        },
-        {
-          "@type": "Question",
-          "name": "Como validar se um JSON é válido?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Basta colar o código na nossa ferramenta. Ela apontará erros de sintaxe como aspas simples, vírgulas sobrando ou chaves não fechadas." }
-        }
-      ]
     }
   ]
 };

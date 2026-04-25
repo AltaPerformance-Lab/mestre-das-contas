@@ -60,20 +60,13 @@ export default function BusinessDaysPage() {
         "dateModified": new Date().toISOString()
       },
       {
-        "@type": "FAQPage",
-        "mainEntity": [
-          {
-            "@type": "Question",
-            "name": "O sábado é considerado dia útil?",
-            "acceptedAnswer": { "@type": "Answer", "text": "Para fins bancários e de pagamentos, NÃO. Para fins trabalhistas, o sábado é considerado dia útil (salvo acordo sindical)." }
-          },
-          {
-            "@type": "Question",
-            "name": "Como contar o dia do início de um prazo?",
-            "acceptedAnswer": { "@type": "Answer", "text": "A regra geral é: exclui-se o dia do começo e inclui-se o do vencimento." }
-          }
-        ]
-      }
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "O sábado é considerado dia útil?", "acceptedAnswer": { "@type": "Answer", "text": "Depende. Para fins bancários e de pagamentos, NÃO. Para fins trabalhistas (jornada de trabalho), o sábado é considerado dia útil (salvo acordo sindical). Na nossa calculadora, você tem um botão opcional para incluir sábados na contagem." } },
+        { "@type": "Question", "name": "Como contar o dia do início?", "acceptedAnswer": { "@type": "Answer", "text": "A regra de ouro do Código Civil e Processual é: exclui-se o dia do começo e inclui-se o do vencimento. Exemplo: Se o prazo começa dia 01/04, o dia 1 não conta. O 'Dia 1' do prazo será o dia 02/04 (se for útil)." } },
+        { "@type": "Question", "name": "E os feriados municipais?", "acceptedAnswer": { "@type": "Answer", "text": "Nossa calculadora traz os feriados NACIONAIS. Feriados estaduais (como 9 de julho em SP) ou municipais (aniversário da cidade) devem ser adicionados manualmente no campo 'Configurações' para garantir a precisão total." } }
+      ]
+    }
     ]
   };
 

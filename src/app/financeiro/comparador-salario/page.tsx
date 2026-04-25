@@ -64,26 +64,6 @@ export default function SalaryComparatorPage() {
                         "text": "Veja sua posição na pirâmide, sua classe social e a porcentagem da população que ganha menos que você."
                     }
                 ]
-            },
-            {
-                "@type": "FAQPage",
-                "mainEntity": [
-                    {
-                        "@type": "Question",
-                        "name": "Os dados são atualizados?",
-                        "acceptedAnswer": { "@type": "Answer", "text": "Sim, utilizamos as projeções baseadas na PNAD Contínua do IBGE mais recente e critérios da FGV ajustados para o cenário econômico de 2026." }
-                    },
-                    {
-                        "@type": "Question",
-                        "name": "Devo usar salário bruto ou líquido?",
-                        "acceptedAnswer": { "@type": "Answer", "text": "Para uma comparação estatística correta com os dados do IBGE, utilize o Salário Bruto (sem descontos)." }
-                    },
-                    {
-                        "@type": "Question",
-                        "name": "O que define a Classe C?",
-                        "acceptedAnswer": { "@type": "Answer", "text": "A Classe C, ou nova classe média, engloba famílias com renda domiciliar entre R$ 2.800 e R$ 7.100. É a maior fatia da população economicamente ativa." }
-                    }
-                ]
             }
         ]
     };

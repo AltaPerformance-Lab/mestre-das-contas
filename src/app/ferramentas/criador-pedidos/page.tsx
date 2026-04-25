@@ -54,26 +54,6 @@ const jsonLd = {
       "publisher": { "@type": "Organization", "name": "Mestre das Contas", "logo": { "@type": "ImageObject", "url": "https://mestredascontas.com.br/icon.png" } },
       "datePublished": "2024-06-10",
       "dateModified": new Date().toISOString()
-    },
-    {
-      "@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "O pedido de venda tem validade jurídica?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Sim, funciona como um contrato de compra e venda entre as partes. Se assinado, comprova o acordo comercial, embora não substitua a Nota Fiscal para fins de impostos." }
-        },
-        {
-          "@type": "Question",
-          "name": "Como incluir o frete no pedido?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Nossa ferramenta possui um campo dedicado para frete/transporte. O valor é somado automaticamente ao total final do pedido, facilitando a transparência com o cliente." }
-        },
-        {
-          "@type": "Question",
-          "name": "Posso usar para ordem de serviço?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Sim! Muitos profissionais autônomos e assistências técnicas utilizam o gerador como um talão de ordem de serviço digital para documentar a entrada de itens e serviços prestados." }
-        }
-      ]
     }
   ]
 };

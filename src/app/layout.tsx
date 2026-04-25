@@ -137,10 +137,6 @@ export default function RootLayout({
                     {children}
                   </PageTransition>
                 </main>
-                
-                <div className="print:hidden">
-                  <Footer />
-                </div>
               </div>
 
               {/* DIREITA (ADS) */}
@@ -148,6 +144,11 @@ export default function RootLayout({
                 <RightSidebar />
               </aside>
 
+            </div>
+
+            {/* FOOTER (FULL SCREEN WIDTH) */}
+            <div className="w-full border-t border-slate-200 dark:border-slate-800 print:hidden bg-white dark:bg-slate-950">
+              <Footer />
             </div>
 
           </ToastProvider>

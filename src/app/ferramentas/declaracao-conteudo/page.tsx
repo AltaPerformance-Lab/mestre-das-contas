@@ -58,66 +58,17 @@ export default function ContentDeclarationPage() {
         "dateModified": new Date().toISOString()
       },
       {
-        "@type": "FAQPage",
-        "mainEntity": [
-          {
-            "@type": "Question",
-            "name": "Posso preencher a mão?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Sim, você pode pegar o formulário em branco na agência e preencher com caneta. Mas nosso gerador é mais legível, evita erros e você já chega na agência pronto."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Serve para transportadoras (Jadlog, Azul, etc)?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Sim! A Declaração de Conteúdo é um documento fiscal padrão aceito por todas as transportadoras terrestres e aéreas para transporte entre não contribuintes."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Preciso colocar o CPF do destinatário?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Sim, é obrigatório. Sem o CPF/CNPJ do destinatário, o sistema dos Correios trava e não permite a postagem."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Qual o limite de valor?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Para seguro declarado (adicional), o limite geralmente é de R$ 3.000,00 para Declaração de Conteúdo. Acima disso, a exigência de Nota Fiscal se torna quase absoluta."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Meus dados ficam salvos aqui?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Não! Nossa ferramenta processa tudo no seu navegador. Quando você atualiza a página, tudo é apagado."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Posso mentir na declaração?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Não. É crime de Falsidade Ideológica. Além disso, se a encomenda for extraviada, você só receberá o valor que declarou."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Preciso levar quantas vias?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Apenas uma via é fixada na caixa. Recomenda-se imprimir uma segunda via para você assinar e guardar como comprovante."
-            }
-          }
-        ]
-      }
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "Posso preencher a mão?", "acceptedAnswer": { "@type": "Answer", "text": "Sim, você pode pegar o formulário em branco na agência e preencher com caneta. Mas nosso gerador é mais legível, evita erros e você já chega na agência pronto, pulando a etapa de ficar procurando caneta no balcão." } },
+        { "@type": "Question", "name": "Serve para transportadoras (Jadlog, Azul, etc)?", "acceptedAnswer": { "@type": "Answer", "text": "Sim! A Declaração de Conteúdo é um documento fiscal padrão aceito por todas as transportadoras terrestres e aéreas para transporte entre não contribuintes. O modelo gerado aqui é 100% compatível." } },
+        { "@type": "Question", "name": "Preciso colocar o CPF do destinatário?", "acceptedAnswer": { "@type": "Answer", "text": "Sim, é obrigatório. Sem o CPF/CNPJ do destinatário, o sistema dos Correios trava e não permite a postagem. Peça esse dado ao seu cliente antes de sair de casa." } },
+        { "@type": "Question", "name": "Qual o limite de valor?", "acceptedAnswer": { "@type": "Answer", "text": "Para seguro automático, os Correios indenizam valores baixos. Para seguro declarado (adicional), o limite geralmente é de R$ 3.000,00 para Declaração de Conteúdo. Acima disso, a exigência de Nota Fiscal se torna quase absoluta por questões de seguro." } },
+        { "@type": "Question", "name": "Meus dados ficam salvos aqui?", "acceptedAnswer": { "@type": "Answer", "text": "Não! Nossa ferramenta processa tudo no seu navegador. Quando você atualiza a página, tudo é apagado. Sua privacidade e a de seus clientes é nossa prioridade." } },
+        { "@type": "Question", "name": "Posso mentir na declaração?", "acceptedAnswer": { "@type": "Answer", "text": "Poder, pode, mas é crime (Falsidade Ideológica - Art. 299 do Código Penal). Além disso, se a encomenda for extraviada, você só receberá o valor que declarou. O risco não vale a pena." } },
+        { "@type": "Question", "name": "Preciso levar quantas vias?", "acceptedAnswer": { "@type": "Answer", "text": "Apenas uma via é fixada na caixa. Recomenda-se imprimir uma segunda via para você assinar e guardar como comprovante do que foi enviado, caso precise acionar o seguro depois." } }
+      ]
+    }
     ]
   };
 
@@ -443,7 +394,7 @@ export default function ContentDeclarationPage() {
 
         </div>
 
-        <SmartCrossLinker currentHref="/ferramentas/declaracao-conteudo" category="ferramentas" />
+        <SmartCrossLinker currentHref="/ferramentas/declaracao-conteudo" category="destaques" />
         
         {/* ANÚNCIO FINAL */}
         <div className="w-full flex justify-center my-8 print:hidden min-h-[250px]">

@@ -93,21 +93,12 @@ const jsonLd = {
     {
       "@type": "FAQPage",
       "mainEntity": [
-        {
-            "@type": "Question",
-            "name": "Esse QR Code tem validade? Expira em quanto tempo?",
-            "acceptedAnswer": { "@type": "Answer", "text": "Não expira nunca. O código gerado é do tipo Estático. Enquanto sua chave Pix existir, ele funcionará." }
-        },
-        {
-            "@type": "Question",
-            "name": "O dinheiro passa pela conta do site?",
-            "acceptedAnswer": { "@type": "Answer", "text": "Jamais. A transferência ocorre 100% entre o banco do cliente e o seu banco. Nossa ferramenta apenas gera o código visual." }
-        },
-        {
-            "@type": "Question",
-            "name": "Tem taxa para usar?",
-            "acceptedAnswer": { "@type": "Answer", "text": "Nossa ferramenta é 100% gratuita. Verifique apenas se o seu banco cobra taxas para contas PJ." }
-        }
+        { "@type": "Question", "name": "Esse QR Code tem validade? Expira em quanto tempo?", "acceptedAnswer": { "@type": "Answer", "text": "Não expira nunca. O código gerado aqui é do tipo Estático. Enquanto a sua Chave Pix (CPF, Email, etc.) existir no seu banco, esse QR Code funcionará. Você pode imprimir, plastificar e usar por anos." } },
+        { "@type": "Question", "name": "O dinheiro passa pela conta do site?", "acceptedAnswer": { "@type": "Answer", "text": "Jamais. Nossa ferramenta é um 'tradutor'. Nós apenas pegamos seus dados e os transformamos na linguagem visual que os bancos entendem (o padrão EMV BR Code). A transferência ocorre 100% entre o banco do seu cliente e o seu banco, sem intermediários." } },
+        { "@type": "Question", "name": "Posso usar a chave Aleatória no gerador?", "acceptedAnswer": { "@type": "Answer", "text": "Sim, e recomendamos fortemente por questões de privacidade. Ao usar o CPF ou Celular, você expõe dados pessoais. A chave aleatória (EVP) é mais segura para expor em balcões ou na internet. Basta copiar a chave aleatória do app do seu banco e colar aqui." } },
+        { "@type": "Question", "name": "O que é o campo 'Identificador (TxID)'?", "acceptedAnswer": { "@type": "Answer", "text": "É um código opcional para você organizar suas finanças. Se você colocar 'CLIENTE01', isso aparecerá no seu extrato bancário. Ajuda muito a saber quem pagou o quê, especialmente se você recebe muitos Pix de mesmo valor no dia. Atenção: Alguns bancos não aceitam identificadores customizados em chaves de pessoa física (CPF)." } },
+        { "@type": "Question", "name": "Tem taxa para usar?", "acceptedAnswer": { "@type": "Answer", "text": "Nossa ferramenta é 100% gratuita. Porém, fique atento às regras do seu banco: Alguns bancos (como Itaú ou Bradesco) podem cobrar taxas para receber Pix em contas PJ (Pessoa Jurídica). Para Pessoa Física, geralmente é gratuito." } },
+        { "@type": "Question", "name": "Serve para qualquer banco? Nubank, Inter, Itaú?", "acceptedAnswer": { "@type": "Answer", "text": "Sim, qualquer instituição que opere no Brasil pelo Sistema de Pagamentos Instantâneos (SPI). O padrão QR Code é universal e regulado pelo Banco Central. Funciona até para carteiras digitais como PicPay, RecargaPay e Mercado Pago." } }
       ]
     }
   ]

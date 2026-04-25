@@ -49,16 +49,10 @@ const jsonLd = {
     {
       "@type": "FAQPage",
       "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "Quando o aluguel pode aumentar?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Apenas uma vez a cada 12 meses, na data de aniversário do contrato." }
-        },
-        {
-          "@type": "Question",
-          "name": "O índice deu negativo. O aluguel abaixa?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Tecnicamente sim, mas verifique se seu contrato possui cláusula de 'reajuste zero' em caso de deflação." }
-        }
+        { "@type": "Question", "name": "Quando o aluguel pode aumentar?", "acceptedAnswer": { "@type": "Answer", "text": "Apenas uma vez a cada 12 meses, na data de aniversário do contrato. O proprietário não pode aumentar o aluguel no meio do ano, exceto se houver uma 'revisão contratual' de comum acordo ou benfeitorias." } },
+        { "@type": "Question", "name": "O índice deu negativo. O aluguel abaixa?", "acceptedAnswer": { "@type": "Answer", "text": "Tecnicamente, sim! Se o contrato diz 'reajuste pelo IGP-M' e o IGP-M for negativo (deflação), o valor deveria cair. Porém, muitos contratos novos possuem cláusulas dizendo que 'em caso de índice negativo, o reajuste será zero'. Verifique seu contrato!" } },
+        { "@type": "Question", "name": "Qual mês devo usar no cálculo?", "acceptedAnswer": { "@type": "Answer", "text": "Você deve usar o índice acumulado dos 12 meses ANTERIORES ao mês do reajuste. Se o aniversário é em Janeiro, você usa a inflação acumulada de Janeiro a Dezembro do ano anterior." } },
+        { "@type": "Question", "name": "Posso trocar o IGP-M pelo IPCA?", "acceptedAnswer": { "@type": "Answer", "text": "Sim, através de um aditivo contratual. Basta conversar com o proprietário ou imobiliária. Se você é um bom pagador, eles geralmente preferem manter você (com IPCA) do que arriscar ficar com o imóvel vazio." } }
       ]
     }
   ]

@@ -88,24 +88,6 @@ export default async function PseoSalaryComparatorPage({ params }: Props) {
                     { "@type": "HowToStep", "name": "Compare com a Média", "text": "Veja quantos salários mínimos esse valor representa." },
                     { "@type": "HowToStep", "name": "Entenda sua Classe", "text": "Leia a análise detalhada sobre o poder de compra dessa faixa de renda." }
                 ]
-            },
-            {
-                "@type": "FAQPage",
-                "mainEntity": [
-                    {
-                        "@type": "Question",
-                        "name": `Quem ganha ${formatted} é considerado rico?`,
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": salaryNum > 22000 ? "Sim, estatisticamente esta renda coloca você no topo da pirâmide social (Classe A)." : "Depende do contexto regional, mas estatisticamente não está no topo absoluto (1%) da pirâmide, embora possa ter um padrão de vida confortável."
-                        }
-                    },
-                    {
-                        "@type": "Question",
-                        "name": "Este valor é bruto ou líquido?",
-                        "acceptedAnswer": { "@type": "Answer", "text": "A análise considera o valor bruto. Se os R$ " + formatted + " forem líquidos, sua posição na tabela seria ainda mais alta." }
-                    }
-                ]
             }
         ]
     };

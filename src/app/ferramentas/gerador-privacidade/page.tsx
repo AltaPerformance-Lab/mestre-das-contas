@@ -56,25 +56,13 @@ export default function PrivacyGeneratorPage() {
         "dateModified": new Date().toISOString()
       },
       {
-        "@type": "FAQPage",
-        "mainEntity": [
-          {
-            "@type": "Question",
-            "name": "Onde devo colocar o link da política no meu site?",
-            "acceptedAnswer": { "@type": "Answer", "text": "A recomendação padrão é inserir o link no rodapé (footer) do seu site, de forma que ele seja visível em todas as páginas para os usuários e robôs de busca." }
-          },
-          {
-            "@type": "Question",
-            "name": "A política gerada serve para o Google AdSense?",
-            "acceptedAnswer": { "@type": "Answer", "text": "Sim! Nosso gerador inclui as cláusulas obrigatórias exigidas pelo Google sobre o uso de cookies e publicidade personalizada." }
-          },
-          {
-            "@type": "Question",
-            "name": "Preciso atualizar minha política de privacidade?",
-            "acceptedAnswer": { "@type": "Answer", "text": "Sim, você deve atualizar o documento sempre que houver mudanças na forma como seu site coleta ou processa dados dos usuários, como a instalação de novos pixels de rastreamento." }
-          }
-        ]
-      }
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "Onde devo colocar o link da política?", "acceptedAnswer": { "@type": "Answer", "text": "O padrão da indústria é no Rodapé (Footer) do site, visível em todas as páginas. Se você tiver um formulário de cadastro ou newsletter, é boa prática colocar um checkbox 'Li e aceito a Política de Privacidade' logo abaixo." } },
+        { "@type": "Question", "name": "Esse gerador substitui um advogado?", "acceptedAnswer": { "@type": "Answer", "text": "Para blogs, sites institucionais pequenos e portfólios, sim, é suficiente. Porém, se você lida com dados sensíveis (saúde, financeiro, menores de idade) ou tem um e-commerce grande, recomendamos fortemente a consultoria de um advogado especializado em Direito Digital." } },
+        { "@type": "Question", "name": "Preciso atualizar a política?", "acceptedAnswer": { "@type": "Answer", "text": "Sim, sempre que você mudar a forma como coleta dados (ex: instalou um novo pixel do Facebook, começou a enviar newsletter). Mantenha a data de 'Última atualização' sempre visível." } }
+      ]
+    }
     ]
   };
 

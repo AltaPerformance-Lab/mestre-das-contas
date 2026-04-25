@@ -80,21 +80,10 @@ const jsonLd = {
     {
       "@type": "FAQPage",
       "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "O link de WhatsApp gerado expira?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Não! O link gerado é permanente e vitalício. Enquanto seu número de telefone for o mesmo, o link continuará funcionando sem custos." }
-        },
-        {
-          "@type": "Question",
-          "name": "Funciona para WhatsApp Business?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Sim, funciona perfeitamente para contas pessoais e comerciais (Business). O link é universal." }
-        },
-        {
-          "@type": "Question",
-          "name": "É seguro usar um gerador de link?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Sim, nossa ferramenta processa os dados localmente no seu navegador e não armazena números ou mensagens em nossos servidores." }
-        }
+        { "@type": "Question", "name": "O link expira?", "acceptedAnswer": { "@type": "Answer", "text": "Não! O link gerado é permanente. Ele é baseado apenas no seu número de telefone e na mensagem. Enquanto seu número for o mesmo, o link funcionará para sempre." } },
+        { "@type": "Question", "name": "Funciona para WhatsApp Business?", "acceptedAnswer": { "@type": "Answer", "text": "Sim, funciona perfeitamente para WhatsApp Pessoal e Business. O link é universal e abre o aplicativo que estiver instalado no celular do cliente." } },
+        { "@type": "Question", "name": "Vocês salvam meu número?", "acceptedAnswer": { "@type": "Answer", "text": "Absolutamente não. Nossa ferramenta é 'Client-Side', o que significa que o código roda inteiramente no seu dispositivo. Nenhuma informação é enviada para nossos servidores ou banco de dados." } },
+        { "@type": "Question", "name": "Posso colocar emojis na mensagem?", "acceptedAnswer": { "@type": "Answer", "text": "Com certeza! Nossa ferramenta suporta emojis e caracteres especiais. Eles serão codificados automaticamente para funcionar no link (ex: %F0%9F%98%80)." } }
       ]
     }
   ]

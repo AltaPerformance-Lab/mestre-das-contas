@@ -60,34 +60,13 @@ export default function MoonPhasesPage() {
         "dateModified": new Date().toISOString()
       },
       {
-        "@type": "FAQPage",
-        "mainEntity": [
-          {
-            "@type": "Question",
-            "name": "Quando ocorrem os Eclipses Lunares em 2026 no Brasil?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "O ano de 2026 traz eventos celestes notáveis: O ano abriu com o espetacular Eclipse Lunar Total (Lua de Sangue) no dia 3 de março de 2026, e teremos um Eclipse Lunar Parcial visível na noite de 28 de agosto de 2026."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Quais são as datas das Superluas em 2026?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "As maiores e mais brilhantes Superluas do ano estão marcadas para o final do ano: a primeira em 24 de novembro e uma rara Superlua na véspera de Natal, em 24 de dezembro de 2026."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Como a Teoria Solunar afeta a pesca?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "A Teoria Solunar, desenvolvida por John Alden Knight, postula que os peixes (e outros animais) são mais ativos durante períodos específicos do dia baseados na posição e fase da lua. As fases Nova e Cheia criam as maiores amplitudes de maré, estimulando a alimentação dos cardumes."
-            }
-          }
-        ]
-      }
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "Como descobrir qual é a fase da lua de hoje?", "acceptedAnswer": { "@type": "Answer", "text": "Você pode utilizar nossa ferramenta interativa no topo desta página. Nosso calendário lunar consulta um algoritmo astronômico para informar com precisão absoluta a fase, a iluminação percentual e os dias restantes para o próximo ciclo lunar, baseado no fuso horário do Brasil." } },
+        { "@type": "Question", "name": "O que significa 'Maré de Sizígia' e 'Maré de Quadratura'?", "acceptedAnswer": { "@type": "Answer", "text": "Sizígia ocorre nas Luas Nova e Cheia. O Sol e a Lua alinham suas atrações gravitacionais sobre a Terra, causando as maiores amplitudes de maré (marés muito altas e muito baixas). A Quadratura ocorre nas fases Crescentes e Minguantes, quando o Sol e a Lua formam um ângulo de 90 graus em relação à Terra, cancelando parte da gravidade um do outro e resultando em marés brandas, conhecidas como 'marés mortas'." } },
+        { "@type": "Question", "name": "A gravidade da Lua afeta os seres humanos já que somos feitos de água?", "acceptedAnswer": { "@type": "Answer", "text": "Essa é uma das dúvidas mais comuns. Embora o corpo humano seja composto por cerca de 60% de água, o volume total de líquido é minúsculo comparado aos oceanos. A força gravitacional da lua atua sobre *massas*, portanto, seu efeito físico direto nos líquidos do corpo humano é estatisticamente nulo. As influências da lua no comportamento humano (como no sono) estão mais ligadas à evolução biológica perante a luminosidade do que à atração gravitacional em si." } }
+      ]
+    }
     ]
   };
 

@@ -4,16 +4,63 @@ import { Calculator, Mail, Shield, FileText, QrCode, Cookie } from "lucide-react
 export default function Footer() {
   const currentYear = new Date().getFullYear();
 
+  const megaMenuLinks = [
+    {
+      category: "Salário Líquido",
+      links: [
+        { label: "Salário de R$ 1.500", href: "/financeiro/salario-liquido/1500" },
+        { label: "Salário de R$ 2.000", href: "/financeiro/salario-liquido/2000" },
+        { label: "Salário de R$ 3.000", href: "/financeiro/salario-liquido/3000" },
+        { label: "Salário de R$ 5.000", href: "/financeiro/salario-liquido/5000" },
+        { label: "Salário de R$ 10.000", href: "/financeiro/salario-liquido/10000" },
+      ]
+    },
+    {
+      category: "Rescisão Trabalhista",
+      links: [
+        { label: "Sem Justa Causa", href: "/trabalhista/rescisao/sem-justa-causa" },
+        { label: "Pedido de Demissão", href: "/trabalhista/rescisao/pedido-demissao" },
+        { label: "Demissão por Acordo", href: "/trabalhista/rescisao/acordo" },
+        { label: "Com Justa Causa", href: "/trabalhista/rescisao/justa-causa" },
+      ]
+    },
+    {
+      category: "Reajuste de Aluguel",
+      links: [
+        { label: "Reajuste pelo IGP-M", href: "/financeiro/reajuste-aluguel/igpm" },
+        { label: "Reajuste pelo IPCA", href: "/financeiro/reajuste-aluguel/ipca" },
+        { label: "Reajuste pelo INPC", href: "/financeiro/reajuste-aluguel/inpc" },
+      ]
+    },
+    {
+      category: "Simular Financiamento",
+      links: [
+        { label: "Financiamento de Carros", href: "/financeiro/financiamento-veiculos/simulacao/carros" },
+        { label: "Financiamento de Motos", href: "/financeiro/financiamento-veiculos/simulacao/motos" },
+        { label: "Financiamento de Caminhões", href: "/financeiro/financiamento-veiculos/simulacao/caminhoes" },
+      ]
+    },
+    {
+      category: "Ferramentas PDF",
+      desktopOnly: true,
+      links: [
+        { label: "Recibo Simples", href: "/ferramentas/gerador-recibo/simples" },
+        { label: "Recibo de Serviços", href: "/ferramentas/gerador-recibo/prestacao-servicos" },
+        { label: "Recibo de Aluguel", href: "/ferramentas/gerador-recibo/aluguel" },
+      ]
+    }
+  ];
+
   return (
     <footer className="bg-white dark:bg-slate-950 border-t border-slate-200 dark:border-slate-900 pt-16 pb-8 mt-auto z-10 relative print:hidden">
-      <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-[1400px] mx-auto px-4">
         
         {/* Grid Principal */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-12 mb-12">
           
           {/* COLUNA 1: Marca e Sobre */}
-          <div className="lg:col-span-4 space-y-6">
-            <Link href="/" className="inline-flex items-center gap-2 group" aria-label="Mestre das Contas Home">
+          <div className="lg:col-span-3 space-y-6">
+            <Link prefetch={false} href="/" className="inline-flex items-center gap-2 group" aria-label="Mestre das Contas Home">
               <div className="bg-blue-600 text-white p-2.5 rounded-xl shadow-lg shadow-blue-200 group-hover:bg-blue-700 transition-colors">
                 <Calculator size={24} strokeWidth={2.5} />
               </div>
@@ -30,11 +77,11 @@ export default function Footer() {
           <div className="lg:col-span-3">
             <h3 className="font-bold text-slate-900 dark:text-slate-100 mb-5 text-xs uppercase tracking-widest">Mais Acessadas</h3>
             <ul className="space-y-3 text-sm text-slate-600 dark:text-slate-400 font-medium">
-              <li><Link href="/financeiro/salario-liquido" className="hover:text-blue-600 dark:hover:text-blue-400 hover:translate-x-1 transition-all inline-block">Salário Líquido 2026</Link></li>
-              <li><Link href="/ferramentas/gerador-qr-code" className="hover:text-blue-600 dark:hover:text-blue-400 hover:translate-x-1 transition-all inline-flex items-center gap-2"><QrCode size={14} className="text-blue-500 dark:text-blue-400"/> Gerador de QR Code</Link></li>
-              <li><Link href="/trabalhista/rescisao" className="hover:text-blue-600 dark:hover:text-blue-400 hover:translate-x-1 transition-all inline-block">Rescisão CLT</Link></li>
-              <li><Link href="/trabalhista/ferias" className="hover:text-blue-600 dark:hover:text-blue-400 hover:translate-x-1 transition-all inline-block">Calculadora de Férias</Link></li>
-              <li><Link href="/saude/imc" className="hover:text-blue-600 dark:hover:text-blue-400 hover:translate-x-1 transition-all inline-block">Cálculo de IMC</Link></li>
+              <li><Link prefetch={false} href="/financeiro/salario-liquido" className="hover:text-blue-600 dark:hover:text-blue-400 hover:translate-x-1 transition-all inline-block">Salário Líquido 2026</Link></li>
+              <li><Link prefetch={false} href="/ferramentas/gerador-qr-code" className="hover:text-blue-600 dark:hover:text-blue-400 hover:translate-x-1 transition-all inline-flex items-center gap-2"><QrCode size={14} className="text-blue-500 dark:text-blue-400"/> Gerador de QR Code</Link></li>
+              <li><Link prefetch={false} href="/trabalhista/rescisao" className="hover:text-blue-600 dark:hover:text-blue-400 hover:translate-x-1 transition-all inline-block">Rescisão CLT</Link></li>
+              <li><Link prefetch={false} href="/trabalhista/ferias" className="hover:text-blue-600 dark:hover:text-blue-400 hover:translate-x-1 transition-all inline-block">Calculadora de Férias</Link></li>
+              <li><Link prefetch={false} href="/saude/imc" className="hover:text-blue-600 dark:hover:text-blue-400 hover:translate-x-1 transition-all inline-block">Cálculo de IMC</Link></li>
             </ul>
           </div>
 
@@ -42,11 +89,11 @@ export default function Footer() {
           <div className="lg:col-span-3">
             <h3 className="font-bold text-slate-900 dark:text-slate-100 mb-5 text-xs uppercase tracking-widest">Explore</h3>
             <ul className="space-y-3 text-sm text-slate-600 dark:text-slate-400 font-medium">
-              <li><Link href="/trabalhista" className="hover:text-blue-600 hover:translate-x-1 transition-all inline-block">Trabalhista</Link></li>
-              <li><Link href="/financeiro" className="hover:text-blue-600 hover:translate-x-1 transition-all inline-block">Financeiro & Investimentos</Link></li>
-              <li><Link href="/saude" className="hover:text-blue-600 hover:translate-x-1 transition-all inline-block">Saúde e Bem-estar</Link></li>
+              <li><Link prefetch={false} href="/trabalhista" className="hover:text-blue-600 hover:translate-x-1 transition-all inline-block">Trabalhista</Link></li>
+              <li><Link prefetch={false} href="/financeiro" className="hover:text-blue-600 hover:translate-x-1 transition-all inline-block">Financeiro & Investimentos</Link></li>
+              <li><Link prefetch={false} href="/saude" className="hover:text-blue-600 hover:translate-x-1 transition-all inline-block">Saúde e Bem-estar</Link></li>
               <li>
-                <Link href="/financeiro/reforma-tributaria" className="text-emerald-700 dark:text-emerald-500 font-bold hover:text-emerald-800 dark:hover:text-emerald-400 hover:translate-x-1 transition-all inline-flex items-center gap-2">
+                <Link prefetch={false} href="/financeiro/reforma-tributaria" className="text-emerald-700 dark:text-emerald-500 font-bold hover:text-emerald-800 dark:hover:text-emerald-400 hover:translate-x-1 transition-all inline-flex items-center gap-2">
                   Reforma Tributária <span className="text-[9px] bg-emerald-100 dark:bg-emerald-900/40 text-emerald-800 dark:text-emerald-300 px-1.5 py-0.5 rounded-full uppercase tracking-wide border border-emerald-200 dark:border-emerald-800">Novo</span>
                 </Link>
               </li>
@@ -54,37 +101,79 @@ export default function Footer() {
           </div>
 
           {/* COLUNA 4: Institucional (ATUALIZADA) */}
-          <div className="lg:col-span-2">
+          <div className="lg:col-span-3">
             <h3 className="font-bold text-slate-900 dark:text-slate-100 mb-5 text-xs uppercase tracking-widest">Institucional</h3>
             <ul className="space-y-3 text-sm text-slate-600 dark:text-slate-400 font-medium">
               <li>
-                <Link href="/sobre" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors flex items-center gap-2">
+                <Link prefetch={false} href="/sobre" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors flex items-center gap-2">
                   Sobre Nós
                 </Link>
               </li>
               <li>
-                <Link href="/politica-privacidade" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors flex items-center gap-2">
+                <Link prefetch={false} href="/politica-privacidade" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors flex items-center gap-2">
                   <Shield size={14} className="text-slate-400" /> Privacidade
                 </Link>
               </li>
               <li>
-                <Link href="/politica-cookies" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors flex items-center gap-2">
+                <Link prefetch={false} href="/politica-cookies" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors flex items-center gap-2">
                   <Cookie size={14} className="text-slate-400" /> Cookies
                 </Link>
               </li>
               <li>
-                <Link href="/termos-de-uso" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors flex items-center gap-2">
+                <Link prefetch={false} href="/termos-de-uso" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors flex items-center gap-2">
                   <FileText size={14} className="text-slate-400" /> Termos de Uso
                 </Link>
               </li>
               <li>
-                <Link href="/fale-conosco" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors flex items-center gap-2">
-                  <Mail size={14} className="text-slate-400" /> Fale Conosco
-                </Link>
+                <a href="mailto:contato@mestredascontas.com.br" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors flex items-center gap-2" title="contato@mestredascontas.com.br">
+                  <Mail size={14} className="text-slate-400 shrink-0" /> <span>contato@mestredascontas.com.br</span>
+                </a>
               </li>
             </ul>
           </div>
 
+        </div>
+
+        {/* MEGA-MENU: pSEO Hub (SEO Técnico) */}
+        <div className="border-t border-slate-100 dark:border-slate-800/50 pt-8 mt-8 mb-8">
+          <h3 className="font-bold text-slate-900 dark:text-slate-100 mb-6 text-xs uppercase tracking-widest text-center">Buscas Frequentes</h3>
+          
+          {/* Mobile Accordion & Desktop Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 gap-4 text-xs text-slate-500 dark:text-slate-400">
+            {megaMenuLinks.map((menu, idx) => (
+              <div key={idx} className={menu.desktopOnly ? "hidden lg:block" : ""}>
+                
+                {/* Mobile View (Accordion) */}
+                <details className="md:hidden group border-b border-slate-100 dark:border-slate-800/50 pb-2 mb-2">
+                  <summary className="font-semibold text-slate-700 dark:text-slate-300 py-2 cursor-pointer flex justify-between items-center list-none [&::-webkit-details-marker]:hidden">
+                    {menu.category}
+                    <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
+                  </summary>
+                  <ul className="space-y-2 pt-2 pb-2 pl-2 border-l border-slate-100 dark:border-slate-800 ml-1">
+                    {menu.links.map((link, lIdx) => (
+                      <li key={lIdx}>
+                        <Link prefetch={false} href={link.href} className="hover:text-blue-600 dark:hover:text-blue-400">
+                          {link.label}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </details>
+
+                {/* Desktop View (Static List) */}
+                <ul className="hidden md:block space-y-2">
+                  <li className="font-semibold text-slate-700 dark:text-slate-300 mb-3">{menu.category}</li>
+                  {menu.links.map((link, lIdx) => (
+                    <li key={lIdx}>
+                      <Link prefetch={false} href={link.href} className="hover:text-blue-600 dark:hover:text-blue-400">
+                        {link.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* Copyright Bar */}

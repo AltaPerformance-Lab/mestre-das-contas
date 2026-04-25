@@ -77,9 +77,10 @@ const jsonLd = {
     {
       "@type": "FAQPage",
       "mainEntity": [
-        { "@type": "Question", "name": "Qual o valor do DAS MEI em 2026?", "acceptedAnswer": { "@type": "Answer", "text": "O valor base é 5% do salário mínimo (R$ 1.621,00), totalizando R$ 81,05 de INSS. Soma-se R$ 1,00 para Comércio (ICMS) ou R$ 5,00 para Serviços (ISS)." } },
-        { "@type": "Question", "name": "Qual o limite de faturamento do MEI?", "acceptedAnswer": { "@type": "Answer", "text": "O limite anual é de R$ 81.000,00. Porém, se você abriu o CNPJ durante o ano, o limite é proporcional (R$ 6.750,00 multiplicado pelos meses ativos)." } },
-        { "@type": "Question", "name": "O que acontece se estourar o limite em 20%?", "acceptedAnswer": { "@type": "Answer", "text": "Se ultrapassar R$ 97.200,00 (20%), você é desenquadrado retroativamente a janeiro e paga impostos como Microempresa sobre TUDO que faturou no ano." } }
+        { "@type": "Question", "name": "O que acontece se eu estourar o limite de R$ 81 mil?", "acceptedAnswer": { "@type": "Answer", "text": "Depende do valor. Se estourar em até 20% (até R$ 97.200,00), você paga uma guia complementar e vira Microempresa (ME) apenas no ano seguinte. Se estourar mais de 20%, o desenquadramento é retroativo a janeiro, e você pagará impostos altos sobre tudo o que faturou no ano, com juros e multa." } },
+        { "@type": "Question", "name": "MEI tem direito a PIS e Seguro-Desemprego?", "acceptedAnswer": { "@type": "Answer", "text": "Não diretamente. O MEI em si é um empresário, não um empregado. Porém, se você trabalha de carteira assinada (CLT) e tem um MEI como renda extra, você mantém o direito ao PIS e Seguro-Desemprego, desde que a renda do MEI não seja suficiente para seu sustento (o governo cruza esses dados)." } },
+        { "@type": "Question", "name": "Como me aposento pelo MEI?", "acceptedAnswer": { "@type": "Answer", "text": "Pagando o DAS em dia, você tem direito à Aposentadoria por Idade (62 anos mulher, 65 homem) e auxílio-doença. O valor da aposentadoria será de 1 salário mínimo. Se quiser se aposentar por Tempo de Contribuição ou com valor maior, você deve pagar uma guia complementar (GPS Código 1910) de 15% sobre o salário mínimo todo mês." } },
+        { "@type": "Question", "name": "Preciso de contador?", "acceptedAnswer": { "@type": "Answer", "text": "Por lei, o MEI dispensa contador para abertura e obrigações mensais. Você mesmo pode fazer tudo no Portal do Empreendedor. Porém, contratar um contador é recomendado se você tem funcionários ou faturamento próximo do limite, para evitar erros na declaração anual." } }
       ]
     }
   ]
@@ -276,31 +277,46 @@ export default function MEIPage() {
                   <HelpCircle className="text-purple-600 dark:text-purple-400"/> Perguntas Frequentes (FAQ)
               </h3>
               
-              <div className="space-y-6">
-                <div>
-                  <h4 className="font-bold text-slate-800 dark:text-slate-200 text-lg mb-2">1. O que acontece se eu estourar o limite de R$ 81 mil?</h4>
-                  <p className="text-slate-600 dark:text-slate-300 text-sm">
+              <div className="space-y-4">
+                <details className="group bg-white dark:bg-slate-800/50 p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm cursor-pointer open:ring-2 open:ring-blue-100 dark:open:ring-blue-900/30 transition-all">
+                  <summary className="font-semibold text-slate-800 dark:text-slate-100 list-none flex justify-between items-center select-none">
+                    O que acontece se eu estourar o limite de R$ 81 mil?
+                    <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
+                  </summary>
+                  <p className="mt-3 text-slate-600 dark:text-slate-300 leading-relaxed border-t border-slate-100 dark:border-slate-700 pt-3 text-sm">
                     Depende do valor. Se estourar em até 20% (até R$ 97.200,00), você paga uma guia complementar e vira Microempresa (ME) apenas no ano seguinte. Se estourar <strong>mais de 20%</strong>, o desenquadramento é <strong>retroativo</strong> a janeiro, e você pagará impostos altos sobre tudo o que faturou no ano, com juros e multa.
                   </p>
-                </div>
-                <div>
-                  <h4 className="font-bold text-slate-800 dark:text-slate-200 text-lg mb-2">2. MEI tem direito a PIS e Seguro-Desemprego?</h4>
-                  <p className="text-slate-600 dark:text-slate-300 text-sm">
+                </details>
+                
+                <details className="group bg-white dark:bg-slate-800/50 p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm cursor-pointer open:ring-2 open:ring-blue-100 dark:open:ring-blue-900/30 transition-all">
+                  <summary className="font-semibold text-slate-800 dark:text-slate-100 list-none flex justify-between items-center select-none">
+                    MEI tem direito a PIS e Seguro-Desemprego?
+                    <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
+                  </summary>
+                  <p className="mt-3 text-slate-600 dark:text-slate-300 leading-relaxed border-t border-slate-100 dark:border-slate-700 pt-3 text-sm">
                     <strong>Não diretamente.</strong> O MEI em si é um empresário, não um empregado. Porém, se você trabalha de carteira assinada (CLT) e tem um MEI como renda extra, você <em>mantém</em> o direito ao PIS e Seguro-Desemprego, desde que a renda do MEI não seja suficiente para seu sustento (o governo cruza esses dados).
                   </p>
-                </div>
-                <div>
-                  <h4 className="font-bold text-slate-800 dark:text-slate-200 text-lg mb-2">3. Como me aposento pelo MEI?</h4>
-                  <p className="text-slate-600 dark:text-slate-300 text-sm">
+                </details>
+
+                <details className="group bg-white dark:bg-slate-800/50 p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm cursor-pointer open:ring-2 open:ring-blue-100 dark:open:ring-blue-900/30 transition-all">
+                  <summary className="font-semibold text-slate-800 dark:text-slate-100 list-none flex justify-between items-center select-none">
+                    Como me aposento pelo MEI?
+                    <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
+                  </summary>
+                  <p className="mt-3 text-slate-600 dark:text-slate-300 leading-relaxed border-t border-slate-100 dark:border-slate-700 pt-3 text-sm">
                     Pagando o DAS em dia, você tem direito à <strong>Aposentadoria por Idade</strong> (62 anos mulher, 65 homem) e auxílio-doença. O valor da aposentadoria será de 1 salário mínimo. Se quiser se aposentar por <em>Tempo de Contribuição</em> ou com valor maior, você deve pagar uma guia complementar (GPS Código 1910) de 15% sobre o salário mínimo todo mês.
                   </p>
-                </div>
-                <div>
-                  <h4 className="font-bold text-slate-800 dark:text-slate-200 text-lg mb-2">4. Preciso de contador?</h4>
-                  <p className="text-slate-600 dark:text-slate-300 text-sm">
+                </details>
+
+                <details className="group bg-white dark:bg-slate-800/50 p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm cursor-pointer open:ring-2 open:ring-blue-100 dark:open:ring-blue-900/30 transition-all">
+                  <summary className="font-semibold text-slate-800 dark:text-slate-100 list-none flex justify-between items-center select-none">
+                    Preciso de contador?
+                    <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
+                  </summary>
+                  <p className="mt-3 text-slate-600 dark:text-slate-300 leading-relaxed border-t border-slate-100 dark:border-slate-700 pt-3 text-sm">
                     Por lei, o MEI dispensa contador para abertura e obrigações mensais. Você mesmo pode fazer tudo no Portal do Empreendedor. Porém, contratar um contador é recomendado se você tem funcionários ou faturamento próximo do limite, para evitar erros na declaração anual.
                   </p>
-                </div>
+                </details>
               </div>
           </div>
 
