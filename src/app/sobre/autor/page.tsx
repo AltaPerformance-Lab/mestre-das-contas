@@ -35,11 +35,9 @@ export default function AboutPage() {
                     <h3 className="font-bold text-xl text-slate-900 dark:text-white">Equipe Editorial</h3>
                     <p className="text-xs text-slate-500 font-bold uppercase tracking-widest mb-4">Mestre das Contas</p>
                     <div className="flex justify-center gap-3">
-                        <a href="#" className="p-2 bg-slate-100 dark:bg-slate-800 rounded-lg text-slate-600 dark:text-slate-400 hover:text-blue-600 transition-colors">
-                            <Linkedin size={18} />
-                        </a>
-                        <a href="mailto:contato@mestredascontas.com.br" className="p-2 bg-slate-100 dark:bg-slate-800 rounded-lg text-slate-600 dark:text-slate-400 hover:text-blue-600 transition-colors">
+                        <a href="mailto:contato@mestredascontas.com.br" className="p-2 bg-slate-100 dark:bg-slate-800 rounded-lg text-slate-600 dark:text-slate-400 hover:text-blue-600 transition-colors flex items-center gap-2">
                             <Mail size={18} />
+                            <span className="text-xs font-bold">Enviar E-mail</span>
                         </a>
                     </div>
                 </div>

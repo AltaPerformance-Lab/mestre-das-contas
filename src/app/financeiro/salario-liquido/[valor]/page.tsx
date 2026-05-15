@@ -10,28 +10,22 @@ import DisclaimerBox from "@/components/ui/DisclaimerBox";
 import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
 import { Coins, CheckCircle2, TrendingDown, Briefcase, HelpCircle, ArrowLeft, ShieldCheck } from "lucide-react";
 
-// --- DADOS PSEO HARDCODED ---
-const salaryCases = [
-    { valor: 1500, slug: "1500", label: "Salário R$ 1.500" },
-    { valor: 2000, slug: "2000", label: "Salário R$ 2.000" },
-    { valor: 2500, slug: "2500", label: "Salário R$ 2.500" },
-    { valor: 3000, slug: "3000", label: "Salário R$ 3.000" },
-    { valor: 3500, slug: "3500", label: "Salário R$ 3.500" },
-    { valor: 4000, slug: "4000", label: "Salário R$ 4.000" },
-    { valor: 5000, slug: "5000", label: "Salário R$ 5.000" },
-    { valor: 6000, slug: "6000", label: "Salário R$ 6.000" },
-    { valor: 7000, slug: "7000", label: "Salário R$ 7.000" },
-    { valor: 8000, slug: "8000", label: "Salário R$ 8.000" },
-    { valor: 10000, slug: "10000", label: "Salário R$ 10.000" },
-    { valor: 12000, slug: "12000", label: "Salário R$ 12.000" },
-    { valor: 15000, slug: "15000", label: "Salário R$ 15.000" },
-    { valor: 20000, slug: "20000", label: "Salário R$ 20.000" },
-];
-
+// --- DADOS PSEO DINÂMICOS ---
 export async function generateStaticParams() {
-  return salaryCases.map((item) => ({
-    valor: item.slug }));
+  try {
+    const filePath = path.join(process.cwd(), 'src/data/salarios.json');
+    const fileContent = fs.readFileSync(filePath, 'utf8');
+    const salarios = JSON.parse(fileContent);
+    return salarios.map((item: any) => ({
+      valor: String(item.valor || item.slug)
+    }));
+  } catch (error) {
+    return [{ valor: "1500" }, { valor: "2000" }, { valor: "3000" }];
+  }
 }
+
+import fs from 'fs';
+import path from 'path';
 
 type Props = { params: Promise<{ valor: string }> };
 

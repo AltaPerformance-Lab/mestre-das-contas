@@ -53,11 +53,14 @@ async function submitIndexNow() {
         '/saude/gestacional', 
         '/saude/agua',
         '/sobre',
+        '/sobre/autor',
+        '/sobre/metodologia',
         '/fale-conosco',
         '/politica-privacidade',
         '/termos-de-uso',
         '/politica-cookies',
-        '/financeiro/comparador-salario'
+        '/financeiro/comparador-salario',
+        '/sitemap-html'
     ];
     staticPaths.forEach(p => urls.add(`${baseUrl}${p}`));
 
@@ -92,7 +95,8 @@ async function submitIndexNow() {
             { file: 'rent-pseo.ts', prefix: '/financeiro/reajuste-aluguel/' },
             { file: 'termination-pseo.ts', prefix: '/trabalhista/rescisao/' },
             { file: 'card-machine-pseo.ts', prefix: '/financeiro/simulador-maquininha/' },
-            { file: 'financing-pseo.ts', prefix: '/financeiro/financiamento/' }
+            { file: 'financing-pseo.ts', prefix: '/financeiro/financiamento-veiculos/simulacao/' },
+            { file: 'glossary.ts', prefix: '/glossario/' }
         ];
 
         tsFiles.forEach(({ file, prefix }) => {
