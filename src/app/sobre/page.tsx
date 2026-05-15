@@ -11,18 +11,15 @@ export const metadata: Metadata = {
   description: "Conheça a missão do Mestre das Contas: simplificar a matemática financeira e trabalhista para milhões de brasileiros com tecnologia e transparência.",
   keywords: ["sobre mestre das contas", "quem somos", "missão", "tecnologia financeira"],
   alternates: {
-    canonical: "https://mestredascontas.com.br/sobre",
-  },
+    canonical: "https://mestredascontas.com.br/sobre" },
   openGraph: {
     title: "Quem faz o Mestre das Contas?",
     description: "Nossa missão é desmistificar a burocracia brasileira.",
     url: "https://mestredascontas.com.br/sobre",
     siteName: "Mestre das Contas",
     locale: "pt_BR",
-    type: "website",
-  },
-  robots: { index: true, follow: true },
-};
+    type: "website" },
+  robots: { index: true, follow: true } };
 
 // --- 2. DADOS ESTRUTURADOS (ORGANIZATION) ---
 const jsonLd = {

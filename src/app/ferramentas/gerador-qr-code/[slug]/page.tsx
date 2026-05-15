@@ -3,6 +3,7 @@ import path from 'path';
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Suspense } from "react";
 import LazyAdUnit from "@/components/ads/LazyAdUnit";
 import DisclaimerBox from "@/components/ui/DisclaimerBox";
 import PageHeader from "@/components/layout/PageHeader";
@@ -15,7 +16,7 @@ import {
 } from "lucide-react";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
 import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
-import ReviewStars from "@/components/ui/ReviewStars";
+
 
 type QRCodeCase = {
   slug: string;
@@ -53,8 +54,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       description: item.desc,
       type: "website",
       url: `https://mestredascontas.com.br/ferramentas/gerador-qr-code/${slug}`,
-      images: [{ url: "https://mestredascontas.com.br/opengraph-image", width: 1200, height: 630, alt: "Gerador de QR Code" }],
-    }
+      images: [{ url: "https://mestredascontas.com.br/opengraph-image", width: 1200, height: 630, alt: "Gerador de QR Code" }] }
   };
 }
 
@@ -74,7 +74,7 @@ export default async function QRCodeCasePage({ params }: { params: Promise<{ slu
             "applicationCategory": "UtilitiesApplication",
             "operatingSystem": "Web",
             "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
-            "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.9", "ratingCount": "1250" },
+            
             "description": item.desc,
             "featureList": "QR Code Estático, Alta Resolução, Sem Validade, Gratuito"
         },
@@ -119,8 +119,6 @@ export default async function QRCodeCasePage({ params }: { params: Promise<{ slu
           variant="tools"
           categoryColor="slate"
           badge="Seguro 2026"
-          rating={4.9}
-          reviews={1250}
           breadcrumbs={[
             { label: "Ferramentas", href: "/ferramentas" },
             { label: "Gerador QR Code", href: "/ferramentas/gerador-qr-code" },
@@ -144,10 +142,12 @@ export default async function QRCodeCasePage({ params }: { params: Promise<{ slu
         {/* USO DO WRAPPER (CORREÇÃO DE ERRO) */}
         <section className="scroll-mt-28 w-full max-w-full relative z-10">
             <PrivacyBadge />
-            <QRCodeWrapper 
-                initialType={item.type} 
-                initialValues={item.prefill} 
-            />
+            <Suspense fallback={<div className="h-96 w-full bg-slate-100 dark:bg-slate-800 animate-pulse rounded-3xl" />}>
+                <QRCodeWrapper 
+                    initialType={item.type} 
+                    initialValues={item.prefill} 
+                />
+            </Suspense>
             <div className="mt-6 print:hidden max-w-5xl mx-auto">
                <DisclaimerBox />
             </div>

@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import VacationCalculator from "@/components/calculators/VacationCalculator";
+import { calculateVacation } from "@/lib/calculators/vacation";
 import LazyAdUnit from "@/components/ads/LazyAdUnit";
 import DisclaimerBox from "@/components/ui/DisclaimerBox";
 import PageHeader from "@/components/layout/PageHeader";
@@ -16,18 +17,9 @@ import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
 
 // --- 1. METADATA DE ALTA PERFORMANCE (SEO 2026) ---
 // --- 1. METADATA DINÂMICA (SEO MAXIMIZADO) ---
-export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
-  const resolvedParams = await searchParams;
-  const salarioRaw = resolvedParams.salario as string;
-  
-  let title = "Calculadora de Férias 2026 (Grátis) | Simular Valor Líquido e 1/3";
-  let description = "Quanto cai na conta em 2026? Simule suas Férias + 1/3 Constitucional em 10 segundos. Veja o valor do abono pecuniário (venda de dias) e descontos. Grátis.";
-
-  if (salarioRaw) {
-    const valorFormatado = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(Number(salarioRaw));
-    title = `Cálculo de Férias: Salário de ${valorFormatado} - Simulador 2026`;
-    description = `Saiba quanto você recebe de férias líquidas com um salário de ${valorFormatado}. Simule venda de 10 dias e adiantamento do 13º. Grátis.`;
-  }
+export async function generateMetadata(): Promise<Metadata> {
+  const title = "Calculadora de Férias 2026 | Simule seu Valor Líquido";
+  const description = "Saiba exatamente quanto vai receber de férias em 2026. Simule o valor líquido com 1/3, abono pecuniário e descontos em segundos. Grátis e online.";
 
   return {
     title,
@@ -39,12 +31,10 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
       "adiantamento 13 nas férias", 
       "cálculo um terço de férias", 
       "desconto irrf férias 2026",
-      "quanto recebo de férias liquido",
-      ...(salarioRaw ? [`férias salário ${salarioRaw}`, `calcular férias ${salarioRaw}`] : [])
+      "quanto recebo de férias liquido"
     ],
     alternates: {
-      canonical: "https://mestredascontas.com.br/trabalhista/ferias",
-    },
+      canonical: "https://mestredascontas.com.br/trabalhista/ferias" },
     openGraph: {
       title,
       description,
@@ -52,19 +42,15 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
       siteName: "Mestre das Contas",
       locale: "pt_BR",
       type: "article",
-      images: [{ url: "https://mestredascontas.com.br/opengraph-image", width: 1200, height: 630, alt: "Simulador de Férias" }],
-    },
+      images: [{ url: "https://mestredascontas.com.br/opengraph-image", width: 1200, height: 630, alt: "Simulador de Férias" }] },
     twitter: {
       card: "summary_large_image",
       title,
       description,
-      images: ["https://mestredascontas.com.br/opengraph-image"],
-    },
+      images: ["https://mestredascontas.com.br/opengraph-image"] },
     robots: {
       index: true, follow: true,
-      googleBot: { index: true, follow: true, "max-video-preview": -1, "max-image-preview": "large", "max-snippet": -1 },
-    },
-  };
+      googleBot: { index: true, follow: true, "max-video-preview": -1, "max-image-preview": "large", "max-snippet": -1 } } };
 }
 
 // --- LISTA FAQ (DRY Content) ---
@@ -86,15 +72,7 @@ const jsonLd = {
       "applicationCategory": "FinanceApplication",
       "operatingSystem": "Web",
       "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
-      "description": "Ferramenta online para cálculo de férias, abono pecuniário e 1/3 constitucional.",
-      "aggregateRating": { 
-        "@type": "AggregateRating", 
-        "ratingValue": "4.9", 
-        "ratingCount": "8750", 
-        "bestRating": "5", 
-        "worstRating": "1" 
-      }
-    },
+      "description": "Ferramenta online para cálculo de férias, abono pecuniário e 1/3 constitucional." },
     {
       "@type": "HowTo",
       "name": "Como Calcular Férias com Venda de 10 Dias",
@@ -148,30 +126,7 @@ const jsonLd = {
   ]
 };
 
-type Props = { searchParams: Promise<{ [key: string]: string | string[] | undefined }> }
-
-export default async function FeriasPage({ searchParams }: Props) {
-  
-  const resolvedParams = await searchParams;
-  const isEmbed = resolvedParams.embed === 'true';
-
-  // --- MODO EMBED ---
-  if (isEmbed) {
-    return (
-        <main className="w-full min-h-screen bg-white dark:bg-slate-900 p-4 flex flex-col items-center justify-center font-sans">
-            <div className="w-full max-w-2xl">
-                <Suspense fallback={<div className="p-4 text-center animate-pulse text-slate-400 dark:text-slate-500">Carregando Calculadora...</div>}>
-                    <VacationCalculator />
-                </Suspense>
-                <div className="mt-4 text-center border-t border-slate-200 dark:border-slate-800 pt-3">
-                    <Link href="https://mestredascontas.com.br/trabalhista/ferias" target="_blank" className="text-[10px] text-slate-400 dark:text-slate-500 hover:text-blue-600 dark:hover:text-blue-400 uppercase font-bold tracking-wider flex items-center justify-center gap-1 transition-colors">
-                        <Sun size={10} /> Powered by Mestre das Contas
-                    </Link>
-                </div>
-            </div>
-        </main>
-    );
-  }
+export default async function FeriasPage() {
 
   // --- PÁGINA COMPLETA ---
   return (
@@ -190,8 +145,6 @@ export default async function FeriasPage({ searchParams }: Props) {
           variant="default" // Azul/Indigo
           categoryColor="amber" // Destaque Laranja/Amarelo
           badge="Tabela 2026"
-          rating={4.9}
-          reviews={8750}
           breadcrumbs={[
             { label: "Trabalhista", href: "/trabalhista" },
             { label: "Férias" }
@@ -232,17 +185,10 @@ export default async function FeriasPage({ searchParams }: Props) {
         {/* FERRAMENTA */}
         <section id="ferramenta" className="scroll-mt-28 w-full max-w-full">
           <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/40 dark:shadow-none p-1 md:p-2">
-              <Suspense fallback={
-                <div className="h-96 w-full bg-slate-50 dark:bg-slate-800 rounded-2xl animate-pulse flex items-center justify-center text-slate-400 dark:text-slate-500 border border-slate-200 dark:border-slate-800">
-                    <div className="flex flex-col items-center gap-2">
-                        <Palmtree className="animate-bounce" size={32}/>
-                        <span>Carregando Calculadora...</span>
-                    </div>
-                </div>
-              }>
                   <PrivacyBadge />
-                  <VacationCalculator />
-              </Suspense>
+                  <Suspense fallback={<div className="h-96 w-full bg-slate-100 dark:bg-slate-800 animate-pulse rounded-3xl" />}>
+                    <VacationCalculator />
+                  </Suspense>
           </div>
           
           <div className="mt-8 print:hidden max-w-5xl mx-auto">
@@ -268,6 +214,51 @@ export default async function FeriasPage({ searchParams }: Props) {
           <p>
             Muitas pessoas confundem o "vender férias" com perder dinheiro, mas na verdade, o <strong>Abono Pecuniário</strong> é uma das formas mais inteligentes de aumentar sua renda líquida no ano, pois é livre de impostos.
           </p>
+
+          <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100 mt-10 mb-4 flex items-center gap-2">
+              <BookOpen className="text-amber-600 dark:text-amber-500" /> Tabela de Faltas e Dias de Direito
+          </h3>
+          <p className="mb-6">Cuidado: suas faltas injustificadas durante o ano podem reduzir o seu período de descanso. Confira a regra oficial do Art. 130 da CLT:</p>
+          
+          <div className="overflow-x-auto mb-10 not-prose">
+              <table className="w-full text-sm text-left border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-sm">
+                  <thead className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200">
+                      <tr>
+                          <th className="p-4 font-bold border-b border-slate-200 dark:border-slate-700">Faltas Injustificadas</th>
+                          <th className="p-4 font-bold border-b border-slate-200 dark:border-slate-700 text-center">Dias de Férias</th>
+                          <th className="p-4 font-bold border-b border-slate-200 dark:border-slate-700">O que você recebe?</th>
+                      </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+                      <tr className="hover:bg-slate-50 dark:hover:bg-slate-900/50 transition-colors">
+                          <td className="p-4">Até <strong>5 faltas</strong></td>
+                          <td className="p-4 text-center font-bold text-emerald-600">30 dias</td>
+                          <td className="p-4">Período Integral</td>
+                      </tr>
+                      <tr className="hover:bg-slate-50 dark:hover:bg-slate-900/50 transition-colors">
+                          <td className="p-4">De <strong>6 a 14 faltas</strong></td>
+                          <td className="p-4 text-center font-bold">24 dias</td>
+                          <td className="p-4">Redução de 6 dias</td>
+                      </tr>
+                      <tr className="hover:bg-slate-50 dark:hover:bg-slate-900/50 transition-colors">
+                          <td className="p-4">De <strong>15 a 23 faltas</strong></td>
+                          <td className="p-4 text-center font-bold">18 dias</td>
+                          <td className="p-4">Redução de 12 dias</td>
+                      </tr>
+                      <tr className="hover:bg-slate-50 dark:hover:bg-slate-900/50 transition-colors">
+                          <td className="p-4">De <strong>24 a 32 faltas</strong></td>
+                          <td className="p-4 text-center font-bold">12 dias</td>
+                          <td className="p-4">Redução de 18 dias</td>
+                      </tr>
+                      <tr className="bg-red-50/50 dark:bg-red-900/20 hover:bg-red-50 dark:hover:bg-red-900/30 transition-colors">
+                          <td className="p-4 font-bold text-red-900 dark:text-red-400">Acima de 32 faltas</td>
+                          <td className="p-4 text-center font-black text-red-600">0 dias</td>
+                          <td className="p-4 font-bold text-red-800 dark:text-red-400">Perda do Direito</td>
+                      </tr>
+                  </tbody>
+              </table>
+              <p className="mt-2 text-[10px] text-slate-400 text-center italic">* Faltas justificadas (atestados, óbito em família, etc.) não entram nessa contagem.</p>
+          </div>
 
           {/* CARDS EXPLICATIVOS */}
           <div className="grid md:grid-cols-3 gap-6 not-prose my-8">

@@ -79,7 +79,7 @@ export default function PDFToolbar() {
         <div className="w-full h-auto min-h-[4rem] flex flex-wrap items-center justify-between px-2 md:px-4 py-2 gap-4 bg-white dark:bg-slate-900">
             <div className="flex items-center gap-2 flex-shrink-0">
                 <button
-                    onClick={() => setFile(null as any)}
+                    onClick={() => setFile(null)}
                     className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors flex-shrink-0"
                     title="Fechar e Sair"
                 >

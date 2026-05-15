@@ -9,9 +9,7 @@ export const metadata: Metadata = {
   // IMPORTANTE: AdSense exige que essa página seja indexável!
   robots: { index: true, follow: true },
   alternates: {
-    canonical: "https://mestredascontas.com.br/politica-privacidade",
-  },
-};
+    canonical: "https://mestredascontas.com.br/politica-privacidade" } };
 
 export default function PrivacidadePage() {
   return (

@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import LazyAdUnit from "@/components/ads/LazyAdUnit";
@@ -14,27 +15,11 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
-import ReviewStars from "@/components/ui/ReviewStars";
 
 // --- 1. SEO TÉCNICO (METADATA) ---
-// --- 1. SEO TÉCNICO (METADATA DINÂMICA) ---
-export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
-  const sp = await searchParams;
-  const initialType = (sp.type as string);
-  
-  let title = "Gerador de QR Code 2026 (Grátis) | Criar com Logo e Vitalício";
-  let description = "O melhor Gerador de QR Code Gratuito em 2026. Crie códigos personalizados com Cores e Logo. Vitalício, ilimitado e em alta resolução (PNG/SVG).";
-
-  if (initialType === "pix") {
-      title = "Gerador de QR Code Pix Grátis (Com Chave e Valor)";
-      description = "Crie seu QR Code Pix personalizado com chave e valor fixo agora. Ideal para imprimir e colocar no balcão.";
-  } else if (initialType === "wifi") {
-      title = "Gerador de QR Code Wi-Fi (Conexão Automática)";
-      description = "Crie um QR Code para seu Wi-Fi. Seus clientes escaneiam e conectam sem precisar digitar senha.";
-  } else if (initialType === "whatsapp") {
-      title = "Gerador de QR Code WhatsApp (Mensagem Pronta)";
-      description = "Crie um QR Code que abre seu WhatsApp direto. Ideal para cartão de visita e instagram.";
-  }
+export async function generateMetadata(): Promise<Metadata> {
+  const title = "Gerador de QR Code 2026 (Grátis) | Criar com Logo e Vitalício";
+  const description = "O melhor Gerador de QR Code Gratuito em 2026. Crie códigos personalizados com Cores e Logo. Vitalício, ilimitado e em alta resolução (PNG/SVG).";
 
   return {
     title,
@@ -51,9 +36,7 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
       siteName: "Mestre das Contas",
       locale: "pt_BR",
       type: "website",
-      images: [{ url: "https://mestredascontas.com.br/opengraph-image", width: 1200, height: 630, alt: "Gerador de QR Code" }],
-    },
-  };
+      images: [{ url: "https://mestredascontas.com.br/opengraph-image", width: 1200, height: 630, alt: "Gerador de QR Code" }] } };
 }
 
 // --- 2. RICH SNIPPETS (JSON-LD) ---
@@ -66,7 +49,7 @@ const jsonLd = {
           "applicationCategory": "BusinessApplication",
           "operatingSystem": "Web",
           "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
-          "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.9", "ratingCount": "3102" },
+          
           "description": "Ferramenta profissional para criação de códigos QR estáticos de alta resolução.",
           "featureList": "Pix, Wi-Fi, vCard, WhatsApp, Download SVG/PNG"
       },
@@ -99,34 +82,7 @@ const jsonLd = {
   ]
 };
 
-// Tipagem para receber parâmetros via URL (Integração entre ferramentas)
-type Props = {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
-}
-
-export default async function QRCodePage({ searchParams }: Props) {
-  
-  // Lê os parâmetros da URL para preencher a ferramenta automaticamente
-  // Ex: ?type=whatsapp&num=5511999...&msg=Ola
-  const sp = await searchParams;
-  const initialType = (sp.type as string) || "link";
-  
-  const initialValues = {
-    // WhatsApp
-    whatsNum: sp.num as string,
-    whatsMsg: sp.msg as string,
-    // Pix
-    pixKey: sp.key as string,
-    pixName: sp.name as string,
-    pixAmount: sp.amount as string,
-    // Link genérico
-    url: sp.url as string,
-    // Wi-Fi
-    wifiSsid: sp.ssid as string,
-    wifiType: sp.encryption as string,
-    wifiPass: sp.pass as string
-  };
-
+export default async function QRCodePage() {
   return (
     <article className="w-full max-w-full overflow-hidden font-sans bg-slate-50 dark:bg-slate-950 pb-12">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
@@ -141,8 +97,6 @@ export default async function QRCodePage({ searchParams }: Props) {
           variant="default" 
           categoryColor="slate"
           badge="Vitalício & Ilimitado"
-          rating={5.0}
-          reviews={3102}
           breadcrumbs={[{ label: "Ferramentas", href: "/ferramentas" }, { label: "Gerador QR Code" }]}
         />
       </div>
@@ -160,14 +114,13 @@ export default async function QRCodePage({ searchParams }: Props) {
           <span>Ferramenta 100% Client-Side: Seus dados não saem do seu computador. Segurança e privacidade total garantidas em 2026.</span>
         </div>
 
-        {/* FERRAMENTA PRINCIPAL (Com Props Dinâmicas) */}
+        {/* FERRAMENTA PRINCIPAL */}
         <section id="ferramenta" className="scroll-mt-28 w-full max-w-full relative z-10">
            {/* O Wrapper cuida do Loading State e do 'ssr: false' */}
            <PrivacyBadge />
-           <QRCodeWrapper 
-              initialType={initialType}
-              initialValues={initialValues}
-           />
+           <Suspense fallback={<div className="h-96 w-full bg-slate-100 dark:bg-slate-800 animate-pulse rounded-3xl" />}>
+             <QRCodeWrapper />
+           </Suspense>
            
            <div className="mt-8 print:hidden max-w-5xl mx-auto">
               <DisclaimerBox />
@@ -234,90 +187,6 @@ export default async function QRCodePage({ searchParams }: Props) {
               <li><strong className="text-slate-900 dark:text-white">No QR Code Dinâmico (Os Outros):</strong> O envelope contém apenas um bilhete dizendo "Vá até a portaria do prédio X". Quando você chega lá, o porteiro te entrega a carta real. O problema? Se você parar de pagar o aluguel do prédio, o porteiro para de entregar a carta.</li>
           </ul>
 
-          {/* TABELA CORRIGIDA */}
-          {/* TABELA RESPONSIVA (Mobile: Cards, Desktop: Table) */}
-          <div className="not-prose my-10 relative">
-              
-              {/* VIEW DESKTOP */}
-              <div className="hidden md:block overflow-hidden rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
-                  <table className="w-full text-sm text-left border-collapse">
-                      <thead className="bg-slate-900 dark:bg-slate-950 text-white">
-                          <tr>
-                              <th className="px-6 py-4 font-bold uppercase tracking-wider w-1/3">Critério</th>
-                              <th className="px-6 py-4 font-bold uppercase tracking-wider w-1/3 bg-emerald-600 dark:bg-emerald-700">Mestre das Contas</th>
-                              <th className="px-6 py-4 font-bold uppercase tracking-wider w-1/3 bg-slate-800 dark:bg-slate-900 text-slate-400">Concorrência (Pago)</th>
-                          </tr>
-                      </thead>
-                      <tbody className="divide-y divide-slate-200 dark:divide-slate-700 bg-white dark:bg-slate-900">
-                          <tr className="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
-                              <td className="px-6 py-4 font-bold text-slate-900 dark:text-slate-100">Tipo de Tecnologia</td>
-                              <td className="px-6 py-4 text-emerald-700 dark:text-emerald-400 font-bold">Estática (Direta)</td>
-                              <td className="px-6 py-4 text-slate-600 dark:text-slate-400">Dinâmica (Redirecionamento)</td>
-                          </tr>
-                          <tr className="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
-                              <td className="px-6 py-4 font-bold text-slate-900 dark:text-slate-100">Validade do Código</td>
-                              <td className="px-6 py-4 text-emerald-700 dark:text-emerald-400 font-bold">Vitalícia (Eterna)</td>
-                              <td className="px-6 py-4 text-red-600 dark:text-red-400 font-bold">Expira em 14 dias</td>
-                          </tr>
-                          <tr className="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
-                              <td className="px-6 py-4 font-bold text-slate-900 dark:text-slate-100">Privacidade</td>
-                              <td className="px-6 py-4 text-emerald-700 dark:text-emerald-400 font-bold">Total (Seu navegador)</td>
-                              <td className="px-6 py-4 text-slate-600 dark:text-slate-400">Rastreiam seus clientes</td>
-                          </tr>
-                          <tr className="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
-                              <td className="px-6 py-4 font-bold text-slate-900 dark:text-slate-100">Dependência</td>
-                              <td className="px-6 py-4 text-emerald-700 dark:text-emerald-400 font-bold">Nenhuma</td>
-                              <td className="px-6 py-4 text-slate-600 dark:text-slate-400">Alta (Se o site cair, já era)</td>
-                          </tr>
-                      </tbody>
-                  </table>
-              </div>
-
-              {/* VIEW MOBILE (Cards) */}
-              <div className="md:hidden space-y-4">
-                  {[
-                      { 
-                          title: "Tecnologia", 
-                          myVal: "Estática (Direta)", 
-                          otherVal: "Dinâmica (Redirecionamento)" 
-                      },
-                      { 
-                          title: "Validade", 
-                          myVal: "Vitalícia (Eterna)", 
-                          otherVal: "Expira em 14 dias",
-                          bad: true 
-                      },
-                      { 
-                          title: "Privacidade", 
-                          myVal: "Total (Local)", 
-                          otherVal: "Rastreiam você" 
-                      },
-                      { 
-                          title: "Dependência", 
-                          myVal: "Nenhuma", 
-                          otherVal: "Alta (Risco de cair)" 
-                      }
-                  ].map((item, i) => (
-                      <div key={i} className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden text-sm">
-                          <div className="bg-slate-100 dark:bg-slate-950 px-4 py-2 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center">
-                              <span className="font-bold text-slate-700 dark:text-slate-300 uppercase text-xs">{item.title}</span>
-                              {item.title === "Validade" && <span className="text-[10px] font-bold bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full">Vantagem</span>}
-                          </div>
-                          <div className="grid grid-cols-2 divide-x divide-slate-200 dark:divide-slate-800">
-                              <div className="p-3 text-center bg-emerald-50/30 dark:bg-emerald-900/10">
-                                   <div className="text-[10px] uppercase font-bold text-emerald-600 dark:text-emerald-500 mb-1">Mestre das Contas</div>
-                                   <div className="font-bold text-slate-800 dark:text-white leading-tight">{item.myVal}</div>
-                              </div>
-                              <div className="p-3 text-center">
-                                   <div className="text-[10px] uppercase font-bold text-slate-400 mb-1">Outros</div>
-                                   <div className={`font-medium leading-tight ${item.bad ? 'text-red-500 dark:text-red-400' : 'text-slate-500 dark:text-slate-400'}`}>{item.otherVal}</div>
-                              </div>
-                          </div>
-                      </div>
-                  ))}
-              </div>
-          </div>
-
           <h2 className="text-2xl font-bold text-slate-900 dark:text-white mt-12 mb-4">3 Maneiras Inteligentes de usar</h2>
           
           <h3 className="font-bold text-slate-900 dark:text-slate-100 text-xl">1. O "Wi-Fi Mágico"</h3>
@@ -343,25 +212,6 @@ export default async function QRCodePage({ searchParams }: Props) {
               <p className="text-yellow-800 dark:text-yellow-200/90 text-sm leading-relaxed m-0">
                   QR Codes precisam de <strong>Contraste</strong>. Nunca imprima um código amarelo em fundo branco ou preto em fundo azul escuro. A câmera precisa ver a diferença. Na dúvida? Preto no Branco é infalível.
               </p>
-          </div>
-
-          {/* LINK PARA GERADOR DE LINK WHATSAPP */}
-          <div className="not-prose my-8">
-              <div className="bg-green-50 dark:bg-green-900/20 p-6 rounded-2xl border border-green-200 dark:border-green-800 flex flex-col md:flex-row items-center justify-between gap-6 shadow-sm">
-                  <div>
-                      <h3 className="text-lg font-bold text-green-800 dark:text-green-300 mb-2 flex items-center gap-2">
-                          <MessageCircle size={22}/> Quer criar um link de WhatsApp antes?
-                      </h3>
-                      <p className="text-sm text-green-700 dark:text-green-400">
-                          Use nossa ferramenta dedicada para criar links curtos com mensagem personalizada e depois volte aqui para gerar o QR Code.
-                      </p>
-                  </div>
-                  <Link href="/ferramentas/gerador-link-whatsapp" className="shrink-0">
-                      <Button className="bg-green-600 hover:bg-green-700 dark:bg-green-700 dark:hover:bg-green-600 text-white font-bold rounded-xl shadow-lg shadow-green-200 dark:shadow-none">
-                          Ir para Gerador de Link <LinkIcon size={16} className="ml-2"/>
-                      </Button>
-                  </Link>
-              </div>
           </div>
 
           <h2 className="text-2xl font-bold text-slate-900 dark:text-white mt-12 mb-4">Perguntas Frequentes (FAQ)</h2>
@@ -403,12 +253,6 @@ export default async function QRCodePage({ searchParams }: Props) {
         {/* --- ANÚNCIO BOTTOM --- */}
         <div className="w-full flex justify-center my-8 print:hidden min-h-[250px]">
             <LazyAdUnit slot="qrcode_bottom" format="horizontal" variant="software" />
-        </div>
-
-        {/* RODAPÉ */}
-        <div className="hidden print:block text-center pt-8 border-t border-slate-300 mt-8">
-            <p className="text-sm font-bold text-slate-900 mb-1">Mestre das Contas</p>
-            <p className="text-xs text-slate-500">www.mestredascontas.com.br</p>
         </div>
 
       </div>

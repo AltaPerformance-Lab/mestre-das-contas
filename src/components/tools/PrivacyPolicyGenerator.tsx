@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { 
   ShieldCheck, Globe, Mail, Eye, Copy, Check, 
   Cookie, ListChecks, FileText, AlertTriangle, ChevronRight,
@@ -29,20 +30,37 @@ type PolicyData = {
   hasNewsletter: boolean;
 };
 
-export default function PrivacyPolicyGenerator() {
+interface PrivacyPolicyGeneratorProps {
+  initialValues?: Partial<PolicyData>;
+}
+
+export default function PrivacyPolicyGenerator({ initialValues: propInitialValues }: PrivacyPolicyGeneratorProps) {
+  const searchParams = useSearchParams();
+  
+  // Initialize from searchParams if available
+  const initialValues = {
+    siteName: searchParams.get("site") ? decodeURIComponent(searchParams.get("site")!) : propInitialValues?.siteName || "",
+    siteUrl: searchParams.get("url") ? decodeURIComponent(searchParams.get("url")!) : propInitialValues?.siteUrl || "",
+    companyName: searchParams.get("empresa") ? decodeURIComponent(searchParams.get("empresa")!) : propInitialValues?.companyName || "",
+    contactEmail: searchParams.get("email") ? decodeURIComponent(searchParams.get("email")!) : propInitialValues?.contactEmail || "",
+    city: searchParams.get("cidade") ? decodeURIComponent(searchParams.get("cidade")!) : propInitialValues?.city || "São Paulo",
+    usesAdSense: searchParams.get("adsense") !== "false" && (searchParams.get("adsense") === "true" || (propInitialValues?.usesAdSense ?? true)),
+    usesAnalytics: searchParams.get("analytics") !== "false" && (searchParams.get("analytics") === "true" || (propInitialValues?.usesAnalytics ?? true)),
+  };
+
   const [data, setData] = useState<PolicyData>({
-    siteName: "",
-    siteUrl: "",
-    companyName: "",
-    contactEmail: "",
-    city: "São Paulo",
-    collectsName: true,
-    collectsEmail: true,
-    collectsPhone: false,
-    collectsCookies: true,
-    usesAdSense: true,
-    usesAnalytics: true,
-    hasNewsletter: false
+    siteName: initialValues.siteName,
+    siteUrl: initialValues.siteUrl,
+    companyName: initialValues.companyName,
+    contactEmail: initialValues.contactEmail,
+    city: initialValues.city,
+    collectsName: propInitialValues?.collectsName ?? true,
+    collectsEmail: propInitialValues?.collectsEmail ?? true,
+    collectsPhone: propInitialValues?.collectsPhone ?? false,
+    collectsCookies: propInitialValues?.collectsCookies ?? true,
+    usesAdSense: initialValues.usesAdSense,
+    usesAnalytics: initialValues.usesAnalytics,
+    hasNewsletter: propInitialValues?.hasNewsletter ?? false
   });
 
   const [step, setStep] = useState(1);

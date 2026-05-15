@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { useReactToPrint } from "react-to-print";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -13,6 +13,7 @@ import {
   Droplet, Code2, History, Activity, Printer
 } from "lucide-react";
 import { trackEvent } from "@/lib/analytics";
+import { calculateWater, type WaterResult } from "@/lib/calculators/health";
 
 // TIPAGEM
 type HistoricoAgua = {
@@ -22,29 +23,41 @@ type HistoricoAgua = {
   atividade: string;
 };
 
-type ResultadoAgua = {
-    totalLitros: string;
-    totalMl: number;
-    copos: number;
-    garrafas: string;
-    rawPeso: number;
-    rawAtiv: string;
-} | null;
+interface WaterCalculatorProps {
+    initialPeso?: number;
+    initialAtividade?: string;
+    initialResult?: WaterResult | null;
+}
 
-export default function WaterCalculator() {
-  const searchParams = useSearchParams();
+export default function WaterCalculator({
+    initialPeso = 0,
+    initialAtividade = "sedentario",
+    initialResult = null
+}: WaterCalculatorProps) {
   const [isIframe, setIsIframe] = useState(false);
 
   // STATES
-  const [peso, setPeso] = useState("");
-  const [atividade, setAtividade] = useState("sedentario");
-  const [resultado, setResultado] = useState<ResultadoAgua>(null);
+  const [peso, setPeso] = useState(initialPeso > 0 ? initialPeso.toString() : "");
+  const [atividade, setAtividade] = useState(initialAtividade);
+  const [resultado, setResultado] = useState<WaterResult | null>(initialResult);
 
   // FUNCIONALIDADES
   const [historico, setHistorico] = useState<HistoricoAgua[]>([]);
   const [copiado, setCopiado] = useState<"link" | "embed" | null>(null);
   const [showEmbedModal, setShowEmbedModal] = useState(false);
   const [dataAtual, setDataAtual] = useState("");
+  const searchParams = useSearchParams();
+
+  // Hydrate from URL
+  useEffect(() => {
+    const p = searchParams.get('peso');
+    const a = searchParams.get('atividade');
+    if (p) setPeso(p);
+    if (a) setAtividade(a);
+    if (p) {
+        calcular(p, a || atividade);
+    }
+  }, [searchParams]);
 
   // IMPRESSÃO
   const contentRef = useRef<HTMLDivElement>(null);
@@ -65,46 +78,24 @@ export default function WaterCalculator() {
     const salvo = localStorage.getItem("historico_agua");
     if (salvo) setHistorico(JSON.parse(salvo));
 
-    const urlPeso = searchParams.get("peso");
-    const urlAtiv = searchParams.get("atividade");
-
-    if (urlPeso) {
-        setPeso(urlPeso);
-        if (urlAtiv) setAtividade(urlAtiv);
-        setTimeout(() => calcular(urlPeso, urlAtiv || "sedentario"), 200);
+    // Se temos valores iniciais mas não o resultado, calcula imediatamente
+    if (initialPeso > 0 && !resultado) {
+        calcular(initialPeso.toString(), initialAtividade);
     }
-  }, [searchParams]);
+  }, [initialPeso, initialAtividade]);
 
   // CÁLCULO
   const calcular = (p = peso, a = atividade) => {
-    const pesoNum = parseFloat(p);
-    if (!pesoNum || isNaN(pesoNum)) return;
-
-    let fator = 35; // Base 35ml/kg (OMS)
-    if (a === "leve") fator = 40;
-    if (a === "moderado") fator = 45;
-    if (a === "intenso") fator = 50;
-
-    const totalMl = pesoNum * fator;
-    const copos = Math.ceil(totalMl / 250); // Copos de 250ml
-    const garrafas = (totalMl / 500).toFixed(1); // Garrafas de 500ml
-
-    const novoRes = {
-        totalLitros: (totalMl / 1000).toFixed(2).replace('.', ',') + " L",
-        totalMl: totalMl,
-        copos,
-        garrafas: garrafas.replace('.', ','),
-        rawPeso: pesoNum,
-        rawAtiv: a
-    };
-
-    setResultado(novoRes);
-    trackEvent("calculate_agua", { litros: totalMl / 1000, atividade: a });
-    if (!isIframe) salvarHistorico(novoRes);
+    const res = calculateWater(p, a);
+    if (res) {
+        setResultado(res);
+        trackEvent("calculate_agua", { litros: res.totalMl / 1000, atividade: a });
+        if (!isIframe) salvarHistorico(res);
+    }
   };
 
   // ACTIONS
-  const salvarHistorico = (res: any) => {
+  const salvarHistorico = (res: WaterResult) => {
     const novoItem: HistoricoAgua = { 
         data: new Date().toLocaleDateString("pt-BR"), 
         peso: `${res.rawPeso}kg`, 
@@ -117,9 +108,10 @@ export default function WaterCalculator() {
   };
 
   const handleRestaurarHistorico = (item: HistoricoAgua) => {
-      setPeso(item.peso.replace("kg", ""));
+      const pVal = item.peso.replace("kg", "");
+      setPeso(pVal);
       setAtividade(item.atividade);
-      setTimeout(() => calcular(item.peso.replace("kg", ""), item.atividade), 100);
+      setTimeout(() => calcular(pVal, item.atividade), 100);
   };
 
   const handleAction = (action: "share" | "pdf" | "embed") => {

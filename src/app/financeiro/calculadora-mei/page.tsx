@@ -13,84 +13,45 @@ import {
 } from "lucide-react";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
 
-// --- 1. METADATA DE ALTA PERFORMANCE (SEO 2026) ---
-export const metadata: Metadata = {
-  title: "MEI 2026 (Grátis) | Calcular DAS e Limite de Faturamento",
-  description: "Vai estourar o limite de R$ 81 mil? Calcule seu DAS 2026 e veja se você ainda se enquadra em 10 segundos. Tabela atualizada com novo salário mínimo.",
-  keywords: [
-    "calculadora mei 2026", 
-    "calcular das mei", 
-    "limite faturamento mei 2026", 
-    "estourou limite mei o que fazer", 
-    "valor das mei 2026", 
-    "portal do empreendedor simulador"
-  ],
-  alternates: {
-    canonical: "https://mestredascontas.com.br/financeiro/calculadora-mei",
-  },
-  openGraph: {
-    title: "Calculadora MEI 2026 - DAS e Limite Faturamento",
-    description: "Evite multas da Receita Federal. Calcule seu imposto mensal e controle seu limite anual agora.",
-    url: "https://mestredascontas.com.br/financeiro/calculadora-mei",
-    siteName: "Mestre das Contas",
-    locale: "pt_BR",
-    type: "article",
-  },
-  robots: {
-    index: true, follow: true,
-  },
-};
+// --- 1. METADATA DINÂMICA (SEO MAXIMIZADO) ---
+export async function generateMetadata(): Promise<Metadata> {
+  const title = "Simulador MEI 2026 | Calcular DAS e Faturamento";
+  const description = "Vai estourar o limite de R$ 81 mil? Calcule seu DAS 2026 e veja se você ainda se enquadra em 10 segundos. Tabela atualizada com novo salário mínimo.";
 
-// --- 2. DADOS ESTRUTURADOS (JSON-LD) ---
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "SoftwareApplication",
-      "name": "Calculadora MEI 2026",
-      "applicationCategory": "FinanceApplication",
-      "operatingSystem": "Web",
-      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
-      "description": "Calculadora de impostos e limite de faturamento para Microempreendedores Individuais.",
-      "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.9", "ratingCount": "2150", "bestRating": "5", "worstRating": "1" }
-    },
-    {
-      "@type": "Article",
-      "headline": "Guia Definitivo do MEI 2026: Direitos, Deveres e Faturamento",
-      "description": "Tudo sobre o Microempreendedor Individual: como abrir, valor do DAS 2026, limite de faturamento e regras de desenquadramento.",
-      "author": { "@type": "Organization", "name": "Mestre das Contas" },
-      "publisher": { "@type": "Organization", "name": "Mestre das Contas", "logo": { "@type": "ImageObject", "url": "https://mestredascontas.com.br/icon.png" } },
-      "datePublished": "2024-01-20",
-      "dateModified": new Date().toISOString()
-    },
-    {
-      "@type": "HowTo",
-      "name": "Como Controlar o Faturamento do MEI",
-      "description": "Passo a passo para não estourar o limite anual e evitar multas.",
-      "step": [
-        { "@type": "HowToStep", "name": "Soma das Notas", "text": "Some todas as Notas Fiscais emitidas no mês para Pessoas Jurídicas." },
-        { "@type": "HowToStep", "name": "Vendas CPF", "text": "Inclua também as vendas feitas para Pessoas Físicas (mesmo sem NF) e recebimentos via PIX/Cartão." },
-        { "@type": "HowToStep", "name": "Cálculo Proporcional", "text": "Se abriu o MEI no meio do ano, seu limite é de R$ 6.750,00 por mês de atividade." },
-        { "@type": "HowToStep", "name": "Relatório Mensal", "text": "Preencha o Relatório Mensal de Receitas Brutas até o dia 20 do mês seguinte." }
-      ]
-    },
-    {
-      "@type": "FAQPage",
-      "mainEntity": [
-        { "@type": "Question", "name": "O que acontece se eu estourar o limite de R$ 81 mil?", "acceptedAnswer": { "@type": "Answer", "text": "Depende do valor. Se estourar em até 20% (até R$ 97.200,00), você paga uma guia complementar e vira Microempresa (ME) apenas no ano seguinte. Se estourar mais de 20%, o desenquadramento é retroativo a janeiro, e você pagará impostos altos sobre tudo o que faturou no ano, com juros e multa." } },
-        { "@type": "Question", "name": "MEI tem direito a PIS e Seguro-Desemprego?", "acceptedAnswer": { "@type": "Answer", "text": "Não diretamente. O MEI em si é um empresário, não um empregado. Porém, se você trabalha de carteira assinada (CLT) e tem um MEI como renda extra, você mantém o direito ao PIS e Seguro-Desemprego, desde que a renda do MEI não seja suficiente para seu sustento (o governo cruza esses dados)." } },
-        { "@type": "Question", "name": "Como me aposento pelo MEI?", "acceptedAnswer": { "@type": "Answer", "text": "Pagando o DAS em dia, você tem direito à Aposentadoria por Idade (62 anos mulher, 65 homem) e auxílio-doença. O valor da aposentadoria será de 1 salário mínimo. Se quiser se aposentar por Tempo de Contribuição ou com valor maior, você deve pagar uma guia complementar (GPS Código 1910) de 15% sobre o salário mínimo todo mês." } },
-        { "@type": "Question", "name": "Preciso de contador?", "acceptedAnswer": { "@type": "Answer", "text": "Por lei, o MEI dispensa contador para abertura e obrigações mensais. Você mesmo pode fazer tudo no Portal do Empreendedor. Porém, contratar um contador é recomendado se você tem funcionários ou faturamento próximo do limite, para evitar erros na declaração anual." } }
-      ]
-    }
-  ]
-};
+  return {
+    title,
+    description,
+    keywords: [
+      "calculadora mei 2026", 
+      "calcular das mei", 
+      "limite faturamento mei 2026", 
+      "estourou limite mei o que fazer", 
+      "valor das mei 2026", 
+      "portal do empreendedor simulador"
+    ],
+    alternates: {
+      canonical: "https://mestredascontas.com.br/financeiro/calculadora-mei" },
+    openGraph: {
+      title,
+      description,
+      url: "https://mestredascontas.com.br/financeiro/calculadora-mei",
+      siteName: "Mestre das Contas",
+      locale: "pt_BR",
+      type: "article" },
+    robots: {
+      index: true, follow: true } };
+}
 
-export default function MEIPage() {
+
+
+
+export default async function MEIPage() {
+
+
   return (
     <article className="w-full max-w-full overflow-hidden pb-12">
       
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+
 
       {/* --- HEADER --- */}
       <div className="px-4 pt-4 md:pt-6">
@@ -102,8 +63,6 @@ export default function MEIPage() {
           variant="default" 
           categoryColor="green"
           badge="Salário Mínimo 2026"
-          rating={4.9}
-          reviews={2150}
           breadcrumbs={[
             { label: "Financeiro", href: "/financeiro" },
             { label: "Calculadora MEI" }
@@ -128,7 +87,7 @@ export default function MEIPage() {
         <section id="ferramenta" className="scroll-mt-28 w-full max-w-full">
           <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/40 dark:shadow-none p-4 md:p-8">
               <PrivacyBadge />
-              <Suspense fallback={<div className="h-96 w-full animate-pulse bg-slate-100 dark:bg-slate-800 rounded-xl"></div>}>
+              <Suspense fallback={<div className="h-96 w-full bg-slate-100 dark:bg-slate-800 animate-pulse rounded-3xl" />}>
                   <MEICalculator />
               </Suspense>
           </div>
@@ -136,6 +95,7 @@ export default function MEIPage() {
               <DisclaimerBox />
           </div>
         </section>
+
 
         {/* ANÚNCIO MEIO */}
         <div className="w-full max-w-4xl mx-auto flex justify-center my-6 print:hidden">

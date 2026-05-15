@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import LazyAdUnit from "@/components/ads/LazyAdUnit";
@@ -10,29 +11,10 @@ import {
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
 import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
 
-type Props = {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
-}
-
 // --- 1. METADATA DINÂMICA (SEO MAXIMIZADO) ---
-export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
-  const sp = await searchParams;
-  const amount = sp.amount as string;
-  const name = sp.name as string;
-
-  let title = "Gerador de Pix: QR Code e Copia e Cola (Com Valor Definido)";
-  let description = "Crie cobranças Pix profissionais em segundos. Defina o valor exato, gere o QR Code oficial e o código Copia e Cola. Grátis e Seguro (Sem Taxas).";
-
-  if (amount) {
-    const valorFormatado = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(Number(amount));
-    if (name) {
-        title = `Pix de ${valorFormatado} para ${decodeURIComponent(name)}`;
-        description = `Pague ${valorFormatado} para ${decodeURIComponent(name)} agora. QR Code Oficial e Seguro.`;
-    } else {
-        title = `Cobrança Pix de ${valorFormatado} - Gerador Oficial`;
-        description = `Link de pagamento Pix no valor de ${valorFormatado}. Clique para gerar o QR Code ou Copia e Cola.`;
-    }
-  }
+export async function generateMetadata(): Promise<Metadata> {
+  const title = "Gerador de Pix: QR Code e Copia e Cola (Com Valor Definido)";
+  const description = "Crie cobranças Pix profissionais em segundos. Defina o valor exato, gere o QR Code oficial e o código Copia e Cola. Grátis e Seguro (Sem Taxas).";
 
   return {
     title,
@@ -45,13 +27,10 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
       url: "https://mestredascontas.com.br/ferramentas/gerador-pix",
       siteName: "Mestre das Contas",
       locale: "pt_BR",
-      type: "website",
-    },
+      type: "website" },
     robots: {
       index: true, follow: true,
-      googleBot: { index: true, follow: true, "max-video-preview": -1, "max-image-preview": "large", "max-snippet": -1 },
-    },
-  };
+      googleBot: { index: true, follow: true, "max-video-preview": -1, "max-image-preview": "large", "max-snippet": -1 } } };
 }
 
 const jsonLd = {
@@ -63,9 +42,7 @@ const jsonLd = {
       "applicationCategory": "FinanceApplication",
       "operatingSystem": "Web",
       "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
-      "description": "Gera QR Codes Pix estáticos com valor definido segundo o padrão do Banco Central (BR Code).",
-      "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.9", "ratingCount": "1250", "bestRating": "5", "worstRating": "1" }
-    },
+      "description": "Gera QR Codes Pix estáticos com valor definido segundo o padrão do Banco Central (BR Code)." },
     {
       "@type": "TechArticle",
       "headline": "Como funciona o Pix Copia e Cola com Valor?",
@@ -104,14 +81,7 @@ const jsonLd = {
   ]
 };
 
-export default async function PixPage({ searchParams }: Props) {
-  const sp = await searchParams;
-  
-  const initialKey = (sp.key as string) || "";
-  const initialName = sp.name ? decodeURIComponent(sp.name as string) : "";
-  const initialCity = sp.city ? decodeURIComponent(sp.city as string) : "";
-  const initialAmount = sp.amount ? Number(sp.amount) : 0;
-  const initialTxid = (sp.txid as string) || "";
+export default async function PixPage() {
   return (
     <div className="w-full max-w-full overflow-hidden font-sans pb-12 bg-slate-50 dark:bg-slate-950">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
@@ -126,8 +96,6 @@ export default async function PixPage({ searchParams }: Props) {
           variant="tools" 
           categoryColor="emerald"
           badge="Seguro 2026"
-          rating={4.9}
-          reviews={1250}
           breadcrumbs={[{ label: "Ferramentas", href: "/ferramentas" }, { label: "Gerador Pix" }]}
         />
       </div>
@@ -147,13 +115,9 @@ export default async function PixPage({ searchParams }: Props) {
         {/* FERRAMENTA */}
         <section id="ferramenta" className="w-full relative z-10">
            <PrivacyBadge />
-           <PixGenerator 
-              initialKey={initialKey}
-              initialName={initialName}
-              initialCity={initialCity}
-              initialAmount={initialAmount}
-              initialTxid={initialTxid}
-           />
+           <Suspense fallback={<div className="h-96 w-full bg-slate-100 dark:bg-slate-800 animate-pulse rounded-3xl" />}>
+             <PixGenerator />
+           </Suspense>
 
            {/* PRÓXIMOS PASSOS (Baseado em Analytics - ChatGPT Users) */}
            <div className="mt-8 grid sm:grid-cols-2 gap-4 print:hidden max-w-5xl mx-auto">
@@ -352,8 +316,6 @@ export default async function PixPage({ searchParams }: Props) {
             </div>
 
         </div>
-
-
 
         <SmartCrossLinker currentHref="/ferramentas/gerador-pix" category="ferramentas" />
 

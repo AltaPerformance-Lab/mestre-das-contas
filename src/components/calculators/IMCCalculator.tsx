@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { useReactToPrint } from "react-to-print";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -12,6 +12,7 @@ import {
   Code2, CheckCircle2, Link as LinkIcon, X, Scale, Ruler 
 } from "lucide-react";
 import { trackEvent } from "@/lib/analytics";
+import { calculateIMC, type IMCResult } from "@/lib/calculators/health";
 
 // --- TIPAGEM ---
 type HistoricoItem = {
@@ -22,32 +23,42 @@ type HistoricoItem = {
   classificacao: string;
 };
 
-type ResultadoIMC = {
-    imc: string;
-    classificacao: string;
-    cor: string; // Classes do Tailwind para cor do texto/borda
-    bg: string;  // Classes do Tailwind para cor de fundo
-    peso: string;
-    altura: string;
-} | null;
+interface IMCCalculatorProps {
+    initialPeso?: string;
+    initialAltura?: string;
+    initialResult?: IMCResult | null;
+}
 
-export default function IMCCalculator() {
-  const searchParams = useSearchParams();
-  const [peso, setPeso] = useState("");
-  const [altura, setAltura] = useState("");
-  const [resultado, setResultado] = useState<ResultadoIMC>(null);
+export default function IMCCalculator({
+    initialPeso = "",
+    initialAltura = "",
+    initialResult = null
+}: IMCCalculatorProps) {
+  const [peso, setPeso] = useState(initialPeso);
+  const [altura, setAltura] = useState(initialAltura);
+  const [resultado, setResultado] = useState<IMCResult | null>(initialResult);
   
   const [historico, setHistorico] = useState<HistoricoItem[]>([]);
   const [copiado, setCopiado] = useState<"link" | "embed" | "result" | null>(null);
   const [showEmbedModal, setShowEmbedModal] = useState(false);
   const [isIframe, setIsIframe] = useState(false);
   
-  // Estado para data (Correção de Hidratação)
   const [dataAtual, setDataAtual] = useState("");
+  const searchParams = useSearchParams();
+
+  // Hydrate from URL
+  useEffect(() => {
+    const p = searchParams.get('peso');
+    const a = searchParams.get('altura');
+    if (p) setPeso(p);
+    if (a) setAltura(a);
+    if (p && a) {
+        handleCalcular(p, a);
+    }
+  }, [searchParams]);
 
   const contentRef = useRef<HTMLDivElement>(null);
   
-  // Configuração de Impressão
   const reactToPrintFn = useReactToPrint({ 
     contentRef,
     documentTitle: "Relatorio_IMC_MestreDasContas",
@@ -57,88 +68,29 @@ export default function IMCCalculator() {
     `
   });
 
-  // --- EFEITOS ---
   useEffect(() => {
     setIsIframe(window.self !== window.top);
     setDataAtual(new Date().toLocaleDateString("pt-BR"));
     
-    const urlPeso = searchParams.get("peso");
-    const urlAltura = searchParams.get("altura");
-    
-    if (urlPeso && urlAltura) {
-      setPeso(urlPeso);
-      setAltura(urlAltura);
-      setTimeout(() => calcular(urlPeso, urlAltura), 100);
-    }
-    
     const salvo = localStorage.getItem("historico_imc");
     if (salvo) setHistorico(JSON.parse(salvo));
-  }, [searchParams]);
 
-  // --- CÁLCULO ---
-  const calcular = (p = peso, a = altura) => {
-    // Tratamento robusto para vírgula ou ponto
-    const pesoNum = parseFloat(p.replace(",", "."));
-    
-    // Se altura for inteira (ex: 180), divide por 100. Se for decimal (1.80), mantem.
-    // Lógica melhorada: se for maior que 3, assume que é cm (ninguém tem 3 metros)
-    let alturaNum = parseFloat(a.replace(",", "."));
-    if (alturaNum > 3) alturaNum = alturaNum / 100;
+    // Se temos valores iniciais mas não o resultado, calcula imediatamente
+    if (initialPeso && initialAltura && !resultado) {
+      handleCalcular(initialPeso, initialAltura);
+    }
+  }, [initialPeso, initialAltura]);
 
-    if (!pesoNum || !alturaNum || isNaN(pesoNum) || isNaN(alturaNum) || alturaNum <= 0) return;
-
-    const imc = pesoNum / (alturaNum * alturaNum);
-    let classificacao = "";
-    let cor = ""; // Texto e Borda
-    let bg = "";  // Fundo
-
-    if (imc < 18.5) { 
-        classificacao = "Abaixo do Peso"; 
-        cor = "text-blue-600 border-blue-200"; 
-        bg = "bg-blue-50"; 
+  const handleCalcular = (p = peso, a = altura) => {
+    const novoResultado = calculateIMC(p, a);
+    if (novoResultado) {
+        setResultado(novoResultado);
+        trackEvent("calculate_imc", { imc: novoResultado.imc, classificacao: novoResultado.classificacao });
+        if (!isIframe) salvarHistorico(novoResultado);
     }
-    else if (imc < 24.9) { 
-        classificacao = "Peso Normal"; 
-        cor = "text-green-700 border-green-200"; 
-        bg = "bg-green-50"; 
-    }
-    else if (imc < 29.9) { 
-        classificacao = "Sobrepeso"; 
-        cor = "text-yellow-700 border-yellow-200"; 
-        bg = "bg-yellow-50"; 
-    }
-    else if (imc < 34.9) { 
-        classificacao = "Obesidade Grau I"; 
-        cor = "text-orange-700 border-orange-200"; 
-        bg = "bg-orange-50"; 
-    }
-    else if (imc < 39.9) { 
-        classificacao = "Obesidade Grau II"; 
-        cor = "text-red-700 border-red-200"; 
-        bg = "bg-red-50"; 
-    }
-    else { 
-        classificacao = "Obesidade Grau III"; 
-        cor = "text-red-900 border-red-300"; 
-        bg = "bg-red-100"; 
-    }
-
-    const novoResultado = { 
-        imc: imc.toFixed(2), 
-        classificacao, 
-        cor, 
-        bg,
-        peso: pesoNum.toString(), 
-        altura: alturaNum.toFixed(2) 
-    };
-    
-    setResultado(novoResultado);
-    trackEvent("calculate_imc", { imc: imc.toFixed(2), classificacao });
-    if (!isIframe) salvarHistorico(novoResultado);
   };
 
-  // --- HISTÓRICO ---
-  const salvarHistorico = (res: any) => {
+  const salvarHistorico = (res: IMCResult) => {
     const novoItem: HistoricoItem = { 
         data: new Date().toLocaleDateString("pt-BR"), 
         peso: res.peso, 
@@ -157,7 +109,6 @@ export default function IMCCalculator() {
       setResultado(null);
   };
 
-  // --- ACTIONS ---
   const handleAction = (action: string) => {
     if (action === 'pdf') {
         trackEvent("print_imc");
@@ -185,11 +136,7 @@ export default function IMCCalculator() {
 
   return (
     <div className="w-full font-sans">
-      
-      {/* GRID PRINCIPAL */}
       <div className="grid lg:grid-cols-12 gap-8 w-full print:hidden">
-        
-        {/* --- COLUNA ESQUERDA: INPUTS --- */}
         <div className="lg:col-span-5 space-y-6 w-full">
             <Card className="border-0 shadow-lg shadow-slate-200/50 dark:shadow-none ring-1 ring-slate-200 dark:ring-slate-800 bg-white dark:bg-slate-900 rounded-2xl overflow-hidden sticky top-24">
             <CardHeader className="bg-gradient-to-r from-red-500 to-rose-600 text-white p-6">
@@ -244,7 +191,7 @@ export default function IMCCalculator() {
                 </div>
                 
                 <div className="flex gap-3 pt-2">
-                    <Button onClick={() => calcular()} className="flex-1 bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-700 hover:to-rose-700 text-white h-14 text-lg font-bold shadow-lg shadow-red-200 rounded-xl transition-all active:scale-[0.99]">
+                    <Button onClick={() => handleCalcular()} className="flex-1 bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-700 hover:to-rose-700 text-white h-14 text-lg font-bold shadow-lg shadow-red-200 rounded-xl transition-all active:scale-[0.99]">
                         Calcular Agora
                     </Button>
                     <Button variant="outline" onClick={limpar} size="icon" className="h-14 w-14 shrink-0 border-slate-200 dark:border-slate-700 text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 hover:border-red-200 dark:hover:border-red-800 bg-white dark:bg-slate-900 rounded-xl transition-colors" title="Limpar dados">
@@ -254,7 +201,6 @@ export default function IMCCalculator() {
             </CardContent>
             </Card>
 
-            {/* HISTÓRICO RÁPIDO */}
             {!isIframe && historico.length > 0 && !resultado && (
                 <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-5 shadow-sm animate-in fade-in">
                     <h4 className="text-xs font-bold text-slate-400 uppercase mb-4 flex items-center gap-2 tracking-wider">
@@ -272,7 +218,6 @@ export default function IMCCalculator() {
             )}
         </div>
 
-        {/* --- COLUNA DIREITA: RESULTADO --- */}
         <div className="lg:col-span-7">
             <Card className={`h-full border-0 shadow-lg shadow-slate-200/50 dark:shadow-none ring-1 ring-slate-200 dark:ring-slate-800 rounded-2xl overflow-hidden ${resultado ? 'bg-white dark:bg-slate-900' : 'bg-slate-50 dark:bg-slate-950'}`}>
                 <CardContent className="p-6 md:p-8 flex flex-col justify-center h-full">
@@ -288,8 +233,6 @@ export default function IMCCalculator() {
                         </div>
                     ) : (
                         <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-                            
-                            {/* CARD DESTAQUE DINÂMICO */}
                             <div className={`p-8 rounded-2xl border-2 text-center relative overflow-hidden transition-colors duration-500 ${resultado.cor} ${resultado.bg} dark:bg-opacity-10 dark:text-slate-100`}>
                                 <p className="text-xs font-bold uppercase tracking-widest mb-2 opacity-80">Seu Índice de Massa Corporal</p>
                                 <div className="text-7xl font-extrabold tracking-tighter mb-4">{resultado.imc}</div>
@@ -298,7 +241,6 @@ export default function IMCCalculator() {
                                 </div>
                             </div>
 
-                            {/* DADOS DETALHADOS */}
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="bg-slate-50 dark:bg-slate-800 p-4 rounded-xl border border-slate-100 dark:border-slate-700 text-center">
                                     <p className="text-xs text-slate-400 uppercase font-bold mb-1">Peso</p>
@@ -310,7 +252,6 @@ export default function IMCCalculator() {
                                 </div>
                             </div>
 
-                            {/* AÇÕES */}
                             <div className="grid grid-cols-2 gap-3 pt-2">
                                 <Button className="h-12 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 hover:bg-blue-50 dark:hover:bg-blue-900/10 text-blue-700 dark:text-blue-400 font-bold" variant="outline" onClick={() => handleAction("share")}>
                                     {copiado === "link" ? <span className="flex items-center gap-2"><CheckCircle2 size={18}/> Copiado</span> : <span className="flex items-center gap-2"><Share2 size={18}/> Compartilhar</span>}
@@ -326,7 +267,6 @@ export default function IMCCalculator() {
         </div>
       </div>
 
-      {/* --- IMPRESSÃO (Oculto) --- */}
       {resultado && (
         <div className="hidden print:block">
             <div ref={contentRef} className="print:w-full print:p-8 print:bg-white text-slate-900">
@@ -373,7 +313,6 @@ export default function IMCCalculator() {
         </div>
       )}
 
-      {/* --- EMBED MODAL --- */}
       {showEmbedModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 animate-in fade-in backdrop-blur-sm print:hidden" onClick={() => setShowEmbedModal(false)}>
             <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-2xl p-6 max-w-lg w-full relative" onClick={e => e.stopPropagation()}>

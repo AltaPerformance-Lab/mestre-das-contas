@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import Link from "next/link";
 import ReceiptGenerator from "@/components/tools/ReceiptGenerator";
 import LazyAdUnit from "@/components/ads/LazyAdUnit";
@@ -12,25 +13,28 @@ import {
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
 import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
 
-// --- SEO 2026 ---
-export const metadata: Metadata = {
-  title: "Gerador de Recibo Online 2026 (Grátis) | PDF e WhatsApp",
-  description: "Crie recibos profissionais em segundos em 2026. Preenchimento automático, valor por extenso e 2 vias. Ideal para autônomos, aluguel e serviços. Grátis.",
-  keywords: [
-    "gerador de recibo", "recibo online gratis", "modelo de recibo pdf", 
-    "recibo aluguel preencher", "emitir recibo online", "recibo de pagamento simples"
-  ],
-  alternates: { canonical: "https://mestredascontas.com.br/ferramentas/gerador-recibo" },
-  openGraph: {
-    title: "Gerador de Recibo Online - Profissional e Grátis",
-    description: "Emita recibos de pagamento em PDF prontos para imprimir. Sem cadastro.",
-    url: "https://mestredascontas.com.br/ferramentas/gerador-recibo",
-    siteName: "Mestre das Contas",
-    locale: "pt_BR",
-    type: "website",
-    // images: [{ url: "/og-recibo.png", width: 1200, height: 630 }],
-  },
-};
+
+// --- 1. METADATA DINÂMICA (SEO MAXIMIZADO) ---
+export async function generateMetadata(): Promise<Metadata> {
+  const title = "Gerador de Recibo Online 2026 (Grátis) | PDF e WhatsApp";
+  const description = "Crie recibos profissionais em segundos em 2026. Preenchimento automático, valor por extenso e 2 vias. Ideal para autônomos, aluguel e serviços. Grátis.";
+
+  return {
+    title,
+    description,
+    keywords: [
+      "gerador de recibo", "recibo online gratis", "modelo de recibo pdf", 
+      "recibo aluguel preencher", "emitir recibo online", "recibo de pagamento simples"
+    ],
+    alternates: { canonical: "https://mestredascontas.com.br/ferramentas/gerador-recibo" },
+    openGraph: {
+      title,
+      description,
+      url: "https://mestredascontas.com.br/ferramentas/gerador-recibo",
+      siteName: "Mestre das Contas",
+      locale: "pt_BR",
+      type: "website" } };
+}
 
 // --- DADOS ESTRUTURADOS ---
 const jsonLd = {
@@ -42,9 +46,7 @@ const jsonLd = {
       "applicationCategory": "BusinessApplication",
       "operatingSystem": "Web Browser",
       "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
-      "description": "Ferramenta gratuita para gerar e imprimir recibos de pagamento personalizados em PDF.",
-      "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.8", "ratingCount": "2150", "bestRating": "5", "worstRating": "1" }
-    },
+      "description": "Ferramenta gratuita para gerar e imprimir recibos de pagamento personalizados em PDF." },
     {
       "@type": "Article",
       "headline": "Como Preencher um Recibo Corretamente em 2026",
@@ -65,7 +67,8 @@ const jsonLd = {
   ]
 };
 
-export default function ReceiptPage() {
+export default async function ReceiptPage() {
+
   return (
     <article className="w-full max-w-full overflow-hidden font-sans bg-slate-50 dark:bg-slate-950 pb-12">
       
@@ -81,8 +84,6 @@ export default function ReceiptPage() {
           variant="default"
           categoryColor="slate"
           badge="Modelo 2026"
-          rating={4.8}
-          reviews={2150}
           breadcrumbs={[{ label: "Ferramentas", href: "/ferramentas" }, { label: "Gerador de Recibo" }]}
         />
       </div>
@@ -103,7 +104,9 @@ export default function ReceiptPage() {
         {/* FERRAMENTA PRINCIPAL */}
         <section id="ferramenta" className="scroll-mt-28 w-full max-w-full relative z-10">
            <PrivacyBadge />
-           <ReceiptGenerator />
+           <Suspense fallback={<div className="h-96 w-full bg-slate-100 dark:bg-slate-800 animate-pulse rounded-3xl" />}>
+             <ReceiptGenerator />
+           </Suspense>
            <div className="mt-8 print:hidden max-w-5xl mx-auto"><DisclaimerBox /></div>
         </section>
 
@@ -190,7 +193,7 @@ export default function ReceiptPage() {
                     Ao clicar em Imprimir, selecione a opção <strong>'Salvar como PDF'</strong> no destino da impressora para gerar o arquivo digital e enviar por WhatsApp.
                 </p>
             </details>
-
+            
             <details className="group border-b border-slate-200 dark:border-slate-800 pb-4 mb-4 cursor-pointer">
                 <summary className="font-bold text-slate-800 dark:text-slate-200 flex justify-between items-center list-none">
                     Posso gerar recibo de aluguel?

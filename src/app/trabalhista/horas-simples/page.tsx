@@ -2,6 +2,8 @@ import { Suspense } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import WorkHoursCalculator from "@/components/calculators/WorkHoursCalculator";
+
+
 import LazyAdUnit from "@/components/ads/LazyAdUnit";
 import DisclaimerBox from "@/components/ui/DisclaimerBox";
 import PageHeader from "@/components/layout/PageHeader";
@@ -10,12 +12,28 @@ import {
 } from "lucide-react";
 import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
 
-export const metadata: Metadata = {
-  title: "Calculadora de Horas Simples 2026 (Grátis) | Entrada e Saída",
-  description: "Calcule suas horas trabalhadas informando apenas entrada, saída e intervalo em 10 segundos. Simples, rápido e gratuito para 2026.",
-};
+// --- 1. METADATA DINÂMICA ---
+export async function generateMetadata(): Promise<Metadata> {
+  const title = "Calculadora de Horas Simples 2026 (Grátis) | Entrada e Saída";
+  const description = "Calcule suas horas trabalhadas informando apenas entrada, saída e intervalo em 10 segundos. Simples, rápido e gratuito para 2026.";
 
-export default function HorasSimplesPage() {
+  return {
+    title,
+    description,
+    keywords: ["calculadora de horas simples", "entrada e saída calculo", "somar jornada de trabalho", "horas líquidas"],
+    alternates: { canonical: "https://mestredascontas.com.br/trabalhista/horas-simples" },
+    openGraph: {
+      title,
+      description,
+      url: "https://mestredascontas.com.br/trabalhista/horas-simples",
+      siteName: "Mestre das Contas",
+      type: "article" }
+  };
+}
+
+
+export default async function HorasSimplesPage() {
+
   return (
     <article className="w-full max-w-full overflow-hidden pb-12">
       
@@ -57,16 +75,9 @@ export default function HorasSimplesPage() {
         {/* FERRAMENTA */}
         <section id="ferramenta" className="scroll-mt-28 w-full max-w-full">
           <div className="bg-white rounded-3xl border border-cyan-100 shadow-xl shadow-cyan-100/50 p-1 md:p-2">
-              <Suspense fallback={
-                <div className="h-96 w-full bg-cyan-50 rounded-2xl animate-pulse flex items-center justify-center text-cyan-300 border border-cyan-100">
-                    <div className="flex flex-col items-center gap-2">
-                        <Timer className="animate-bounce" size={32}/>
-                        <span>Carregando Calculadora...</span>
-                    </div>
-                </div>
-              }>
-                  <WorkHoursCalculator />
-              </Suspense>
+                  <Suspense fallback={<div className="h-96 w-full bg-slate-100 dark:bg-slate-800 animate-pulse rounded-3xl" />}>
+                    <WorkHoursCalculator />
+                  </Suspense>
           </div>
           
           <div className="mt-8 print:hidden max-w-5xl mx-auto">

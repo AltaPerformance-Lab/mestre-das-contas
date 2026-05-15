@@ -7,9 +7,7 @@ export const metadata: Metadata = {
   description: "Saiba como e por que utilizamos cookies no Mestre das Contas. Transparência total sobre publicidade e navegação.",
   robots: { index: true, follow: true },
   alternates: {
-    canonical: "https://mestredascontas.com.br/politica-cookies",
-  },
-};
+    canonical: "https://mestredascontas.com.br/politica-cookies" } };
 
 export default function CookiesPage() {
   return (

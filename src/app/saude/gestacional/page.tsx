@@ -15,29 +15,36 @@ import PrivacyBadge from "@/components/ui/PrivacyBadge";
 import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
 
 // --- 1. METADATA 2026 ---
-export const metadata: Metadata = {
-  title: "Calculadora Gestacional 2026 (Grátis) | Semanas e Data do Parto",
-  description: "Estou grávida de quanto tempo? Calcule a Data Provável do Parto (DPP) e acompanhe sua gestação semana a semana com a tabela oficial 2026. Grátis.",
-  keywords: [
-    "calculadora gestacional", 
-    "calcular data do parto", 
-    "dpp calculadora", 
-    "tabela gestacional semanas e meses", 
-    "sintomas gravidez semana a semana",
-    "sexagem fetal data",
-    "calculadora gravidez 2026"
-  ],
-  alternates: { canonical: "https://mestredascontas.com.br/saude/gestacional" },
-  openGraph: {
-    title: "Acompanhamento de Gravidez 2026 - Mestre das Contas",
-    description: "O guia da mamãe moderna. Calcule sua DPP e tire as 20 maiores dúvidas da gestação.",
-    url: "https://mestredascontas.com.br/saude/gestacional",
-    siteName: "Mestre das Contas",
-    locale: "pt_BR",
-    type: "article",
-    images: [{ url: "https://mestredascontas.com.br/opengraph-image", width: 1200, height: 630, alt: "Calculadora de Gravidez" }],
-  },
-};
+import { calculatePregnancy } from "@/lib/calculators/health";
+
+
+// --- 1. METADATA DINÂMICA (SEO MAXIMIZADO) ---
+export async function generateMetadata(): Promise<Metadata> {
+  const title = "Calculadora Gestacional 2026 (Grátis) | Semanas e Data do Parto";
+  const description = "Estou grávida de quanto tempo? Calcule a Data Provável do Parto (DPP) e acompanhe sua gestação semana a semana com a tabela oficial 2026. Grátis.";
+
+  return {
+    title,
+    description,
+    keywords: [
+      "calculadora gestacional", 
+      "calcular data do parto", 
+      "dpp calculadora", 
+      "tabela gestacional semanas e meses", 
+      "sintomas gravidez semana a semana",
+      "sexagem fetal data",
+      "calculadora gravidez 2026"
+    ],
+    alternates: { canonical: "https://mestredascontas.com.br/saude/gestacional" },
+    openGraph: {
+      title,
+      description,
+      url: "https://mestredascontas.com.br/saude/gestacional",
+      siteName: "Mestre das Contas",
+      locale: "pt_BR",
+      type: "article",
+      images: [{ url: "https://mestredascontas.com.br/opengraph-image", width: 1200, height: 630, alt: "Calculadora de Gravidez" }] } };
+}
 
 // Lista de FAQ para uso no componente e no JSON-LD (DRY Principle)
 const faqList = [
@@ -48,61 +55,35 @@ const faqList = [
     { p: "Grávida pode tomar café?", r: "Sim, mas com moderação. A OMS recomenda limitar a cafeína a 200mg por dia (cerca de 2 xícaras pequenas). Excesso pode aumentar risco de baixo peso ao nascer." }
 ];
 
-// --- 2. DADOS ESTRUTURADOS (JSON-LD) ---
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "SoftwareApplication",
-      "name": "Calculadora Gestacional",
-      "applicationCategory": "HealthApplication",
-      "operatingSystem": "Web",
-      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
-      "description": "Ferramenta completa para acompanhamento gestacional, cálculo de DPP e fases do bebê.",
-      "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.9", "ratingCount": "21030", "bestRating": "5", "worstRating": "1" }
-    },
-    {
-      "@type": "MedicalWebPage",
-      "name": "Guia da Gestação Semana a Semana",
-      "about": { "@type": "MedicalCondition", "name": "Gravidez" },
-      "audience": { "@type": "Patient", "audienceType": "Gestantes" },
-      "author": { "@type": "Organization", "name": "Equipe Mestre das Contas" },
-      "publisher": { "@type": "Organization", "name": "Mestre das Contas", "logo": { "@type": "ImageObject", "url": "https://mestredascontas.com.br/opengraph-image" } }
-    },
-    {
-      "@type": "FAQPage",
-      "mainEntity": faqList.map(item => ({
-        "@type": "Question",
-        "name": item.p,
-        "acceptedAnswer": { "@type": "Answer", "text": item.r }
-      }))
-    }
-  ]
-};
-
-type Props = { searchParams: Promise<{ [key: string]: string | string[] | undefined }> }
-
-export default async function GestacionalPage({ searchParams }: Props) {
-  const resolvedParams = await searchParams;
-  const isEmbed = resolvedParams.embed === 'true';
-
-  // --- MODO EMBED ---
-  if (isEmbed) {
-    return (
-        <main className="w-full min-h-screen bg-pink-50/30 p-2 sm:p-4 flex flex-col items-center justify-center font-sans">
-            <div className="w-full max-w-2xl">
-                <Suspense fallback={<div className="p-4 text-center text-pink-400 animate-pulse">Carregando Calculadora...</div>}>
-                    <PregnancyCalculator />
-                </Suspense>
-                <div className="mt-4 text-center">
-                    <Link href="https://mestredascontas.com.br/saude/gestacional" target="_blank" className="text-[10px] text-pink-400 hover:text-pink-600 uppercase font-bold tracking-wider flex items-center justify-center gap-1 transition-colors">
-                        <Baby size={10} /> Powered by Mestre das Contas
-                    </Link>
-                </div>
-            </div>
-        </main>
-    );
-  }
+export default async function GestacionalPage() {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "SoftwareApplication",
+        "name": "Calculadora Gestacional",
+        "applicationCategory": "HealthApplication",
+        "operatingSystem": "Web",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
+        "description": "Ferramenta completa para acompanhamento gestacional, cálculo de DPP e fases do bebê." },
+      {
+        "@type": "MedicalWebPage",
+        "name": "Guia da Gestação Semana a Semana",
+        "about": { "@type": "MedicalCondition", "name": "Gravidez" },
+        "audience": { "@type": "Patient", "audienceType": "Gestantes" },
+        "author": { "@type": "Organization", "name": "Equipe Mestre das Contas" },
+        "publisher": { "@type": "Organization", "name": "Mestre das Contas", "logo": { "@type": "ImageObject", "url": "https://mestredascontas.com.br/opengraph-image" } }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": faqList.map(item => ({
+          "@type": "Question",
+          "name": item.p,
+          "acceptedAnswer": { "@type": "Answer", "text": item.r }
+        }))
+      }
+    ]
+  };
 
   // --- MODO PÁGINA NORMAL ---
   return (
@@ -120,8 +101,6 @@ export default async function GestacionalPage({ searchParams }: Props) {
           variant="health" // Laranja/Rosa (Saúde)
           categoryColor="rose"
           badge="Atualizado 2026"
-          rating={4.9}
-          reviews={21030}
           breadcrumbs={[
             { label: "Saúde", href: "/saude" },
             { label: "Gravidez" }
@@ -154,16 +133,9 @@ export default async function GestacionalPage({ searchParams }: Props) {
                <PrivacyBadge />
           </div>
           <div className="bg-white dark:bg-slate-900 rounded-3xl border border-pink-100 dark:border-pink-900/30 shadow-xl shadow-pink-100/50 dark:shadow-none p-1 md:p-2">
-              <Suspense fallback={
-                <div className="h-96 w-full bg-pink-50 dark:bg-pink-900/10 rounded-2xl animate-pulse flex items-center justify-center text-pink-300 dark:text-pink-600 border border-pink-100 dark:border-pink-900/30">
-                    <div className="flex flex-col items-center gap-2">
-                        <Baby className="animate-bounce" size={32}/>
-                        <span>Carregando Calculadora...</span>
-                    </div>
-                </div>
-              }>
-                  <PregnancyCalculator />
-              </Suspense>
+                  <Suspense fallback={<div className="h-96 w-full bg-slate-100 dark:bg-slate-800 animate-pulse rounded-3xl" />}>
+                    <PregnancyCalculator />
+                  </Suspense>
           </div>
           
           <div className="mt-8 print:hidden max-w-5xl mx-auto">

@@ -14,28 +14,35 @@ import {
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
 import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
 
+import { calculateWater } from "@/lib/calculators/health";
+
+
 // --- 1. METADATA DE ALTA PERFORMANCE (SEO) ---
-export const metadata: Metadata = {
-  title: "Calculadora de Água Diária 2026 (Grátis) | Tabela Oficial por Peso",
-  description: "Descubra exatamente quantos litros de água beber por dia em 2026 baseado no seu peso e atividade física. Tabela oficial de hidratação atualizada da OMS.",
-  keywords: [
-    "calculadora ingestão de agua", 
-    "quantos litros de agua beber por dia", 
-    "tabela agua por peso", 
-    "calculo 35ml por kg", 
-    "importancia hidratação", 
-    "beber agua emagrece"
-  ],
-  alternates: { canonical: "https://mestredascontas.com.br/saude/agua" },
-  openGraph: {
-    title: "Calculadora de Água 2026 - Mestre das Contas",
-    description: "Hidratação inteligente baseada na ciência. Calcule sua meta diária.",
-    url: "https://mestredascontas.com.br/saude/agua",
-    siteName: "Mestre das Contas",
-    locale: "pt_BR",
-    type: "article",
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const title = "Calculadora de Água Diária 2026 (Grátis) | Tabela Oficial por Peso";
+  const description = "Descubra exatamente quantos litros de água beber por dia em 2026 baseado no seu peso e atividade física. Tabela oficial de hidratação atualizada da OMS.";
+
+  return {
+    title,
+    description,
+    keywords: [
+      "calculadora ingestão de agua", 
+      "quantos litros de agua beber por dia", 
+      "tabela agua por peso", 
+      "calculo 35ml por kg", 
+      "importancia hidratação", 
+      "beber agua emagrece"
+    ],
+    alternates: { canonical: "https://mestredascontas.com.br/saude/agua" },
+    openGraph: {
+      title,
+      description,
+      url: "https://mestredascontas.com.br/saude/agua",
+      siteName: "Mestre das Contas",
+      locale: "pt_BR",
+      type: "article",
+      images: [{ url: "https://mestredascontas.com.br/opengraph-image", width: 1200, height: 630, alt: "Simulador de Água" }] } };
+}
 
 const faqList = [
     { q: "Qual a regra básica para beber água?", a: "A diretriz geral para adultos saudáveis em climas temperados é de aproximadamente 35ml de água para cada quilo de peso corporal." },
@@ -45,40 +52,38 @@ const faqList = [
     { q: "Atletas precisam de mais água?", a: "Com certeza. Durante exercícios intensos, deve-se repor o líquido perdido pelo suor. Recomenda-se adicionar 500ml a 1L por hora de atividade física." }
 ];
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "SoftwareApplication",
-      "name": "Calculadora de Ingestão de Água - Mestre das Contas",
-      "applicationCategory": "HealthApplication",
-      "operatingSystem": "Web",
-      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
-      "description": "Ferramenta para cálculo personalizado da meta de hidratação diária baseada no peso e atividade física.",
-      "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.9", "ratingCount": "18200", "bestRating": "5", "worstRating": "1" }
-    },
-    {
-      "@type": "Article",
-      "headline": "Guia de Hidratação 2026: Quanta Água seu Corpo Realmente Precisa?",
-      "description": "Entenda a ciência por trás da regra dos 35ml por quilo e como a hidratação correta impacta sua saúde e metabolismo.",
-      "author": { "@type": "Organization", "name": "Mestre das Contas" },
-      "publisher": { "@type": "Organization", "name": "Mestre das Contas", "logo": { "@type": "ImageObject", "url": "https://mestredascontas.com.br/opengraph-image" } },
-      "datePublished": "2024-01-10",
-      "dateModified": new Date().toISOString(),
-      "image": "https://mestredascontas.com.br/opengraph-image"
-    },
-    {
-      "@type": "FAQPage",
-      "mainEntity": faqList.map(item => ({
-        "@type": "Question",
-        "name": item.q,
-        "acceptedAnswer": { "@type": "Answer", "text": item.a }
-      }))
-    }
-  ]
-};
+export default async function AguaPage() {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "SoftwareApplication",
+        "name": "Calculadora de Ingestão de Água - Mestre das Contas",
+        "applicationCategory": "HealthApplication",
+        "operatingSystem": "Web",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
+        "description": "Ferramenta para cálculo personalizado da meta de hidratação diária baseada no peso e atividade física." },
+      {
+        "@type": "Article",
+        "headline": "Guia de Hidratação 2026: Quanta Água seu Corpo Realmente Precisa?",
+        "description": "Entenda a ciência por trás da regra dos 35ml por quilo e como a hidratação correta impacta sua saúde e metabolismo.",
+        "author": { "@type": "Organization", "name": "Mestre das Contas" },
+        "publisher": { "@type": "Organization", "name": "Mestre das Contas", "logo": { "@type": "ImageObject", "url": "https://mestredascontas.com.br/opengraph-image" } },
+        "datePublished": "2024-01-10",
+        "dateModified": new Date().toISOString(),
+        "image": "https://mestredascontas.com.br/opengraph-image"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": faqList.map(item => ({
+          "@type": "Question",
+          "name": item.q,
+          "acceptedAnswer": { "@type": "Answer", "text": item.a }
+        }))
+      }
+    ]
+  };
 
-export default function AguaPage() {
   return (
     <article className="w-full max-w-full overflow-hidden pb-12">
       
@@ -94,8 +99,6 @@ export default function AguaPage() {
           variant="health"
           categoryColor="rose"
           badge="Hidratação 2026"
-          rating={4.9}
-          reviews={18200}
           breadcrumbs={[
             { label: "Saúde", href: "/saude" },
             { label: "Calculadora de Água" }
@@ -122,9 +125,9 @@ export default function AguaPage() {
                <PrivacyBadge />
           </div>
           <div className="bg-white dark:bg-slate-900 rounded-3xl border border-cyan-100 dark:border-slate-800 shadow-xl shadow-cyan-100/50 dark:shadow-none p-1 md:p-2">
-              <Suspense fallback={<div className="h-96 w-full bg-cyan-50 dark:bg-slate-900/30 rounded-2xl animate-pulse flex items-center justify-center text-cyan-300">Carregando Calculadora...</div>}>
-                  <WaterCalculator />
-              </Suspense>
+                  <Suspense fallback={<div className="h-96 w-full bg-slate-100 dark:bg-slate-800 animate-pulse rounded-3xl" />}>
+                    <WaterCalculator />
+                  </Suspense>
           </div>
           <div className="mt-8 print:hidden max-w-5xl mx-auto">
               <DisclaimerBox />

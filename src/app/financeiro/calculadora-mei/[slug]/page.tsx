@@ -14,8 +14,7 @@ import { Briefcase, ArrowLeft, CheckCircle2, AlertTriangle, Search, Star, BookOp
 // --- SSG ---
 export async function generateStaticParams() {
     return meiActivities.map((act) => ({
-        slug: act.slug,
-    }));
+        slug: act.slug }));
 }
 
 // --- METADATA DINÂMICA ---
@@ -29,9 +28,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
         description: `Sou ${activity.jobTitle} e quero ser MEI. Veja o valor do DAS mensal, código CNAE corretos e limite de faturamento para sua profissão.`,
         keywords: [...activity.keywords, "calculadora mei", "limite mei 2026", "cnae mei"],
         alternates: {
-            canonical: `https://mestredascontas.com.br/financeiro/calculadora-mei/${slug}`,
-        },
-    };
+            canonical: `https://mestredascontas.com.br/financeiro/calculadora-mei/${slug}` } };
 }
 
 export default async function MEIPSeoPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -50,8 +47,7 @@ export default async function MEIPSeoPage({ params }: { params: Promise<{ slug: 
                 "applicationCategory": "FinanceApplication",
                 "operatingSystem": "Web Browser",
                 "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
-                "description": `Calculadora de impostos (DAS) e limite de faturamento para MEI ${activity.jobTitle} em 2026.`,
-            },
+                "description": `Calculadora de impostos (DAS) e limite de faturamento para MEI ${activity.jobTitle} em 2026.` },
             {
                 "@type": "HowTo",
                 "name": `Como calcular imposto MEI para ${activity.jobTitle}`,
@@ -128,7 +124,9 @@ export default async function MEIPSeoPage({ params }: { params: Promise<{ slug: 
                             </div>
                         </div>
                         <PrivacyBadge />
-                        <MEICalculator />
+                        <Suspense fallback={<div className="h-96 w-full bg-slate-100 dark:bg-slate-800 animate-pulse rounded-3xl" />}>
+                            <MEICalculator />
+                        </Suspense>
                         <div className="mt-8 border-t border-slate-100 dark:border-slate-800 pt-6">
                             <DisclaimerBox />
                         </div>

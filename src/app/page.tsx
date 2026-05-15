@@ -23,21 +23,18 @@ import { laborCards, financeCards, healthCards, toolsCards } from "@/data/home-c
 
 // --- METADATA AVANÇADA PARA SEO ---
 export const metadata: Metadata = {
-  title: "Mestre das Contas: Calculadoras Trabalhistas e Financeiras (2026)",
-  description: "Cálculos exatos de Rescisão, Férias, Salário Líquido e Reforma Tributária. Ferramentas gratuitas, online e atualizadas com a nova lei 2026. Acesse já.",
-  keywords: ["calculadora rescisão", "calculadora férias", "reforma tributária 2026", "simulador iva", "gerador qr code", "mestre das contas", "conversor imagem", "gerador senhas"],
+  title: "Mestre das Contas | Calculadoras e Ferramentas Online Grátis",
+  description: "Sua central de ferramentas online gratuitas. Calculadoras financeiras, trabalhistas, saúde, geradores de QR Code e editores de PDF precisos e fáceis de usar.",
+  keywords: ["calculadoras grátis", "ferramentas online", "calculadora rescisão", "calculadora férias", "reforma tributária 2026", "gerador qr code", "mestre das contas", "editor pdf online", "gerador link whatsapp"],
   alternates: {
-    canonical: "https://mestredascontas.com.br",
-  },
+    canonical: "https://mestredascontas.com.br" },
   openGraph: {
     type: "website",
     locale: "pt_BR",
     url: "https://mestredascontas.com.br",
-    title: "Mestre das Contas: Todas as Calculadoras (2026)",
-    description: "Simplifique sua vida. Cálculos exatos de Rescisão, Férias, Salário e Impostos.",
-    siteName: "Mestre das Contas",
-  },
-};
+    title: "Mestre das Contas | Calculadoras e Ferramentas Online Grátis",
+    description: "Simplifique sua vida com centenas de ferramentas gratuitas. Cálculos exatos de Rescisão, Férias, Salário e utilitários digitais.",
+    siteName: "Mestre das Contas" } };
 
 export default function Home() {
   
@@ -52,7 +49,7 @@ export default function Home() {
       "target": "https://mestredascontas.com.br/search?q={search_term_string}",
       "query-input": "required name=search_term_string"
     },
-    "description": "Calculadoras gratuitas para cálculos trabalhistas, financeiros e de saúde.",
+    "description": "Plataforma gratuita de calculadoras e ferramentas digitais para cálculos trabalhistas, financeiros, saúde e utilitários.",
     "publisher": {
       "@type": "Organization",
       "name": "Mestre das Contas",

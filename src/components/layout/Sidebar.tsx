@@ -8,7 +8,7 @@ import {
   QrCode, LucideIcon, Zap, Coins, Timer,
   Palmtree, Gift, ShieldCheck, Flame, Baby,
   MessageCircle, Image as ImageIcon, Lock, FileText, CalendarDays,
-  Home, CreditCard, BarChart3, MoonStar
+  Home, CreditCard, BarChart3, MoonStar, Rocket, Book
 } from "lucide-react";
 
 // --- TIPAGEM ---
@@ -38,12 +38,20 @@ interface SidebarProps {
 // --- DADOS DO MENU (AGORA COM TODAS AS FERRAMENTAS) ---
 const menuGroups: MenuGroup[] = [
   {
+    title: "Soluções B2B",
+    theme: "slate",
+    items: [
+      { label: "Para Empresas", href: "/para-empresas", icon: Rocket, badge: "Premium", highlight: true },
+    ]
+  },
+  {
     title: "Destaques",
     theme: "slate",
     items: [
       { label: "Comparador de Renda", href: "/financeiro/comparador-salario", icon: BarChart3, badge: "Viral", highlight: true },
       { label: "Gerador de QR Code", href: "/ferramentas/gerador-qr-code", icon: QrCode, badge: "Grátis", highlight: true },
       { label: "Reforma Tributária", href: "/financeiro/reforma-tributaria", icon: Landmark, badge: "2026", highlight: true },
+      { label: "Glossário Estratégico", href: "/glossario", icon: Book, badge: "A-Z", highlight: true },
     ]
   },
   {

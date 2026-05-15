@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import { useReactToPrint } from "react-to-print";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
@@ -294,6 +295,8 @@ export default function OrderCreator({ initialValues }: OrderCreatorProps = {}) 
     const printRef = useRef<HTMLDivElement>(null);
     const previewRef = useRef<HTMLDivElement>(null);
 
+    const searchParams = useSearchParams();
+
     // --- INIT ---
     useEffect(() => {
         const today = new Date();
@@ -301,7 +304,27 @@ export default function OrderCreator({ initialValues }: OrderCreatorProps = {}) 
         const nextWeek = new Date(today);
         nextWeek.setDate(today.getDate() + 7);
         setDeliveryDate(formatDate(nextWeek));
-    }, []);
+
+        // Hydrate from URL if present
+        const emissor = searchParams.get('emissor');
+        const emissorDoc = searchParams.get('emissor_doc');
+        const cliente = searchParams.get('cliente');
+        const clienteDoc = searchParams.get('cliente_doc');
+        const valor = searchParams.get('valor');
+        const ref = searchParams.get('ref');
+
+        if (emissor) setIssuerName(decodeURIComponent(emissor));
+        if (emissorDoc) setIssuerDoc(decodeURIComponent(emissorDoc));
+        if (cliente) setClientName(decodeURIComponent(cliente));
+        if (clienteDoc) setClientDoc(decodeURIComponent(clienteDoc));
+        
+        if (valor) {
+            const valorNum = parseFloat(valor);
+            if (!isNaN(valorNum)) {
+                setItems([{ id: '1', description: decodeURIComponent(ref || 'Venda de Produto'), quantity: 1, price: valorNum }]);
+            }
+        }
+    }, [searchParams]);
 
     // --- HANDLERS ---
     const handleLogoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {

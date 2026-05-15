@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { 
   Zap, ArrowRight, Code2, Calculator, Rocket, CheckCircle2, 
   Search, Smartphone, Magnet, TrendingUp, ShieldAlert, Palette, 
@@ -8,8 +9,7 @@ import {
 import React from "react";
 
 // --- CONFIGURAÇÃO ---
-const WHATSAPP_NUMBER = "5564992514471"; 
-const BASE_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=`;
+const BUSINESS_PAGE = "/para-empresas";
 
 interface InternalAdUnitProps {
   format?: "horizontal" | "vertical" | "rectangle" | "auto" | string;
@@ -287,15 +287,13 @@ export default function InternalAdUnit({
       selectedAd = adsConfig.find(ad => String(ad.id) === String(variant)) || adsConfig[0];
   }
 
-  const waMessage = encodeURIComponent(`Olá! Vi o banner "${selectedAd.category}" no Mestre das Contas e gostaria de saber mais sobre esse serviço.`);
-  const finalLink = `${BASE_URL}${waMessage}`;
   const Icon = selectedAd.icon;
 
   // --- RENDERIZAÇÃO VERTICAL ---
   if (format === "vertical" || format === "rectangle") {
     return (
-      <a 
-        href={finalLink} target="_blank" rel="noopener noreferrer"
+      <Link 
+        href={BUSINESS_PAGE}
         className={`group relative flex w-full flex-col overflow-hidden rounded-3xl ${selectedAd.themeBg} p-8 text-center shadow-xl border ${selectedAd.themeBorder} min-h-[400px] justify-between ${className} hover:ring-2 ring-white/10 transition-all isolate`}
       >
         <TextureLayer type={selectedAd.texture} />
@@ -319,14 +317,14 @@ export default function InternalAdUnit({
         <div className={`relative z-10 w-full rounded-xl py-4 text-sm font-bold transition-all shadow-lg group-hover:shadow-2xl group-hover:-translate-y-1 ${selectedAd.ctaBtnClasses} will-change-transform`}>
             {selectedAd.ctaText} <ArrowRight size={16} className="inline-block ml-1" />
         </div>
-      </a>
+      </Link>
     );
   }
 
   // --- RENDERIZAÇÃO HORIZONTAL ---
   return (
-    <a 
-      href={finalLink} target="_blank" rel="noopener noreferrer"
+    <Link 
+      href={BUSINESS_PAGE}
       className={`group relative flex w-full flex-col sm:flex-row overflow-hidden rounded-3xl px-6 py-8 sm:py-6 shadow-lg items-center justify-between border ${selectedAd.themeBg} ${selectedAd.themeBorder} ${className} hover:shadow-2xl transition-all isolate`}
     >
       <TextureLayer type={selectedAd.texture} />
@@ -346,6 +344,6 @@ export default function InternalAdUnit({
       <div className={`relative z-10 flex shrink-0 items-center justify-center rounded-xl px-8 py-4 text-sm font-bold transition-all group-hover:scale-105 shadow-lg whitespace-nowrap ${selectedAd.ctaBtnClasses} will-change-transform`}>
          {selectedAd.ctaText} <ArrowRight size={16} className="ml-2" />
       </div>
-    </a>
+    </Link>
   );
 }

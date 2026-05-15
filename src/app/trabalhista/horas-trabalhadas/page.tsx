@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import TimeCalculator from "@/components/calculators/TimeCalculator";
+
 import LazyAdUnit from "@/components/ads/LazyAdUnit";
 import DisclaimerBox from "@/components/ui/DisclaimerBox";
 import PageHeader from "@/components/layout/PageHeader";
@@ -13,33 +14,25 @@ import {
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
 import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
 
-// --- 1. METADATA DE ALTA PERFORMANCE (SEO) ---
-export const metadata: Metadata = {
-  title: "Calculadora de Horas Trabalhadas 2026 (Grátis) | Somar Ponto Online",
-  description: "Some suas horas trabalhadas no dia em segundos. Ferramenta gratuita para calcular entrada, saída, almoço e saldo de banco de horas. Simples e Online.",
-  keywords: [
-    "calculadora de horas trabalhadas", 
-    "somar horas e minutos", 
-    "calculo de ponto online", 
-    "calcular banco de horas excel", 
-    "diferença de horas", 
-    "controle de ponto gratis"
-  ],
-  alternates: { canonical: "https://mestredascontas.com.br/trabalhista/horas-trabalhadas" },
-  openGraph: {
-    title: "Calculadora de Horas Trabalhadas - Mestre das Contas",
-    description: "Controle seu ponto diário. Saiba se você fez horas extras ou ficou devendo.",
-    url: "https://mestredascontas.com.br/trabalhista/horas-trabalhadas",
-    siteName: "Mestre das Contas",
-    locale: "pt_BR",
-    type: "article",
-    images: [{ url: "https://mestredascontas.com.br/opengraph-image", width: 1200, height: 630, alt: "Calculadora de Ponto" }],
-  },
-  robots: {
-    index: true, follow: true,
-    googleBot: { index: true, follow: true, "max-video-preview": -1, "max-image-preview": "large", "max-snippet": -1 },
-  },
-};
+// --- 1. METADATA DINÂMICA (SEO) ---
+export async function generateMetadata(): Promise<Metadata> {
+  const title = "Calculadora de Horas Trabalhadas 2026 (Grátis) | Somar Ponto Online";
+  const description = "Some suas horas trabalhadas no dia em segundos. Ferramenta gratuita para calcular entrada, saída, almoço e saldo de banco de horas. Simples e Online.";
+
+  return {
+    title,
+    description,
+    keywords: ["calculadora de horas trabalhadas", "somar horas e minutos", "calculo de ponto online", "diferença de horas", "controle de ponto gratis"],
+    alternates: { canonical: "https://mestredascontas.com.br/trabalhista/horas-trabalhadas" },
+    openGraph: {
+      title,
+      description,
+      url: "https://mestredascontas.com.br/trabalhista/horas-trabalhadas",
+      siteName: "Mestre das Contas",
+      locale: "pt_BR",
+      type: "article" },
+    robots: { index: true, follow: true } };
+}
 
 // --- LISTA FAQ (DRY Content) ---
 const faqList = [
@@ -58,15 +51,7 @@ const jsonLd = {
       "applicationCategory": "ProductivityApplication",
       "operatingSystem": "Web",
       "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
-      "description": "Ferramenta para somar horas de trabalho, calcular intervalos e saldo de banco de horas.",
-      "aggregateRating": { 
-        "@type": "AggregateRating", 
-        "ratingValue": "4.8", 
-        "ratingCount": "7890", 
-        "bestRating": "5", 
-        "worstRating": "1" 
-      }
-    },
+      "description": "Ferramenta para somar horas de trabalho, calcular intervalos e saldo de banco de horas." },
     {
       "@type": "Article",
       "headline": "Como controlar seu Banco de Horas e evitar descontos",
@@ -87,31 +72,8 @@ const jsonLd = {
   ]
 };
 
-type Props = { searchParams: Promise<{ [key: string]: string | string[] | undefined }> }
 
-export default async function HorasPage({ searchParams }: Props) {
-  
-  const resolvedParams = await searchParams;
-  const isEmbed = resolvedParams.embed === 'true';
-
-  // --- MODO EMBED ---
-  if (isEmbed) {
-    return (
-        <main className="w-full min-h-screen bg-indigo-50/30 p-4 flex flex-col items-center justify-center font-sans">
-            <div className="w-full max-w-3xl">
-                <Suspense fallback={<div className="p-10 text-center animate-pulse text-indigo-400">Carregando Calculadora...</div>}>
-                    <TimeCalculator />
-                </Suspense>
-                <div className="mt-4 text-center border-t border-indigo-200 pt-3">
-                    <Link href="https://mestredascontas.com.br/trabalhista/horas-trabalhadas" target="_blank" className="text-[10px] text-indigo-500 hover:text-indigo-700 uppercase font-bold tracking-wider flex items-center justify-center gap-1 transition-colors">
-                        <Clock size={10} /> Powered by Mestre das Contas
-                    </Link>
-                </div>
-            </div>
-        </main>
-    );
-  }
-
+export default async function HorasPage() {
   // --- MODO PÁGINA NORMAL ---
   return (
     <article className="w-full max-w-full overflow-hidden pb-12">
@@ -128,8 +90,6 @@ export default async function HorasPage({ searchParams }: Props) {
           variant="default" 
           categoryColor="indigo"
           badge="Ferramenta Gratuita"
-          rating={4.8}
-          reviews={7890}
           breadcrumbs={[
             { label: "Trabalhista", href: "/trabalhista" },
             { label: "Horas Trabalhadas" }
@@ -164,17 +124,10 @@ export default async function HorasPage({ searchParams }: Props) {
         {/* FERRAMENTA */}
         <section id="ferramenta" className="scroll-mt-28 w-full max-w-full">
           <div className="bg-white dark:bg-slate-900 rounded-3xl border border-indigo-100 dark:border-slate-800 shadow-xl shadow-indigo-100/50 dark:shadow-none p-1 md:p-2">
-              <Suspense fallback={
-                <div className="h-96 w-full bg-indigo-50 rounded-2xl animate-pulse flex items-center justify-center text-indigo-300 border border-indigo-100">
-                    <div className="flex flex-col items-center gap-2">
-                        <Timer className="animate-bounce" size={32}/>
-                        <span>Carregando Calculadora...</span>
-                    </div>
-                </div>
-              }>
                   <PrivacyBadge />
-                  <TimeCalculator />
-              </Suspense>
+                  <Suspense fallback={<div className="h-96 w-full bg-slate-100 dark:bg-slate-800 animate-pulse rounded-3xl" />}>
+                    <TimeCalculator />
+                  </Suspense>
           </div>
           
           <div className="mt-8 print:hidden max-w-5xl mx-auto">

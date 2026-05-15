@@ -30,7 +30,7 @@ interface PDFState {
   }[];
 
   // Actions
-  setFile: (file: File) => void;
+  setFile: (file: File | null) => void;
   setPdfDoc: (doc: PDFDocument | null) => void;
   setNumPages: (num: number) => void;
   setScale: (scale: number) => void;
@@ -67,7 +67,7 @@ export const usePDFStore = create<PDFState>((set) => ({
   },
   pages: [],
 
-  setFile: (file: File) => set({ file }),
+  setFile: (file: File | null) => set({ file }),
   setPdfDoc: (pdfDoc: PDFDocument | null) => set({ pdfDoc }),
   setNumPages: (numPages: number) => set({ numPages }),
   setScale: (scale: number) => set({ scale }),

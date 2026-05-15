@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import WhatsAppGenerator from "@/components/tools/WhatsAppGenerator";
@@ -12,27 +13,10 @@ import {
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
 
-type Props = {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
-}
-
 // --- 1. METADATA DINÂMICA (SEO MAXIMIZADO) ---
-export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
-  const sp = await searchParams;
-  const num = sp.num as string;
-  const msg = sp.msg as string;
-  
-  let title = "Gerador de Link WhatsApp 2026 (Grátis) | Criar Link Curto";
-  let description = "Crie links curtos para WhatsApp (wa.me) com mensagem personalizada em 1 clique. Ideal para Bio do Instagram e Vendas em 2026. Grátis e sem cadastro.";
-
-  if (num) {
-    title = "Link WhatsApp Gerado: Clique para Conversar";
-    if (msg) {
-        description = `Inicie uma conversa no WhatsApp com a mensagem: "${decodeURIComponent(msg)}". Link direto, rápido e seguro.`;
-    } else {
-        description = "Link direto para iniciar conversa no WhatsApp sem precisar salvar o número na agenda.";
-    }
-  }
+export async function generateMetadata(): Promise<Metadata> {
+  const title = "Gerador de Link WhatsApp 2026 (Grátis) | Criar Link Curto";
+  const description = "Crie links curtos para WhatsApp (wa.me) com mensagem personalizada em 1 clique. Ideal para Bio do Instagram e Vendas em 2026. Grátis e sem cadastro.";
 
   return {
     title,
@@ -45,13 +29,10 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
       url: "https://mestredascontas.com.br/ferramentas/gerador-link-whatsapp",
       siteName: "Mestre das Contas",
       locale: "pt_BR",
-      type: "website",
-    },
+      type: "website" },
     robots: {
       index: true, follow: true,
-      googleBot: { index: true, follow: true, "max-video-preview": -1, "max-image-preview": "large", "max-snippet": -1 },
-    },
-  };
+      googleBot: { index: true, follow: true, "max-video-preview": -1, "max-image-preview": "large", "max-snippet": -1 } } };
 }
 
 // --- 2. DADOS ESTRUTURADOS (JSON-LD) ---
@@ -65,9 +46,7 @@ const jsonLd = {
       "operatingSystem": "Web Browser",
       "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
       "description": "Ferramenta online gratuita para gerar links de conversa direta no WhatsApp com mensagem pré-definida.",
-      "featureList": "Gera link wa.me, Mensagem personalizada, Preview em tempo real, Integração com QR Code",
-      "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.9", "ratingCount": "4120", "bestRating": "5", "worstRating": "1" }
-    },
+      "featureList": "Gera link wa.me, Mensagem personalizada, Preview em tempo real, Integração com QR Code" },
     {
       "@type": "Article",
       "headline": "Como Criar Link para WhatsApp em 2026: Guia Completo",
@@ -89,10 +68,7 @@ const jsonLd = {
   ]
 };
 
-export default async function GeradorWhatsAppPage({ searchParams }: Props) {
-  const sp = await searchParams;
-  const initialPhone = (sp.num as string) || "";
-  const initialMessage = (sp.msg as string) || "";
+export default async function GeradorWhatsAppPage() {
   return (
     <article className="w-full max-w-full overflow-hidden font-sans">
       
@@ -109,8 +85,6 @@ export default async function GeradorWhatsAppPage({ searchParams }: Props) {
           variant="default" // Tema Padrão (Azul/Verde)
           categoryColor="emerald" // Cor do ícone/tema
           badge="Grátis & Ilimitado"
-          rating={4.9}
-          reviews={4120}
           breadcrumbs={[
             { label: "Ferramentas", href: "/ferramentas" },
             { label: "Link WhatsApp" }
@@ -134,10 +108,9 @@ export default async function GeradorWhatsAppPage({ searchParams }: Props) {
         {/* --- FERRAMENTA PRINCIPAL --- */}
         <section id="ferramenta" className="scroll-mt-28 w-full max-w-full relative z-10">
            <PrivacyBadge />
-           <WhatsAppGenerator 
-              initialPhone={initialPhone}
-              initialMessage={initialMessage}
-           />
+           <Suspense fallback={<div className="h-96 w-full bg-slate-100 dark:bg-slate-800 animate-pulse rounded-3xl" />}>
+             <WhatsAppGenerator />
+           </Suspense>
            <div className="mt-8 print:hidden max-w-5xl mx-auto">
               <DisclaimerBox />
            </div>

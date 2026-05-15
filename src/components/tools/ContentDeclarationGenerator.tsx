@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import { useReactToPrint } from "react-to-print";
 import { 
   Printer, Plus, Trash2, Save, Download, 
@@ -34,21 +35,81 @@ type Item = {
   value: number; // in BRL
 };
 
-export default function ContentDeclarationGenerator() {
+export interface ContentDeclarationGeneratorProps {
+  initialValues?: {
+    sender?: Partial<Address>;
+    recipient?: Partial<Address>;
+    items?: Item[];
+  }
+}
+
+export default function ContentDeclarationGenerator({ initialValues }: ContentDeclarationGeneratorProps = {}) {
   // --- STATE ---
   const [sender, setSender] = useState<Address>({
-    name: "", doc: "", address: "", city: "", state: "", cep: ""
+    name: initialValues?.sender?.name || "", 
+    doc: initialValues?.sender?.doc || "", 
+    address: initialValues?.sender?.address || "", 
+    city: initialValues?.sender?.city || "", 
+    state: initialValues?.sender?.state || "", 
+    cep: initialValues?.sender?.cep || ""
   });
 
   const [recipient, setRecipient] = useState<Address>({
-    name: "", doc: "", address: "", city: "", state: "", cep: ""
+    name: initialValues?.recipient?.name || "", 
+    doc: initialValues?.recipient?.doc || "", 
+    address: initialValues?.recipient?.address || "", 
+    city: initialValues?.recipient?.city || "", 
+    state: initialValues?.recipient?.state || "", 
+    cep: initialValues?.recipient?.cep || ""
   });
 
-  const [items, setItems] = useState<Item[]>([
+  const [items, setItems] = useState<Item[]>(initialValues?.items || [
     { id: "1", description: "", quantity: 1, weight: 0, value: 0 }
   ]);
 
-  const [date, setDate] = useState<string>(new Date().toISOString().split('T')[0]);
+    const [date, setDate] = useState<string>(new Date().toISOString().split('T')[0]);
+    const searchParams = useSearchParams();
+
+    // Hydrate from URL if present
+    useEffect(() => {
+        const rem = searchParams.get('rem');
+        const rem_doc = searchParams.get('rem_doc');
+        const rem_end = searchParams.get('rem_end');
+        const rem_cid = searchParams.get('rem_cid');
+        const rem_uf = searchParams.get('rem_uf');
+        const rem_cep = searchParams.get('rem_cep');
+
+        const dest = searchParams.get('dest');
+        const dest_doc = searchParams.get('dest_doc');
+        const dest_end = searchParams.get('dest_end');
+        const dest_cid = searchParams.get('dest_cid');
+        const dest_uf = searchParams.get('dest_uf');
+        const dest_cep = searchParams.get('dest_cep');
+
+        if (rem || rem_doc || rem_end) {
+            setSender(prev => ({
+                ...prev,
+                name: rem ? decodeURIComponent(rem) : prev.name,
+                doc: rem_doc ? decodeURIComponent(rem_doc) : prev.doc,
+                address: rem_end ? decodeURIComponent(rem_end) : prev.address,
+                city: rem_cid ? decodeURIComponent(rem_cid) : prev.city,
+                state: rem_uf ? decodeURIComponent(rem_uf) : prev.state,
+                cep: rem_cep ? decodeURIComponent(rem_cep) : prev.cep,
+            }));
+        }
+
+        if (dest || dest_doc || dest_end) {
+            setRecipient(prev => ({
+                ...prev,
+                name: dest ? decodeURIComponent(dest) : prev.name,
+                doc: dest_doc ? decodeURIComponent(dest_doc) : prev.doc,
+                address: dest_end ? decodeURIComponent(dest_end) : prev.address,
+                city: dest_cid ? decodeURIComponent(dest_cid) : prev.city,
+                state: dest_uf ? decodeURIComponent(dest_uf) : prev.state,
+                cep: dest_cep ? decodeURIComponent(dest_cep) : prev.cep,
+            }));
+        }
+    }, [searchParams]);
 
   // --- ACTIONS ---
    const addItem = () => {

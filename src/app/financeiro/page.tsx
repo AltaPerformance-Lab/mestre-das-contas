@@ -21,8 +21,7 @@ export const metadata: Metadata = {
     "matemática financeira facil"
   ],
   alternates: {
-    canonical: "https://mestredascontas.com.br/financeiro",
-  },
+    canonical: "https://mestredascontas.com.br/financeiro" },
   openGraph: {
     title: "Portal Financeiro - Mestre das Contas",
     description: "Ferramentas profissionais para você cuidar do seu dinheiro e multiplicar seu patrimônio.",
@@ -30,9 +29,7 @@ export const metadata: Metadata = {
     siteName: "Mestre das Contas",
     locale: "pt_BR",
     type: "website",
-    images: [{ url: "https://mestredascontas.com.br/opengraph-image", width: 1200, height: 630, alt: "Cálculos Financeiros" }],
-  },
-};
+    images: [{ url: "https://mestredascontas.com.br/opengraph-image", width: 1200, height: 630, alt: "Cálculos Financeiros" }] } };
 
 // --- SCHEMA (COLLECTION) ---
 const jsonLd = {

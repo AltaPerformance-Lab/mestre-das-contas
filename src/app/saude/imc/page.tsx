@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import IMCCalculator from "@/components/calculators/IMCCalculator";
+import { calculateIMC } from "@/lib/calculators/health";
 import LazyAdUnit from "@/components/ads/LazyAdUnit";
 import DisclaimerBox from "@/components/ui/DisclaimerBox";
 import PageHeader from "@/components/layout/PageHeader"; 
@@ -14,35 +15,25 @@ import {
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
 import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
 
-// --- 1. METADATA DE ALTA PERFORMANCE (SEO 2026) ---
-export const metadata: Metadata = {
-  title: "Calculadora de IMC 2026 (Grátis) | Tabela Oficial e Peso Ideal",
-  description: "Calcule seu IMC em 10 segundos em 2026. Tabela oficial da OMS 2026 atualizada para adultos e idosos. Descubra se você está no peso ideal gratuitamente.",
-  keywords: [
-    "calculadora imc", 
-    "indice de massa corporal", 
-    "tabela imc 2026", 
-    "calcular obesidade", 
-    "peso ideal altura", 
-    "formula imc", 
-    "saude e bem estar",
-    "imc idoso tabela"
-  ],
-  alternates: { canonical: "https://mestredascontas.com.br/saude/imc" },
-  openGraph: {
-    title: "Calculadora de IMC Oficial 2026 - Mestre das Contas",
-    description: "Ferramenta gratuita para verificar seu peso ideal segundo a OMS. Cuide da sua saúde hoje.",
-    url: "https://mestredascontas.com.br/saude/imc",
-    siteName: "Mestre das Contas",
-    locale: "pt_BR",
-    type: "article",
-    images: [{ url: "https://mestredascontas.com.br/opengraph-image", width: 1200, height: 630, alt: "Calculadora IMC Online" }],
-  },
-  robots: {
-    index: true, follow: true,
-    googleBot: { index: true, follow: true, "max-video-preview": -1, "max-image-preview": "large", "max-snippet": -1 },
-  },
-};
+// --- 1. METADATA DINÂMICA (SEO 2026) ---
+export async function generateMetadata(): Promise<Metadata> {
+  const title = "Calculadora de IMC 2026 (Grátis) | Tabela Oficial e Peso Ideal";
+  const description = "Calcule seu IMC em 10 segundos em 2026. Tabela oficial da OMS 2026 atualizada para adultos e idosos. Descubra se você está no peso ideal gratuitamente.";
+
+  return {
+    title,
+    description,
+    keywords: ["calculadora imc", "indice de massa corporal", "tabela imc 2026", "calcular obesidade", "peso ideal altura"],
+    alternates: { canonical: "https://mestredascontas.com.br/saude/imc" },
+    openGraph: {
+      title,
+      description,
+      url: "https://mestredascontas.com.br/saude/imc",
+      siteName: "Mestre das Contas",
+      type: "article" }
+  };
+}
+
 
 // --- LISTA FAQ (DRY Content) ---
 const faqList = [
@@ -63,15 +54,7 @@ const jsonLd = {
       "applicationCategory": "HealthApplication",
       "operatingSystem": "Web",
       "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
-      "description": "Ferramenta online gratuita para cálculo de Índice de Massa Corporal baseada nos padrões da OMS.",
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "4.9",
-        "ratingCount": "18450",
-        "bestRating": "5",
-        "worstRating": "1"
-      }
-    },
+      "description": "Ferramenta online gratuita para cálculo de Índice de Massa Corporal baseada nos padrões da OMS." },
     {
       "@type": "Article",
       "headline": "Guia Definitivo do IMC 2026: Tabela, Cálculo e Dicas de Saúde",
@@ -93,30 +76,7 @@ const jsonLd = {
   ]
 };
 
-type Props = { searchParams: Promise<{ [key: string]: string | string[] | undefined }> }
-
-export default async function IMCPage({ searchParams }: Props) {
-  
-  const resolvedParams = await searchParams;
-  const isEmbed = resolvedParams.embed === 'true';
-
-  // --- MODO EMBED (IFRAME) ---
-  if (isEmbed) {
-    return (
-        <main className="w-full min-h-screen bg-white dark:bg-slate-900 p-4 flex flex-col items-center justify-center font-sans">
-            <div className="w-full max-w-md">
-                <Suspense fallback={<div className="text-center p-4 text-slate-400 dark:text-slate-500">Carregando...</div>}>
-                    <IMCCalculator />
-                </Suspense>
-                <div className="mt-4 text-center">
-                    <Link href="https://mestredascontas.com.br/saude/imc" target="_blank" className="text-[10px] text-slate-400 dark:text-slate-500 hover:text-rose-600 dark:hover:text-rose-400 uppercase font-bold tracking-wider flex items-center justify-center gap-1 transition-colors">
-                        <Scale size={10} /> Powered by Mestre das Contas
-                    </Link>
-                </div>
-            </div>
-        </main>
-    );
-  }
+export default async function IMCPage() {
 
   // --- MODO PÁGINA COMPLETA ---
   return (
@@ -134,8 +94,6 @@ export default async function IMCPage({ searchParams }: Props) {
           variant="health" // IMPORTANTE: Usa o gradiente Laranja/Rosa
           categoryColor="rose"
           badge="Protocolo OMS"
-          rating={4.9}
-          reviews={18450}
           breadcrumbs={[
             { label: "Saúde", href: "/saude" },
             { label: "IMC Online" }
@@ -165,17 +123,10 @@ export default async function IMCPage({ searchParams }: Props) {
         {/* FERRAMENTA */}
         <section id="calculadora" className="scroll-mt-28 w-full max-w-full">
             <div className="bg-white dark:bg-slate-900 rounded-3xl border border-rose-100 dark:border-rose-900/30 shadow-xl shadow-rose-100/50 dark:shadow-none p-1 md:p-2">
-                <Suspense fallback={
-                    <div className="h-96 w-full bg-rose-50 dark:bg-rose-900/10 rounded-2xl animate-pulse flex items-center justify-center text-rose-300 dark:text-rose-700 border border-rose-100 dark:border-rose-900/30">
-                        <div className="flex flex-col items-center gap-2">
-                            <Scale className="animate-bounce" size={32}/>
-                            <span>Carregando Calculadora...</span>
-                        </div>
-                    </div>
-                }>
                     <PrivacyBadge />
-                    <IMCCalculator />
-                </Suspense>
+                    <Suspense fallback={<div className="h-96 w-full bg-slate-100 dark:bg-slate-800 animate-pulse rounded-3xl" />}>
+                      <IMCCalculator />
+                    </Suspense>
             </div>
             
             <div className="mt-8 print:hidden max-w-5xl mx-auto">

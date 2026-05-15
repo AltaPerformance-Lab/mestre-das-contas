@@ -61,9 +61,9 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://mestredascontas.com.br"),
   title: {
     template: "%s | Mestre das Contas",
-    default: "Mestre das Contas - Calculadoras Financeiras e Trabalhistas",
+    default: "Mestre das Contas | Calculadoras e Ferramentas Online Grátis",
   },
-  description: "Simplifique sua vida financeira. Calculadoras gratuitas, precisas e atualizadas para 2026.",
+  description: "Sua central de ferramentas online gratuitas. Calculadoras financeiras, trabalhistas, saúde, geradores e editores de PDF precisos e fáceis de usar.",
   // PWA Manifest Link
   manifest: "/manifest.json",
   robots: {

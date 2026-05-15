@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import Link from "next/link";
 import BudgetCreator from "@/components/tools/BudgetCreator";
 import LazyAdUnit from "@/components/ads/LazyAdUnit";
@@ -12,24 +13,27 @@ import {
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
 import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
 
-// --- SEO 2026 ---
-export const metadata: Metadata = {
-  title: "Criador de Orçamento PDF: Modelo Profissional (Com Logo e Descontos)",
-  description: "Faça orçamentos profissionais em PDF. Inclui cálculo de desconto, opções de pagamento (Pix/Boleto) e sua logo. Ferramenta grátis sem cadastro.",
-  keywords: [
-    "criador de orçamento online", "gerar orçamento pdf gratis", "modelo de orçamento editavel",
-    "fazer orçamento com logo", "emitir orçamento mei", "orçamento para prestação de serviços"
-  ],
-  alternates: { canonical: "https://mestredascontas.com.br/ferramentas/criador-orcamentos" },
-  openGraph: {
-    title: "Criador de Orçamento Profissional - Grátis e com Logo",
-    description: "Impressione seus clientes com orçamentos detalhados em PDF. Adicione logo, descontos e termos. Sem cadastro.",
-    url: "https://mestredascontas.com.br/ferramentas/criador-orcamentos",
-    siteName: "Mestre das Contas",
-    locale: "pt_BR",
-    type: "website",
-  },
-};
+// --- 1. SEO 2026 DINÂMICO ---
+export async function generateMetadata(): Promise<Metadata> {
+  const title = "Criador de Orçamento PDF: Modelo Profissional (Com Logo e Descontos)";
+  const description = "Faça orçamentos profissionais em PDF. Inclui cálculo de desconto, opções de pagamento (Pix/Boleto) e sua logo. Ferramenta grátis sem cadastro.";
+
+  return {
+    title,
+    description,
+    keywords: [
+      "criador de orçamento online", "gerar orçamento pdf gratis", "modelo de orçamento editavel",
+      "fazer orçamento com logo", "emitir orçamento mei", "orçamento para prestação de serviços"
+    ],
+    alternates: { canonical: "https://mestredascontas.com.br/ferramentas/criador-orcamentos" },
+    openGraph: {
+      title,
+      description,
+      url: "https://mestredascontas.com.br/ferramentas/criador-orcamentos",
+      siteName: "Mestre das Contas",
+      locale: "pt_BR",
+      type: "website" } };
+}
 
 // --- DADOS ESTRUTURADOS ---
 const jsonLd = {
@@ -42,9 +46,7 @@ const jsonLd = {
       "operatingSystem": "Web Browser, Android, iOS",
       "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
       "description": "Ferramenta completa para criação de orçamentos em PDF com gestão de itens, descontos e logotipo.",
-      "featureList": "Gerar PDF, Adicionar Logo, Calcular Descontos, Termos Personalizáveis, Impressão A4",
-      "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.9", "ratingCount": "3420", "bestRating": "5", "worstRating": "1" }
-    },
+      "featureList": "Gerar PDF, Adicionar Logo, Calcular Descontos, Termos Personalizáveis, Impressão A4" },
     {
       "@type": "Article",
       "headline": "Como Criar um Orçamento Irresistível para seus Clientes",
@@ -57,7 +59,8 @@ const jsonLd = {
   ]
 };
 
-export default function BudgetPage() {
+export default async function BudgetPage() {
+
   return (
     <article className="w-full max-w-full overflow-hidden font-sans bg-slate-50 dark:bg-slate-950 pb-12">
       
@@ -74,9 +77,7 @@ export default function BudgetPage() {
           categoryColor="blue"
           badge="Atualizado 2026"
           breadcrumbs={[{ label: "Ferramentas", href: "/ferramentas" }, { label: "Criar Orçamento" }]}
-          rating={4.9}
-          reviews={3420}
-        />
+          />
       </div>
 
       <div className="flex flex-col gap-8 px-4 sm:px-6 pb-12 max-w-7xl mx-auto">
@@ -89,7 +90,9 @@ export default function BudgetPage() {
         {/* FERRAMENTA PRINCIPAL */}
         <section id="ferramenta" className="scroll-mt-28 w-full max-w-full relative z-10">
            <PrivacyBadge />
-           <BudgetCreator />
+           <Suspense fallback={<div className="h-96 w-full bg-slate-100 dark:bg-slate-800 animate-pulse rounded-3xl" />}>
+             <BudgetCreator />
+           </Suspense>
            <div className="mt-8 print:hidden max-w-5xl mx-auto"><DisclaimerBox /></div>
         </section>
 
@@ -182,59 +185,6 @@ export default function BudgetPage() {
                 <li><strong>Prazos:</strong> "Prazo de entrega de 10 dias úteis após confirmação do pagamento."</li>
                 <li><strong>Limitações:</strong> "O serviço não inclui alterações estruturais não listadas acima."</li>
             </ol>
-
-            {/* --- REVIEWS AREA --- */}
-            <div className="mt-16 pt-10 border-t border-slate-200 dark:border-slate-800 not-prose">
-                <div className="flex flex-col items-center justify-center text-center mb-10">
-                    <h3 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-2">Avaliações da Ferramenta</h3>
-                    <div className="flex items-center gap-2 mb-2">
-                        <div className="flex text-amber-400">
-                            <Star fill="currentColor" size={24} />
-                            <Star fill="currentColor" size={24} />
-                            <Star fill="currentColor" size={24} />
-                            <Star fill="currentColor" size={24} />
-                            <Star fill="currentColor" size={24} />
-                        </div>
-                        <span className="text-2xl font-bold text-slate-700 dark:text-slate-300">4.9</span>
-                    </div>
-                    <p className="text-slate-500 dark:text-slate-400 text-sm">Baseado em 3.420 utilizações este mês</p>
-                </div>
-
-                <div className="grid md:grid-cols-2 gap-6">
-                     <div className="bg-slate-50 dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700">
-                        <div className="flex justify-between items-start mb-4">
-                             <div>
-                                 <p className="font-bold text-slate-900 dark:text-slate-100">Ricardo Mendes</p>
-                                 <p className="text-xs text-slate-500 dark:text-slate-400">Autônomo</p>
-                             </div>
-                             <div className="flex text-amber-400 gap-0.5">
-                                <Star fill="currentColor" size={14} />
-                                <Star fill="currentColor" size={14} />
-                                <Star fill="currentColor" size={14} />
-                                <Star fill="currentColor" size={14} />
-                                <Star fill="currentColor" size={14} />
-                             </div>
-                        </div>
-                        <p className="text-slate-600 dark:text-slate-300 text-sm italic">"Ferramenta excelente! Consigo colocar minha logo e gerar o PDF na hora para enviar no WhatsApp do cliente. Meus orçamentos ficaram muito mais profissionais."</p>
-                     </div>
-                     <div className="bg-slate-50 dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700">
-                        <div className="flex justify-between items-start mb-4">
-                             <div>
-                                 <p className="font-bold text-slate-900 dark:text-slate-100">Ana Paula Design</p>
-                                 <p className="text-xs text-slate-500 dark:text-slate-400">Agência Digital</p>
-                             </div>
-                             <div className="flex text-amber-400 gap-0.5">
-                                <Star fill="currentColor" size={14} />
-                                <Star fill="currentColor" size={14} />
-                                <Star fill="currentColor" size={14} />
-                                <Star fill="currentColor" size={14} />
-                                <Star fill="currentColor" size={14} />
-                             </div>
-                        </div>
-                        <p className="text-slate-600 dark:text-slate-300 text-sm italic">"Muito prático. A opção de desconto e selecionar Pix facilitou muito meu dia a dia. Recomendo para todos os freelancers."</p>
-                     </div>
-                </div>
-            </div>
 
             <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100 mt-12 mb-4 flex items-center gap-2">
                 <HelpCircle className="text-slate-500 dark:text-slate-400"/> FAQ - Perguntas Frequentes

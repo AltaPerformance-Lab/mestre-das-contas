@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { useReactToPrint } from "react-to-print";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -13,6 +13,7 @@ import {
   Flame, X, Code2, History, ArrowDown, ArrowUp, Share2, Printer, Link as LinkIcon, CheckCircle2, Utensils
 } from "lucide-react";
 import { trackEvent } from "@/lib/analytics";
+import { calculateCalorias, type CalorieResult } from "@/lib/calculators/health";
 
 // --- TIPAGEM ---
 type HistoricoCalorias = {
@@ -21,42 +22,62 @@ type HistoricoCalorias = {
   perfil: string;
 };
 
-type ResultadoCalorias = {
-  tmb: number;
-  tdee: number;
-  perderPeso: number;
-  ganharMassa: number;
-  perderRapido: number;
-  rawIdade: number;
-  rawPeso: number;
-  rawAltura: number;
-  rawGenero: string;
-  rawAtividade: string;
-};
+interface CalorieCalculatorProps {
+    initialIdade?: string;
+    initialPeso?: string;
+    initialAltura?: string;
+    initialGenero?: string;
+    initialAtividade?: string;
+    initialResult?: CalorieResult | null;
+}
 
-export default function CalorieCalculator() {
-  const searchParams = useSearchParams();
+export default function CalorieCalculator({
+    initialIdade = "",
+    initialPeso = "",
+    initialAltura = "",
+    initialGenero = "masculino",
+    initialAtividade = "sedentario",
+    initialResult = null
+}: CalorieCalculatorProps) {
   const [isIframe, setIsIframe] = useState(false);
 
   // --- STATES DADOS ---
-  const [idade, setIdade] = useState("");
-  const [peso, setPeso] = useState("");
-  const [altura, setAltura] = useState("");
-  const [genero, setGenero] = useState("masculino");
-  const [atividade, setAtividade] = useState("sedentario");
-  const [resultado, setResultado] = useState<ResultadoCalorias | null>(null);
+  const [idade, setIdade] = useState(initialIdade);
+  const [peso, setPeso] = useState(initialPeso);
+  const [altura, setAltura] = useState(initialAltura);
+  const [genero, setGenero] = useState(initialGenero);
+  const [atividade, setAtividade] = useState(initialAtividade);
+  const [resultado, setResultado] = useState<CalorieResult | null>(initialResult);
 
   // --- FUNCIONALIDADES ---
   const [historico, setHistorico] = useState<HistoricoCalorias[]>([]);
   const [copiado, setCopiado] = useState<"link" | "embed" | "result" | null>(null);
   const [showEmbedModal, setShowEmbedModal] = useState(false);
   
-  // CORREÇÃO HYDRATION: Estado para guardar a data apenas no cliente
   const [dataAtual, setDataAtual] = useState(""); 
+  const searchParams = useSearchParams();
+
+  // Hydrate from URL
+  useEffect(() => {
+    const i = searchParams.get('idade');
+    const p = searchParams.get('peso');
+    const a = searchParams.get('altura');
+    const g = searchParams.get('genero');
+    const atv = searchParams.get('atividade');
+
+    if (i) setIdade(i);
+    if (p) setPeso(p);
+    if (a) setAltura(a);
+    if (g) setGenero(g);
+    if (atv) setAtividade(atv);
+
+    if (i && p && a) {
+        handleCalcular(i, p, a, g || genero, atv || atividade);
+    }
+  }, [searchParams]);
 
   const contentRef = useRef<HTMLDivElement>(null);
   
-  // Configuração de Impressão
   const reactToPrintFn = useReactToPrint({
     contentRef,
     documentTitle: "Planejamento_Calorico_MestreDasContas",
@@ -66,81 +87,29 @@ export default function CalorieCalculator() {
     `
   });
 
-  // --- EFEITOS ---
   useEffect(() => {
-    // 1. Define ambiente (Iframe ou Top)
     setIsIframe(window.self !== window.top);
-    
-    // 2. CORREÇÃO HYDRATION: Define a data apenas quando o componente monta no cliente
     setDataAtual(new Date().toLocaleDateString("pt-BR"));
 
-    // 3. Carrega histórico
+    // Se temos valores iniciais mas não o resultado, calcula imediatamente
+    if (initialIdade && initialPeso && initialAltura && !resultado) {
+        handleCalcular(initialIdade, initialPeso, initialAltura, initialGenero, initialAtividade);
+    }
+
     const salvo = localStorage.getItem("historico_calorias");
     if (salvo) setHistorico(JSON.parse(salvo));
+  }, [initialIdade, initialPeso, initialAltura, initialGenero, initialAtividade]);
 
-    // 4. Carrega dados da URL (se houver)
-    const urlIdade = searchParams.get("idade");
-    const urlPeso = searchParams.get("peso");
-    const urlAltura = searchParams.get("altura");
-    const urlGenero = searchParams.get("genero");
-    const urlAtividade = searchParams.get("atividade");
-
-    if (urlIdade && urlPeso && urlAltura) {
-        setIdade(urlIdade);
-        setPeso(urlPeso);
-        setAltura(urlAltura);
-        if (urlGenero) setGenero(urlGenero);
-        if (urlAtividade) setAtividade(urlAtividade);
-
-        setTimeout(() => {
-            calcular(urlIdade, urlPeso, urlAltura, urlGenero || "masculino", urlAtividade || "sedentario");
-        }, 200);
+  const handleCalcular = (i = idade, p = peso, a = altura, g = genero, atv = atividade) => {
+    const novoResultado = calculateCalorias(i, p, a, g, atv);
+    if (novoResultado) {
+        setResultado(novoResultado);
+        trackEvent("calculate_calorias", { tdee: novoResultado.tdee, genero: g });
+        if (!isIframe) salvarHistorico(novoResultado);
     }
-  }, [searchParams]);
-
-  // --- CÁLCULO (Mifflin-St Jeor) ---
-  const calcular = (i = idade, p = peso, a = altura, g = genero, atv = atividade) => {
-    const age = parseFloat(i);
-    const weight = parseFloat(p);
-    const height = parseFloat(a);
-
-    if (!age || !weight || !height) return;
-
-    // 1. TMB
-    let tmb = g === "masculino" 
-      ? (10 * weight) + (6.25 * height) - (5 * age) + 5
-      : (10 * weight) + (6.25 * height) - (5 * age) - 161;
-
-    // 2. TDEE
-    const fatores: Record<string, number> = {
-        "sedentario": 1.2,
-        "leve": 1.375,
-        "moderado": 1.55,
-        "ativo": 1.725,
-        "atleta": 1.9
-    };
-    
-    const tdee = tmb * (fatores[atv] || 1.2);
-
-    const novoResultado: ResultadoCalorias = {
-        tmb: Math.round(tmb),
-        tdee: Math.round(tdee),
-        perderPeso: Math.round(tdee - 500),
-        ganharMassa: Math.round(tdee + 300),
-        perderRapido: Math.round(tdee - 750),
-        rawIdade: age,
-        rawPeso: weight,
-        rawAltura: height,
-        rawGenero: g,
-        rawAtividade: atv
-    };
-
-    setResultado(novoResultado);
-    trackEvent("calculate_calorias", { tdee: novoResultado.tdee, genero: g });
-    if (!isIframe) salvarHistorico(novoResultado);
   };
 
-  const salvarHistorico = (res: ResultadoCalorias) => {
+  const salvarHistorico = (res: CalorieResult) => {
     const novoItem: HistoricoCalorias = {
         data: new Date().toLocaleDateString("pt-BR"),
         meta: `${res.tdee} kcal`,
@@ -151,7 +120,6 @@ export default function CalorieCalculator() {
     localStorage.setItem("historico_calorias", JSON.stringify(novoHistorico));
   };
 
-  // --- ACTIONS ---
   const handleShare = (type: "result" | "tool") => {
     const baseUrl = `${window.location.origin}${window.location.pathname}`;
     let url = baseUrl;
@@ -188,11 +156,7 @@ export default function CalorieCalculator() {
 
   return (
     <div className="w-full font-sans">
-      
-      {/* GRID PRINCIPAL */}
       <div className="grid lg:grid-cols-12 gap-8 w-full print:hidden">
-        
-        {/* --- COLUNA ESQUERDA: INPUTS --- */}
         <div className="lg:col-span-7 space-y-6 w-full">
           <Card className="border-0 shadow-lg shadow-slate-200/50 dark:shadow-none ring-1 ring-slate-200 dark:ring-slate-800 bg-white dark:bg-slate-900 rounded-2xl overflow-hidden">
             <CardHeader className="bg-gradient-to-r from-slate-50 to-white dark:from-slate-900 dark:to-slate-800 border-b border-slate-100 dark:border-slate-800 p-6">
@@ -216,8 +180,6 @@ export default function CalorieCalculator() {
             </CardHeader>
             
             <CardContent className="space-y-6 p-6">
-              
-              {/* Sexo */}
               <div className="space-y-3">
                   <Label className="text-slate-700 dark:text-slate-300 font-semibold text-sm">Sexo Biológico</Label>
                   <RadioGroup defaultValue={genero} onValueChange={setGenero} className="grid grid-cols-2 gap-4">
@@ -232,7 +194,6 @@ export default function CalorieCalculator() {
                   </RadioGroup>
               </div>
 
-              {/* Grid Inputs */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
                   <div className="space-y-2">
                     <Label className="text-slate-600 dark:text-slate-300 font-medium">Idade (anos)</Label>
@@ -248,7 +209,6 @@ export default function CalorieCalculator() {
                   </div>
               </div>
 
-              {/* Select */}
               <div className="space-y-2">
                   <Label className="text-slate-600 dark:text-slate-300 font-medium">Nível de Atividade Física</Label>
                   <Select value={atividade} onValueChange={setAtividade}>
@@ -265,13 +225,12 @@ export default function CalorieCalculator() {
                   </Select>
               </div>
 
-              <Button onClick={() => calcular()} className="w-full bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-700 hover:to-red-700 text-white h-14 text-lg font-bold shadow-lg shadow-orange-200 rounded-xl transition-all active:scale-[0.99] flex items-center gap-2">
+              <Button onClick={() => handleCalcular()} className="w-full bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-700 hover:to-red-700 text-white h-14 text-lg font-bold shadow-lg shadow-orange-200 rounded-xl transition-all active:scale-[0.99] flex items-center gap-2">
                 <Flame size={20} className="fill-white/20"/> Calcular Agora
               </Button>
             </CardContent>
           </Card>
 
-          {/* HISTÓRICO RÁPIDO */}
           {!isIframe && historico.length > 0 && (
             <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-5 shadow-sm animate-in fade-in">
                 <h4 className="text-xs font-bold text-slate-400 uppercase mb-4 flex items-center gap-2 tracking-wider">
@@ -289,7 +248,6 @@ export default function CalorieCalculator() {
           )}
         </div>
 
-        {/* --- COLUNA DIREITA: RESULTADOS --- */}
         <div className="lg:col-span-5 w-full flex flex-col gap-6">
           <Card className={`h-full w-full transition-all duration-500 border-0 shadow-lg shadow-slate-200/50 dark:shadow-none ring-1 ring-slate-200 dark:ring-slate-800 overflow-hidden flex flex-col ${resultado ? 'bg-white dark:bg-slate-900' : 'bg-slate-50 dark:bg-slate-950'}`}>
             <CardHeader className="px-6 py-5 border-b border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 shrink-0">
@@ -306,8 +264,6 @@ export default function CalorieCalculator() {
                 </div>
               ) : (
                 <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500 w-full">
-                  
-                  {/* CARD PRETO DESTAQUE */}
                   <div className="bg-slate-900 p-6 rounded-2xl shadow-xl text-center relative overflow-hidden w-full group">
                     <div className="absolute top-0 right-0 w-40 h-40 bg-orange-500/20 rounded-full blur-3xl -mr-10 -mt-10 group-hover:bg-orange-500/30 transition-colors duration-500"></div>
                     <div className="absolute bottom-0 left-0 w-32 h-32 bg-blue-500/10 rounded-full blur-3xl -ml-10 -mb-10"></div>
@@ -322,9 +278,7 @@ export default function CalorieCalculator() {
                     </div>
                   </div>
 
-                  {/* CARDS DE META */}
                   <div className="space-y-3 w-full">
-                    {/* Perder Peso */}
                     <div className="flex items-center justify-between p-4 rounded-xl border border-blue-100 dark:border-blue-900 bg-blue-50/50 dark:bg-blue-900/10 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors">
                         <div className="flex items-center gap-3">
                             <div className="bg-white dark:bg-blue-900/30 p-2 rounded-lg text-blue-600 dark:text-blue-300 shadow-sm ring-1 ring-blue-100 dark:ring-blue-800"><ArrowDown size={18} strokeWidth={2.5}/></div>
@@ -336,7 +290,6 @@ export default function CalorieCalculator() {
                         <span className="text-xl font-bold text-blue-700 dark:text-blue-300">{resultado.perderPeso}</span>
                     </div>
 
-                    {/* Ganhar Massa */}
                     <div className="flex items-center justify-between p-4 rounded-xl border border-orange-100 dark:border-orange-900 bg-orange-50/50 dark:bg-orange-900/10 hover:bg-orange-50 dark:hover:bg-orange-900/20 transition-colors">
                         <div className="flex items-center gap-3">
                             <div className="bg-white dark:bg-orange-900/30 p-2 rounded-lg text-orange-600 dark:text-orange-400 shadow-sm ring-1 ring-orange-100 dark:ring-orange-800"><ArrowUp size={18} strokeWidth={2.5}/></div>
@@ -349,7 +302,6 @@ export default function CalorieCalculator() {
                     </div>
                   </div>
                   
-                  {/* BOTOES DE AÇÃO */}
                   <div className="grid grid-cols-2 gap-3 pt-2">
                       <Button 
                         variant="outline" 
@@ -376,7 +328,6 @@ export default function CalorieCalculator() {
                         {copiado === "link" ? "Link da ferramenta copiado!" : "Copiar link da calculadora para amigos"}
                     </button>
                   </div>
-
                 </div>
               )}
             </CardContent>
@@ -384,11 +335,8 @@ export default function CalorieCalculator() {
         </div>
       </div>
 
-      {/* --- LAYOUT DE IMPRESSÃO (ESCONDIDO NA TELA) --- */}
       <div className="hidden print:block">
         <div ref={contentRef} className="print:w-full print:p-8 print:bg-white text-slate-900">
-            
-            {/* Header Impressão */}
             <div className="flex justify-between items-start mb-8 border-b-2 border-slate-800 pb-6">
                 <div>
                     <h1 className="text-3xl font-bold text-slate-900 tracking-tight">Mestre das Contas</h1>
@@ -398,14 +346,12 @@ export default function CalorieCalculator() {
                     <div className="bg-slate-100 px-3 py-1 rounded inline-block">
                         <p className="text-xs text-slate-500 uppercase font-bold tracking-wider">Planejamento Calórico</p>
                     </div>
-                    {/* CORREÇÃO HYDRATION: Usa o estado dataAtual em vez de new Date() direto */}
                     <p className="text-sm text-slate-400 mt-2">{dataAtual}</p>
                 </div>
             </div>
 
             {resultado && (
                 <>
-                {/* Grid de Dados */}
                 <div className="mb-8 bg-slate-50 p-6 rounded-xl border border-slate-100">
                     <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4 border-b border-slate-200 pb-2">Perfil Analisado</p>
                     <div className="grid grid-cols-4 gap-8">
@@ -428,7 +374,6 @@ export default function CalorieCalculator() {
                     </div>
                 </div>
 
-                {/* Destaque TDEE */}
                 <div className="mb-10 text-center">
                     <p className="text-sm font-bold text-slate-500 uppercase tracking-widest mb-2">Sua meta de manutenção (TDEE)</p>
                     <div className="inline-block border-4 border-slate-900 rounded-2xl px-10 py-6">
@@ -437,7 +382,6 @@ export default function CalorieCalculator() {
                     </div>
                 </div>
 
-                {/* Cards de Objetivos Impressos */}
                 <div className="grid grid-cols-3 gap-6 mb-12">
                     <div className="p-5 border border-slate-200 rounded-xl bg-white text-center">
                         <p className="text-xs font-bold uppercase text-blue-700 mb-2">Perder Peso</p>
@@ -456,7 +400,6 @@ export default function CalorieCalculator() {
                     </div>
                 </div>
 
-                {/* CTA Footer Impressão */}
                 <div className="mt-auto pt-8 border-t border-slate-200 flex items-center justify-between text-sm">
                     <div className="flex items-center gap-2 text-slate-600">
                         <LinkIcon size={16}/>
@@ -471,7 +414,6 @@ export default function CalorieCalculator() {
         </div>
       </div>
 
-      {/* --- MODAL DE EMBED --- */}
       {showEmbedModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 animate-in fade-in backdrop-blur-sm print:hidden" onClick={() => setShowEmbedModal(false)}>
             <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-2xl p-6 max-w-lg w-full relative" onClick={e => e.stopPropagation()}>

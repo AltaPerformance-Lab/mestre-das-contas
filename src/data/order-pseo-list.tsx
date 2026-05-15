@@ -12,8 +12,6 @@ export interface OrderPSeoCase {
     longDescription: string;
     keywords: string[];
     initialValues: Partial<OrderData>;
-    rating: number;
-    reviewsCount: number;
     articleContent: React.ReactNode;
 }
 
@@ -24,8 +22,6 @@ export const orderCases: OrderPSeoCase[] = [
         description: "Modelo de pedido para confeiteiras. Detalhe sabor, recheio, peso do bolo e data de entrega.",
         longDescription: "Organize suas encomendas de bolos e doces. Especifique decoração, topos de bolo e taxa de entrega para evitar confusões com clientes.",
         keywords: ["pedido confeitaria pdf", "encomenda bolo modelo", "bloco pedido doces", "ficha técnica confeitaria"],
-        rating: 5.0,
-        reviewsCount: 1420,
         initialValues: {
             items: [
                 { id: '1', description: 'Bolo Aniversário (Massa Baunilha / Recheio Ninho com Morango) - 2kg', quantity: 1, price: 180.00 },
@@ -56,8 +52,6 @@ export const orderCases: OrderPSeoCase[] = [
         description: "Talão de pedido para venda de roupas. Controle tamanhos, cores e política de troca.",
         longDescription: "Ideal para sacoleiras e lojas de moda. Emita pedidos profissionais com política de troca clara e link de pagamento.",
         keywords: ["bloco pedido roupas pdf", "modelo pedido venda moda", "talão pedido sacoleira", "recibo loja roupas"],
-        rating: 4.8,
-        reviewsCount: 2100,
         initialValues: {
             items: [
                 { id: '1', description: 'Vestido Longo Floral (Tamanho M)', quantity: 1, price: 149.90 },
@@ -86,8 +80,6 @@ export const orderCases: OrderPSeoCase[] = [
         description: "Modelo para artesãos. Detalhe cores, personalização de nomes e prazo de produção.",
         longDescription: "Valorize seu trabalho manual. Especifique tempo de confecção, materiais usados e aprovação da arte final antes da produção.",
         keywords: ["orçamento artesanato pdf", "pedido personalizado", "modelo contrato artesão", "recibo encomenda"],
-        rating: 4.9,
-        reviewsCount: 850,
         initialValues: {
             items: [
                 { id: '1', description: 'Kit Maternidade Personalizado (Nome: THEO)', quantity: 1, price: 280.00 },
@@ -117,8 +109,6 @@ export const orderCases: OrderPSeoCase[] = [
         description: "Talão de pedido padrão para representantes. Ideal para venda B2B e atacado.",
         longDescription: "Ferramenta para representantes comerciais. Emita pedidos de fábrica com cálculo de IPI, ICMS ST (nos campos livres) e prazos de faturamento.",
         keywords: ["bloco pedido representação pdf", "modelo pedido atacado", "fazer pedido venda b2b", "talão representante comercial"],
-        rating: 4.7,
-        reviewsCount: 1100,
         initialValues: {
             items: [
                 { id: '1', description: 'Ref. 1020 - Parafuso Sextavado 1/4 (Caixa c/ 100)', quantity: 50, price: 25.00 },
@@ -147,8 +137,6 @@ export const orderCases: OrderPSeoCase[] = [
         description: "OS simples para técnicos. Celulares, informática e reparos em geral.",
         longDescription: "Controle a entrada e saída de equipamentos. Registre defeito relatado, laudo técnico, peças trocadas e garantia do serviço.",
         keywords: ["ordem de serviço celular pdf", "modelo os assistencia tecnica", "ficha entrada equipamento", "recibo conserto"],
-        rating: 4.9,
-        reviewsCount: 1800,
         initialValues: {
             items: [
                 { id: '1', description: 'Troca de Display (Tela Incell)', quantity: 1, price: 350.00 },
@@ -177,8 +165,6 @@ export const orderCases: OrderPSeoCase[] = [
         description: "Modelo para festas e eventos. Detalhe personalização, cores e prazo de entrega de lembrancinhas.",
         longDescription: "Organize seus pedidos de mimos. Especifique aroma, cor da fita, nome na tag e quantidade mínima para garantir o lucro na produção em lote.",
         keywords: ["pedido lembrancinhas personalizado", "bloco pedido brindes", "modelo encomenda festa infantil", "recibo lembrancinha"],
-        rating: 4.9,
-        reviewsCount: 650,
         initialValues: {
             items: [
                 { id: '1', description: 'Velas Aromáticas (Pote Vidro + Tampa Cortiça) - 40g', quantity: 50, price: 12.50 },
@@ -207,8 +193,6 @@ export const orderCases: OrderPSeoCase[] = [
         description: "Controle de pedidos de comida saudável. Monte cardápios semanais e pacotes de marmitas.",
         longDescription: "Ideal para cozinheiras e empresas de marmitex. Liste opções de carboidratos, proteínas e legumes para cada dia da semana.",
         keywords: ["pedido marmita fitness pdf", "cardapio semanal encomendas", "bloco pedido marmitex", "venda comida congelada modelo"],
-        rating: 4.8,
-        reviewsCount: 1560,
         initialValues: {
             items: [
                 { id: '1', description: 'Combo 10 Marmitas (Proteína + Carbo + Legume)', quantity: 1, price: 180.00 },

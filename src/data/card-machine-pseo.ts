@@ -8,9 +8,9 @@ export interface CardMachinePSeo {
     title: string;
     description: string;
     keywords: string[];
-    rating: number;
-    reviewsCount: number;
     initialInstallments?: string;
+    referralUrl?: string; // Link de indicação/afiliado
+    extraFees?: { label: string; value: number }[]; // Taxas adicionais (ex: taxa de adesão)
     // Mudança para dados enriquecidos
     articleContent: {
         introTitle: string;
@@ -34,9 +34,8 @@ export const cardMachineCases: CardMachinePSeo[] = [
         title: "Calculadora de Taxas Ton T3 (Plano PromoTon)",
         description: "Simule suas vendas na maquininha Ton T3. Descubra quanto sobra no bolso com as taxas do plano PromoTon e se vale a pena antecipar.",
         keywords: ["taxas ton t3", "simulador ton", "calculadora ton t3", "maquininha ton taxas"],
-        rating: 4.9,
-        reviewsCount: 3240,
         initialInstallments: "12",
+        referralUrl: "https://www.ton.com.br/checkout/#/cart?coupon=MESTREDASCONTAS10&utm_source=affiliate&utm_medium=invite_share&utm_campaign=MESTREDASCONTAS10",
         articleContent: {
             introTitle: "A Ton T3 vale a pena?",
             introText: "A <strong>Ton T3</strong> é a \"queridinha\" de quem vende muito. No plano PromoTon (ou UltraTon, dependendo da vigência), ela oferece algumas das menores taxas do mercado, especialmente para quem antecipa vendas parceladas em 12x. É uma máquina robusta, com bobina e bateria de longa duração.",
@@ -67,8 +66,6 @@ export const cardMachineCases: CardMachinePSeo[] = [
         title: "Simulador Mercado Pago Point Pro 2",
         description: "Calcule os descontos da maquininha Point Pro 2 do Mercado Pago. Veja quanto você recebe na hora na sua Conta Mercado Pago.",
         keywords: ["taxas mercado pago", "simulador point pro 2", "calculadora mercado pago", "tarifa point"],
-        rating: 4.8,
-        reviewsCount: 5120,
         initialInstallments: "1",
         articleContent: {
             introTitle: "A Força do Ecossistema Mercado Pago",
@@ -100,9 +97,8 @@ export const cardMachineCases: CardMachinePSeo[] = [
         title: "Calculadora InfinitePay (Taxas 2026)",
         description: "Simule as taxas da InfinitePay. Conhecida por ter as melhores taxas no parcelado em 12x do Brasil. Veja quanto sobra.",
         keywords: ["infinitepay taxas", "simulador infinitepay", "calculadora infinite smart", "infinitepay 12x"],
-        rating: 4.9,
-        reviewsCount: 1890,
         initialInstallments: "10",
+        referralUrl: "http://buy.infinitepay.io/smart?rid=hdcrepresentacoes",
         articleContent: {
             introTitle: "A Revolução das Taxas no Parcelado",
             introText: "A <strong>InfinitePay</strong> chegou chutando a porta com taxas de parcelamento incrivelmente baixas. Para quem vende produtos de alto ticket (eletrônicos, móveis) em 10x ou 12x, ela costuma ser imbatível, oferecendo mais lucro para o lojista.",
@@ -133,27 +129,29 @@ export const cardMachineCases: CardMachinePSeo[] = [
         title: "Simulador Moderninha Pro (PagBank)",
         description: "Calcule taxas da Moderninha Pro do PagSeguro. Veja as opções de recebimento na hora, 14 dias ou 30 dias.",
         keywords: ["taxas moderninha", "simulador pagseguro", "calculadora moderninha pro", "tarifa pagbank"],
-        rating: 4.7,
-        reviewsCount: 8500,
         initialInstallments: "3",
+        referralUrl: "https://pagbank.vc/indica-maquininhas-ad67c77f3",
         articleContent: {
             introTitle: "A Mais Popular do Brasil",
             introText: "A <strong>Moderninha Pro</strong> é um clássico nos balcões brasileiros. Robusta, imprime comprovante e aguenta o tranco de uma loja movimentada. O PagBank oferece flexibilidade: você pode escolher receber na hora (taxas maiores) ou em 30 dias (taxas menores).",
             analysis: `
                 <p>O PagBank (antigo PagSeguro) construiu um ecossistema gigante. Ter uma Moderninha facilita o acesso a empréstimos, cartões de crédito e até investimentos dentro do app PagBank.</p>
-                <p>A versatilidade do plano de recebimento é o destaque. Está apertado? Mude para receber na hora. Está com caixa? Mude para 30 dias e economize na taxa. Você no controle.</p>
+                <p>Ao abrir sua conta pelo link de indicação, você garante um banco completo e gratuito, sem burocracias e tarifas, ideal para gerir o lucro das suas vendas.</p>
+                <p><strong>Destaque:</strong> As maquininhas PagBank não possuem aluguel, oferecem cashback no valor da adesão e contam com 5 anos de garantia.</p>
             `,
             highlightsTitle: "🏆 Confiabilidade e Aceitação",
             highlights: [
                 "5 anos de garantia (uma das maiores do mercado).",
                 "Aceita praticamente todas as bandeiras e vouchers (VR, VA, Alelo).",
-                "Banco digital completo incluso (PagBank)."
+                "<strong>Conta Grátis PagBank:</strong> <a href='https://pagbank.vc/indica-conta-a702ca65c' target='_blank' rel='noopener noreferrer'>Abra sua conta aqui</a>.",
+                "Cashback no valor da maquininha e bateria de longa duração."
             ],
             faq: [
+                { question: "Tem taxa de aluguel?", answer: "Não! Você compra a máquina (paga a adesão) e ela é sua para sempre. No PagBank, você ainda pode receber cashback desse valor." },
                 { question: "Preciso de celular?", answer: "Não, a Moderninha Pro tem chip próprio 4G e Wi-Fi grátis." },
                 { question: "Aceita VR e VA?", answer: "Sim! É uma das máquinas com maior aceitação de vales do mercado, ideal para restaurantes e mercados." }
             ],
-            closingText: "Se o seu negócio depende de vouchers refeição/alimentação ou você quer a segurança de uma marca consolidada, a Moderninha é a escolha segura."
+            closingText: "Se o seu negócio depende de vouchers refeição/alimentação ou você quer a segurança de uma marca consolidada com conta digital integrada, a Moderninha é a escolha segura."
         }
     },
     {
@@ -165,8 +163,6 @@ export const cardMachineCases: CardMachinePSeo[] = [
         title: "Calculadora de Taxas SumUp Solo",
         description: "Simule suas vendas na SumUp Solo. Veja as taxas no débito, crédito e parcelado em 12x para autônomos e pequenos negócios.",
         keywords: ["taxas sumup", "simulador sumup solo", "calculadora sumup", "tarifa sumup parcelado"],
-        rating: 4.8,
-        reviewsCount: 1560,
         initialInstallments: "1",
         articleContent: {
             introTitle: "SumUp Solo: A Máquina que Não Precisa de Celular",
@@ -197,8 +193,6 @@ export const cardMachineCases: CardMachinePSeo[] = [
         title: "Calculadora de Taxas Stone para Empresas",
         description: "Simule as taxas da maquininha Stone. Ideal para negócios com faturamento acima de R$ 15 mil mensais. Planos sob medida.",
         keywords: ["taxas stone", "simulador stone", "calculadora stone", "maquininha stone para empresas"],
-        rating: 4.9,
-        reviewsCount: 4120,
         initialInstallments: "12",
         articleContent: {
             introTitle: "Stone: Soluções para quem quer crescer",

@@ -9,6 +9,7 @@ import { rentPSeoCases } from '@/data/rent-pseo' // Data de Reajuste Aluguel
 import { terminationCases } from '@/data/termination-pseo' // Data de Rescisão
 import { cardMachineCases } from '@/data/card-machine-pseo' // Data de Maquininha
 import { financingCases } from '@/data/financing-pseo' // Data de Financiamento
+import { glossaryData } from '@/data/glossary'
 import fs from 'fs'
 import path from 'path'
 
@@ -60,6 +61,11 @@ function calculatePriority(route: string): number {
   if (route.includes('salario-liquido')) return 0.85;
   if (route.includes('gerador-qr-code')) return 0.85;
   if (route.includes('gerador-pix')) return 0.85;
+  if (route.includes('para-empresas')) return 0.95; // Alta prioridade B2B
+  
+  // Institucional e Mapa do Site
+  if (route.includes('sobre')) return 0.70;
+  if (route.includes('sitemap-html')) return 0.80;
   
   // Hubs de categoria
   if (route.match(/^\/(financeiro|trabalhista|ferramentas|saude)$/)) return 0.80;
@@ -157,7 +163,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     '/saude/agua',
     
     // Institucional
+    '/para-empresas',
     '/sobre',
+    '/sobre/autor',
+    '/sobre/metodologia',
+    '/sitemap-html',
     '/fale-conosco',
     '/politica-privacidade',
     '/termos-de-uso',
@@ -295,6 +305,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.85, 
   }))
 
+  // P. Glossário (NOVO)
+  const glossaryRoutes: MetadataRoute.Sitemap = glossaryData.map((item) => ({
+    url: `${baseUrl}/glossario/${item.slug}`,
+    lastModified: new Date(),
+    changeFrequency: 'monthly',
+    priority: 0.8,
+  }))
+
   // Junta tudo
   return [
     ...staticRoutes, 
@@ -312,6 +330,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...cardMachineRoutes,
     ...comparatorRoutes,
     ...comparatorPseoRoutes,
-    ...financingRoutes
+    ...financingRoutes,
+    ...glossaryRoutes
   ]
 }

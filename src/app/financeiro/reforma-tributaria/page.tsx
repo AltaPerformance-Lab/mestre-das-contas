@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import TaxReformCalculator from "@/components/calculators/TaxReformCalculator";
+import { calculateTaxReform } from "@/lib/calculators/tax-reform";
 import LazyAdUnit from "@/components/ads/LazyAdUnit";
 import DisclaimerBox from "@/components/ui/DisclaimerBox";
 import { reformData } from "@/data/reform-data";
@@ -17,27 +18,9 @@ import {
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
 import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
 
-// --- 1. METADATA DE DOMINAÇÃO (SEO 2026 DINÂMICO) ---
-export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
-  const sp = await searchParams;
-  const valor = sp.valor ? parseFloat(sp.valor as string) : 0;
-  const categoria = sp.cat as string;
-
-  let title = "Calculadora Reforma Tributária 2026 (Grátis) | Simule o Novo IVA";
-  let description = "Entenda o impacto do IVA Dual (CBS+IBS), Imposto Seletivo e Cashback em 10 segundos. Simulador gratuito atualizado com o cronograma 2026-2033.";
-
-  if (valor > 0) {
-      const valorFormatado = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(valor);
-      
-      let catLabel = "Produto";
-      if(categoria === 'servico') catLabel = "Serviço";
-      if(categoria === 'saude') catLabel = "Saúde/Educação";
-      if(categoria === 'imovel') catLabel = "Imóvel";
-      if(categoria === 'seletivo') catLabel = "Item com Imposto Seletivo";
-
-      title = `Imposto de ${valorFormatado} na Reforma Tributária | Simulação IVA 2026`;
-      description = `Veja quanto você vai pagar de imposto em um(a) ${catLabel} de ${valorFormatado} com a nova Reforma Tributária (IVA Dual). Compare com hoje.`;
-  }
+export async function generateMetadata(): Promise<Metadata> {
+  const title = "Simulador da Reforma Tributária 2026 | Calcule o Impacto no seu Bolso";
+  const description = "Entenda como a nova reforma tributária afeta o preço dos produtos e seu poder de compra em 2026. Simulação gratuita do IVA Dual, Cashback e Imposto Seletivo.";
 
   return {
     title,
@@ -60,10 +43,8 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
       url: "https://mestredascontas.com.br/financeiro/reforma-tributaria",
       siteName: "Mestre das Contas",
       locale: "pt_BR",
-      type: "article",
-    },
-    robots: { index: true, follow: true },
-  };
+      type: "article" },
+    robots: { index: true, follow: true } };
 }
 
 // --- FAQ LIST (SCHEMA ROBUSTO PARA RICH SNIPPETS) ---
@@ -85,9 +66,7 @@ const jsonLd = {
       "applicationCategory": "FinanceApplication",
       "operatingSystem": "Web",
       "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
-      "description": "Ferramenta para comparar carga tributária atual com o novo IVA Dual.",
-      "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.8", "ratingCount": "3205", "bestRating": "5", "worstRating": "1" }
-    },
+      "description": "Ferramenta para comparar carga tributária atual com o novo IVA Dual." },
     {
       "@type": "TechArticle",
       "headline": "Guia da Reforma Tributária 2026: O Dossiê Completo",
@@ -113,35 +92,8 @@ const jsonLd = {
   ]
 };
 
-type Props = { searchParams: Promise<{ [key: string]: string | string[] | undefined }> }
+export default async function ReformaPage() {
 
-export default async function ReformaPage({ searchParams }: Props) {
-  const resolvedParams = await searchParams;
-  const isEmbed = resolvedParams.embed === 'true';
-  const initialValue = resolvedParams.valor ? parseFloat(resolvedParams.valor as string) : 0;
-  const initialCategory = (resolvedParams.cat as string) || "padrao";
-
-  // --- MODO EMBED ---
-  if (isEmbed) {
-    return (
-        <main className="w-full min-h-screen bg-slate-50 p-2 flex flex-col items-center justify-start font-sans">
-            <div className="w-full max-w-3xl">
-                <Suspense fallback={<div className="p-10 text-center animate-pulse text-slate-400">Carregando Simulador...</div>}>
-                    <TaxReformCalculator 
-                      initialValue={initialValue}
-                      initialCategory={initialCategory}
-                      hideTitle
-                    />
-                </Suspense>
-                <div className="mt-4 text-center border-t border-slate-200 pt-3">
-                    <Link href="https://mestredascontas.com.br/financeiro/reforma-tributaria" target="_blank" className="text-[10px] text-slate-400 hover:text-blue-600 uppercase font-bold tracking-wider flex items-center justify-center gap-1 transition-colors">
-                        <Landmark size={10} /> Powered by Mestre das Contas
-                    </Link>
-                </div>
-            </div>
-        </main>
-    );
-  }
 
   // --- MODO PÁGINA NORMAL ---
   return (
@@ -159,8 +111,6 @@ export default async function ReformaPage({ searchParams }: Props) {
           variant="reform" // Ativa o gradiente Verde/Teal
           badge="Lei Aprovada"
           categoryColor="emerald"
-          rating={4.8}
-          reviews={3205}
           breadcrumbs={[
             { label: "Financeiro", href: "/financeiro" },
             { label: "Reforma Tributária" }
@@ -184,20 +134,10 @@ export default async function ReformaPage({ searchParams }: Props) {
         {/* --- FERRAMENTA --- */}
         <section id="ferramenta" className="scroll-mt-28 w-full max-w-full">
           <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/40 dark:shadow-none p-1 md:p-2">
-              <Suspense fallback={
-                <div className="h-96 w-full bg-slate-50 dark:bg-slate-800 rounded-2xl animate-pulse flex items-center justify-center text-slate-400">
-                    <div className="flex flex-col items-center gap-2">
-                        <Zap className="animate-bounce text-slate-300 dark:text-slate-600" size={32}/>
-                        <span>Carregando Simulador IVA...</span>
-                    </div>
-                </div>
-              }>
                   <PrivacyBadge />
-                  <TaxReformCalculator 
-                      initialValue={initialValue}
-                      initialCategory={initialCategory}
-                  />
-              </Suspense>
+                  <Suspense fallback={<div className="h-96 w-full bg-slate-100 dark:bg-slate-800 animate-pulse rounded-3xl" />}>
+                    <TaxReformCalculator />
+                  </Suspense>
           </div>
           
           <div className="mt-8 print:hidden max-w-5xl mx-auto">

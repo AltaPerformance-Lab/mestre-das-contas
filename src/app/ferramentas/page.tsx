@@ -24,17 +24,14 @@ export const metadata: Metadata = {
     "produtividade online"
   ],
   alternates: {
-    canonical: "https://mestredascontas.com.br/ferramentas",
-  },
+    canonical: "https://mestredascontas.com.br/ferramentas" },
   openGraph: {
     title: "Ferramentas Digitais 2026 - Mestre das Contas",
     description: "Utilitários gratuitos para facilitar seu dia a dia. Acesse agora.",
     url: "https://mestredascontas.com.br/ferramentas",
     siteName: "Mestre das Contas",
     locale: "pt_BR",
-    type: "website",
-  },
-};
+    type: "website" } };
 
 // --- SCHEMA.ORG (COLLECTION) ---
 const jsonLd = {

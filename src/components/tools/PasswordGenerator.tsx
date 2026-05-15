@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -11,17 +12,46 @@ import {
   ShieldCheck, ShieldAlert, Shield, KeyRound
 } from "lucide-react";
 
-export default function PasswordGenerator() {
+interface PasswordGeneratorProps {
+  initialValues?: {
+    length?: number;
+    upper?: boolean;
+    lower?: boolean;
+    numbers?: boolean;
+    symbols?: boolean;
+  };
+}
+
+export default function PasswordGenerator({ initialValues }: PasswordGeneratorProps) {
   const [password, setPassword] = useState("");
-  const [length, setLength] = useState([16]);
+  const [length, setLength] = useState([initialValues?.length || 16]);
   const [strength, setStrength] = useState(0);
   const [copied, setCopied] = useState(false);
   
   // Configurações
-  const [useUppercase, setUseUppercase] = useState(true);
-  const [useLowercase, setUseLowercase] = useState(true);
-  const [useNumbers, setUseNumbers] = useState(true);
-  const [useSymbols, setUseSymbols] = useState(true);
+  const [useUppercase, setUseUppercase] = useState(initialValues?.upper ?? true);
+  const [useLowercase, setUseLowercase] = useState(initialValues?.lower ?? true);
+  const [useNumbers, setUseNumbers] = useState(initialValues?.numbers ?? true);
+  const [useSymbols, setUseSymbols] = useState(initialValues?.symbols ?? true);
+  const searchParams = useSearchParams();
+
+  // Hydrate from URL
+  useEffect(() => {
+    const t = searchParams.get('tamanho');
+    const u = searchParams.get('upper');
+    const l = searchParams.get('lower');
+    const n = searchParams.get('numbers');
+    const s = searchParams.get('symbols');
+
+    if (t) {
+        const parsed = parseInt(t);
+        if (!isNaN(parsed)) setLength([parsed]);
+    }
+    if (u) setUseUppercase(u !== 'false');
+    if (l) setUseLowercase(l !== 'false');
+    if (n) setUseNumbers(n !== 'false');
+    if (s) setUseSymbols(s !== 'false');
+  }, [searchParams]);
 
   // Lógica de Geração Segura
   const generatePassword = useCallback(() => {

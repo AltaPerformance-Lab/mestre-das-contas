@@ -21,13 +21,13 @@ export default function HeroSection() {
           
           {/* Título Principal (H1) */}
           <h1 className="text-4xl sm:text-5xl md:text-7xl font-extrabold tracking-tight leading-[1.1] animate-in fade-in slide-in-from-bottom-6 duration-700 text-balance">
-            Simplifique suas <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-emerald-400">Contas</span> e tome decisões melhores.
+            Simplifique seu <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-400">Dia a Dia</span> com ferramentas inteligentes.
           </h1>
           
           {/* Subtítulo */}
           <p className="text-lg md:text-xl text-slate-400 leading-relaxed max-w-2xl mx-auto animate-in fade-in slide-in-from-bottom-8 duration-700 delay-100 text-pretty">
-            Calculadoras precisas para Finanças, Direitos Trabalhistas e Saúde. 
-            Sem cadastro, sem enrolação e 100% gratuito.
+            Calculadoras e ferramentas gratuitas para Finanças, Direitos Trabalhistas, Saúde e Tech. 
+            Tudo em um só lugar, 100% online e gratuito.
           </p>
 
           {/* Botões de Ação (CTAs) */}

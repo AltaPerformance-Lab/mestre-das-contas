@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Calculator, Mail, Shield, FileText, QrCode, Cookie } from "lucide-react";
+import { Calculator, Mail, Shield, FileText, QrCode, Cookie, Rocket } from "lucide-react";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -41,12 +41,40 @@ export default function Footer() {
       ]
     },
     {
+      category: "Máquinas de Cartão",
+      links: [
+        { label: "Simulador InfinitePay", href: "/financeiro/simulador-maquininha/infinitepay" },
+        { label: "Simulador Stone", href: "/financeiro/simulador-maquininha/stone" },
+        { label: "Simulador Ton", href: "/financeiro/simulador-maquininha/ton" },
+        { label: "Simulador PagBank", href: "/financeiro/simulador-maquininha/pagbank" },
+        { label: "Todas as Marcas", href: "/financeiro/simulador-maquininha" },
+      ]
+    },
+    {
       category: "Ferramentas PDF",
       desktopOnly: true,
       links: [
-        { label: "Recibo Simples", href: "/ferramentas/gerador-recibo/simples" },
-        { label: "Recibo de Serviços", href: "/ferramentas/gerador-recibo/prestacao-servicos" },
+        { label: "Editor de PDF Online", href: "/ferramentas/editor-pdf-online" },
         { label: "Recibo de Aluguel", href: "/ferramentas/gerador-recibo/aluguel" },
+        { label: "Recibo de Serviços", href: "/ferramentas/gerador-recibo/prestacao-servicos" },
+      ]
+    },
+    {
+      category: "Glossário A-Z",
+      links: [
+        { label: "FGTS: Guia Completo", href: "/glossario/fgts-fundo-de-garantia" },
+        { label: "MEI: Regras 2026", href: "/glossario/mei-microempreendedor-individual" },
+        { label: "IVA: Reforma Tributária", href: "/glossario/iva-dual-reforma-tributaria" },
+        { label: "Juros Compostos", href: "/glossario/juros-compostos-o-que-e" },
+        { label: "Ver Todos os Termos", href: "/glossario" },
+      ]
+    },
+    {
+      category: "Soluções B2B",
+      links: [
+        { label: "Calculadoras para Sites", href: "/para-empresas" },
+        { label: "Simuladores White Label", href: "/para-empresas" },
+        { label: "Consultoria pSEO", href: "/para-empresas" },
       ]
     }
   ];
@@ -81,7 +109,7 @@ export default function Footer() {
               <li><Link prefetch={false} href="/ferramentas/gerador-qr-code" className="hover:text-blue-600 dark:hover:text-blue-400 hover:translate-x-1 transition-all inline-flex items-center gap-2"><QrCode size={14} className="text-blue-500 dark:text-blue-400"/> Gerador de QR Code</Link></li>
               <li><Link prefetch={false} href="/trabalhista/rescisao" className="hover:text-blue-600 dark:hover:text-blue-400 hover:translate-x-1 transition-all inline-block">Rescisão CLT</Link></li>
               <li><Link prefetch={false} href="/trabalhista/ferias" className="hover:text-blue-600 dark:hover:text-blue-400 hover:translate-x-1 transition-all inline-block">Calculadora de Férias</Link></li>
-              <li><Link prefetch={false} href="/saude/imc" className="hover:text-blue-600 dark:hover:text-blue-400 hover:translate-x-1 transition-all inline-block">Cálculo de IMC</Link></li>
+              <li><Link prefetch={false} href="/financeiro/simulador-maquininha" className="hover:text-blue-600 dark:hover:text-blue-400 hover:translate-x-1 transition-all inline-block font-bold text-indigo-600">Simulador de Maquininhas</Link></li>
             </ul>
           </div>
 
@@ -92,9 +120,10 @@ export default function Footer() {
               <li><Link prefetch={false} href="/trabalhista" className="hover:text-blue-600 hover:translate-x-1 transition-all inline-block">Trabalhista</Link></li>
               <li><Link prefetch={false} href="/financeiro" className="hover:text-blue-600 hover:translate-x-1 transition-all inline-block">Financeiro & Investimentos</Link></li>
               <li><Link prefetch={false} href="/saude" className="hover:text-blue-600 hover:translate-x-1 transition-all inline-block">Saúde e Bem-estar</Link></li>
+              <li><Link prefetch={false} href="/glossario" className="hover:text-indigo-600 font-bold hover:translate-x-1 transition-all inline-block">Glossário Estratégico</Link></li>
               <li>
-                <Link prefetch={false} href="/financeiro/reforma-tributaria" className="text-emerald-700 dark:text-emerald-500 font-bold hover:text-emerald-800 dark:hover:text-emerald-400 hover:translate-x-1 transition-all inline-flex items-center gap-2">
-                  Reforma Tributária <span className="text-[9px] bg-emerald-100 dark:bg-emerald-900/40 text-emerald-800 dark:text-emerald-300 px-1.5 py-0.5 rounded-full uppercase tracking-wide border border-emerald-200 dark:border-emerald-800">Novo</span>
+                <Link prefetch={false} href="/sobre/metodologia" className="hover:text-indigo-600 hover:translate-x-1 transition-all inline-flex items-center gap-2">
+                  Metodologia de Cálculo <span className="text-[9px] bg-indigo-100 dark:bg-indigo-900/40 text-indigo-800 dark:text-indigo-300 px-1.5 py-0.5 rounded-full uppercase tracking-wide border border-indigo-200 dark:border-indigo-800">E-E-A-T</span>
                 </Link>
               </li>
             </ul>
@@ -105,8 +134,13 @@ export default function Footer() {
             <h3 className="font-bold text-slate-900 dark:text-slate-100 mb-5 text-xs uppercase tracking-widest">Institucional</h3>
             <ul className="space-y-3 text-sm text-slate-600 dark:text-slate-400 font-medium">
               <li>
-                <Link prefetch={false} href="/sobre" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors flex items-center gap-2">
-                  Sobre Nós
+                <Link prefetch={false} href="/sobre/autor" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors flex items-center gap-2 font-bold">
+                  Quem Somos
+                </Link>
+              </li>
+              <li>
+                <Link prefetch={false} href="/para-empresas" className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors flex items-center gap-2 font-bold">
+                  <Rocket size={14} className="text-indigo-500" /> Soluções B2B
                 </Link>
               </li>
               <li>
@@ -115,8 +149,8 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link prefetch={false} href="/politica-cookies" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors flex items-center gap-2">
-                  <Cookie size={14} className="text-slate-400" /> Cookies
+                <Link prefetch={false} href="/sobre/metodologia" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors flex items-center gap-2">
+                  Transparência Editorial
                 </Link>
               </li>
               <li>
@@ -177,8 +211,10 @@ export default function Footer() {
         </div>
 
         {/* Copyright Bar */}
-        <div className="border-t border-slate-100 dark:border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-400 dark:text-slate-500">
-          <p>&copy; {currentYear} Mestre das Contas. Todos os direitos reservados.</p>
+          <div className="flex flex-col md:flex-row items-center gap-4 md:gap-8">
+            <p>&copy; {currentYear} Mestre das Contas. Todos os direitos reservados.</p>
+            <Link href="/sitemap-html" className="hover:text-blue-600 transition-colors">Mapa do Site</Link>
+          </div>
           
           <div className="flex items-center gap-4">
              <p className="flex items-center gap-1.5">
@@ -195,8 +231,6 @@ export default function Footer() {
              </p>
           </div>
         </div>
-
-      </div>
-    </footer>
+      </footer>
   );
 }

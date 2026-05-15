@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import Image from "next/image"; // Importamos o componente Image
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
@@ -36,6 +37,26 @@ export default function ImageConverter({ initialTarget }: ImageConverterProps) {
   const [quality, setQuality] = useState([0.9]); // 0.1 a 1.0
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const searchParams = useSearchParams();
+
+  // Hydrate from URL
+  useEffect(() => {
+    const to = searchParams.get('to');
+    if (to) {
+        const map: Record<string, TargetFormat> = {
+            'jpg': 'jpeg',
+            'jpeg': 'jpeg',
+            'png': 'png',
+            'webp': 'webp',
+            'avif': 'avif',
+            'ico': 'ico'
+        };
+        const mappedFormat = map[to.toLowerCase()];
+        if (mappedFormat) {
+            setTargetFormat(mappedFormat);
+        }
+    }
+  }, [searchParams]);
 
   // --- EFEITO pSEO: Configura o formato inicial baseado na URL ---
   useEffect(() => {

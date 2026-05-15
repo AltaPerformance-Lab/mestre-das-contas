@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import CalorieCalculator from "@/components/calculators/CalorieCalculator";
+import { calculateCalorias } from "@/lib/calculators/health";
 import LazyAdUnit from "@/components/ads/LazyAdUnit";
 import DisclaimerBox from "@/components/ui/DisclaimerBox"; 
 import PageHeader from "@/components/layout/PageHeader";
@@ -14,30 +15,24 @@ import {
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
 import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
 
-// --- 1. METADATA OTIMIZADA (SEO 2026) ---
-export const metadata: Metadata = {
-  title: "Calculadora de Calorias Diárias 2026 | TMB e Gasto Calórico Total",
-  description: "Calcule sua Taxa Metabólica Basal (TMB) e Gasto Calórico Total em segundos. Planeje sua dieta de 2026 com precisão científica e gratuitamente.",
-  keywords: [
-    "calculadora de calorias", 
-    "taxa metabólica basal", 
-    "calcular tmb", 
-    "tdee calculator", 
-    "dieta para emagrecer", 
-    "déficit calórico", 
-    "fórmula mifflin-st jeor", 
-    "gasto calórico diário"
-  ],
-  alternates: { canonical: "https://mestredascontas.com.br/saude/calorias-diarias" },
-  openGraph: {
-    title: "Calculadora de Calorias 2026 - Mestre das Contas",
-    description: "Saiba exatamente quanto comer para atingir seu objetivo físico.",
-    url: "https://mestredascontas.com.br/saude/calorias-diarias",
-    siteName: "Mestre das Contas",
-    locale: "pt_BR",
-    type: "article",
-  },
-};
+// --- 1. METADATA DINÂMICA (SEO 2026) ---
+export async function generateMetadata(): Promise<Metadata> {
+  const title = "Calculadora de Calorias Diárias 2026 | TMB e Gasto Calórico Total";
+  const description = "Calcule sua Taxa Metabólica Basal (TMB) e Gasto Calórico Total em segundos. Planeje sua dieta de 2026 com precisão científica e gratuitamente.";
+
+  return {
+    title,
+    description,
+    keywords: ["calculadora de calorias", "taxa metabólica basal", "calcular tmb", "tdee calculator", "dieta para emagrecer"],
+    alternates: { canonical: "https://mestredascontas.com.br/saude/calorias-diarias" },
+    openGraph: {
+      title,
+      description,
+      url: "https://mestredascontas.com.br/saude/calorias-diarias",
+      siteName: "Mestre das Contas",
+      type: "article" }
+  };
+}
 
 const faqList = [
     { q: "O que é Taxa Metabólica Basal (TMB)?", a: "É o mínimo de calorias que seu corpo precisa para manter as funções vitais (respiração, batimentos, temperatura) em repouso absoluto." },
@@ -56,9 +51,7 @@ const jsonLd = {
       "applicationCategory": "HealthApplication",
       "operatingSystem": "Web",
       "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
-      "description": "Ferramenta profissional para cálculo de TMB (Taxa Metabólica Basal) e planejamento de déficit ou superávit calórico.",
-      "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.8", "ratingCount": "15600", "bestRating": "5", "worstRating": "1" }
-    },
+      "description": "Ferramenta profissional para cálculo de TMB (Taxa Metabólica Basal) e planejamento de déficit ou superávit calórico." },
     {
       "@type": "Article",
       "headline": "Guia de Calorias e Metabolismo 2026: Como Calcular seu Gasto Real",
@@ -80,7 +73,8 @@ const jsonLd = {
   ]
 };
 
-export default function CaloriasPage() {
+export default async function CaloriasPage() {
+
   return (
     <article className="w-full max-w-full overflow-hidden pb-12">
       
@@ -96,8 +90,6 @@ export default function CaloriasPage() {
           variant="health"
           categoryColor="rose"
           badge="Precisão 2026"
-          rating={4.8}
-          reviews={15600}
           breadcrumbs={[
             { label: "Saúde", href: "/saude" },
             { label: "Calorias Diárias" }
@@ -124,9 +116,9 @@ export default function CaloriasPage() {
                <PrivacyBadge />
           </div>
           <div className="bg-white dark:bg-slate-900 rounded-3xl border border-orange-100 dark:border-slate-800 shadow-xl shadow-orange-100/50 dark:shadow-none p-1 md:p-2">
-              <Suspense fallback={<div className="h-96 w-full bg-orange-50 dark:bg-orange-900/10 rounded-2xl animate-pulse flex items-center justify-center text-orange-300">Carregando Calculadora...</div>}>
-                  <CalorieCalculator />
-              </Suspense>
+                  <Suspense fallback={<div className="h-96 w-full bg-slate-100 dark:bg-slate-800 animate-pulse rounded-3xl" />}>
+                    <CalorieCalculator />
+                  </Suspense>
           </div>
           <div className="mt-8 print:hidden max-w-5xl mx-auto">
               <DisclaimerBox />

@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { Metadata } from "next";
 import ModernCalendar from "@/components/ui/ModernCalendar";
 import AdUnit from "@/components/ads/AdUnit";
@@ -10,34 +11,34 @@ import {
   HelpCircle, Compass, Waves, ThermometerSun, 
   Scissors, Tractor, Fish, Star, Clock, Activity
 } from "lucide-react";
+import { format, parseISO, isValid } from "date-fns";
+import { ptBR } from "date-fns/locale";
+import { getMoonPhase, formatMoonDate } from "@/lib/calculators/moon";
 
-export const metadata: Metadata = {
-  title: "Calendário Lunar 2026 (Grátis) | Fases da Lua e Eclipses",
-  description: "O guia definitivo do Calendário Lunar 2026. Acompanhe a fase da lua de hoje, eclipses, teoria solunar para pesca e agricultura biodinâmica. Grátis.",
-  keywords: [
-    "calendario lunar 2026", 
-    "fases da lua hoje", 
-    "lua cheia 2026", 
-    "lua nova 2026",
-    "eclipse lunar 2026",
-    "superlua 2026",
-    "8 fases da lua",
-    "teoria solunar pesca",
-    "agricultura biodinamica lua",
-    "influencia da lua no sono"
-  ],
-  alternates: { canonical: "https://mestredascontas.com.br/ferramentas/fases-da-lua" },
-  openGraph: {
-    title: "Calendário Lunar 2026 Completo - Mestre das Contas",
-    description: "Ferramenta gratuita para descobrir a fase da lua de hoje. Planeje seu mês com base nas marés, agricultura e eventos astronômicos de 2026.",
-    url: "https://mestredascontas.com.br/ferramentas/fases-da-lua",
-    siteName: "Mestre das Contas",
-    type: "website",
-  }
-};
+// --- 1. METADATA DINÂMICA (SEO MAXIMIZADO) ---
+export async function generateMetadata(): Promise<Metadata> {
+  const title = "Calendário Lunar 2026 (Grátis) | Fases da Lua e Eclipses";
+  const description = "O guia definitivo do Calendário Lunar 2026. Acompanhe a fase da lua de hoje, eclipses, teoria solunar para pesca e agricultura biodinâmica. Grátis.";
 
-export default function MoonPhasesPage() {
-  
+  return {
+    title,
+    description,
+    keywords: [
+      "calendario lunar 2026", "fases da lua hoje", "lua cheia 2026", "lua nova 2026",
+      "eclipse lunar 2026", "superlua 2026", "teoria solunar pesca", "calendario lunar"
+    ],
+    alternates: { canonical: "https://mestredascontas.com.br/ferramentas/fases-da-lua" },
+    openGraph: {
+      title,
+      description,
+      url: "https://mestredascontas.com.br/ferramentas/fases-da-lua",
+      siteName: "Mestre das Contas",
+      type: "website" }
+  };
+}
+
+export default async function MoonPhasesPage() {
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
@@ -47,9 +48,7 @@ export default function MoonPhasesPage() {
         "applicationCategory": "ReferenceApplication",
         "operatingSystem": "Web",
         "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
-        "description": "Ferramenta astronômica para conferir as fases da lua, eclipses e calendário lunar completo do ano de 2026.",
-        "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.9", "ratingCount": "1842" }
-      },
+        "description": "Ferramenta astronômica para conferir as fases da lua, eclipses e calendário lunar completo do ano de 2026." },
       {
         "@type": "Article",
         "headline": "Calendário Lunar 2026: Guia Completo de Fases e Eclipses",
@@ -84,8 +83,6 @@ export default function MoonPhasesPage() {
           variant="default"
           categoryColor="indigo"
           badge="Guia Especialista 2026"
-          rating={4.9}
-          reviews={1842}
           breadcrumbs={[
             { label: "Ferramentas", href: "/ferramentas" },
             { label: "Fases da Lua 2026" }
@@ -112,7 +109,9 @@ export default function MoonPhasesPage() {
               <PrivacyBadge />
            </div>
            
-           <ModernCalendar />
+           <Suspense fallback={<div className="h-96 w-full bg-slate-100 dark:bg-slate-800 animate-pulse rounded-3xl" />}>
+             <ModernCalendar />
+           </Suspense>
            
            <div className="mt-12 print:hidden max-w-5xl mx-auto text-center">
               <p className="text-sm text-slate-500 dark:text-slate-400 italic">
@@ -265,9 +264,10 @@ export default function MoonPhasesPage() {
 
             {/* CURIOSIDADE FINAL */}
             <div className="my-16 p-10 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] bg-slate-900 rounded-[2rem] text-white not-prose shadow-2xl relative overflow-hidden group">
+                <div className="absolute top-0 right-0 w-full h-full bg-indigo-600/10 blur-[100px] pointer-events-none" />
                 <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:scale-110 transition-transform duration-700"><Compass size={150}/></div>
-                <h3 className="text-3xl font-bold mb-6 flex items-center gap-3"><Sparkles className="text-yellow-400"/> O Mistério do "Lado Negro" da Lua</h3>
-                <p className="text-indigo-100 text-lg leading-relaxed mb-0 font-light">
+                <h3 className="text-3xl font-bold mb-6 flex items-center gap-3 relative z-10"><Sparkles className="text-yellow-400"/> O Mistério do "Lado Negro" da Lua</h3>
+                <p className="text-indigo-100 text-lg leading-relaxed mb-0 font-light relative z-10">
                     Ouvimos muito sobre o "lado negro" ou oculto da lua, imortalizado pela cultura pop. Mas a verdade astronômica é impressionante: devido à <strong>Rotação Síncrona</strong>, o tempo que a Lua leva para girar no seu próprio eixo (seu dia) é exatamente o mesmo tempo que ela leva para orbitar a Terra (seu ano). É por isso que, olhando daqui, nós <em>sempre</em> vemos as exatas mesmas crateras. O lado oculto recebe tanta luz solar quanto o lado visível, ele apenas guarda o segredo de nunca revelar seu rosto para nós.
                 </p>
             </div>

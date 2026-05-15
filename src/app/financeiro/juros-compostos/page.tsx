@@ -2,12 +2,13 @@ import { Suspense } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import CompoundInterestCalculator from "@/components/calculators/CompoundInterestCalculator";
+import { calculateCompoundInterest } from "@/lib/calculators/compound-interest";
 import LazyAdUnit from "@/components/ads/LazyAdUnit";
 import DisclaimerBox from "@/components/ui/DisclaimerBox";
 import PageHeader from "@/components/layout/PageHeader";
 
 import { 
-  TrendingUp, HelpCircle, BookOpen, Calculator,
+  TrendingUp, HelpCircle, BookOpen, Calculator, Landmark,
   Coins, Briefcase, FileText, 
   CheckCircle2, ArrowRight, BarChart3,
   PieChart, ShieldCheck
@@ -16,36 +17,27 @@ import PrivacyBadge from "@/components/ui/PrivacyBadge";
 import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
 
 // --- 1. METADATA DE ALTO VALOR (SEO 2026) ---
-export const metadata: Metadata = {
-  title: "Calculadora de Juros Compostos 2026 (Grátis) | Simule Online",
-  description: "Descubra o poder dos juros sobre juros em 2026. Simule investimentos mensais, rendimento e montante final em segundos. Grátis, preciso e online.",
-  keywords: [
-    "calculadora juros compostos", 
-    "simulador de investimentos", 
-    "calcular rentabilidade", 
-    "juros sobre juros", 
-    "calculadora financeira", 
-    "aposentadoria"
-  ],
-  alternates: {
-    canonical: "https://mestredascontas.com.br/financeiro/juros-compostos",
-  },
-  openGraph: {
-    title: "Calculadora de Juros Compostos 2026 - Mestre das Contas",
-    description: "Faça o dinheiro trabalhar para você. Simule o efeito bola de neve nos seus investimentos.",
-    url: "https://mestredascontas.com.br/financeiro/juros-compostos",
-    siteName: "Mestre das Contas",
-    locale: "pt_BR",
-    type: "article", // Mudado para article para suportar autor e data
-    images: [{ 
-      url: "https://mestredascontas.com.br/opengraph-image", 
-      width: 1200, 
-      height: 630, 
-      alt: "Simulador Juros Compostos" 
-    }],
-  },
-  robots: { index: true, follow: true },
-};
+// --- 1. METADATA DINÂMICA (SEO MAXIMIZADO) ---
+export async function generateMetadata(): Promise<Metadata> {
+  const title = "Calculadora de Juros Compostos | Simulador de Investimentos Grátis";
+  const description = "Descubra o poder dos juros sobre juros. Simule seus investimentos mensais, rendimentos e planeje sua liberdade financeira em segundos. 100% Grátis.";
+
+  return {
+    title,
+    description,
+    keywords: ["calculadora juros compostos", "simulador de investimentos", "calcular rentabilidade", "juros sobre juros", "calculadora financeira", "aposentadoria"],
+    alternates: { canonical: "https://mestredascontas.com.br/financeiro/juros-compostos" },
+    openGraph: {
+      title,
+      description,
+      url: "https://mestredascontas.com.br/financeiro/juros-compostos",
+      siteName: "Mestre das Contas",
+      locale: "pt_BR",
+      type: "article" },
+    robots: {
+      index: true, follow: true,
+      googleBot: { index: true, follow: true, "max-video-preview": -1, "max-image-preview": "large", "max-snippet": -1 } } };
+}
 
 // --- FAQ LIST (DRY Content) ---
 const faqList = [
@@ -67,15 +59,7 @@ const jsonLd = {
       "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
       "description": "Ferramenta online para cálculo de juros compostos com aportes mensais e taxa de juros personalizada.",
       "featureList": "Cálculo de montante final, juros acumulados e comparação com investimento inicial.",
-      "author": { "@type": "Organization", "name": "Mestre das Contas" },
-      "aggregateRating": { 
-        "@type": "AggregateRating", 
-        "ratingValue": "4.9", 
-        "ratingCount": "6540", 
-        "bestRating": "5", 
-        "worstRating": "1" 
-      }
-    },
+      "author": { "@type": "Organization", "name": "Mestre das Contas" } },
     {
       "@type": "TechArticle",
       "headline": "O Poder dos Juros Compostos: Como Ficar Rico no Longo Prazo",
@@ -102,30 +86,10 @@ const jsonLd = {
   ]
 };
 
-type Props = { searchParams: Promise<{ [key: string]: string | string[] | undefined }> }
 
-export default async function JurosCompostosPage({ searchParams }: Props) {
-  
-  const resolvedParams = await searchParams;
-  const isEmbed = resolvedParams.embed === 'true';
 
-  // --- LAYOUT EMBED (Visual Iframe Limpo) ---
-  if (isEmbed) {
-    return (
-        <main className="w-full min-h-screen bg-white p-2 flex flex-col items-center justify-start font-sans">
-            <div className="w-full max-w-3xl">
-                <Suspense fallback={<div className="p-10 text-center animate-pulse text-slate-400">Carregando Calculadora...</div>}>
-                    <CompoundInterestCalculator />
-                </Suspense>
-                <div className="mt-4 text-center border-t border-slate-100 pt-3">
-                    <Link href="https://mestredascontas.com.br/financeiro/juros-compostos" target="_blank" className="text-[10px] text-slate-400 hover:text-green-600 uppercase font-bold tracking-wider transition-colors flex items-center justify-center gap-1">
-                        <TrendingUp size={10} /> Powered by Mestre das Contas
-                    </Link>
-                </div>
-            </div>
-        </main>
-    );
-  }
+export default async function JurosCompostosPage() {
+
 
   // --- LAYOUT COMPLETO DA PÁGINA ---
   return (
@@ -144,8 +108,6 @@ export default async function JurosCompostosPage({ searchParams }: Props) {
           variant="default" // Azul/Indigo para Finanças
           categoryColor="blue"
           badge="Atualizado 2026"
-          rating={4.9}
-          reviews={6540}
           breadcrumbs={[
             { label: "Financeiro", href: "/financeiro" },
             { label: "Juros Compostos" }
@@ -169,17 +131,10 @@ export default async function JurosCompostosPage({ searchParams }: Props) {
         {/* --- FERRAMENTA PRINCIPAL --- */}
         <section id="ferramenta" className="scroll-mt-28 w-full max-w-full">
           <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/40 dark:shadow-none p-1 md:p-2">
-              <Suspense fallback={
-                <div className="h-96 w-full bg-slate-50 dark:bg-slate-800 rounded-2xl animate-pulse flex items-center justify-center text-slate-400">
-                    <div className="flex flex-col items-center gap-2">
-                        <Calculator className="animate-bounce text-slate-300" size={32}/>
-                        <span>Carregando ferramenta...</span>
-                    </div>
-                </div>
-              }>
                   <PrivacyBadge />
-                  <CompoundInterestCalculator />
-              </Suspense>
+                  <Suspense fallback={<div className="h-96 w-full bg-slate-100 dark:bg-slate-800 animate-pulse rounded-3xl" />}>
+                      <CompoundInterestCalculator />
+                  </Suspense>
           </div>
           
           <div className="mt-8 print:hidden max-w-5xl mx-auto">
@@ -234,6 +189,46 @@ export default async function JurosCompostosPage({ searchParams }: Props) {
                   <p className="text-xs text-emerald-600 mt-2 text-right font-bold">Crescimento Exponencial</p>
               </div>
           </div>
+
+            <h3 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mt-10 mb-4 flex items-center gap-3">
+                <Landmark className="text-blue-600 dark:text-blue-500" /> Onde investir para ganhar Juros Compostos?
+            </h3>
+            <p className="mb-6">Nem todo investimento é igual. Veja a rentabilidade média (histórica) dos principais ativos do mercado brasileiro:</p>
+            
+            <div className="overflow-x-auto mb-10 not-prose">
+                <table className="w-full text-sm text-left border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-sm">
+                    <thead className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200">
+                        <tr>
+                            <th className="p-4 font-bold border-b border-slate-200 dark:border-slate-700">Ativo / Investimento</th>
+                            <th className="p-4 font-bold border-b border-slate-200 dark:border-slate-700">Rentabilidade (Estimada)</th>
+                            <th className="p-4 font-bold border-b border-slate-200 dark:border-slate-700">Liquidez</th>
+                        </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-slate-700 dark:text-slate-300">
+                        <tr className="hover:bg-slate-50 dark:hover:bg-slate-900/50 transition-colors">
+                            <td className="p-4 font-bold">Poupança</td>
+                            <td className="p-4 text-red-600 dark:text-red-400">0,5% + TR ao mês</td>
+                            <td className="p-4">D+0 (Imediata)</td>
+                        </tr>
+                        <tr className="hover:bg-slate-50 dark:hover:bg-slate-900/50 transition-colors bg-blue-50/20 dark:bg-blue-900/10">
+                            <td className="p-4 font-bold">CDB 100% CDI</td>
+                            <td className="p-4 text-emerald-600 dark:text-emerald-400 font-bold">~0,85% ao mês</td>
+                            <td className="p-4">D+0 ou D+1</td>
+                        </tr>
+                        <tr className="hover:bg-slate-50 dark:hover:bg-slate-900/50 transition-colors">
+                            <td className="p-4 font-bold">Tesouro Selic</td>
+                            <td className="p-4 text-emerald-600 dark:text-emerald-400 font-bold">~0,86% ao mês</td>
+                            <td className="p-4">D+1</td>
+                        </tr>
+                        <tr className="hover:bg-slate-50 dark:hover:bg-slate-900/50 transition-colors">
+                            <td className="p-4 font-bold">Ações / FIIs (Médio Prazo)</td>
+                            <td className="p-4 font-black">1% a 2% ao mês (Variável)</td>
+                            <td className="p-4">D+2</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p className="mt-2 text-[10px] text-slate-400 text-center italic">* Valores baseados na taxa Selic de 2024/2025. Investimentos em renda variável possuem risco.</p>
+            </div>
 
           <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100 mt-10 mb-6 flex items-center gap-2">
               <FileText className="text-blue-500" /> A Fórmula Matemática (Simplificada)

@@ -41,8 +41,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
             title: `Renda de ${formatted}: Qual minha classe social?`,
             description: `Se você ganha ${formatted}, veja se está acima ou abaixo da média brasileira.`,
             url: `https://mestredascontas.com.br/financeiro/comparador-salario/${valor}`,
-            type: "article",
-        }
+            type: "article" }
     };
 }
 
@@ -71,15 +70,7 @@ export default async function PseoSalaryComparatorPage({ params }: Props) {
                 "description": `Ferramenta que analisa o poder de compra de um salário de ${formatted} no Brasil.`,
                 "applicationCategory": "FinanceApplication",
                 "operatingSystem": "Web Browser",
-                "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
-                "aggregateRating": {
-                    "@type": "AggregateRating",
-                    "ratingValue": "4.9",
-                    "ratingCount": "2340",
-                    "bestRating": "5",
-                    "worstRating": "1"
-                }
-            },
+                "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" } },
             {
                 "@type": "HowTo",
                 "name": `Como saber se ganho bem com ${formatted}`,
@@ -110,9 +101,7 @@ export default async function PseoSalaryComparatorPage({ params }: Props) {
                         { label: "Comparador", href: "/financeiro/comparador-salario" },
                         { label: formatted }
                     ]}
-                    rating={4.9}
-                    reviews={2340}
-                />
+                    />
             </div>
 
             <div className="flex flex-col gap-8 px-4 sm:px-6 max-w-7xl mx-auto w-full">
@@ -145,7 +134,9 @@ export default async function PseoSalaryComparatorPage({ params }: Props) {
                         <PrivacyBadge />
                     </div>
                     
-                    <SalaryComparator initialValue={salaryNum} />
+                    <Suspense fallback={<div className="h-96 w-full bg-slate-100 dark:bg-slate-800 animate-pulse rounded-3xl" />}>
+                        <SalaryComparator initialValue={salaryNum} />
+                    </Suspense>
 
                     <div className="mt-8 max-w-2xl mx-auto">
                         <DisclaimerBox />

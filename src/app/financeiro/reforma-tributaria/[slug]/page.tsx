@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import { calculateTaxReform } from "@/lib/calculators/tax-reform";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { Suspense } from "react";
@@ -18,35 +19,23 @@ import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
 // --- STATIC GENERATION (pSEO) ---
 export async function generateStaticParams() {
   return reformData.map((item) => ({
-    slug: item.slug,
-  }));
+    slug: item.slug }));
 }
 
 type Props = {
   params: Promise<{ slug: string }>;
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 };
 
 // --- METADATA DINÂMICA (TURBINADA) ---
-export async function generateMetadata({ params, searchParams }: Props): Promise<Metadata> {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const resolvedParams = await params;
-  const resolvedSearchParams = await searchParams;
   const slug = resolvedParams.slug;
   const data = reformData.find((p) => p.slug === slug);
   
   if (!data) return {};
 
-  const valor = resolvedSearchParams.valor ? parseFloat(resolvedSearchParams.valor as string) : 0;
-  
-  let title = `${data.title} na Reforma Tributária: Vai Aumentar? (Simulador 2026)`;
-  let description = `O imposto para ${data.jobTitle} vai subir ou cair com o IVA? Faça a simulação gratuita e veja o impacto exato no seu bolso. Comparativo Oficial ${new Date().getFullYear()}.`;
-
-  // SEO DINÂMICO DE COMPARTILHAMENTO
-  if (valor > 0) {
-      const valorFormatado = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(valor);
-      title = `Ganho ${valorFormatado} como ${data.jobTitle}: Quanto vou pagar de imposto?`;
-      description = `Resultado da Simulação: Veja quanto sobra líquido de um faturamento de ${valorFormatado} no novo sistema (CBS + IBS). Clique para conferir.`;
-  }
+  const title = `${data.title} na Reforma Tributária: Vai Aumentar? (Simulador 2026)`;
+  const description = `O imposto para ${data.jobTitle} vai subir ou cair com o IVA? Faça a simulação gratuita e veja o impacto exato no seu bolso. Comparativo Oficial ${new Date().getFullYear()}.`;
 
   return {
     title,
@@ -65,32 +54,22 @@ export async function generateMetadata({ params, searchParams }: Props): Promise
                 url: `https://mestredascontas.com.br/opengraph-image`, 
                 width: 1200,
                 height: 630,
-                alt: data.title,
-            }
+                alt: data.title }
         ]
     }
   };
 }
 
-export default async function ReformPage({ params, searchParams }: Props) {
+export default async function ReformPage({ params }: Props) {
   const resolvedParams = await params;
-  const resolvedSearchParams = await searchParams;
   const slug = resolvedParams.slug;
   const data = reformData.find((p) => p.slug === slug);
 
   if (!data) return notFound();
 
-  // Define valor inicial: Prioridade URL > Categoria > Default
-  let simulationValue = 10000;
-  if(resolvedSearchParams.valor) {
-      simulationValue = parseFloat(resolvedSearchParams.valor as string);
-  } else {
-      simulationValue = data.category === 'seletivo' || data.category === 'cesta' ? 100 : 10000;
-  }
-
-  // --- LÓGICA DE "PSEUDO-DADOS" PARA PROVA SOCIAL ---
-  const baseCount = 800 + (slug.length * 42); 
-  const ratingValue = (4.7 + (slug.length % 3) / 10).toFixed(1); 
+  // Define valor inicial estático
+  const simulationValue = data.category === 'seletivo' || data.category === 'cesta' ? 100 : 10000;
+  const initialResult = calculateTaxReform(simulationValue, data.category, data.currentTax);
 
   // --- DADOS ESTRUTURADOS (JSON-LD TURBINADO) ---
   const jsonLd = {
@@ -105,15 +84,7 @@ export default async function ReformPage({ params, searchParams }: Props) {
         "author": { "@type": "Organization", "name": "Mestre das Contas", "url": "https://mestredascontas.com.br" },
         "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL", "availability": "https://schema.org/InStock" },
         "featureList": ["Cálculo de IVA Dual", "Simulação de Cashback", "Estimativa de Carga Tributária", "Split Payment"],
-        "screenshot": "https://mestredascontas.com.br/opengraph-image",
-        "aggregateRating": { 
-          "@type": "AggregateRating", 
-          "ratingValue": ratingValue, 
-          "ratingCount": baseCount, 
-          "bestRating": "5", 
-          "worstRating": "1" 
-        }
-      },
+        "screenshot": "https://mestredascontas.com.br/opengraph-image" },
       {
         "@type": "BreadcrumbList",
         "itemListElement": [
@@ -347,6 +318,7 @@ export default async function ReformPage({ params, searchParams }: Props) {
                         initialCategory={data.category} 
                         initialValue={simulationValue}
                         initialCargaAtual={data.currentTax} 
+                        initialResult={initialResult}
                         hideTitle={true}
                     />
                 </Suspense>

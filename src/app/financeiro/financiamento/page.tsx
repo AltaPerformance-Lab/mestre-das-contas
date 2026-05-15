@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import FinancingCalculator from "@/components/calculators/FinancingCalculator";
+import { calculateFinancing } from "@/lib/calculators/financing";
 import LazyAdUnit from "@/components/ads/LazyAdUnit";
 import DisclaimerBox from "@/components/ui/DisclaimerBox";
 import PageHeader from "@/components/layout/PageHeader";
@@ -16,8 +17,8 @@ import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
 
 // --- 1. METADATA DE ALTO VALOR (SEO 2026) ---
 export const metadata: Metadata = {
-  title: "Simulador de Financiamento 2026 | Veículos e Imóveis (Price/SAC)",
-  description: "Não feche negócio no escuro. Simule parcelas de carros e casas, compare Tabela Price vs SAC e descubra os juros reais (CET) do seu contrato em 2026.",
+  title: "Simulador de Financiamento 2026 | Price vs SAC",
+  description: "Não feche negócio no escuro. Simule parcelas de carros e casas, compare Tabela Price vs SAC e economize milhares de reais em juros em 2026.",
   keywords: [
     "simulador financiamento veiculo", 
     "calcular financiamento imobiliario", 
@@ -35,13 +36,10 @@ export const metadata: Metadata = {
     siteName: "Mestre das Contas",
     locale: "pt_BR",
     type: "article",
-    images: [{ url: "https://mestredascontas.com.br/opengraph-image", width: 1200, height: 630, alt: "Simulador de Financiamento" }],
-  },
+    images: [{ url: "https://mestredascontas.com.br/opengraph-image", width: 1200, height: 630, alt: "Simulador de Financiamento" }] },
   robots: {
     index: true, follow: true,
-    googleBot: { index: true, follow: true, "max-video-preview": -1, "max-image-preview": "large", "max-snippet": -1 },
-  },
-};
+    googleBot: { index: true, follow: true, "max-video-preview": -1, "max-image-preview": "large", "max-snippet": -1 } } };
 
 // --- LISTA FAQ (Conteúdo Rico) ---
 const faqList = [
@@ -52,12 +50,7 @@ const faqList = [
     { q: "Qual o score ideal para financiar?", a: "Geralmente, um Score acima de 700 pontos garante taxas melhores. Abaixo de 500 pontos, a aprovação é difícil ou os juros serão muito elevados devido ao risco de inadimplência." }
 ];
 
-type Props = { searchParams: Promise<{ [key: string]: string | string[] | undefined }> }
-
-export default async function FinanciamentoPage({ searchParams }: Props) {
-  
-  const resolvedParams = await searchParams;
-  const isEmbed = resolvedParams.embed === 'true';
+export default async function FinanciamentoPage() {
 
   // --- DADOS ESTRUTURADOS (JSON-LD) "POWER COMBO" ---
   const jsonLd = {
@@ -69,15 +62,7 @@ export default async function FinanciamentoPage({ searchParams }: Props) {
         "applicationCategory": "FinanceApplication",
         "operatingSystem": "Web",
         "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
-        "description": "Simulador profissional de financiamento para veículos e imóveis com comparação de sistemas de amortização.",
-        "aggregateRating": {
-            "@type": "AggregateRating",
-            "ratingValue": "4.9",
-            "ratingCount": "1420",
-            "bestRating": "5",
-            "worstRating": "1"
-        }
-      },
+        "description": "Simulador profissional de financiamento para veículos e imóveis com comparação de sistemas de amortização." },
       {
         "@type": "Article",
         "headline": "Financiamento: O Guia Definitivo para Economizar Juros",
@@ -98,23 +83,6 @@ export default async function FinanciamentoPage({ searchParams }: Props) {
     ]
   };
 
-  // --- MODO EMBED (Para uso em iframes externos) ---
-  if (isEmbed) {
-    return (
-        <main className="w-full min-h-screen bg-slate-50 p-2 flex flex-col items-center justify-start font-sans">
-            <div className="w-full max-w-3xl">
-                <Suspense fallback={<div className="p-10 text-center animate-pulse text-slate-400">Carregando Simulador...</div>}>
-                    <FinancingCalculator />
-                </Suspense>
-                <div className="mt-4 text-center border-t border-slate-200 pt-3">
-                    <Link href="https://mestredascontas.com.br/financeiro/financiamento" target="_blank" className="text-[10px] text-slate-400 hover:text-blue-600 uppercase font-bold tracking-wider flex items-center justify-center gap-1 transition-colors">
-                        <Banknote size={10} /> Powered by Mestre das Contas
-                    </Link>
-                </div>
-            </div>
-        </main>
-    );
-  }
 
   // --- MODO PÁGINA COMPLETA ---
   return (
@@ -133,8 +101,6 @@ export default async function FinanciamentoPage({ searchParams }: Props) {
           variant="default" // Azul Institucional
           categoryColor="blue"
           badge="Atualizado 2026"
-          rating={4.9}
-          reviews={1420}
           breadcrumbs={[
             { label: "Financeiro", href: "/financeiro" },
             { label: "Financiamento" }
@@ -158,18 +124,10 @@ export default async function FinanciamentoPage({ searchParams }: Props) {
         {/* --- FERRAMENTA PRINCIPAL --- */}
         <section id="ferramenta" className="scroll-mt-28 w-full max-w-full">
           <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/40 dark:shadow-none p-1 md:p-2">
-              <Suspense fallback={
-                <div className="h-96 w-full bg-slate-50 dark:bg-slate-800 rounded-2xl animate-pulse flex items-center justify-center text-slate-400">
-                    <div className="flex flex-col items-center gap-2">
-                        <Calculator className="animate-bounce text-slate-300" size={32}/>
-                        <span>Carregando simulador...</span>
-                    </div>
-                </div>
-              }>
-                  {/* Usando a calculadora genérica configurada mentalmente pelo usuário para veículos (Price padrão) */}
                   <PrivacyBadge />
-                  <FinancingCalculator />
-              </Suspense>
+                  <Suspense fallback={<div className="h-96 w-full bg-slate-100 dark:bg-slate-800 animate-pulse rounded-3xl" />}>
+                    <FinancingCalculator />
+                  </Suspense>
           </div>
           
           <div className="mt-6 print:hidden max-w-5xl mx-auto">

@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
@@ -13,8 +14,7 @@ import { Home, ArrowLeft, CalendarDays, TrendingUp, Briefcase } from "lucide-rea
 // --- SSG ---
 export async function generateStaticParams() {
     return rentPSeoCases.map((customCase) => ({
-        slug: customCase.slug,
-    }));
+        slug: customCase.slug }));
 }
 
 // --- METADATA ---
@@ -33,8 +33,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
             title: `Reajuste Aluguel ${customCase.monthYear}`,
             description: customCase.description,
             url: `https://mestredascontas.com.br/financeiro/reajuste-aluguel/${slug}`,
-            type: "article",
-        }
+            type: "article" }
     };
 }
 
@@ -56,9 +55,7 @@ export default async function RentPSeoPage({ params }: { params: Promise<{ slug:
                 "applicationCategory": "FinanceApplication",
                 "operatingSystem": "Web Browser",
                 "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
-                "description": customCase.description,
-                "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.8", "ratingCount": "850", "bestRating": "5", "worstRating": "1" }
-            },
+                "description": customCase.description },
             {
                 "@type": "HowTo",
                 "name": `Como calcular reajuste de aluguel (${customCase.monthYear})`,
@@ -113,9 +110,7 @@ export default async function RentPSeoPage({ params }: { params: Promise<{ slug:
                         { label: "Aluguel", href: "/financeiro/reajuste-aluguel" },
                         { label: customCase.monthYear }
                     ]}
-                    rating={4.8}
-                    reviews={850}
-                />
+                    />
             </div>
 
             <div className="flex flex-col gap-8 px-4 sm:px-6 max-w-7xl mx-auto w-full">
@@ -148,11 +143,9 @@ export default async function RentPSeoPage({ params }: { params: Promise<{ slug:
                     
                     {/* Passamos os valores fixos do pSEO */}
                     <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/40 dark:shadow-none p-4 md:p-8">
-                        <RentCalculator 
-                            initialIgpm={customCase.igpm}
-                            initialIpca={customCase.ipca}
-                            periodLabel={customCase.monthYear}
-                        />
+                        <Suspense fallback={<div className="h-96 w-full bg-slate-100 dark:bg-slate-800 animate-pulse rounded-3xl" />}>
+                            <RentCalculator />
+                        </Suspense>
                          <div className="mt-8 border-t border-slate-100 dark:border-slate-800 pt-6">
                             <DisclaimerBox />
                         </div>

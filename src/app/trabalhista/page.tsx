@@ -23,17 +23,14 @@ export const metadata: Metadata = {
     "direitos do trabalhador"
   ],
   alternates: {
-    canonical: "https://mestredascontas.com.br/trabalhista",
-  },
+    canonical: "https://mestredascontas.com.br/trabalhista" },
   openGraph: {
     title: "Portal de Cálculos Trabalhistas - Mestre das Contas",
     description: "Todas as ferramentas para você conferir seus direitos. Não deixe dinheiro na mesa.",
     url: "https://mestredascontas.com.br/trabalhista",
     siteName: "Mestre das Contas",
     locale: "pt_BR",
-    type: "website",
-  },
-};
+    type: "website" } };
 
 // --- SCHEMA.ORG (COLLECTION) ---
 const jsonLd = {

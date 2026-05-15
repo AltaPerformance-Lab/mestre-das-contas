@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -26,6 +27,26 @@ export default function WhatsAppGenerator({ initialPhone = "", initialMessage = 
   
   // Referência para o CONTAINER de scroll, não para o fim da página
   const chatContainerRef = useRef<HTMLDivElement>(null);
+  const searchParams = useSearchParams();
+
+  // Hydrate from URL
+  useEffect(() => {
+    const n = searchParams.get('num');
+    const m = searchParams.get('msg');
+
+    if (n) {
+        // Apply mask
+        let value = n.replace(/\D/g, "");
+        if (value.length > 11) value = value.slice(0, 11);
+        setCleanNum(value);
+        let masked = value;
+        if (value.length > 10) masked = value.replace(/^(\d{2})(\d{5})(\d{4}).*/, "($1) $2-$3");
+        else if (value.length > 5) masked = value.replace(/^(\d{2})(\d{4})(\d{0,4}).*/, "($1) $2-$3");
+        else if (value.length > 2) masked = value.replace(/^(\d{2})(\d{0,5}).*/, "($1) $2");
+        setPhone(masked);
+    }
+    if (m) setMessage(decodeURIComponent(m));
+  }, [searchParams]);
 
   // Formata telefone (Máscara BR)
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {

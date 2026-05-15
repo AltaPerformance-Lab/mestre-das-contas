@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Suspense } from "react";
 import ImageConverter from "@/components/tools/ImageConverter";
 import LazyAdUnit from "@/components/ads/LazyAdUnit";
 import DisclaimerBox from "@/components/ui/DisclaimerBox";
@@ -18,8 +19,7 @@ import FeaturedTools from "@/components/home/FeaturedTools";
 // --- GERAÇÃO ESTÁTICA (pSEO) ---
 export async function generateStaticParams() {
   return conversionData.map((item) => ({
-    slug: item.slug,
-  }));
+    slug: item.slug }));
 }
 
 type Props = { params: Promise<{ slug: string }> };
@@ -41,8 +41,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description: data.desc,
       url: `https://mestredascontas.com.br/ferramentas/conversor-imagem/${slug}`,
       siteName: "Mestre das Contas",
-      type: "website",
-    }
+      type: "website" }
   };
 }
 
@@ -62,9 +61,7 @@ export default async function ConversionPage({ params }: Props) {
         "applicationCategory": "MultimediaApplication",
         "operatingSystem": "Web Browser",
         "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
-        "description": `Ferramenta online para converter imagens ${data.from} para ${data.to} gratuitamente e com segurança.`,
-        "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.9", "ratingCount": "1205", "bestRating": "5", "worstRating": "1" }
-      },
+        "description": `Ferramenta online para converter imagens ${data.from} para ${data.to} gratuitamente e com segurança.` },
       {
         "@type": "HowTo",
         "name": `Como converter ${data.from} para ${data.to} passo a passo`,
@@ -132,7 +129,9 @@ export default async function ConversionPage({ params }: Props) {
         {/* FERRAMENTA (Com pre-set do destino) */}
         <section id="ferramenta" className="scroll-mt-28 w-full max-w-full relative z-10">
            <PrivacyBadge />
-           <ImageConverter initialTarget={data.to.toLowerCase()} />
+           <Suspense fallback={<div className="h-96 w-full bg-slate-100 dark:bg-slate-800 animate-pulse rounded-3xl" />}>
+              <ImageConverter initialTarget={data.to.toLowerCase()} />
+           </Suspense>
            <div className="mt-8 print:hidden max-w-5xl mx-auto"><DisclaimerBox /></div>
         </section>
 

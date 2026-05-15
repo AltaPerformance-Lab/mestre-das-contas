@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import Link from "next/link";
@@ -18,8 +19,7 @@ import { receiptCases } from "@/data/receipt-cases";
 // --- GERAÇÃO ESTÁTICA ---
 export async function generateStaticParams() {
   return receiptCases.map((item) => ({
-    slug: item.slug,
-  }));
+    slug: item.slug }));
 }
 
 type Props = { params: Promise<{ slug: string }> };
@@ -41,9 +41,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description: data.desc,
       url: `https://mestredascontas.com.br/ferramentas/gerador-recibo/${slug}`,
       siteName: "Mestre das Contas",
-      type: "website",
-    },
-  };
+      type: "website" } };
 }
 
 export default async function ReceiptCasePage({ params }: Props) {
@@ -62,9 +60,7 @@ export default async function ReceiptCasePage({ params }: Props) {
         "applicationCategory": "BusinessApplication",
         "operatingSystem": "Web Browser",
         "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
-        "description": data.desc,
-        "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.9", "ratingCount": "850", "bestRating": "5", "worstRating": "1" }
-      },
+        "description": data.desc },
       {
         "@type": "HowTo",
         "name": `Como preencher e imprimir ${data.title}`,
@@ -132,7 +128,9 @@ export default async function ReceiptCasePage({ params }: Props) {
         {/* FERRAMENTA JÁ PREENCHIDA */}
         <section id="ferramenta" className="scroll-mt-28 w-full max-w-full relative z-10">
            <PrivacyBadge />
-           <ReceiptGenerator initialValues={data.prefill} />
+           <Suspense fallback={<div className="h-96 w-full bg-slate-100 dark:bg-slate-800 animate-pulse rounded-3xl" />}>
+             <ReceiptGenerator initialValues={data.prefill} />
+           </Suspense>
            <div className="mt-8 print:hidden max-w-5xl mx-auto"><DisclaimerBox /></div>
         </section>
 

@@ -1,12 +1,13 @@
 import { Suspense } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
-import FinancingCalculator from "@/components/calculators/FinancingCalculator"; // Usando a calculadora base
+import FinancingCalculator from "@/components/calculators/FinancingCalculator";
+import { calculateFinancing } from "@/lib/calculators/financing";
 import LazyAdUnit from "@/components/ads/LazyAdUnit";
 import DisclaimerBox from "@/components/ui/DisclaimerBox";
 import PageHeader from "@/components/layout/PageHeader";
 import { 
-  Car, Calculator, HelpCircle, 
+  Car, Calculator, HelpCircle, BookOpen,
   TrendingUp, Wallet, CheckCircle2,
   AlertTriangle, Percent, ShieldCheck, KeyRound, 
   Landmark, ExternalLink, ArrowRight, Gauge, Fuel
@@ -14,34 +15,30 @@ import {
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
 import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
 
-// --- 1. METADATA DE ALTA PERFORMANCE (SEO 2026) ---
-export const metadata: Metadata = {
-  title: "Simulador de Financiamento de Veículos: Parcelas e Juros Reais",
-  description: "Quer comprar seu carro ou moto? Simule o financiamento (CDC), calcule o valor da parcela com juros e descubra o Custo Efetivo Total (CET) antes de ir à concessionária.",
-  keywords: [
-    "simulador financiamento veiculo", 
-    "calcular parcela carro", 
-    "financiamento moto simulador", 
-    "juros financiamento auto 2026", 
-    "tabela price veiculos", 
-    "calcular cdc veiculo",
-    "entrada financiamento carro"
-  ],
-  alternates: { canonical: "https://mestredascontas.com.br/financeiro/financiamento-veiculos" },
-  openGraph: {
-    title: "Calculadora de Financiamento de Veículos 2026",
-    description: "Simule a compra do seu carro ou moto e fuja dos juros abusivos.",
-    url: "https://mestredascontas.com.br/financeiro/financiamento-veiculos",
-    siteName: "Mestre das Contas",
-    locale: "pt_BR",
-    type: "article",
-    // images: fallen back to root
-  },
-  robots: {
-    index: true, follow: true,
-    googleBot: { index: true, follow: true, "max-video-preview": -1, "max-image-preview": "large", "max-snippet": -1 },
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const title = "Simulador de Financiamento de Veículos 2026: Parcelas e Juros";
+  const description = "Quer comprar seu carro ou moto? Simule o financiamento (CDC), calcule o valor da parcela com juros e descubra o Custo Efetivo Total (CET) antes de ir à concessionária.";
+
+  return {
+    title,
+    description,
+    keywords: [
+      "simulador financiamento veiculo", "calcular parcela carro", "financiamento moto simulador", 
+      "juros financiamento auto 2026", "tabela price veiculos", "calcular cdc veiculo",
+      "entrada financiamento carro", "cet financiamento veiculo"
+    ],
+    alternates: { canonical: "https://mestredascontas.com.br/financeiro/financiamento-veiculos" },
+    openGraph: {
+      title,
+      description,
+      url: "https://mestredascontas.com.br/financeiro/financiamento-veiculos",
+      siteName: "Mestre das Contas",
+      locale: "pt_BR",
+      type: "article" },
+    robots: {
+      index: true, follow: true,
+      googleBot: { index: true, follow: true, "max-video-preview": -1, "max-image-preview": "large", "max-snippet": -1 } } };
+}
 
 // --- LISTA FAQ (Específica Auto) ---
 const faqList = [
@@ -62,9 +59,7 @@ const jsonLd = {
       "applicationCategory": "FinanceApplication",
       "operatingSystem": "Web",
       "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
-      "description": "Ferramenta para simular parcelas de financiamento de carros e motos (CDC/Leasing).",
-      "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.8", "ratingCount": "6102", "bestRating": "5", "worstRating": "1" }
-    },
+      "description": "Ferramenta para simular parcelas de financiamento de carros e motos (CDC/Leasing)." },
     {
       "@type": "TechArticle",
       "headline": "Financiamento de Veículos: O Guia para não pagar 2 carros e levar 1",
@@ -90,7 +85,8 @@ const jsonLd = {
   ]
 };
 
-export default function FinanciamentoVeiculosPage() {
+export default async function FinanciamentoVeiculosPage() {
+
   return (
     <article className="w-full max-w-full overflow-hidden pb-12">
       
@@ -106,8 +102,6 @@ export default function FinanciamentoVeiculosPage() {
           variant="default" // Azul
           categoryColor="blue"
           badge="Cálculo CDC"
-          rating={4.8}
-          reviews={6102}
           breadcrumbs={[
             { label: "Financeiro", href: "/financeiro" },
             { label: "Financiamento Veículos" }
@@ -128,17 +122,9 @@ export default function FinanciamentoVeiculosPage() {
                <PrivacyBadge />
           </div>
           <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/40 dark:shadow-none p-1 md:p-2">
-              <Suspense fallback={
-                <div className="h-96 w-full bg-slate-50 dark:bg-slate-800 rounded-2xl animate-pulse flex items-center justify-center text-slate-400">
-                    <div className="flex flex-col items-center gap-2">
-                        <Car className="animate-bounce text-slate-300" size={32}/>
-                        <span>Carregando simulador...</span>
-                    </div>
-                </div>
-              }>
-                  {/* Usando a calculadora genérica configurada mentalmente pelo usuário para veículos (Price padrão) */}
+          <Suspense fallback={<div className="h-96 w-full bg-slate-100 dark:bg-slate-800 animate-pulse rounded-3xl" />}>
                   <FinancingCalculator />
-              </Suspense>
+          </Suspense>
           </div>
           
           <div className="mt-8 print:hidden max-w-5xl mx-auto">
@@ -193,6 +179,46 @@ export default function FinanciamentoVeiculosPage() {
                       Carros muito velhos (mais de 10 anos) têm juros mais altos. Às vezes, um carro um pouco mais novo tem um financiamento mais barato.
                   </p>
               </div>
+          </div>
+
+          <h3 className="text-xl font-bold text-slate-800 dark:text-white mt-10 mb-4 flex items-center gap-2">
+              <BookOpen className="text-blue-600 dark:text-blue-400" /> Tabela de Referência de Juros 2026
+          </h3>
+          <p className="mb-6">As taxas variam conforme o seu relacionamento com o banco e o ano do veículo. Confira as médias praticadas pelo mercado:</p>
+          
+          <div className="overflow-x-auto mb-10 not-prose">
+              <table className="w-full text-sm text-left border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-sm">
+                  <thead className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200">
+                      <tr>
+                          <th className="p-4 font-bold border-b border-slate-200 dark:border-slate-700">Perfil do Comprador</th>
+                          <th className="p-4 font-bold border-b border-slate-200 dark:border-slate-700">Taxa Mensal Estimada</th>
+                          <th className="p-4 font-bold border-b border-slate-200 dark:border-slate-700">CET Anual (Médio)</th>
+                      </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+                      <tr className="hover:bg-slate-50 dark:hover:bg-slate-900/50 transition-colors">
+                          <td className="p-4"><strong>Score Alto (800+)</strong> / Carro 0km</td>
+                          <td className="p-4 text-emerald-600 dark:text-emerald-400 font-bold">1,15% a 1,45%</td>
+                          <td className="p-4">16% a 21%</td>
+                      </tr>
+                      <tr className="hover:bg-slate-50 dark:hover:bg-slate-900/50 transition-colors">
+                          <td className="p-4"><strong>Score Médio (500-799)</strong> / Carro 0km</td>
+                          <td className="p-4 font-bold">1,50% a 1,90%</td>
+                          <td className="p-4">22% a 28%</td>
+                      </tr>
+                      <tr className="hover:bg-slate-50 dark:hover:bg-slate-900/50 transition-colors">
+                          <td className="p-4"><strong>Carros Usados (até 5 anos)</strong></td>
+                          <td className="p-4 font-bold">1,85% a 2,40%</td>
+                          <td className="p-4">27% a 38%</td>
+                      </tr>
+                      <tr className="bg-amber-50/30 dark:bg-amber-900/20 hover:bg-amber-50 dark:hover:bg-amber-900/30 transition-colors">
+                          <td className="p-4 font-bold text-amber-900 dark:text-amber-300">Carros Antigos (10 anos+)</td>
+                          <td className="p-4 text-red-600 dark:text-red-400 font-bold">2,50% a 3,80%</td>
+                          <td className="p-4 font-bold">40% a 65%</td>
+                      </tr>
+                  </tbody>
+              </table>
+              <p className="mt-2 text-[10px] text-slate-400 text-center italic">* O CET (Custo Efetivo Total) inclui taxas bancárias (TAC), IOF e seguros obrigatórios.</p>
           </div>
 
           <h3 className="text-xl font-bold text-slate-800 dark:text-white mt-10 mb-6 flex items-center gap-2">

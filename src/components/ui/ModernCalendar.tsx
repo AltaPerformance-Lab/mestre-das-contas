@@ -1,14 +1,16 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect, Suspense } from 'react';
+import { useSearchParams } from "next/navigation";
 import { 
   format, addMonths, subMonths, startOfMonth, 
   endOfMonth, startOfWeek, endOfWeek, isSameMonth, 
-  isSameDay, eachDayOfInterval
+  isSameDay, eachDayOfInterval, parseISO, isValid
 } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { ChevronLeft, ChevronRight, Calendar as CalendarIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { getMoonPhase, MOON_PHASE_DETAILS, MoonPhaseKey } from '@/lib/calculators/moon';
 
 // --- EVENTOS ASTRONÔMICOS ESPECIAIS DE 2026 ---
 const SPECIAL_EVENTS: Record<string, { label: string, color: string, glow: string }> = {
@@ -53,45 +55,38 @@ const MoonIcon = ({ phase, className, size = 24 }: { phase: string, className?: 
   );
 };
 
-// --- MAPA DE CORES E FASES UNIFICADO ---
-const PHASE_MAP = {
-  'nova': { name: 'Nova', desc: 'Início (0%)', color: 'text-slate-400 dark:text-slate-500 print:text-slate-500' },
-  'crescente-concava': { name: 'Côncava', desc: 'Despertar', color: 'text-cyan-400 print:text-slate-700' },
-  'quarto-crescente': { name: 'Crescente', desc: 'Aceleração (50%)', color: 'text-blue-500 print:text-slate-800' },
-  'crescente-convexa': { name: 'Convexa', desc: 'Expansão', color: 'text-indigo-400 print:text-slate-800' },
-  'cheia': { name: 'Cheia', desc: 'Auge (100%)', color: 'text-yellow-400 print:text-black' },
-  'minguante-convexa': { name: 'Convexa', desc: 'Absorção', color: 'text-amber-500 print:text-slate-800' },
-  'quarto-minguante': { name: 'Minguante', desc: 'Reflexão (50%)', color: 'text-orange-500 print:text-slate-800' },
-  'minguante-concava': { name: 'Balsâmica', desc: 'Encerramento', color: 'text-rose-400 print:text-slate-700' },
-};
+interface ModernCalendarProps {
+  initialDate?: string; // ISO format string
+}
 
-// --- LÓGICA ASTRONÔMICA ---
-const getPhaseInfo = (date: Date) => {
-  const lp = 2551442.8; 
-  const ref = new Date(Date.UTC(2000, 0, 6, 18, 14, 0)).getTime();
-  const noon = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 12, 0, 0).getTime();
-  
-  let pNoon = ((noon - ref) / 1000) % lp / lp;
-  if (pNoon < 0) pNoon += 1;
-
-  const phaseIndex = Math.floor((pNoon + 0.0625) * 8) % 8;
-  
-  const phases = [
-    'nova', 'crescente-concava', 'quarto-crescente', 'crescente-convexa',
-    'cheia', 'minguante-convexa', 'quarto-minguante', 'minguante-concava'
-  ];
-
-  return { 
-    generalPhase: phases[phaseIndex] as keyof typeof PHASE_MAP,
-    illumination: Math.round((0.5 * (1 - Math.cos(pNoon * 2 * Math.PI))) * 100) 
+export default function ModernCalendar({ initialDate }: ModernCalendarProps) {
+  // Inicializa com a data da URL se for válida, caso contrário usa hoje
+  const parseInitialDate = () => {
+    if (initialDate) {
+      const parsed = parseISO(initialDate);
+      if (isValid(parsed)) return parsed;
+    }
+    return new Date();
   };
-};
 
-export default function ModernCalendar() {
-  const [currentMonth, setCurrentMonth] = useState(new Date());
+  const [currentMonth, setCurrentMonth] = useState(parseInitialDate);
+  const searchParams = useSearchParams();
+
+  // Hydrate from URL
+  useEffect(() => {
+    const d = searchParams.get('data');
+    const m = searchParams.get('mes');
+    const target = d || (m ? `${m}-01` : undefined);
+    if (target) {
+        const parsed = parseISO(target);
+        if (isValid(parsed)) setCurrentMonth(parsed);
+    }
+  }, [searchParams]);
+
   const today = new Date();
-  const todayInfo = getPhaseInfo(today);
-  const todayPhaseDetails = PHASE_MAP[todayInfo.generalPhase];
+  
+  const todayInfo = getMoonPhase(today);
+  const todayPhaseDetails = MOON_PHASE_DETAILS[todayInfo.phase];
 
   const days = useMemo(() => {
     const start = startOfWeek(startOfMonth(currentMonth));
@@ -102,14 +97,10 @@ export default function ModernCalendar() {
   const nextMonth = () => setCurrentMonth(addMonths(currentMonth, 1));
   const prevMonth = () => setCurrentMonth(subMonths(currentMonth, 1));
 
-  const legendItems = Object.entries(PHASE_MAP).map(([key, value]) => ({
+  const legendItems = Object.entries(MOON_PHASE_DETAILS).map(([key, value]) => ({
     id: key,
     phase: key,
-    name: value.name === 'Côncava' && key === 'crescente-concava' ? 'Cresc. Côncava' : 
-          value.name === 'Convexa' && key === 'crescente-convexa' ? 'Cresc. Convexa' :
-          value.name === 'Convexa' && key === 'minguante-convexa' ? 'Ming. Convexa' :
-          value.name === 'Balsâmica' ? 'Balsâmica' :
-          `Lua ${value.name}`,
+    name: value.name,
     desc: value.desc,
     color: value.color
   }));
@@ -169,8 +160,8 @@ export default function ModernCalendar() {
               {days.map((day, idx) => {
                   const isToday = isSameDay(day, today);
                   const isCurrentMonth = isSameMonth(day, currentMonth);
-                  const { generalPhase, illumination } = getPhaseInfo(day);
-                  const phaseDetails = PHASE_MAP[generalPhase];
+                  const { phase, illumination } = getMoonPhase(day);
+                  const phaseDetails = MOON_PHASE_DETAILS[phase];
                   
                   // Verifica se há evento astronômico neste dia
                   const dateString = format(day, 'yyyy-MM-dd');
@@ -195,7 +186,6 @@ export default function ModernCalendar() {
 
                           <div className="flex flex-col items-center gap-1 mt-4 md:mt-2 print:mt-1 w-full">
                               
-                              {/* O container do ícone recebe o Glow Dinâmico baseado na iluminação */}
                               <div 
                                 className={cn(
                                   "transition-all duration-300 transform scale-[0.8] sm:scale-90 md:scale-110 group-hover:scale-125 print:scale-100",
@@ -205,7 +195,7 @@ export default function ModernCalendar() {
                                   filter: illumination > 5 && !event ? `drop-shadow(0px 0px ${illumination / 10}px currentColor)` : 'none'
                                 }}
                               >
-                                  <MoonIcon phase={generalPhase} className={cn(phaseDetails.color, "print:text-slate-900")} size={24} />
+                                  <MoonIcon phase={phase} className={cn(phaseDetails.color, "print:text-slate-900")} size={24} />
                               </div>
                               
                               <span className={cn(

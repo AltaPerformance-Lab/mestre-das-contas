@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { useSearchParams } from "next/navigation";
 import { useReactToPrint } from "react-to-print";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
@@ -13,6 +12,7 @@ import {
   Landmark, History, CalendarClock, TrendingDown, TrendingUp, Share2
 } from "lucide-react";
 import { trackEvent } from "@/lib/analytics";
+import { calculateTaxReform, REFORM_PRESETS as PRESETS } from "@/lib/calculators/tax-reform";
 
 // --- TIPOS ---
 type HistoricoTax = {
@@ -30,21 +30,11 @@ type TimelineStep = {
   descricao: string;
 };
 
-// --- DADOS ESTÁTICOS (PRESETS) ---
-// Movido para fora do componente para não recriar a cada render
-const PRESETS: Record<string, { label: string; atual: number; iva: number }> = {
-    padrao: { label: "Produto Geral (Varejo)", atual: 34, iva: 26.5 },
-    servico: { label: "Serviços Gerais", atual: 16, iva: 26.5 }, 
-    saude: { label: "Saúde/Educação (Reduzida)", atual: 14, iva: 10.6 },
-    cesta: { label: "Cesta Básica Nacional", atual: 18, iva: 0 }, 
-    seletivo: { label: "Cigarro/Bebida (Imposto Seletivo)", atual: 80, iva: 60 },
-    imovel: { label: "Compra de Imóvel", atual: 8, iva: 15.9 }
-};
-
 interface TaxReformCalculatorProps {
   initialCategory?: string;
   initialValue?: number;
   initialCargaAtual?: number;
+  initialResult?: any;
   hideTitle?: boolean;
 }
 
@@ -52,10 +42,10 @@ export default function TaxReformCalculator({
   initialCategory = "padrao", 
   initialValue = 0, 
   initialCargaAtual, 
+  initialResult = null,
   hideTitle = false 
 }: TaxReformCalculatorProps) {
   
-  const searchParams = useSearchParams();
   const [isIframe, setIsIframe] = useState(false);
 
   // --- HELPER DE FORMATAÇÃO ---
@@ -64,19 +54,15 @@ export default function TaxReformCalculator({
     return new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(val);
   };
 
-  // --- STATES (INICIALIZAÇÃO OTIMIZADA PARA PSEO) ---
-  // A mágica acontece aqui: Iniciamos o state JÁ com o valor da prop. Sem useEffect flash.
+  // --- STATES ---
   const [valorNum, setValorNum] = useState(initialValue);
   const [valorProduto, setValorProduto] = useState(initialValue > 0 ? formatBRL(initialValue) : "");
   const [categoria, setCategoria] = useState(initialCategory);
-  
-  // Lógica inteligente para carga inicial: Prop > Preset > Padrão
   const [cargaAtual, setCargaAtual] = useState(() => {
       if (initialCargaAtual) return initialCargaAtual.toString();
       return (PRESETS[initialCategory]?.atual || 34).toString();
   });
-
-  const [resultado, setResultado] = useState<any>(null);
+  const [resultado, setResultado] = useState<any>(initialResult);
 
   // --- STATES FUNCIONALIDADES ---
   const [historico, setHistorico] = useState<HistoricoTax[]>([]);
@@ -92,64 +78,17 @@ export default function TaxReformCalculator({
     pageStyle: `@page { size: auto; margin: 0mm; } @media print { body { -webkit-print-color-adjust: exact; } }`
   });
 
-  // --- FUNÇÃO DE CÁLCULO ---
-  const calcular = (V = valorNum, Cat = categoria, cargaStr = cargaAtual) => {
-    if (!V || isNaN(V)) return;
-
-    const regra = PRESETS[Cat] || PRESETS["padrao"];
-    
-    // Define a taxa antiga (prioriza o input manual do usuário se houver)
-    let taxaAntigaPct = parseFloat(cargaStr);
-    if (isNaN(taxaAntigaPct)) taxaAntigaPct = regra.atual;
-
-    const taxaNovaPct = regra.iva;
-    const impostoAtual = V * (taxaAntigaPct / 100);
-    const impostoNovo = V * (taxaNovaPct / 100);
-    const diferenca = impostoNovo - impostoAtual;
-    const variacao = impostoAtual > 0 ? ((impostoNovo - impostoAtual) / impostoAtual) * 100 : 0;
-
-    const timeline: TimelineStep[] = [];
-    timeline.push({
-        ano: "2025", fase: "Sistema Antigo", impostoEstimado: impostoAtual, valorTotal: formatBRL(impostoAtual),
-        descricao: `Carga cheia de PIS, COFINS, ICMS, ISS e IPI (~${taxaAntigaPct}%).`
-    });
-    timeline.push({
-        ano: "2026 (Hoje)", fase: "Fase de Testes", impostoEstimado: impostoAtual, valorTotal: formatBRL(impostoAtual),
-        descricao: "Início da cobrança de 1% (IVA) compensável. Carga inalterada."
-    });
-    const step2027 = impostoAtual + ((impostoNovo - impostoAtual) * 0.30);
-    timeline.push({
-        ano: "2027", fase: "Entra a CBS", impostoEstimado: step2027, valorTotal: formatBRL(step2027),
-        descricao: "Fim do PIS/COFINS. Entra a CBS federal completa."
-    });
-    const step2030 = impostoAtual + ((impostoNovo - impostoAtual) * 0.65);
-    timeline.push({
-        ano: "2030", fase: "Transição Gradual", impostoEstimado: step2030, valorTotal: formatBRL(step2030),
-        descricao: "Redução do ICMS/ISS e aumento proporcional do IBS."
-    });
-    timeline.push({
-        ano: "2033", fase: "Implementação Total", impostoEstimado: impostoNovo, valorTotal: formatBRL(impostoNovo),
-        descricao: `Vigência integral do novo sistema (${taxaNovaPct}% IVA).`
-    });
-
-    const novoResultado = {
-        atual: { taxa: taxaAntigaPct, valor: formatBRL(impostoAtual) },
-        novo: { taxa: taxaNovaPct, valor: formatBRL(impostoNovo) },
-        diferencaValor: formatBRL(Math.abs(diferenca)),
-        diferencaPercent: isNaN(variacao) ? "0%" : variacao.toFixed(1) + "%",
-        situacao: diferenca > 0 ? "Aumento" : "Redução",
-        categoriaLabel: regra.label,
-        rawValor: V, rawCat: Cat, timeline: timeline 
-    };
-
-    setResultado(novoResultado);
-    trackEvent("calculate_reforma", { valor: V, categoria: Cat, situacao: diferenca > 0 ? "Aumento" : "Redução" });
-    if (!isIframe) salvarHistorico(novoResultado);
+  // --- HANDLERS ---
+  const handleCalcular = (V = valorNum, Cat = categoria, cargaStr = cargaAtual) => {
+    const res = calculateTaxReform(V, Cat, parseFloat(cargaStr));
+    if (res) {
+        setResultado(res);
+        trackEvent("calculate_reforma", { valor: V, categoria: Cat, situacao: res.situacao });
+        if (!isIframe) salvarHistorico(res);
+    }
   };
 
   // --- EFEITOS ---
-  
-  // 1. Inicialização e URL Params (Prioridade: URL > Prop > Vazio)
   useEffect(() => {
     setIsIframe(window.self !== window.top);
     setDataAtual(new Date().toLocaleDateString("pt-BR"));
@@ -157,27 +96,12 @@ export default function TaxReformCalculator({
     const salvo = localStorage.getItem("historico_tax");
     if (salvo) setHistorico(JSON.parse(salvo));
 
-    // Se veio via prop (pSEO), calcula imediatamente
-    if (initialValue > 0) {
-        calcular(initialValue, initialCategory, initialCargaAtual?.toString());
-    } else {
-        // Se não tem prop, olha a URL (Share)
-        const urlValor = searchParams.get("valor");
-        const urlCat = searchParams.get("cat");
-        
-        if (urlValor) {
-            const val = parseFloat(urlValor);
-            setValorNum(val);
-            setValorProduto(formatBRL(val));
-            if (urlCat) setCategoria(urlCat);
-            // Pequeno delay para garantir estados atualizados
-            setTimeout(() => calcular(val, urlCat || "padrao"), 200);
-        }
+    // Se temos valores iniciais mas não o resultado, calcula imediatamente
+    if (initialValue > 0 && !resultado) {
+        handleCalcular(initialValue, initialCategory, initialCargaAtual?.toString());
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); // Executa apenas na montagem
+  }, [initialValue, initialCategory, initialCargaAtual]);
 
-  // 2. Atualiza carga estimada ao trocar categoria (apenas se usuário não digitou customizado)
   const handleCategoriaChange = (novaCat: string) => {
       setCategoria(novaCat);
       if (PRESETS[novaCat]) {
@@ -185,7 +109,6 @@ export default function TaxReformCalculator({
       }
   };
 
-  // --- HANDLERS ---
   const formatarMoedaInput = (valor: string) => {
     const apenasNumeros = valor.replace(/\D/g, "");
     if (apenasNumeros === "") return { display: "", value: 0 };
@@ -213,7 +136,6 @@ export default function TaxReformCalculator({
   };
 
   const handleAction = (action: string) => {
-      // BLINDAGEM IFRAME: Joga pro site principal
       if (isIframe) {
           window.open(`https://mestredascontas.com.br/financeiro/reforma-tributaria`, '_blank');
           return;
@@ -242,7 +164,7 @@ export default function TaxReformCalculator({
     <div className="w-full font-sans">
       <div className="grid lg:grid-cols-12 gap-8 w-full print:hidden">
         
-        {/* --- INPUTS (Esq) --- */}
+        {/* --- INPUTS --- */}
         <div className="lg:col-span-5 space-y-6">
             <Card className="border-0 shadow-lg shadow-slate-200/50 dark:shadow-none ring-1 ring-slate-200 dark:ring-slate-800 bg-white dark:bg-slate-900 rounded-2xl overflow-hidden sticky top-24">
                 {!hideTitle && (
@@ -297,7 +219,7 @@ export default function TaxReformCalculator({
                             className="h-8 bg-white dark:bg-slate-800 border-blue-200 dark:border-blue-700 text-blue-900 dark:text-blue-100 font-bold"
                         />
                     </div>
-                    <Button onClick={() => calcular()} className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white h-14 text-lg font-bold shadow-lg shadow-blue-200 rounded-xl transition-all active:scale-[0.99]">
+                    <Button onClick={() => handleCalcular()} className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white h-14 text-lg font-bold shadow-lg shadow-blue-200 rounded-xl transition-all active:scale-[0.99]">
                         Calcular Impacto
                     </Button>
                     
@@ -318,7 +240,7 @@ export default function TaxReformCalculator({
             </Card>
         </div>
 
-        {/* --- RESULTADO (Dir) --- */}
+        {/* --- RESULTADO --- */}
         <div className="lg:col-span-7">
             <Card className={`h-full border-0 shadow-lg shadow-slate-200/50 dark:shadow-none ring-1 ring-slate-200 dark:ring-slate-800 rounded-2xl overflow-hidden ${resultado ? 'bg-white dark:bg-slate-900' : 'bg-slate-50 dark:bg-slate-950'}`}>
                 <CardContent className="p-6 md:p-8 flex flex-col justify-center h-full">
@@ -335,7 +257,6 @@ export default function TaxReformCalculator({
                     ) : (
                         <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
                             
-                            {/* CARD DE RESULTADO */}
                             <div className={`p-6 rounded-2xl border relative overflow-hidden ${resultado.situacao === 'Redução' ? 'bg-emerald-50 dark:bg-emerald-900/10 border-emerald-200 dark:border-emerald-800' : 'bg-rose-50 dark:bg-rose-900/10 border-rose-200 dark:border-rose-800'}`}>
                                 <div className="flex flex-col sm:flex-row justify-between items-start gap-6 relative z-10">
                                     <div className="flex-1 min-w-0">
@@ -355,14 +276,13 @@ export default function TaxReformCalculator({
                                 </div>
                             </div>
 
-                            {/* TIMELINE */}
                             <div>
                                 <h3 className="font-bold text-slate-900 dark:text-slate-100 mb-6 flex items-center gap-2 text-lg">
                                     <div className="bg-blue-100 dark:bg-blue-900/30 p-1.5 rounded-lg text-blue-600 dark:text-blue-400"><CalendarClock size={20}/></div>
                                     Cronograma de Transição
                                 </h3>
                                 <div className="space-y-0 relative before:absolute before:inset-y-0 before:left-3.5 before:w-0.5 before:bg-slate-100 dark:before:bg-slate-800">
-                                    {resultado.timeline.map((step: TimelineStep, idx: number) => (
+                                    {resultado.timeline.map((step: any, idx: number) => (
                                         <div key={idx} className="relative pl-10 md:pl-12 pb-8 last:pb-0 group">
                                             <div className={`absolute left-0 w-7 h-7 rounded-full border-4 bg-white dark:bg-slate-800 mt-0 transition-all shadow-sm z-10 flex items-center justify-center ${idx === resultado.timeline.length -1 ? 'border-blue-500' : 'border-slate-200 dark:border-slate-700 group-hover:border-blue-300 dark:group-hover:border-blue-700'}`}>
                                                 <div className={`w-2 h-2 rounded-full ${idx === resultado.timeline.length -1 ? 'bg-blue-500' : 'bg-slate-300 dark:bg-slate-600'}`}></div>
@@ -389,7 +309,6 @@ export default function TaxReformCalculator({
                                 </div>
                             </div>
 
-                            {/* AÇÕES */}
                             <div className="grid grid-cols-2 gap-3 pt-2">
                                 <Button className="h-12 border-slate-200 dark:border-slate-700 hover:bg-blue-50 dark:hover:bg-blue-900/20 text-blue-700 dark:text-blue-300 font-bold bg-white dark:bg-slate-900" variant="outline" onClick={() => handleAction("share")}>
                                     {isIframe ? <span className="flex items-center gap-2"><ExternalLink size={18}/> Ver Completo</span> : 
@@ -407,7 +326,7 @@ export default function TaxReformCalculator({
         </div>
       </div>
 
-      {/* --- IMPRESSÃO (Oculto) --- */}
+      {/* --- IMPRESSÃO --- */}
       {resultado && (
         <div className="hidden print:block">
             <div ref={contentRef} className="print:w-full print:p-8 print:bg-white text-slate-900">
@@ -448,7 +367,7 @@ export default function TaxReformCalculator({
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-100">
-                            {resultado.timeline.map((step: TimelineStep, i: number) => (
+                            {resultado.timeline.map((step: any, i: number) => (
                                 <tr key={i}>
                                     <td className="p-3 font-bold">{step.ano}</td>
                                     <td className="p-3 text-slate-600">{step.fase}</td>

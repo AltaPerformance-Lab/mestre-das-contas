@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { useSearchParams } from "next/navigation";
 import { useReactToPrint } from "react-to-print";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
@@ -10,10 +9,10 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { 
   DollarSign, CalendarClock, Percent, Car, Home, Wallet,
-  Share2, Printer, History, Code2, CheckCircle2, Link as LinkIcon, X, ExternalLink,
-  ArrowDown, ArrowUp
+  Share2, Printer, History, Code2, CheckCircle2, Link as LinkIcon, X, ExternalLink
 } from "lucide-react";
 import { trackEvent } from "@/lib/analytics";
+import { calculateFinancing, type FinancingResult } from "@/lib/calculators/financing";
 
 // --- TIPAGEM ---
 type HistoricoFinanc = {
@@ -24,64 +23,52 @@ type HistoricoFinanc = {
   tipo: string;
 };
 
-type ResultadoFinanc = {
-  valorParcela: string;
-  primeiraParcela: string;
-  ultimaParcela: string;
-  totalPago: string;
-  totalJuros: string;
-  valorFinanciado: string;
-  valorBem: string;
-  valorEntrada: string;
-  tipo: string;
-  prazo: string;
-  taxa: string;
-  rawValor: number;
-  rawEntrada: number;
-  rawTaxa: number;
-  rawPrazo: number;
-  rawTipo: string;
-};
-
-// Interface para pSEO
 interface FinancingCalculatorProps {
-  initialValue?: number; // Recebe valor da URL (ex: 50000)
+    initialValue?: number;
+    initialEntrada?: number;
+    initialTaxa?: number;
+    initialPrazo?: number;
+    initialTipo?: string;
+    initialResult?: FinancingResult | null;
 }
 
-export default function FinancingCalculator({ initialValue = 0 }: FinancingCalculatorProps) {
-  const searchParams = useSearchParams();
+export default function FinancingCalculator({
+    initialValue = 0,
+    initialEntrada = 0,
+    initialTaxa = 0,
+    initialPrazo = 0,
+    initialTipo = "price",
+    initialResult = null
+}: FinancingCalculatorProps) {
   const [isIframe, setIsIframe] = useState(false);
 
-  // --- STATES DE DADOS ---
-  const [valorBem, setValorBem] = useState("");
-  const [valorBemNum, setValorBemNum] = useState(0);
-  
-  const [entrada, setEntrada] = useState("");
-  const [entradaNum, setEntradaNum] = useState(0);
+  // HELPER FORMAT
+  const formatBRL = (val: number) => new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(val);
 
-  const [taxaJuros, setTaxaJuros] = useState("");
-  const [prazoMeses, setPrazoMeses] = useState("");
-  const [tipoTabela, setTipoTabela] = useState("price"); // price ou sac
-  const [resultado, setResultado] = useState<ResultadoFinanc | null>(null);
+  // --- STATES DE DADOS ---
+  const [valorBemNum, setValorBemNum] = useState(initialValue);
+  const [valorBem, setValorBem] = useState(initialValue > 0 ? formatBRL(initialValue) : "");
+  
+  const [entradaNum, setEntradaNum] = useState(initialEntrada);
+  const [entrada, setEntrada] = useState(initialEntrada > 0 ? formatBRL(initialEntrada) : "");
+
+  const [taxaJuros, setTaxaJuros] = useState(initialTaxa > 0 ? initialTaxa.toString() : "");
+  const [prazoMeses, setPrazoMeses] = useState(initialPrazo > 0 ? initialPrazo.toString() : "");
+  const [tipoTabela, setTipoTabela] = useState(initialTipo);
+  const [resultado, setResultado] = useState<FinancingResult | null>(initialResult);
 
   // --- FUNCIONALIDADES ---
   const [historico, setHistorico] = useState<HistoricoFinanc[]>([]);
   const [copiado, setCopiado] = useState<"link" | "embed" | "result" | null>(null);
   const [showEmbedModal, setShowEmbedModal] = useState(false);
-  
-  // Estado para data (Correção de Hidratação)
   const [dataAtual, setDataAtual] = useState("");
 
   const contentRef = useRef<HTMLDivElement>(null);
   
-  // Configuração de Impressão
   const reactToPrintFn = useReactToPrint({
     contentRef,
     documentTitle: "Simulacao_Financiamento_MestreDasContas",
-    pageStyle: `
-      @page { size: auto; margin: 0mm; } 
-      @media print { body { -webkit-print-color-adjust: exact; } }
-    `
+    pageStyle: `@page { size: auto; margin: 0mm; } @media print { body { -webkit-print-color-adjust: exact; } }`
   });
 
   // --- FORMATADORES ---
@@ -105,73 +92,7 @@ export default function FinancingCalculator({ initialValue = 0 }: FinancingCalcu
     setEntradaNum(value);
   };
 
-  const formatBRL = (val: number) => new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(val);
-
-  // --- CÁLCULO CORE ---
-  const calcularCore = (
-      V: number, 
-      E: number, 
-      i_mensal: number, 
-      n: number, 
-      tipo: string
-  ) => {
-    const P = V - E;
-
-    if (P <= 0 || isNaN(i_mensal) || !n) return;
-
-    const i = i_mensal / 100;
-    let valorParcela = 0;
-    let totalPago = 0;
-    let totalJuros = 0;
-    let primeiraParcela = 0;
-    let ultimaParcela = 0;
-
-    if (tipo === "price") {
-        valorParcela = P * ( (i * Math.pow(1+i, n)) / (Math.pow(1+i, n) - 1) );
-        totalPago = valorParcela * n;
-        totalJuros = totalPago - P;
-        primeiraParcela = valorParcela;
-        ultimaParcela = valorParcela;
-    } else {
-        const amortizacao = P / n;
-        primeiraParcela = amortizacao + (P * i);
-        // Cálculo simplificado da última parcela (aproximado para SAC)
-        ultimaParcela = amortizacao + (amortizacao * i); 
-        totalPago = (n * (primeiraParcela + ultimaParcela)) / 2; 
-        totalJuros = totalPago - P;
-        valorParcela = primeiraParcela;
-    }
-
-    const novoResultado: ResultadoFinanc = {
-        valorParcela: formatBRL(valorParcela),
-        primeiraParcela: formatBRL(primeiraParcela),
-        ultimaParcela: formatBRL(ultimaParcela),
-        totalPago: formatBRL(totalPago),
-        totalJuros: formatBRL(totalJuros),
-        valorFinanciado: formatBRL(P),
-        valorBem: formatBRL(V),
-        valorEntrada: formatBRL(E),
-        tipo: tipo === "price" ? "Price (Fixas)" : "SAC (Decrescentes)",
-        prazo: `${n} meses`,
-        taxa: `${i_mensal}% a.m.`,
-        rawValor: V,
-        rawEntrada: E,
-        rawTaxa: i_mensal,
-        rawPrazo: n,
-        rawTipo: tipo
-    };
-
-    setResultado(novoResultado);
-    trackEvent("calculate_financiamento", { valor: V, prazo: n, tipo });
-    if (!isIframe) salvarHistorico(novoResultado);
-  };
-
-  // Wrapper para chamar do botão
-  const calcular = () => {
-      calcularCore(valorBemNum, entradaNum, parseFloat(taxaJuros), parseFloat(prazoMeses), tipoTabela);
-  }
-
-  // --- EFEITOS (INICIALIZAÇÃO) ---
+  // --- EFEITOS ---
   useEffect(() => {
     setIsIframe(window.self !== window.top);
     setDataAtual(new Date().toLocaleDateString("pt-BR"));
@@ -179,63 +100,29 @@ export default function FinancingCalculator({ initialValue = 0 }: FinancingCalcu
     const salvo = localStorage.getItem("historico_financ");
     if (salvo) setHistorico(JSON.parse(salvo));
 
-    // Lógica de Prioridade: pSEO (Prop) > URL Query (Share)
-    if (initialValue > 0) {
-        // Modo pSEO: Preenche e sugere valores padrão para o cálculo já aparecer
-        setValorBemNum(initialValue);
-        setValorBem(formatBRL(initialValue));
-        
-        // Sugestão inteligente: 20% entrada, 48x, 1.5% a.m.
-        const entradaSugerida = initialValue * 0.20;
-        setEntradaNum(entradaSugerida);
-        setEntrada(formatBRL(entradaSugerida));
-        
-        setTaxaJuros("1.5");
-        setPrazoMeses("48");
-        
-        // Dispara cálculo automático
-        setTimeout(() => {
-            calcularCore(initialValue, entradaSugerida, 1.5, 48, "price");
-        }, 300);
-
-    } else {
-        // Modo Share Link
-        const urlValor = searchParams.get("valor");
-        const urlEntrada = searchParams.get("entrada");
-        const urlTaxa = searchParams.get("taxa");
-        const urlPrazo = searchParams.get("prazo");
-        const urlTipo = searchParams.get("tipo");
-
-        if (urlValor && urlTaxa && urlPrazo) {
-            const val = parseFloat(urlValor);
-            const ent = urlEntrada ? parseFloat(urlEntrada) : 0;
-            
-            setValorBemNum(val);
-            setValorBem(formatBRL(val));
-            
-            setEntradaNum(ent);
-            setEntrada(formatBRL(ent));
-
-            setTaxaJuros(urlTaxa);
-            setPrazoMeses(urlPrazo);
-            if (urlTipo) setTipoTabela(urlTipo);
-
-            setTimeout(() => {
-                calcularCore(val, ent, parseFloat(urlTaxa), parseFloat(urlPrazo), urlTipo || "price");
-            }, 200);
-        }
+    // Se temos valores iniciais mas não o resultado, calcula imediatamente
+    if (initialValue > 0 && initialTaxa > 0 && initialPrazo > 0 && !resultado) {
+        handleCalcular(initialValue, initialEntrada, initialTaxa, initialPrazo, initialTipo);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchParams, initialValue]);
+  }, [initialValue, initialEntrada, initialTaxa, initialPrazo, initialTipo]);
 
-  // --- HISTÓRICO ---
-  const salvarHistorico = (res: ResultadoFinanc) => {
+  // --- HANDLERS ---
+  const handleCalcular = (V = valorBemNum, E = entradaNum, i_mensal = parseFloat(taxaJuros), n = parseFloat(prazoMeses), tipo = tipoTabela) => {
+    const res = calculateFinancing(V, E, i_mensal, n, tipo);
+    if (res) {
+        setResultado(res);
+        trackEvent("calculate_financiamento", { valor: V, prazo: n, tipo });
+        if (!isIframe) salvarHistorico(res);
+    }
+  };
+
+  const salvarHistorico = (res: FinancingResult) => {
     const novoItem: HistoricoFinanc = {
         data: new Date().toLocaleDateString("pt-BR"),
         bem: res.valorBem,
         entrada: res.valorEntrada,
-        parcela: res.tipo.includes("Price") ? res.valorParcela : `${res.primeiraParcela} (1ª)`,
-        tipo: res.tipo.includes("Price") ? "Price" : "SAC"
+        parcela: res.rawTipo === "price" ? res.valorParcela : `${res.primeiraParcela} (1ª)`,
+        tipo: res.rawTipo === "price" ? "Price" : "SAC"
     };
     const novoHistorico = [novoItem, ...historico].slice(0, 5);
     setHistorico(novoHistorico);
@@ -249,16 +136,12 @@ export default function FinancingCalculator({ initialValue = 0 }: FinancingCalcu
     setResultado(null);
   };
 
-  // --- ACTIONS BLINDADAS ---
   const handleShare = (type: "result" | "tool") => {
-    const baseUrl = `${window.location.origin}${window.location.pathname}`;
-    
-    // BLINDAGEM IFRAME
     if (isIframe) {
         window.open(`https://mestredascontas.com.br/financeiro/financiamento-veiculos`, '_blank');
         return;
     }
-
+    const baseUrl = `${window.location.origin}${window.location.pathname}`;
     let url = baseUrl;
 
     if (type === "result" && resultado) {
@@ -272,28 +155,14 @@ export default function FinancingCalculator({ initialValue = 0 }: FinancingCalcu
     }
 
     navigator.clipboard.writeText(url);
-    if (type === "result") trackEvent("share_financiamento_result");
-    else trackEvent("share_financiamento_tool");
     setCopiado(type === "result" ? "result" : "link");
     setTimeout(() => setCopiado(null), 2000);
-  };
-
-  const handlePrint = () => {
-    // BLINDAGEM IFRAME
-    if (isIframe) {
-        window.open(`https://mestredascontas.com.br/financeiro/financiamento-veiculos`, '_blank');
-        return;
-    }
-    trackEvent("print_financiamento");
-    if (reactToPrintFn) reactToPrintFn();
   };
 
   const saldoDevedor = valorBemNum - entradaNum;
 
   return (
     <div className="w-full font-sans">
-      
-      {/* GRID PRINCIPAL */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 w-full print:hidden">
         
         {/* --- COLUNA ESQUERDA: INPUTS --- */}
@@ -309,13 +178,7 @@ export default function FinancingCalculator({ initialValue = 0 }: FinancingCalcu
                     Simular Financiamento
                   </CardTitle>
                   {!isIframe && (
-                      <Button 
-                        variant="ghost" 
-                        size="sm" 
-                        onClick={() => setShowEmbedModal(true)} 
-                        className="text-slate-400 hover:text-blue-600 hover:bg-blue-50 h-8 px-2 rounded-lg"
-                        title="Incorporar no seu site"
-                      >
+                      <Button variant="ghost" size="sm" onClick={() => setShowEmbedModal(true)} className="text-slate-400 hover:text-blue-600 hover:bg-blue-50 h-8 px-2 rounded-lg" title="Incorporar no seu site">
                           <Code2 size={18} />
                       </Button>
                   )}
@@ -323,121 +186,83 @@ export default function FinancingCalculator({ initialValue = 0 }: FinancingCalcu
             </CardHeader>
             
             <CardContent className="space-y-6 p-6">
-              
-              {/* Inputs Valor e Entrada */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   <div className="space-y-2">
-                    <Label className="text-slate-600 dark:text-slate-300 font-medium">Valor do Bem (Total)</Label>
+                    <Label className="text-slate-600 dark:text-slate-300 font-medium">Valor do Bem</Label>
                     <div className="relative">
                       <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400" />
-                      <Input 
-                        placeholder="R$ 0,00" 
-                        value={valorBem} 
-                        onChange={handleValorBemChange} 
-                        className="pl-10 h-12 text-lg font-medium bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 dark:text-slate-100 focus:bg-white dark:focus:bg-slate-900 transition-colors" 
-                        inputMode="numeric"
-                      />
+                      <Input placeholder="R$ 0,00" value={valorBem} onChange={handleValorBemChange} className="pl-10 h-12 text-lg font-medium bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 dark:text-slate-100 focus:bg-white dark:focus:bg-slate-900 transition-colors" inputMode="numeric"/>
                     </div>
                   </div>
                   <div className="space-y-2">
                     <Label className="text-slate-600 dark:text-slate-300 font-medium">Valor da Entrada</Label>
                     <div className="relative">
                       <Wallet className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400" />
-                      <Input 
-                        placeholder="R$ 0,00" 
-                        value={entrada} 
-                        onChange={handleEntradaChange} 
-                        className="pl-10 h-12 text-lg font-medium bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 dark:text-slate-100 focus:bg-white dark:focus:bg-slate-900 transition-colors" 
-                        inputMode="numeric"
-                      />
+                      <Input placeholder="R$ 0,00" value={entrada} onChange={handleEntradaChange} className="pl-10 h-12 text-lg font-medium bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 dark:text-slate-100 focus:bg-white dark:focus:bg-slate-900 transition-colors" inputMode="numeric"/>
                     </div>
                   </div>
               </div>
 
-              {/* Feedback Visual Saldo */}
               {saldoDevedor > 0 && (
-                  <div className="bg-blue-50 text-blue-800 px-4 py-3 rounded-xl text-sm flex items-center justify-between border border-blue-100 animate-in fade-in">
+                  <div className="bg-blue-50 dark:bg-blue-900/20 text-blue-800 dark:text-blue-200 px-4 py-3 rounded-xl text-sm flex items-center justify-between border border-blue-100 dark:border-blue-800">
                       <span className="font-medium">Valor a Financiar:</span>
                       <span className="font-bold text-lg">{formatBRL(saldoDevedor)}</span>
                   </div>
               )}
-              {saldoDevedor < 0 && (
-                  <div className="bg-red-50 text-red-600 px-4 py-3 rounded-xl text-sm font-bold border border-red-100 animate-in fade-in flex items-center gap-2">
-                      <X size={16}/> A entrada não pode ser maior que o valor do bem!
-                  </div>
-              )}
 
-              {/* Inputs Taxa e Prazo */}
               <div className="grid grid-cols-2 gap-5">
                   <div className="space-y-2">
                       <Label className="text-slate-600 dark:text-slate-300 font-medium">Juros Mensal (%)</Label>
                       <div className="relative">
                         <Percent className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400" />
-                        <Input 
-                            type="number" 
-                            value={taxaJuros} 
-                            onChange={e => setTaxaJuros(e.target.value)} 
-                            className="pl-10 h-12 text-lg font-medium bg-slate-50 border-slate-200 focus:bg-white transition-colors" 
-                            placeholder="1.5" 
-                            inputMode="decimal"
-                        />
+                        <Input type="number" value={taxaJuros} onChange={e => setTaxaJuros(e.target.value)} className="pl-10 h-12 text-lg font-medium bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 dark:text-slate-100 focus:bg-white dark:focus:bg-slate-900 transition-colors" placeholder="1.5" inputMode="decimal"/>
                       </div>
                   </div>
                   <div className="space-y-2">
                       <Label className="text-slate-600 dark:text-slate-300 font-medium">Prazo (Meses)</Label>
                       <div className="relative">
                         <CalendarClock className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400" />
-                        <Input 
-                            type="number" 
-                            value={prazoMeses} 
-                            onChange={e => setPrazoMeses(e.target.value)} 
-                            className="pl-10 h-12 text-lg font-medium bg-slate-50 border-slate-200 focus:bg-white transition-colors" 
-                            placeholder="48" 
-                            inputMode="numeric"
-                        />
+                        <Input type="number" value={prazoMeses} onChange={e => setPrazoMeses(e.target.value)} className="pl-10 h-12 text-lg font-medium bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 dark:text-slate-100 focus:bg-white dark:focus:bg-slate-900 transition-colors" placeholder="48" inputMode="numeric"/>
                       </div>
                   </div>
               </div>
 
               <div className="space-y-2">
-                  <Label className="text-slate-600 dark:text-slate-300 font-medium">Sistema de Amortização</Label>
+                  <Label className="text-slate-600 dark:text-slate-300 font-medium">Amortização</Label>
                   <Select value={tipoTabela} onValueChange={setTipoTabela}>
-                      <SelectTrigger className="h-12 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-100 font-medium text-base">
+                      <SelectTrigger className="h-12 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 dark:text-slate-100 text-base font-medium">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                          <SelectItem value="price">Tabela Price (Parcelas Fixas - Veículos)</SelectItem>
-                          <SelectItem value="sac">Tabela SAC (Decrescentes - Imóveis)</SelectItem>
+                          <SelectItem value="price">Tabela Price (Fixas)</SelectItem>
+                          <SelectItem value="sac">Tabela SAC (Decrescentes)</SelectItem>
                       </SelectContent>
                   </Select>
               </div>
 
               <div className="flex gap-3 pt-2">
-                  <Button onClick={() => calcular()} className="flex-1 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white h-14 text-lg font-bold shadow-lg shadow-blue-200 rounded-xl transition-all active:scale-[0.99]" disabled={saldoDevedor <= 0}>
+                  <Button onClick={() => handleCalcular()} className="flex-1 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white h-14 text-lg font-bold shadow-lg shadow-blue-200 rounded-xl transition-all active:scale-[0.99]" disabled={saldoDevedor <= 0}>
                     Calcular Parcelas
                   </Button>
-                  <Button variant="outline" onClick={limpar} size="icon" className="h-14 w-14 shrink-0 border-slate-200 dark:border-slate-700 text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 hover:border-red-200 dark:hover:border-red-800 bg-white dark:bg-slate-900 rounded-xl transition-colors" title="Limpar dados">
+                  <Button variant="outline" onClick={limpar} size="icon" className="h-14 w-14 shrink-0 border-slate-200 dark:border-slate-700 text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-xl transition-colors">
                     <X className="h-5 w-5" />
                   </Button>
               </div>
             </CardContent>
           </Card>
 
-          {/* HISTÓRICO RÁPIDO */}
           {!isIframe && historico.length > 0 && (
-            <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-5 shadow-sm animate-in fade-in">
-                <h4 className="text-xs font-bold text-slate-400 uppercase mb-4 flex items-center gap-2 tracking-wider">
-                  <History size={14} /> Simulações Recentes
-                </h4>
+            <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-5 shadow-sm">
+                <h4 className="text-xs font-bold text-slate-400 uppercase mb-4 flex items-center gap-2 tracking-wider"><History size={14} /> Recentes</h4>
                 <div className="space-y-1">
                 {historico.map((item, idx) => (
-                    <div key={idx} className="flex justify-between items-center text-sm border-b border-slate-50 dark:border-slate-800 pb-2 last:border-0 last:pb-0 p-2 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors cursor-pointer active:bg-slate-100 dark:active:bg-slate-700">
+                    <div key={idx} className="flex justify-between items-center text-sm border-b border-slate-50 dark:border-slate-800 pb-2 last:border-0 last:pb-0 p-2 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors cursor-pointer">
                         <div className="flex flex-col">
                             <span className="text-slate-800 dark:text-slate-200 font-bold">{item.bem}</span>
                             <span className="text-[10px] text-slate-400 font-medium">Entrada: {item.entrada}</span>
                         </div>
                         <div className="text-right">
-                            <span className="block font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded text-xs tabular-nums">{item.parcela}</span>
+                            <span className="block font-bold text-blue-700 bg-blue-50 dark:bg-blue-900/30 px-2 py-0.5 rounded text-xs tabular-nums">{item.parcela}</span>
                             <span className="text-[10px] text-blue-600 font-medium">{item.tipo}</span>
                         </div>
                     </div>
@@ -449,110 +274,55 @@ export default function FinancingCalculator({ initialValue = 0 }: FinancingCalcu
 
         {/* --- COLUNA DIREITA: RESULTADOS --- */}
         <div className="lg:col-span-5 w-full flex flex-col gap-6">
-          <Card className={`h-full w-full transition-all duration-500 border-0 shadow-lg shadow-slate-200/50 dark:shadow-none ring-1 ring-slate-200 dark:ring-slate-800 overflow-hidden flex flex-col ${resultado ? 'bg-white dark:bg-slate-900' : 'bg-slate-50 dark:bg-slate-950'}`}>
+          <Card className={`h-full w-full border-0 shadow-lg shadow-slate-200/50 dark:shadow-none ring-1 ring-slate-200 dark:ring-slate-800 overflow-hidden flex flex-col ${resultado ? 'bg-white dark:bg-slate-900' : 'bg-slate-50 dark:bg-slate-950'}`}>
             <CardHeader className="px-6 py-5 border-b border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 shrink-0">
-              <CardTitle className="text-slate-800 dark:text-slate-100 text-lg font-bold">Resumo do Financiamento</CardTitle>
+              <CardTitle className="text-slate-800 dark:text-slate-100 text-lg font-bold">Resumo</CardTitle>
             </CardHeader>
-            
             <CardContent className="p-6 flex-1 flex flex-col">
               {!resultado ? (
                 <div className="flex-1 flex flex-col items-center justify-center text-slate-400 text-center space-y-4 min-h-[300px]">
-                  <div className="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mb-2">
-                      <div className="flex gap-1 opacity-40 text-slate-400">
-                          <Car size={28} />
-                          <Home size={28} />
-                      </div>
-                  </div>
-                  <p className="text-sm font-medium max-w-[220px]">Preencha os dados ao lado para simular as parcelas do seu sonho.</p>
+                  <div className="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mb-2"><Car size={32} className="opacity-30" /></div>
+                  <p className="text-sm font-medium max-w-[220px]">Preencha os dados ao lado para ver a simulação.</p>
                 </div>
               ) : (
-                <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500 w-full">
-                  
-                  {/* CARD PRETO DESTAQUE */}
-                  <div className="bg-slate-900 dark:bg-slate-950 p-6 rounded-2xl shadow-xl text-center relative overflow-hidden w-full group">
-                    <div className="absolute top-0 right-0 w-40 h-40 bg-blue-500/20 rounded-full blur-3xl -mr-10 -mt-10 group-hover:bg-blue-500/30 transition-colors duration-500"></div>
-                    <div className="absolute bottom-0 left-0 w-32 h-32 bg-indigo-500/10 rounded-full blur-3xl -ml-10 -mb-10"></div>
-                    
-                    {resultado.rawTipo === 'price' ? (
-                        <>
-                            <p className="text-[11px] text-slate-400 font-bold uppercase tracking-widest relative z-10 mb-1">Valor da Parcela (Fixa)</p>
-                            <div className="flex items-center justify-center gap-1 relative z-10">
-                               <span className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">{resultado.valorParcela}</span>
-                            </div>
-                        </>
-                    ) : (
-                        <>
-                            <p className="text-[11px] text-slate-400 font-bold uppercase tracking-widest relative z-10 mb-1">1ª Parcela (Decrescente)</p>
-                            <div className="flex items-center justify-center gap-1 relative z-10">
-                               <span className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">{resultado.primeiraParcela}</span>
-                            </div>
-                            <p className="text-[10px] text-slate-400 mt-2 relative z-10 border-t border-white/10 pt-2 inline-block px-4">
-                                Última parcela: <strong className="text-slate-300">{resultado.ultimaParcela}</strong>
-                            </p>
-                        </>
+                <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 w-full">
+                  <div className="bg-slate-900 p-6 rounded-2xl shadow-xl text-center relative overflow-hidden group">
+                    <p className="text-[11px] text-slate-400 font-bold uppercase tracking-widest relative z-10 mb-1">
+                        {resultado.rawTipo === 'price' ? 'Valor da Parcela (Fixa)' : '1ª Parcela (Decrescente)'}
+                    </p>
+                    <div className="flex items-center justify-center gap-1 relative z-10">
+                       <span className="text-3xl font-extrabold text-white tracking-tight">
+                           {resultado.rawTipo === 'price' ? resultado.valorParcela : resultado.primeiraParcela}
+                       </span>
+                    </div>
+                    {resultado.rawTipo === 'sac' && (
+                        <p className="text-[10px] text-slate-400 mt-2 relative z-10">Última parcela: {resultado.ultimaParcela}</p>
                     )}
                   </div>
 
-                  {/* LISTA DETALHADA */}
                   <div className="space-y-1 w-full bg-white dark:bg-slate-900 rounded-xl border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden text-sm">
-                    <div className="flex justify-between items-center p-3 border-b border-slate-50 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
-                        <span className="text-sm text-slate-600 dark:text-slate-400 font-medium">Valor do Bem</span>
-                        <span className="text-sm font-bold text-slate-900 dark:text-slate-100">{resultado.valorBem}</span>
+                    <div className="flex justify-between items-center p-3 border-b border-slate-50 dark:border-slate-800">
+                        <span className="text-slate-600 dark:text-slate-400 font-medium">Financiado</span>
+                        <span className="font-bold">{resultado.valorFinanciado}</span>
                     </div>
-                    <div className="flex justify-between items-center p-3 border-b border-slate-50 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
-                        <span className="text-sm text-slate-600 dark:text-slate-400 font-medium">Entrada</span>
-                        <span className="text-sm font-bold text-green-600 dark:text-green-500">- {resultado.valorEntrada}</span>
+                    <div className="flex justify-between items-center p-3 border-b border-slate-50 dark:border-slate-800 bg-blue-50/50 dark:bg-blue-900/10">
+                        <span className="text-blue-700 dark:text-blue-300 font-bold">Total em Juros</span>
+                        <span className="font-bold text-red-600 dark:text-red-400">+ {resultado.totalJuros}</span>
                     </div>
-                    <div className="flex justify-between items-center p-3 border-b border-slate-50 dark:border-slate-800 bg-blue-50/50 dark:bg-blue-900/10 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors">
-                        <span className="text-sm text-blue-700 dark:text-blue-300 font-bold">Valor Financiado</span>
-                        <span className="text-sm font-bold text-blue-700 dark:text-blue-300">{resultado.valorFinanciado}</span>
-                    </div>
-                    <div className="flex justify-between items-center p-3 border-b border-slate-50 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
-                        <span className="text-sm text-slate-600 dark:text-slate-400 font-medium">Prazo / Taxa</span>
-                        <span className="text-sm font-bold text-slate-900 dark:text-slate-100">{resultado.prazo} / {resultado.taxa}</span>
-                    </div>
-                    <div className="flex justify-between items-center p-3 border-b border-slate-50 dark:border-slate-800 hover:bg-red-50 dark:hover:bg-red-900/10 transition-colors group">
-                        <span className="text-sm text-red-600 dark:text-red-400 font-bold flex items-center gap-2 group-hover:gap-3 transition-all"><Percent size={14}/> Total em Juros</span>
-                        <span className="text-sm font-extrabold text-red-600 dark:text-red-400">+ {resultado.totalJuros}</span>
-                    </div>
-                    <div className="flex justify-between items-center p-4 bg-slate-900 text-white">
-                        <span className="text-sm font-bold uppercase tracking-wide">Custo Total</span>
-                        <span className="text-base font-extrabold">{resultado.totalPago}</span>
+                    <div className="flex justify-between items-center p-4 bg-slate-900 text-white font-bold">
+                        <span>Custo Total</span>
+                        <span className="text-lg">{resultado.totalPago}</span>
                     </div>
                   </div>
-                  
-                  <p className="text-[10px] text-slate-400 text-center leading-tight px-4">* Não inclui IOF, TAC e seguros (CET). O valor final varia conforme o banco.</p>
 
-                  {/* BOTOES DE AÇÃO */}
                   <div className="grid grid-cols-2 gap-3 pt-2">
-                      <Button 
-                        variant="outline" 
-                        onClick={() => handleShare("result")} 
-                        className="h-11 border-slate-200 dark:border-slate-700 hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-200 dark:hover:border-blue-800 bg-white dark:bg-slate-900 dark:text-slate-100 text-xs font-bold uppercase tracking-wide"
-                      >
-                          {isIframe ? <span className="flex items-center gap-2"><ExternalLink size={16}/> Ver Completo</span> : 
-                          (copiado === "result" ? <span className="flex items-center gap-2"><CheckCircle2 size={16}/> Copiado</span> : <span className="flex items-center gap-2"><Share2 size={16}/> Resultado</span>)}
+                      <Button variant="outline" onClick={() => handleShare("result")} className="h-11 border-slate-200 dark:border-slate-700 hover:bg-blue-50 dark:text-slate-100 text-xs font-bold uppercase tracking-wide bg-white dark:bg-slate-900">
+                          {copiado === "result" ? "Copiado" : "Compartilhar"}
                       </Button>
-                      
-                      <Button 
-                        variant="outline" 
-                        onClick={handlePrint} 
-                        className="h-11 border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-100 bg-white dark:bg-slate-900 dark:text-slate-100 text-xs font-bold uppercase tracking-wide"
-                      >
-                          {isIframe ? <span className="flex items-center gap-2"><ExternalLink size={16}/> Baixar PDF</span> : 
-                          <span className="flex items-center gap-2"><Printer size={16}/> Imprimir/PDF</span>}
+                      <Button variant="outline" onClick={() => reactToPrintFn()} className="h-11 border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:text-slate-100 bg-white dark:bg-slate-900 text-xs font-bold uppercase tracking-wide">
+                          <Printer size={16}/> Imprimir
                       </Button>
                   </div>
-                  
-                  <div className="text-center">
-                    <button 
-                        onClick={() => handleShare("tool")}
-                        className="text-xs text-slate-400 hover:text-slate-600 underline decoration-slate-300 underline-offset-2 transition-colors"
-                    >
-                        {copiado === "link" ? "Link da ferramenta copiado!" : "Copiar link da calculadora para amigos"}
-                    </button>
-                  </div>
-
                 </div>
               )}
             </CardContent>
@@ -560,91 +330,46 @@ export default function FinancingCalculator({ initialValue = 0 }: FinancingCalcu
         </div>
       </div>
 
-      {/* --- LAYOUT DE IMPRESSÃO (ESCONDIDO NA TELA) --- */}
-      <div className="hidden print:block">
-        <div ref={contentRef} className="print:w-full print:p-8 print:bg-white text-slate-900">
-            
-            {/* Header Impressão */}
-            <div className="flex justify-between items-start mb-8 border-b-2 border-slate-800 pb-6">
-                <div>
-                    <h1 className="text-3xl font-bold text-slate-900 tracking-tight">Mestre das Contas</h1>
-                    <p className="text-sm text-slate-500 mt-1 font-medium">www.mestredascontas.com.br</p>
-                </div>
-                <div className="text-right">
-                    <div className="bg-slate-100 px-3 py-1 rounded inline-block">
-                        <p className="text-xs text-slate-500 uppercase font-bold tracking-wider">Simulação de Financiamento</p>
-                    </div>
-                    <p className="text-sm text-slate-400 mt-2">{dataAtual}</p>
-                </div>
-            </div>
-
+      {/* --- IMPRESSÃO --- */}
+      <div className="hidden print:block text-slate-900">
+        <div ref={contentRef} className="p-8 bg-white">
+            <h1 className="text-3xl font-bold border-b-2 border-slate-800 pb-4 mb-8">Simulação de Financiamento</h1>
             {resultado && (
-                <>
-                {/* Grid de Dados */}
-                <div className="mb-8 grid grid-cols-2 gap-6 text-sm">
-                    <div className="p-5 border border-slate-200 rounded-xl bg-slate-50">
-                        <p className="text-xs text-slate-500 uppercase font-bold mb-2 border-b border-slate-200 pb-1">Dados do Bem</p>
-                        <div className="flex justify-between mb-2"><span>Valor Total:</span> <strong>{resultado.valorBem}</strong></div>
-                        <div className="flex justify-between"><span>Entrada:</span> <strong className="text-green-700">- {resultado.valorEntrada}</strong></div>
-                    </div>
-                    <div className="p-5 border border-slate-200 rounded-xl bg-slate-50">
-                        <p className="text-xs text-slate-500 uppercase font-bold mb-2 border-b border-slate-200 pb-1">Condições</p>
-                        <div className="flex justify-between mb-2"><span>Financiado:</span> <strong>{resultado.valorFinanciado}</strong></div>
-                        <div className="flex justify-between"><span>Taxa / Prazo:</span> <strong>{resultado.taxa} / {resultado.prazo}</strong></div>
-                    </div>
-                </div>
-
-                {/* Box de Resultado */}
-                <div className="mb-8 bg-slate-50 p-8 rounded-xl border border-slate-200">
-                    <div className="flex justify-between items-end mb-6 border-b border-slate-300 pb-6">
-                        <span className="text-lg font-bold text-slate-700">Total a Pagar</span>
-                        <span className="text-5xl font-extrabold text-slate-900 tracking-tight">{resultado.totalPago}</span>
-                    </div>
-                    <div className="grid grid-cols-2 gap-8">
-                        <div>
-                            <p className="text-xs text-slate-500 uppercase font-bold tracking-wider mb-1">Amortização</p>
-                            <p className="text-2xl font-bold text-slate-700">{resultado.tipo}</p>
+                <div className="space-y-6">
+                    <div className="p-6 bg-slate-50 rounded-xl border border-slate-200">
+                        <div className="flex justify-between mb-4 border-b border-slate-200 pb-4">
+                            <span className="font-bold text-lg">Total a Pagar</span>
+                            <span className="text-3xl font-extrabold">{resultado.totalPago}</span>
                         </div>
-                        <div>
-                            <p className="text-xs text-red-600 uppercase font-bold tracking-wider mb-1">Custo dos Juros</p>
-                            <p className="text-2xl font-bold text-red-600">+ {resultado.totalJuros}</p>
+                        <div className="grid grid-cols-2 gap-4 text-sm">
+                            <div><span>Valor do Bem:</span> <strong>{resultado.valorBem}</strong></div>
+                            <div><span>Entrada:</span> <strong>{resultado.valorEntrada}</strong></div>
+                            <div><span>Financiado:</span> <strong>{resultado.valorFinanciado}</strong></div>
+                            <div><span>Juros:</span> <strong className="text-red-600">{resultado.totalJuros}</strong></div>
                         </div>
                     </div>
                 </div>
-
-                {/* CTA Footer Impressão */}
-                <div className="mt-auto pt-8 border-t border-slate-200 flex items-center justify-between text-sm">
-                    <div className="flex items-center gap-2 text-slate-600">
-                        <LinkIcon size={16}/>
-                        <span>Acesse essa ferramenta em: <strong>mestredascontas.com.br</strong></span>
-                    </div>
-                    <div className="bg-slate-100 px-3 py-1 rounded text-slate-500 text-xs font-bold uppercase">
-                        Indique para seus amigos
-                    </div>
-                </div>
-                </>
             )}
         </div>
       </div>
 
-      {/* --- MODAL DE EMBED --- */}
+      {/* --- EMBED MODAL --- */}
       {showEmbedModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 animate-in fade-in backdrop-blur-sm print:hidden" onClick={() => setShowEmbedModal(false)}>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4" onClick={() => setShowEmbedModal(false)}>
             <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-2xl p-6 max-w-lg w-full relative" onClick={e => e.stopPropagation()}>
-                <button onClick={() => setShowEmbedModal(false)} className="absolute top-4 right-4 text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300 transition-colors"><X size={20}/></button>
-                <h3 className="text-lg font-bold text-slate-900 dark:text-slate-100 mb-2">Incorporar no seu Site</h3>
-                <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">Copie o código abaixo para adicionar essa calculadora no seu blog ou site.</p>
-                <div className="bg-slate-950 p-4 rounded-xl relative mb-4 overflow-hidden group">
-                    <code className="text-xs font-mono text-blue-300 break-all block leading-relaxed selection:bg-blue-900">
-                        {`<iframe src="https://mestredascontas.com.br/financeiro/financiamento-veiculos?embed=true" width="100%" height="700" frameborder="0" style="border:0; border-radius:12px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);" title="Calculadora Financiamento"></iframe>`}
+                <button onClick={() => setShowEmbedModal(false)} className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 transition-colors"><X size={20}/></button>
+                <h3 className="text-lg font-bold mb-4">Incorporar no Site</h3>
+                <div className="bg-slate-950 p-4 rounded-xl mb-4">
+                    <code className="text-xs font-mono text-blue-300 break-all leading-relaxed">
+                        {`<iframe src="https://mestredascontas.com.br/financeiro/financiamento-veiculos?embed=true" width="100%" height="700" frameborder="0" style="border:0; border-radius:12px;" title="Calculadora Financiamento"></iframe>`}
                     </code>
                 </div>
                 <Button onClick={() => {
-                    navigator.clipboard.writeText(`<iframe src="https://mestredascontas.com.br/financeiro/financiamento-veiculos?embed=true" width="100%" height="700" frameborder="0" style="border:0; border-radius:12px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);" title="Calculadora Financiamento"></iframe>`);
+                    navigator.clipboard.writeText(`<iframe src="https://mestredascontas.com.br/financeiro/financiamento-veiculos?embed=true" width="100%" height="700" frameborder="0" style="border:0; border-radius:12px;" title="Calculadora Financiamento"></iframe>`);
                     setCopiado("embed");
                     setTimeout(() => setCopiado(null), 2000);
-                }} className="w-full bg-slate-900 hover:bg-slate-800 dark:bg-blue-600 dark:hover:bg-blue-700 text-white font-bold h-12 rounded-xl">
-                    {copiado === "embed" ? "Código Copiado!" : "Copiar Código HTML"}
+                }} className="w-full bg-slate-900 dark:bg-blue-600 text-white font-bold h-12 rounded-xl">
+                    {copiado === "embed" ? "Copiado!" : "Copiar Código"}
                 </Button>
             </div>
         </div>

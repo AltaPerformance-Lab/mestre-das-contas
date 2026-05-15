@@ -3,6 +3,7 @@ import { formatCurrencyInput, parseCurrency, formatCPF, formatCNPJ, formatPhone 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 import React, { useState, useEffect, useRef } from 'react';
+import { useSearchParams } from "next/navigation";
 import { QRCodeSVG } from 'qrcode.react';
 import { Download, Copy, Save, Trash2, Printer, Plus, Info, Wallet, CheckCircle2 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -49,6 +50,31 @@ export default function PixGenerator({
   const [savedKeys, setSavedKeys] = useState<SavedKey[]>([]);
   const [generatedPayload, setGeneratedPayload] = useState("");
   const [isCopied, setIsCopied] = useState(false);
+  const searchParams = useSearchParams();
+
+  // Hydrate from URL
+  useEffect(() => {
+    const k = searchParams.get('key');
+    const n = searchParams.get('name');
+    const c = searchParams.get('city');
+    const a = searchParams.get('amount');
+    const t = searchParams.get('txid');
+
+    if (k) setKey(k);
+    if (n) setName(decodeURIComponent(n));
+    if (c) setCity(decodeURIComponent(c));
+    if (a) setAmount(Number(a));
+    if (t) setTxid(t);
+
+    // Simple heuristic for keyType
+    if (k) {
+        if (k.length === 11 && !isNaN(Number(k))) setKeyType('cpf');
+        else if (k.length === 14 && !isNaN(Number(k))) setKeyType('cnpj');
+        else if (k.includes('@')) setKeyType('email');
+        else if (k.length > 10 && k.startsWith('+')) setKeyType('phone');
+        else setKeyType('random');
+    }
+  }, [searchParams]);
 
   // Load favorites on mount
   useEffect(() => {

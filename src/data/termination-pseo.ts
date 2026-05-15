@@ -5,8 +5,6 @@ export interface TerminationPSeoCase {
     reasonLabel: string; // O que aparece no select do calculador
     description: string;
     keywords: string[];
-    rating: number;
-    reviewsCount: number;
     // Mudança para dados estruturados
     articleContent: {
         intro: string;
@@ -32,8 +30,6 @@ export const terminationCases: TerminationPSeoCase[] = [
         reasonLabel: "Sem Justa Causa", 
         description: "Foi demitido sem justa causa? Calcule agora: Saldo de Salário, Aviso Prévio, Férias + 1/3, 13º Proporcional e Multa de 40% do FGTS.",
         keywords: ["rescisão sem justa causa", "calcular demissão", "direitos demissão sem justa causa", "multa 40 fgts"],
-        rating: 4.9,
-        reviewsCount: 15420,
         articleContent: {
             intro: "A demissão <strong>Sem Justa Causa</strong> é a modalidade que garante mais direitos ao trabalhador. Basicamente, a empresa decidiu encerrar o contrato sem que você tenha cometido nenhuma falta grave. Nesse cenário, a legislação brasileira (CLT) protege o trabalhador com uma série de indenizações financeiras para ampará-lo até a recolocação no mercado.",
             analysis: `
@@ -67,8 +63,6 @@ export const terminationCases: TerminationPSeoCase[] = [
         reasonLabel: "Pedido de Demissão",
         description: "Vai pedir demissão? Veja o que você perde e o que recebe. Aviso prévio, Férias e 13º. Atenção à perda dos 40% do FGTS.",
         keywords: ["calcular pedido demissão", "direitos pedir demissão", "perco 40 fgts se pedir conta", "aviso prévio pedido demissão"],
-        rating: 4.8,
-        reviewsCount: 8900,
         articleContent: {
             intro: "Pedir demissão é um direito seu, mas tem um custo financeiro. Ao tomar a iniciativa de sair, você abre mão de algumas proteções que a CLT oferece na demissão imotivada. É fundamental calcular bem para não ser surpreendido com um valor muito baixo (ou até zerado) na rescisão.",
             analysis: `
@@ -97,8 +91,6 @@ export const terminationCases: TerminationPSeoCase[] = [
         reasonLabel: "Acordo Comum",
         description: "Simule a Rescisão por Acordo (Reforma Trabalhista). Receba 20% da multa e saque 80% do FGTS. Veja se vale a pena.",
         keywords: ["rescisão acordo comum", "demissao por acordo", "multa 20 fgts", "saque 80 fgts"],
-        rating: 4.7,
-        reviewsCount: 3200,
         articleContent: {
             intro: "Criado na Reforma Trabalhista de 2017, o <strong>Acordo de Comum Acordo</strong> (ou Distrato) é o meio termo oficial entre ser demitido e pedir demissão. É uma saída legal para quando a empresa e o funcionário concordam que não dá mais para continuar.",
             analysis: `
@@ -127,8 +119,6 @@ export const terminationCases: TerminationPSeoCase[] = [
         reasonLabel: "Justa Causa",
         description: "Foi demitido por Justa Causa? Saiba o que resta receber. Saldo de salário e férias vencidas apenas.",
         keywords: ["rescisão justa causa", "direitos justa causa", "calcular verbas justa causa"],
-        rating: 4.5,
-        reviewsCount: 1200,
         articleContent: {
             intro: "A <strong>Justa Causa</strong> é a punição máxima prevista na CLT. Ela ocorre quando o funcionário comete faltas graves que quebram a confiança da relação de trabalho, como roubo, agressão física, abandono de emprego ou insubordinação grave.",
             analysis: `
@@ -156,8 +146,6 @@ export const terminationCases: TerminationPSeoCase[] = [
         reasonLabel: "Rescisão de Estágio",
         description: "Terminou o estágio? Calcule seu acerto. Veja como funciona o recesso proporcional e por que estagiário não tem aviso prévio nem FGTS.",
         keywords: ["rescisão contrato estagio", "acerto estagio calcular", "estagiário tem direito a 13", "recesso proporcional estagio"],
-        rating: 4.7,
-        reviewsCount: 2100,
         articleContent: {
             intro: "A rescisão do <strong>Contrato de Estágio</strong> segue uma legislação própria (Lei 11.788/08), que é diferente da CLT comum. Como o estágio tem finalidade educativa, ele não gera vínculo empregatício, o que significa que o estagiário não tem direito a aviso prévio, multa de 40% ou saque do FGTS.",
             analysis: `
@@ -185,8 +173,6 @@ export const terminationCases: TerminationPSeoCase[] = [
         reasonLabel: "Jovem Aprendiz",
         description: "Contrato de Aprendizagem chegou ao fim? Calcule suas verbas rescisórias, FGTS (2%) e direitos específicos do Menor Aprendiz.",
         keywords: ["rescisão jovem aprendiz", "direitos menor aprendiz demissão", "fgts aprendiz 2 por cento", "calculo acerto aprendiz"],
-        rating: 4.8,
-        reviewsCount: 3400,
         articleContent: {
             intro: "O <strong>Jovem Aprendiz</strong> possui um contrato de trabalho especial, com tempo determinado e foco em formação profissional. Diferente do estagiário, o aprendiz é registrado na CLT, mas com alíquotas e regras diferenciadas, como o FGTS de apenas 2%.",
             analysis: `
@@ -213,8 +199,6 @@ export const terminationCases: TerminationPSeoCase[] = [
         reasonLabel: "Término de Experiência",
         description: "O período de 45 ou 90 dias acabou? Veja como calcular a rescisão no término do contrato de experiência. Saque FGTS e verbas.",
         keywords: ["rescisao contrato experiencia", "acerto 90 dias empresa", "demissao no final da experiencia", "saque fgts experiencia"],
-        rating: 4.9,
-        reviewsCount: 7200,
         articleContent: {
             intro: "O <strong>Contrato de Experiência</strong> é uma modalidade por prazo determinado (máximo 90 dias). Quando o contrato chega ao seu fim natural, as partes podem decidir não renovar sem que isso gere o pagamento de aviso prévio ou multa de 40% do FGTS.",
             analysis: `

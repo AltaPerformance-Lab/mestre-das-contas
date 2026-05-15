@@ -12,8 +12,6 @@ export interface BudgetPSeoCase {
     longDescription: string;
     keywords: string[];
     initialValues: Partial<BudgetData>;
-    rating: number;
-    reviewsCount: number;
     articleContent: React.ReactNode;
 }
 
@@ -24,8 +22,6 @@ export const budgetCases: BudgetPSeoCase[] = [
         description: "Gere orçamentos de reforma e construção civil em PDF. Modelo para pedreiros com cálculo de materiais e diárias.",
         longDescription: "Ferramenta essencial para pedreiros e mestres de obras. Crie propotas detalhadas separando material de mão de obra e feche mais reformas.",
         keywords: ["orçamento pedreiro pdf", "modelo orçamento reforma", "planilha obra simples", "recibo pedreiro"],
-        rating: 4.9,
-        reviewsCount: 1250,
         initialValues: {
             items: [
                 { id: '1', description: 'Levantamento de Parede (m²)', quantity: 20, price: 50.00 },
@@ -69,8 +65,6 @@ export const budgetCases: BudgetPSeoCase[] = [
         description: "Orçamento profissional para instalações elétricas. Ideal para eletricistas residenciais e prediais.",
         longDescription: "Transmita segurança técnica. Detalhe pontos de tomada, fiação, quadros de distribuição e padrões de entrada com este modelo pronto.",
         keywords: ["orçamento eletricista pdf", "proposta instalação eletrica", "recibo eletricista", "modelo orçamento padrão energia"],
-        rating: 4.8,
-        reviewsCount: 890,
         initialValues: {
             items: [
                 { id: '1', description: 'Instalação de Tomada (Novo Ponto)', quantity: 8, price: 60.00 },
@@ -111,8 +105,6 @@ export const budgetCases: BudgetPSeoCase[] = [
         description: "Modelo detalhado para móveis sob medida. Especifique chapas MDF, ferragens e acabamentos.",
         longDescription: "Feche projetos de cozinhas e guarda-roupas. Descreva tipos de corrediças, dobradiças e prazos de entrega para evitar conflitos.",
         keywords: ["orçamento marcenaria pdf", "modelo contrato moveis planejados", "fazer orçamento armario cozinha"],
-        rating: 5.0,
-        reviewsCount: 420,
         initialValues: {
             items: [
                 { id: '1', description: 'Cozinha: Armário Inferior (MDF Branco Tx)', quantity: 3, price: 1400.00 },
@@ -149,8 +141,6 @@ export const budgetCases: BudgetPSeoCase[] = [
         description: "Gere orçamentos de pintura por metro quadrado ou empreitada. Simples e rápido.",
         longDescription: "Ideal para pintores profissionais. Calcule tinta, massa corrida e mão de obra para pintura interna, externa e texturas.",
         keywords: ["orçamento pintura m2", "modelo orçamento pintor", "proposta comercial pintura", "recibo pintura"],
-        rating: 4.7,
-        reviewsCount: 1650,
         initialValues: {
             items: [
                 { id: '1', description: 'Pintura Parede Interna (Lixamento + 2 demãos)', quantity: 150, price: 22.00 },
@@ -184,8 +174,6 @@ export const budgetCases: BudgetPSeoCase[] = [
         description: "Modelo para Social Media, Designers e Marketing. Apresente pacotes de serviços recorrentes.",
         longDescription: "Profissionalize seus freelas. Estruture pacotes de gestão de redes sociais, criação de sites e tráfego pago com recorrência mensal.",
         keywords: ["orçamento social media pdf", "proposta designer grafico", "modelo orçamento marketing digital", "contrato gestor trafego"],
-        rating: 4.9,
-        reviewsCount: 2100,
         initialValues: {
             items: [
                 { id: '1', description: 'Gestão de Instagram (12 posts + 4 Reels/mês)', quantity: 1, price: 1500.00 },
@@ -220,8 +208,6 @@ export const budgetCases: BudgetPSeoCase[] = [
         description: "Modelo técnico para climatização. Instalação, limpeza (PMOC) e manutenção de splits.",
         longDescription: "Padronize seus serviços de refrigeração. Detalhe infraestrutura, tubulação de cobre, carga de gás e limpeza química conforme normas.",
         keywords: ["orçamento instalação ar condicionado", "modelo pmoc simples", "recibo limpeza ar condicionado", "orçamento refrigeração"],
-        rating: 4.8,
-        reviewsCount: 650,
         initialValues: {
             items: [
                 { id: '1', description: 'Instalação Split 9000/12000 BTUs (Mão de Obra)', quantity: 1, price: 550.00 },
@@ -253,8 +239,6 @@ export const budgetCases: BudgetPSeoCase[] = [
         description: "Modelo para jardineiros e paisagistas. Corte de grama, poda, adubação e projetos verdes.",
         longDescription: "Profissionalize seu serviço de jardinagem. Cobre por metro ou diária, especifique adubos, plantas e retirada de resíduos vegetais.",
         keywords: ["orçamento jardinagem pdf", "modelo contrato paisagismo", "recibo jardineiro", "proposta manutenção jardim"],
-        rating: 4.9,
-        reviewsCount: 320,
         initialValues: {
             items: [
                 { id: '1', description: 'Corte de Grama e Limpeza (m²)', quantity: 200, price: 2.50 },
@@ -283,8 +267,6 @@ export const budgetCases: BudgetPSeoCase[] = [
         description: "Proposta para fotógrafos. Casamentos, ensaios, aniversários e corporativo.",
         longDescription: "Crie propostas irrecusáveis para seus ensaios e coberturas. Defina horas de cobertura, quantidade de fotos editadas e prazo de entrega do álbum.",
         keywords: ["orçamento fotografia casamento", "modelo proposta fotografo", "contrato ensaio fotografico", "orçamento audiovisual"],
-        rating: 5.0,
-        reviewsCount: 780,
         initialValues: {
             items: [
                 { id: '1', description: 'Cobertura Fotográfica (4 horas de evento)', quantity: 1, price: 1200.00 },
@@ -317,8 +299,6 @@ export const budgetCases: BudgetPSeoCase[] = [
         description: "Modelo para serralheiros. Portões, grades, estruturas metálicas e solda.",
         longDescription: "Ideal para serralherias. Calcule o peso do ferro, eletrodos, discos de corte e mão de obra para portões basculantes, corrimãos e mezaninos.",
         keywords: ["orçamento serralheria portão", "modelo orçamento grades ferro", "planilha custo serralheiro", "recibo soldador"],
-        rating: 4.8,
-        reviewsCount: 540,
         initialValues: {
             items: [
                 { id: '1', description: 'Portão Basculante 3x2.5m (Tubo Galv. 40x40)', quantity: 1, price: 3500.00 },
@@ -348,8 +328,6 @@ export const budgetCases: BudgetPSeoCase[] = [
         description: "Orçamento para reparo de veículos, revisão, funilaria e pintura.",
         longDescription: "Sistema simples para oficinas mecânicas. Liste peças, fluidos, mão de obra (horas/técnica) e serviços de terceiros (retífica).",
         keywords: ["orçamento oficina mecanica pdf", "modelo checklist veicular", "ordem de serviço mecanica", "recibo funilaria"],
-        rating: 4.8,
-        reviewsCount: 1890,
         initialValues: {
             items: [
                 { id: '1', description: 'Troca de Óleo Motor (5W30 Sintético)', quantity: 4, price: 45.00 },
@@ -379,8 +357,6 @@ export const budgetCases: BudgetPSeoCase[] = [
         description: "Modelo para diaristas, empresas de limpeza e faxina pós-obra.",
         longDescription: "Profissionalize sua faxina. Detalhe o que será limpo (janelas, armários, chão), se inclui produtos de limpeza e alimentação.",
         keywords: ["recibo diarista pdf", "modelo orçamento limpeza pos obra", "proposta faxina comercial", "contrato prestação serviços limpeza"],
-        rating: 4.9,
-        reviewsCount: 2200,
         initialValues: {
             items: [
                 { id: '1', description: 'Faxina Pesada (Pós-Obra) - Dia', quantity: 2, price: 250.00 },

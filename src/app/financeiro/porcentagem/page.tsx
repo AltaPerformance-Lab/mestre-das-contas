@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import PercentageCalculator from "@/components/calculators/PercentageCalculator";
+import { calculatePercentage } from "@/lib/calculators/percentage";
 import AdUnit from "@/components/ads/AdUnit";
 import DisclaimerBox from "@/components/ui/DisclaimerBox";
 import PageHeader from "@/components/layout/PageHeader";
@@ -14,34 +15,32 @@ import {
 } from "lucide-react";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
 
-// --- 1. METADATA DE ALTO PERFORMANCE (SEO 2026) ---
-export const metadata: Metadata = {
-  title: "Calculadora de Porcentagem 2026 (Grátis) | Descontos e Aumentos",
-  description: "Resolva qualquer conta de % em segundos. Calcule descontos, aumentos de salário e variação percentual com nossa ferramenta 4 em 1 gratuita e online.",
-  keywords: [
-    "calculadora porcentagem", 
-    "como calcular porcentagem", 
-    "quanto é 30% de", 
-    "calcular desconto", 
-    "calcular aumento percentual", 
-    "regra de tres porcentagem",
-    "formula porcentagem excel"
-  ],
-  alternates: { canonical: "https://mestredascontas.com.br/financeiro/porcentagem" },
-  openGraph: {
-    title: "Calculadora de Porcentagem 4 em 1 - Mestre das Contas",
-    description: "Resolva qualquer conta de % em segundos. Aumentos, descontos e regra de três.",
-    url: "https://mestredascontas.com.br/financeiro/porcentagem",
-    siteName: "Mestre das Contas",
-    locale: "pt_BR",
-    type: "article",
-    images: [{ url: "https://mestredascontas.com.br/opengraph-image", width: 1200, height: 630, alt: "Calculadora de Porcentagem" }],
-  },
-  robots: {
-    index: true, follow: true,
-    googleBot: { index: true, follow: true, "max-video-preview": -1, "max-image-preview": "large", "max-snippet": -1 },
-  },
-};
+// --- 1. METADATA DINÂMICA (SEO MAXIMIZADO) ---
+export async function generateMetadata(): Promise<Metadata> {
+  const title = "Calculadora de Porcentagem 2026 (Grátis) | Descontos e Aumentos";
+  const description = "Resolva qualquer conta de % em segundos. Calcule descontos, aumentos de salário e variação percentual com nossa ferramenta 4 em 1 gratuita e online.";
+
+  return {
+    title,
+    description,
+    keywords: [
+      "calculadora porcentagem", 
+      "como calcular porcentagem", 
+      "quanto é 30% de", 
+      "calcular desconto", 
+      "calcular aumento percentual", 
+      "regra de tres porcentagem"
+    ],
+    alternates: { canonical: "https://mestredascontas.com.br/financeiro/porcentagem" },
+    openGraph: {
+      title,
+      description,
+      url: "https://mestredascontas.com.br/financeiro/porcentagem",
+      siteName: "Mestre das Contas",
+      locale: "pt_BR",
+      type: "article" },
+    robots: { index: true, follow: true } };
+}
 
 // --- FAQ LIST (DRY Content) ---
 const faqList = [
@@ -61,15 +60,7 @@ const jsonLd = {
       "applicationCategory": "EducationalApplication",
       "operatingSystem": "Web",
       "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
-      "description": "Ferramenta utilitária para realizar 4 tipos de cálculos percentuais: parte de um todo, proporção, aumento e desconto.",
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "4.9",
-        "ratingCount": "12500",
-        "bestRating": "5",
-        "worstRating": "1"
-      }
-    },
+      "description": "Ferramenta utilitária para realizar 4 tipos de cálculos percentuais: parte de um todo, proporção, aumento e desconto." },
     {
       "@type": "Article",
       "headline": "Matemática Financeira Descomplicada: Tudo sobre Porcentagem",
@@ -99,30 +90,8 @@ const jsonLd = {
   ]
 };
 
-type Props = { searchParams: Promise<{ [key: string]: string | string[] | undefined }> }
+export default async function PorcentagemPage() {
 
-export default async function PorcentagemPage({ searchParams }: Props) {
-  
-  const resolvedParams = await searchParams;
-  const isEmbed = resolvedParams.embed === 'true';
-
-  // --- MODO EMBED ---
-  if (isEmbed) {
-    return (
-        <main className="w-full min-h-screen bg-slate-50 p-2 flex flex-col items-center justify-start font-sans">
-            <div className="w-full max-w-3xl">
-                <Suspense fallback={<div className="p-10 text-center animate-pulse text-slate-400">Carregando Calculadora...</div>}>
-                    <PercentageCalculator />
-                </Suspense>
-                <div className="mt-4 text-center border-t border-slate-200 pt-3">
-                    <Link href="https://mestredascontas.com.br/financeiro/porcentagem" target="_blank" className="text-[10px] text-slate-400 hover:text-indigo-600 uppercase font-bold tracking-wider flex items-center justify-center gap-1 transition-colors">
-                        <Percent size={10} /> Powered by Mestre das Contas
-                    </Link>
-                </div>
-            </div>
-        </main>
-    );
-  }
 
   // --- PÁGINA COMPLETA ---
   return (
@@ -141,8 +110,6 @@ export default async function PorcentagemPage({ searchParams }: Props) {
           variant="default" // Azul/Indigo
           categoryColor="indigo"
           badge="Ferramenta Gratuita"
-          rating={4.9}
-          reviews={12500}
           breadcrumbs={[
             { label: "Financeiro", href: "/financeiro" },
             { label: "Porcentagem" }
@@ -166,17 +133,10 @@ export default async function PorcentagemPage({ searchParams }: Props) {
         {/* --- FERRAMENTA PRINCIPAL --- */}
         <section id="ferramenta" className="scroll-mt-28 w-full max-w-full">
           <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/40 dark:shadow-none p-1 md:p-2">
-              <Suspense fallback={
-                <div className="h-96 w-full bg-slate-50 dark:bg-slate-800 rounded-2xl animate-pulse flex items-center justify-center text-slate-400">
-                    <div className="flex flex-col items-center gap-2">
-                        <Calculator className="animate-bounce text-slate-300" size={32}/>
-                        <span>Carregando Calculadora...</span>
-                    </div>
-                </div>
-              }>
                   <PrivacyBadge />
-                  <PercentageCalculator />
-              </Suspense>
+                  <Suspense fallback={<div className="h-96 w-full bg-slate-100 dark:bg-slate-800 animate-pulse rounded-3xl" />}>
+                      <PercentageCalculator />
+                  </Suspense>
           </div>
           
           <div className="mt-8 print:hidden max-w-5xl mx-auto">

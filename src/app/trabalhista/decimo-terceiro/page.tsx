@@ -1,6 +1,5 @@
 import { Suspense } from "react";
 import type { Metadata } from "next";
-import Link from "next/link";
 import ThirteenthCalculator from "@/components/calculators/ThirteenthCalculator";
 import LazyAdUnit from "@/components/ads/LazyAdUnit";
 import DisclaimerBox from "@/components/ui/DisclaimerBox";
@@ -15,49 +14,30 @@ import PrivacyBadge from "@/components/ui/PrivacyBadge";
 import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
 
 // --- 1. METADATA (SEO 2026) ---
-// --- 1. METADATA DINÂMICA (SEO MAXIMIZADO) ---
-export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
-  const resolvedParams = await searchParams;
-  const salarioRaw = resolvedParams.salario as string;
-  
-  let title = "Cálculo de Décimo Terceiro 2026 (Grátis) | 1ª e 2ª Parcela";
-  let description = "Saiba quanto você vai receber de 13º Salário em 2026. Cálculo exato das duas parcelas com descontos de INSS/IRRF. Simulador gratuito e online.";
-
-  if (salarioRaw) {
-    const valorFormatado = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(Number(salarioRaw));
-    title = `Cálculo de 13º: Salário de ${valorFormatado} - Calculadora 2026`;
-    description = `Veja quanto você vai receber de Décimo Terceiro com um salário de ${valorFormatado}. Valores da 1ª Parcela (Adiantamento) e 2ª Parcela (Líquida).`;
-  }
-
-  return {
-    title,
-    description,
-    keywords: [
-      "calculadora decimo terceiro", "calcular 13o salario", "primeira parcela 13", 
-      "data pagamento decimo terceiro", "descontos 13o salario", "gratificação natalina",
-      "decimo terceiro proporcional", "decimo terceiro maternidade", "calculo media horas extras 13",
-      ...(salarioRaw ? [`decimo terceiro salario ${salarioRaw}`, `calcular 13o ${salarioRaw}`] : [])
-    ],
-    alternates: {
-      canonical: "https://mestredascontas.com.br/trabalhista/decimo-terceiro",
-    },
-    openGraph: {
-      title,
-      description,
-      url: "https://mestredascontas.com.br/trabalhista/decimo-terceiro",
-      siteName: "Mestre das Contas",
-      locale: "pt_BR",
-      type: "article",
-      images: [{ url: "https://mestredascontas.com.br/opengraph-image", width: 1200, height: 630, alt: "Simulador Décimo Terceiro" }],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title,
-      description,
-      images: ["https://mestredascontas.com.br/opengraph-image"],
-    },
-  };
-}
+export const metadata: Metadata = {
+  title: "Calculadora de 13º Salário 2026 | Simule Agora Grátis",
+  description: "Saiba quanto você vai receber de 13º Salário em 2026. Cálculo exato das duas parcelas com descontos de INSS/IRRF. Simulador gratuito e online.",
+  keywords: [
+    "calculadora decimo terceiro", "calcular 13o salario", "primeira parcela 13", 
+    "data pagamento decimo terceiro", "descontos 13o salario", "gratificação natalina",
+    "decimo terceiro proporcional", "decimo terceiro maternidade", "calculo media horas extras 13"
+  ],
+  alternates: {
+    canonical: "https://mestredascontas.com.br/trabalhista/decimo-terceiro" },
+  openGraph: {
+    title: "Cálculo de Décimo Terceiro 2026 (Grátis) | 1ª e 2ª Parcela",
+    description: "Saiba quanto você vai receber de 13º Salário em 2026. Cálculo exato das duas parcelas com descontos de INSS/IRRF. Simulador gratuito e online.",
+    url: "https://mestredascontas.com.br/trabalhista/decimo-terceiro",
+    siteName: "Mestre das Contas",
+    locale: "pt_BR",
+    type: "article",
+    images: [{ url: "https://mestredascontas.com.br/opengraph-image", width: 1200, height: 630, alt: "Simulador Décimo Terceiro" }] },
+  twitter: {
+    card: "summary_large_image",
+    title: "Cálculo de Décimo Terceiro 2026 (Grátis) | 1ª e 2ª Parcela",
+    description: "Saiba quanto você vai receber de 13º Salário em 2026. Cálculo exato das duas parcelas com descontos de INSS/IRRF. Simulador gratuito e online.",
+    images: ["https://mestredascontas.com.br/opengraph-image"] }
+};
 
 // --- FAQ LIST (DRY Content) ---
 const faqList = [
@@ -80,9 +60,7 @@ const jsonLd = {
       "applicationCategory": "FinanceApplication",
       "operatingSystem": "Web",
       "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
-      "description": "Ferramenta online para cálculo de Décimo Terceiro salário com parcelas e descontos de INSS/IRRF.",
-      "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.8", "ratingCount": "9120", "bestRating": "5", "worstRating": "1" }
-    },
+      "description": "Ferramenta online para cálculo de Décimo Terceiro salário com parcelas e descontos de INSS/IRRF." },
     {
       "@type": "HowTo",
       "name": "Como Calcular o 13º Salário",
@@ -100,9 +78,9 @@ const jsonLd = {
           "text": "Informe quantos meses você trabalhou no ano (fração igual ou maior que 15 dias conta como mês cheio)."
         },
         {
-           "@type": "HowToStep",
-           "name": "Dependentes",
-           "text": "Se tiver dependentes legais, inclua-os para dedução do Imposto de Renda."
+          "@type": "HowToStep",
+          "name": "Dependentes",
+          "text": "Se tiver dependentes legais, inclua-os para dedução do Imposto de Renda."
         },
         {
           "@type": "HowToStep",
@@ -136,31 +114,7 @@ const jsonLd = {
   ]
 };
 
-type Props = { searchParams: Promise<{ [key: string]: string | string[] | undefined }> }
-
-export default async function DecimoTerceiroPage({ searchParams }: Props) {
-  const resolvedParams = await searchParams;
-  const isEmbed = resolvedParams.embed === 'true';
-
-  // --- MODO EMBED ---
-  if (isEmbed) {
-    return (
-        <main className="w-full min-h-screen bg-slate-50 dark:bg-slate-900 p-2 flex flex-col items-center justify-start font-sans">
-            <div className="w-full max-w-3xl">
-                <Suspense fallback={<div className="p-10 text-center animate-pulse text-slate-400 dark:text-slate-500">Carregando Calculadora...</div>}>
-                    <ThirteenthCalculator />
-                </Suspense>
-                <div className="mt-4 text-center border-t border-slate-200 dark:border-slate-800 pt-3">
-                    <Link href="https://mestredascontas.com.br/trabalhista/decimo-terceiro" target="_blank" className="text-[10px] text-slate-400 dark:text-slate-500 hover:text-blue-600 dark:hover:text-blue-400 uppercase font-bold tracking-wider flex items-center justify-center gap-1 transition-colors">
-                        <Gift size={10} /> Powered by Mestre das Contas
-                    </Link>
-                </div>
-            </div>
-        </main>
-    );
-  }
-
-  // --- MODO PÁGINA NORMAL ---
+export default function DecimoTerceiroPage() {
   return (
     <article className="w-full max-w-full overflow-hidden pb-12">
       
@@ -176,8 +130,6 @@ export default async function DecimoTerceiroPage({ searchParams }: Props) {
           variant="default"
           categoryColor="blue"
           badge="Tabela 2026"
-          rating={4.8}
-          reviews={9120}
           breadcrumbs={[
             { label: "Trabalhista", href: "/trabalhista" },
             { label: "13º Salário" }
@@ -218,17 +170,10 @@ export default async function DecimoTerceiroPage({ searchParams }: Props) {
         {/* FERRAMENTA */}
         <section id="ferramenta" className="scroll-mt-28 w-full max-w-full">
           <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/40 dark:shadow-none p-1 md:p-2">
-              <Suspense fallback={
-                <div className="h-96 w-full bg-slate-50 dark:bg-slate-800 rounded-2xl animate-pulse flex items-center justify-center text-slate-400 dark:text-slate-500 border border-slate-200 dark:border-slate-800">
-                    <div className="flex flex-col items-center gap-2">
-                        <Gift className="animate-bounce" size={32}/>
-                        <span>Carregando Calculadora...</span>
-                    </div>
-                </div>
-              }>
                   <PrivacyBadge />
-                  <ThirteenthCalculator />
-              </Suspense>
+                  <Suspense fallback={<div className="h-96 w-full bg-slate-100 dark:bg-slate-800 animate-pulse rounded-3xl" />}>
+                    <ThirteenthCalculator />
+                  </Suspense>
           </div>
           
           <div className="mt-8 print:hidden max-w-5xl mx-auto">
@@ -288,6 +233,45 @@ export default async function DecimoTerceiroPage({ searchParams }: Props) {
               </div>
           </div>
 
+          <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100 mt-10 mb-4 flex items-center gap-2">
+              <BookOpen className="text-blue-600 dark:text-blue-400" /> Tabela de Prazos e Regras 2026
+          </h3>
+          <p className="mb-6">Confira os prazos oficiais e o que muda em cada uma das etapas do pagamento da gratificação natalina:</p>
+          
+          <div className="overflow-x-auto mb-10 not-prose">
+              <table className="w-full text-sm text-left border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-sm">
+                  <thead className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200">
+                      <tr>
+                          <th className="p-4 font-bold border-b border-slate-200 dark:border-slate-700">Evento</th>
+                          <th className="p-4 font-bold border-b border-slate-200 dark:border-slate-700">Prazo Limite</th>
+                          <th className="p-4 font-bold border-b border-slate-200 dark:border-slate-700">O que é pago?</th>
+                          <th className="p-4 font-bold border-b border-slate-200 dark:border-slate-700">Descontos</th>
+                      </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+                      <tr className="hover:bg-slate-50 dark:hover:bg-slate-900/50 transition-colors">
+                          <td className="p-4 font-bold text-slate-900 dark:text-white">1ª Parcela</td>
+                          <td className="p-4">30/11/2026</td>
+                          <td className="p-4 text-emerald-600 dark:text-emerald-400 font-medium">50% do Salário Bruto</td>
+                          <td className="p-4">Nenhum (Valor Integral)</td>
+                      </tr>
+                      <tr className="hover:bg-slate-50 dark:hover:bg-slate-900/50 transition-colors">
+                          <td className="p-4 font-bold text-slate-900 dark:text-white">2ª Parcela</td>
+                          <td className="p-4">20/12/2026</td>
+                          <td className="p-4">Quitação do Salário</td>
+                          <td className="p-4 text-red-600 dark:text-red-400 font-medium">INSS e IRRF (total)</td>
+                      </tr>
+                      <tr className="bg-blue-50/30 dark:bg-blue-900/20 hover:bg-blue-50 dark:hover:bg-blue-900/30 transition-colors">
+                          <td className="p-4 font-bold text-blue-900 dark:text-blue-300">Parcela Única</td>
+                          <td className="p-4">30/11/2026</td>
+                          <td className="p-4 font-bold">100% do Salário</td>
+                          <td className="p-4">Descontos integrais</td>
+                      </tr>
+                  </tbody>
+              </table>
+              <p className="mt-2 text-[10px] text-slate-400 text-center italic">* Se a data limite cair em feriado ou domingo, a empresa deve antecipar o pagamento.</p>
+          </div>
+
           <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100 mt-12 mb-6 flex items-center gap-2">
               <Landmark className="text-amber-600 dark:text-amber-500" /> Uma Conquista Histórica
           </h3>
@@ -315,7 +299,7 @@ export default async function DecimoTerceiroPage({ searchParams }: Props) {
               "Comecei a trabalhar em abril, quanto vou receber?". Essa é uma dúvida clássica. O 13º é pago na proporção de <strong>1/12 (um doze avos)</strong> para cada mês trabalhado.
           </p>
           <p>
-              Mas existe uma "pegadinha" importante: a <strong>Regra dos 15 Dias</strong>.
+              But existe uma "pegadinha" importante: a <strong>Regra dos 15 Dias</strong>.
           </p>
           <ul className="list-disc pl-5 space-y-2 marker:text-purple-600 dark:marker:text-purple-400">
               <li>Para que um mês conte para o cálculo, você precisa ter trabalhado pelo menos <strong>15 dias</strong> nele.</li>

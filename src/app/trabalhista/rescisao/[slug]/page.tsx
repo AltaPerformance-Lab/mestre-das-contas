@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
@@ -13,8 +14,7 @@ import { Calculator, ArrowLeft, Star, Briefcase, FileText, ShieldCheck } from "l
 // --- SSG ---
 export async function generateStaticParams() {
     return terminationCases.map((customCase) => ({
-        slug: customCase.slug,
-    }));
+        slug: customCase.slug }));
 }
 
 // --- METADATA ---
@@ -40,13 +40,11 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
             title,
             description,
             url: `https://mestredascontas.com.br/trabalhista/rescisao/${slug}`,
-            type: "article",
-        },
+            type: "article" },
         twitter: {
             card: "summary_large_image",
             title,
-            description,
-        }
+            description }
     };
 }
 
@@ -68,15 +66,7 @@ export default async function TerminationPSeoPage({ params }: { params: Promise<
                 "applicationCategory": "BusinessApplication",
                 "operatingSystem": "Web Browser",
                 "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
-                "description": customCase.description,
-                "aggregateRating": { 
-                     "@type": "AggregateRating", 
-                     "ratingValue": customCase.rating.toFixed(1), 
-                     "ratingCount": customCase.reviewsCount.toString(),
-                     "bestRating": "5", 
-                     "worstRating": "1" 
-                }
-            },
+                "description": customCase.description },
             {
                 "@type": "FAQPage",
                 "mainEntity": customCase.articleContent.faq?.map(f => ({
@@ -146,8 +136,6 @@ export default async function TerminationPSeoPage({ params }: { params: Promise<
                         { label: "Rescisão", href: "/trabalhista/rescisao" },
                         { label: customCase.reasonLabel }
                     ]}
-                    rating={customCase.rating}
-                    reviews={customCase.reviewsCount}
                 />
             </div>
 
@@ -186,9 +174,11 @@ export default async function TerminationPSeoPage({ params }: { params: Promise<
                     <PrivacyBadge />
                     
                     <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/40 dark:shadow-none p-4 md:p-8">
-                        <TerminationCalculator 
-                            initialReason={initialReasonValue}
-                        />
+                        <Suspense fallback={<div className="h-96 w-full bg-slate-100 dark:bg-slate-800 animate-pulse rounded-3xl" />}>
+                            <TerminationCalculator 
+                                initialReason={initialReasonValue}
+                            />
+                        </Suspense>
                         <div className="mt-8 border-t border-slate-100 dark:border-slate-800 pt-6">
                             <DisclaimerBox />
                         </div>

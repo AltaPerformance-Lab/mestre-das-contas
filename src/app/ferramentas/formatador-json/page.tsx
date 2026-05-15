@@ -27,9 +27,7 @@ export const metadata: Metadata = {
     url: "https://mestredascontas.com.br/ferramentas/formatador-json",
     siteName: "Mestre das Contas",
     locale: "pt_BR",
-    type: "website",
-  },
-};
+    type: "website" } };
 
 // --- DADOS ESTRUTURADOS ---
 const jsonLd = {
@@ -42,15 +40,7 @@ const jsonLd = {
       "operatingSystem": "Web Browser",
       "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
       "description": "Ferramenta online para validar, formatar (beautify) e minificar dados JSON. Processamento local no navegador para total privacidade.",
-      "featureList": "Validação de Sintaxe, Beautify (Pretty Print), Minificação, Download de Arquivo, Copiar para Clipboard",
-      "aggregateRating": { 
-          "@type": "AggregateRating", 
-          "ratingValue": "4.9", 
-          "ratingCount": "850", 
-          "bestRating": "5", 
-          "worstRating": "1" 
-      }
-    },
+      "featureList": "Validação de Sintaxe, Beautify (Pretty Print), Minificação, Download de Arquivo, Copiar para Clipboard" },
     {
       "@type": "Article",
       "headline": "Guia de Formatação e Validação JSON para Desenvolvedores",
@@ -80,9 +70,7 @@ export default function JsonFormatterPage() {
           categoryColor="slate"
           badge="Novo"
           breadcrumbs={[{ label: "Ferramentas", href: "/ferramentas" }, { label: "Formatador JSON" }]}
-          rating={4.9}
-          reviews={850}
-        />
+          />
       </div>
 
       <div className="flex flex-col gap-8 px-4 sm:px-6 pb-12 max-w-7xl mx-auto">
@@ -170,7 +158,7 @@ export default function JsonFormatterPage() {
             <ol className="list-decimal pl-5 space-y-4 text-slate-700 dark:text-slate-300 font-medium marker:text-indigo-600 dark:marker:text-indigo-400 marker:font-bold">
                 <li>
                     <strong>Trailing Commas (Vírgula Sobrando):</strong>
-                    <p className="font-normal text-slate-600 dark:text-slate-400 mt-1">O clássico <code>{"{\"a\": 1,}"}</code>. Essa vírgula final quebra a maioria dos parsers estritos.</p>
+                    <p className="font-normal text-slate-600 dark:text-slate-400 mt-1">O clássico <code>{"{\"a\": 1 }"}</code>. Essa vírgula final quebra a maioria dos parsers estritos.</p>
                 </li>
                 <li>
                     <strong>Aspas Simples:</strong>

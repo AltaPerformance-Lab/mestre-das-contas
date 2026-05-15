@@ -12,6 +12,7 @@ import {
 import LazyAdUnit from '@/components/ads/LazyAdUnit';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
+import ExpertSignature from "@/components/ui/ExpertSignature";
 
 // --- SEO METADATA ---
 export const metadata: Metadata = {
@@ -30,10 +31,8 @@ export const metadata: Metadata = {
     siteName: "Mestre das Contas",
     locale: "pt_BR",
     type: "website",
-    images: [{ url: "https://mestredascontas.com.br/opengraph/editor-pdf.jpg", width: 1200, height: 630, alt: "Editor de PDF Online" }],
-  },
-  robots: { index: true, follow: true },
-};
+    images: [{ url: "https://mestredascontas.com.br/opengraph/editor-pdf.jpg", width: 1200, height: 630, alt: "Editor de PDF Online" }] },
+  robots: { index: true, follow: true } };
 
 // --- FAQ DATA ---
 const faqList = [
@@ -55,9 +54,7 @@ const jsonLd = {
       "operatingSystem": "Web Browser",
       "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
       "description": "Ferramenta completa para manipulação de arquivos PDF no navegador: Editar, Juntar, Assinar e Anotar.",
-      "featureList": "Edição de Texto, Assinatura Digital, Fusão de Documentos, Privacidade Client-Side",
-      "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.95", "ratingCount": "2450", "bestRating": "5", "worstRating": "1" }
-    },
+      "featureList": "Edição de Texto, Assinatura Digital, Fusão de Documentos, Privacidade Client-Side" },
     {
       "@type": "Article",
       "headline": "Como editar PDF grátis e sem instalar programas em 2026",
@@ -94,8 +91,6 @@ export default function PDFEditorPage() {
                 variant="default"
                 categoryColor="violet"
                 badge="Destaque 2026"
-                rating={4.95}
-                reviews={2450}
                 breadcrumbs={[
                     { label: "Ferramentas", href: "/ferramentas" },
                     { label: "Editor PDF" }
@@ -207,26 +202,20 @@ export default function PDFEditorPage() {
             {/* Sidebar Content */}
             <div className="space-y-8">
                 {/* Review Card */}
+                {/* Expert Verification Badge */}
                 <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
-                    <div className="flex items-center gap-1 text-amber-400 mb-2">
-                        <Star className="fill-current" size={20} />
-                        <Star className="fill-current" size={20} />
-                        <Star className="fill-current" size={20} />
-                        <Star className="fill-current" size={20} />
-                        <Star className="fill-current" size={20} />
-                        <span className="text-slate-800 dark:text-slate-100 font-bold ml-2 text-lg">4.9/5</span>
-                    </div>
-                    <p className="text-slate-600 dark:text-slate-400 text-sm mb-4">Baseado em <strong>2.450 avaliações</strong> de usuários reais.</p>
-                    <div className="border-t border-slate-100 dark:border-slate-800 pt-4">
-                        <p className="italic text-slate-500 dark:text-slate-400 text-sm">"Incrível! Consegui juntar os documentos da minha rescisão e assinar tudo pelo celular em segundos."</p>
-                        <div className="flex items-center gap-3 mt-3">
-                            <div className="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-800 flex items-center justify-center text-xs font-bold text-slate-600 dark:text-slate-400">RC</div>
-                            <div>
-                                <p className="text-xs font-bold text-slate-900 dark:text-slate-100">Ricardo C.</p>
-                                <p className="text-[10px] text-slate-400 dark:text-slate-500">Contador, SP</p>
-                            </div>
+                    <div className="flex items-center gap-3 mb-4">
+                        <div className="bg-blue-100 dark:bg-blue-900/30 p-2 rounded-xl text-blue-600 dark:text-blue-400">
+                            <ShieldCheck size={24} />
+                        </div>
+                        <div>
+                            <p className="font-bold text-slate-900 dark:text-slate-100 text-sm">Verificado por Especialista</p>
+                            <p className="text-[10px] text-slate-500 uppercase font-bold tracking-widest">Tecnologia Financeira</p>
                         </div>
                     </div>
+                    <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed italic">
+                        "Esta ferramenta utiliza a biblioteca pdf-lib com processamento local. Nenhuma informação pessoal ou conteúdo de documentos é transmitido para nossos servidores, garantindo conformidade total com a LGPD."
+                    </p>
                 </div>
 
                 {/* Vertical Ad */}
@@ -255,6 +244,7 @@ export default function PDFEditorPage() {
              </Accordion>
         </section>
 
+        <ExpertSignature updatedAt="Maio de 2026" />
         <SmartCrossLinker currentHref="/ferramentas/editor-pdf-online" category="ferramentas" />
 
         {/* Ad Unit Bottom */}

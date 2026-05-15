@@ -19,7 +19,8 @@ import {
   Home,
   CreditCard,
   BarChart3,
-  MoonStar
+  MoonStar,
+  Coins
 } from "lucide-react";
 
 export interface FeatureCardData {
@@ -271,7 +272,58 @@ export const toolsCards: FeatureCardData[] = [
     title: "Calendário Lunar 2026",
     desc: "Acompanhe as fases da lua, eclipses e influências nas marés e agricultura.",
     icon: MoonStar,
-    highlight: true,
     theme: "violet"
+  },
+];
+
+export const glossaryCards: FeatureCardData[] = [
+  {
+    href: "/glossario/fgts-fundo-de-garantia",
+    title: "O que é FGTS?",
+    desc: "Entenda como funciona o Fundo de Garantia e quem tem direito ao saque.",
+    icon: ShieldCheck,
+    theme: "slate"
+  },
+  {
+    href: "/glossario/dsr-descanso-semanal-remunerado",
+    title: "O que é DSR?",
+    desc: "Entenda o Descanso Semanal Remunerado e como ele afeta seu salário.",
+    icon: Clock,
+    theme: "slate"
+  },
+  {
+    href: "/glossario/iva-dual-reforma-tributaria",
+    title: "O que é IVA Dual?",
+    desc: "Entenda a nova tributação da Reforma Tributária 2026.",
+    icon: Landmark,
+    theme: "slate"
+  },
+  {
+    href: "/glossario/juros-compostos-o-que-e",
+    title: "Juros Compostos",
+    desc: "Entenda a matemática dos juros sobre juros e como ela afeta seu bolso.",
+    icon: TrendingUp,
+    theme: "slate"
+  },
+  {
+    href: "/glossario/mei-microempreendedor-individual",
+    title: "O que é MEI?",
+    desc: "Tudo sobre a categoria de Microempreendedor Individual e seus benefícios.",
+    icon: Briefcase,
+    theme: "slate"
+  },
+  {
+    href: "/glossario/taxa-selic-o-que-e",
+    title: "Taxa SELIC",
+    desc: "Saiba como a taxa básica de juros influencia seus financiamentos e investimentos.",
+    icon: Landmark,
+    theme: "slate"
+  },
+  {
+    href: "/glossario/abono-pecuniario-venda-ferias",
+    title: "Venda de Férias",
+    desc: "Entenda as regras para vender 10 dias das suas férias (Abono Pecuniário).",
+    icon: Coins,
+    theme: "slate"
   },
 ];

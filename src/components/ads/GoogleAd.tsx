@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 interface GoogleAdProps {
   slot: string;
@@ -20,12 +20,16 @@ export default function GoogleAd({
 }: GoogleAdProps) {
   
   const pathname = usePathname();
-  const searchParams = useSearchParams();
   const adRef = useRef<HTMLModElement>(null);
   const [consent, setConsent] = useState<'granted' | 'denied' | 'pending'>('pending');
+  const [searchString, setSearchString] = useState("");
+
+  useEffect(() => {
+      setSearchString(window.location.search);
+  }, []);
 
   // CRIA UMA CHAVE ÚNICA BASEADA NA ROTA E CONSENTIMENTO
-  const keyTrigger = `${pathname}-${searchParams.toString()}-${slot}-${consent}`;
+  const keyTrigger = `${pathname}-${searchString}-${slot}-${consent}`;
 
   // 1. GERENCIAMENTO DE CONSENTIMENTO
   useEffect(() => {

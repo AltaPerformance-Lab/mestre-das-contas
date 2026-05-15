@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState, useRef, useEffect, ChangeEvent } from "react";
+import React, { useState, useRef, useEffect, ChangeEvent, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import { QRCodeCanvas, QRCodeSVG } from "qrcode.react";
 import { useReactToPrint } from "react-to-print";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -120,9 +121,35 @@ export default function QRCodeGenerator({ initialType, initialValues }: QRCodeGe
   const [incluirLogo, setIncluirLogo] = useState(false);
   const [logoUrl, setLogoUrl] = useState("/icon"); 
 
-  const canvasRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<HTMLDivElement>(null);
+  const canvasRef = useRef<HTMLDivElement>(null);
   const printRef = useRef<HTMLDivElement>(null);
+  const searchParams = useSearchParams();
+
+  // Hydrate from URL
+  useEffect(() => {
+    const t = searchParams.get('type');
+    const num = searchParams.get('num');
+    const msg = searchParams.get('msg');
+    const key = searchParams.get('key');
+    const name = searchParams.get('name');
+    const amount = searchParams.get('amount');
+    const ssid = searchParams.get('ssid');
+    const enc = searchParams.get('encryption');
+    const pass = searchParams.get('pass');
+    const url = searchParams.get('url');
+
+    if (t) setActiveTab(t);
+    if (num) setWhatsNum(num);
+    if (msg) setWhatsMsg(decodeURIComponent(msg));
+    if (key) setPixKey(key);
+    if (name) setPixName(decodeURIComponent(name));
+    if (amount) setPixAmount(amount);
+    if (ssid) setWifiSsid(ssid);
+    if (enc) setWifiType(enc);
+    if (pass) setWifiPass(pass);
+    if (url) setQrValue(decodeURIComponent(url));
+  }, [searchParams]);
 
   // --- USE EFFECT CORRIGIDO E EXPANDIDO ---
   useEffect(() => {

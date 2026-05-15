@@ -9,9 +9,7 @@ export const metadata: Metadata = {
   // IMPORTANTE: Deixe indexável para o AdSense verificar a conformidade do site.
   robots: { index: true, follow: true },
   alternates: {
-    canonical: "https://mestredascontas.com.br/termos-de-uso",
-  },
-};
+    canonical: "https://mestredascontas.com.br/termos-de-uso" } };
 
 export default function TermosPage() {
   return (

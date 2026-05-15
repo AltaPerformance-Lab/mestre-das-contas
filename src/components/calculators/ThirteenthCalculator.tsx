@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import ShareAsImage from "@/components/ui/ShareAsImage";
 import { trackEvent } from "@/lib/analytics";
+import { calculateThirteenth, type ThirteenthResult } from "@/lib/calculators/thirteenth";
 
 // TIPO PARA HISTÓRICO
 type Historico13 = {
@@ -23,30 +24,32 @@ type Historico13 = {
   meses: string;
 };
 
-type Resultado13 = {
-    totalBruto: string;
-    primeiraParcela: string;
-    segundaParcela: string;
-    inss: string;
-    irrf: string;
-    totalLiquido: string;
-    meses: number;
-    rawSalario: number;
-    rawMeses: number;
-    rawDeps: number;
-} | null;
+interface ThirteenthCalculatorProps {
+    initialSalario?: number;
+    initialMeses?: number;
+    initialDeps?: number;
+    initialResult?: ThirteenthResult | null;
+}
 
-export default function ThirteenthCalculator() {
+export default function ThirteenthCalculator({
+    initialSalario = 0,
+    initialMeses = 12,
+    initialDeps = 0,
+    initialResult = null
+}: ThirteenthCalculatorProps) {
   const searchParams = useSearchParams();
   const [isIframe, setIsIframe] = useState(false);
 
+  // HELPER FORMAT
+  const formatBRL = (val: number) => new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(val);
+
   // STATES DE DADOS
-  const [salarioBruto, setSalarioBruto] = useState("");
-  const [salarioValue, setSalarioValue] = useState(0);
-  const [dependentes, setDependentes] = useState("0");
-  const [mesesTrabalhados, setMesesTrabalhados] = useState("12");
+  const [salarioValue, setSalarioValue] = useState(initialSalario);
+  const [salarioBruto, setSalarioBruto] = useState(initialSalario > 0 ? formatBRL(initialSalario) : "");
+  const [dependentes, setDependentes] = useState(initialDeps.toString());
+  const [mesesTrabalhados, setMesesTrabalhados] = useState(initialMeses.toString());
   
-  const [resultado, setResultado] = useState<Resultado13>(null);
+  const [resultado, setResultado] = useState<ThirteenthResult | null>(initialResult);
 
   // STATES DE FUNCIONALIDADES
   const [historico, setHistorico] = useState<Historico13[]>([]);
@@ -59,10 +62,7 @@ export default function ThirteenthCalculator() {
   const reactToPrintFn = useReactToPrint({
     contentRef,
     documentTitle: "Decimo_Terceiro_Simulado_MestreDasContas",
-    pageStyle: `
-      @page { size: auto; margin: 0mm; } 
-      @media print { body { -webkit-print-color-adjust: exact; } }
-    `
+    pageStyle: `@page { size: auto; margin: 0mm; } @media print { body { -webkit-print-color-adjust: exact; } }`
   });
 
   // FORMATADORES
@@ -80,97 +80,46 @@ export default function ThirteenthCalculator() {
     setSalarioValue(value);
   };
 
-  const formatBRL = (val: number) => new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(val);
-
   // EFEITOS
   useEffect(() => {
     setIsIframe(window.self !== window.top);
     setDataAtual(new Date().toLocaleDateString("pt-BR"));
     
-    // Carregar Histórico
     const salvo = localStorage.getItem("historico_13");
     if (salvo) setHistorico(JSON.parse(salvo));
 
-    // Ler URL
+    // Hidratação via URL (Deep Linking)
     const urlSalario = searchParams.get("salario");
     const urlMeses = searchParams.get("meses");
     const urlDeps = searchParams.get("dependentes");
 
-    if (urlSalario) {
-        const valSalario = parseFloat(urlSalario);
-        setSalarioValue(valSalario);
-        setSalarioBruto(formatBRL(valSalario));
+    if (!initialSalario && urlSalario) {
+        const s = parseFloat(urlSalario);
+        const m = urlMeses ? parseInt(urlMeses) : 12;
+        const d = urlDeps ? parseInt(urlDeps) : 0;
         
-        if (urlMeses) setMesesTrabalhados(urlMeses);
-        if (urlDeps) setDependentes(urlDeps);
-
-        setTimeout(() => {
-            calcular(valSalario, parseInt(urlMeses || "12"), parseInt(urlDeps || "0"));
-        }, 200);
+        setSalarioValue(s);
+        setSalarioBruto(formatBRL(s));
+        setMesesTrabalhados(m.toString());
+        setDependentes(d.toString());
+        
+        handleCalcular(s, m, d);
+    } else if (initialSalario > 0 && !resultado) {
+        handleCalcular(initialSalario, initialMeses, initialDeps);
     }
-  }, [searchParams]);
+  }, [searchParams, initialSalario, initialMeses, initialDeps]);
 
   // CÁLCULO
-  const calcular = (pSalario = salarioValue, pMeses = parseInt(mesesTrabalhados), pDeps = parseInt(dependentes) || 0) => {
-    if (!pSalario) return;
-
-    // Valor Total Bruto (Proporcional)
-    const valorTotal13 = (pSalario / 12) * pMeses;
-
-    // 1ª Parcela (50% do total, sem descontos)
-    const primeiraParcela = valorTotal13 / 2;
-
-    // Descontos (Sobre o CHEIO) - INSS 2026
-    let inss = 0;
-    let baseCalculo = valorTotal13;
-    
-    if (baseCalculo <= 1621.00) inss = baseCalculo * 0.075;
-    else if (baseCalculo <= 2902.84) inss = (1621.00 * 0.075) + ((baseCalculo - 1621.00) * 0.09);
-    else if (baseCalculo <= 4354.27) inss = (1621.00 * 0.075) + ((2902.84 - 1621.00) * 0.09) + ((baseCalculo - 2902.84) * 0.12);
-    else if (baseCalculo <= 8475.55) inss = (1621.00 * 0.075) + ((2902.84 - 1621.00) * 0.09) + ((4354.27 - 2902.84) * 0.12) + ((baseCalculo - 4354.27) * 0.14);
-    else inss = 988.10; // Teto Máximo INSS 2026
-
-    // IRRF 2026 (Regra Nova - Isenção até R$ 5.000)
-    const deducaoDependentes = pDeps * 189.59;
-    const baseIRRF = baseCalculo - inss - deducaoDependentes;
-    let irrf = 0;
-
-    if (baseIRRF <= 5000.00) {
-        irrf = 0;
-    } else if (baseIRRF <= 7350.00) {
-        irrf = 978.62 - (0.133145 * baseIRRF);
-    } else {
-        if (baseIRRF <= 2428.80) irrf = 0;
-        else if (baseIRRF <= 2826.65) irrf = (baseIRRF * 0.075) - 182.16;
-        else if (baseIRRF <= 3751.05) irrf = (baseIRRF * 0.15) - 394.16;
-        else if (baseIRRF <= 4664.68) irrf = (baseIRRF * 0.225) - 675.49;
-        else irrf = (baseIRRF * 0.275) - 908.73;
+  const handleCalcular = (pSalario = salarioValue, pMeses = parseInt(mesesTrabalhados), pDeps = parseInt(dependentes) || 0) => {
+    const res = calculateThirteenth(pSalario, pMeses, pDeps);
+    if (res) {
+        setResultado(res);
+        trackEvent("calculate_13", { meses: pMeses, salario: pSalario });
+        if (!isIframe) salvarHistorico(res);
     }
-    if (irrf < 0) irrf = 0;
-
-    // 2ª Parcela (Total - 1ª - Descontos)
-    const segundaParcela = valorTotal13 - primeiraParcela - inss - irrf;
-
-    const novoResultado = {
-      totalBruto: formatBRL(valorTotal13),
-      primeiraParcela: formatBRL(primeiraParcela),
-      segundaParcela: formatBRL(segundaParcela),
-      inss: formatBRL(inss),
-      irrf: formatBRL(irrf),
-      totalLiquido: formatBRL(primeiraParcela + segundaParcela),
-      meses: pMeses,
-      rawSalario: pSalario,
-      rawMeses: pMeses,
-      rawDeps: pDeps
-    };
-
-    setResultado(novoResultado);
-    trackEvent("calculate_13", { meses: pMeses, salario: pSalario });
-    if (!isIframe) salvarHistorico(novoResultado);
   };
 
-  // ACTIONS
-  const salvarHistorico = (res: any) => {
+  const salvarHistorico = (res: ThirteenthResult) => {
     const novoItem: Historico13 = {
         data: new Date().toLocaleDateString("pt-BR"),
         salario: formatBRL(res.rawSalario),
@@ -201,17 +150,12 @@ export default function ThirteenthCalculator() {
         navigator.clipboard.writeText(`${baseUrl}?${params.toString()}`);
         trackEvent("share_13_link");
     } else {
-        navigator.clipboard.writeText(`<iframe src="https://mestredascontas.com.br/trabalhista/decimo-terceiro?embed=true" width="100%" height="700" frameborder="0" style="border:0; overflow:hidden; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.1);" title="Calculadora de 13º Salário"></iframe>`);
+        navigator.clipboard.writeText(`<iframe src="https://mestredascontas.com.br/trabalhista/decimo-terceiro?embed=true" width="100%" height="700" frameborder="0" style="border:0; overflow:hidden; border-radius:12px;" title="Calculadora de 13º Salário"></iframe>`);
         trackEvent("share_13_embed");
     }
 
     setCopiado(type);
     setTimeout(() => setCopiado(null), 2000);
-  };
-
-  const handlePrint = () => {
-    trackEvent("print_13");
-    if (reactToPrintFn) reactToPrintFn();
   };
 
   return (
@@ -228,13 +172,7 @@ export default function ThirteenthCalculator() {
                     Dados do 13º Salário
                   </CardTitle>
                   {!isIframe && (
-                      <Button 
-                        variant="ghost" 
-                        size="sm" 
-                        onClick={() => setShowEmbedModal(true)} 
-                        className="text-white hover:text-white hover:bg-white/20 h-8 px-2 rounded-lg"
-                        title="Incorporar no seu site"
-                      >
+                      <Button variant="ghost" size="sm" onClick={() => setShowEmbedModal(true)} className="text-white hover:text-white hover:bg-white/20 h-8 px-2 rounded-lg" title="Incorporar no seu site">
                           <Code2 size={18} />
                       </Button>
                   )}
@@ -267,42 +205,24 @@ export default function ThirteenthCalculator() {
                   </div>
               </div>
 
-              <div className="bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-100 dark:border-emerald-800 p-3 rounded-lg flex items-start gap-3">
-                  <CheckCircle2 className="text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" size={16} />
-                  <div className="text-xs text-emerald-800 dark:text-emerald-200">
-                      <p className="font-bold mb-1">Base Legal Atualizada</p>
-                      <p className="leading-relaxed opacity-90">
-                          A 2ª parcela já desconta o IRRF considerando a isenção ampliada até <strong>R$ 5.000,00</strong>.
-                          <a href="https://www.gov.br/receitafederal/pt-br" target="_blank" rel="noopener noreferrer" className="underline ml-1 hover:text-emerald-600 dark:hover:text-emerald-300">
-                              Fonte
-                          </a>
-                      </p>
-                  </div>
-              </div>
-
               <div className="flex gap-3 pt-2">
-                  <Button onClick={() => calcular()} className="flex-1 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 h-14 text-lg font-bold shadow-lg shadow-blue-200 rounded-xl transition-all active:scale-[0.99]">Calcular 13º</Button>
-                  <Button variant="outline" onClick={limpar} size="icon" className="h-14 w-14 shrink-0 border-slate-200 dark:border-slate-700 text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 hover:border-red-200 dark:hover:border-red-800 bg-white dark:bg-slate-900 rounded-xl transition-colors" title="Limpar"><RefreshCcw className="h-5 w-5" /></Button>
+                  <Button onClick={() => handleCalcular()} className="flex-1 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 h-14 text-lg font-bold shadow-lg shadow-blue-200 rounded-xl transition-all active:scale-[0.99]">Calcular 13º</Button>
+                  <Button variant="outline" onClick={limpar} size="icon" className="h-14 w-14 shrink-0 border-slate-200 dark:border-slate-700 text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-xl transition-colors"><RefreshCcw className="h-5 w-5" /></Button>
               </div>
             </CardContent>
           </Card>
 
-          {/* HISTÓRICO */}
           {!isIframe && historico.length > 0 && (
-            <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-5 shadow-sm animate-in fade-in">
-                <h4 className="text-xs font-bold text-slate-400 uppercase mb-4 flex items-center gap-2 tracking-wider"><History size={14} /> Histórico Recente</h4>
+            <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-5 shadow-sm">
+                <h4 className="text-xs font-bold text-slate-400 uppercase mb-4 flex items-center gap-2 tracking-wider"><History size={14} /> Recentes</h4>
                 <div className="space-y-1">
                 {historico.map((item, idx) => (
-                    <div key={idx} className="flex justify-between items-center text-sm border-b border-slate-50 dark:border-slate-800 pb-2 last:border-0 last:pb-0 p-2 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors cursor-pointer active:bg-slate-100 dark:active:bg-slate-700" 
-                         onClick={() => {
-                             const valBruto = item.salario.replace("R$", "").trim();
-                             handleSalarioChange({ target: { value: valBruto.replace(/\./g, "").replace(",", "") } } as any);
-                         }}>
-                    <div className="flex flex-col">
-                        <span className="text-slate-900 dark:text-slate-100 font-bold">{item.salario}</span>
-                        <span className="text-[10px] text-slate-400 font-medium">{item.meses} meses • {item.data}</span>
-                    </div>
-                    <span className="font-bold text-blue-700 dark:text-blue-300 bg-blue-50 dark:bg-blue-900/30 px-2 py-0.5 rounded text-xs tabular-nums">{item.liquido}</span>
+                    <div key={idx} className="flex justify-between items-center text-sm border-b border-slate-50 dark:border-slate-800 pb-2 last:border-0 last:pb-0 p-2 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors cursor-pointer">
+                        <div className="flex flex-col">
+                            <span className="text-slate-900 dark:text-slate-100 font-bold">{item.salario}</span>
+                            <span className="text-[10px] text-slate-400 font-medium">{item.meses} meses</span>
+                        </div>
+                        <span className="font-bold text-blue-700 dark:text-blue-300 bg-blue-50 dark:bg-blue-900/30 px-2 py-0.5 rounded text-xs">{item.liquido}</span>
                     </div>
                 ))}
                 </div>
@@ -312,55 +232,44 @@ export default function ThirteenthCalculator() {
 
         {/* --- RESULTADO (Dir) --- */}
         <div className="lg:col-span-5 w-full flex flex-col gap-6">
-          <Card id="resultado-decimo-card" className={`h-full w-full transition-all duration-500 border-0 shadow-lg shadow-slate-200/50 dark:shadow-none ring-1 ring-slate-200 dark:ring-slate-800 overflow-hidden flex flex-col ${resultado ? 'bg-white dark:bg-slate-900' : 'bg-slate-50 dark:bg-slate-950'}`}>
+          <Card id="resultado-decimo-card" className={`h-full w-full border-0 shadow-lg shadow-slate-200/50 dark:shadow-none ring-1 ring-slate-200 dark:ring-slate-800 overflow-hidden flex flex-col ${resultado ? 'bg-white dark:bg-slate-900' : 'bg-slate-50 dark:bg-slate-950'}`}>
             <CardHeader className="px-6 py-5 border-b border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 shrink-0">
               <CardTitle className="text-slate-800 dark:text-slate-100 text-lg font-bold">Resultado Detalhado</CardTitle>
             </CardHeader>
             <CardContent className="p-6 flex-1 flex flex-col">
               {!resultado ? (
                 <div className="flex-1 flex flex-col items-center justify-center text-slate-400 text-center space-y-4 min-h-[300px]">
-                  <div className="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mb-2">
-                      <CalendarDays size={40} className="opacity-30" />
-                  </div>
+                  <div className="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mb-2"><CalendarDays size={40} className="opacity-30" /></div>
                   <p className="text-sm font-medium max-w-[200px]">Preencha os dados para ver as parcelas.</p>
                 </div>
               ) : (
-                <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500 w-full">
-                  
-                  {/* Card 1ª Parcela */}
-                  <div className="bg-blue-50 dark:bg-blue-900/20 p-5 rounded-xl border border-blue-100 dark:border-blue-900/30 relative w-full text-center hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors">
+                <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 w-full">
+                  <div className="bg-blue-50 dark:bg-blue-900/20 p-5 rounded-xl border border-blue-100 dark:border-blue-900/30 text-center">
                     <p className="text-xs text-blue-600 dark:text-blue-400 font-bold uppercase tracking-wider mb-1">1ª Parcela (Adiantamento)</p>
-                    <p className="text-3xl font-extrabold text-blue-700 dark:text-blue-300 break-words tracking-tight">{resultado.primeiraParcela}</p>
-                    <span className="text-[10px] bg-white dark:bg-slate-900 px-2 py-0.5 rounded text-blue-400 border border-blue-100 dark:border-blue-900 absolute top-4 right-4 font-medium">Sem descontos</span>
+                    <p className="text-3xl font-extrabold text-blue-700 dark:text-blue-300 tracking-tight">{resultado.primeiraParcela}</p>
                   </div>
 
-                  {/* Card 2ª Parcela */}
-                  <div className="bg-slate-900 p-5 rounded-xl border border-slate-800 shadow-lg relative w-full text-center group">
-                    <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/20 rounded-full blur-3xl -mr-10 -mt-10 group-hover:bg-blue-500/30 transition-colors duration-500"></div>
-                    <p className="text-xs text-slate-400 font-bold uppercase tracking-wider mb-1 relative z-10">2ª Parcela (Saldo Final)</p>
-                    <div className="w-full flex items-center justify-center px-4">
-                      <p className="text-3xl sm:text-4xl font-extrabold text-white break-words tracking-tight relative z-10 leading-normal text-center">{resultado.segundaParcela}</p>
-                    </div>
-                    <p className="text-[10px] text-slate-500 mt-2 relative z-10">(Valor restante menos impostos)</p>
+                  <div className="bg-slate-900 p-5 rounded-xl border border-slate-800 shadow-lg text-center">
+                    <p className="text-xs text-slate-400 font-bold uppercase tracking-wider mb-1">2ª Parcela (Saldo Final)</p>
+                    <p className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">{resultado.segundaParcela}</p>
                   </div>
 
                   <div className="space-y-0 text-sm bg-white dark:bg-slate-900 rounded-xl border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden divide-y divide-slate-100 dark:divide-slate-800">
-                    <div className="flex justify-between py-3 px-4 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"><span className="text-slate-600 dark:text-slate-400 font-medium">Total Bruto ({resultado.meses}/12)</span><span className="font-bold text-slate-900 dark:text-slate-100">{resultado.totalBruto}</span></div>
-                    <div className="flex justify-between py-3 px-4 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"><span className="text-red-500 font-medium flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-red-500"></div> INSS</span><span className="font-bold text-red-600 dark:text-red-400">- {resultado.inss}</span></div>
-                    <div className="flex justify-between py-3 px-4 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"><span className="text-red-500 font-medium flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-red-500"></div> IRRF</span><span className="font-bold text-red-600 dark:text-red-400">- {resultado.irrf}</span></div>
-                    <div className="flex justify-between py-3 px-4 bg-slate-50 dark:bg-slate-800/50 font-bold"><span className="text-slate-700 dark:text-slate-300 text-xs uppercase tracking-wide">Total Líquido (Soma)</span><span className="text-blue-600 dark:text-blue-400 text-base">{resultado.totalLiquido}</span></div>
+                    <div className="flex justify-between py-3 px-4 hover:bg-slate-50 transition-colors"><span className="text-slate-600 dark:text-slate-400 font-medium">Total Bruto ({resultado.meses}/12)</span><span className="font-bold text-slate-900 dark:text-slate-100">{resultado.totalBruto}</span></div>
+                    <div className="flex justify-between py-3 px-4 hover:bg-slate-50 transition-colors"><span className="text-red-500 font-medium flex items-center gap-2">INSS</span><span className="font-bold text-red-600">- {resultado.inss}</span></div>
+                    <div className="flex justify-between py-3 px-4 hover:bg-slate-50 transition-colors"><span className="text-red-500 font-medium flex items-center gap-2">IRRF</span><span className="font-bold text-red-600">- {resultado.irrf}</span></div>
+                    <div className="flex justify-between py-3 px-4 bg-slate-50 dark:bg-slate-800/50 font-bold"><span className="text-slate-700 dark:text-slate-300 text-xs uppercase tracking-wide">Total Líquido</span><span className="text-blue-600 dark:text-blue-400 text-base">{resultado.totalLiquido}</span></div>
                   </div>
 
-                  {/* BOTÕES */}
                   <div className="grid grid-cols-2 gap-3 pt-2">
-                      <Button variant="outline" onClick={() => handleShare("link")} className="h-11 border-slate-200 dark:border-slate-700 hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-200 dark:hover:border-blue-800 bg-white dark:bg-slate-900 dark:text-slate-100 text-xs font-bold uppercase tracking-wide">
+                      <Button variant="outline" onClick={() => handleShare("link")} className="h-11 border-slate-200 dark:border-slate-700 hover:bg-blue-50 dark:text-slate-100 text-xs font-bold uppercase tracking-wide bg-white dark:bg-slate-900">
                           {copiado === "link" ? <span className="flex items-center gap-2"><CheckCircle2 size={16}/> Copiado</span> : <span className="flex items-center gap-2"><Share2 size={16}/> Link</span>}
                       </Button>
-                      <Button variant="outline" onClick={handlePrint} className="h-11 border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-100 bg-white dark:bg-slate-900 dark:text-slate-100 text-xs font-bold uppercase tracking-wide">
-                          <span className="flex items-center gap-2"><Printer size={16}/> Imprimir</span>
+                      <Button variant="outline" onClick={() => reactToPrintFn()} className="h-11 border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:text-slate-100 bg-white dark:bg-slate-900 text-xs font-bold uppercase tracking-wide">
+                          <Printer size={16}/> Imprimir
                       </Button>
                       <div className="col-span-2">
-                            <ShareAsImage elementId="resultado-decimo-card" className="w-full h-11 bg-slate-900 dark:bg-slate-800 text-white hover:bg-slate-800 dark:hover:bg-slate-700 border-none" />
+                            <ShareAsImage elementId="resultado-decimo-card" className="w-full h-11 bg-slate-900 dark:bg-slate-800 text-white" />
                       </div>
                   </div>
                 </div>
@@ -370,92 +279,49 @@ export default function ThirteenthCalculator() {
         </div>
       </div>
 
-      {/* --- IMPRESSÃO (Oculto) --- */}
-      {resultado && (
-        <div className="hidden print:block">
-            <div ref={contentRef} className="print:w-full print:p-8 print:bg-white text-slate-900">
-                <div className="flex justify-between items-start mb-8 border-b-2 border-slate-800 pb-6">
-                    <div>
-                        <h1 className="text-3xl font-bold text-slate-900 tracking-tight">Extrato de 13º Salário</h1>
-                        <p className="text-sm text-slate-500 mt-1 font-medium">Simulação <strong>Mestre das Contas</strong></p>
+      {/* --- IMPRESSÃO --- */}
+      <div className="hidden print:block text-slate-900">
+        <div ref={contentRef} className="p-8 bg-white">
+            <h1 className="text-3xl font-bold border-b-2 border-slate-800 pb-4 mb-8">Extrato de 13º Salário</h1>
+            {resultado && (
+                <div className="space-y-6">
+                    <div className="grid grid-cols-3 gap-4">
+                        <div className="p-4 bg-slate-50 rounded-xl border border-slate-200"><p className="text-xs uppercase font-bold text-slate-500 mb-1">Salário Bruto</p><p className="text-xl font-bold">{resultado.totalBruto}</p></div>
+                        <div className="p-4 bg-slate-50 rounded-xl border border-slate-200"><p className="text-xs uppercase font-bold text-slate-500 mb-1">Meses</p><p className="text-xl font-bold">{resultado.meses} / 12</p></div>
+                        <div className="p-4 bg-slate-50 rounded-xl border border-slate-200"><p className="text-xs uppercase font-bold text-slate-500 mb-1">Dependentes</p><p className="text-xl font-bold">{resultado.rawDeps}</p></div>
                     </div>
-                    <div className="text-right">
-                        <div className="bg-slate-100 px-3 py-1 rounded inline-block">
-                            <p className="text-xs text-slate-500 uppercase font-bold tracking-wider">Recibo de Simulação</p>
-                        </div>
-                        <p className="text-sm text-slate-400 mt-2">{dataAtual}</p>
-                    </div>
-                </div>
-
-                <div className="mb-8 grid grid-cols-3 gap-4 text-sm">
-                    <div className="p-4 border border-slate-200 rounded-xl bg-slate-50">
-                        <p className="text-xs text-slate-500 uppercase font-bold mb-2">Salário Base</p>
-                        <p className="text-xl font-bold text-slate-900">{resultado.totalBruto}</p>
-                    </div>
-                    <div className="p-4 border border-slate-200 rounded-xl bg-slate-50">
-                        <p className="text-xs text-slate-500 uppercase font-bold mb-2">Meses Trab.</p>
-                        <p className="text-xl font-bold text-slate-900">{resultado.meses} / 12</p>
-                    </div>
-                    <div className="p-4 border border-slate-200 rounded-xl bg-slate-50">
-                        <p className="text-xs text-slate-500 uppercase font-bold mb-2">Dependentes</p>
-                        <p className="text-xl font-bold text-slate-900">{dependentes}</p>
-                    </div>
-                </div>
-
-                <div className="mb-8 border border-slate-200 rounded-xl overflow-hidden">
-                    <table className="w-full text-sm">
-                        <thead className="bg-slate-50 text-slate-500 text-xs uppercase font-bold">
-                            <tr>
-                                <th className="p-4 text-left">Descrição</th>
-                                <th className="p-4 text-right">Valor</th>
-                            </tr>
-                        </thead>
+                    <table className="w-full border-collapse">
+                        <thead className="bg-slate-100"><tr className="text-left"><th className="p-3">Rubrica</th><th className="p-3 text-right">Valor</th></tr></thead>
                         <tbody className="divide-y divide-slate-100">
-                            <tr><td className="p-4 font-medium">1ª Parcela (Adiantamento)</td><td className="p-4 text-right font-bold text-green-700">{resultado.primeiraParcela}</td></tr>
-                            <tr><td className="p-4 font-medium">2ª Parcela (Saldo)</td><td className="p-4 text-right font-bold text-green-700">{resultado.segundaParcela}</td></tr>
-                            <tr><td className="p-4 font-medium text-red-600">Desconto INSS</td><td className="p-4 text-right font-bold text-red-600">- {resultado.inss}</td></tr>
-                            <tr><td className="p-4 font-medium text-red-600">Desconto IRRF</td><td className="p-4 text-right font-bold text-red-600">- {resultado.irrf}</td></tr>
+                            <tr><td className="p-3">1ª Parcela</td><td className="p-3 text-right font-bold text-emerald-600">{resultado.primeiraParcela}</td></tr>
+                            <tr><td className="p-3">2ª Parcela</td><td className="p-3 text-right font-bold text-emerald-600">{resultado.segundaParcela}</td></tr>
+                            <tr><td className="p-3 text-red-600">INSS</td><td className="p-3 text-right font-bold text-red-600">- {resultado.inss}</td></tr>
+                            <tr><td className="p-3 text-red-600">IRRF</td><td className="p-3 text-right font-bold text-red-600">- {resultado.irrf}</td></tr>
                         </tbody>
-                        <tfoot className="bg-slate-900 text-white">
-                            <tr>
-                                <td className="p-4 font-bold uppercase tracking-wider">TOTAL LÍQUIDO (1ª + 2ª)</td>
-                                <td className="p-4 text-right text-lg font-extrabold">{resultado.totalLiquido}</td>
-                            </tr>
-                        </tfoot>
+                        <tfoot className="bg-slate-900 text-white"><tr><td className="p-3 font-bold">LÍQUIDO TOTAL</td><td className="p-3 text-right font-bold text-lg">{resultado.totalLiquido}</td></tr></tfoot>
                     </table>
                 </div>
-
-                <div className="mt-auto pt-8 border-t border-slate-200 flex items-center justify-between text-sm fixed bottom-0 w-full">
-                    <div className="flex items-center gap-2 text-slate-600">
-                        <LinkIcon size={16}/>
-                        <span>Ferramenta disponível em: <strong>mestredascontas.com.br</strong></span>
-                    </div>
-                    <div className="bg-slate-100 px-3 py-1 rounded text-slate-500 text-xs font-bold uppercase">
-                        Não vale como documento oficial
-                    </div>
-                </div>
-            </div>
+            )}
         </div>
-      )}
+      </div>
 
       {/* --- EMBED MODAL --- */}
       {showEmbedModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 animate-in fade-in backdrop-blur-sm print:hidden" onClick={() => setShowEmbedModal(false)}>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4" onClick={() => setShowEmbedModal(false)}>
             <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-2xl p-6 max-w-lg w-full relative" onClick={e => e.stopPropagation()}>
-                <button onClick={() => setShowEmbedModal(false)} className="absolute top-4 right-4 text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300 transition-colors"><X size={20}/></button>
+                <button onClick={() => setShowEmbedModal(false)} className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 transition-colors"><X size={20}/></button>
                 <h3 className="text-lg font-bold text-slate-900 dark:text-slate-100 mb-2">Incorporar no seu Site</h3>
-                <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">Copie o código abaixo para adicionar essa calculadora no seu blog ou site.</p>
-                <div className="bg-slate-950 p-4 rounded-xl relative mb-4 overflow-hidden group">
-                    <code className="text-xs font-mono text-blue-300 break-all block leading-relaxed selection:bg-blue-900">
-                        {`<iframe src="https://mestredascontas.com.br/trabalhista/decimo-terceiro?embed=true" width="100%" height="700" frameborder="0" style="border:0; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.1);" title="Calculadora 13º Salário"></iframe>`}
+                <div className="bg-slate-950 p-4 rounded-xl relative mb-4">
+                    <code className="text-xs font-mono text-blue-300 break-all block leading-relaxed">
+                        {`<iframe src="https://mestredascontas.com.br/trabalhista/decimo-terceiro?embed=true" width="100%" height="700" frameborder="0" style="border:0; border-radius:12px;" title="Calculadora 13º Salário"></iframe>`}
                     </code>
                 </div>
                 <Button onClick={() => {
-                    navigator.clipboard.writeText(`<iframe src="https://mestredascontas.com.br/trabalhista/decimo-terceiro?embed=true" width="100%" height="700" frameborder="0" style="border:0; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.1);" title="Calculadora 13º Salário"></iframe>`);
+                    navigator.clipboard.writeText(`<iframe src="https://mestredascontas.com.br/trabalhista/decimo-terceiro?embed=true" width="100%" height="700" frameborder="0" style="border:0; border-radius:12px;" title="Calculadora 13º Salário"></iframe>`);
                     setCopiado("embed");
                     setTimeout(() => setCopiado(null), 2000);
-                }} className="w-full bg-slate-900 hover:bg-slate-800 dark:bg-blue-600 dark:hover:bg-blue-700 text-white font-bold h-12 rounded-xl">
-                    {copiado === "embed" ? "Código Copiado!" : "Copiar Código HTML"}
+                }} className="w-full bg-slate-900 dark:bg-blue-600 text-white font-bold h-12 rounded-xl">
+                    {copiado === "embed" ? "Copiado!" : "Copiar Código"}
                 </Button>
             </div>
         </div>

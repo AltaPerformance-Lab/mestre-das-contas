@@ -1,42 +1,72 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import LazyAdUnit from "@/components/ads/LazyAdUnit";
 import PageHeader from "@/components/layout/PageHeader";
 import CardMachineSimulator from "@/components/calculators/CardMachineSimulator";
+import { calculateCardMachine } from "@/lib/calculators/card-machine";
 import { 
   CreditCard, TrendingDown, ShieldAlert, BadgePercent, 
-  HelpCircle, AlertTriangle, ShieldCheck
+  HelpCircle, AlertTriangle, ShieldCheck, ArrowLeft
 } from "lucide-react";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
 import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
 
-export const metadata: Metadata = {
-  title: "Calculadora de Taxas Maquininha 2026 (Grátis) | Quanto Cai na Conta",
-  description: "Quanto você realmente recebe? Calcule as taxas MDR e Antecipação de todas as maquininhas em segundos. Descubra o custo real de vender parcelado em 2026.",
-  keywords: ["simulador taxas maquininha", "calculadora antecipação recebiveis", "mdr cartão credito", "calcular juros maquininha", "taxa sumup moderninha mercado pago"],
-  alternates: { canonical: "https://mestredascontas.com.br/financeiro/simulador-maquininha" },
-  openGraph: {
-    title: "Simulador de Maquininha - Mestre das Contas",
-    description: "Venda parcelada, receba à vista? Veja o quanto isso custa do seu lucro agora.",
-    url: "https://mestredascontas.com.br/financeiro/simulador-maquininha",
-    siteName: "Mestre das Contas",
-    locale: "pt_BR",
-    type: "website",
-  },
-};
+// --- 1. METADATA DINÂMICA (SEO MAXIMIZADO) ---
+export async function generateMetadata(): Promise<Metadata> {
+    const title = "Simulador de Taxas de Maquininha 2026 | Compare e Economize";
+    const description = "Quanto você realmente recebe? Calcule as taxas de todas as maquininhas em segundos. Descubra o custo real de vender parcelado e economize em 2026.";
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  "name": "Simulador de Taxas de Cartão",
-  "applicationCategory": "BusinessApplication",
-  "operatingSystem": "Web",
-  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
-  "description": "Calcula o valor líquido de vendas no cartão de crédito descontando taxas MDR e antecipação.",
-  "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.7", "ratingCount": "980", "bestRating": "5", "worstRating": "1" }
-};
+    return {
+        title,
+        description,
+        keywords: ["simulador taxas maquininha", "calculadora antecipação recebiveis", "mdr cartão credito", "calcular juros maquininha", "taxa sumup moderninha mercado pago"],
+        alternates: { canonical: "https://mestredascontas.com.br/financeiro/simulador-maquininha" },
+        openGraph: {
+            title,
+            description,
+            url: "https://mestredascontas.com.br/financeiro/simulador-maquininha",
+            siteName: "Mestre das Contas",
+            locale: "pt_BR",
+            type: "website" } };
+}
 
-export default function CardSimulatorPage() {
+const faqList = [
+    {
+        q: "O que é melhor: Receber parcelado ou antecipar?",
+        a: "Financeiramente, receber parcelado (\"no fluxo\") é sempre melhor, pois você não paga a taxa de antecipação. Só antecipe se você tiver falta de capital de giro (dinheiro para repor estoque). Antecipar por capricho é jogar lucro fora."
+    },
+    {
+        q: "Como repassar a taxa para o cliente?",
+        a: "Você não pode cobrar uma taxa \"extra\" no checkout surpresa, mas pode ter preços diferenciados para \"À Vista\" e \"A Prazo\". Use nossa calculadora para descobrir quanto de taxa você vai pagar e embuta isso no preço final do produto parcelado."
+    },
+    {
+        q: "Minha taxa é \"10% tudo incluso\". Como simulo?",
+        a: "Algumas maquininhas (como a InfinitePay ou Ton em certos planos) cobram uma taxa única fechada. Nesse caso, coloque \"0\" na taxa de antecipação e coloque o valor total (ex: 10%) no campo MDR aqui no simulador. O resultado será o mesmo."
+    }
+];
+
+export default async function CardSimulatorPage() {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+        {
+            "@type": "SoftwareApplication",
+            "name": "Simulador de Taxas de Cartão",
+            "applicationCategory": "BusinessApplication",
+            "operatingSystem": "Web",
+            "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
+            "description": "Calcula o valor líquido de vendas no cartão de crédito descontando taxas MDR e antecipação." },
+        {
+          "@type": "FAQPage",
+          "mainEntity": faqList.map(f => ({
+            "@type": "Question",
+            "name": f.q,
+            "acceptedAnswer": { "@type": "Answer", "text": f.a }
+          }))
+        }
+    ]
+  };
   return (
     <div className="w-full max-w-full overflow-hidden font-sans pb-12">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
@@ -51,8 +81,6 @@ export default function CardSimulatorPage() {
           variant="default" 
           categoryColor="violet"
           badge="Cálculo Líquido"
-          rating={4.7}
-          reviews={980}
           breadcrumbs={[{ label: "Financeiro", href: "/financeiro" }, { label: "Maquininha" }]}
         />
       </div>
@@ -75,8 +103,29 @@ export default function CardSimulatorPage() {
            <div className="mb-8">
                <PrivacyBadge />
            </div>
-           <CardMachineSimulator />
+           <Suspense fallback={<div className="h-96 w-full bg-slate-100 dark:bg-slate-800 animate-pulse rounded-3xl" />}>
+               <CardMachineSimulator />
+           </Suspense>
         </section>
+
+        {/* BRANDS LIST */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
+            {[
+                { name: "InfinitePay", slug: "infinitepay-smart", color: "slate", rate: "8.90%" },
+                { name: "Ton T3", slug: "ton-t3-promo", color: "emerald", rate: "0.99%*" },
+                { name: "Mercado Pago", slug: "mercadopago-point-pro", color: "blue", rate: "3.03%" },
+                { name: "PagSeguro", slug: "pagseguro-moderninha-pro", color: "yellow", rate: "3.79%" }
+            ].map(brand => (
+                <Link key={brand.slug} href={`/financeiro/simulador-maquininha/${brand.slug}`} className="bg-white dark:bg-slate-900 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 hover:border-indigo-500 transition-all group">
+                    <p className="text-[10px] uppercase font-bold text-slate-400 mb-1">Simular Taxas</p>
+                    <h4 className="font-bold text-slate-900 dark:text-white">{brand.name}</h4>
+                    <div className="mt-3 flex items-center justify-between">
+                        <span className={`text-[10px] px-2 py-0.5 rounded bg-${brand.color}-50 dark:bg-${brand.color}-900/20 text-${brand.color}-700 dark:text-${brand.color}-300 font-bold`}>{brand.rate}</span>
+                        <ArrowLeft size={14} className="rotate-180 text-slate-300 group-hover:text-indigo-500 transition-colors"/>
+                    </div>
+                </Link>
+            ))}
+        </div>
 
         {/* PUBLICIDADE MEIO */}
         <div className="w-full flex justify-center my-4">
@@ -167,35 +216,17 @@ export default function CardSimulatorPage() {
                 </h2>
                 <div className="space-y-4">
                     
-                    <details className="group bg-slate-50 dark:bg-slate-800 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 cursor-pointer open:ring-2 open:ring-indigo-100 dark:open:ring-indigo-900/30 transition-all">
-                        <summary className="font-bold text-slate-800 dark:text-slate-100 list-none flex justify-between items-center select-none">
-                            O que é melhor: Receber parcelado ou antecipar?
-                            <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
-                        </summary>
-                        <p className="mt-3 text-slate-600 dark:text-slate-300 leading-relaxed border-t border-slate-200/50 dark:border-slate-700 pt-3 text-sm">
-                            Financeiramente, receber parcelado ("no fluxo") é sempre melhor, pois você não paga a taxa de antecipação. Só antecipe se você tiver <strong>falta de capital de giro</strong> (dinheiro para repor estoque). Antecipar por capricho é jogar lucro fora.
-                        </p>
-                    </details>
-
-                    <details className="group bg-slate-50 dark:bg-slate-800 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 cursor-pointer open:ring-2 open:ring-indigo-100 dark:open:ring-indigo-900/30 transition-all">
-                        <summary className="font-bold text-slate-800 dark:text-slate-100 list-none flex justify-between items-center select-none">
-                            Como repassar a taxa para o cliente?
-                            <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
-                        </summary>
-                        <p className="mt-3 text-slate-600 dark:text-slate-300 leading-relaxed border-t border-slate-200/50 dark:border-slate-700 pt-3 text-sm">
-                            Você não pode cobrar uma taxa "extra" no checkout surpresa, mas pode ter preços diferenciados para "À Vista" e "A Prazo". Use nossa calculadora para descobrir quanto de taxa você vai pagar e embuta isso no preço final do produto parcelado.
-                        </p>
-                    </details>
-
-                    <details className="group bg-slate-50 dark:bg-slate-800 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 cursor-pointer open:ring-2 open:ring-indigo-100 dark:open:ring-indigo-900/30 transition-all">
-                        <summary className="font-bold text-slate-800 dark:text-slate-100 list-none flex justify-between items-center select-none">
-                            Minha taxa é "10% tudo incluso". Como simulo?
-                            <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
-                        </summary>
-                        <p className="mt-3 text-slate-600 dark:text-slate-300 leading-relaxed border-t border-slate-200/50 dark:border-slate-700 pt-3 text-sm">
-                            Algumas maquininhas (como a InfinitePay ou Ton em certos planos) cobram uma taxa única fechada. Nesse caso, coloque "0" na taxa de antecipação e coloque o valor total (ex: 10%) no campo MDR aqui no simulador. O resultado será o mesmo.
-                        </p>
-                    </details>
+                    {faqList.map((faq, idx) => (
+                        <details key={idx} id={`faq-${idx}`} className="group bg-slate-50 dark:bg-slate-800 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 cursor-pointer open:ring-2 open:ring-indigo-100 dark:open:ring-indigo-900/30 transition-all">
+                            <summary className="font-bold text-slate-800 dark:text-slate-100 list-none flex justify-between items-center select-none">
+                                {faq.q}
+                                <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
+                            </summary>
+                            <p className="mt-3 text-slate-600 dark:text-slate-300 leading-relaxed border-t border-slate-200/50 dark:border-slate-700 pt-3 text-sm">
+                                {faq.a}
+                            </p>
+                        </details>
+                    ))}
 
                 </div>
             </div>

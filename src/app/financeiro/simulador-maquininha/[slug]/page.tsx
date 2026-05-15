@@ -6,6 +6,7 @@ import LazyAdUnit from "@/components/ads/LazyAdUnit";
 import PageHeader from "@/components/layout/PageHeader";
 import DisclaimerBox from "@/components/ui/DisclaimerBox";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
+import ExpertSignature from "@/components/ui/ExpertSignature";
 import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
 import { cardMachineCases } from "@/data/card-machine-pseo";
 import { CreditCard, ArrowLeft, Star, ShoppingCart, TrendingDown, ShieldCheck } from "lucide-react";
@@ -13,8 +14,7 @@ import { CreditCard, ArrowLeft, Star, ShoppingCart, TrendingDown, ShieldCheck } 
 // --- SSG ---
 export async function generateStaticParams() {
     return cardMachineCases.map((customCase) => ({
-        slug: customCase.slug,
-    }));
+        slug: customCase.slug }));
 }
 
 // --- METADATA ---
@@ -33,8 +33,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
             title: customCase.title,
             description: customCase.description,
             url: `https://mestredascontas.com.br/financeiro/simulador-maquininha/${slug}`,
-            type: "article",
-        }
+            type: "article" }
     };
 }
 
@@ -56,15 +55,7 @@ export default async function CardMachinePSeoPage({ params }: { params: Promise<
                 "applicationCategory": "BusinessApplication",
                 "operatingSystem": "Web Browser",
                 "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
-                "description": customCase.description,
-                "aggregateRating": { 
-                     "@type": "AggregateRating", 
-                     "ratingValue": customCase.rating.toFixed(1), 
-                     "ratingCount": customCase.reviewsCount.toString(),
-                     "bestRating": "5", 
-                     "worstRating": "1" 
-                }
-            },
+                "description": customCase.description },
             {
                 "@type": "FAQPage",
                 "mainEntity": customCase.articleContent.faq?.map(f => ({
@@ -97,7 +88,7 @@ export default async function CardMachinePSeoPage({ params }: { params: Promise<
                     {
                         "@type": "HowToStep",
                         "name": "Defina as Parcelas",
-                        "text": "Se for parcelado, escolha em quantas vezes. O simulador já aplica a taxa da ${customCase.name}.",
+                        "text": `Se for parcelado, escolha em quantas vezes. O simulador já aplica a taxa da ${customCase.name}.`,
                         "url": `https://mestredascontas.com.br/financeiro/simulador-maquininha/${slug}`
                     },
                     {
@@ -130,8 +121,6 @@ export default async function CardMachinePSeoPage({ params }: { params: Promise<
                         { label: "Maquininha", href: "/financeiro/simulador-maquininha" },
                         { label: customCase.name }
                     ]}
-                    rating={customCase.rating}
-                    reviews={customCase.reviewsCount}
                 />
             </div>
 
@@ -174,7 +163,32 @@ export default async function CardMachinePSeoPage({ params }: { params: Promise<
                             initialAnticipation={customCase.anticipation}
                             initialInstallments={customCase.initialInstallments}
                             brandName={customCase.name}
+                            referralUrl={customCase.referralUrl}
+                            extraFees={customCase.extraFees}
                         />
+
+                        {/* PagBank Specific Account CTA */}
+                        {slug === "pagseguro-moderninha-pro" && (
+                            <div className="mt-8 p-6 bg-gradient-to-br from-yellow-50 to-amber-50 dark:from-yellow-950/20 dark:to-amber-950/20 rounded-2xl border border-yellow-200 dark:border-yellow-900/50 flex flex-col sm:flex-row items-center gap-6">
+                                <div className="flex-grow space-y-2">
+                                    <h4 className="text-lg font-bold text-yellow-900 dark:text-yellow-100 flex items-center gap-2">
+                                        🚀 Ganhe uma Conta Digital Completa
+                                    </h4>
+                                    <p className="text-sm text-yellow-800 dark:text-yellow-200">
+                                        Abra sua conta grátis no PagBank pelo celular. Sem burocracias, sem tarifas e com banco completo!
+                                    </p>
+                                </div>
+                                <Link 
+                                    href="https://pagbank.vc/indica-conta-a702ca65c" 
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold px-6 py-3 rounded-xl transition-all shadow-lg shadow-yellow-200 dark:shadow-none shrink-0"
+                                >
+                                    ABRIR CONTA GRÁTIS
+                                </Link>
+                            </div>
+                        )}
+
                          <div className="mt-8 border-t border-slate-100 dark:border-slate-800 pt-6">
                             <DisclaimerBox />
                         </div>
@@ -189,8 +203,8 @@ export default async function CardMachinePSeoPage({ params }: { params: Promise<
                 {/* ARTIGO ESPECÍFICO */}
                 <div className="prose prose-slate dark:prose-invert prose-sm md:prose-lg max-w-4xl mx-auto bg-white dark:bg-slate-900 p-6 md:p-12 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-xl shadow-slate-200/40 dark:shadow-none overflow-hidden w-full print:hidden mt-8">
                      
-                     <h2 className={`text-3xl font-bold text-slate-900 dark:text-slate-100 mb-6 border-l-4 border-${customCase.brandColor}-500 pl-4 flex items-center gap-3`}>
-                        <TrendingDown className={`text-${customCase.brandColor}-500`}/> Análise: {customCase.name}
+                     <h2 className={`text-3xl font-bold text-slate-900 dark:text-slate-100 mb-6 border-l-4 border-indigo-500 pl-4 flex items-center gap-3`}>
+                        <TrendingDown className="text-indigo-500"/> Análise: {customCase.name}
                      </h2>
                      
                      <div className="text-slate-600 dark:text-slate-300 leading-relaxed space-y-4">
@@ -211,11 +225,35 @@ export default async function CardMachinePSeoPage({ params }: { params: Promise<
                         )}
 
                         {customCase.articleContent.highlights && customCase.articleContent.highlights.length > 0 && (
-                            <div className={`bg-${customCase.brandColor}-50 dark:bg-${customCase.brandColor}-950/30 p-6 rounded-2xl border border-${customCase.brandColor}-100 dark:border-${customCase.brandColor}-900 my-6 not-prose`}>
-                                <h4 className={`font-bold text-${customCase.brandColor}-900 dark:text-${customCase.brandColor}-100 mb-3 flex items-center gap-2`}>
+                            <div className={`
+                                p-6 rounded-2xl border my-6 not-prose
+                                ${customCase.brandColor === 'emerald' ? 'bg-emerald-50 border-emerald-100 dark:bg-emerald-950/30 dark:border-emerald-900' : ''}
+                                ${customCase.brandColor === 'blue' ? 'bg-blue-50 border-blue-100 dark:bg-blue-950/30 dark:border-blue-900' : ''}
+                                ${customCase.brandColor === 'slate' ? 'bg-slate-100 border-slate-200 dark:bg-slate-800/50 dark:border-slate-700' : ''}
+                                ${customCase.brandColor === 'yellow' ? 'bg-yellow-50 border-yellow-100 dark:bg-yellow-950/30 dark:border-yellow-900' : ''}
+                                ${customCase.brandColor === 'cyan' ? 'bg-cyan-50 border-cyan-100 dark:bg-cyan-950/30 dark:border-cyan-900' : ''}
+                                ${customCase.brandColor === 'green' ? 'bg-green-50 border-green-100 dark:bg-green-950/30 dark:border-green-900' : ''}
+                            `}>
+                                <h4 className={`
+                                    font-bold mb-3 flex items-center gap-2
+                                    ${customCase.brandColor === 'emerald' ? 'text-emerald-900 dark:text-emerald-400' : ''}
+                                    ${customCase.brandColor === 'blue' ? 'text-blue-900 dark:text-blue-400' : ''}
+                                    ${customCase.brandColor === 'slate' ? 'text-slate-900 dark:text-slate-300' : ''}
+                                    ${customCase.brandColor === 'yellow' ? 'text-yellow-900 dark:text-yellow-400' : ''}
+                                    ${customCase.brandColor === 'cyan' ? 'text-cyan-900 dark:text-cyan-400' : ''}
+                                    ${customCase.brandColor === 'green' ? 'text-green-900 dark:text-green-400' : ''}
+                                `}>
                                    {customCase.articleContent.highlightsTitle}
                                 </h4>
-                                <ul className={`list-disc pl-5 space-y-1 text-sm text-${customCase.brandColor}-800 dark:text-${customCase.brandColor}-200`}>
+                                <ul className={`
+                                    list-disc pl-5 space-y-1 text-sm
+                                    ${customCase.brandColor === 'emerald' ? 'text-emerald-800 dark:text-emerald-200' : ''}
+                                    ${customCase.brandColor === 'blue' ? 'text-blue-800 dark:text-blue-200' : ''}
+                                    ${customCase.brandColor === 'slate' ? 'text-slate-700 dark:text-slate-400' : ''}
+                                    ${customCase.brandColor === 'yellow' ? 'text-yellow-800 dark:text-yellow-200' : ''}
+                                    ${customCase.brandColor === 'cyan' ? 'text-cyan-800 dark:text-cyan-200' : ''}
+                                    ${customCase.brandColor === 'green' ? 'text-green-800 dark:text-green-200' : ''}
+                                `}>
                                     {customCase.articleContent.highlights.map((item, idx) => (
                                         <li key={idx} dangerouslySetInnerHTML={{ __html: item }} />
                                     ))}
@@ -265,6 +303,7 @@ export default async function CardMachinePSeoPage({ params }: { params: Promise<
                      </div>
                 </div>
 
+                <ExpertSignature updatedAt="Maio de 2026" />
                 <SmartCrossLinker currentHref={"/financeiro/simulador-maquininha/" + slug} category="financeiro" />
 
                 {/* ANÚNCIO BOTTOM */}

@@ -1,6 +1,7 @@
 "use client";
 
 import { Rocket, Code2 } from "lucide-react";
+import Link from "next/link";
 
 export default function AgencyCTA() {
   return (
@@ -29,16 +30,14 @@ export default function AgencyCTA() {
           </div>
         </div>
 
-        <a 
-          href="https://wa.me/5564992514471?text=Ol%C3%A1%2C%20vi%20o%20rodap%C3%A9%20do%20Mestre%20das%20Contas%20e%20quero%20um%20or%C3%A7amento." 
-          target="_blank"
-          rel="noopener noreferrer"
+        <Link 
+          href="/para-empresas" 
           className="flex items-center gap-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 px-6 py-3.5 text-sm font-bold text-white transition-all transform hover:-translate-y-1 shadow-lg shadow-blue-600/20 whitespace-nowrap active:scale-95"
-          aria-label="Solicitar orçamento via WhatsApp"
+          aria-label="Conhecer soluções para empresas"
         >
           <Rocket size={18} />
           Solicitar Orçamento
-        </a>
+        </Link>
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { useReactToPrint } from "react-to-print";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -13,8 +13,7 @@ import {
   Baby, Code2, History, CalendarHeart, Share2, Printer
 } from "lucide-react";
 import { trackEvent } from "@/lib/analytics";
-import { addDays, differenceInWeeks, differenceInDays, format, isValid, parseISO } from "date-fns";
-import { ptBR } from "date-fns/locale";
+import { calculatePregnancy, type PregnancyResult } from "@/lib/calculators/health";
 
 // --- TIPAGEM ---
 type HistoricoGestacao = {
@@ -23,30 +22,46 @@ type HistoricoGestacao = {
   dpp: string;
 };
 
-type ResultadoGestacao = {
-    dpp: string;
-    semanas: number;
-    dias: number;
-    trimestre: string;
-    tamanho: string;
-    rawDum: string;
-} | null;
+interface PregnancyCalculatorProps {
+    initialDum?: string;
+    initialNome?: string;
+    initialSexo?: string;
+    initialResult?: PregnancyResult | null;
+}
 
-export default function PregnancyCalculator() {
-  const searchParams = useSearchParams();
+export default function PregnancyCalculator({
+    initialDum = "",
+    initialNome = "",
+    initialSexo = "surpresa",
+    initialResult = null
+}: PregnancyCalculatorProps) {
   const [isIframe, setIsIframe] = useState(false);
 
   // DADOS
-  const [dum, setDum] = useState("");
-  const [nomeBebe, setNomeBebe] = useState("");
-  const [sexo, setSexo] = useState("surpresa"); // menino, menina, surpresa
-  const [resultado, setResultado] = useState<ResultadoGestacao>(null);
+  const [dum, setDum] = useState(initialDum);
+  const [nomeBebe, setNomeBebe] = useState(initialNome);
+  const [sexo, setSexo] = useState(initialSexo); // menino, menina, surpresa
+  const [resultado, setResultado] = useState<PregnancyResult | null>(initialResult);
 
   // FUNCIONALIDADES
   const [historico, setHistorico] = useState<HistoricoGestacao[]>([]);
   const [copiado, setCopiado] = useState<"link" | "embed" | null>(null);
   const [showEmbedModal, setShowEmbedModal] = useState(false);
   const [dataAtual, setDataAtual] = useState("");
+  const searchParams = useSearchParams();
+
+  // Hydrate from URL
+  useEffect(() => {
+    const d = searchParams.get('dum');
+    const n = searchParams.get('nome');
+    const s = searchParams.get('sexo');
+    if (d) setDum(d);
+    if (n) setNomeBebe(decodeURIComponent(n));
+    if (s) setSexo(s);
+    if (d) {
+        calcular(d);
+    }
+  }, [searchParams]);
 
   const contentRef = useRef<HTMLDivElement>(null);
   const reactToPrintFn = useReactToPrint({ 
@@ -94,63 +109,22 @@ export default function PregnancyCalculator() {
     const salvo = localStorage.getItem("historico_gestacao");
     if (salvo) setHistorico(JSON.parse(salvo));
 
-    const urlDum = searchParams.get("dum");
-    const urlNome = searchParams.get("nome");
-    const urlSexo = searchParams.get("sexo");
-
-    if (urlDum) {
-        setDum(urlDum);
-        if (urlNome) setNomeBebe(urlNome);
-        if (urlSexo) setSexo(urlSexo);
-        setTimeout(() => calcular(urlDum), 200);
+    // Se temos valores iniciais mas não o resultado, calcula imediatamente
+    if (initialDum && !resultado) {
+        calcular(initialDum);
     }
-  }, [searchParams]);
+  }, [initialDum]);
 
   const calcular = (dataInput = dum) => {
-    if (!dataInput) return;
-    const dataDum = parseISO(dataInput);
-    if (!isValid(dataDum)) return;
-
-    // Regra de Naegele (DUM + 7 dias - 3 meses + 1 ano ou + 280 dias)
-    const dpp = addDays(dataDum, 280);
-    const hoje = new Date();
-    
-    let semanas = differenceInWeeks(hoje, dataDum);
-    let diasTotais = differenceInDays(hoje, dataDum);
-    let diasRestantes = diasTotais % 7;
-
-    // Ajustes de segurança
-    if (semanas < 0) { semanas = 0; diasRestantes = 0; }
-    if (semanas > 42) { semanas = 42; diasRestantes = 0; } 
-
-    const novoResultado = {
-      dpp: format(dpp, "dd 'de' MMMM 'de' yyyy", { locale: ptBR }),
-      semanas,
-      dias: diasRestantes,
-      trimestre: semanas < 13 ? "1º Trimestre" : semanas < 27 ? "2º Trimestre" : "3º Trimestre",
-      tamanho: getTamanhoBebe(semanas),
-      rawDum: dataInput
-    };
-
-    setResultado(novoResultado);
-    trackEvent("calculate_gestacao", { semanas: novoResultado.semanas, sexo });
-    if (!isIframe) salvarHistorico(novoResultado);
+    const res = calculatePregnancy(dataInput);
+    if (res) {
+        setResultado(res);
+        trackEvent("calculate_gestacao", { semanas: res.semanas, sexo });
+        if (!isIframe) salvarHistorico(res);
+    }
   };
 
-  const getTamanhoBebe = (sem: number) => {
-      if (sem < 4) return "Sementinha de Papoula";
-      if (sem < 8) return "Framboesa";
-      if (sem < 12) return "Limão Siciliano";
-      if (sem < 16) return "Abacate";
-      if (sem < 20) return "Banana";
-      if (sem < 24) return "Espiga de Milho";
-      if (sem < 28) return "Beringela";
-      if (sem < 32) return "Coco Verde";
-      if (sem < 36) return "Mamão Papaya";
-      return "Melancia";
-  };
-
-  const salvarHistorico = (res: any) => {
+  const salvarHistorico = (res: PregnancyResult) => {
     const novoItem: HistoricoGestacao = { 
         data: new Date().toLocaleDateString(), 
         semanas: `${res.semanas} semanas`, 
@@ -162,6 +136,10 @@ export default function PregnancyCalculator() {
   };
 
   const handleShare = (type: "link" | "embed") => {
+    if (isIframe) {
+        window.open(`https://mestredascontas.com.br/saude/gestacional`, '_blank');
+        return;
+    }
     const baseUrl = `${window.location.origin}${window.location.pathname}`;
     
     if (type === "link") {

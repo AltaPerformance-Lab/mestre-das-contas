@@ -23,17 +23,14 @@ export const metadata: Metadata = {
     "biomatemática"
   ],
   alternates: {
-    canonical: "https://mestredascontas.com.br/saude",
-  },
+    canonical: "https://mestredascontas.com.br/saude" },
   openGraph: {
     title: "Portal de Saúde 2026 - Mestre das Contas",
     description: "Biomatemática a favor da sua vida. Cálculos precisos para dieta, treino e gestação.",
     url: "https://mestredascontas.com.br/saude",
     siteName: "Mestre das Contas",
     locale: "pt_BR",
-    type: "website",
-  },
-};
+    type: "website" } };
 
 // --- SCHEMA.ORG (COLLECTION) ---
 const jsonLd = {

@@ -4,61 +4,84 @@ import LazyAdUnit from "@/components/ads/LazyAdUnit";
 import PageHeader from "@/components/layout/PageHeader";
 import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
 import RentCalculator from "@/components/calculators/RentCalculator";
+import { Suspense } from "react";
+
 import { 
   Home, TrendingUp, AlertTriangle, HelpCircle, 
-  BarChart3, Scale, Calculator, ShieldCheck
+  BarChart3, Scale, Calculator, ShieldCheck, BookOpen, ExternalLink
 } from "lucide-react";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
 
-export const metadata: Metadata = {
-  title: "Calculadora de Reajuste de Aluguel 2026 (Grátis) | IGP-M e IPCA",
-  description: "Descubra o novo valor do seu aluguel em segundos. Tabela oficial acumulada 2026. Compare IGP-M vs IPCA e aprenda a negociar com o proprietário. Grátis.",
-  keywords: ["calculadora reajuste aluguel", "indice igpm 2026", "calcular aumento aluguel", "ipca acumulado aluguel", "reajuste anual aluguel"],
-  alternates: { canonical: "https://mestredascontas.com.br/financeiro/reajuste-aluguel" },
-  openGraph: {
-    title: "Reajuste de Aluguel 2026 - Calculadora Oficial",
-    description: "Sua conta vai aumentar? Calcule agora o valor exato do reajuste e prepare o bolso.",
-    url: "https://mestredascontas.com.br/financeiro/reajuste-aluguel",
-    siteName: "Mestre das Contas",
-    locale: "pt_BR",
-    type: "website",
-  },
-};
+// --- 1. METADATA DINÂMICA (SEO MAXIMIZADO) ---
+export async function generateMetadata(): Promise<Metadata> {
+  const title = "Calculadora de Reajuste de Aluguel 2026: IGP-M e IPCA";
+  const description = "Descubra o novo valor do seu aluguel em segundos. Tabela oficial acumulada 2026. Compare IGP-M vs IPCA e aprenda a negociar com o proprietário. Grátis.";
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@graph": [
+  return {
+    title,
+    description,
+    keywords: ["calculadora reajuste aluguel", "indice igpm 2026", "calcular aumento aluguel", "ipca acumulado aluguel", "reajuste anual aluguel"],
+    alternates: { canonical: "https://mestredascontas.com.br/financeiro/reajuste-aluguel" },
+    openGraph: {
+      title,
+      description,
+      url: "https://mestredascontas.com.br/financeiro/reajuste-aluguel",
+      siteName: "Mestre das Contas",
+      locale: "pt_BR",
+      type: "article" },
+    robots: { index: true, follow: true } };
+}
+
+const faqList = [
     {
-      "@type": "SoftwareApplication",
-      "name": "Calculadora de Reajuste de Aluguel - Mestre das Contas",
-      "applicationCategory": "FinanceApplication",
-      "operatingSystem": "Web",
-      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
-      "description": "Ferramenta oficial para calcular o reajuste anual de aluguel baseado nos índices IGP-M ou IPCA acumulados.",
-      "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.8", "ratingCount": "850", "bestRating": "5", "worstRating": "1" }
+        q: "Como é calculado o reajuste do aluguel?",
+        a: "O cálculo é feito multiplicando o valor atual do aluguel pelo índice acumulado dos últimos 12 meses (IGP-M ou IPCA)."
     },
     {
-      "@type": "Article",
-      "headline": "Reajuste de Aluguel 2026: Guia de Índices e Negociação",
-      "description": "Entenda como funciona o reajuste anual, a diferença entre IGP-M e IPCA e como negociar o valor com o proprietário.",
-      "author": { "@type": "Organization", "name": "Mestre das Contas" },
-      "publisher": { "@type": "Organization", "name": "Mestre das Contas", "logo": { "@type": "ImageObject", "url": "https://mestredascontas.com.br/opengraph-image" } },
-      "datePublished": "2024-02-10",
-      "dateModified": new Date().toISOString()
+        q: "Qual o melhor índice para o inquilino?",
+        a: "Geralmente o IPCA, pois reflete a inflação oficial e tende a ser menos volátil que o IGP-M, que é afetado pelo dólar."
     },
     {
-      "@type": "FAQPage",
-      "mainEntity": [
-        { "@type": "Question", "name": "Quando o aluguel pode aumentar?", "acceptedAnswer": { "@type": "Answer", "text": "Apenas uma vez a cada 12 meses, na data de aniversário do contrato. O proprietário não pode aumentar o aluguel no meio do ano, exceto se houver uma 'revisão contratual' de comum acordo ou benfeitorias." } },
-        { "@type": "Question", "name": "O índice deu negativo. O aluguel abaixa?", "acceptedAnswer": { "@type": "Answer", "text": "Tecnicamente, sim! Se o contrato diz 'reajuste pelo IGP-M' e o IGP-M for negativo (deflação), o valor deveria cair. Porém, muitos contratos novos possuem cláusulas dizendo que 'em caso de índice negativo, o reajuste será zero'. Verifique seu contrato!" } },
-        { "@type": "Question", "name": "Qual mês devo usar no cálculo?", "acceptedAnswer": { "@type": "Answer", "text": "Você deve usar o índice acumulado dos 12 meses ANTERIORES ao mês do reajuste. Se o aniversário é em Janeiro, você usa a inflação acumulada de Janeiro a Dezembro do ano anterior." } },
-        { "@type": "Question", "name": "Posso trocar o IGP-M pelo IPCA?", "acceptedAnswer": { "@type": "Answer", "text": "Sim, através de um aditivo contratual. Basta conversar com o proprietário ou imobiliária. Se você é um bom pagador, eles geralmente preferem manter você (com IPCA) do que arriscar ficar com o imóvel vazio." } }
-      ]
+        q: "É obrigatório usar o IGP-M no contrato?",
+        a: "Não. As partes podem escolher qualquer índice oficial de inflação, como o IPCA ou INPC, desde que acordado no contrato."
+    },
+    {
+        q: "O proprietário pode cobrar um valor maior que o índice?",
+        a: "O índice é o teto, mas proprietário e inquilino podem negociar qualquer valor livremente durante o aniversário do contrato."
     }
-  ]
-};
+];
 
-export default function RentPage() {
+export default async function RentPage() {
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "SoftwareApplication",
+        "name": "Calculadora de Reajuste de Aluguel - Mestre das Contas",
+        "applicationCategory": "FinanceApplication",
+        "operatingSystem": "Web",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
+        "description": "Ferramenta oficial para calcular o reajuste anual de aluguel baseado nos índices IGP-M ou IPCA acumulados." },
+      {
+        "@type": "Article",
+        "headline": "Reajuste de Aluguel 2026: Guia de Índices e Negociação",
+        "description": "Entenda como funciona o reajuste anual, a diferença entre IGP-M e IPCA e como negociar o valor com o proprietário.",
+        "author": { "@type": "Organization", "name": "Mestre das Contas" },
+        "publisher": { "@type": "Organization", "name": "Mestre das Contas", "logo": { "@type": "ImageObject", "url": "https://mestredascontas.com.br/opengraph-image" } },
+        "datePublished": "2024-02-10",
+        "dateModified": new Date().toISOString()
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": faqList.map(item => ({
+          "@type": "Question",
+          "name": item.q,
+          "acceptedAnswer": { "@type": "Answer", "text": item.a }
+        }))
+      }
+    ]
+  };
   return (
     <div className="w-full max-w-full overflow-hidden font-sans pb-12">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
@@ -73,8 +96,6 @@ export default function RentPage() {
           variant="default" // Azul (Blue) combina com confiança/imóveis
           categoryColor="blue"
           badge="Tabela 2025/2026"
-          rating={4.8}
-          reviews={850}
           breadcrumbs={[{ label: "Financeiro", href: "/financeiro" }, { label: "Reajuste Aluguel" }]}
         />
       </div>
@@ -97,7 +118,9 @@ export default function RentPage() {
            <div className="mb-8">
                <PrivacyBadge />
            </div>
-           <RentCalculator />
+           <Suspense fallback={<div className="h-96 w-full bg-slate-100 dark:bg-slate-800 animate-pulse rounded-3xl" />}>
+               <RentCalculator />
+           </Suspense>
         </section>
 
         {/* PUBLICIDADE MEIO */}
@@ -171,6 +194,46 @@ export default function RentPage() {
                 </table>
             </div>
 
+            <h3 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mt-10 mb-4 flex items-center gap-2">
+                <BookOpen className="text-blue-600 dark:text-blue-400" /> Histórico de Índices Acumulados
+            </h3>
+            <p className="mb-6">Confira os valores fechados dos últimos anos para basear sua negociação:</p>
+            
+            <div className="overflow-x-auto mb-10 not-prose">
+                <table className="w-full text-sm text-left border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-sm">
+                    <thead className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200">
+                        <tr>
+                            <th className="p-4 font-bold border-b border-slate-200 dark:border-slate-700">Ano Referência</th>
+                            <th className="p-4 font-bold border-b border-slate-200 dark:border-slate-700">IGP-M Acumulado</th>
+                            <th className="p-4 font-bold border-b border-slate-200 dark:border-slate-700">IPCA Acumulado</th>
+                        </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-slate-700 dark:text-slate-300">
+                        <tr className="hover:bg-slate-50 dark:hover:bg-slate-900/50 transition-colors">
+                            <td className="p-4 font-bold">2026 (Estimado)</td>
+                            <td className="p-4">4,50%</td>
+                            <td className="p-4 text-emerald-600 dark:text-emerald-400 font-bold">4,10%</td>
+                        </tr>
+                        <tr className="hover:bg-slate-50 dark:hover:bg-slate-900/50 transition-colors">
+                            <td className="p-4 font-bold">2025 (Consolidado)</td>
+                            <td className="p-4">5,25%</td>
+                            <td className="p-4 text-emerald-600 dark:text-emerald-400 font-bold">4,62%</td>
+                        </tr>
+                        <tr className="hover:bg-slate-50 dark:hover:bg-slate-900/50 transition-colors bg-blue-50/20 dark:bg-blue-900/10">
+                            <td className="p-4 font-bold">2024</td>
+                            <td className="p-4 font-bold text-red-600 dark:text-red-400">-0,47% (Deflação)</td>
+                            <td className="p-4">4,42%</td>
+                        </tr>
+                        <tr className="hover:bg-slate-50 dark:hover:bg-slate-900/50 transition-colors">
+                            <td className="p-4 font-bold">2023</td>
+                            <td className="p-4 text-red-600 dark:text-red-400 font-black">-3,18% (Recorde Negativo)</td>
+                            <td className="p-4">4,62%</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p className="mt-2 text-[10px] text-slate-400 text-center italic">* Dados baseados em relatórios oficiais do Banco Central (Relatório Focus) e FGV.</p>
+            </div>
+
             <div className="bg-slate-50 dark:bg-slate-800/50 border-l-4 border-slate-900 dark:border-slate-500 p-6 rounded-r-xl not-prose my-8">
                  <h4 className="text-slate-900 dark:text-slate-100 font-bold flex items-center gap-2 text-lg m-0 mb-2">
                      <Scale size={20}/> É Lei: O aumento não é automático!
@@ -197,47 +260,17 @@ export default function RentPage() {
                     <HelpCircle className="text-blue-600 dark:text-blue-500" /> Dúvidas Comuns
                 </h2>
                 <div className="space-y-4">
-                    
-                    <details className="group bg-slate-50 dark:bg-slate-800/50 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 cursor-pointer open:ring-2 open:ring-blue-100 dark:open:ring-blue-900/30 transition-all">
-                        <summary className="font-bold text-slate-800 dark:text-slate-200 list-none flex justify-between items-center select-none">
-                            Quando o aluguel pode aumentar?
-                            <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
-                        </summary>
-                        <p className="mt-3 text-slate-600 dark:text-slate-400 leading-relaxed border-t border-slate-200/50 dark:border-slate-700/50 pt-3 text-sm">
-                            Apenas uma vez a cada 12 meses, na data de aniversário do contrato. O proprietário não pode aumentar o aluguel no meio do ano, exceto se houver uma "revisão contratual" de comum acordo ou benfeitorias.
-                        </p>
-                    </details>
-
-                    <details className="group bg-slate-50 dark:bg-slate-800/50 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 cursor-pointer open:ring-2 open:ring-blue-100 dark:open:ring-blue-900/30 transition-all">
-                        <summary className="font-bold text-slate-800 dark:text-slate-200 list-none flex justify-between items-center select-none">
-                            O índice deu negativo. O aluguel abaixa?
-                            <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
-                        </summary>
-                        <p className="mt-3 text-slate-600 dark:text-slate-400 leading-relaxed border-t border-slate-200/50 dark:border-slate-700/50 pt-3 text-sm">
-                            Tecnicamente, sim! Se o contrato diz "reajuste pelo IGP-M" e o IGP-M for negativo (deflação), o valor deveria cair. Porém, muitos contratos novos possuem cláusulas dizendo que "em caso de índice negativo, o reajuste será zero". Verifique seu contrato!
-                        </p>
-                    </details>
-
-                    <details className="group bg-slate-50 dark:bg-slate-800/50 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 cursor-pointer open:ring-2 open:ring-blue-100 dark:open:ring-blue-900/30 transition-all">
-                        <summary className="font-bold text-slate-800 dark:text-slate-200 list-none flex justify-between items-center select-none">
-                            Qual mês devo usar no cálculo?
-                            <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
-                        </summary>
-                        <p className="mt-3 text-slate-600 dark:text-slate-400 leading-relaxed border-t border-slate-200/50 dark:border-slate-700/50 pt-3 text-sm">
-                            Você deve usar o índice acumulado dos 12 meses ANTERIORES ao mês do reajuste. Se o aniversário é em Janeiro, você usa a inflação acumulada de Janeiro a Dezembro do ano anterior.
-                        </p>
-                    </details>
-
-                    <details className="group bg-slate-50 dark:bg-slate-800/50 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 cursor-pointer open:ring-2 open:ring-blue-100 dark:open:ring-blue-900/30 transition-all">
-                        <summary className="font-bold text-slate-800 dark:text-slate-200 list-none flex justify-between items-center select-none">
-                            Posso trocar o IGP-M pelo IPCA?
-                            <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
-                        </summary>
-                        <p className="mt-3 text-slate-600 dark:text-slate-400 leading-relaxed border-t border-slate-200/50 dark:border-slate-700/50 pt-3 text-sm">
-                            Sim, através de um aditivo contratual. Basta conversar com o proprietário ou imobiliária. Se você é um bom pagador, eles geralmente preferem manter você (com IPCA) do que arriscar ficar com o imóvel vazio.
-                        </p>
-                    </details>
-
+                    {faqList.map((item, idx) => (
+                        <details key={idx} className="group bg-slate-50 dark:bg-slate-800/50 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 cursor-pointer open:ring-2 open:ring-blue-100 dark:open:ring-blue-900/30 transition-all">
+                            <summary className="font-bold text-slate-800 dark:text-slate-200 list-none flex justify-between items-center select-none">
+                                {item.q}
+                                <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
+                            </summary>
+                            <p className="mt-3 text-slate-600 dark:text-slate-400 leading-relaxed border-t border-slate-200/50 dark:border-slate-700/50 pt-3 text-sm">
+                                {item.a}
+                            </p>
+                        </details>
+                    ))}
                 </div>
             </div>
 

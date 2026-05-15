@@ -1,32 +1,39 @@
+import { Suspense } from "react";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import BudgetCreator from "@/components/tools/BudgetCreator";
+import BudgetCreator, { type BudgetData } from "@/components/tools/BudgetCreator";
 import LazyAdUnit from "@/components/ads/LazyAdUnit";
 import PageHeader from "@/components/layout/PageHeader";
 import DisclaimerBox from "@/components/ui/DisclaimerBox";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
 import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
-import { budgetCases, BudgetPSeoCase } from "@/data/budget-pseo-list";
-import { Calculator, ArrowLeft, Star, Briefcase, BookOpen, PenTool, CheckCircle2, ShieldCheck } from "lucide-react";
+import { budgetCases } from "@/data/budget-pseo-list";
+import { ArrowLeft, Star, Briefcase, BookOpen, PenTool, CheckCircle2, ShieldCheck } from "lucide-react";
+
+type Props = {
+  params: Promise<{ slug: string }>
+}
 
 // --- GERAR ROTAS ESTÁTICAS (SSG) ---
 export async function generateStaticParams() {
     return budgetCases.map((customCase) => ({
-        slug: customCase.slug,
-    }));
+        slug: customCase.slug }));
 }
 
 // --- METADATA DINÂMICA ---
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const { slug } = await params;
     const customCase = budgetCases.find(c => c.slug === slug);
 
     if (!customCase) return {};
 
+    const title = `${customCase.title} | Grátis em PDF`;
+    const description = customCase.description;
+
     return {
-        title: `${customCase.title} | Grátis em PDF`,
-        description: customCase.description,
+        title,
+        description,
         keywords: [
             ...customCase.keywords,
             "criador de orçamento online", 
@@ -35,15 +42,14 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
         ],
         alternates: { canonical: `https://mestredascontas.com.br/ferramentas/criador-orcamentos/${slug}` },
         openGraph: {
-            title: customCase.title,
-            description: customCase.description,
+            title,
+            description,
             url: `https://mestredascontas.com.br/ferramentas/criador-orcamentos/${slug}`,
-            type: "article",
-        }
+            type: "article" }
     };
 }
 
-export default async function BudgetPseoPage({ params }: { params: Promise<{ slug: string }> }) {
+export default async function BudgetPseoPage({ params }: Props) {
     const { slug } = await params;
     const customCase = budgetCases.find(c => c.slug === slug);
 
@@ -61,15 +67,7 @@ export default async function BudgetPseoPage({ params }: { params: Promise<{ slu
                 "applicationCategory": "BusinessApplication",
                 "operatingSystem": "Web Browser",
                 "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
-                "description": customCase.longDescription,
-                "aggregateRating": { 
-                     "@type": "AggregateRating", 
-                     "ratingValue": customCase.rating.toFixed(1), 
-                     "ratingCount": customCase.reviewsCount.toString(),
-                     "bestRating": "5", 
-                     "worstRating": "1" 
-                }
-            },
+                "description": customCase.longDescription },
             {
                 "@type": "HowTo",
                 "name": `Como fazer um ${customCase.title}`,
@@ -87,18 +85,6 @@ export default async function BudgetPseoPage({ params }: { params: Promise<{ slu
                         "name": "Adicione o cliente",
                         "text": "Preencha os dados do cliente para quem o orçamento é destinado.",
                         "url": `https://mestredascontas.com.br/ferramentas/criador-orcamentos/${slug}#ferramenta`
-                    },
-                    {
-                        "@type": "HowToStep",
-                        "name": "Liste os itens",
-                        "text": "Adicione os serviços ou produtos, quantidades e valores unitários. O cálculo é automático.",
-                        "url": `https://mestredascontas.com.br/ferramentas/criador-orcamentos/${slug}#ferramenta`
-                    },
-                    {
-                        "@type": "HowToStep",
-                        "name": "Finalize",
-                        "text": "Configure descontos, termos de pagamento e clique em Imprimir para baixar o PDF.",
-                        "url": `https://mestredascontas.com.br/ferramentas/criador-orcamentos/${slug}#ferramenta`
                     }
                 ]
             }
@@ -110,7 +96,7 @@ export default async function BudgetPseoPage({ params }: { params: Promise<{ slu
              <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
             {/* HEADER */}
-            <div className="px-4 pt-4 md:pt-6">
+            <div className="px-4 pt-4 md:pt-6 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
                 <PageHeader 
                     title={customCase.title}
                     description={customCase.longDescription}
@@ -124,8 +110,6 @@ export default async function BudgetPseoPage({ params }: { params: Promise<{ slu
                         { label: "Criar Orçamento", href: "/ferramentas/criador-orcamentos" },
                         { label: customCase.title }
                     ]}
-                    rating={customCase.rating}
-                    reviews={customCase.reviewsCount}
                 />
             </div>
 
@@ -161,7 +145,9 @@ export default async function BudgetPseoPage({ params }: { params: Promise<{ slu
                     </div>
 
                     <PrivacyBadge />
-                    <BudgetCreator initialValues={customCase.initialValues} />
+                    <Suspense fallback={<div className="h-96 w-full bg-slate-100 dark:bg-slate-800 animate-pulse rounded-3xl" />}>
+                        <BudgetCreator initialValues={customCase.initialValues} />
+                    </Suspense>
                     
                     <div className="mt-8 print:hidden max-w-5xl mx-auto"><DisclaimerBox /></div>
                 </section>
@@ -173,11 +159,9 @@ export default async function BudgetPseoPage({ params }: { params: Promise<{ slu
 
                 {/* --- ARTIGO EDUCACIONAL ESPECÍFICO (pSEO) --- */}
                 <div className="prose prose-slate dark:prose-invert prose-sm md:prose-lg max-w-4xl mx-auto bg-white dark:bg-slate-900 p-6 md:p-12 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-xl shadow-slate-200/40 dark:shadow-none overflow-hidden w-full print:hidden">
-                    
                     <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-6">
                         Criando um {customCase.title} de Sucesso
                     </h2>
-                    
                     <p className="lead text-lg font-medium text-slate-700 dark:text-slate-300">
                         Um orçamento bem feito é o primeiro passo para fechar negócio. Veja como tornar seu documento irresistível para o cliente.
                     </p>
@@ -205,30 +189,9 @@ export default async function BudgetPseoPage({ params }: { params: Promise<{ slu
                             {customCase.articleContent}
                         </div>
                     )}
-
-                    <h3 className="text-xl font-bold text-slate-900 dark:text-white mt-8">O que não pode faltar?</h3>
-                    <ul className="text-slate-600 dark:text-slate-400">
-                        <li><strong>Dados de Contato:</strong> Facilite para que o cliente te encontre.</li>
-                        <li><strong>Validade:</strong> Defina por quanto tempo os preços são garantidos (ex: 15 dias).</li>
-                        <li><strong>Formas de Pagamento:</strong> Pix, parcelamento, entrada? Deixe claro.</li>
-                    </ul>
-
-                    {/* CHAMADA DE AÇÃO / FINALIZAÇÃO */}
-                    <div className="bg-slate-50 dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 mt-8 not-prose">
-                        <h4 className="font-bold text-slate-900 dark:text-white mb-2 flex items-center gap-2">
-                            <PenTool size={18} className="text-blue-600 dark:text-blue-400"/> Pronto para fechar negócio?
-                        </h4>
-                        <p className="text-slate-600 dark:text-slate-400 text-sm mb-4">
-                            Use este modelo gratuito quantas vezes quiser. Não cobramos nada e não salvamos seus dados.
-                        </p>
-                        <Link href="#ferramenta" className="inline-flex items-center justify-center px-4 py-2 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition-colors text-sm shadow-lg shadow-blue-500/20">
-                            Preencher Orçamento Agora
-                        </Link>
-                    </div>
                 </div>
 
                 <SmartCrossLinker currentHref={`/ferramentas/criador-orcamentos/${slug}`} category="ferramentas" />
-
             </div>
         </article>
     );

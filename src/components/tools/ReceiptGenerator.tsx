@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import { useReactToPrint } from "react-to-print";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
@@ -205,7 +206,9 @@ export default function ReceiptGenerator({ initialValues }: ReceiptGeneratorProp
   const [cidade, setCidade] = useState("");
   const [dataRecibo, setDataRecibo] = useState("");
   const [duasVias, setDuasVias] = useState(true);
-  const [isZoomed, setIsZoomed] = useState(false);
+    const searchParams = useSearchParams();
+
+    const [isZoomed, setIsZoomed] = useState(false);
 
   const printRef = useRef<HTMLDivElement>(null);
   const previewRef = useRef<HTMLDivElement>(null);
@@ -215,24 +218,47 @@ export default function ReceiptGenerator({ initialValues }: ReceiptGeneratorProp
       emissor, cpfEmissor, telefone, cidade, dataRecibo
   };
 
-  // Inicializa data atual e carrega valores do pSEO
+  // Inicializa data atual e carrega valores do pSEO / URL
   useEffect(() => {
     const hoje = new Date();
     const dia = String(hoje.getDate()).padStart(2, '0');
     const mes = String(hoje.getMonth() + 1).padStart(2, '0');
     const ano = hoje.getFullYear();
     setDataRecibo(`${dia}/${mes}/${ano}`);
-    setCidade("São Paulo");
     
-    // Carrega dados iniciais se existirem (pSEO)
-    if (initialValues) {
+    // Default city
+    const urlCidade = searchParams.get('cidade');
+    setCidade(urlCidade ? decodeURIComponent(urlCidade) : "São Paulo");
+    
+    // Hydrate from URL
+    const urlValor = searchParams.get('valor');
+    const urlPagador = searchParams.get('pagador');
+    const urlEmissor = searchParams.get('emissor');
+    const urlRef = searchParams.get('ref');
+
+    if (urlValor) {
+        // Handle both raw numbers and formatted strings
+        let cleanV = urlValor.replace(/\D/g, "");
+        if (cleanV) {
+            cleanV = (Number(cleanV) / 100).toFixed(2) + "";
+            cleanV = cleanV.replace(".", ",");
+            cleanV = cleanV.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
+            setValor(cleanV);
+        }
+    }
+    if (urlPagador) setPagador(decodeURIComponent(urlPagador));
+    if (urlEmissor) setEmissor(decodeURIComponent(urlEmissor));
+    if (urlRef) setReferente(decodeURIComponent(urlRef));
+
+    // Fallback to initialValues if provided and URL is empty
+    if (initialValues && !urlValor && !urlPagador) {
         if (initialValues.referente) setReferente(initialValues.referente);
         if (initialValues.valor) setValor(initialValues.valor);
         if (initialValues.pagador) setPagador(initialValues.pagador);
         if (initialValues.emissor) setEmissor(initialValues.emissor);
         if (initialValues.cidade) setCidade(initialValues.cidade);
     }
-  }, [initialValues]);
+  }, [initialValues, searchParams]);
 
   // Atualiza extenso automaticamente
   useEffect(() => {

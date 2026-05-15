@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import UnemploymentCalculator from "@/components/calculators/UnemploymentCalculator";
+
 import LazyAdUnit from "@/components/ads/LazyAdUnit";
 import DisclaimerBox from "@/components/ui/DisclaimerBox";
 import PageHeader from "@/components/layout/PageHeader";
@@ -16,18 +17,9 @@ import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
 
 // --- 1. METADATA DE DOMINAÇÃO (SEO 2026) ---
 // --- 1. METADATA DINÂMICA (SEO MAXIMIZADO) ---
-export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
-  const resolvedParams = await searchParams;
-  const salarioRaw = resolvedParams.salario as string;
-  
-  let title = "Calculadora de Seguro-Desemprego 2026 (Grátis) | Valor e Parcelas";
-  let description = "Foi demitido em 2026? Veja quanto você vai receber e quantas parcelas em 10 segundos. Cálculo com novo teto 2026 e regras de carência. Simulador Grátis.";
-
-  if (salarioRaw) {
-    const valorFormatado = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(Number(salarioRaw));
-    title = `Cálculo de Seguro-Desemprego: Salário de ${valorFormatado} (2026)`;
-    description = `Ganhando ${valorFormatado}, quanto recebo de Seguro-Desemprego? Veja o valor exato e a quantidade de parcelas. Cálculo grátis e online.`;
-  }
+export async function generateMetadata(): Promise<Metadata> {
+  const title = "Calculadora de Seguro-Desemprego 2026 | Valor e Parcelas";
+  const description = "Saiba quanto você vai receber de Seguro-Desemprego em 2026. Veja o valor das parcelas e o tempo de recebimento em segundos. Grátis e Online.";
 
   return {
     title,
@@ -39,8 +31,7 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
       "quem tem direito seguro desemprego", 
       "teto seguro desemprego 2026",
       "dar entrada seguro desemprego online",
-      "calculo media 3 ultimos salarios",
-      ...(salarioRaw ? [`seguro desemprego salario ${salarioRaw}`, `calcular seguro ${salarioRaw}`] : [])
+      "calculo media 3 ultimos salarios"
     ],
     alternates: { canonical: "https://mestredascontas.com.br/trabalhista/seguro-desemprego" },
     openGraph: {
@@ -50,19 +41,15 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
       siteName: "Mestre das Contas",
       locale: "pt_BR",
       type: "article",
-      images: [{ url: "https://mestredascontas.com.br/opengraph-image", width: 1200, height: 630, alt: "Simulador Seguro Desemprego 2026" }],
-    },
+      images: [{ url: "https://mestredascontas.com.br/opengraph-image", width: 1200, height: 630, alt: "Simulador Seguro Desemprego 2026" }] },
     twitter: {
       card: "summary_large_image",
       title,
       description,
-      images: ["https://mestredascontas.com.br/opengraph-image"],
-    },
+      images: ["https://mestredascontas.com.br/opengraph-image"] },
     robots: {
       index: true, follow: true,
-      googleBot: { index: true, follow: true, "max-video-preview": -1, "max-image-preview": "large", "max-snippet": -1 },
-    },
-  };
+      googleBot: { index: true, follow: true, "max-video-preview": -1, "max-image-preview": "large", "max-snippet": -1 } } };
 }
 
 // --- FAQ LIST (Conteúdo Evergreen 2026) ---
@@ -84,15 +71,7 @@ const jsonLd = {
       "applicationCategory": "FinanceApplication",
       "operatingSystem": "Web",
       "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
-      "description": "Simulador online para cálculo de valor e parcelas do Seguro-Desemprego no Brasil de acordo com as regras do FAT vigentes em 2026.",
-      "aggregateRating": { 
-        "@type": "AggregateRating", 
-        "ratingValue": "4.7", 
-        "ratingCount": "8540", 
-        "bestRating": "5", 
-        "worstRating": "1" 
-      }
-    },
+      "description": "Simulador online para cálculo de valor e parcelas do Seguro-Desemprego no Brasil de acordo com as regras do FAT vigentes em 2026." },
     {
       "@type": "TechArticle",
       "headline": "Seguro-Desemprego 2026: Guia Definitivo de Direitos e Prazos",
@@ -141,31 +120,8 @@ const jsonLd = {
   ]
 };
 
-type Props = { searchParams: Promise<{ [key: string]: string | string[] | undefined }> }
 
-export default async function SeguroPage({ searchParams }: Props) {
-  
-  const resolvedParams = await searchParams;
-  const isEmbed = resolvedParams.embed === 'true';
-
-  // --- MODO EMBED ---
-  if (isEmbed) {
-    return (
-        <main className="w-full min-h-screen bg-slate-50 dark:bg-slate-900 p-2 flex flex-col items-center justify-start font-sans">
-            <div className="w-full max-w-3xl">
-                <Suspense fallback={<div className="p-10 text-center animate-pulse text-slate-400 dark:text-slate-500">Carregando Calculadora...</div>}>
-                    <UnemploymentCalculator />
-                </Suspense>
-                <div className="mt-4 text-center border-t border-slate-200 dark:border-slate-800 pt-3">
-                    <Link href="https://mestredascontas.com.br/trabalhista/seguro-desemprego" target="_blank" className="text-[10px] text-slate-400 dark:text-slate-500 hover:text-blue-600 dark:hover:text-blue-400 uppercase font-bold tracking-wider flex items-center justify-center gap-1 transition-colors">
-                        <ShieldCheck size={10} /> Powered by Mestre das Contas
-                    </Link>
-                </div>
-            </div>
-        </main>
-    );
-  }
-
+export default async function SeguroPage() {
   // --- MODO PÁGINA NORMAL ---
   return (
     <article className="w-full max-w-full overflow-hidden pb-12">
@@ -182,8 +138,6 @@ export default async function SeguroPage({ searchParams }: Props) {
           variant="default" // Azul/Indigo
           categoryColor="blue"
           badge="Regra 2026"
-          rating={4.7}
-          reviews={8540}
           breadcrumbs={[
             { label: "Trabalhista", href: "/trabalhista" },
             { label: "Seguro Desemprego" }
@@ -224,17 +178,10 @@ export default async function SeguroPage({ searchParams }: Props) {
         {/* FERRAMENTA */}
         <section id="ferramenta" className="scroll-mt-28 w-full max-w-full">
           <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/40 dark:shadow-none p-1 md:p-2">
-              <Suspense fallback={
-                <div className="h-96 w-full bg-slate-50 dark:bg-slate-800 rounded-2xl animate-pulse flex items-center justify-center text-slate-400 dark:text-slate-500 border border-slate-200 dark:border-slate-800">
-                    <div className="flex flex-col items-center gap-2">
-                        <ShieldCheck className="animate-bounce text-slate-300 dark:text-slate-600" size={32}/>
-                        <span>Carregando Calculadora...</span>
-                    </div>
-                </div>
-              }>
                   <PrivacyBadge />
-                  <UnemploymentCalculator />
-              </Suspense>
+                   <Suspense fallback={<div className="h-96 w-full bg-slate-100 dark:bg-slate-800 animate-pulse rounded-3xl" />}>
+                     <UnemploymentCalculator />
+                   </Suspense>
           </div>
           
           <div className="mt-8 print:hidden max-w-5xl mx-auto">

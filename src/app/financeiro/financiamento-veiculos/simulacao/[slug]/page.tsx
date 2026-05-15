@@ -14,6 +14,7 @@ import veiculosData from "@/data/veiculos.json";
 
 // Wrapper da Calculadora
 import VehicleFinancingCalculator from "@/components/calculators/FinancingCalculator"; 
+import { calculateFinancing } from "@/lib/calculators/financing";
 
 // Helper para resolver o caso (Estático ou Dinâmico Numérico)
 function getFinancingCase(slug: string) {
@@ -77,12 +78,10 @@ function getFinancingCase(slug: string) {
 
 export async function generateStaticParams() {
   const predefinedSlugs = financingCases.map((customCase) => ({
-    slug: customCase.slug, 
-  }));
+    slug: customCase.slug }));
 
   const jsonSlugs = veiculosData.map((v) => ({
-    slug: v.slug,
-  }));
+    slug: v.slug }));
 
   return [...predefinedSlugs, ...jsonSlugs];
 }
@@ -106,8 +105,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         title: customCase.title,
         description: customCase.description,
         url: `https://mestredascontas.com.br/financeiro/financiamento-veiculos/simulacao/${slug}`,
-        type: "article",
-    }
+        type: "article" }
   };
 }
 
@@ -128,15 +126,7 @@ export default async function VeiculoPorSlugPage({ params }: Props) {
         "name": `Simulador: ${customCase.title}`,
         "applicationCategory": "FinanceApplication",
         "operatingSystem": "Web Browser",
-        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
-        "aggregateRating": {
-          "@type": "AggregateRating",
-          "ratingValue": "4.8",
-          "ratingCount": Math.floor(customCase.valor / 50) + 150, // Fake dynamic count
-          "bestRating": "5",
-          "worstRating": "1"
-        }
-      },
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" } },
       {
         "@type": "FAQPage",
         "mainEntity": customCase.articleContent.faq?.map(f => ({
@@ -196,9 +186,7 @@ export default async function VeiculoPorSlugPage({ params }: Props) {
             { label: "Financiamento Veículos", href: "/financeiro/financiamento-veiculos" },
             { label: customCase.tipo }
           ]}
-          rating={4.8}
-          reviews={350}
-        />
+          />
       </div>
 
       <div className="flex flex-col gap-8 px-4 sm:px-6 max-w-7xl mx-auto w-full">
@@ -237,7 +225,13 @@ export default async function VeiculoPorSlugPage({ params }: Props) {
              <PrivacyBadge />
              <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/40 dark:shadow-none p-4 md:p-8">
                 <Suspense fallback={<div className="h-64 bg-slate-100 dark:bg-slate-800 rounded-3xl animate-pulse"/>}>
-                    <VehicleFinancingCalculator initialValue={customCase.valor} />
+                    <VehicleFinancingCalculator 
+                        initialValue={customCase.valor} 
+                        initialEntrada={customCase.valor * 0.3}
+                        initialTaxa={1.59}
+                        initialPrazo={48}
+                        initialResult={calculateFinancing(customCase.valor, customCase.valor * 0.3, 1.59, 48, "price")}
+                    />
                 </Suspense>
                 <div className="mt-8 border-t border-slate-100 dark:border-slate-800 pt-6">
                     <DisclaimerBox />

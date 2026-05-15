@@ -9,19 +9,16 @@ export const metadata: Metadata = {
   description: "Precisa de ajuda? Entre em contato com a equipe do Mestre das Contas. Canal oficial para suporte, dúvidas, sugestões e parcerias comerciais.",
   keywords: ["fale conosco", "suporte mestre das contas", "contato", "atendimento"],
   alternates: {
-    canonical: "https://mestredascontas.com.br/fale-conosco",
-  },
+    canonical: "https://mestredascontas.com.br/fale-conosco" },
   openGraph: {
     title: "Fale Conosco - Mestre das Contas",
     description: "Estamos prontos para te ouvir. Envie sua mensagem.",
     url: "https://mestredascontas.com.br/fale-conosco",
     siteName: "Mestre das Contas",
     locale: "pt_BR",
-    type: "website",
-  },
+    type: "website" },
   // IMPORTANTE: Deixe indexar para provar legitimidade ao Google (E-E-A-T)
-  robots: { index: true, follow: true },
-};
+  robots: { index: true, follow: true } };
 
 // --- 2. DADOS ESTRUTURADOS (SCHEMA.ORG) ---
 const jsonLd = {

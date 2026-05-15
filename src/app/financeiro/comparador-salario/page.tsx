@@ -6,25 +6,60 @@ import PageHeader from "@/components/layout/PageHeader";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
 import DisclaimerBox from "@/components/ui/DisclaimerBox";
 import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
-import { Users, BarChart3, TrendingUp, CheckCircle2, HelpCircle, BookOpen, AlertTriangle, ShieldCheck } from "lucide-react";
+import { BarChart3, CheckCircle2, HelpCircle, BookOpen, AlertTriangle, ShieldCheck } from "lucide-react";
 
-// --- 1. METADATA DE ALTA PERFORMANCE (SEO 2026) ---
-export const metadata: Metadata = {
-    title: "Comparador de Renda 2026 (Grátis) | Você é Rico? (Dados IBGE)",
-    description: "Digite seu salário e descubra sua classe social real e posição no ranking nacional em segundos. Dados oficiais IBGE 2026 atualizados. Simule Grátis.",
-    keywords: ["comparador de renda", "salario ibge 2026", "classe social calculadora", "riqueza brasil ranking", "renda per capita"],
-    alternates: {
-        canonical: "https://mestredascontas.com.br/financeiro/comparador-salario"
+// --- 1. METADATA DINÂMICA (SEO MAXIMIZADO) ---
+export async function generateMetadata(): Promise<Metadata> {
+    const title = "Comparador de Renda 2026 (Grátis) | Você é Rico? (Dados IBGE)";
+    const description = "Digite seu salário e descubra sua classe social real e posição no ranking nacional em segundos. Dados oficiais IBGE 2026 atualizados. Simule Grátis.";
+
+    return {
+        title,
+        description,
+        keywords: ["comparador de renda", "salario ibge 2026", "classe social calculadora", "riqueza brasil ranking", "renda per capita"],
+        alternates: { canonical: "https://mestredascontas.com.br/financeiro/comparador-salario" },
+        openGraph: {
+            title,
+            description,
+            url: "https://mestredascontas.com.br/financeiro/comparador-salario",
+            type: "website" }
+    };
+}
+
+const faqList = [
+    {
+        q: "Qual a renda para ser Classe A no Brasil em 2026?",
+        a: "Considera-se Classe A famílias com renda superior a R$ 22.000 mensais. Em algumas metodologias mais restritas, o corte pode ser acima de R$ 27.000."
     },
-    openGraph: {
-        title: "Comparador de Renda: Qual sua posição no Brasil?",
-        description: "Eu fiz o teste: Ganho mais que a maioria? Descubra sua posição agora.",
-        url: "https://mestredascontas.com.br/financeiro/comparador-salario",
-        type: "website",
+    {
+        q: "O comparador usa dados brutos ou líquidos?",
+        a: "Recomendamos usar o Salário Bruto. As pesquisas do IBGE (PNAD) geralmente perguntam o rendimento bruto do trabalho, antes dos descontos de IR e INSS."
+    },
+    {
+        q: "E se eu for MEI ou PJ?",
+        a: "Se você é PJ, insira seu faturamento mensal líquido (o que sobra após pagar o DAS e impostos da empresa). Lembre-se que PJ não tem 13º nem FGTS, então sua 'renda real' comparável a CLT deve ser ajustada para baixo em cerca de 30%."
+    },
+    {
+        q: "A região do Brasil influencia?",
+        a: "MUITO. Ganhar R$ 5.000 no interior do Nordeste te dá um poder de compra de Classe A/B local. O mesmo valor em São Paulo capital ou Brasília mal aluga um apartamento no centro (Classe C/D)."
+    },
+    {
+        q: "Como é calculado o percentual do ranking?",
+        a: "Utilizamos a curva de distribuição de renda acumulada da PNAD Contínua. É uma estimativa estatística. Se dizemos que você ganha mais que 70% do Brasil, significa que apenas 30% da população tem uma renda igual ou superior à sua."
+    },
+    {
+        q: "Por que as faixas de salário mudam tanto?",
+        a: "Existem vários critérios (IBGE, FGV, Critério Brasil). Adotamos uma faixa mista que reflete o poder de compra real atualizado pela inflação (IPCA) projetada até 2026."
+    },
+    {
+        q: "Ganhar bem é ser rico?",
+        a: "Não. Ser rico é ter patrimônio (ativos) que pagam suas contas. Salário alto sem patrimônio é apenas 'pobreza de luxo'. Se você parar de trabalhar hoje e suas contas continuarem pagas, aí sim você é rico."
     }
-};
+];
 
-export default function SalaryComparatorPage() {
+
+export default async function SalaryComparatorPage() {
+
     // Schema JSON-LD Completo
     const jsonLd = {
         "@context": "https://schema.org",
@@ -35,15 +70,7 @@ export default function SalaryComparatorPage() {
                 "description": "Ferramenta estatística que compara seu salário com a distribuição de renda brasileira.",
                 "applicationCategory": "FinanceApplication",
                 "operatingSystem": "Web",
-                "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
-                "aggregateRating": {
-                    "@type": "AggregateRating",
-                    "ratingValue": "4.8",
-                    "ratingCount": "12450",
-                    "bestRating": "5",
-                    "worstRating": "1"
-                }
-            },
+                "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" } },
             {
                 "@type": "HowTo",
                 "name": "Como comparar sua renda com o resto do Brasil",
@@ -64,6 +91,14 @@ export default function SalaryComparatorPage() {
                         "text": "Veja sua posição na pirâmide, sua classe social e a porcentagem da população que ganha menos que você."
                     }
                 ]
+            },
+            {
+              "@type": "FAQPage",
+              "mainEntity": faqList.map(f => ({
+                "@type": "Question",
+                "name": f.q,
+                "acceptedAnswer": { "@type": "Answer", "text": f.a }
+              }))
             }
         ]
     };
@@ -85,9 +120,7 @@ export default function SalaryComparatorPage() {
                         { label: "Financeiro", href: "/financeiro" },
                         { label: "Comparador de Renda" }
                     ]}
-                    rating={4.8}
-                    reviews={12450}
-                />
+                    />
             </div>
 
             <div className="flex flex-col gap-8 px-4 sm:px-6 max-w-7xl mx-auto w-full">
@@ -109,7 +142,9 @@ export default function SalaryComparatorPage() {
                         <PrivacyBadge />
                     </div>
                     
-                    <SalaryComparator />
+                    <Suspense fallback={<div className="h-96 w-full bg-slate-100 dark:bg-slate-800 animate-pulse rounded-3xl" />}>
+                        <SalaryComparator />
+                    </Suspense>
 
                     <div className="mt-8 max-w-2xl mx-auto">
                         <DisclaimerBox />
@@ -271,37 +306,8 @@ export default function SalaryComparatorPage() {
                         <HelpCircle className="text-indigo-500"/> Perguntas Frequentes
                     </h3>
                     <div className="space-y-4">
-                        {[
-                            {
-                                q: "Qual a renda para ser Classe A no Brasil em 2026?",
-                                a: "Considera-se Classe A famílias com renda superior a R$ 22.000 mensais. Em algumas metodologias mais restritas, o corte pode ser acima de R$ 27.000."
-                            },
-                            {
-                                q: "O comparador usa dados brutos ou líquidos?",
-                                a: "Recomendamos usar o Salário Bruto. As pesquisas do IBGE (PNAD) geralmente perguntam o rendimento bruto do trabalho, antes dos descontos de IR e INSS."
-                            },
-                            {
-                                q: "E se eu for MEI ou PJ?",
-                                a: "Se você é PJ, insira seu faturamento mensal líquido (o que sobra após pagar o DAS e impostos da empresa). Lembre-se que PJ não tem 13º nem FGTS, então sua 'renda real' comparável a CLT deve ser ajustada para baixo em cerca de 30%."
-                            },
-                            {
-                                q: "A região do Brasil influencia?",
-                                a: "MUITO. Ganhar R$ 5.000 no interior do Nordeste te dá um poder de compra de Classe A/B local. O mesmo valor em São Paulo capital ou Brasília mal aluga um apartamento no centro (Classe C/D)."
-                            },
-                            {
-                                q: "Como é calculado o percentual do ranking?",
-                                a: "Utilizamos a curva de distribuição de renda acumulada da PNAD Contínua. É uma estimativa estatística. Se dizemos que você ganha mais que 70% do Brasil, significa que apenas 30% da população tem uma renda igual ou superior à sua."
-                            },
-                            {
-                                q: "Por que as faixas de salário mudam tanto?",
-                                a: "Existem vários critérios (IBGE, FGV, Critério Brasil). Adotamos uma faixa mista que reflete o poder de compra real atualizado pela inflação (IPCA) projetada até 2026."
-                            },
-                            {
-                                q: "Ganhar bem é ser rico?",
-                                a: "Não. Ser rico é ter patrimônio (ativos) que pagam suas contas. Salário alto sem patrimônio é apenas 'pobreza de luxo'. Se você parar de trabalhar hoje e suas contas continuarem pagas, aí sim você é rico."
-                            }
-                        ].map((faq, idx) => (
-                            <details key={idx} className="group bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 open:border-indigo-500 dark:open:border-indigo-500 transition-colors duration-300">
+                        {faqList.map((faq, idx) => (
+                            <details key={idx} id={`faq-${idx}`} className="group bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 open:border-indigo-500 dark:open:border-indigo-500 transition-colors duration-300">
                                 <summary className="flex cursor-pointer items-center justify-between p-4 font-bold text-slate-800 dark:text-slate-200 group-open:text-indigo-600 dark:group-open:text-indigo-400">
                                     {faq.q}
                                     <span className="shrink-0 ml-4 p-1.5 rounded-full bg-slate-100 dark:bg-slate-800 group-open:bg-indigo-100 dark:group-open:bg-indigo-900/30 text-slate-500 group-open:text-indigo-600 transition-all">

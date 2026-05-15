@@ -1,4 +1,5 @@
 
+import { Suspense } from "react";
 import { Metadata } from "next";
 import BusinessDaysCalculator from "@/components/tools/BusinessDaysCalculator";
 import AdUnit from "@/components/ads/AdUnit";
@@ -32,8 +33,7 @@ export const metadata: Metadata = {
     description: "Ferramenta essencial para calcular prazos bancários e processuais. Inclui feriados.",
     url: "https://mestredascontas.com.br/financeiro/calculadora-dias-uteis",
     siteName: "Mestre das Contas",
-    type: "website",
-  }
+    type: "website" }
 };
 
 export default function BusinessDaysPage() {
@@ -47,9 +47,7 @@ export default function BusinessDaysPage() {
         "applicationCategory": "BusinessApplication",
         "operatingSystem": "Web",
         "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
-        "description": "Calculadora profissional para somar dias úteis a uma data ou contar a diferença de dias úteis entre datas, considerando feriados nacionais de 2026.",
-        "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.8", "ratingCount": "920", "bestRating": "5", "worstRating": "1" }
-      },
+        "description": "Calculadora profissional para somar dias úteis a uma data ou contar a diferença de dias úteis entre datas, considerando feriados nacionais de 2026." },
       {
         "@type": "Article",
         "headline": "Guia de Contagem de Dias Úteis 2026: Prazos Bancários e Processuais",
@@ -84,8 +82,6 @@ export default function BusinessDaysPage() {
           variant="default"
           categoryColor="blue"
           badge="Feriados 2026"
-          rating={4.8}
-          reviews={920}
           breadcrumbs={[
             { label: "Financeiro", href: "/financeiro" },
             { label: "Dias Úteis" }
@@ -112,7 +108,9 @@ export default function BusinessDaysPage() {
               <PrivacyBadge />
            </div>
            
-           <BusinessDaysCalculator />
+           <Suspense fallback={<div className="h-96 w-full bg-slate-100 dark:bg-slate-800 animate-pulse rounded-3xl" />}>
+              <BusinessDaysCalculator />
+           </Suspense>
            
            <div className="mt-8 print:hidden max-w-5xl mx-auto"><DisclaimerBox /></div>
         </section>

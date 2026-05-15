@@ -19,8 +19,6 @@ interface PageHeaderProps {
   variant?: "default" | "reform" | "health" | "finance" | "labor" | "tools"; 
   category?: string;
   categoryColor?: string; // Mantido para compatibilidade, mas o variant controla a cor
-  rating?: number;
-  reviews?: number;
 }
 
 export default function PageHeader({
@@ -30,9 +28,7 @@ export default function PageHeader({
   breadcrumbs = [],
   badge,
   variant = "default",
-  category,
-  rating,
-  reviews
+  category
 }: PageHeaderProps) {
   
   const router = useRouter();
@@ -93,7 +89,7 @@ export default function PageHeader({
 
       <div className="relative px-6 py-8 md:py-12 max-w-7xl mx-auto flex flex-col lg:flex-row items-start lg:items-center gap-6 z-10">
         
-        {/* Ícone (Desktop: Grande / Mobile: Escondido ou Pequeno) */}
+        {/* Ãcone (Desktop: Grande / Mobile: Escondido ou Pequeno) */}
         {icon && (
           <div className="hidden lg:flex items-center justify-center w-24 h-24 rounded-3xl bg-white/10 backdrop-blur-md shadow-2xl ring-1 ring-white/20 text-white shrink-0 transform group-hover:scale-105 transition-transform duration-500">
             {icon}
@@ -150,40 +146,12 @@ export default function PageHeader({
               {title}
             </h1>
           </div>
-
-          {/* Descrição e Rating */}
-          <div className="flex flex-col lg:flex-row lg:items-end gap-6 justify-between pt-2">
+          {/* Descrição */}
+          <div className="pt-2">
             <p className="text-sm md:text-lg text-blue-50/90 max-w-3xl leading-relaxed font-medium text-pretty">
               {description}
             </p>
-
-            {/* Rating Box */}
-            {rating && (
-              <div className="flex items-center gap-3 bg-black/20 p-3 rounded-2xl backdrop-blur-md border border-white/5 shrink-0 self-start lg:self-auto hover:bg-black/30 transition-colors cursor-default">
-                 <div className="text-center px-1">
-                    <span className="block text-xl font-bold text-white leading-none">{rating}</span>
-                    <span className="text-[9px] text-blue-200 uppercase tracking-wide">Nota</span>
-                 </div>
-                 <div className="h-8 w-px bg-white/10"></div>
-                 <div>
-                     <div className="flex text-amber-400 gap-0.5">
-                       {[...Array(5)].map((_, i) => (
-                         <Star 
-                           key={i} 
-                           size={14} 
-                           fill={i < Math.round(rating) ? "currentColor" : "none"} 
-                           className={i < Math.round(rating) ? "" : "text-white/20"} 
-                         />
-                       ))}
-                     </div>
-                     <div className="text-[10px] text-blue-100 mt-0.5">
-                        {reviews && <span>{reviews > 1000 ? (reviews/1000).toFixed(1) + 'k' : reviews} opiniões</span>}
-                     </div>
-                 </div>
-              </div>
-            )}
           </div>
-
         </div>
       </div>
     </div>
