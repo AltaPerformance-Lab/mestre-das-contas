@@ -23,29 +23,54 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://mestredascontas.com.br/financeiro" },
   openGraph: {
-    title: "Portal Financeiro - Mestre das Contas",
-    description: "Ferramentas profissionais para você cuidar do seu dinheiro e multiplicar seu patrimônio.",
+    title: "Portal Financeiro 2026 | Mestre das Contas",
+    description: "Tome decisões inteligentes com seu dinheiro. Simule Juros Compostos, Financiamento, Salário Líquido e investimentos com precisão.",
     url: "https://mestredascontas.com.br/financeiro",
     siteName: "Mestre das Contas",
     locale: "pt_BR",
     type: "website",
-    images: [{ url: "https://mestredascontas.com.br/opengraph-image", width: 1200, height: 630, alt: "Cálculos Financeiros" }] } };
+    images: [
+      { 
+        url: "/opengraph-image", 
+        width: 1200, 
+        height: 630, 
+        alt: "Portal Financeiro Mestre das Contas", 
+      }
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Seu dinheiro sob controle em 2026",
+    description: "Acesse nossas ferramentas financeiras gratuitas e planeje sua liberdade financeira.",
+    images: ["/opengraph-image"],
+  } };
 
 // --- SCHEMA (COLLECTION) ---
 const jsonLd = {
   "@context": "https://schema.org",
-  "@type": "CollectionPage",
-  "name": "Ferramentas Financeiras",
-  "description": "Coleção de calculadoras para planejamento financeiro e investimentos.",
-  "url": "https://mestredascontas.com.br/financeiro",
-  "hasPart": [
-    { "@type": "SoftwareApplication", "name": "Juros Compostos", "url": "https://mestredascontas.com.br/financeiro/juros-compostos" },
-    { "@type": "SoftwareApplication", "name": "Financiamento Price/SAC", "url": "https://mestredascontas.com.br/financeiro/financiamento" },
-    { "@type": "SoftwareApplication", "name": "Calculadora de Porcentagem", "url": "https://mestredascontas.com.br/financeiro/porcentagem" },
-    { "@type": "SoftwareApplication", "name": "Salário Líquido", "url": "https://mestredascontas.com.br/financeiro/salario-liquido" },
-    { "@type": "SoftwareApplication", "name": "Calculadora MEI", "url": "https://mestredascontas.com.br/financeiro/calculadora-mei" },
-    { "@type": "SoftwareApplication", "name": "Dias Úteis", "url": "https://mestredascontas.com.br/financeiro/calculadora-dias-uteis" },
-    { "@type": "SoftwareApplication", "name": "Reforma Tributária", "url": "https://mestredascontas.com.br/financeiro/reforma-tributaria" }
+  "@graph": [
+    {
+      "@type": "CollectionPage",
+      "name": "Ferramentas Financeiras e Simuladores 2026",
+      "description": "Coleção completa de calculadoras para planejamento financeiro, juros compostos, financiamentos e investimentos.",
+      "url": "https://mestredascontas.com.br/financeiro",
+      "hasPart": [
+        { "@type": "SoftwareApplication", "name": "Juros Compostos", "url": "https://mestredascontas.com.br/financeiro/juros-compostos" },
+        { "@type": "SoftwareApplication", "name": "Financiamento Price/SAC", "url": "https://mestredascontas.com.br/financeiro/financiamento" },
+        { "@type": "SoftwareApplication", "name": "Calculadora de Porcentagem", "url": "https://mestredascontas.com.br/financeiro/porcentagem" },
+        { "@type": "SoftwareApplication", "name": "Salário Líquido", "url": "https://mestredascontas.com.br/financeiro/salario-liquido" },
+        { "@type": "SoftwareApplication", "name": "Calculadora MEI", "url": "https://mestredascontas.com.br/financeiro/calculadora-mei" },
+        { "@type": "SoftwareApplication", "name": "Dias Úteis", "url": "https://mestredascontas.com.br/financeiro/calculadora-dias-uteis" },
+        { "@type": "SoftwareApplication", "name": "Reforma Tributária", "url": "https://mestredascontas.com.br/financeiro/reforma-tributaria" }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Início", "item": "https://mestredascontas.com.br" },
+        { "@type": "ListItem", "position": 2, "name": "Financeiro", "item": "https://mestredascontas.com.br/financeiro" }
+      ]
+    }
   ]
 };
 

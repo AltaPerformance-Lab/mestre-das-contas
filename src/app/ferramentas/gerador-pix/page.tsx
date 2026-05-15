@@ -22,12 +22,27 @@ export async function generateMetadata(): Promise<Metadata> {
     keywords: ["gerador pix", "criar qr code pix", "pix copia e cola com valor", "gerar pix cobrança", "qr code pix estatico"],
     alternates: { canonical: "https://mestredascontas.com.br/ferramentas/gerador-pix" },
     openGraph: {
-      title,
-      description,
+      title: "Gerador de Pix: QR Code e Copia e Cola Profissional",
+      description: "Crie cobranças Pix com valor definido em segundos. Gere o QR Code oficial e o código Copia e Cola de forma segura e gratuita.",
       url: "https://mestredascontas.com.br/ferramentas/gerador-pix",
       siteName: "Mestre das Contas",
       locale: "pt_BR",
-      type: "website" },
+      type: "website",
+      images: [
+        { 
+          url: "/opengraph-image", 
+          width: 1200, 
+          height: 630, 
+          alt: "Gerador de PIX Mestre das Contas", 
+        }
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: "Precisa cobrar alguém pelo PIX?",
+      description: "Gere um QR Code profissional com valor e receba na hora sem erros.",
+      images: ["/opengraph-image"],
+    },
     robots: {
       index: true, follow: true,
       googleBot: { index: true, follow: true, "max-video-preview": -1, "max-image-preview": "large", "max-snippet": -1 } } };

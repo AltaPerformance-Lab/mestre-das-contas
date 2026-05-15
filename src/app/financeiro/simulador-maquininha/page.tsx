@@ -14,21 +14,48 @@ import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
 
 // --- 1. METADATA DINÂMICA (SEO MAXIMIZADO) ---
 export async function generateMetadata(): Promise<Metadata> {
-    const title = "Simulador de Taxas de Maquininha 2026 | Compare e Economize";
-    const description = "Quanto você realmente recebe? Calcule as taxas de todas as maquininhas em segundos. Descubra o custo real de vender parcelado e economize em 2026.";
+    const title = "Simulador de Taxas de Maquininha Grátis | Compare Ilimitado 2026";
+    const description = "Quanto você realmente recebe? Calcule as taxas de todas as maquininhas 100% grátis e ilimitado. Descubra o custo real de vender parcelado e economize agora.";
 
     return {
         title,
         description,
-        keywords: ["simulador taxas maquininha", "calculadora antecipação recebiveis", "mdr cartão credito", "calcular juros maquininha", "taxa sumup moderninha mercado pago"],
+        keywords: [
+            "simulador taxas maquininha gratis", 
+            "calculadora maquininha ilimitada", 
+            "comparar taxas cartao gratis", 
+            "calcular juros maquininha", 
+            "taxa sumup moderninha mercado pago"
+        ],
         alternates: { canonical: "https://mestredascontas.com.br/financeiro/simulador-maquininha" },
         openGraph: {
-            title,
-            description,
+            title: "Simulador de Taxas de Maquininha Grátis | Compare e Economize",
+            description: "Descubra quanto você realmente recebe após as taxas da maquininha. Simulações ilimitadas e 100% gratuitas.",
             url: "https://mestredascontas.com.br/financeiro/simulador-maquininha",
             siteName: "Mestre das Contas",
             locale: "pt_BR",
-            type: "website" } };
+            type: "website",
+            images: [
+                { 
+                    url: "/opengraph-image", 
+                    width: 1200, 
+                    height: 630, 
+                    alt: "Simulador de Maquininha Grátis Mestre das Contas", 
+                }
+            ],
+        },
+        twitter: {
+            card: "summary_large_image",
+            title: "Pare de perder dinheiro para as taxas!",
+            description: "Compare taxas de todas as maquininhas grátis e ilimitado no Mestre das Contas.",
+            images: ["/opengraph-image"],
+        },
+        robots: { 
+            index: true, 
+            follow: true,
+            googleBot: { index: true, follow: true, "max-image-preview": "large" } 
+        }
+    };
 }
 
 const faqList = [
@@ -47,26 +74,46 @@ const faqList = [
 ];
 
 export default async function CardSimulatorPage() {
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@graph": [
-        {
-            "@type": "SoftwareApplication",
-            "name": "Simulador de Taxas de Cartão",
-            "applicationCategory": "BusinessApplication",
-            "operatingSystem": "Web",
-            "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
-            "description": "Calcula o valor líquido de vendas no cartão de crédito descontando taxas MDR e antecipação." },
-        {
-          "@type": "FAQPage",
-          "mainEntity": faqList.map(f => ({
-            "@type": "Question",
-            "name": f.q,
-            "acceptedAnswer": { "@type": "Answer", "text": f.a }
-          }))
-        }
-    ]
-  };
+// --- 2. DADOS ESTRUTURADOS (SCHEMA.ORG) ---
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "Simulador de Maquininha Grátis e Ilimitado",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
+      "description": "Calcula o valor líquido de vendas no cartão de crédito descontando taxas MDR e antecipação."
+    },
+    {
+      "@type": "HowTo",
+      "name": "Como Calcular Taxas de Maquininha",
+      "description": "Passo a passo para descobrir quanto você realmente recebe nas suas vendas.",
+      "step": [
+        { "@type": "HowToStep", "name": "Valor da Venda", "text": "Informe o valor total que será passado no cartão." },
+        { "@type": "HowToStep", "name": "Taxa MDR", "text": "Coloque a taxa fixa da sua maquininha (ex: 2% no débito ou 4% no crédito)." },
+        { "@type": "HowToStep", "name": "Parcelamento", "text": "Se a venda for parcelada, informe o número de parcelas e a taxa de antecipação." }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": faqList.map(f => ({
+        "@type": "Question",
+        "name": f.q,
+        "acceptedAnswer": { "@type": "Answer", "text": f.a }
+      }))
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Início", "item": "https://mestredascontas.com.br" },
+        { "@type": "ListItem", "position": 2, "name": "Financeiro", "item": "https://mestredascontas.com.br/financeiro" },
+        { "@type": "ListItem", "position": 3, "name": "Simulador Maquininha", "item": "https://mestredascontas.com.br/financeiro/simulador-maquininha" }
+      ]
+    }
+  ]
+};
   return (
     <div className="w-full max-w-full overflow-hidden font-sans pb-12">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />

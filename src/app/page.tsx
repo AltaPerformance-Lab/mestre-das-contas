@@ -24,40 +24,68 @@ import { laborCards, financeCards, healthCards, toolsCards } from "@/data/home-c
 // --- METADATA AVANÇADA PARA SEO ---
 export const metadata: Metadata = {
   title: "Mestre das Contas | Calculadoras e Ferramentas Online Grátis",
-  description: "Sua central de ferramentas online gratuitas. Calculadoras financeiras, trabalhistas, saúde, geradores de QR Code e editores de PDF precisos e fáceis de usar.",
-  keywords: ["calculadoras grátis", "ferramentas online", "calculadora rescisão", "calculadora férias", "reforma tributária 2026", "gerador qr code", "mestre das contas", "editor pdf online", "gerador link whatsapp"],
+  description: "Simplifique sua vida com centenas de ferramentas gratuitas. Cálculos exatos de Rescisão, Férias, Salário, MEI, Juros e utilitários digitais 2026.",
+  keywords: ["calculadoras grátis", "ferramentas online", "calculadora rescisão", "calculadora férias", "reforma tributária 2026", "gerador qr code", "mestre das contas", "editor pdf online", "gerador link whatsapp", "calculadora mei"],
   alternates: {
-    canonical: "https://mestredascontas.com.br" },
+    canonical: "https://mestredascontas.com.br" 
+  },
   openGraph: {
     type: "website",
     locale: "pt_BR",
     url: "https://mestredascontas.com.br",
     title: "Mestre das Contas | Calculadoras e Ferramentas Online Grátis",
-    description: "Simplifique sua vida com centenas de ferramentas gratuitas. Cálculos exatos de Rescisão, Férias, Salário e utilitários digitais.",
-    siteName: "Mestre das Contas" } };
+    description: "Centenas de calculadoras e ferramentas gratuitas. Rescisão, Férias, Salário e utilitários digitais atualizados.",
+    siteName: "Mestre das Contas",
+    images: [
+      { 
+        url: "/opengraph-image", 
+        width: 1200, 
+        height: 630, 
+        alt: "Mestre das Contas - Ferramentas Online Gratuitas", 
+      }
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Mestre das Contas | Centenas de Ferramentas Grátis",
+    description: "Cálculos trabalhistas, financeiros e utilitários digitais em um só lugar.",
+    images: ["/opengraph-image"],
+  } 
+};
 
 export default function Home() {
   
   // SCHEMA MARKUP (JSON-LD) - Estrutura de WebSite e Organization
   const jsonLd = {
     "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "Mestre das Contas",
-    "url": "https://mestredascontas.com.br",
-    "potentialAction": {
-      "@type": "SearchAction",
-      "target": "https://mestredascontas.com.br/search?q={search_term_string}",
-      "query-input": "required name=search_term_string"
-    },
-    "description": "Plataforma gratuita de calculadoras e ferramentas digitais para cálculos trabalhistas, financeiros, saúde e utilitários.",
-    "publisher": {
-      "@type": "Organization",
-      "name": "Mestre das Contas",
-      "logo": {
-        "@type": "ImageObject",
-        "url": "https://mestredascontas.com.br/opengraph-image" 
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "name": "Mestre das Contas",
+        "url": "https://mestredascontas.com.br",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://mestredascontas.com.br/search?q={search_term_string}",
+          "query-input": "required name=search_term_string"
+        },
+        "description": "Plataforma gratuita de calculadoras e ferramentas digitais para cálculos trabalhistas, financeiros, saúde e utilitários."
+      },
+      {
+        "@type": "Organization",
+        "name": "Mestre das Contas",
+        "url": "https://mestredascontas.com.br",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://mestredascontas.com.br/opengraph-image"
+        }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Início", "item": "https://mestredascontas.com.br" }
+        ]
       }
-    }
+    ]
   };
 
   return (

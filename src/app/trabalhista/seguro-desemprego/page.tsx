@@ -35,18 +35,27 @@ export async function generateMetadata(): Promise<Metadata> {
     ],
     alternates: { canonical: "https://mestredascontas.com.br/trabalhista/seguro-desemprego" },
     openGraph: {
-      title,
-      description,
+      title: "Calculadora de Seguro-Desemprego 2026 | Valor e Parcelas",
+      description: "Saiba quanto você vai receber de Seguro-Desemprego em 2026. Veja o valor das parcelas e o tempo de recebimento em segundos. Grátis e preciso.",
       url: "https://mestredascontas.com.br/trabalhista/seguro-desemprego",
       siteName: "Mestre das Contas",
       locale: "pt_BR",
       type: "article",
-      images: [{ url: "https://mestredascontas.com.br/opengraph-image", width: 1200, height: 630, alt: "Simulador Seguro Desemprego 2026" }] },
+      images: [
+        { 
+          url: "/opengraph-image", 
+          width: 1200, 
+          height: 630, 
+          alt: "Calculadora de Seguro-Desemprego Mestre das Contas", 
+        }
+      ],
+    },
     twitter: {
       card: "summary_large_image",
-      title,
-      description,
-      images: ["https://mestredascontas.com.br/opengraph-image"] },
+      title: "Foi demitido? Saiba quanto o governo vai te pagar!",
+      description: "Simule seu seguro-desemprego 2026 e descubra o valor e quantidade de parcelas agora.",
+      images: ["/opengraph-image"],
+    },
     robots: {
       index: true, follow: true,
       googleBot: { index: true, follow: true, "max-video-preview": -1, "max-image-preview": "large", "max-snippet": -1 } } };

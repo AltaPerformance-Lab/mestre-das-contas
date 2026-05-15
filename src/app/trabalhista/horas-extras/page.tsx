@@ -35,18 +35,27 @@ export async function generateMetadata(): Promise<Metadata> {
     ],
     alternates: { canonical: "https://mestredascontas.com.br/trabalhista/horas-extras" },
     openGraph: {
-      title,
-      description,
+      title: "Calculadora de Horas Extras 2026 | Simule seu Valor",
+      description: "Calcule quanto você vai receber por suas horas extras com adicionais de 50%, 100% e reflexo no DSR. Grátis e atualizado.",
       url: "https://mestredascontas.com.br/trabalhista/horas-extras",
       siteName: "Mestre das Contas",
       locale: "pt_BR",
       type: "article",
-      images: [{ url: "https://mestredascontas.com.br/opengraph-image", width: 1200, height: 630, alt: "Simulador de Horas Extras" }] },
+      images: [
+        { 
+          url: "/opengraph-image", 
+          width: 1200, 
+          height: 630, 
+          alt: "Calculadora de Horas Extras Mestre das Contas", 
+        }
+      ],
+    },
     twitter: {
       card: "summary_large_image",
-      title,
-      description,
-      images: ["https://mestredascontas.com.br/opengraph-image"] },
+      title: "Trabalhou a mais? Saiba quanto vai receber!",
+      description: "Simule suas horas extras e o bônus do DSR agora mesmo.",
+      images: ["/opengraph-image"],
+    },
     robots: {
       index: true, follow: true,
       googleBot: { index: true, follow: true, "max-video-preview": -1, "max-image-preview": "large", "max-snippet": -1 } } };

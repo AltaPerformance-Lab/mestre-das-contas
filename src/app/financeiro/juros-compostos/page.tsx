@@ -28,12 +28,27 @@ export async function generateMetadata(): Promise<Metadata> {
     keywords: ["calculadora juros compostos", "simulador de investimentos", "calcular rentabilidade", "juros sobre juros", "calculadora financeira", "aposentadoria"],
     alternates: { canonical: "https://mestredascontas.com.br/financeiro/juros-compostos" },
     openGraph: {
-      title,
-      description,
+      title: "Calculadora de Juros Compostos 2026 | Simule seus Investimentos",
+      description: "Descubra o poder dos juros sobre juros. Veja quanto seu dinheiro pode render com aportes mensais e planeje sua liberdade financeira.",
       url: "https://mestredascontas.com.br/financeiro/juros-compostos",
       siteName: "Mestre das Contas",
       locale: "pt_BR",
-      type: "article" },
+      type: "article",
+      images: [
+        { 
+          url: "/opengraph-image", 
+          width: 1200, 
+          height: 630, 
+          alt: "Calculadora de Juros Compostos Mestre das Contas", 
+        }
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: "Quer ver seu dinheiro trabalhar por você?",
+      description: "Simule agora o efeito bola de neve dos juros compostos em seus investimentos.",
+      images: ["/opengraph-image"],
+    },
     robots: {
       index: true, follow: true,
       googleBot: { index: true, follow: true, "max-video-preview": -1, "max-image-preview": "large", "max-snippet": -1 } } };
@@ -82,6 +97,25 @@ const jsonLd = {
         "name": item.q,
         "acceptedAnswer": { "@type": "Answer", "text": item.a }
       }))
+    },
+    {
+      "@type": "HowTo",
+      "name": "Como Calcular Juros Compostos",
+      "description": "Passo a passo para simular o crescimento do seu dinheiro com juros sobre juros.",
+      "step": [
+        { "@type": "HowToStep", "name": "Valor Inicial", "text": "Informe quanto você já tem guardado hoje." },
+        { "@type": "HowToStep", "name": "Aporte Mensal", "text": "Defina quanto você pretende investir todos os meses." },
+        { "@type": "HowToStep", "name": "Taxa de Juros", "text": "Coloque a rentabilidade esperada (ex: 1% ao mês ou 12% ao ano)." },
+        { "@type": "HowToStep", "name": "Tempo", "text": "Escolha por quanto tempo (meses ou anos) você deixará o dinheiro render." }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Início", "item": "https://mestredascontas.com.br" },
+        { "@type": "ListItem", "position": 2, "name": "Financeiro", "item": "https://mestredascontas.com.br/financeiro" },
+        { "@type": "ListItem", "position": 3, "name": "Juros Compostos", "item": "https://mestredascontas.com.br/financeiro/juros-compostos" }
+      ]
     }
   ]
 };

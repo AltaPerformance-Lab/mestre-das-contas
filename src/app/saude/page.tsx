@@ -25,25 +25,51 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://mestredascontas.com.br/saude" },
   openGraph: {
-    title: "Portal de Saúde 2026 - Mestre das Contas",
-    description: "Biomatemática a favor da sua vida. Cálculos precisos para dieta, treino e gestação.",
+    title: "Portal de Saúde 2026 | Mestre das Contas",
+    description: "Sua central de ferramentas para saúde. Calcule IMC, Calorias, Gestação e Hidratação com precisão científica.",
     url: "https://mestredascontas.com.br/saude",
     siteName: "Mestre das Contas",
     locale: "pt_BR",
-    type: "website" } };
+    type: "website",
+    images: [
+      { 
+        url: "/opengraph-image", 
+        width: 1200, 
+        height: 630, 
+        alt: "Portal de Saúde Mestre das Contas", 
+      }
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Como está sua saúde hoje?",
+    description: "Use nossas ferramentas gratuitas para monitorar seus indicadores vitais.",
+    images: ["/opengraph-image"],
+  } };
 
 // --- SCHEMA.ORG (COLLECTION) ---
 const jsonLd = {
   "@context": "https://schema.org",
-  "@type": "CollectionPage",
-  "name": "Calculadoras de Saúde",
-  "description": "Ferramentas para monitoramento de indicadores de saúde e bem-estar.",
-  "url": "https://mestredascontas.com.br/saude",
-  "hasPart": [
-    { "@type": "SoftwareApplication", "name": "Calculadora de IMC", "url": "https://mestredascontas.com.br/saude/imc" },
-    { "@type": "SoftwareApplication", "name": "Calculadora de Calorias", "url": "https://mestredascontas.com.br/saude/calorias-diarias" },
-    { "@type": "SoftwareApplication", "name": "Calculadora Gestacional", "url": "https://mestredascontas.com.br/saude/gestacional" },
-    { "@type": "SoftwareApplication", "name": "Calculadora de Água", "url": "https://mestredascontas.com.br/saude/agua" }
+  "@graph": [
+    {
+      "@type": "CollectionPage",
+      "name": "Portal de Saúde e Bem-Estar 2026",
+      "description": "Conjunto de ferramentas gratuitas para monitoramento de indicadores de saúde, IMC, calorias e gestação.",
+      "url": "https://mestredascontas.com.br/saude",
+      "hasPart": [
+        { "@type": "SoftwareApplication", "name": "Calculadora de IMC", "url": "https://mestredascontas.com.br/saude/imc" },
+        { "@type": "SoftwareApplication", "name": "Calculadora de Calorias", "url": "https://mestredascontas.com.br/saude/calorias-diarias" },
+        { "@type": "SoftwareApplication", "name": "Calculadora de Gestação", "url": "https://mestredascontas.com.br/saude/gravidez" },
+        { "@type": "SoftwareApplication", "name": "Calculadora de Água", "url": "https://mestredascontas.com.br/saude/agua" }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Início", "item": "https://mestredascontas.com.br" },
+        { "@type": "ListItem", "position": 2, "name": "Saúde", "item": "https://mestredascontas.com.br/saude" }
+      ]
+    }
   ]
 };
 

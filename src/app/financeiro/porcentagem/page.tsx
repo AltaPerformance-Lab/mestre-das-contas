@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import PercentageCalculator from "@/components/calculators/PercentageCalculator";
 import { calculatePercentage } from "@/lib/calculators/percentage";
-import AdUnit from "@/components/ads/AdUnit";
+import LazyAdUnit from "@/components/ads/LazyAdUnit";
 import DisclaimerBox from "@/components/ui/DisclaimerBox";
 import PageHeader from "@/components/layout/PageHeader";
 import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
@@ -33,12 +33,27 @@ export async function generateMetadata(): Promise<Metadata> {
     ],
     alternates: { canonical: "https://mestredascontas.com.br/financeiro/porcentagem" },
     openGraph: {
-      title,
-      description,
+      title: "Calculadora de Porcentagem 2026 | Rápida e Fácil",
+      description: "Resolva contas de porcentagem, descontos e aumentos em segundos.",
       url: "https://mestredascontas.com.br/financeiro/porcentagem",
       siteName: "Mestre das Contas",
       locale: "pt_BR",
-      type: "article" },
+      type: "article",
+      images: [
+        { 
+          url: "/opengraph-image", 
+          width: 1200, 
+          height: 630, 
+          alt: "Calculadora de Porcentagem - Mestre das Contas", 
+        }
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: "Calculadora de Porcentagem Grátis",
+      description: "Aprenda a calcular porcentagem de cabeça ou use nossa ferramenta.",
+      images: ["/opengraph-image"],
+    },
     robots: { index: true, follow: true } };
 }
 
@@ -127,7 +142,7 @@ export default async function PorcentagemPage() {
 
         {/* ANÚNCIO TOPO */}
         <div className="w-full max-w-5xl mx-auto overflow-hidden flex justify-center bg-slate-50/50 dark:bg-slate-900/50 rounded-lg border border-dashed border-slate-200/50 dark:border-slate-800 print:hidden min-h-[100px]">
-           <AdUnit slot="percent_top" format="horizontal" variant="agency" />
+           <LazyAdUnit slot="percent_top" format="horizontal" variant="agency" />
         </div>
 
         {/* --- FERRAMENTA PRINCIPAL --- */}
@@ -146,7 +161,7 @@ export default async function PorcentagemPage() {
 
         {/* ANÚNCIO MEIO */}
         <div className="w-full max-w-4xl mx-auto flex justify-center my-6 print:hidden min-h-[250px]">
-            <AdUnit slot="percent_mid" format="auto" />
+            <LazyAdUnit slot="percent_mid" format="auto" />
         </div>
 
         {/* --- CONTEÚDO EDUCACIONAL --- */}
@@ -320,7 +335,7 @@ export default async function PorcentagemPage() {
 
         {/* ANÚNCIO BOTTOM */}
         <div className="w-full flex justify-center my-8 print:hidden min-h-[250px]">
-            <AdUnit slot="percent_bottom" format="horizontal" variant="software" />
+            <LazyAdUnit slot="percent_bottom" format="horizontal" variant="software" />
         </div>
 
         {/* RODAPÉ IMPRESSÃO */}

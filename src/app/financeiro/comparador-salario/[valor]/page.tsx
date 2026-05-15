@@ -1,7 +1,7 @@
 import { Suspense } from 'react';
 import type { Metadata } from "next";
 import SalaryComparator from "@/components/calculators/SalaryComparator";
-import AdUnit from "@/components/ads/AdUnit";
+import LazyAdUnit from "@/components/ads/LazyAdUnit";
 import PageHeader from "@/components/layout/PageHeader";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
 import DisclaimerBox from "@/components/ui/DisclaimerBox";
@@ -115,7 +115,7 @@ export default async function PseoSalaryComparatorPage({ params }: Props) {
 
                 {/* ANÚNCIO TOP */}
                 <div className="w-full max-w-5xl mx-auto overflow-hidden flex justify-center min-h-[100px] bg-slate-50/50 dark:bg-slate-900/50 rounded-lg p-2 border border-dashed border-slate-200/50 dark:border-slate-800">
-                    <AdUnit slot="comparator_top" format="horizontal" variant="agency" />
+                    <LazyAdUnit slot="comparator_top" format="horizontal" variant="agency" />
                 </div>
 
                 {/* FERRAMENTA PRE-FILLED */}
@@ -249,7 +249,7 @@ export default async function PseoSalaryComparatorPage({ params }: Props) {
 
                     {/* ANÚNCIO MEIO ARTIGO */}
                     <div className="w-full flex justify-center my-8 not-prose">
-                        <AdUnit slot="comparator_mid" format="auto" />
+                        <LazyAdUnit slot="comparator_mid" format="auto" />
                     </div>
 
                      <h3>Inflação Pessoal x Renda de {formatted}</h3>
@@ -326,7 +326,7 @@ export default async function PseoSalaryComparatorPage({ params }: Props) {
                 </div>
 
                 <div className="w-full flex justify-center mt-8 min-h-[250px]">
-                    <AdUnit slot="comparator_bottom" format="horizontal" variant="software" />
+                    <LazyAdUnit slot="comparator_bottom" format="horizontal" variant="software" />
                 </div>
 
                 <SmartCrossLinker currentHref={"/financeiro/comparador-salario/" + valor} category="financeiro" />

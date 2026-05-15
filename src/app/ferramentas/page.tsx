@@ -26,32 +26,52 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://mestredascontas.com.br/ferramentas" },
   openGraph: {
-    title: "Ferramentas Digitais 2026 - Mestre das Contas",
-    description: "Utilitários gratuitos para facilitar seu dia a dia. Acesse agora.",
+    title: "Ferramentas Digitais 2026 | Mestre das Contas",
+    description: "Sua suíte completa de utilitários online: Gerador de Pix, Recibos, QR Codes, Editores de PDF e muito mais. Tudo grátis e seguro.",
     url: "https://mestredascontas.com.br/ferramentas",
     siteName: "Mestre das Contas",
     locale: "pt_BR",
-    type: "website" } };
+    type: "website",
+    images: [
+      { 
+        url: "/opengraph-image", 
+        width: 1200, 
+        height: 630, 
+        alt: "Ferramentas e Utilitários Mestre das Contas", 
+      }
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Mais produtividade para o seu dia a dia!",
+    description: "Acesse nossas ferramentas gratuitas e simplifique suas tarefas digitais agora.",
+    images: ["/opengraph-image"],
+  } };
 
 // --- SCHEMA.ORG (COLLECTION) ---
 const jsonLd = {
   "@context": "https://schema.org",
-  "@type": "CollectionPage",
-  "name": "Ferramentas e Utilitários",
-  "description": "Coleção de ferramentas digitais gratuitas para produtividade.",
-  "url": "https://mestredascontas.com.br/ferramentas",
-  "hasPart": [
-    { "@type": "SoftwareApplication", "name": "Editor de PDF Online", "url": "https://mestredascontas.com.br/ferramentas/editor-pdf-online" },
-    { "@type": "SoftwareApplication", "name": "Criador de Orçamento", "url": "https://mestredascontas.com.br/ferramentas/criador-orcamentos" },
-    { "@type": "SoftwareApplication", "name": "Gerador de QR Code", "url": "https://mestredascontas.com.br/ferramentas/gerador-qr-code" },
-    { "@type": "SoftwareApplication", "name": "Gerador de Link WhatsApp", "url": "https://mestredascontas.com.br/ferramentas/gerador-link-whatsapp" },
-    { "@type": "SoftwareApplication", "name": "Conversor de Imagens", "url": "https://mestredascontas.com.br/ferramentas/conversor-imagem" },
-    { "@type": "SoftwareApplication", "name": "Gerador de Senhas", "url": "https://mestredascontas.com.br/ferramentas/gerador-de-senhas" },
-    { "@type": "SoftwareApplication", "name": "Gerador de Recibo", "url": "https://mestredascontas.com.br/ferramentas/gerador-recibo" },
-    { "@type": "SoftwareApplication", "name": "Formatador JSON", "url": "https://mestredascontas.com.br/ferramentas/formatador-json" },
-    { "@type": "SoftwareApplication", "name": "Declaração de Conteúdo", "url": "https://mestredascontas.com.br/ferramentas/declaracao-conteudo" },
-    { "@type": "SoftwareApplication", "name": "Gerador de Privacidade", "url": "https://mestredascontas.com.br/ferramentas/gerador-privacidade" },
-    { "@type": "SoftwareApplication", "name": "Calendário Lunar 2026", "url": "https://mestredascontas.com.br/ferramentas/fases-da-lua" }
+  "@graph": [
+    {
+      "@type": "CollectionPage",
+      "name": "Ferramentas Digitais e Utilitários Online 2026",
+      "description": "Suíte completa de ferramentas gratuitas para produtividade: QR Codes, Pix, PDF, Imagens e muito mais.",
+      "url": "https://mestredascontas.com.br/ferramentas",
+      "hasPart": [
+        { "@type": "SoftwareApplication", "name": "Gerador de Pix", "url": "https://mestredascontas.com.br/ferramentas/gerador-pix" },
+        { "@type": "SoftwareApplication", "name": "Conversor de Imagem", "url": "https://mestredascontas.com.br/ferramentas/conversor-imagem" },
+        { "@type": "SoftwareApplication", "name": "Gerador de QR Code", "url": "https://mestredascontas.com.br/ferramentas/gerador-qr-code" },
+        { "@type": "SoftwareApplication", "name": "Gerador de Link WhatsApp", "url": "https://mestredascontas.com.br/ferramentas/link-whatsapp" },
+        { "@type": "SoftwareApplication", "name": "Recibo Online PDF", "url": "https://mestredascontas.com.br/ferramentas/gerador-recibo" }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Início", "item": "https://mestredascontas.com.br" },
+        { "@type": "ListItem", "position": 2, "name": "Ferramentas", "item": "https://mestredascontas.com.br/ferramentas" }
+      ]
+    }
   ]
 };
 

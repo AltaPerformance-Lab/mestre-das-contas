@@ -36,18 +36,27 @@ export async function generateMetadata(): Promise<Metadata> {
     alternates: {
       canonical: "https://mestredascontas.com.br/trabalhista/ferias" },
     openGraph: {
-      title,
-      description,
+      title: "Calculadora de Férias 2026 | Valor Líquido e 1/3",
+      description: "Planeje seu descanso. Calcule quanto vai receber de férias com 1/3 constitucional, abono e descontos. Grátis e preciso.",
       url: "https://mestredascontas.com.br/trabalhista/ferias",
       siteName: "Mestre das Contas",
       locale: "pt_BR",
       type: "article",
-      images: [{ url: "https://mestredascontas.com.br/opengraph-image", width: 1200, height: 630, alt: "Simulador de Férias" }] },
+      images: [
+        { 
+          url: "/opengraph-image", 
+          width: 1200, 
+          height: 630, 
+          alt: "Calculadora de Férias Mestre das Contas", 
+        }
+      ],
+    },
     twitter: {
       card: "summary_large_image",
-      title,
-      description,
-      images: ["https://mestredascontas.com.br/opengraph-image"] },
+      title: "Hora de descansar? Saiba quanto vai receber!",
+      description: "Simule seu pagamento de férias com 1/3 e abono pecuniário agora.",
+      images: ["/opengraph-image"],
+    },
     robots: {
       index: true, follow: true,
       googleBot: { index: true, follow: true, "max-video-preview": -1, "max-image-preview": "large", "max-snippet": -1 } } };
@@ -122,6 +131,14 @@ const jsonLd = {
         "name": item.q,
         "acceptedAnswer": { "@type": "Answer", "text": item.a }
       }))
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Início", "item": "https://mestredascontas.com.br" },
+        { "@type": "ListItem", "position": 2, "name": "Trabalhista", "item": "https://mestredascontas.com.br/trabalhista" },
+        { "@type": "ListItem", "position": 3, "name": "Calculadora de Férias", "item": "https://mestredascontas.com.br/trabalhista/ferias" }
+      ]
     }
   ]
 };

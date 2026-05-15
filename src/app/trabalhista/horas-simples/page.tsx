@@ -23,11 +23,27 @@ export async function generateMetadata(): Promise<Metadata> {
     keywords: ["calculadora de horas simples", "entrada e saída calculo", "somar jornada de trabalho", "horas líquidas"],
     alternates: { canonical: "https://mestredascontas.com.br/trabalhista/horas-simples" },
     openGraph: {
-      title,
-      description,
+      title: "Calculadora de Horas Simples 2026 | Entrada e Saída",
+      description: "Calcule suas horas trabalhadas informando apenas entrada, saída e intervalo em segundos. Simples, rápido e gratuito.",
       url: "https://mestredascontas.com.br/trabalhista/horas-simples",
       siteName: "Mestre das Contas",
-      type: "article" }
+      locale: "pt_BR",
+      type: "article",
+      images: [
+        { 
+          url: "/opengraph-image", 
+          width: 1200, 
+          height: 630, 
+          alt: "Calculadora de Horas Simples Mestre das Contas", 
+        }
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: "Cálculo rápido de jornada de trabalho",
+      description: "Informe a entrada e saída e saiba quanto tempo você trabalhou hoje.",
+      images: ["/opengraph-image"],
+    }
   };
 }
 

@@ -3,11 +3,10 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import Link from "next/link";
 import ReceiptGenerator from "@/components/tools/ReceiptGenerator";
-import AdUnit from "@/components/ads/AdUnit";
+import LazyAdUnit from "@/components/ads/LazyAdUnit";
 import DisclaimerBox from "@/components/ui/DisclaimerBox";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
 import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
-import LazyAdUnit from "@/components/ads/LazyAdUnit";
 import PageHeader from "@/components/layout/PageHeader";
 import { 
   FileText, Zap, ShieldCheck, Printer, 
@@ -41,7 +40,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description: data.desc,
       url: `https://mestredascontas.com.br/ferramentas/gerador-recibo/${slug}`,
       siteName: "Mestre das Contas",
-      type: "website" } };
+      type: "website",
+      images: [{ url: "https://mestredascontas.com.br/opengraph-image", width: 1200, height: 630, alt: data.title }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: data.title,
+      description: data.desc,
+      images: ["https://mestredascontas.com.br/opengraph-image"],
+    } };
 }
 
 export default async function ReceiptCasePage({ params }: Props) {

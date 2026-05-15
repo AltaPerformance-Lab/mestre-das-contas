@@ -35,6 +35,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description: item.definition,
       url: `https://mestredascontas.com.br/glossario/${item.slug}`,
       type: 'article',
+      images: [{ url: "https://mestredascontas.com.br/opengraph-image", width: 1200, height: 630, alt: item.term }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${item.term} | Glossário Mestre das Contas`,
+      description: item.definition,
+      images: ["https://mestredascontas.com.br/opengraph-image"],
     },
   };
 }
@@ -60,7 +67,7 @@ export default async function GlossaryEntryPage({ params }: Props) {
         const hasColon = point.includes(':');
         const question = hasColon 
           ? `O que é ${point.split(':')[0]}?` 
-          : `Como funciona o ${item.term} (${point.substring(0, 30)}...)?`;
+          : `Como funciona o ${item.term}?`;
         
         return {
           "@type": "Question",
@@ -71,6 +78,15 @@ export default async function GlossaryEntryPage({ params }: Props) {
           }
         };
       })
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Início", "item": "https://mestredascontas.com.br" },
+        { "@type": "ListItem", "position": 2, "name": "Glossário", "item": "https://mestredascontas.com.br/glossario" },
+        { "@type": "ListItem", "position": 3, "name": item.term, "item": `https://mestredascontas.com.br/glossario/${item.slug}` }
+      ]
     }
   ];
 

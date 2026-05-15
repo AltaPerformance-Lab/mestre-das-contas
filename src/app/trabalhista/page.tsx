@@ -25,26 +25,52 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://mestredascontas.com.br/trabalhista" },
   openGraph: {
-    title: "Portal de Cálculos Trabalhistas - Mestre das Contas",
-    description: "Todas as ferramentas para você conferir seus direitos. Não deixe dinheiro na mesa.",
+    title: "Portal de Cálculos Trabalhistas 2026 | Mestre das Contas",
+    description: "Confira seus direitos. Simuladores de Rescisão, Férias, 13º Salário e Seguro-Desemprego atualizados com as regras de 2026.",
     url: "https://mestredascontas.com.br/trabalhista",
     siteName: "Mestre das Contas",
     locale: "pt_BR",
-    type: "website" } };
+    type: "website",
+    images: [
+      { 
+        url: "/opengraph-image", 
+        width: 1200, 
+        height: 630, 
+        alt: "Cálculos Trabalhistas Mestre das Contas", 
+      }
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Seus Direitos Trabalhistas sob controle!",
+    description: "Acesse nossas ferramentas gratuitas e calcule sua rescisão, férias e muito mais.",
+    images: ["/opengraph-image"],
+  } };
 
 // --- SCHEMA.ORG (COLLECTION) ---
 const jsonLd = {
   "@context": "https://schema.org",
-  "@type": "CollectionPage",
-  "name": "Cálculos Trabalhistas",
-  "description": "Ferramentas para cálculo de benefícios e verbas rescisórias CLT.",
-  "url": "https://mestredascontas.com.br/trabalhista",
-  "hasPart": [
-    { "@type": "SoftwareApplication", "name": "Cálculo de Rescisão", "url": "https://mestredascontas.com.br/trabalhista/rescisao" },
-    { "@type": "SoftwareApplication", "name": "Cálculo de Férias", "url": "https://mestredascontas.com.br/trabalhista/ferias" },
-    { "@type": "SoftwareApplication", "name": "Cálculo de 13º Salário", "url": "https://mestredascontas.com.br/trabalhista/decimo-terceiro" },
-    { "@type": "SoftwareApplication", "name": "Seguro-Desemprego", "url": "https://mestredascontas.com.br/trabalhista/seguro-desemprego" },
-    { "@type": "SoftwareApplication", "name": "Horas Extras", "url": "https://mestredascontas.com.br/trabalhista/horas-extras" }
+  "@graph": [
+    {
+      "@type": "CollectionPage",
+      "name": "Direitos e Cálculos Trabalhistas 2026",
+      "description": "Portal completo com ferramentas gratuitas para cálculo de benefícios e verbas rescisórias CLT.",
+      "url": "https://mestredascontas.com.br/trabalhista",
+      "hasPart": [
+        { "@type": "SoftwareApplication", "name": "Cálculo de Rescisão", "url": "https://mestredascontas.com.br/trabalhista/rescisao" },
+        { "@type": "SoftwareApplication", "name": "Cálculo de Férias", "url": "https://mestredascontas.com.br/trabalhista/ferias" },
+        { "@type": "SoftwareApplication", "name": "Cálculo de 13º Salário", "url": "https://mestredascontas.com.br/trabalhista/decimo-terceiro" },
+        { "@type": "SoftwareApplication", "name": "Seguro-Desemprego", "url": "https://mestredascontas.com.br/trabalhista/seguro-desemprego" },
+        { "@type": "SoftwareApplication", "name": "Horas Extras", "url": "https://mestredascontas.com.br/trabalhista/horas-extras" }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Início", "item": "https://mestredascontas.com.br" },
+        { "@type": "ListItem", "position": 2, "name": "Trabalhista", "item": "https://mestredascontas.com.br/trabalhista" }
+      ]
+    }
   ]
 };
 

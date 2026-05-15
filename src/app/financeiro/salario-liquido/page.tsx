@@ -35,13 +35,27 @@ export async function generateMetadata(): Promise<Metadata> {
     alternates: {
       canonical: "https://mestredascontas.com.br/financeiro/salario-liquido" },
     openGraph: {
-      title,
-      description,
+      title: "Calculadora de Salário Líquido 2026 | CLT e Descontos",
+      description: "Saiba exatamente quanto você vai receber no final do mês após descontos de INSS e IRRF. Grátis e atualizado com a tabela 2026.",
       url: "https://mestredascontas.com.br/financeiro/salario-liquido",
       siteName: "Mestre das Contas",
       locale: "pt_BR",
       type: "article",
-      images: [{ url: "https://mestredascontas.com.br/opengraph-image", width: 1200, height: 630, alt: "Simulador Salário Líquido" }] }
+      images: [
+        { 
+          url: "/opengraph-image", 
+          width: 1200, 
+          height: 630, 
+          alt: "Calculadora de Salário Líquido Mestre das Contas", 
+        }
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: "Quanto sobra do seu salário?",
+      description: "Calcule seu salário líquido em segundos com os novos descontos de 2026.",
+      images: ["/opengraph-image"],
+    }
   };
 }
 
@@ -62,6 +76,25 @@ const jsonLd = {
         { "@type": "Question", "name": "O que são 'Outros Descontos' na calculadora?", "acceptedAnswer": { "@type": "Answer", "text": "São descontos específicos do seu contrato ou empresa. Exemplos comuns: coparticipação em plano de saúde, mensalidade sindical, previdência privada da empresa, vale alimentação (parte do funcionário) ou empréstimos consignados." } },
         { "@type": "Question", "name": "O Vale Transporte é sempre descontado?", "acceptedAnswer": { "@type": "Answer", "text": "Sim, se você optar por receber o benefício. A lei permite que a empresa desconte até 6% do seu salário base. Se o valor do vale for menor que esses 6%, o desconto deve ser limitado ao valor real do benefício." } },
         { "@type": "Question", "name": "O desconto do INSS mudou em 2026?", "acceptedAnswer": { "@type": "Answer", "text": "Sim. As faixas salariais são reajustadas anualmente conforme o aumento do salário mínimo e a inflação (INPC). Nossa calculadora já está configurada com a tabela vigente." } }
+      ]
+    },
+    {
+      "@type": "HowTo",
+      "name": "Como Calcular o Salário Líquido 2026",
+      "description": "Descubra o passo a passo para calcular seu holerite completo.",
+      "step": [
+        { "@type": "HowToStep", "name": "Salário Bruto", "text": "Informe o valor do seu salário registrado em carteira (sem descontos)." },
+        { "@type": "HowToStep", "name": "Dependentes", "text": "Coloque o número de filhos ou dependentes legais para dedução do Imposto de Renda." },
+        { "@type": "HowToStep", "name": "Outros Descontos", "text": "Inclua valores de plano de saúde, pensão alimentícia ou empréstimos." },
+        { "@type": "HowToStep", "name": "Resultado", "text": "Veja o valor final já com as deduções de INSS e IRRF aplicadas." }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Início", "item": "https://mestredascontas.com.br" },
+        { "@type": "ListItem", "position": 2, "name": "Financeiro", "item": "https://mestredascontas.com.br/financeiro" },
+        { "@type": "ListItem", "position": 3, "name": "Salário Líquido", "item": "https://mestredascontas.com.br/financeiro/salario-liquido" }
       ]
     }
   ]

@@ -25,12 +25,27 @@ export async function generateMetadata(): Promise<Metadata> {
     keywords: ["calculadora de horas trabalhadas", "somar horas e minutos", "calculo de ponto online", "diferença de horas", "controle de ponto gratis"],
     alternates: { canonical: "https://mestredascontas.com.br/trabalhista/horas-trabalhadas" },
     openGraph: {
-      title,
-      description,
+      title: "Calculadora de Horas Trabalhadas 2026 | Somar Ponto Online",
+      description: "Some suas horas trabalhadas no dia em segundos. Ferramenta gratuita para calcular entrada, saída, almoço e saldo de banco de horas. Simples e preciso.",
       url: "https://mestredascontas.com.br/trabalhista/horas-trabalhadas",
       siteName: "Mestre das Contas",
       locale: "pt_BR",
-      type: "article" },
+      type: "article",
+      images: [
+        { 
+          url: "/opengraph-image", 
+          width: 1200, 
+          height: 630, 
+          alt: "Calculadora de Horas Trabalhadas Mestre das Contas", 
+        }
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: "Não erre mais na soma das suas horas!",
+      description: "Calcule seu saldo de banco de horas e evite descontos indevidos no salário.",
+      images: ["/opengraph-image"],
+    },
     robots: { index: true, follow: true } };
 }
 

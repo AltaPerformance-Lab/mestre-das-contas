@@ -25,18 +25,27 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://mestredascontas.com.br/trabalhista/decimo-terceiro" },
   openGraph: {
-    title: "Cálculo de Décimo Terceiro 2026 (Grátis) | 1ª e 2ª Parcela",
-    description: "Saiba quanto você vai receber de 13º Salário em 2026. Cálculo exato das duas parcelas com descontos de INSS/IRRF. Simulador gratuito e online.",
+    title: "Calculadora de 13º Salário 2026 | Simule 1ª e 2ª Parcela",
+    description: "Quanto vai cair na conta? Calcule seu 13º salário com descontos de INSS e IRRF. Grátis, rápido e atualizado para 2026.",
     url: "https://mestredascontas.com.br/trabalhista/decimo-terceiro",
     siteName: "Mestre das Contas",
     locale: "pt_BR",
     type: "article",
-    images: [{ url: "https://mestredascontas.com.br/opengraph-image", width: 1200, height: 630, alt: "Simulador Décimo Terceiro" }] },
+    images: [
+      { 
+        url: "/opengraph-image", 
+        width: 1200, 
+        height: 630, 
+        alt: "Calculadora de 13º Salário Mestre das Contas", 
+      }
+    ],
+  },
   twitter: {
     card: "summary_large_image",
-    title: "Cálculo de Décimo Terceiro 2026 (Grátis) | 1ª e 2ª Parcela",
-    description: "Saiba quanto você vai receber de 13º Salário em 2026. Cálculo exato das duas parcelas com descontos de INSS/IRRF. Simulador gratuito e online.",
-    images: ["https://mestredascontas.com.br/opengraph-image"] }
+    title: "Já sabe quanto vai receber de 13º?",
+    description: "Simule as parcelas do seu décimo terceiro com os novos descontos de 2026.",
+    images: ["/opengraph-image"],
+  }
 };
 
 // --- FAQ LIST (DRY Content) ---

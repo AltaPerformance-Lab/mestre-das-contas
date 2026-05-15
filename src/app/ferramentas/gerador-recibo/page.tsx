@@ -28,12 +28,27 @@ export async function generateMetadata(): Promise<Metadata> {
     ],
     alternates: { canonical: "https://mestredascontas.com.br/ferramentas/gerador-recibo" },
     openGraph: {
-      title,
-      description,
+      title: "Gerador de Recibo Online 2026 | PDF e WhatsApp",
+      description: "Emita recibos profissionais em segundos. Preenchimento automático, valor por extenso e pronto para imprimir ou enviar por WhatsApp. Grátis.",
       url: "https://mestredascontas.com.br/ferramentas/gerador-recibo",
       siteName: "Mestre das Contas",
       locale: "pt_BR",
-      type: "website" } };
+      type: "website",
+      images: [
+        { 
+          url: "/opengraph-image", 
+          width: 1200, 
+          height: 630, 
+          alt: "Gerador de Recibo Mestre das Contas", 
+        }
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: "Precisa de um recibo agora?",
+      description: "Gere recibos profissionais em PDF de forma rápida e gratuita.",
+      images: ["/opengraph-image"],
+    } };
 }
 
 // --- DADOS ESTRUTURADOS ---

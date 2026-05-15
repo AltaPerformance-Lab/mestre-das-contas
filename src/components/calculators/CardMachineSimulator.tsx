@@ -94,13 +94,13 @@ export default function CardMachineSimulator({
                     </div>
 
                     <div className="grid grid-cols-2 gap-4">
-                        <div className="space-y-2">
-                            <Label className="flex items-center gap-1 text-xs dark:text-slate-400">Taxa MDR (%)</Label>
-                            <Input value={mdr} onChange={(e) => setMdr(e.target.value)} className="h-11 dark:bg-slate-800 dark:text-white" placeholder="3.5"/>
+                        <div className="space-y-2 flex flex-col">
+                            <Label className="flex items-center gap-1 text-xs dark:text-slate-400 min-h-[32px]">Taxa MDR (%)</Label>
+                            <Input value={mdr} onChange={(e) => setMdr(e.target.value)} className="h-11 dark:bg-slate-800 dark:text-white mt-auto" placeholder="3.5"/>
                         </div>
-                        <div className="space-y-2">
-                            <Label className="flex items-center gap-1 text-xs dark:text-slate-400">Taxa Antecipação (%)</Label>
-                            <Input value={anticipation} onChange={(e) => setAnticipation(e.target.value)} className="h-11 dark:bg-slate-800 dark:text-white" placeholder="2.5"/>
+                        <div className="space-y-2 flex flex-col">
+                            <Label className="flex items-center gap-1 text-xs dark:text-slate-400 min-h-[32px]">Taxa Antecipação (%)</Label>
+                            <Input value={anticipation} onChange={(e) => setAnticipation(e.target.value)} className="h-11 dark:bg-slate-800 dark:text-white mt-auto" placeholder="2.5"/>
                         </div>
                     </div>
                 </CardContent>

@@ -20,16 +20,16 @@ import ExpertSignature from "@/components/ui/ExpertSignature";
 
 // --- 1. METADATA DINÂMICA (SEO MAXIMIZADO) ---
 export async function generateMetadata(): Promise<Metadata> {
-  const title = "Calculadora de Rescisão Trabalhista 2026 | Simule seu Acerto Grátis";
-  const description = "Simulador grátis de rescisão CLT 2026. Calcule sua multa do FGTS, férias e aviso prévio em segundos. Saiba exatamente quanto vai receber no seu acerto.";
+  const title = "Calculadora de Rescisão Trabalhista Grátis e Ilimitada 2026";
+  const description = "Simulador 100% grátis e ilimitado de rescisão CLT 2026. Calcule sua multa do FGTS, férias e aviso prévio. Saiba quanto vai receber no seu acerto sem pagar nada.";
 
   return {
     title,
     description,
     keywords: [
-      "calculadora rescisão", 
+      "calculadora rescisao gratis", 
+      "simulador rescisao ilimitado", 
       "calcular acerto trabalhista", 
-      "simulador rescisão contrato", 
       "cálculo demissão sem justa causa", 
       "multa 40% fgts valor", 
       "aviso prévio indenizado",
@@ -38,13 +38,32 @@ export async function generateMetadata(): Promise<Metadata> {
     alternates: {
       canonical: "https://mestredascontas.com.br/trabalhista/rescisao" },
     openGraph: {
-      title,
-      description,
+      title: "Calculadora de Rescisão Trabalhista Grátis e Ilimitada",
+      description: "Saiba quanto vai receber no seu acerto trabalhista sem limites de uso. Simulação 100% gratuita de multa, aviso e férias.",
       url: "https://mestredascontas.com.br/trabalhista/rescisao",
       siteName: "Mestre das Contas",
       locale: "pt_BR",
       type: "article",
-      images: [{ url: "https://mestredascontas.com.br/opengraph-image", width: 1200, height: 630, alt: "Simulador de Rescisão CLT" }] }
+      images: [
+        { 
+          url: "/opengraph-image", 
+          width: 1200, 
+          height: 630, 
+          alt: "Simulador de Rescisão Grátis e Ilimitado", 
+        }
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: "Cálculo de Rescisão Grátis e Ilimitado",
+      description: "Saiba seus direitos agora mesmo com nossa calculadora gratuita.",
+      images: ["/opengraph-image"],
+    },
+    robots: { 
+      index: true, 
+      follow: true,
+      googleBot: { index: true, follow: true, "max-image-preview": "large" } 
+    }
   };
 }
 
@@ -62,7 +81,7 @@ const jsonLd = {
   "@graph": [
     {
       "@type": "SoftwareApplication",
-      "name": "Calculadora de Rescisão CLT",
+      "name": "Calculadora de Rescisão Grátis e Ilimitada",
       "applicationCategory": "FinanceApplication",
       "operatingSystem": "Web",
       "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },

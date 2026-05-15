@@ -14,25 +14,37 @@ import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
 
 // --- 1. METADATA DINÂMICA (SEO DE CAUDA LONGA) ---
 export async function generateMetadata(): Promise<Metadata> {
-  const title = "Conversor de Imagem Grátis 2026 (Sem Limites) | JPG, PNG e WebP";
-  const description = "Converta imagens online em 2026 sem enviar arquivos para a nuvem. Transforme WEBP em PNG, JPG em WEBP, crie ícones (ICO) e mais. Rápido, privado e gratuito.";
+  const title = "Conversor de Imagem Grátis e Ilimitado 2026 | JPG, PNG e WebP";
+  const description = "Converta imagens online 100% grátis e ilimitado em 2026. Transforme WEBP em PNG, JPG em WebP e AVIF sem enviar arquivos para a nuvem. Seguro e instantâneo.";
 
   return {
     title,
     description,
     keywords: [
-      "conversor de imagem", "webp para png", "jpg para png transparente", 
-      "conversor imagem gratuito", "converter foto online", "transformar avif em jpg"
+      "conversor de imagem gratis", "conversor imagem ilimitado", "webp para png gratis", 
+      "jpg para png transparente", "conversor imagem gratuito", "converter foto online", "transformar avif em jpg"
     ],
     alternates: { canonical: "https://mestredascontas.com.br/ferramentas/conversor-imagem" },
     openGraph: {
-      title,
-      description,
+      title: "Conversor de Imagem Grátis e Ilimitado | Mestre das Contas",
+      description: "Converta quantas imagens quiser, sem pagar nada e com total privacidade. JPG, PNG, WebP e AVIF em segundos.",
       url: "https://mestredascontas.com.br/ferramentas/conversor-imagem",
       siteName: "Mestre das Contas",
       locale: "pt_BR",
-      type: "website" },
-    robots: { index: true, follow: true } };
+      type: "website",
+      images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "Conversor de Imagem Grátis e Ilimitado", }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: "Chega de limites! Converta imagens grátis",
+      description: "Ferramenta profissional e ilimitada para converter JPG, PNG, WebP e AVIF no navegador.",
+      images: ["/opengraph-image"],
+    },
+    robots: { 
+      index: true, 
+      follow: true,
+      googleBot: { index: true, follow: true, "max-image-preview": "large" } 
+    } };
 }
 
 export default async function ImageConverterPage() {
@@ -49,7 +61,7 @@ export default async function ImageConverterPage() {
     "@graph": [
       {
         "@type": "SoftwareApplication",
-        "name": "Conversor de Imagem Universal",
+        "name": "Conversor de Imagem Grátis e Ilimitado",
         "applicationCategory": "MultimediaApplication",
         "operatingSystem": "Web Browser",
         "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },

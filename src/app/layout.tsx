@@ -6,6 +6,7 @@ import "./globals.css";
 // --- Componentes de "Compliance" ---
 import CookieConsent from "@/components/layout/CookieConsent";
 import GoogleAnalytics from "@/components/analytics/GoogleAnalytics";
+import PerformanceOptimizer from "@/components/analytics/PerformanceOptimizer";
 import WebVitals from "@/components/analytics/WebVitals";
 
 // --- Componentes de Layout ---
@@ -63,12 +64,15 @@ export const metadata: Metadata = {
     template: "%s | Mestre das Contas",
     default: "Mestre das Contas | Calculadoras e Ferramentas Online Grátis",
   },
-  description: "Sua central de ferramentas online gratuitas. Calculadoras financeiras, trabalhistas, saúde, geradores e editores de PDF precisos e fáceis de usar.",
-  // PWA Manifest Link
+  description: "Sua central de ferramentas online gratuitas. Calculadoras financeiras, trabalhistas, saúde e utilitários digitais atualizados para 2026.",
   manifest: "/manifest.json",
+  alternates: {
+    canonical: "/",
+  },
   robots: {
     index: true,
     follow: true,
+    nocache: true,
     googleBot: {
       index: true,
       follow: true,
@@ -79,12 +83,34 @@ export const metadata: Metadata = {
   },
   openGraph: {
     siteName: "Mestre das Contas",
+    title: "Mestre das Contas | Calculadoras e Ferramentas Online Grátis",
+    description: "Centenas de calculadoras e ferramentas gratuitas. Cálculos exatos de Rescisão, Férias, Salário e muito mais.",
     locale: "pt_BR",
     type: "website",
-    images: [{ url: "https://mestredascontas.com.br/opengraph-image", width: 1200, height: 630, alt: "Mestre das Contas", }],
+    url: "https://mestredascontas.com.br",
+    images: [
+      { 
+        url: "/opengraph-image", 
+        width: 1200, 
+        height: 630, 
+        alt: "Mestre das Contas - Ferramentas Online", 
+      }
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Mestre das Contas | Ferramentas Gratuitas",
+    description: "Sua central de ferramentas online gratuitas para o dia a dia.",
+    images: ["/opengraph-image"],
+  },
+  appleWebApp: {
+    capable: true,
+    title: "Mestre das Contas",
+    statusBarStyle: "default",
   },
   other: {
-    ...(process.env.NEXT_PUBLIC_ADSENSE_ID ? { "google-adsense-account": `ca-pub-${process.env.NEXT_PUBLIC_ADSENSE_ID}` } : {})
+    ...(process.env.NEXT_PUBLIC_ADSENSE_ID ? { "google-adsense-account": `ca-pub-${process.env.NEXT_PUBLIC_ADSENSE_ID}` } : {}),
+    "facebook-domain-verification": "seuvinculoaqui", // Opcional para anúncios no FB
   }
 };
 
@@ -153,26 +179,18 @@ export default function RootLayout({
 
           </ToastProvider>
 
-          {/* --- 2. SCRIPT ADSENSE --- */}
-          {process.env.NEXT_PUBLIC_ADSENSE_ID && (
-            <Script
-              id="adsense-init"
-              async
-              src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-${process.env.NEXT_PUBLIC_ADSENSE_ID}`}
-              crossOrigin="anonymous"
-              strategy="afterInteractive" 
-            />
-          )}
+          {/* --- 2. OTIMIZADOR DE PERFORMANCE (ADS LAZY) --- */}
+          <PerformanceOptimizer />
 
-          {/* --- 3. SERVICE WORKER REGISTRATION --- */}
-          <Script id="register-sw" strategy="afterInteractive">
+          {/* --- 3. SERVICE WORKER (Otimizado: lazyOnload) --- */}
+          <Script id="register-sw" strategy="lazyOnload">
             {`
               if ('serviceWorker' in navigator) {
                 window.addEventListener('load', function() {
                   navigator.serviceWorker.register('/sw.js').then(function(registration) {
-                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
-                  }, function(err) {
-                    console.log('ServiceWorker registration failed: ', err);
+                    // SW Registered
+                  }).catch(function(err) {
+                    console.error('SW error:', err);
                   });
                 });
               }

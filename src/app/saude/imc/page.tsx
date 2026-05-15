@@ -26,11 +26,27 @@ export async function generateMetadata(): Promise<Metadata> {
     keywords: ["calculadora imc", "indice de massa corporal", "tabela imc 2026", "calcular obesidade", "peso ideal altura"],
     alternates: { canonical: "https://mestredascontas.com.br/saude/imc" },
     openGraph: {
-      title,
-      description,
+      title: "Calculadora de IMC 2026 | Tabela OMS e Peso Ideal",
+      description: "Descubra seu IMC em segundos e saiba se você está no peso ideal segundo a OMS. Ferramenta grátis e atualizada para 2026.",
       url: "https://mestredascontas.com.br/saude/imc",
       siteName: "Mestre das Contas",
-      type: "article" }
+      locale: "pt_BR",
+      type: "article",
+      images: [
+        { 
+          url: "/opengraph-image", 
+          width: 1200, 
+          height: 630, 
+          alt: "Calculadora de IMC Mestre das Contas", 
+        }
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: "Como está seu IMC hoje?",
+      description: "Use nossa calculadora gratuita e descubra seu peso ideal agora.",
+      images: ["/opengraph-image"],
+    }
   };
 }
 

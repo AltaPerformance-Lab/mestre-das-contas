@@ -26,11 +26,27 @@ export async function generateMetadata(): Promise<Metadata> {
     keywords: ["calculadora de calorias", "taxa metabólica basal", "calcular tmb", "tdee calculator", "dieta para emagrecer"],
     alternates: { canonical: "https://mestredascontas.com.br/saude/calorias-diarias" },
     openGraph: {
-      title,
-      description,
+      title: "Calculadora de Calorias Diárias 2026 | TMB e Gasto Total",
+      description: "Saiba exatamente quantas calorias seu corpo gasta por dia e planeje sua dieta para emagrecer ou ganhar massa. Grátis e preciso.",
       url: "https://mestredascontas.com.br/saude/calorias-diarias",
       siteName: "Mestre das Contas",
-      type: "article" }
+      locale: "pt_BR",
+      type: "article",
+      images: [
+        { 
+          url: "/opengraph-image", 
+          width: 1200, 
+          height: 630, 
+          alt: "Calculadora de Calorias Mestre das Contas", 
+        }
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: "Quantas calorias você queima por dia?",
+      description: "Use nossa calculadora de TMB e Gasto Calórico para ajustar seu plano alimentar.",
+      images: ["/opengraph-image"],
+    }
   };
 }
 

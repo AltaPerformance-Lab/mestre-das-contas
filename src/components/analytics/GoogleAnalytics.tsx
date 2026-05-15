@@ -79,7 +79,10 @@ export default function GoogleAnalytics() {
           `,
         }}
       />
-      <GoogleAnalyticsScript gaId={GA_MEASUREMENT_ID} />
+      <GoogleAnalyticsScript 
+        gaId={GA_MEASUREMENT_ID} 
+        data-strategy="afterInteractive"
+      />
     </>
   );
 }

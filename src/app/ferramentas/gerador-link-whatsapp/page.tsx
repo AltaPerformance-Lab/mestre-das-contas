@@ -29,7 +29,15 @@ export async function generateMetadata(): Promise<Metadata> {
       url: "https://mestredascontas.com.br/ferramentas/gerador-link-whatsapp",
       siteName: "Mestre das Contas",
       locale: "pt_BR",
-      type: "website" },
+      type: "website",
+      images: [{ url: "https://mestredascontas.com.br/opengraph-image", width: 1200, height: 630, alt: "Gerador de Link WhatsApp", }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: ["https://mestredascontas.com.br/opengraph-image"],
+    },
     robots: {
       index: true, follow: true,
       googleBot: { index: true, follow: true, "max-video-preview": -1, "max-image-preview": "large", "max-snippet": -1 } } };

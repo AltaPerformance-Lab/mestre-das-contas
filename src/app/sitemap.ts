@@ -41,17 +41,27 @@ async function getVeiculosData() {
 // --- FUNÇÕES DE OTIMIZAÇÃO SEO ---
 function calculatePriority(route: string): number {
   if (route === '') return 1.0;
-  if (route.includes('reforma-tributaria')) return 0.95;
+  // Hubs Principais (Autoridade Máxima)
+  if (['/financeiro', '/trabalhista', '/saude', '/ferramentas', '/glossario'].includes(route)) return 0.95;
+  
+  // Calculadoras de Alta Conversão
+  if (route.includes('reforma-tributaria')) return 0.90;
   if (route.includes('rescisao')) return 0.90;
-  if (route.includes('salario-liquido')) return 0.85;
-  if (route.includes('para-empresas')) return 0.95;
+  if (route.includes('salario-liquido')) return 0.90;
+  if (route.includes('calculadora-mei')) return 0.85;
+  if (route.includes('juros-compostos')) return 0.85;
+  if (route.includes('ferias')) return 0.85;
+  if (route.includes('imc')) return 0.85;
+  
+  if (route.includes('para-empresas')) return 0.80;
   if (route.includes('sobre')) return 0.70;
   return 0.65;
 }
 
 function getChangeFrequency(route: string): 'daily' | 'weekly' | 'monthly' {
   if (route === '') return 'daily';
-  if (route.includes('reforma-tributaria') || route.includes('salario-liquido')) return 'weekly';
+  if (route.includes('reforma-tributaria') || route.includes('salario-liquido') || route.includes('financeiro')) return 'weekly';
+  if (route.includes('trabalhista') || route.includes('saude')) return 'weekly';
   return 'monthly';
 }
 
@@ -62,19 +72,58 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const salariosData = await getSalariosData();
   const veiculosData = await getVeiculosData();
 
-  // 1. ROTAS ESTÁTICAS
+  // 1. ROTAS ESTÁTICAS (LISTA COMPLETA)
   const staticRoutes: MetadataRoute.Sitemap = [
-    '', '/ferramentas', '/ferramentas/editor-pdf-online', '/ferramentas/gerador-qr-code',
-    '/ferramentas/gerador-pix', '/ferramentas/gerador-link-whatsapp', '/ferramentas/gerador-de-senhas',
-    '/ferramentas/conversor-imagem', '/ferramentas/gerador-recibo', '/ferramentas/criador-orcamentos',
-    '/ferramentas/criador-pedidos', '/ferramentas/formatador-json', '/ferramentas/declaracao-conteudo',
-    '/ferramentas/gerador-privacidade', '/ferramentas/fases-da-lua', '/trabalhista', '/trabalhista/rescisao',
-    '/trabalhista/ferias', '/trabalhista/decimo-terceiro', '/trabalhista/seguro-desemprego',
-    '/trabalhista/horas-extras', '/financeiro', '/financeiro/juros-compostos', '/financeiro/calculadora-mei',
-    '/financeiro/salario-liquido', '/financeiro/financiamento-veiculos', '/financeiro/reajuste-aluguel',
-    '/financeiro/simulador-maquininha', '/saude', '/saude/imc', '/para-empresas', '/sobre',
-    '/sobre/autor', '/sobre/metodologia', '/sitemap-html', '/fale-conosco', '/politica-privacidade',
-    '/termos-de-uso', '/politica-cookies'
+    '', 
+    '/ferramentas', 
+    '/ferramentas/editor-pdf-online', 
+    '/ferramentas/gerador-qr-code',
+    '/ferramentas/gerador-pix', 
+    '/ferramentas/gerador-link-whatsapp', 
+    '/ferramentas/gerador-de-senhas',
+    '/ferramentas/conversor-imagem', 
+    '/ferramentas/gerador-recibo', 
+    '/ferramentas/criador-orcamentos',
+    '/ferramentas/criador-pedidos', 
+    '/ferramentas/formatador-json', 
+    '/ferramentas/declaracao-conteudo',
+    '/ferramentas/gerador-privacidade', 
+    '/ferramentas/fases-da-lua', 
+    '/trabalhista', 
+    '/trabalhista/rescisao',
+    '/trabalhista/ferias', 
+    '/trabalhista/decimo-terceiro', 
+    '/trabalhista/seguro-desemprego',
+    '/trabalhista/horas-extras', 
+    '/trabalhista/horas-simples',
+    '/trabalhista/horas-trabalhadas',
+    '/financeiro', 
+    '/financeiro/juros-compostos', 
+    '/financeiro/calculadora-mei',
+    '/financeiro/salario-liquido', 
+    '/financeiro/financiamento',
+    '/financeiro/financiamento-veiculos', 
+    '/financeiro/reajuste-aluguel',
+    '/financeiro/simulador-maquininha', 
+    '/financeiro/porcentagem',
+    '/financeiro/calculadora-dias-uteis',
+    '/financeiro/comparador-salario',
+    '/financeiro/reforma-tributaria',
+    '/saude', 
+    '/saude/imc', 
+    '/saude/calorias-diarias',
+    '/saude/gestacional',
+    '/saude/agua',
+    '/glossario',
+    '/para-empresas', 
+    '/sobre',
+    '/sobre/autor', 
+    '/sobre/metodologia', 
+    '/sitemap-html', 
+    '/fale-conosco', 
+    '/politica-privacidade',
+    '/termos-de-uso', 
+    '/politica-cookies'
   ].map((route) => ({
     url: `${baseUrl}${route}`,
     lastModified: new Date(),

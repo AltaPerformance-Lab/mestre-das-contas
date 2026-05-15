@@ -2,7 +2,7 @@
 import { Suspense } from "react";
 import { Metadata } from "next";
 import BusinessDaysCalculator from "@/components/tools/BusinessDaysCalculator";
-import AdUnit from "@/components/ads/AdUnit";
+import LazyAdUnit from "@/components/ads/LazyAdUnit";
 import PageHeader from "@/components/layout/PageHeader";
 import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
@@ -99,7 +99,7 @@ export default function BusinessDaysPage() {
 
         {/* ANÚNCIO TOPO */}
         <div className="w-full max-w-5xl mx-auto overflow-hidden flex justify-center bg-slate-50/50 dark:bg-slate-900/50 rounded-lg border border-dashed border-slate-200/50 dark:border-slate-800 print:hidden min-h-[100px]">
-           <AdUnit slot="dias_uteis_top" format="horizontal" variant="agency" />
+           <LazyAdUnit slot="dias_uteis_top" format="horizontal" variant="agency" />
         </div>
 
         {/* FERRAMENTA */}
@@ -117,7 +117,7 @@ export default function BusinessDaysPage() {
 
         {/* ANÚNCIO MEIO */}
         <div className="w-full max-w-4xl mx-auto flex justify-center my-6 print:hidden min-h-[250px]">
-            <AdUnit slot="dias_uteis_mid" format="auto" />
+            <LazyAdUnit slot="dias_uteis_mid" format="auto" />
         </div>
 
         {/* --- CONTEÚDO PROFUNDO (DEEP CONTENT) --- */}
@@ -306,7 +306,7 @@ export default function BusinessDaysPage() {
 
         {/* ANÚNCIO FINAL */}
         <div className="w-full flex justify-center my-8 print:hidden min-h-[250px]">
-            <AdUnit slot="dias_uteis_bottom" format="horizontal" variant="software" />
+            <LazyAdUnit slot="dias_uteis_bottom" format="horizontal" variant="software" />
         </div>
 
       </div>

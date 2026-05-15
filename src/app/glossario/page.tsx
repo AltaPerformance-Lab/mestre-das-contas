@@ -11,6 +11,28 @@ export const metadata: Metadata = {
   description: "Entenda termos complexos de forma simples. Guia completo de termos trabalhistas, fiscais e financeiros atualizado para 2026. Grátis e online.",
   alternates: {
     canonical: "https://mestredascontas.com.br/glossario"
+  },
+  openGraph: {
+    title: "Glossário Financeiro e Trabalhista 2026 | Mestre das Contas",
+    description: "Descomplique termos fiscais e financeiros. Entenda tudo sobre o seu bolso e seu negócio de forma simples e gratuita.",
+    url: "https://mestredascontas.com.br/glossario",
+    siteName: "Mestre das Contas",
+    locale: "pt_BR",
+    type: "website",
+    images: [
+      { 
+        url: "/opengraph-image", 
+        width: 1200, 
+        height: 630, 
+        alt: "Glossário Mestre das Contas", 
+      }
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Não entende o 'economês'?",
+    description: "Nosso glossário traduz termos complexos para você nunca mais ter dúvidas.",
+    images: ["/opengraph-image"],
   }
 };
 

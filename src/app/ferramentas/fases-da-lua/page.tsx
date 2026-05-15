@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import { Metadata } from "next";
 import ModernCalendar from "@/components/ui/ModernCalendar";
-import AdUnit from "@/components/ads/AdUnit";
+import LazyAdUnit from "@/components/ads/LazyAdUnit";
 import PageHeader from "@/components/layout/PageHeader";
 import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
@@ -29,11 +29,27 @@ export async function generateMetadata(): Promise<Metadata> {
     ],
     alternates: { canonical: "https://mestredascontas.com.br/ferramentas/fases-da-lua" },
     openGraph: {
-      title,
-      description,
+      title: "Calendário Lunar 2026 | Fases da Lua e Eclipses",
+      description: "Confira a fase da lua de hoje, calendário completo de 2026 e datas de eclipses.",
       url: "https://mestredascontas.com.br/ferramentas/fases-da-lua",
       siteName: "Mestre das Contas",
-      type: "website" }
+      locale: "pt_BR",
+      type: "website",
+      images: [
+        { 
+          url: "/opengraph-image", 
+          width: 1200, 
+          height: 630, 
+          alt: "Calendário Lunar 2026 - Mestre das Contas", 
+        }
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: "Calendário Lunar 2026 Completo",
+      description: "Veja as fases da lua e eventos astronômicos de 2026.",
+      images: ["/opengraph-image"],
+    }
   };
 }
 
@@ -94,7 +110,7 @@ export default async function MoonPhasesPage() {
 
         {/* ANÚNCIO TOPO */}
         <div className="w-full max-w-5xl mx-auto overflow-hidden flex justify-center bg-slate-50/50 dark:bg-slate-900/50 rounded-lg border border-dashed border-slate-200/50 dark:border-slate-800 print:hidden min-h-[100px]">
-           <AdUnit slot="lua_top" format="horizontal" />
+           <LazyAdUnit slot="lua_top" format="horizontal" />
         </div>
 
         {/* REVISÃO ASTRONÔMICA (E-E-A-T) */}
@@ -123,7 +139,7 @@ export default async function MoonPhasesPage() {
 
         {/* ANÚNCIO MEIO */}
         <div className="w-full max-w-4xl mx-auto flex justify-center my-6 print:hidden min-h-[250px]">
-             <AdUnit slot="lua_mid" format="auto" />
+             <LazyAdUnit slot="lua_mid" format="auto" />
         </div>
 
         {/* --- CONTEÚDO PROFUNDO E DENSO (SEO MASTER) --- */}
@@ -316,7 +332,7 @@ export default async function MoonPhasesPage() {
 
         {/* ANÚNCIO FINAL */}
         <div className="w-full flex justify-center my-8 print:hidden min-h-[250px]">
-            <AdUnit slot="lua_bottom" format="horizontal" variant="software" />
+            <LazyAdUnit slot="lua_bottom" format="horizontal" variant="software" />
         </div>
 
       </div>

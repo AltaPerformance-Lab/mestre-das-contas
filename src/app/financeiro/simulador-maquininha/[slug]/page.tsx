@@ -9,7 +9,7 @@ import PrivacyBadge from "@/components/ui/PrivacyBadge";
 import ExpertSignature from "@/components/ui/ExpertSignature";
 import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
 import { cardMachineCases } from "@/data/card-machine-pseo";
-import { CreditCard, ArrowLeft, Star, ShoppingCart, TrendingDown, ShieldCheck } from "lucide-react";
+import { CreditCard, ArrowLeft, Star, ShoppingCart, TrendingDown, ShieldCheck, Wallet } from "lucide-react";
 
 // --- SSG ---
 export async function generateStaticParams() {
@@ -145,12 +145,34 @@ export default async function CardMachinePSeoPage({ params }: { params: Promise<
 
                 {/* FERRAMENTA PRE-FILLED */}
                 <section id="ferramenta" className="w-full relative z-10">
-                    <div className={`bg-${customCase.brandColor}-50 dark:bg-${customCase.brandColor}-950/20 border border-${customCase.brandColor}-100 dark:border-${customCase.brandColor}-900/40 p-4 rounded-xl mb-6 flex items-start gap-3 print:hidden shadow-sm transition-colors`}>
-                        <CreditCard className={`text-${customCase.brandColor}-600 dark:text-${customCase.brandColor}-400 mt-1 shrink-0`} size={20}/>
-                        <div>
-                            <p className={`font-bold text-${customCase.brandColor}-900 dark:text-${customCase.brandColor}-100 text-sm`}>Simulação: {customCase.name}</p>
-                            <p className={`text-${customCase.brandColor}-800 dark:text-${customCase.brandColor}-200 text-xs mt-1`}>
-                                Taxas pré-carregadas: MDR <strong>{customCase.mdr}%</strong> e Antecipação <strong>{customCase.anticipation}%</strong>.
+                    <div className={`
+                        p-5 rounded-2xl mb-8 flex items-start gap-4 print:hidden shadow-sm border transition-all
+                        ${customCase.brandColor === 'emerald' ? 'bg-emerald-50 border-emerald-100 text-emerald-900' : ''}
+                        ${customCase.brandColor === 'blue' ? 'bg-blue-50 border-blue-100 text-blue-900' : ''}
+                        ${customCase.brandColor === 'slate' ? 'bg-slate-100 border-slate-200 text-slate-900' : ''}
+                        ${customCase.brandColor === 'yellow' ? 'bg-yellow-50 border-yellow-200 text-yellow-900' : ''}
+                        ${customCase.brandColor === 'cyan' ? 'bg-cyan-50 border-cyan-100 text-cyan-900' : ''}
+                        ${customCase.brandColor === 'green' ? 'bg-green-50 border-green-100 text-green-900' : ''}
+                        dark:bg-slate-900/50 dark:border-slate-800
+                    `}>
+                        <div className={`
+                            p-2.5 rounded-xl shrink-0
+                            ${customCase.brandColor === 'emerald' ? 'bg-emerald-100 text-emerald-600' : ''}
+                            ${customCase.brandColor === 'blue' ? 'bg-blue-100 text-blue-600' : ''}
+                            ${customCase.brandColor === 'slate' ? 'bg-slate-200 text-slate-600' : ''}
+                            ${customCase.brandColor === 'yellow' ? 'bg-yellow-100 text-yellow-700' : ''}
+                            ${customCase.brandColor === 'cyan' ? 'bg-cyan-100 text-cyan-600' : ''}
+                            ${customCase.brandColor === 'green' ? 'bg-green-100 text-green-600' : ''}
+                            dark:bg-slate-800 dark:text-slate-400
+                        `}>
+                            <CreditCard size={24} strokeWidth={2.5}/>
+                        </div>
+                        <div className="flex flex-col gap-1">
+                            <p className="font-black text-slate-900 dark:text-white text-base md:text-lg leading-tight">
+                                Simulação: {customCase.name}
+                            </p>
+                            <p className="text-slate-600 dark:text-slate-400 text-sm font-medium">
+                                Taxas oficiais 2026: MDR <span className="text-slate-900 dark:text-slate-200 font-bold">{customCase.mdr}%</span> e Antecipação <span className="text-slate-900 dark:text-slate-200 font-bold">{customCase.anticipation}%</span>.
                             </p>
                         </div>
                     </div>
@@ -167,25 +189,51 @@ export default async function CardMachinePSeoPage({ params }: { params: Promise<
                             extraFees={customCase.extraFees}
                         />
 
-                        {/* PagBank Specific Account CTA */}
+                        {/* PagBank Specific Combo CTA */}
                         {slug === "pagseguro-moderninha-pro" && (
-                            <div className="mt-8 p-6 bg-gradient-to-br from-yellow-50 to-amber-50 dark:from-yellow-950/20 dark:to-amber-950/20 rounded-2xl border border-yellow-200 dark:border-yellow-900/50 flex flex-col sm:flex-row items-center gap-6">
-                                <div className="flex-grow space-y-2">
-                                    <h4 className="text-lg font-bold text-yellow-900 dark:text-yellow-100 flex items-center gap-2">
-                                        🚀 Ganhe uma Conta Digital Completa
-                                    </h4>
-                                    <p className="text-sm text-yellow-800 dark:text-yellow-200">
-                                        Abra sua conta grátis no PagBank pelo celular. Sem burocracias, sem tarifas e com banco completo!
-                                    </p>
+                            <div className="mt-8 space-y-4">
+                                {/* Maquininha CTA */}
+                                <div className="p-6 bg-gradient-to-br from-yellow-50 to-amber-50 dark:from-yellow-950/20 dark:to-amber-950/20 rounded-2xl border border-yellow-200 dark:border-yellow-900/50 flex flex-col md:flex-row items-center gap-6 shadow-sm">
+                                    <div className="flex-grow space-y-3 text-center md:text-left">
+                                        <h4 className="text-xl font-black text-yellow-900 dark:text-yellow-100 flex items-center justify-center md:justify-start gap-2">
+                                            🚀 Maquininha PagBank com Cashback
+                                        </h4>
+                                        <ul className="text-sm text-yellow-800 dark:text-yellow-200 space-y-1">
+                                            <li className="flex items-center gap-2 justify-center md:justify-start font-medium">✅ Cashback do valor da maquininha!</li>
+                                            <li className="flex items-center gap-2 justify-center md:justify-start font-medium">✅ Bateria de longa duração e 5 anos de garantia.</li>
+                                            <li className="flex items-center gap-2 justify-center md:justify-start font-medium">✅ Sem burocracia, pronta pra usar!</li>
+                                        </ul>
+                                    </div>
+                                    <Link 
+                                        href="https://pagbank.vc/indica-maquininhas-ad67c77f3" 
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="w-full md:w-auto bg-yellow-500 hover:bg-yellow-600 text-white font-black px-8 py-4 rounded-xl transition-all shadow-lg shadow-yellow-200 dark:shadow-none text-center"
+                                    >
+                                        PEDIR COM DESCONTO
+                                    </Link>
                                 </div>
-                                <Link 
-                                    href="https://pagbank.vc/indica-conta-a702ca65c" 
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold px-6 py-3 rounded-xl transition-all shadow-lg shadow-yellow-200 dark:shadow-none shrink-0"
-                                >
-                                    ABRIR CONTA GRÁTIS
-                                </Link>
+
+                                {/* Conta Digital CTA */}
+                                <div className="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-2xl border border-slate-200 dark:border-slate-700 flex flex-col sm:flex-row items-center justify-between gap-4">
+                                    <div className="flex items-center gap-3">
+                                        <div className="bg-yellow-500 p-2 rounded-lg text-white">
+                                            <Wallet size={20}/>
+                                        </div>
+                                        <div>
+                                            <p className="font-bold text-slate-900 dark:text-white text-sm">Quer apenas a conta?</p>
+                                            <p className="text-xs text-slate-500 dark:text-slate-400">Abra sua conta digital grátis em 3 minutos.</p>
+                                        </div>
+                                    </div>
+                                    <Link 
+                                        href="https://pagbank.vc/indica-conta-a702ca65c" 
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="text-yellow-600 dark:text-yellow-500 font-bold text-sm hover:underline"
+                                    >
+                                        ABRIR CONTA GRÁTIS →
+                                    </Link>
+                                </div>
                             </div>
                         )}
 

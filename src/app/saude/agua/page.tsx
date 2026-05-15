@@ -35,13 +35,27 @@ export async function generateMetadata(): Promise<Metadata> {
     ],
     alternates: { canonical: "https://mestredascontas.com.br/saude/agua" },
     openGraph: {
-      title,
-      description,
+      title: "Calculadora de Água Diária 2026 | Meta por Peso",
+      description: "Saiba exatamente quanta água você precisa beber hoje baseado no seu peso e atividade física. Grátis e atualizado.",
       url: "https://mestredascontas.com.br/saude/agua",
       siteName: "Mestre das Contas",
       locale: "pt_BR",
       type: "article",
-      images: [{ url: "https://mestredascontas.com.br/opengraph-image", width: 1200, height: 630, alt: "Simulador de Água" }] } };
+      images: [
+        { 
+          url: "/opengraph-image", 
+          width: 1200, 
+          height: 630, 
+          alt: "Calculadora de Água Mestre das Contas", 
+        }
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: "Você está bebendo água o suficiente?",
+      description: "Calcule sua meta diária de hidratação em segundos com nossa ferramenta.",
+      images: ["/opengraph-image"],
+    } };
 }
 
 const faqList = [
