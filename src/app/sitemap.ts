@@ -139,7 +139,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.8,
   }))
 
-  const commonSalaries = [1000, 1412, 1500, 1800, 2000, 2500, 3000, 5000, 10000];
+  const commonSalaries = [
+    1000, 1412, 1500, 1800, 2000, 2200, 2500, 2800, 3000, 3200, 3500, 
+    4000, 4500, 5000, 5500, 6000, 7000, 8000, 9000, 10000, 12000, 15000, 20000, 25000, 30000, 50000
+  ];
   const comparatorPseoRoutes: MetadataRoute.Sitemap = commonSalaries.map(v => ({
     url: `${baseUrl}/financeiro/comparador-salario/${v}`,
     lastModified: new Date(),
@@ -147,9 +150,64 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.8
   }))
 
+  const qrCodeRoutes: MetadataRoute.Sitemap = qrCodeCases.map((item: any) => ({
+    url: `${baseUrl}/ferramentas/gerador-qr-code/${item.slug}`,
+    lastModified: new Date(),
+    changeFrequency: 'monthly',
+    priority: 0.7,
+  }))
+
+  const imageConverterRoutes: MetadataRoute.Sitemap = conversionData.map((item) => ({
+    url: `${baseUrl}/ferramentas/conversor-imagem/${item.slug}`,
+    lastModified: new Date(),
+    changeFrequency: 'monthly',
+    priority: 0.7,
+  }))
+
+  const receiptRoutes: MetadataRoute.Sitemap = receiptCases.map((item) => ({
+    url: `${baseUrl}/ferramentas/gerador-recibo/${item.slug}`,
+    lastModified: new Date(),
+    changeFrequency: 'monthly',
+    priority: 0.7,
+  }))
+
+  const budgetRoutes: MetadataRoute.Sitemap = budgetCases.map((item) => ({
+    url: `${baseUrl}/ferramentas/criador-orcamentos/${item.slug}`,
+    lastModified: new Date(),
+    changeFrequency: 'monthly',
+    priority: 0.7,
+  }))
+
+  const orderRoutes: MetadataRoute.Sitemap = orderCases.map((item) => ({
+    url: `${baseUrl}/ferramentas/criador-pedidos/${item.slug}`,
+    lastModified: new Date(),
+    changeFrequency: 'monthly',
+    priority: 0.7,
+  }))
+
+  const meiRoutes: MetadataRoute.Sitemap = meiActivities.map((item) => ({
+    url: `${baseUrl}/financeiro/calculadora-mei/${item.slug}`,
+    lastModified: new Date(),
+    changeFrequency: 'weekly',
+    priority: 0.85,
+  }))
+
   return [
-    ...staticRoutes, ...reformRoutes, ...salarioRoutes, ...veiculosRoutes,
-    ...rentRoutes, ...terminationRoutes, ...cardMachineRoutes,
-    ...financingRoutes, ...glossaryRoutes, ...comparatorPseoRoutes
+    ...staticRoutes, 
+    ...reformRoutes, 
+    ...salarioRoutes, 
+    ...veiculosRoutes,
+    ...rentRoutes, 
+    ...terminationRoutes, 
+    ...cardMachineRoutes,
+    ...financingRoutes, 
+    ...glossaryRoutes, 
+    ...comparatorPseoRoutes,
+    ...qrCodeRoutes,
+    ...imageConverterRoutes,
+    ...receiptRoutes,
+    ...budgetRoutes,
+    ...orderRoutes,
+    ...meiRoutes
   ]
 }
