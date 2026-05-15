@@ -102,8 +102,8 @@ const Footer = () => {
               <div className="bg-blue-600 text-white p-2 rounded-xl shadow-lg shadow-blue-200 dark:shadow-none group-hover:rotate-6 transition-transform">
                 <Calculator size={22} strokeWidth={3} />
               </div>
-              <span className="text-xl font-black tracking-tighter text-slate-900 dark:text-white uppercase italic">
-                MESTRE<span className="text-blue-600">DASCONTAS</span>
+              <span className="text-xl font-black text-slate-900 dark:text-white uppercase italic tracking-tight">
+                MESTRE <span className="text-blue-600">DAS CONTAS</span>
               </span>
             </Link>
 
