@@ -14,24 +14,24 @@ export default function HeroSection() {
       <div className="max-w-7xl mx-auto px-4 pt-20 pb-12 relative z-10">
         <div className="text-center max-w-4xl mx-auto space-y-8">
           
-          {/* Badge de Atualização */}
-          <div className="inline-flex items-center gap-2 bg-slate-800/80 border border-slate-700 backdrop-blur-sm text-blue-200 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest animate-in fade-in zoom-in duration-500">
+          {/* Badge de Atualização (Sem animação para LCP) */}
+          <div className="inline-flex items-center gap-2 bg-slate-800/80 border border-slate-700 backdrop-blur-sm text-blue-200 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest">
             <Zap size={14} className="text-yellow-400 fill-yellow-400" /> Atualizado Lei 2026
           </div>
           
-          {/* Título Principal (H1) */}
-          <h1 className="text-4xl sm:text-5xl md:text-7xl font-extrabold tracking-tight leading-[1.1] animate-in fade-in slide-in-from-bottom-6 duration-700 text-balance">
+          {/* Título Principal (H1) - REMOVIDO ANIMATE PARA OTIMIZAR LCP */}
+          <h1 className="text-4xl sm:text-5xl md:text-7xl font-extrabold tracking-tight leading-[1.1] text-balance">
             Simplifique seu <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-400">Dia a Dia</span> com ferramentas inteligentes.
           </h1>
           
-          {/* Subtítulo */}
-          <p className="text-lg md:text-xl text-slate-400 leading-relaxed max-w-2xl mx-auto animate-in fade-in slide-in-from-bottom-8 duration-700 delay-100 text-pretty">
+          {/* Subtítulo - REMOVIDO ANIMATE PARA OTIMIZAR LCP */}
+          <p className="text-lg md:text-xl text-slate-400 leading-relaxed max-w-2xl mx-auto text-pretty">
             Calculadoras e ferramentas gratuitas para Finanças, Direitos Trabalhistas, Saúde e Tech. 
             Tudo em um só lugar, 100% online e gratuito.
           </p>
-
-          {/* Botões de Ação (CTAs) */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-6 animate-in fade-in slide-in-from-bottom-10 duration-700 delay-200">
+ 
+          {/* Botões de Ação (CTAs) - REMOVIDO ANIMATE */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-6">
             <Link href="/financeiro/reforma-tributaria" className="w-full sm:w-auto">
               <Button className="h-14 px-8 text-lg font-bold bg-blue-600 hover:bg-blue-500 hover:-translate-y-1 transition-all shadow-lg shadow-blue-900/40 rounded-full w-full">
                 Simular Reforma Tributária

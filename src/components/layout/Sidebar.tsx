@@ -165,8 +165,8 @@ export default function Sidebar({ isMobile = false, onItemClick }: SidebarProps)
   const pathname = usePathname();
 
   const containerStyle = isMobile 
-    ? "flex flex-col w-full h-full bg-white dark:bg-slate-900 pb-4 transition-colors" 
-    : "flex flex-col w-full h-full py-6 px-4 bg-white dark:bg-slate-900 border-r border-slate-100 dark:border-slate-800 transition-colors";
+    ? "flex flex-col w-full h-full bg-white dark:bg-slate-900 pb-4" 
+    : "flex flex-col w-full h-full py-6 px-4 bg-white dark:bg-slate-900 border-r border-slate-100 dark:border-slate-800";
 
   return (
     <div className={containerStyle}>

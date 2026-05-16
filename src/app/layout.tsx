@@ -124,7 +124,7 @@ export default function RootLayout({
       <head>
         <PreloadLinks />
       </head>
-      <body className="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 antialiased font-sans selection:bg-indigo-500 selection:text-white min-h-screen flex flex-col overflow-x-hidden transition-colors duration-300 scroll-smooth">
+      <body className="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 antialiased font-sans selection:bg-indigo-500 selection:text-white min-h-screen flex flex-col overflow-x-hidden scroll-smooth">
         
         {/* PROVIDER DE TEMA (DARK MODE) */}
         <ThemeProvider
@@ -145,16 +145,16 @@ export default function RootLayout({
             </div>
 
             {/* GRID LAYOUT FIXO */}
-            <div className="pt-16 xl:pt-0 mx-auto w-full max-w-[1400px] min-h-screen xl:grid xl:grid-cols-[240px_1fr_310px] gap-6 shadow-xl shadow-slate-200/40 dark:shadow-none bg-slate-50 dark:bg-slate-950 items-start xl:my-6 xl:rounded-2xl ring-1 ring-slate-900/5 dark:ring-slate-800 print:shadow-none print:bg-white print:ring-0 print:block print:my-0 print:pt-0 transition-colors duration-300">
+            <div className="pt-16 xl:pt-0 mx-auto w-full max-w-[1400px] min-h-screen xl:grid xl:grid-cols-[240px_1fr_310px] gap-6 shadow-xl shadow-slate-200/40 dark:shadow-none bg-slate-50 dark:bg-slate-950 items-start xl:my-6 xl:rounded-2xl ring-1 ring-slate-900/5 dark:ring-slate-800 print:shadow-none print:bg-white print:ring-0 print:block print:my-0 print:pt-0">
               
               {/* ESQUERDA (STICKY MENU) */}
-              <aside className="hidden xl:block border-r border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 z-20 sticky top-0 h-screen max-h-screen overflow-y-auto scrollbar-thin scrollbar-thumb-slate-100 dark:scrollbar-thumb-slate-800 print:hidden transition-colors duration-300">
+              <aside className="hidden xl:block border-r border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 z-20 sticky top-0 h-screen max-h-screen overflow-y-auto scrollbar-thin scrollbar-thumb-slate-100 dark:scrollbar-thumb-slate-800 print:hidden">
                 <Sidebar />
               </aside>
 
               {/* CENTRO (CONTEÚDO) */}
-              <div className="flex flex-col min-w-0 bg-white dark:bg-slate-900 min-h-screen rounded-tl-2xl rounded-tr-2xl xl:rounded-none print:min-h-0 print:border-none transition-colors duration-300">
-                <div className="hidden xl:block sticky top-0 z-40 bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm border-b border-slate-100 dark:border-slate-800 h-20 print:hidden transition-colors duration-300">
+              <div className="flex flex-col min-w-0 bg-white dark:bg-slate-900 min-h-screen rounded-tl-2xl rounded-tr-2xl xl:rounded-none print:min-h-0 print:border-none">
+                <div className="hidden xl:block sticky top-0 z-40 bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm border-b border-slate-100 dark:border-slate-800 h-20 print:hidden">
                   <HeaderDesktop />
                 </div>
 
