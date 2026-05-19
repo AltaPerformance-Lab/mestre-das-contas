@@ -166,19 +166,45 @@ export default async function BudgetPseoPage({ params }: Props) {
                         Um orçamento bem feito é o primeiro passo para fechar negócio. Veja como tornar seu documento irresistível para o cliente.
                     </p>
 
-                    <div className="my-8 grid gap-4 sm:grid-cols-2 not-prose">
-                        <div className="bg-slate-50 dark:bg-slate-800 p-5 rounded-xl border border-slate-100 dark:border-slate-700">
-                            <h3 className="font-bold text-slate-900 dark:text-white mb-2 flex items-center gap-2">
-                                <CheckCircle2 className="text-green-500" size={18}/> Clareza
-                            </h3>
-                            <p className="text-xs text-slate-600 dark:text-slate-400">Descreva os itens detalhadamente. Evite termos técnicos confusos.</p>
+                    <h3 className="text-xl md:text-2xl font-bold text-slate-900 dark:text-white mt-10 mb-4 flex items-center gap-2 border-l-4 border-indigo-500 pl-4">
+                        Como Usar o Criador de Orçamentos (Passo a Passo)
+                    </h3>
+                    <p className="text-slate-600 dark:text-slate-400">
+                       Monte um orçamento altamente profissional com sua logo em PDF seguindo estes 4 passos fáceis:
+                    </p>
+
+                    <div className="grid sm:grid-cols-2 gap-6 my-8 not-prose">
+                      <div className="bg-slate-50 dark:bg-slate-800/30 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 flex gap-4">
+                        <div className="w-8 h-8 rounded-full bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400 font-bold flex items-center justify-center shrink-0">1</div>
+                        <div className="space-y-1">
+                           <h4 className="font-bold text-slate-800 dark:text-white text-sm">Insira Seus Dados & Logo</h4>
+                           <p className="text-xs text-slate-500 dark:text-slate-400">Insira as informações do Emissor. Você pode carregar um logotipo clicando em <strong>"Adicionar Logotipo"</strong> para personalizar o topo do PDF.</p>
                         </div>
-                        <div className="bg-slate-50 dark:bg-slate-800 p-5 rounded-xl border border-slate-100 dark:border-slate-700">
-                            <h3 className="font-bold text-slate-900 dark:text-white mb-2 flex items-center gap-2">
-                                <CheckCircle2 className="text-indigo-500" size={18}/> Transparência
-                            </h3>
-                            <p className="text-xs text-slate-600 dark:text-slate-400">Separe mão de obra de materiais quando possível. Isso gera confiança.</p>
+                      </div>
+
+                      <div className="bg-slate-50 dark:bg-slate-800/30 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 flex gap-4">
+                        <div className="w-8 h-8 rounded-full bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400 font-bold flex items-center justify-center shrink-0">2</div>
+                        <div className="space-y-1">
+                           <h4 className="font-bold text-slate-800 dark:text-white text-sm">Insira o Cliente</h4>
+                           <p className="text-xs text-slate-500 dark:text-slate-400">Preencha os dados do cliente (Nome, CPF/CNPJ, Contato, Endereço) para quem este documento de orçamento é destinado.</p>
                         </div>
+                      </div>
+
+                      <div className="bg-slate-50 dark:bg-slate-800/30 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 flex gap-4">
+                        <div className="w-8 h-8 rounded-full bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400 font-bold flex items-center justify-center shrink-0">3</div>
+                        <div className="space-y-1">
+                           <h4 className="font-bold text-slate-800 dark:text-white text-sm">Adicione os Itens & Serviços</h4>
+                           <p className="text-xs text-slate-500 dark:text-slate-400">Clique em <strong>"+ Adicionar Item"</strong>. Digite o nome, quantidade e preço unitário. O total e o subtotal calculam dinamicamente em tempo real.</p>
+                        </div>
+                      </div>
+
+                      <div className="bg-slate-50 dark:bg-slate-800/30 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 flex gap-4">
+                        <div className="w-8 h-8 rounded-full bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400 font-bold flex items-center justify-center shrink-0">4</div>
+                        <div className="space-y-1">
+                           <h4 className="font-bold text-slate-800 dark:text-white text-sm">Imprima ou Salve o PDF</h4>
+                           <p className="text-xs text-slate-500 dark:text-slate-400">Clique em <strong>"Gerar PDF"</strong> para baixar o orçamento em folha de papel limpa timbrada, pronto para enviar por WhatsApp ou E-mail.</p>
+                        </div>
+                      </div>
                     </div>
 
                     {customCase.articleContent && (

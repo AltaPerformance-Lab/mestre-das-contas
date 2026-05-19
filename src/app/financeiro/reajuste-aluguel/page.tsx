@@ -3,6 +3,7 @@ import Link from "next/link";
 import LazyAdUnit from "@/components/ads/LazyAdUnit";
 import PageHeader from "@/components/layout/PageHeader";
 import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
+import ExpertSignature from "@/components/ui/ExpertSignature";
 import RentCalculator from "@/components/calculators/RentCalculator";
 import { Suspense } from "react";
 
@@ -14,13 +15,13 @@ import PrivacyBadge from "@/components/ui/PrivacyBadge";
 
 // --- 1. METADATA DINÂMICA (SEO MAXIMIZADO) ---
 export async function generateMetadata(): Promise<Metadata> {
-  const title = "Calculadora de Reajuste de Aluguel 2026: IGP-M e IPCA";
-  const description = "Descubra o novo valor do seu aluguel em segundos. Tabela oficial acumulada 2026. Compare IGP-M vs IPCA e aprenda a negociar com o proprietário. Grátis.";
+  const title = "Calculadora de Reajuste de Aluguel 2026 (Grátis) | IGP-M e IPCA";
+  const description = "Descubra o novo valor do seu aluguel em segundos. Tabela de índice oficial acumulada 2026. Compare IGP-M vs IPCA e aprenda a negociar. Ferramenta grátis.";
 
   return {
     title,
     description,
-    keywords: ["calculadora reajuste aluguel", "indice igpm 2026", "calcular aumento aluguel", "ipca acumulado aluguel", "reajuste anual aluguel"],
+    keywords: ["calculadora reajuste aluguel", "tabela de indice de reajuste abril de 2026", "calculado para reajuste de aluguel 2026", "ipca acumulado aluguel", "reajuste anual aluguel"],
     alternates: { canonical: "https://mestredascontas.com.br/financeiro/reajuste-aluguel" },
     openGraph: {
       title,
@@ -272,7 +273,9 @@ export default async function RentPage() {
                         </details>
                     ))}
                 </div>
-            </div>
+              
+            <ExpertSignature updatedAt="Maio de 2026" author="Equipe Editorial" />
+          </div>
 
         </div>
 

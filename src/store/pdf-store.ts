@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { PDFDocument } from 'pdf-lib';
+import { PDFDocument, degrees } from 'pdf-lib';
 
 export type ToolType = 'select' | 'text' | 'draw' | 'erase' | 'image' | 'signature';
 
@@ -49,9 +49,22 @@ interface PDFState {
   deleteImage: (pageIndex: number, id: number) => void;
   addPathToPage: (pageIndex: number, path: any, options: { color: string, width: number, type?: 'draw' | 'erase' }) => void;
   setOriginalTexts: (pageIndex: number, textItems: any[]) => void;
+
+  // PDF Suite Operations
+  updateFileFromDoc: () => Promise<void>;
+  rotatePage: (pageIndex: number) => Promise<void>;
+  deletePage: (pageIndex: number) => Promise<void>;
+  movePage: (fromIndex: number, toIndex: number) => Promise<void>;
+  mergePdfFile: (mergeFile: File) => Promise<void>;
+  splitPdfPages: (rangesStr: string) => Promise<void>;
+  compressPdf: () => Promise<void>;
+  isFullscreen: boolean;
+  setIsFullscreen: (isFullscreen: boolean) => void;
+  isSidebarOpen: boolean;
+  setIsSidebarOpen: (isSidebarOpen: boolean) => void;
 }
 
-export const usePDFStore = create<PDFState>((set) => ({
+export const usePDFStore = create<PDFState>((set, get) => ({
   file: null,
   pdfDoc: null,
   numPages: 0,
@@ -60,6 +73,8 @@ export const usePDFStore = create<PDFState>((set) => ({
   selectedTool: 'select',
   thumbnails: [],
   isProcessing: false,
+  isFullscreen: false,
+  isSidebarOpen: true,
   textStyle: {
       font: 'Helvetica',
       size: 16,
@@ -76,6 +91,8 @@ export const usePDFStore = create<PDFState>((set) => ({
   setIsProcessing: (isProcessing: boolean) => set({ isProcessing }),
   setThumbnails: (thumbnails: string[]) => set({ thumbnails }),
   setTextStyle: (style) => set((state) => ({ textStyle: { ...state.textStyle, ...style } })),
+  setIsFullscreen: (isFullscreen: boolean) => set({ isFullscreen }),
+  setIsSidebarOpen: (isSidebarOpen: boolean) => set({ isSidebarOpen }),
   
   addTextToPage: (pageIndex: number, text: string, x: number, y: number) => set((state: PDFState) => {
       const newPages = [...state.pages];
@@ -148,4 +165,165 @@ export const usePDFStore = create<PDFState>((set) => ({
       newPages[pageIndex].originalTexts = textItems;
       return { pages: newPages };
   }),
+
+  // PDF Suite Operations Implementation
+  updateFileFromDoc: async () => {
+    const { pdfDoc, file } = get();
+    if (!pdfDoc || !file) return;
+    set({ isProcessing: true });
+    try {
+      const pdfBytes = await pdfDoc.save();
+      const blob = new Blob([pdfBytes as any], { type: 'application/pdf' });
+      const newFile = new File([blob], file.name, { type: 'application/pdf' });
+      const freshDoc = await PDFDocument.load(pdfBytes);
+      
+      set({ 
+        file: newFile, 
+        pdfDoc: freshDoc, 
+        numPages: freshDoc.getPageCount() 
+      });
+    } catch (err) {
+      console.error("Error updating PDF stream:", err);
+    } finally {
+      set({ isProcessing: false });
+    }
+  },
+
+  rotatePage: async (pageIndex: number) => {
+    const { pdfDoc, updateFileFromDoc } = get();
+    if (!pdfDoc) return;
+    const pages = pdfDoc.getPages();
+    const page = pages[pageIndex];
+    if (page) {
+      const currentRotation = page.getRotation().angle;
+      page.setRotation(degrees((currentRotation + 90) % 360));
+      await updateFileFromDoc();
+    }
+  },
+
+  deletePage: async (pageIndex: number) => {
+    const { pdfDoc, currentPage, setCurrentPage, updateFileFromDoc } = get();
+    if (!pdfDoc) return;
+    if (pdfDoc.getPageCount() <= 1) {
+      alert("O documento precisa ter pelo menos 1 página!");
+      return;
+    }
+    pdfDoc.removePage(pageIndex);
+    const newTotal = pdfDoc.getPageCount();
+    if (currentPage > newTotal) {
+      setCurrentPage(newTotal);
+    }
+    await updateFileFromDoc();
+  },
+
+  movePage: async (fromIndex: number, toIndex: number) => {
+    const { pdfDoc, updateFileFromDoc } = get();
+    if (!pdfDoc) return;
+    const total = pdfDoc.getPageCount();
+    if (toIndex < 0 || toIndex >= total) return;
+    
+    set({ isProcessing: true });
+    try {
+      const newDoc = await PDFDocument.create();
+      const indices = Array.from({ length: total }, (_, i) => i);
+      const temp = indices[fromIndex];
+      indices.splice(fromIndex, 1);
+      indices.splice(toIndex, 0, temp);
+      
+      const copiedPages = await newDoc.copyPages(pdfDoc, indices);
+      copiedPages.forEach((page) => newDoc.addPage(page));
+      
+      set({ pdfDoc: newDoc });
+      await updateFileFromDoc();
+    } catch (err) {
+      console.error(err);
+    } finally {
+      set({ isProcessing: false });
+    }
+  },
+
+  mergePdfFile: async (mergeFile: File) => {
+    const { pdfDoc, updateFileFromDoc } = get();
+    if (!pdfDoc) return;
+    set({ isProcessing: true });
+    try {
+      const mergeBytes = await mergeFile.arrayBuffer();
+      const otherDoc = await PDFDocument.load(mergeBytes);
+      const copiedPages = await pdfDoc.copyPages(otherDoc, otherDoc.getPageIndices());
+      copiedPages.forEach((page) => pdfDoc.addPage(page));
+      await updateFileFromDoc();
+    } catch (err) {
+      console.error("Error merging file:", err);
+      alert("Não foi possível anexar este PDF. Ele pode estar corrompido ou protegido.");
+    } finally {
+      set({ isProcessing: false });
+    }
+  },
+
+  splitPdfPages: async (rangesStr: string) => {
+    const { pdfDoc, file } = get();
+    if (!pdfDoc || !file) return;
+    set({ isProcessing: true });
+    try {
+      const pagesToKeep: number[] = [];
+      const parts = rangesStr.split(",");
+      const totalPages = pdfDoc.getPageCount();
+
+      for (const part of parts) {
+        const cleanPart = part.trim();
+        if (cleanPart.includes("-")) {
+          const [start, end] = cleanPart.split("-").map(Number);
+          for (let i = start; i <= end; i++) {
+            if (i >= 1 && i <= totalPages) pagesToKeep.push(i - 1);
+          }
+        } else {
+          const val = Number(cleanPart);
+          if (val >= 1 && val <= totalPages) pagesToKeep.push(val - 1);
+        }
+      }
+
+      if (pagesToKeep.length === 0) {
+        alert("Digite um intervalo de páginas válido (Ex: 1-3, 5)!");
+        return;
+      }
+
+      const newDoc = await PDFDocument.create();
+      const copiedPages = await newDoc.copyPages(pdfDoc, pagesToKeep);
+      copiedPages.forEach((page) => newDoc.addPage(page));
+
+      const pdfBytes = await newDoc.save();
+      const blob = new Blob([pdfBytes as any], { type: 'application/pdf' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = `${file.name.replace(".pdf", "")}_extraido.pdf`;
+      link.click();
+    } catch (err) {
+      console.error(err);
+      alert("Erro ao extrair páginas.");
+    } finally {
+      set({ isProcessing: false });
+    }
+  },
+
+  compressPdf: async () => {
+    const { pdfDoc, file } = get();
+    if (!pdfDoc || !file) return;
+    set({ isProcessing: true });
+    try {
+      // Stripping metadata, compressing streams
+      const pdfBytes = await pdfDoc.save({
+        useObjectStreams: true
+      });
+      const blob = new Blob([pdfBytes as any], { type: 'application/pdf' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = `${file.name.replace(".pdf", "")}_comprimido.pdf`;
+      link.click();
+    } catch (err) {
+      console.error(err);
+      alert("Erro ao comprimir PDF.");
+    } finally {
+      set({ isProcessing: false });
+    }
+  }
 }));

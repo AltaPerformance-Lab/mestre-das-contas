@@ -10,6 +10,7 @@ import DisclaimerBox from "@/components/ui/DisclaimerBox";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
 import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
 import { Briefcase, ArrowLeft, CheckCircle2, AlertTriangle, Search, Star, BookOpen, ShieldCheck } from "lucide-react";
+import ExpertSignature from "@/components/ui/ExpertSignature";
 
 // --- SSG ---
 export async function generateStaticParams() {
@@ -279,6 +280,7 @@ export default async function MEIPSeoPage({ params }: { params: Promise<{ slug: 
                         </details>
                     </div>
 
+                    <ExpertSignature updatedAt="Maio de 2026" author="Equipe Editorial" />
                 </div>
 
                 <SmartCrossLinker currentHref={"/financeiro/calculadora-mei/" + slug} category="financeiro" />

@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
 import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
+import ExpertSignature from "@/components/ui/ExpertSignature";
 
 // --- 1. METADATA DINÂMICA (SEO MAXIMIZADO) ---
 export async function generateMetadata(): Promise<Metadata> {
@@ -276,7 +277,9 @@ const jsonLd = {
                     ))}
 
                 </div>
-            </div>
+              
+            <ExpertSignature updatedAt="Maio de 2026" author="Equipe Editorial" />
+          </div>
 
         </div>
 

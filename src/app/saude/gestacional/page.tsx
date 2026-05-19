@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
 import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
+import ExpertSignature from "@/components/ui/ExpertSignature";
 
 // --- 1. METADATA 2026 ---
 import { calculatePregnancy } from "@/lib/calculators/health";
@@ -79,7 +80,34 @@ export default async function GestacionalPage() {
         "applicationCategory": "HealthApplication",
         "operatingSystem": "Web",
         "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
-        "description": "Ferramenta completa para acompanhamento gestacional, cálculo de DPP e fases do bebê." },
+        "description": "Ferramenta completa para acompanhamento gestacional, cálculo de DPP e fases do bebê."
+      },
+      {
+        "@type": "HowTo",
+        "name": "Como Calcular Idade Gestacional e DPP",
+        "description": "Descubra como calcular suas semanas de gravidez e a data provável do parto.",
+        "totalTime": "PT15S",
+        "step": [
+          {
+            "@type": "HowToStep",
+            "name": "Escolha o Método de Entrada",
+            "text": "Selecione se deseja calcular pela data da última menstruação (DUM), data provável do parto (DPP) ou por um ultrassom prévio.",
+            "url": "https://mestredascontas.com.br/saude/gestacional#ferramenta"
+          },
+          {
+            "@type": "HowToStep",
+            "name": "Insira a Data Correspondente",
+            "text": "Selecione no calendário a data correta conforme o método escolhido (ex: primeiro dia da última menstruação).",
+            "url": "https://mestredascontas.com.br/saude/gestacional#ferramenta"
+          },
+          {
+            "@type": "HowToStep",
+            "name": "Acompanhe sua Gestação",
+            "text": "Veja de quantas semanas e dias você está grávida, a data provável do parto e o peso/tamanho aproximado do bebê.",
+            "url": "https://mestredascontas.com.br/saude/gestacional#ferramenta"
+          }
+        ]
+      },
       {
         "@type": "MedicalWebPage",
         "name": "Guia da Gestação Semana a Semana",
@@ -164,10 +192,43 @@ export default async function GestacionalPage() {
 
         {/* --- CONTEÚDO EDUCACIONAL (DEEP CONTENT) --- */}
         <div className="prose prose-slate dark:prose-invert prose-sm md:prose-lg max-w-4xl mx-auto bg-white dark:bg-slate-900 p-6 md:p-12 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-xl shadow-slate-200/40 dark:shadow-none overflow-hidden w-full print:hidden">
-          
-          <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2 border-l-4 border-pink-400 pl-4">
-              Parabéns, mamãe! E agora?
-          </h2>
+            
+            <h3 className="text-xl md:text-2xl font-bold text-slate-900 dark:text-slate-100 mt-2 mb-4 flex items-center gap-2 border-l-4 border-pink-400 pl-4">
+                Como Usar a Calculadora Gestacional (Passo a Passo)
+            </h3>
+            <p className="text-slate-600 dark:text-slate-400">
+               Descubra o tempo de gravidez e planeje a chegada do bebê em 3 passos:
+            </p>
+
+            <div className="grid sm:grid-cols-3 gap-6 my-8 not-prose">
+              <div className="bg-slate-50 dark:bg-slate-800/30 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 flex gap-4">
+                <div className="w-8 h-8 rounded-full bg-pink-100 dark:bg-pink-900/50 text-pink-600 dark:text-pink-400 font-bold flex items-center justify-center shrink-0">1</div>
+                <div className="space-y-1">
+                   <h4 className="font-bold text-slate-800 dark:text-white text-sm">Método de Entrada</h4>
+                   <p className="text-xs text-slate-500 dark:text-slate-400">Selecione se deseja calcular pela data da última menstruação (DUM), pela data provável do parto (DPP) ou por ultrassonografia.</p>
+                </div>
+              </div>
+
+              <div className="bg-slate-50 dark:bg-slate-800/30 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 flex gap-4">
+                <div className="w-8 h-8 rounded-full bg-pink-100 dark:bg-pink-900/50 text-pink-600 dark:text-pink-400 font-bold flex items-center justify-center shrink-0">2</div>
+                <div className="space-y-1">
+                   <h4 className="font-bold text-slate-800 dark:text-white text-sm">Selecione a Data</h4>
+                   <p className="text-xs text-slate-500 dark:text-slate-400">Informe a data exata no calendário conforme o método que você selecionou.</p>
+                </div>
+              </div>
+
+              <div className="bg-slate-50 dark:bg-slate-800/30 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 flex gap-4">
+                <div className="w-8 h-8 rounded-full bg-pink-100 dark:bg-pink-900/50 text-pink-600 dark:text-pink-400 font-bold flex items-center justify-center shrink-0">3</div>
+                <div className="space-y-1">
+                   <h4 className="font-bold text-slate-800 dark:text-white text-sm">Calcule e Acompanhe</h4>
+                   <p className="text-xs text-slate-500 dark:text-slate-400">Clique em <strong>"Calcular"</strong> para ver seu relatório gestacional completo, incluindo semanas e dias, trimestre e peso do bebê.</p>
+                </div>
+              </div>
+            </div>
+
+            <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2 border-l-4 border-pink-400 pl-4">
+               Parabéns, mamãe! E agora?
+            </h2>
           <p className="lead text-slate-700 dark:text-slate-300 text-lg font-medium">
             Aquele segundo em que o teste dá positivo é indescritível. É um misto de alegria, medo e uma pergunta que não cala: <strong>"De quanto tempo eu estou?"</strong>.
           </p>
@@ -337,6 +398,8 @@ export default async function GestacionalPage() {
                     Durante a gravidez, monitorar o <Link href="/saude/imc" className="text-rose-500 font-bold hover:underline">ganho de peso (IMC)</Link> e manter a <Link href="/saude/agua" className="text-rose-500 font-bold hover:underline">hidratação correta</Link> é essencial para a saúde da mãe e do bebê.
               </p>
           </div>
+
+          <ExpertSignature updatedAt="Maio de 2026" author="Equipe Editorial" />
         </div>
 
         <SmartCrossLinker currentHref="/saude/gestacional" category="saude" />

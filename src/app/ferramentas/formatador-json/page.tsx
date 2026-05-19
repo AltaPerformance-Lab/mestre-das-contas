@@ -40,7 +40,34 @@ const jsonLd = {
       "operatingSystem": "Web Browser",
       "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
       "description": "Ferramenta online para validar, formatar (beautify) e minificar dados JSON. Processamento local no navegador para total privacidade.",
-      "featureList": "Validação de Sintaxe, Beautify (Pretty Print), Minificação, Download de Arquivo, Copiar para Clipboard" },
+      "featureList": "Validação de Sintaxe, Beautify (Pretty Print), Minificação, Download de Arquivo, Copiar para Clipboard"
+    },
+    {
+      "@type": "HowTo",
+      "name": "Como Formatar e Validar JSON Online",
+      "description": "Passo a passo simples para validar a sintaxe do seu código JSON, corrigir recuos e erros estruturais.",
+      "totalTime": "PT15S",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "name": "Cole seu JSON",
+          "text": "Cole o código JSON bruto ou minificado no campo de texto principal.",
+          "url": "https://mestredascontas.com.br/ferramentas/formatador-json#ferramenta"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Escolha a Ação",
+          "text": "Clique em 'Formatar' para identar o código de forma legível, ou 'Minificar' para remover todos os espaços e economizar banda.",
+          "url": "https://mestredascontas.com.br/ferramentas/formatador-json#ferramenta"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Corrija Erros e Copie",
+          "text": "Se houver erro de sintaxe, o sistema aponta a linha exata. Corrija o texto e clique em 'Copiar' para salvar seu JSON perfeito.",
+          "url": "https://mestredascontas.com.br/ferramentas/formatador-json#ferramenta"
+        }
+      ]
+    },
     {
       "@type": "Article",
       "headline": "Guia de Formatação e Validação JSON para Desenvolvedores",
@@ -94,7 +121,40 @@ export default function JsonFormatterPage() {
 
         {/* --- ARTIGO EDUCACIONAL (SEO DENSO) --- */}
         <div className="prose prose-slate dark:prose-invert prose-sm md:prose-lg max-w-4xl mx-auto bg-white dark:bg-slate-900 p-6 md:p-12 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-xl shadow-slate-200/40 dark:shadow-none overflow-hidden w-full print:hidden">
-          
+            
+            <h3 className="text-xl md:text-2xl font-bold text-slate-900 dark:text-slate-100 mt-2 mb-4 flex items-center gap-2 border-l-4 border-slate-700 dark:border-slate-300 pl-4">
+                Como Usar o Formatador JSON (Passo a Passo)
+            </h3>
+            <p className="text-slate-600 dark:text-slate-400">
+               Valide, indente ou compacte seus dados estruturados JSON em 3 passos:
+            </p>
+
+            <div className="grid sm:grid-cols-3 gap-6 my-8 not-prose">
+              <div className="bg-slate-50 dark:bg-slate-800/30 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 flex gap-4">
+                <div className="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold flex items-center justify-center shrink-0">1</div>
+                <div className="space-y-1">
+                   <h4 className="font-bold text-slate-800 dark:text-white text-sm">Cole o Código</h4>
+                   <p className="text-xs text-slate-500 dark:text-slate-400">Cole seu código JSON bruto ou minificado na área de texto principal. Também aceita arquivos arrastados.</p>
+                </div>
+              </div>
+
+              <div className="bg-slate-50 dark:bg-slate-800/30 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 flex gap-4">
+                <div className="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold flex items-center justify-center shrink-0">2</div>
+                <div className="space-y-1">
+                   <h4 className="font-bold text-slate-800 dark:text-white text-sm">Formate ou Minifique</h4>
+                   <p className="text-xs text-slate-500 dark:text-slate-400">Clique em <strong>"Formatar"</strong> para indentar ( Pretty Print ) de forma legível, ou <strong>"Minificar"</strong> para compactar e remover espaços.</p>
+                </div>
+              </div>
+
+              <div className="bg-slate-50 dark:bg-slate-800/30 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 flex gap-4">
+                <div className="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold flex items-center justify-center shrink-0">3</div>
+                <div className="space-y-1">
+                   <h4 className="font-bold text-slate-800 dark:text-white text-sm">Corrija & Copie</h4>
+                   <p className="text-xs text-slate-500 dark:text-slate-400">Se houver erros de sintaxe (como vírgulas extras), o validador apontará a linha. Corrija-os e clique em <strong>"Copiar"</strong>.</p>
+                </div>
+              </div>
+            </div>
+
             <div className="flex items-center gap-2 text-indigo-600 dark:text-indigo-400 font-bold uppercase tracking-wider text-xs mb-2">
                 <Code2 size={16} /> Guia Definitivo 2026
             </div>

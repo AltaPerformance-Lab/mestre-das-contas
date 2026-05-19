@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     locale: "pt_BR",
     url: "https://mestredascontas.com.br",
     title: "Mestre das Contas | Calculadoras e Ferramentas Online Grátis",
-    description: "Centenas de calculadoras e ferramentas gratuitas. Rescisão, Férias, Salário e utilitários digitais atualizados.",
+    description: "Simplifique sua vida com centenas de ferramentas gratuitas. Cálculos exatos de Rescisão, Férias, Salário, MEI, Juros e utilitários digitais 2026.",
     siteName: "Mestre das Contas",
     images: [
       { 
@@ -48,7 +48,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Mestre das Contas | Centenas de Ferramentas Grátis",
-    description: "Cálculos trabalhistas, financeiros e utilitários digitais em um só lugar.",
+    description: "Simplifique sua vida com centenas de ferramentas gratuitas. Cálculos exatos de Rescisão, Férias, Salário, MEI, Juros e utilitários digitais 2026.",
     images: ["/opengraph-image"],
   } 
 };

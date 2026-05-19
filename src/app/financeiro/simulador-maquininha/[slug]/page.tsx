@@ -56,17 +56,17 @@ export default async function CardMachinePSeoPage({ params }: { params: Promise<
                 "operatingSystem": "Web Browser",
                 "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
                 "description": customCase.description },
-            {
+            ...(customCase.articleContent.faq && customCase.articleContent.faq.length > 0 ? [{
                 "@type": "FAQPage",
-                "mainEntity": customCase.articleContent.faq?.map(f => ({
+                "mainEntity": customCase.articleContent.faq.map(f => ({
                     "@type": "Question",
                     "name": f.question,
                     "acceptedAnswer": {
                         "@type": "Answer",
                         "text": f.answer
                     }
-                })) || []
-            },
+                }))
+            }] : []),
             {
                 "@type": "HowTo",
                 "name": `Como calcular taxas da ${customCase.name}`,
@@ -189,51 +189,84 @@ export default async function CardMachinePSeoPage({ params }: { params: Promise<
                             extraFees={customCase.extraFees}
                         />
 
-                        {/* PagBank Specific Combo CTA */}
-                        {slug === "pagseguro-moderninha-pro" && (
+                        {/* Dynamic Referral CTA Block */}
+                        {customCase.referralUrl && (
                             <div className="mt-8 space-y-4">
-                                {/* Maquininha CTA */}
-                                <div className="p-6 bg-gradient-to-br from-yellow-50 to-amber-50 dark:from-yellow-950/20 dark:to-amber-950/20 rounded-2xl border border-yellow-200 dark:border-yellow-900/50 flex flex-col md:flex-row items-center gap-6 shadow-sm">
+                                <div className={`
+                                    p-6 rounded-2xl border flex flex-col md:flex-row items-center gap-6 shadow-sm bg-gradient-to-br
+                                    ${customCase.brandColor === 'emerald' ? 'from-emerald-50 to-green-50 dark:from-emerald-950/20 dark:to-green-950/20 border-emerald-200 dark:border-emerald-900/50 text-emerald-900' : ''}
+                                    ${customCase.brandColor === 'blue' ? 'from-blue-50 to-indigo-50 dark:from-blue-950/20 dark:to-indigo-950/20 border-blue-200 dark:border-blue-900/50 text-blue-900' : ''}
+                                    ${customCase.brandColor === 'slate' ? 'from-slate-50 to-gray-50 dark:from-slate-800/50 dark:to-gray-800/20 border-slate-200 dark:border-slate-700 text-slate-900' : ''}
+                                    ${customCase.brandColor === 'yellow' ? 'from-yellow-50 to-amber-50 dark:from-yellow-950/20 dark:to-amber-950/20 border-yellow-200 dark:border-yellow-900/50 text-yellow-900' : ''}
+                                    ${customCase.brandColor === 'cyan' ? 'from-cyan-50 to-blue-50 dark:from-cyan-950/20 dark:to-blue-950/20 border-cyan-200 dark:border-cyan-900/50 text-cyan-900' : ''}
+                                    ${customCase.brandColor === 'green' ? 'from-green-50 to-emerald-50 dark:from-green-950/20 dark:to-emerald-950/20 border-green-200 dark:border-green-900/50 text-green-900' : ''}
+                                `}>
                                     <div className="flex-grow space-y-3 text-center md:text-left">
-                                        <h4 className="text-xl font-black text-yellow-900 dark:text-yellow-100 flex items-center justify-center md:justify-start gap-2">
-                                            🚀 Maquininha PagBank com Cashback
+                                        <h4 className={`
+                                            text-xl font-black flex items-center justify-center md:justify-start gap-2
+                                            ${customCase.brandColor === 'emerald' ? 'text-emerald-950 dark:text-emerald-100' : ''}
+                                            ${customCase.brandColor === 'blue' ? 'text-blue-900 dark:text-blue-100' : ''}
+                                            ${customCase.brandColor === 'slate' ? 'text-slate-900 dark:text-slate-100' : ''}
+                                            ${customCase.brandColor === 'yellow' ? 'text-yellow-950 dark:text-yellow-100' : ''}
+                                            ${customCase.brandColor === 'cyan' ? 'text-cyan-900 dark:text-cyan-100' : ''}
+                                            ${customCase.brandColor === 'green' ? 'text-green-900 dark:text-green-100' : ''}
+                                        `}>
+                                            🚀 Adquira a sua {customCase.name} com Desconto Especial
                                         </h4>
-                                        <ul className="text-sm text-yellow-800 dark:text-yellow-200 space-y-1">
-                                            <li className="flex items-center gap-2 justify-center md:justify-start font-medium">✅ Cashback do valor da maquininha!</li>
-                                            <li className="flex items-center gap-2 justify-center md:justify-start font-medium">✅ Bateria de longa duração e 5 anos de garantia.</li>
-                                            <li className="flex items-center gap-2 justify-center md:justify-start font-medium">✅ Sem burocracia, pronta pra usar!</li>
+                                        <ul className={`
+                                            text-sm space-y-1
+                                            ${customCase.brandColor === 'emerald' ? 'text-emerald-800 dark:text-emerald-200' : ''}
+                                            ${customCase.brandColor === 'blue' ? 'text-blue-800 dark:text-blue-200' : ''}
+                                            ${customCase.brandColor === 'slate' ? 'text-slate-700 dark:text-slate-300' : ''}
+                                            ${customCase.brandColor === 'yellow' ? 'text-yellow-800 dark:text-yellow-200' : ''}
+                                            ${customCase.brandColor === 'cyan' ? 'text-cyan-800 dark:text-cyan-200' : ''}
+                                            ${customCase.brandColor === 'green' ? 'text-green-800 dark:text-green-200' : ''}
+                                        `}>
+                                            <li className="flex items-center gap-2 justify-center md:justify-start font-medium">✅ Garanta a menor taxa pelo nosso link de parceiro oficial.</li>
+                                            <li className="flex items-center gap-2 justify-center md:justify-start font-medium">✅ Entrega rápida e frete grátis para todo o Brasil.</li>
+                                            <li className="flex items-center gap-2 justify-center md:justify-start font-medium">✅ Sem aluguel e com suporte completo.</li>
                                         </ul>
                                     </div>
                                     <Link 
-                                        href="https://pagbank.vc/indica-maquininhas-ad67c77f3" 
+                                        href={customCase.referralUrl} 
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="w-full md:w-auto bg-yellow-500 hover:bg-yellow-600 text-white font-black px-8 py-4 rounded-xl transition-all shadow-lg shadow-yellow-200 dark:shadow-none text-center"
+                                        className={`
+                                            w-full md:w-auto font-black px-8 py-4 rounded-xl transition-all shadow-lg text-center whitespace-nowrap
+                                            ${customCase.brandColor === 'emerald' ? 'bg-emerald-600 hover:bg-emerald-700 text-white shadow-emerald-200 dark:shadow-none' : ''}
+                                            ${customCase.brandColor === 'blue' ? 'bg-blue-600 hover:bg-blue-700 text-white shadow-blue-200 dark:shadow-none' : ''}
+                                            ${customCase.brandColor === 'slate' ? 'bg-slate-800 hover:bg-slate-900 text-white shadow-slate-200 dark:shadow-none dark:bg-slate-700 dark:hover:bg-slate-600' : ''}
+                                            ${customCase.brandColor === 'yellow' ? 'bg-yellow-500 hover:bg-yellow-600 text-white shadow-yellow-200 dark:shadow-none' : ''}
+                                            ${customCase.brandColor === 'cyan' ? 'bg-cyan-600 hover:bg-cyan-700 text-white shadow-cyan-200 dark:shadow-none' : ''}
+                                            ${customCase.brandColor === 'green' ? 'bg-green-600 hover:bg-green-700 text-white shadow-green-200 dark:shadow-none' : ''}
+                                        `}
                                     >
-                                        PEDIR COM DESCONTO
+                                        APROVEITAR DESCONTO →
                                     </Link>
                                 </div>
 
-                                {/* Conta Digital CTA */}
-                                <div className="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-2xl border border-slate-200 dark:border-slate-700 flex flex-col sm:flex-row items-center justify-between gap-4">
-                                    <div className="flex items-center gap-3">
-                                        <div className="bg-yellow-500 p-2 rounded-lg text-white">
-                                            <Wallet size={20}/>
+                                {/* PagBank Specific Conta Digital CTA */}
+                                {slug === "pagseguro-moderninha-pro" && (
+                                    <div className="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-2xl border border-slate-200 dark:border-slate-700 flex flex-col sm:flex-row items-center justify-between gap-4">
+                                        <div className="flex items-center gap-3">
+                                            <div className="bg-yellow-500 p-2 rounded-lg text-white">
+                                                <Wallet size={20}/>
+                                            </div>
+                                            <div>
+                                                <p className="font-bold text-slate-900 dark:text-white text-sm">Quer apenas a conta?</p>
+                                                <p className="text-xs text-slate-500 dark:text-slate-400">Abra sua conta digital grátis em 3 minutos.</p>
+                                            </div>
                                         </div>
-                                        <div>
-                                            <p className="font-bold text-slate-900 dark:text-white text-sm">Quer apenas a conta?</p>
-                                            <p className="text-xs text-slate-500 dark:text-slate-400">Abra sua conta digital grátis em 3 minutos.</p>
-                                        </div>
+                                        <Link 
+                                            href="https://pagbank.vc/indica-conta-a702ca65c" 
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="text-yellow-600 dark:text-yellow-500 font-bold text-sm hover:underline"
+                                        >
+                                            ABRIR CONTA GRÁTIS →
+                                        </Link>
                                     </div>
-                                    <Link 
-                                        href="https://pagbank.vc/indica-conta-a702ca65c" 
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="text-yellow-600 dark:text-yellow-500 font-bold text-sm hover:underline"
-                                    >
-                                        ABRIR CONTA GRÁTIS →
-                                    </Link>
-                                </div>
+                                )}
                             </div>
                         )}
 

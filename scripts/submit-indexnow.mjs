@@ -11,104 +11,131 @@ async function submitIndexNow() {
 
     const urls = new Set();
 
-    // 1. ROTAS ESTÁTICAS (Copiado do sitemap.ts)
-    const staticPaths = [
-        '', // Home
-        '/ferramentas',
-        '/ferramentas/editor-pdf-online',
-        '/ferramentas/gerador-qr-code',
-        '/ferramentas/gerador-pix',
-        '/ferramentas/gerador-link-whatsapp',
-        '/ferramentas/gerador-de-senhas',
-        '/ferramentas/conversor-imagem',
-        '/ferramentas/gerador-recibo',
-        '/ferramentas/criador-orcamentos', 
-        '/ferramentas/criador-pedidos',
-        '/ferramentas/formatador-json',
-        '/ferramentas/declaracao-conteudo',
-        '/ferramentas/gerador-privacidade',
-        '/ferramentas/fases-da-lua',
-        '/trabalhista',
-        '/trabalhista/rescisao',
-        '/trabalhista/ferias',
-        '/trabalhista/decimo-terceiro',
-        '/trabalhista/seguro-desemprego',
-        '/trabalhista/horas-extras',
-        '/trabalhista/horas-trabalhadas', 
-        '/trabalhista/horas-simples',
-        '/financeiro',
-        '/financeiro/juros-compostos',
-        '/financeiro/calculadora-dias-uteis',
-        '/financeiro/reforma-tributaria', 
-        '/financeiro/calculadora-mei',
-        '/financeiro/salario-liquido',
-        '/financeiro/financiamento', 
-        '/financeiro/financiamento-veiculos',
-        '/financeiro/porcentagem', 
-        '/financeiro/reajuste-aluguel',
-        '/financeiro/simulador-maquininha',
-        '/saude',
-        '/saude/imc',
-        '/saude/calorias-diarias',
-        '/saude/gestacional', 
-        '/saude/agua',
-        '/sobre',
-        '/sobre/autor',
-        '/sobre/metodologia',
-        '/fale-conosco',
-        '/politica-privacidade',
-        '/termos-de-uso',
-        '/politica-cookies',
-        '/financeiro/comparador-salario',
-        '/sitemap-html'
-    ];
-    staticPaths.forEach(p => urls.add(`${baseUrl}${p}`));
-
-    // 2. Rotas Dinâmicas (pSEO)
-    try {
-        const dataDir = path.join(process.cwd(), 'src/data');
-
-        // JSONs
-        const salarios = JSON.parse(fs.readFileSync(path.join(dataDir, 'salarios.json'), 'utf8'));
-        salarios.forEach(item => urls.add(`${baseUrl}/financeiro/salario-liquido/${item.valor || item.slug}`));
-
-        const veiculos = JSON.parse(fs.readFileSync(path.join(dataDir, 'veiculos.json'), 'utf8'));
-        veiculos.forEach(item => urls.add(`${baseUrl}/financeiro/financiamento-veiculos/simulacao/${item.slug}`));
-
-        const qrcode = JSON.parse(fs.readFileSync(path.join(dataDir, 'qrcode-cases.json'), 'utf8'));
-        qrcode.forEach(item => urls.add(`${baseUrl}/ferramentas/gerador-qr-code/${item.slug}`));
-
-        // Comparador pSEO (Dataset Completo)
-        [1000, 1412, 1500, 1800, 2000, 2200, 2500, 2800, 3000, 3200, 3500, 
-         4000, 4500, 5000, 5500, 6000, 7000, 8000, 9000, 10000, 12000, 15000, 20000, 25000, 30000, 50000].forEach(v => {
-            urls.add(`${baseUrl}/financeiro/comparador-salario/${v}`);
-        });
-
-        // Arquivos .ts/.tsx
-        const tsFiles = [
-            { file: 'reform-data.ts', prefix: '/financeiro/reforma-tributaria/' },
-            { file: 'image-conversions.ts', prefix: '/ferramentas/conversor-imagem/' },
-            { file: 'receipt-cases.ts', prefix: '/ferramentas/gerador-recibo/' },
-            { file: 'budget-pseo-list.tsx', prefix: '/ferramentas/criador-orcamentos/' },
-            { file: 'order-pseo-list.tsx', prefix: '/ferramentas/criador-pedidos/' },
-            { file: 'mei-activities.ts', prefix: '/financeiro/calculadora-mei/' },
-            { file: 'rent-pseo.ts', prefix: '/financeiro/reajuste-aluguel/' },
-            { file: 'termination-pseo.ts', prefix: '/trabalhista/rescisao/' },
-            { file: 'card-machine-pseo.ts', prefix: '/financeiro/simulador-maquininha/' },
-            { file: 'financing-pseo.ts', prefix: '/financeiro/financiamento-veiculos/simulacao/' },
-            { file: 'glossary.ts', prefix: '/glossario/' }
-        ];
-
-        tsFiles.forEach(({ file, prefix }) => {
-            const content = fs.readFileSync(path.join(dataDir, file), 'utf8');
-            const matches = content.matchAll(/slug:\s*["']([^"']+)["']/g);
+    // 1. Tenta ler o sitemap.xml.body gerado pelo build do Next.js
+    const sitemapBodyPath = path.join(process.cwd(), '.next/server/app/sitemap.xml.body');
+    
+    if (fs.existsSync(sitemapBodyPath)) {
+        console.log("📄 Lendo URLs diretamente do sitemap.xml.body compilado...");
+        try {
+            const xmlContent = fs.readFileSync(sitemapBodyPath, 'utf8');
+            const matches = xmlContent.matchAll(/<loc>([^<]+)<\/loc>/g);
             for (const match of matches) {
-                urls.add(`${baseUrl}${prefix}${match[1]}`);
+                urls.add(match[1].trim());
             }
-        });
+        } catch (err) {
+            console.error("⚠️ Erro ao ler sitemap.xml.body:", err.message);
+        }
+    }
 
-    } catch (error) {
-        console.error("⚠️ Erro ao ler arquivos de dados:", error.message);
+    // 2. Fallback robusto caso o sitemap compilado não seja encontrado (ex: execução isolada)
+    if (urls.size === 0) {
+        console.log("⚠️ Sitemap compilado não encontrado. Usando analisador estático como fallback...");
+        
+        const staticPaths = [
+            '', 
+            '/ferramentas',
+            '/ferramentas/editor-pdf-online',
+            '/ferramentas/gerador-qr-code',
+            '/ferramentas/gerador-pix',
+            '/ferramentas/gerador-link-whatsapp',
+            '/ferramentas/gerador-de-senhas',
+            '/ferramentas/conversor-imagem',
+            '/ferramentas/gerador-recibo',
+            '/ferramentas/gerador-contrato',
+            '/ferramentas/gerador-promissoria',
+            '/ferramentas/quanto-cobrar',
+            '/ferramentas/criador-orcamentos', 
+            '/ferramentas/criador-pedidos',
+            '/ferramentas/formatador-json',
+            '/ferramentas/declaracao-conteudo',
+            '/ferramentas/gerador-privacidade',
+            '/ferramentas/fases-da-lua',
+            '/trabalhista',
+            '/trabalhista/rescisao',
+            '/trabalhista/ferias',
+            '/trabalhista/decimo-terceiro',
+            '/trabalhista/seguro-desemprego',
+            '/trabalhista/horas-extras',
+            '/trabalhista/horas-trabalhadas', 
+            '/trabalhista/horas-simples',
+            '/trabalhista/soma-de-horas',
+            '/trabalhista/cartao-de-ponto',
+            '/financeiro',
+            '/financeiro/juros-compostos',
+            '/financeiro/calculadora-dias-uteis',
+            '/financeiro/reforma-tributaria', 
+            '/financeiro/calculadora-mei',
+            '/financeiro/salario-liquido',
+            '/financeiro/financiamento', 
+            '/financeiro/financiamento-veiculos',
+            '/financeiro/porcentagem', 
+            '/financeiro/reajuste-aluguel',
+            '/financeiro/simulador-maquininha',
+            '/saude',
+            '/saude/imc',
+            '/saude/calorias-diarias',
+            '/saude/gestacional', 
+            '/saude/agua',
+            '/sobre',
+            '/sobre/autor',
+            '/sobre/metodologia',
+            '/fale-conosco',
+            '/politica-privacidade',
+            '/termos-de-uso',
+            '/politica-cookies',
+            '/financeiro/comparador-salario',
+            '/sitemap-html',
+            '/para-empresas'
+        ];
+        staticPaths.forEach(p => urls.add(`${baseUrl}${p}`));
+
+        try {
+            const dataDir = path.join(process.cwd(), 'src/data');
+
+            // JSONs
+            const salarios = JSON.parse(fs.readFileSync(path.join(dataDir, 'salarios.json'), 'utf8'));
+            salarios.forEach(item => urls.add(`${baseUrl}/financeiro/salario-liquido/${item.valor || item.slug}`));
+
+            const veiculos = JSON.parse(fs.readFileSync(path.join(dataDir, 'veiculos.json'), 'utf8'));
+            veiculos.forEach(item => urls.add(`${baseUrl}/financeiro/financiamento-veiculos/simulacao/${item.slug}`));
+
+            const qrcode = JSON.parse(fs.readFileSync(path.join(dataDir, 'qrcode-cases.json'), 'utf8'));
+            qrcode.forEach(item => urls.add(`${baseUrl}/ferramentas/gerador-qr-code/${item.slug}`));
+
+            // Comparador pSEO
+            [1000, 1412, 1500, 1800, 2000, 2200, 2500, 2800, 3000, 3200, 3500, 
+             4000, 4500, 5000, 5500, 6000, 7000, 8000, 9000, 10000, 12000, 15000, 20000, 25000, 30000, 50000].forEach(v => {
+                urls.add(`${baseUrl}/financeiro/comparador-salario/${v}`);
+            });
+
+            // Arquivos de dados TS/TSX
+            const tsFiles = [
+                { file: 'reform-data.ts', prefix: '/financeiro/reforma-tributaria/' },
+                { file: 'image-conversions.ts', prefix: '/ferramentas/conversor-imagem/' },
+                { file: 'receipt-cases.ts', prefix: '/ferramentas/gerador-recibo/' },
+                { file: 'budget-pseo-list.tsx', prefix: '/ferramentas/criador-orcamentos/' },
+                { file: 'order-pseo-list.tsx', prefix: '/ferramentas/criador-pedidos/' },
+                { file: 'contract-cases.ts', prefix: '/ferramentas/gerador-contrato/' },
+                { file: 'promissory-cases.ts', prefix: '/ferramentas/gerador-promissoria/' },
+                { file: 'mei-activities.ts', prefix: '/financeiro/calculadora-mei/' },
+                { file: 'rent-pseo.ts', prefix: '/financeiro/reajuste-aluguel/' },
+                { file: 'termination-pseo.ts', prefix: '/trabalhista/rescisao/' },
+                { file: 'card-machine-pseo.ts', prefix: '/financeiro/simulador-maquininha/' },
+                { file: 'financing-pseo.ts', prefix: '/financeiro/financiamento-veiculos/simulacao/' },
+                { file: 'glossary.ts', prefix: '/glossario/' }
+            ];
+
+            tsFiles.forEach(({ file, prefix }) => {
+                const content = fs.readFileSync(path.join(dataDir, file), 'utf8');
+                const matches = content.matchAll(/slug:\s*["']([^"']+)["']/g);
+                for (const match of matches) {
+                    urls.add(`${baseUrl}${prefix}${match[1]}`);
+                }
+            });
+
+        } catch (error) {
+            console.error("⚠️ Erro ao ler arquivos de dados no fallback:", error.message);
+        }
     }
 
     const urlList = Array.from(urls);

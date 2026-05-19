@@ -11,7 +11,7 @@ export default function ExpertSignature({
     author = "Equipe Editorial" 
 }: Props) {
   return (
-    <div className="mt-12 py-8 border-t border-slate-100 dark:border-slate-800">
+    <div className="mt-12 py-8 border-t border-slate-100 dark:border-slate-800 print:hidden">
         <div className="flex flex-col md:flex-row items-center justify-between gap-6 bg-slate-50/50 dark:bg-slate-900/30 p-6 rounded-3xl border border-slate-100 dark:border-slate-800">
             <div className="flex items-center gap-4">
                 <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold shadow-lg shadow-blue-500/20">

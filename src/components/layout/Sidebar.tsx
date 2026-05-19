@@ -8,7 +8,7 @@ import {
   QrCode, LucideIcon, Zap, Coins, Timer,
   Palmtree, Gift, ShieldCheck, Flame, Baby,
   MessageCircle, Image as ImageIcon, Lock, FileText, CalendarDays,
-  Home, CreditCard, BarChart3, MoonStar, Rocket, Book
+  Home, CreditCard, BarChart3, MoonStar, Rocket, Book, Plus, History, Car
 } from "lucide-react";
 
 // --- TIPAGEM ---
@@ -64,6 +64,8 @@ const menuGroups: MenuGroup[] = [
       { label: "Conversor de Imagens", href: "/ferramentas/conversor-imagem", icon: ImageIcon, badge: "Ilimitado" },
       { label: "Gerador de Senhas", href: "/ferramentas/gerador-de-senhas", icon: Lock, badge: "Seguro" },
       { label: "Gerador de Recibo", href: "/ferramentas/gerador-recibo", icon: FileText, badge: "PDF" },
+      { label: "Gerador de Contratos", href: "/ferramentas/gerador-contrato", icon: FileText },
+      { label: "Nota Promissória", href: "/ferramentas/gerador-promissoria", icon: FileText, badge: "PDF" },
       { label: "Criar Orçamento", href: "/ferramentas/criador-orcamentos", icon: Calculator, badge: "Novo" },
       { label: "Criar Pedido", href: "/ferramentas/criador-pedidos", icon: Briefcase, badge: "Novo" },
       { label: "Gerador de Pix", href: "/ferramentas/gerador-pix", icon: Zap, badge: "Pix" },
@@ -82,8 +84,14 @@ const menuGroups: MenuGroup[] = [
       { label: "Calculadora de Férias", href: "/trabalhista/ferias", icon: Palmtree },
       { label: "13º Salário", href: "/trabalhista/decimo-terceiro", icon: Gift },
       { label: "Seguro Desemprego", href: "/trabalhista/seguro-desemprego", icon: ShieldCheck },
+      { label: "Antecipação do FGTS", href: "/trabalhista/fgts", icon: Coins, badge: "Novo" },
+      { label: "Simulador Aposentadoria", href: "/trabalhista/aposentadoria", icon: Landmark, badge: "INSS" },
       { label: "Horas Extras", href: "/trabalhista/horas-extras", icon: Zap },
+      { label: "Horas Simples", href: "/trabalhista/horas-simples", icon: Timer },
       { label: "Horas Trabalhadas", href: "/trabalhista/horas-trabalhadas", icon: Timer },
+      { label: "Soma de Horas", href: "/trabalhista/soma-de-horas", icon: Plus },
+      { label: "Cartão de Ponto", href: "/trabalhista/cartao-de-ponto", icon: History },
+      { label: "Piso Salarial 2026", href: "/trabalhista/piso-salarial", icon: Briefcase, badge: "Novo" },
     ]
   },
   {
@@ -92,6 +100,7 @@ const menuGroups: MenuGroup[] = [
     href: "/financeiro",
     items: [
       { label: "Comparador de Renda", href: "/financeiro/comparador-salario", icon: BarChart3, badge: "Novo" },
+      { label: "Imposto de Renda (IRPF)", href: "/financeiro/imposto-de-renda", icon: Calculator, badge: "2026" },
       { label: "Salário Líquido 2026", href: "/financeiro/salario-liquido", icon: Coins, badge: "2026" },
       { label: "Calculadora MEI", href: "/financeiro/calculadora-mei", icon: Briefcase, badge: "2026" },
       { label: "Reajuste Aluguel", href: "/financeiro/reajuste-aluguel", icon: Home },
@@ -100,6 +109,14 @@ const menuGroups: MenuGroup[] = [
       { label: "Juros Compostos", href: "/financeiro/juros-compostos", icon: TrendingUp },
       { label: "Financiamento Veículos", href: "/financeiro/financiamento-veiculos", icon: Landmark }, 
       { label: "Porcentagem", href: "/financeiro/porcentagem", icon: Percent },
+    ]
+  },
+  {
+    title: "Veículos",
+    theme: "slate",
+    href: "/veiculos",
+    items: [
+      { label: "Tabela FIPE", href: "/veiculos/tabela-fipe", icon: Car, badge: "Novo" },
     ]
   },
   {

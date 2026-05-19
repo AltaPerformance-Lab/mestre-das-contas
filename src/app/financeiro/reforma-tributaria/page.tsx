@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
 import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
+import ExpertSignature from "@/components/ui/ExpertSignature";
 
 export async function generateMetadata(): Promise<Metadata> {
   const title = "Simulador da Reforma Tributária 2026 | Calcule o Impacto no seu Bolso";
@@ -443,6 +444,7 @@ export default async function ReformaPage() {
               </div>
           </div>
 
+          <ExpertSignature updatedAt="Maio de 2026" author="Equipe Editorial" />
         </div>
 
         <SmartCrossLinker currentHref="/financeiro/reforma-tributaria" category="financeiro" />

@@ -139,9 +139,51 @@ export default async function OrderPseoPage({ params }: Props) {
 
                 {/* --- ARTIGO EDUCACIONAL ESPECÍFICO (pSEO) --- */}
                 <div className="prose prose-slate dark:prose-invert prose-sm md:prose-lg max-w-4xl mx-auto bg-white dark:bg-slate-900 p-6 md:p-12 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-xl shadow-slate-200/40 dark:shadow-none overflow-hidden w-full print:hidden">
-                    <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-6">
-                        Guia Completo: {customCase.title}
+                    <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-6">
+                        Guia de Uso: {customCase.title}
                     </h2>
+                    
+                    <h3 className="text-xl md:text-2xl font-bold text-slate-900 dark:text-white mt-10 mb-4 flex items-center gap-2 border-l-4 border-emerald-500 pl-4">
+                        Como Usar o Criador de Pedidos (Passo a Passo)
+                    </h3>
+                    <p className="text-slate-600 dark:text-slate-400">
+                       Crie talões de pedido digitais com facilidade e rapidez seguindo estes 4 passos simples:
+                    </p>
+
+                    <div className="grid sm:grid-cols-2 gap-6 my-8 not-prose">
+                      <div className="bg-slate-50 dark:bg-slate-800/30 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 flex gap-4">
+                        <div className="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-900/50 text-emerald-600 dark:text-emerald-400 font-bold flex items-center justify-center shrink-0">1</div>
+                        <div className="space-y-1">
+                           <h4 className="font-bold text-slate-800 dark:text-white text-sm">Preencha Seus Dados</h4>
+                           <p className="text-xs text-slate-500 dark:text-slate-400">Insira suas informações de contato e adicione seu logotipo. Isso reforça a credibilidade da sua marca com o comprador.</p>
+                        </div>
+                      </div>
+
+                      <div className="bg-slate-50 dark:bg-slate-800/30 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 flex gap-4">
+                        <div className="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-900/50 text-emerald-600 dark:text-emerald-400 font-bold flex items-center justify-center shrink-0">2</div>
+                        <div className="space-y-1">
+                           <h4 className="font-bold text-slate-800 dark:text-white text-sm">Dados do Cliente & Entrega</h4>
+                           <p className="text-xs text-slate-500 dark:text-slate-400">Preencha os dados do cliente e configure a data de entrega, método de frete e forma de pagamento do pedido.</p>
+                        </div>
+                      </div>
+
+                      <div className="bg-slate-50 dark:bg-slate-800/30 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 flex gap-4">
+                        <div className="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-900/50 text-emerald-600 dark:text-emerald-400 font-bold flex items-center justify-center shrink-0">3</div>
+                        <div className="space-y-1">
+                           <h4 className="font-bold text-slate-800 dark:text-white text-sm">Adicione os Produtos</h4>
+                           <p className="text-xs text-slate-500 dark:text-slate-400">Clique em <strong>"+ Adicionar Produto"</strong>, insira quantidade, preço unitário e eventuais descontos ou taxas adicionais.</p>
+                        </div>
+                      </div>
+
+                      <div className="bg-slate-50 dark:bg-slate-800/30 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 flex gap-4">
+                        <div className="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-900/50 text-emerald-600 dark:text-emerald-400 font-bold flex items-center justify-center shrink-0">4</div>
+                        <div className="space-y-1">
+                           <h4 className="font-bold text-slate-800 dark:text-white text-sm">Gere o PDF Comercial</h4>
+                           <p className="text-xs text-slate-500 dark:text-slate-400">Clique em <strong>"Imprimir Pedido"</strong> para exportar o PDF limpo e formatado pronto para assinatura e envio comercial.</p>
+                        </div>
+                      </div>
+                    </div>
+
                     <p className="lead text-lg font-medium text-slate-700 dark:text-slate-300">
                         Organização é a chave para vender mais. Um pedido claro transmite profissionalismo e evita dores de cabeça com trocas e devoluções.
                     </p>

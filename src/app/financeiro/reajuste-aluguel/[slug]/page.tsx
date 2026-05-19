@@ -10,6 +10,7 @@ import PrivacyBadge from "@/components/ui/PrivacyBadge";
 import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
 import { rentPSeoCases } from "@/data/rent-pseo";
 import { Home, ArrowLeft, CalendarDays, TrendingUp, Briefcase } from "lucide-react";
+import ExpertSignature from "@/components/ui/ExpertSignature";
 
 // --- SSG ---
 export async function generateStaticParams() {
@@ -240,6 +241,8 @@ export default async function RentPSeoPage({ params }: { params: Promise<{ slug:
                              ))}
                         </div>
                      </div>
+
+                     <ExpertSignature updatedAt="Maio de 2026" author="Equipe Editorial" />
                 </div>
 
                 <SmartCrossLinker currentHref={"/financeiro/reajuste-aluguel/" + slug} category="financeiro" />

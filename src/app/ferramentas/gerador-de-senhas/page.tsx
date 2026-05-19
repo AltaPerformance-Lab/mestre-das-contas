@@ -49,7 +49,34 @@ export default async function GeradorSenhasPage() {
         "applicationCategory": "SecurityApplication",
         "operatingSystem": "Web Browser",
         "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
-        "description": "Ferramenta online para gerar senhas aleatórias criptograficamente seguras." },
+        "description": "Ferramenta online para gerar senhas aleatórias criptograficamente seguras."
+      },
+      {
+        "@type": "HowTo",
+        "name": "Como gerar uma Senha Forte",
+        "description": "Passo a passo simples para criar senhas aleatórias e seguras de alta entropia localmente no seu navegador.",
+        "totalTime": "PT15S",
+        "step": [
+          {
+            "@type": "HowToStep",
+            "name": "Escolha o Comprimento",
+            "text": "Selecione o tamanho da senha. Recomendamos no mínimo 12 a 16 caracteres para alta segurança.",
+            "url": "https://mestredascontas.com.br/ferramentas/gerador-de-senhas#ferramenta"
+          },
+          {
+            "@type": "HowToStep",
+            "name": "Configure os Caracteres",
+            "text": "Marque as opções de Maiúsculas, Minúsculas, Números e Símbolos especiais de acordo com as regras do site onde usará a senha.",
+            "url": "https://mestredascontas.com.br/ferramentas/gerador-de-senhas#ferramenta"
+          },
+          {
+            "@type": "HowToStep",
+            "name": "Copie com Segurança",
+            "text": "Clique em 'Gerar Senha' e depois no ícone de cópia. Salve imediatamente no seu gerenciador de senhas confiável.",
+            "url": "https://mestredascontas.com.br/ferramentas/gerador-de-senhas#ferramenta"
+          }
+        ]
+      },
       {
         "@type": "FAQPage",
         "mainEntity": faqList.map(item => ({
@@ -110,6 +137,40 @@ export default async function GeradorSenhasPage() {
 
         {/* --- CONTEÚDO PROFUNDO --- */}
         <div className="prose prose-slate dark:prose-invert prose-sm md:prose-lg max-w-4xl mx-auto bg-white dark:bg-slate-900 p-6 md:p-12 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-xl shadow-slate-200/40 dark:shadow-none overflow-hidden w-full print:hidden">
+            
+            <h3 className="text-xl md:text-2xl font-bold text-slate-900 dark:text-slate-100 mt-2 mb-4 flex items-center gap-2 border-l-4 border-slate-700 dark:border-slate-300 pl-4">
+                Como Usar o Gerador de Senhas (Passo a Passo)
+            </h3>
+            <p className="text-slate-600 dark:text-slate-400">
+               Proteja suas redes sociais, e-mails e contas bancárias com senhas de segurança militar em 3 etapas:
+            </p>
+
+            <div className="grid sm:grid-cols-3 gap-6 my-8 not-prose">
+              <div className="bg-slate-50 dark:bg-slate-800/30 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 flex gap-4">
+                <div className="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold flex items-center justify-center shrink-0">1</div>
+                <div className="space-y-1">
+                   <h4 className="font-bold text-slate-800 dark:text-white text-sm">Comprimento</h4>
+                   <p className="text-xs text-slate-500 dark:text-slate-400">Defina o tamanho da senha arrastando o controle deslizante. Recomendamos no mínimo 12 ou 16 caracteres.</p>
+                </div>
+              </div>
+
+              <div className="bg-slate-50 dark:bg-slate-800/30 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 flex gap-4">
+                <div className="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold flex items-center justify-center shrink-0">2</div>
+                <div className="space-y-1">
+                   <h4 className="font-bold text-slate-800 dark:text-white text-sm">Regras & Filtros</h4>
+                   <p className="text-xs text-slate-500 dark:text-slate-400">Marque as opções desejadas: letras maiúsculas, minúsculas, números e caracteres especiais (símbolos).</p>
+                </div>
+              </div>
+
+              <div className="bg-slate-50 dark:bg-slate-800/30 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 flex gap-4">
+                <div className="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold flex items-center justify-center shrink-0">3</div>
+                <div className="space-y-1">
+                   <h4 className="font-bold text-slate-800 dark:text-white text-sm">Gere e Copie</h4>
+                   <p className="text-xs text-slate-500 dark:text-slate-400">Clique em <strong>"Gerar Senha"</strong>, verifique o indicador de força e clique em <strong>"Copiar"</strong> para usar com segurança.</p>
+                </div>
+              </div>
+            </div>
+
             <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-slate-100 mb-6 flex items-center gap-2 border-l-4 border-slate-900 dark:border-slate-100 pl-4">
                 Segurança Digital em 2026: Comprimento é Rei
             </h2>

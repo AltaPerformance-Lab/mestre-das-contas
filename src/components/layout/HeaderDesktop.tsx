@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { 
     Search, CalendarDays, Briefcase, Calculator, 
-    TrendingUp, Heart, Baby, Landmark, Percent, Droplet, LucideIcon, QrCode, FileText, ShieldCheck, MoonStar
+    TrendingUp, Heart, Baby, Landmark, Percent, Droplet, LucideIcon, QrCode, FileText, ShieldCheck, MoonStar, Book, Car
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 
@@ -22,6 +22,8 @@ const searchablePages: SearchItem[] = [
     // Ferramentas
     { title: "Editor de PDF Online", url: "/ferramentas/editor-pdf-online", icon: FileText, category: "Ferramentas" },
     { title: "Gerador de QR Code", url: "/ferramentas/gerador-qr-code", icon: QrCode, category: "Ferramentas" },
+    { title: "Gerador de Contrato", url: "/ferramentas/gerador-contrato", icon: FileText, category: "Ferramentas" },
+    { title: "Gerador de Promissória", url: "/ferramentas/gerador-promissoria", icon: FileText, category: "Ferramentas" },
     { title: "Criador de Orçamento", url: "/ferramentas/criador-orcamentos", icon: Calculator, category: "Ferramentas" },
     { title: "Criador de Pedidos", url: "/ferramentas/criador-pedidos", icon: Briefcase, category: "Ferramentas" },
     { title: "Formatador JSON", url: "/ferramentas/formatador-json", icon: FileText, category: "Ferramentas" },
@@ -31,20 +33,33 @@ const searchablePages: SearchItem[] = [
     
     // Financeiro
     { title: "Salário Líquido (2026)", url: "/financeiro/salario-liquido", icon: Calculator, category: "Financeiro" },
+    { title: "Imposto de Renda (IRPF)", url: "/financeiro/imposto-de-renda", icon: Calculator, category: "Financeiro" },
     { title: "Financiamento Veículos", url: "/financeiro/financiamento-veiculos", icon: Landmark, category: "Financeiro" },
     { title: "Juros Compostos", url: "/financeiro/juros-compostos", icon: TrendingUp, category: "Financeiro" },
     { title: "Dias Úteis", url: "/financeiro/calculadora-dias-uteis", icon: CalendarDays, category: "Financeiro" },
     { title: "Reforma Tributária (IVA)", url: "/financeiro/reforma-tributaria", icon: Landmark, category: "Financeiro" },
     { title: "Calculadora MEI 2026", url: "/financeiro/calculadora-mei", icon: Calculator, category: "Financeiro" },
     { title: "Calculadora de Porcentagem", url: "/financeiro/porcentagem", icon: Percent, category: "Financeiro" },
+    { title: "Simulador de Maquininha", url: "/financeiro/simulador-maquininha", icon: Calculator, category: "Financeiro" },
+    { title: "Glossário Estratégico A-Z", url: "/glossario", icon: Book, category: "Geral" },
     
     // Trabalhista
     { title: "Rescisão CLT", url: "/trabalhista/rescisao", icon: Briefcase, category: "Trabalhista" },
     { title: "Férias", url: "/trabalhista/ferias", icon: Briefcase, category: "Trabalhista" },
     { title: "Décimo Terceiro", url: "/trabalhista/decimo-terceiro", icon: Calculator, category: "Trabalhista" },
     { title: "Seguro Desemprego", url: "/trabalhista/seguro-desemprego", icon: Briefcase, category: "Trabalhista" },
+    { title: "Antecipação do FGTS", url: "/trabalhista/fgts", icon: Calculator, category: "Trabalhista" },
+    { title: "Simulador de Aposentadoria (INSS)", url: "/trabalhista/aposentadoria", icon: Landmark, category: "Trabalhista" },
     { title: "Horas Extras", url: "/trabalhista/horas-extras", icon: Calculator, category: "Trabalhista" },
+    { title: "Horas Simples", url: "/trabalhista/horas-simples", icon: Calculator, category: "Trabalhista" },
+    { title: "Horas Trabalhadas", url: "/trabalhista/horas-trabalhadas", icon: Calculator, category: "Trabalhista" },
+    { title: "Soma de Horas", url: "/trabalhista/soma-de-horas", icon: Calculator, category: "Trabalhista" },
+    { title: "Cartão de Ponto", url: "/trabalhista/cartao-de-ponto", icon: Briefcase, category: "Trabalhista" },
+    { title: "Piso Salarial por Profissão", url: "/trabalhista/piso-salarial", icon: Briefcase, category: "Trabalhista" },
     
+    // Veículos
+    { title: "Tabela FIPE", url: "/veiculos/tabela-fipe", icon: Car, category: "Veículos" },
+
     // Saúde
     { title: "Cálculo de IMC", url: "/saude/imc", icon: Heart, category: "Saúde" },
     { title: "Calculadora Gestacional", url: "/saude/gestacional", icon: Baby, category: "Saúde" },

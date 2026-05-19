@@ -9,6 +9,7 @@ import PrivacyBadge from "@/components/ui/PrivacyBadge";
 import DisclaimerBox from "@/components/ui/DisclaimerBox";
 import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
 import { Coins, CheckCircle2, TrendingDown, Briefcase, HelpCircle, ArrowLeft, ShieldCheck } from "lucide-react";
+import ExpertSignature from "@/components/ui/ExpertSignature";
 
 // --- DADOS PSEO DINÂMICOS ---
 export async function generateStaticParams() {
@@ -196,6 +197,8 @@ export default async function SalarioPorValorPage({ params }: Props) {
                   </li>
               ))}
           </ul>
+
+          <ExpertSignature updatedAt="Maio de 2026" author="Equipe Editorial" />
         </div>
 
         <SmartCrossLinker currentHref={`/financeiro/salario-liquido/${valor}`} category="financeiro" />

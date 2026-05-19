@@ -4,6 +4,8 @@
 
 @layer base {
   :root {
+    --font-inter: 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --font-outfit: 'Outfit', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
     --card: 0 0% 100%;
@@ -101,44 +103,225 @@
   }
 }
 
-/* --- PRINT STYLES --- */
+/* --- PRINT STYLES (PREMIUM & HIGH-FIDELITY) --- */
 @media print {
   @page {
-    margin: 0;
-    size: auto;
+    margin: 15mm;
+    size: A4 portrait;
   }
-  
-  body {
-    background: white !important;
-    color: black !important;
+
+  /* 1. Forçar renderização de cores/fundos nativos de alta fidelidade */
+  html, body {
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+    color: #0f172a !important; /* Slate-900 */
+    font-family: var(--font-inter), system-ui, sans-serif !important;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
   }
 
-  /* Force hide elements that might be sticky or fixed */
-  body > div[class*="fixed"], 
+  /* 2. Forçar variáveis de tema claro para evitar contrastes quebrados do modo escuro */
+  .dark, :root {
+    --background: 0 0% 100% !important;
+    --foreground: 222.2 84% 4.9% !important;
+    --card: 0 0% 100% !important;
+    --card-foreground: 222.2 84% 4.9% !important;
+    --border: 214.3 31.8% 91.4% !important;
+    --input: 214.3 31.8% 91.4% !important;
+    --muted: 210 40% 96.1% !important;
+    --muted-foreground: 215.4 16.3% 46.9% !important;
+  }
+
+  /* 3. Forçar fundos claros e texto escuro para elementos de container e texto em modo escuro */
+  .dark body,
+  .dark div,
+  .dark section,
+  .dark main,
+  .dark article,
+  .dark p,
+  .dark span,
+  .dark label,
+  .dark table,
+  .dark tr,
+  .dark td,
+  .dark th {
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+    border-color: #e2e8f0 !important;
+  }
+
+  /* 4. Estilização Premium de Cards de Resultados / Destaques */
+  .bg-gradient-to-br, 
+  [class*="from-blue-600"],
+  [class*="bg-indigo-600"],
+  .bg-card {
+    background-color: #f8fafc !important; /* Slate-50 sutil */
+    background-image: none !important;
+    border: 2px solid #2563eb !important; /* Azul-600 */
+    border-radius: 12px !important;
+    padding: 20px !important;
+    margin-bottom: 20px !important;
+    display: block !important;
+    width: 100% !important;
+  }
+
+  /* Garantir que todos os textos nos cards de destaque sejam azul-escuro corporativo */
+  .bg-gradient-to-br *, 
+  [class*="from-blue-600"] *,
+  [class*="bg-indigo-600"] *,
+  .bg-card * {
+    color: #1e3a8a !important;
+  }
+
+  /* Restaura fundos dos cards de destaque de status para impressão */
+  .bg-green-50, .dark .bg-green-900\/20 {
+    background-color: #f0fdf4 !important;
+    border: 1px solid #bbf7d0 !important;
+  }
+
+  .bg-red-50, .dark .bg-red-900\/20 {
+    background-color: #fef2f2 !important;
+    border: 1px solid #fecaca !important;
+  }
+
+  .bg-slate-50, .dark .bg-slate-800\/30 {
+    background-color: #f8fafc !important;
+  }
+
+  /* 5. Alinhamentos e Cores de Status Específicos */
+  .text-emerald-300, 
+  .text-emerald-500, 
+  .text-green-600, 
+  .dark\:text-green-400 {
+    color: #166534 !important; /* Verde-800 */
+    font-weight: bold !important;
+  }
+
+  .text-amber-300, 
+  .text-amber-500, 
+  .text-amber-800, 
+  .dark\:text-amber-400 {
+    color: #9a3412 !important; /* Amber-800 */
+    font-weight: bold !important;
+  }
+
+  /* 6. Formatação Limpa de Tabelas */
+  table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    margin-top: 16px !important;
+    margin-bottom: 16px !important;
+  }
+
+  th, td {
+    border: 1px solid #cbd5e1 !important; /* Slate-300 */
+    padding: 10px 14px !important;
+    color: #334155 !important;
+  }
+
+  th {
+    background-color: #f1f5f9 !important; /* Slate-100 */
+    color: #0f172a !important;
+    font-weight: bold !important;
+    text-transform: uppercase !important;
+    font-size: 11px !important;
+  }
+
+  /* 7. Inputs formatados e discretos na impressão */
+  input, select, textarea {
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 6px !important;
+    padding: 6px 10px !important;
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+  }
+
+  /* 8. Ocultação Seletiva de Itens da Interface (Menus, Ads, etc.) */
+  header, 
   nav, 
   footer, 
-  aside {
+  aside,
+  .print\:hidden,
+  [class*="HeaderMobile"],
+  [class*="HeaderDesktop"],
+  [class*="Sidebar"],
+  [class*="RightSidebar"],
+  [class*="Footer"],
+  [id="banner-cookies"],
+  [class*="CookieConsent"],
+  [class*="InstallPrompt"],
+  [class*="PrivacyBadge"],
+  .prose,
+  section:not(#ferramenta), 
+  [class*="LazyAdUnit"],
+  [class*="SmartCrossLinker"],
+  .breadcrumbs,
+  .PageHeader-breadcrumbs {
     display: none !important;
   }
 
-  /* Ensure main content takes full width */
+  /* 9. Ajuste Fino de Grid e Flex */
   main {
     width: 100% !important;
+    max-width: 100% !important;
     margin: 0 !important;
     padding: 0 !important;
+    display: block !important;
     position: static !important;
+  }
+
+  #ferramenta {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
     display: block !important;
   }
-  
-  /* Reset shadows and borders for cleaner print */
-  * {
-    box-shadow: none !important;
-    text-shadow: none !important;
+
+  /* Compactador Inteligente para Impressão em Página Única (1/1) */
+  .space-y-6 > * + * {
+    margin-top: 8px !important;
   }
-  
-  /* Hide URLs in links */
+
+  .gap-8 {
+    gap: 12px !important;
+  }
+
+  .p-6, [class*="CardHeader"], [class*="CardContent"] {
+    padding: 12px 16px !important;
+  }
+
+  .mb-6, .my-6 {
+    margin-bottom: 10px !important;
+    margin-top: 10px !important;
+  }
+
+  /* Compactar Células de Tabelas */
+  th, td {
+    padding: 6px 10px !important;
+    font-size: 11px !important;
+  }
+
+  /* Compactar Inputs de Impressão */
+  input[type="time"], input, select {
+    padding: 4px 6px !important;
+    font-size: 11px !important;
+    height: 32px !important;
+    min-height: 32px !important;
+    max-width: 100% !important;
+  }
+
+  /* Garantir que tabelas de ponto não quebrem no meio */
+  tr {
+    page-break-inside: avoid !important;
+  }
+
+  /* Ocultar botões na folha de impressão */
+  button, .btn {
+    display: none !important;
+  }
+
+  /* Sem links sublinhados com URLs */
   a[href]:after {
     content: none !important;
   }

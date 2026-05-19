@@ -7,6 +7,7 @@ import LazyAdUnit from "@/components/ads/LazyAdUnit";
 import DisclaimerBox from "@/components/ui/DisclaimerBox";
 import PageHeader from "@/components/layout/PageHeader";
 import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
+import ExpertSignature from "@/components/ui/ExpertSignature";
 import { 
   Percent, HelpCircle, Calculator, 
   TrendingUp, CheckCircle2, ArrowRight,
@@ -34,7 +35,7 @@ export async function generateMetadata(): Promise<Metadata> {
     alternates: { canonical: "https://mestredascontas.com.br/financeiro/porcentagem" },
     openGraph: {
       title: "Calculadora de Porcentagem 2026 | Rápida e Fácil",
-      description: "Resolva contas de porcentagem, descontos e aumentos em segundos.",
+      description: "Resolva qualquer conta de % em segundos. Calcule descontos, aumentos de salário e variação percentual com nossa ferramenta 4 em 1 gratuita e online.",
       url: "https://mestredascontas.com.br/financeiro/porcentagem",
       siteName: "Mestre das Contas",
       locale: "pt_BR",
@@ -51,7 +52,7 @@ export async function generateMetadata(): Promise<Metadata> {
     twitter: {
       card: "summary_large_image",
       title: "Calculadora de Porcentagem Grátis",
-      description: "Aprenda a calcular porcentagem de cabeça ou use nossa ferramenta.",
+      description: "Resolva qualquer conta de % em segundos. Calcule descontos, aumentos de salário e variação percentual com nossa ferramenta 4 em 1 gratuita e online.",
       images: ["/opengraph-image"],
     },
     robots: { index: true, follow: true } };
@@ -329,6 +330,8 @@ export default async function PorcentagemPage() {
                   </a>
               </div>
           </div>
+
+          <ExpertSignature updatedAt="Maio de 2026" author="Equipe Editorial" />
         </div>
         
         <SmartCrossLinker currentHref="/financeiro/porcentagem" category="financeiro" />

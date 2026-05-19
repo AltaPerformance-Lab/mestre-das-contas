@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { CreditCard, DollarSign, Calculator, AlertCircle, ArrowDown, Wallet, CirclePercent } from 'lucide-react';
+import { CreditCard, DollarSign, Calculator, AlertCircle, ArrowDown, Wallet, CirclePercent, ArrowRight, Sparkles, MessageSquare, ExternalLink } from 'lucide-react';
 import { trackEvent } from "@/lib/analytics";
 import { calculateCardMachine, type CardMachineResult } from "@/lib/calculators/card-machine";
 
@@ -176,6 +176,155 @@ export default function CardMachineSimulator({
                             </p>
                         </div>
                     </div>
+
+                    {!brandName && (() => {
+                        const parsedValue = parseFloat(saleValue.replace(",", ".").replace(/[^0-9.]/g, "")) || 0;
+                        const parsedN = parseInt(installments) || 1;
+                        const ipRes = parsedValue > 0 ? calculateCardMachine(parsedValue, parsedN, 3.15, 8.90) : null;
+                        const tRes = parsedValue > 0 ? calculateCardMachine(parsedValue, parsedN, 0.99, 9.90) : null;
+                        const psRes = parsedValue > 0 ? calculateCardMachine(parsedValue, parsedN, 3.79, 11.50) : null;
+
+                        return (
+                          <div className="space-y-6 mt-6">
+                            <div className="border-t border-slate-200 dark:border-slate-800 pt-6">
+                              <h3 className="text-lg font-extrabold text-slate-900 dark:text-white flex items-center gap-2 mb-4">
+                                <Sparkles className="text-indigo-600 dark:text-indigo-400 animate-pulse" size={20} />
+                                Compare e Economize Agora (Links Oficiais com Desconto)
+                              </h3>
+                              <p className="text-xs text-slate-500 mb-4">
+                                Simulamos esta mesma venda em nossos parceiros de afiliação. Clique para pedir a sua máquina com desconto exclusivo do Mestre das Contas!
+                              </p>
+                              
+                              <div className="grid gap-4">
+                                {/* InfinitePay Card */}
+                                {ipRes && (
+                                  <div className="bg-gradient-to-r from-slate-50 to-indigo-50/30 dark:from-slate-900 dark:to-indigo-950/20 p-4 rounded-xl border border-indigo-100/50 dark:border-indigo-900/30 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 hover:shadow-md transition-shadow">
+                                    <div className="space-y-1">
+                                      <div className="flex items-center gap-2">
+                                        <span className="font-extrabold text-slate-900 dark:text-white">InfinitePay</span>
+                                        <span className="text-[10px] bg-slate-900 dark:bg-indigo-600 text-white font-bold px-2 py-0.5 rounded">CNPJ Indicado</span>
+                                      </div>
+                                      <p className="text-xs text-slate-600 dark:text-slate-400">
+                                        MDR: <span className="font-semibold">3.15%</span> | Antecipação: <span className="font-semibold">8.90%</span>
+                                      </p>
+                                      <p className="text-xs text-indigo-700 dark:text-indigo-300">
+                                        Você recebe líquido: <strong className="font-mono">{ipRes.liquidTotalAnticipated.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</strong>
+                                      </p>
+                                    </div>
+                                    <Button 
+                                      onClick={() => {
+                                        trackEvent("referral_click", { brand: "InfinitePay" });
+                                        window.open("http://buy.infinitepay.io/smart?rid=hdcrepresentacoes", "_blank");
+                                      }}
+                                      className="w-full sm:w-auto bg-slate-900 dark:bg-indigo-600 hover:bg-slate-800 text-white font-bold text-xs px-4 py-2 rounded-lg"
+                                    >
+                                      Pedir com Desconto <ArrowRight size={12} className="ml-1" />
+                                    </Button>
+                                  </div>
+                                )}
+
+                                {/* Ton Card */}
+                                {tRes && (
+                                  <div className="bg-gradient-to-r from-slate-50 to-emerald-50/30 dark:from-slate-900 dark:to-emerald-950/10 p-4 rounded-xl border border-emerald-100/50 dark:border-emerald-900/30 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 hover:shadow-md transition-shadow">
+                                    <div className="space-y-1">
+                                      <div className="flex items-center gap-2">
+                                        <span className="font-extrabold text-slate-900 dark:text-white">Ton T3 (PromoTon)</span>
+                                        <span className="text-[10px] bg-emerald-600 text-white font-bold px-2 py-0.5 rounded">CPF Indicado</span>
+                                      </div>
+                                      <p className="text-xs text-slate-600 dark:text-slate-400">
+                                        MDR: <span className="font-semibold">0.99%</span> | Antecipação: <span className="font-semibold">9.90%</span>
+                                      </p>
+                                      <p className="text-xs text-emerald-700 dark:text-emerald-300">
+                                        Você recebe líquido: <strong className="font-mono">{tRes.liquidTotalAnticipated.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</strong>
+                                      </p>
+                                    </div>
+                                    <Button 
+                                      onClick={() => {
+                                        trackEvent("referral_click", { brand: "Ton" });
+                                        window.open("https://www.ton.com.br/checkout/#/cart?coupon=MESTREDASCONTAS10&utm_source=affiliate&utm_medium=invite_share&utm_campaign=MESTREDASCONTAS10", "_blank");
+                                      }}
+                                      className="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs px-4 py-2 rounded-lg"
+                                    >
+                                      Pedir com Desconto <ArrowRight size={12} className="ml-1" />
+                                    </Button>
+                                  </div>
+                                )}
+
+                                {/* PagSeguro Card */}
+                                {psRes && (
+                                  <div className="bg-gradient-to-r from-slate-50 to-yellow-50/20 dark:from-slate-900 dark:to-yellow-950/10 p-4 rounded-xl border border-yellow-100/50 dark:border-yellow-900/30 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 hover:shadow-md transition-shadow">
+                                    <div className="space-y-1">
+                                      <div className="flex items-center gap-2">
+                                        <span className="font-extrabold text-slate-900 dark:text-white">Moderninha PagBank</span>
+                                        <span className="text-[10px] bg-yellow-500 text-slate-950 font-extrabold px-2 py-0.5 rounded">CPF e Vales</span>
+                                      </div>
+                                      <p className="text-xs text-slate-600 dark:text-slate-400">
+                                        MDR: <span className="font-semibold">3.79%</span> | Antecipação: <span className="font-semibold">11.50%</span>
+                                      </p>
+                                      <p className="text-xs text-yellow-700 dark:text-yellow-600">
+                                        Você recebe líquido: <strong className="font-mono">{psRes.liquidTotalAnticipated.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</strong>
+                                      </p>
+                                    </div>
+                                    <Button 
+                                      onClick={() => {
+                                        trackEvent("referral_click", { brand: "PagSeguro" });
+                                        window.open("https://pagbank.vc/indica-maquininhas-ad67c77f3", "_blank");
+                                      }}
+                                      className="w-full sm:w-auto bg-yellow-500 hover:bg-yellow-400 text-slate-950 font-extrabold text-xs px-4 py-2 rounded-lg"
+                                    >
+                                      Pedir com Desconto <ArrowRight size={12} className="ml-1" />
+                                    </Button>
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+
+                            {/* Banner de Atração da Agência Alta Performance Web */}
+                            <div className="bg-gradient-to-br from-indigo-950 to-slate-950 p-6 rounded-2xl shadow-xl text-white border border-indigo-500/20 relative overflow-hidden group">
+                              <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-500/10 rounded-full blur-2xl pointer-events-none group-hover:bg-indigo-500/20 transition-colors duration-500" />
+                              
+                              <div className="space-y-4 relative z-10">
+                                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-500/20 border border-indigo-500/30 text-indigo-300 text-[10px] font-extrabold uppercase tracking-widest">
+                                  <Sparkles size={12} className="animate-pulse" /> Consultoria Comercial Especializada
+                                </div>
+                                
+                                <div className="space-y-2">
+                                  <h4 className="font-black text-lg md:text-xl leading-tight">💼 Faturamento acima de R$ 15.000/mês?</h4>
+                                  <p className="text-xs text-indigo-100/80 leading-relaxed">
+                                    Não pague taxas padrão! Credenciadoras têm tabelas ocultas exclusivas para empresas com maior volume de vendas.
+                                  </p>
+                                  <p className="text-[11px] text-slate-400 leading-relaxed">
+                                    Nosso time de tecnologia e negócios da <strong>Agência Alta Performance Web</strong> intermedia taxas customizadas (a partir de <strong>0,79% no débito</strong> e <strong>7,50% em 12x</strong>) diretamente com as superintendências da Stone, PagBank e InfinitePay, 100% grátis.
+                                  </p>
+                                </div>
+
+                                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-2">
+                                  <Button 
+                                    onClick={() => {
+                                      trackEvent("agency_whatsapp_click", { location: "simulator_banner" });
+                                      const text = "Olá! Vi o simulador de taxas no Mestre das Contas e gostaria de um diagnóstico gratuito da Agência Alta Performance Web para negociar taxas menores para minha empresa.";
+                                      window.open(`https://wa.me/5564992514471?text=${encodeURIComponent(text)}`, "_blank");
+                                    }}
+                                    className="bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-xs px-5 h-11 rounded-lg flex items-center justify-center gap-2 shadow-lg shadow-emerald-950/20"
+                                  >
+                                    <MessageSquare size={14} /> Falar com Especialista da Agência
+                                  </Button>
+                                  
+                                  <Button 
+                                    onClick={() => {
+                                      trackEvent("agency_site_click", { location: "simulator_banner" });
+                                      window.location.href = "/para-empresas";
+                                    }}
+                                    className="bg-transparent hover:bg-white/10 text-white border border-white/20 font-bold text-xs px-4 h-11 rounded-lg flex items-center justify-center gap-1.5"
+                                  >
+                                    Conhecer Serviços da Agência <ExternalLink size={12} />
+                                  </Button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        );
+                    })()}
 
                     {referralUrl && (
                         <div className="bg-gradient-to-r from-slate-900 to-indigo-900 dark:from-indigo-600 dark:to-blue-600 p-6 rounded-2xl shadow-xl text-white flex flex-col sm:flex-row items-center justify-between gap-4">

@@ -15,19 +15,19 @@ import DisclaimerBox from "@/components/ui/DisclaimerBox";
 
 // --- 1. SEO 2026 DINÂMICO ---
 export async function generateMetadata(): Promise<Metadata> {
-  const title = "Declaração de Conteúdo Correios 2026 | Gerar PDF Grátis";
-  const description = "Gerador online da Declaração de Conteúdo oficial dos Correios. Modelo 2026 atualizado, rápido e pronto para imprimir em PDF. Obrigatório para envios sem nota.";
+  const title = "Declaração de Conteúdo Correios (PDF Editável) | 2026 Grátis";
+  const description = "Gerador online da Declaração de Conteúdo oficial dos Correios. Modelo 2026 pdf editável, rápido e pronto para imprimir. Obrigatório para envios sem nota.";
 
   return {
     title,
     description,
     keywords: [
-      "declaração de conteudo correios", 
-      "modelo declaração conteudo pdf", 
-      "gerador declaração de conteudo", 
+      "declaração de conteúdo correios pdf", 
+      "declaração de conteúdo correios pdf editável", 
+      "declaração de conteúdo para imprimir", 
       "enviar encomenda sem nota fiscal", 
       "formulario correios pdf",
-      "declaração de conteudo editavel"
+      "declaração de conteúdo correios online"
     ],
     alternates: { canonical: "https://mestredascontas.com.br/ferramentas/declaracao-conteudo" },
     openGraph: {
@@ -49,7 +49,34 @@ const jsonLd = {
       "applicationCategory": "BusinessApplication",
       "operatingSystem": "Web",
       "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
-      "description": "Ferramenta para gerar formulário de Declaração de Conteúdo exigido pelos Correios para envios não comerciais." },
+      "description": "Ferramenta para gerar formulário de Declaração de Conteúdo exigido pelos Correios para envios não comerciais."
+    },
+    {
+      "@type": "HowTo",
+      "name": "Como Gerar uma Declaração de Conteúdo para os Correios",
+      "description": "Passo a passo simples para preencher e emitir o formulário oficial de declaração de conteúdo exigido pelos Correios e transportadoras.",
+      "totalTime": "PT60S",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "name": "Preencha o Remetente",
+          "text": "Insira o nome, CPF/CNPJ e endereço completo da pessoa ou empresa que está enviando a encomenda.",
+          "url": "https://mestredascontas.com.br/ferramentas/declaracao-conteudo#ferramenta"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Preencha o Destinatário",
+          "text": "Digite os dados de quem vai receber o pacote, incluindo nome completo, CPF/CNPJ e o endereço de entrega.",
+          "url": "https://mestredascontas.com.br/ferramentas/declaracao-conteudo#ferramenta"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Liste os Itens e Imprima",
+          "text": "Descreva cada produto enviado (quantidade e valor aproximado). Clique em 'Gerar Declaração' para abrir o PDF editável oficial e imprima em A4.",
+          "url": "https://mestredascontas.com.br/ferramentas/declaracao-conteudo#ferramenta"
+        }
+      ]
+    },
     {
       "@type": "Article",
       "headline": "Guia da Declaração de Conteúdo Correios: O que é e Como Usar",
@@ -158,6 +185,39 @@ export default async function ContentDeclarationPage() {
         {/* --- CONTEÚDO PROFUNDO (DEEP CONTENT) --- */}
         <div className="prose prose-slate prose-sm md:prose-lg max-w-4xl mx-auto bg-white dark:bg-slate-900 p-6 md:p-12 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-xl shadow-slate-200/40 dark:shadow-none overflow-hidden w-full print:hidden dark:prose-invert">
             
+            <h3 className="text-xl md:text-2xl font-bold text-slate-900 dark:text-slate-100 mt-2 mb-4 flex items-center gap-2 border-l-4 border-amber-500 pl-4">
+                Como Usar o Gerador de Declaração de Conteúdo (Passo a Passo)
+            </h3>
+            <p className="text-slate-600 dark:text-slate-400">
+               Gere seu formulário oficial dos Correios 100% preenchido e pronto para postar em 3 passos:
+            </p>
+
+            <div className="grid sm:grid-cols-3 gap-6 my-8 not-prose">
+              <div className="bg-slate-50 dark:bg-slate-800/30 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 flex gap-4">
+                <div className="w-8 h-8 rounded-full bg-amber-100 dark:bg-amber-900/50 text-amber-600 dark:text-amber-400 font-bold flex items-center justify-center shrink-0">1</div>
+                <div className="space-y-1">
+                   <h4 className="font-bold text-slate-800 dark:text-white text-sm">Remetente & Destinatário</h4>
+                   <p className="text-xs text-slate-500 dark:text-slate-400">Preencha os dados completos de quem está enviando a mercadoria e de quem vai recebê-la (Nome, CPF/CNPJ e Endereço).</p>
+                </div>
+              </div>
+
+              <div className="bg-slate-50 dark:bg-slate-800/30 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 flex gap-4">
+                <div className="w-8 h-8 rounded-full bg-amber-100 dark:bg-amber-900/50 text-amber-600 dark:text-amber-400 font-bold flex items-center justify-center shrink-0">2</div>
+                <div className="space-y-1">
+                   <h4 className="font-bold text-slate-800 dark:text-white text-sm">Lista de Produtos</h4>
+                   <p className="text-xs text-slate-500 dark:text-slate-400">Descreva os itens do pacote de forma clara (Ex: <code>"Camiseta de Algodão"</code>), informando a quantidade e o valor estimado de cada um.</p>
+                </div>
+              </div>
+
+              <div className="bg-slate-50 dark:bg-slate-800/30 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 flex gap-4">
+                <div className="w-8 h-8 rounded-full bg-amber-100 dark:bg-amber-900/50 text-amber-600 dark:text-amber-400 font-bold flex items-center justify-center shrink-0">3</div>
+                <div className="space-y-1">
+                   <h4 className="font-bold text-slate-800 dark:text-white text-sm">Imprima & Assine</h4>
+                   <p className="text-xs text-slate-500 dark:text-slate-400">Clique em <strong>"Gerar Declaração"</strong> para baixar o PDF editável no padrão oficial dos Correios. Imprima e assine antes de postar.</p>
+                </div>
+              </div>
+            </div>
+
             <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2 border-l-4 border-amber-500 pl-4">
                O Guia Definitivo da Declaração de Conteúdo
             </h2>

@@ -16,15 +16,15 @@ import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
 
 // --- 1. SEO 2026 DINÂMICO ---
 export async function generateMetadata(): Promise<Metadata> {
-  const title = "Gerador de Pedido de Venda: Talão e Bloco PDF (Imprimir)";
-  const description = "Faça pedidos de venda e ordens de serviço em PDF. Adicione frete, cálculos automáticos e sua logo. Ideal para vendas, representantes e lojas.";
+  const title = "Gerador de Talão de Pedido de Venda Grátis | Criar PDF";
+  const description = "Faça pedidos de venda, orçamentos e ordens de serviço em PDF. Adicione frete, cálculos automáticos e sua logo. Ferramenta online gratuita para lojistas.";
 
   return {
     title,
     description,
     keywords: [
-      "criador de pedido eletronico", "bloco de pedido pdf", "talão de pedido gratis",
-      "gerar pedido venda online", "ordem de serviço pdf", "fazer pedido com logo"
+      "talão de pedido grátis", "bloco de pedido pdf", "gerador de talão de venda",
+      "gerar pedido venda online", "o que é um talão de venda", "fazer pedido com logo"
     ],
     alternates: { canonical: "https://mestredascontas.com.br/ferramentas/criador-pedidos" },
     openGraph: {

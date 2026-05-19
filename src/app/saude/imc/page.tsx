@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
 import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
+import ExpertSignature from "@/components/ui/ExpertSignature";
 
 // --- 1. METADATA DINÂMICA (SEO 2026) ---
 export async function generateMetadata(): Promise<Metadata> {
@@ -60,6 +61,7 @@ const faqList = [
 ];
 
 // --- 2. DADOS ESTRUTURADOS (JSON-LD COMPLETO) ---
+// --- 2. DADOS ESTRUTURADOS (JSON-LD COMPLETO) ---
 const jsonLd = {
   "@context": "https://schema.org",
   "@graph": [
@@ -70,7 +72,40 @@ const jsonLd = {
       "applicationCategory": "HealthApplication",
       "operatingSystem": "Web",
       "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
-      "description": "Ferramenta online gratuita para cálculo de Índice de Massa Corporal baseada nos padrões da OMS." },
+      "description": "Ferramenta online gratuita para cálculo de Índice de Massa Corporal baseada nos padrões da OMS."
+    },
+    {
+      "@type": "HowTo",
+      "name": "Como usar a Calculadora de IMC",
+      "description": "Passo a passo simples para calcular o seu Índice de Massa Corporal e descobrir se você está no peso ideal.",
+      "totalTime": "PT30S",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "name": "Selecione seu Gênero",
+          "text": "Escolha entre Masculino ou Feminino. A classificação pode ter pequenas nuances de estrutura corporal.",
+          "url": "https://mestredascontas.com.br/saude/imc#calculadora"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Insira seu Peso",
+          "text": "Digite o seu peso atual em quilogramas (ex: 75 kg).",
+          "url": "https://mestredascontas.com.br/saude/imc#calculadora"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Insira sua Altura",
+          "text": "Digite sua altura em centímetros (ex: 175 cm ou 1,75 m).",
+          "url": "https://mestredascontas.com.br/saude/imc#calculadora"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Acompanhe o Resultado",
+          "text": "O sistema calcula seu IMC instantaneamente e aponta seu peso ideal na tabela da OMS.",
+          "url": "https://mestredascontas.com.br/saude/imc#calculadora"
+        }
+      ]
+    },
     {
       "@type": "Article",
       "headline": "Guia Definitivo do IMC 2026: Tabela, Cálculo e Dicas de Saúde",
@@ -158,6 +193,47 @@ export default async function IMCPage() {
         {/* --- CONTEÚDO EDUCACIONAL DENSO --- */}
         <div className="prose prose-slate dark:prose-invert prose-sm md:prose-lg max-w-4xl mx-auto bg-white dark:bg-slate-900 p-6 md:p-12 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-xl shadow-slate-200/40 dark:shadow-none overflow-hidden w-full print:hidden">
             
+            <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-slate-100 mb-6 flex items-center gap-2 border-l-4 border-rose-500 pl-4">
+                Como usar a Calculadora de IMC (Passo a Passo)
+            </h2>
+            <p className="text-slate-600 dark:text-slate-400">
+               Descubra seu Índice de Massa Corporal e veja se está dentro do peso ideal recomendado pela OMS em 4 etapas rápidas:
+            </p>
+
+            <div className="grid sm:grid-cols-2 gap-6 my-8 not-prose">
+              <div className="bg-slate-50 dark:bg-slate-800/30 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 flex gap-4">
+                <div className="w-8 h-8 rounded-full bg-rose-100 dark:bg-rose-900/50 text-rose-600 dark:text-rose-400 font-bold flex items-center justify-center shrink-0">1</div>
+                <div className="space-y-1">
+                   <h4 className="font-bold text-slate-800 dark:text-white text-sm">Selecione seu Sexo</h4>
+                   <p className="text-xs text-slate-500 dark:text-slate-400">Escolha entre <strong>Masculino</strong> ou <strong>Feminino</strong>, pois a distribuição de massa gorda e óssea tem pequenas variações naturais.</p>
+                </div>
+              </div>
+
+              <div className="bg-slate-50 dark:bg-slate-800/30 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 flex gap-4">
+                <div className="w-8 h-8 rounded-full bg-rose-100 dark:bg-rose-900/50 text-rose-600 dark:text-rose-400 font-bold flex items-center justify-center shrink-0">2</div>
+                <div className="space-y-1">
+                   <h4 className="font-bold text-slate-800 dark:text-white text-sm">Insira seu Peso</h4>
+                   <p className="text-xs text-slate-500 dark:text-slate-400">Digite seu peso em quilogramas (kg) no campo correspondente (Exemplo: <code>72</code>).</p>
+                </div>
+              </div>
+
+              <div className="bg-slate-50 dark:bg-slate-800/30 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 flex gap-4">
+                <div className="w-8 h-8 rounded-full bg-rose-100 dark:bg-rose-900/50 text-rose-600 dark:text-rose-400 font-bold flex items-center justify-center shrink-0">3</div>
+                <div className="space-y-1">
+                   <h4 className="font-bold text-slate-800 dark:text-white text-sm">Insira sua Altura</h4>
+                   <p className="text-xs text-slate-500 dark:text-slate-400">Digite sua altura em centímetros (cm) (Exemplo: se você mede 1,75 m, digite <code>175</code>).</p>
+                </div>
+              </div>
+
+              <div className="bg-slate-50 dark:bg-slate-800/30 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 flex gap-4">
+                <div className="w-8 h-8 rounded-full bg-rose-100 dark:bg-rose-900/50 text-rose-600 dark:text-rose-400 font-bold flex items-center justify-center shrink-0">4</div>
+                <div className="space-y-1">
+                   <h4 className="font-bold text-slate-800 dark:text-white text-sm">Confira a Classificação</h4>
+                   <p className="text-xs text-slate-500 dark:text-slate-400">O sistema calcula tudo na hora e plota a barra na faixa correspondente da tabela (Abaixo do Peso, Peso Normal, Sobrepeso ou Obesidade).</p>
+                </div>
+              </div>
+            </div>
+
             <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-slate-100 mb-6 flex items-center gap-2 border-l-4 border-rose-500 pl-4">
                 O que é IMC e por que ele importa?
             </h2>
@@ -371,6 +447,7 @@ export default async function IMCPage() {
                 </div>
             </div>
 
+            <ExpertSignature updatedAt="Maio de 2026" author="Equipe Editorial" />
         </div>
 
         <SmartCrossLinker currentHref="/saude/imc" category="saude" />

@@ -4,11 +4,12 @@ import PageHeader from '@/components/layout/PageHeader';
 import { 
   Map, Calculator, CreditCard, FileText, Heart, Shield, 
   Briefcase, Activity, Zap, ShoppingBag, Lock, Image as ImageIcon,
-  Clock, Percent, Moon, Book
+  Clock, Percent, Moon, Book, Car
 } from 'lucide-react';
 import { cardMachineCases } from "@/data/card-machine-pseo";
 import { terminationCases } from "@/data/termination-pseo";
 import { glossaryData } from "@/data/glossary";
+import { profissoes } from "@/data/profissoes";
 
 export const metadata: Metadata = {
   title: "Mapa do Site Completo | Mestre das Contas",
@@ -52,8 +53,20 @@ export default function SitemapHTMLPage() {
                         <li><Link href="/trabalhista/ferias" className="text-sm font-bold hover:text-indigo-600">Cálculo de Férias</Link></li>
                         <li><Link href="/trabalhista/decimo-terceiro" className="text-sm font-bold hover:text-indigo-600">13º Salário</Link></li>
                         <li><Link href="/trabalhista/horas-extras" className="text-sm font-bold hover:text-indigo-600">Horas Extras</Link></li>
+                        <li><Link href="/trabalhista/horas-simples" className="text-sm font-bold hover:text-indigo-600">Horas Simples</Link></li>
                         <li><Link href="/trabalhista/horas-trabalhadas" className="text-sm font-bold hover:text-indigo-600">Horas Trabalhadas</Link></li>
+                        <li><Link href="/trabalhista/soma-de-horas" className="text-sm font-bold hover:text-indigo-600">Soma de Horas</Link></li>
+                        <li><Link href="/trabalhista/cartao-de-ponto" className="text-sm font-bold hover:text-indigo-600">Cartão de Ponto</Link></li>
                         <li><Link href="/trabalhista/seguro-desemprego" className="text-sm font-bold hover:text-indigo-600">Seguro Desemprego</Link></li>
+                        <li><Link href="/trabalhista/fgts" className="text-sm font-bold hover:text-indigo-600">Antecipação do FGTS</Link></li>
+                        <li><Link href="/trabalhista/aposentadoria" className="text-sm font-bold hover:text-indigo-600">Simulador de Aposentadoria</Link></li>
+                        <li><Link href="/trabalhista/piso-salarial" className="text-sm font-bold hover:text-indigo-600">Pisos Salariais por Profissão</Link></li>
+                        <div className="grid grid-cols-1 gap-1 pl-3 border-l border-slate-100 dark:border-slate-800">
+                            {profissoes.slice(0, 5).map(p => (
+                                <li key={p.slug}><Link href={`/trabalhista/piso-salarial/${p.slug}`} className="text-[11px] text-slate-500 hover:text-indigo-500">Piso de {p.title}</Link></li>
+                            ))}
+                            <li><Link href="/trabalhista/piso-salarial" className="text-[11px] font-bold text-indigo-500">Ver todas as profissões...</Link></li>
+                        </div>
                     </ul>
                 </section>
 
@@ -63,7 +76,9 @@ export default function SitemapHTMLPage() {
                     </div>
                     <ul className="space-y-3 bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm">
                         <li><Link href="/saude/imc" className="text-sm font-bold hover:text-rose-600">Calculadora de IMC</Link></li>
-                        <li><Link href="/saude/calorias" className="text-sm font-bold hover:text-rose-600">Calorias Diárias</Link></li>
+                        <li><Link href="/saude/calorias-diarias" className="text-sm font-bold hover:text-rose-600">Calorias Diárias</Link></li>
+                        <li><Link href="/saude/agua" className="text-sm font-bold hover:text-rose-600">Calculadora de Água</Link></li>
+                        <li><Link href="/saude/gestacional" className="text-sm font-bold hover:text-rose-600">Calculadora Gestacional</Link></li>
                         <li><Link href="/ferramentas/fases-da-lua" className="text-sm font-bold hover:text-slate-600 flex items-center gap-2"><Moon size={14}/> Fases da Lua</Link></li>
                     </ul>
                 </section>
@@ -99,6 +114,7 @@ export default function SitemapHTMLPage() {
                         </div>
                         <li><Link href="/financeiro/juros-compostos" className="text-sm font-bold hover:text-emerald-600">Juros Compostos</Link></li>
                         <li><Link href="/financeiro/reforma-tributaria" className="text-sm font-bold hover:text-emerald-600">Simulador Reforma Tributária</Link></li>
+                        <li><Link href="/financeiro/imposto-de-renda" className="text-sm font-bold hover:text-emerald-600">Simulador de Imposto de Renda (IRPF)</Link></li>
                         <li><Link href="/financeiro/calculadora-mei" className="text-sm font-bold hover:text-emerald-600">Calculadora MEI</Link></li>
                         <li><Link href="/financeiro/comparador-salario" className="text-sm font-bold hover:text-emerald-600">Comparador de Salário (CLT vs PJ)</Link></li>
                         <li><Link href="/financeiro/reajuste-aluguel" className="text-sm font-bold hover:text-emerald-600">Reajuste de Aluguel</Link></li>
@@ -120,6 +136,24 @@ export default function SitemapHTMLPage() {
                 </section>
             </div>
 
+            {/* --- COLUNA 2 B: VEÍCULOS --- */}
+            <div className="space-y-8 col-span-1 md:col-span-2 lg:col-span-1">
+                <section>
+                    <div className="flex items-center gap-2 text-slate-600 font-bold uppercase tracking-widest text-xs mb-4">
+                        <Car size={16} /> Veículos & FIPE
+                    </div>
+                    <ul className="space-y-3 bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                        <li><Link href="/veiculos/tabela-fipe" className="text-sm font-bold hover:text-slate-600">Consulta Tabela FIPE</Link></li>
+                        <div className="grid grid-cols-1 gap-1 pl-3 border-l border-slate-100 dark:border-slate-800">
+                             <li><Link href="/veiculos/tabela-fipe/carros" className="text-[11px] text-slate-500 hover:text-slate-600">Tabela FIPE de Carros</Link></li>
+                             <li><Link href="/veiculos/tabela-fipe/motos" className="text-[11px] text-slate-500 hover:text-slate-600">Tabela FIPE de Motos</Link></li>
+                             <li><Link href="/veiculos/tabela-fipe/caminhoes" className="text-[11px] text-slate-500 hover:text-slate-600">Tabela FIPE de Caminhões</Link></li>
+                        </div>
+                        <li><Link href="/financeiro/financiamento-veiculos" className="text-sm font-bold hover:text-slate-600">Financiamento de Veículos</Link></li>
+                    </ul>
+                </section>
+            </div>
+
             {/* --- COLUNA 3: NEGÓCIOS & TOOLS --- */}
             <div className="space-y-8">
                 <section>
@@ -129,10 +163,14 @@ export default function SitemapHTMLPage() {
                     <ul className="space-y-3 bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm">
                         <li><Link href="/ferramentas/editor-pdf-online" className="text-sm font-bold hover:text-violet-600">Editor de PDF Grátis</Link></li>
                         <li><Link href="/ferramentas/gerador-recibo" className="text-sm font-bold hover:text-violet-600">Gerador de Recibos</Link></li>
+                        <li><Link href="/ferramentas/gerador-contrato" className="text-sm font-bold hover:text-violet-600">Gerador de Contratos</Link></li>
+                        <li><Link href="/ferramentas/gerador-promissoria" className="text-sm font-bold hover:text-violet-600">Gerador de Promissória</Link></li>
+                        <li><Link href="/ferramentas/quanto-cobrar" className="text-sm font-bold hover:text-violet-600">Quanto Cobrar (Precificação)</Link></li>
                         <li><Link href="/ferramentas/criador-orcamentos" className="text-sm font-bold hover:text-violet-600">Criador de Orçamentos</Link></li>
                         <li><Link href="/ferramentas/criador-pedidos" className="text-sm font-bold hover:text-violet-600">Gerador de Pedidos</Link></li>
                         <li><Link href="/ferramentas/declaracao-conteudo" className="text-sm font-bold hover:text-violet-600">Declaração de Conteúdo</Link></li>
-                        <li><Link href="/ferramentas/gerador-qr-code" className="text-sm font-bold hover:text-violet-600">QR Code Pix</Link></li>
+                        <li><Link href="/ferramentas/gerador-qr-code" className="text-sm font-bold hover:text-violet-600">Gerador de QR Code</Link></li>
+                        <li><Link href="/ferramentas/gerador-pix" className="text-sm font-bold hover:text-violet-600">Gerador de Pix</Link></li>
                         <li><Link href="/ferramentas/gerador-link-whatsapp" className="text-sm font-bold hover:text-violet-600">Link para WhatsApp</Link></li>
                         <li><Link href="/ferramentas/conversor-imagem" className="text-sm font-bold hover:text-violet-600 flex items-center gap-2"><ImageIcon size={14}/> Conversor de Imagem</Link></li>
                     </ul>

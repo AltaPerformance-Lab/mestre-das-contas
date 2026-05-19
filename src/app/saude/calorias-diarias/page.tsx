@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
 import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
+import ExpertSignature from "@/components/ui/ExpertSignature";
 
 // --- 1. METADATA DINÂMICA (SEO 2026) ---
 export async function generateMetadata(): Promise<Metadata> {
@@ -67,7 +68,34 @@ const jsonLd = {
       "applicationCategory": "HealthApplication",
       "operatingSystem": "Web",
       "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
-      "description": "Ferramenta profissional para cálculo de TMB (Taxa Metabólica Basal) e planejamento de déficit ou superávit calórico." },
+      "description": "Ferramenta profissional para cálculo de TMB (Taxa Metabólica Basal) e planejamento de déficit ou superávit calórico."
+    },
+    {
+      "@type": "HowTo",
+      "name": "Como Calcular Gasto Calórico e TMB",
+      "description": "Descubra como calcular seu gasto calórico total e programar um déficit ou superávit calórico eficiente.",
+      "totalTime": "PT30S",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "name": "Escolha o Sexo e Insira sua Idade",
+          "text": "Selecione o sexo biológico e digite sua idade atual em anos para calibrar a taxa metabólica basal.",
+          "url": "https://mestredascontas.com.br/saude/calorias-diarias#ferramenta"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Informe Peso, Altura e Nível de Atividade",
+          "text": "Insira seu peso (kg), sua altura (cm) e selecione o seu nível de atividade física semanal (de sedentário a extremamente ativo).",
+          "url": "https://mestredascontas.com.br/saude/calorias-diarias#ferramenta"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Selecione seu Objetivo",
+          "text": "Escolha se o seu objetivo é perder peso (déficit), manter o peso ou ganhar peso (hipertrofia). O sistema calculará as calorias diárias sugeridas imediatamente.",
+          "url": "https://mestredascontas.com.br/saude/calorias-diarias#ferramenta"
+        }
+      ]
+    },
     {
       "@type": "Article",
       "headline": "Guia de Calorias e Metabolismo 2026: Como Calcular seu Gasto Real",
@@ -148,10 +176,43 @@ export default async function CaloriasPage() {
 
         {/* --- CONTEÚDO EDUCACIONAL --- */}
         <div className="prose prose-slate dark:prose-invert prose-sm md:prose-lg max-w-4xl mx-auto bg-white dark:bg-slate-900 p-6 md:p-12 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-xl shadow-slate-200/40 dark:shadow-none overflow-hidden w-full print:hidden">
-          
-          <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2 border-l-4 border-orange-500 pl-4">
-              Matemática do Emagrecimento
-          </h2>
+            
+            <h3 className="text-xl md:text-2xl font-bold text-slate-900 dark:text-slate-100 mt-2 mb-4 flex items-center gap-2 border-l-4 border-orange-500 pl-4">
+                Como Usar a Calculadora de Calorias Diárias (Passo a Passo)
+            </h3>
+            <p className="text-slate-600 dark:text-slate-400">
+               Planeje sua ingestão de energia com precisão científica seguindo as etapas abaixo:
+            </p>
+
+            <div className="grid sm:grid-cols-3 gap-6 my-8 not-prose">
+              <div className="bg-slate-50 dark:bg-slate-800/30 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 flex gap-4">
+                <div className="w-8 h-8 rounded-full bg-orange-100 dark:bg-orange-900/50 text-orange-600 dark:text-orange-400 font-bold flex items-center justify-center shrink-0">1</div>
+                <div className="space-y-1">
+                   <h4 className="font-bold text-slate-800 dark:text-white text-sm">Dados Fisiológicos</h4>
+                   <p className="text-xs text-slate-500 dark:text-slate-400">Selecione seu sexo biológico, informe sua idade atual, peso em kg e sua altura em centímetros.</p>
+                </div>
+              </div>
+
+              <div className="bg-slate-50 dark:bg-slate-800/30 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 flex gap-4">
+                <div className="w-8 h-8 rounded-full bg-orange-100 dark:bg-orange-900/50 text-orange-600 dark:text-orange-400 font-bold flex items-center justify-center shrink-0">2</div>
+                <div className="space-y-1">
+                   <h4 className="font-bold text-slate-800 dark:text-white text-sm">Nível de Atividade</h4>
+                   <p className="text-xs text-slate-500 dark:text-slate-400">Escolha a opção de atividade física semanal que melhor descreve sua rotina (sedentário até atleta).</p>
+                </div>
+              </div>
+
+              <div className="bg-slate-50 dark:bg-slate-800/30 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 flex gap-4">
+                <div className="w-8 h-8 rounded-full bg-orange-100 dark:bg-orange-900/50 text-orange-600 dark:text-orange-400 font-bold flex items-center justify-center shrink-0">3</div>
+                <div className="space-y-1">
+                   <h4 className="font-bold text-slate-800 dark:text-white text-sm">Escolha seu Objetivo</h4>
+                   <p className="text-xs text-slate-500 dark:text-slate-400">Marque se deseja Emagrecer (déficit), Manter o Peso ou Ganhar Peso (superávit) para obter sua meta de calorias diárias e macronutrientes.</p>
+                </div>
+              </div>
+            </div>
+
+            <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2 border-l-4 border-orange-500 pl-4">
+               Matemática do Emagrecimento
+            </h2>
           <p className="lead text-slate-700 dark:text-slate-300 text-lg font-medium">
              Você já ouviu que "comer menos e se exercitar mais" é o segredo. Mas quanto menos? E quanto exercício? Sem números, você está apenas chutando.
           </p>
@@ -228,6 +289,8 @@ export default async function CaloriasPage() {
                   Além das calorias, a qualidade da sua saúde depende do <Link href="/saude/imc" className="text-rose-500 font-bold hover:underline">seu peso ideal</Link> e da <Link href="/saude/agua" className="text-rose-500 font-bold hover:underline">hidratação diária</Link>.
             </p>
           </div>
+
+          <ExpertSignature updatedAt="Maio de 2026" author="Equipe Editorial" />
         </div>
 
         <SmartCrossLinker currentHref="/saude/calorias-diarias" category="saude" />

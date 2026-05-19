@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
 import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
+import ExpertSignature from "@/components/ui/ExpertSignature";
 
 import { calculateWater } from "@/lib/calculators/health";
 
@@ -76,7 +77,34 @@ export default async function AguaPage() {
         "applicationCategory": "HealthApplication",
         "operatingSystem": "Web",
         "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
-        "description": "Ferramenta para cálculo personalizado da meta de hidratação diária baseada no peso e atividade física." },
+        "description": "Ferramenta para cálculo personalizado da meta de hidratação diária baseada no peso e atividade física."
+      },
+      {
+        "@type": "HowTo",
+        "name": "Como Calcular Meta Diária de Água",
+        "description": "Descubra como calcular seu consumo ideal de água por dia com base no seu peso e rotina de exercícios.",
+        "totalTime": "PT15S",
+        "step": [
+          {
+            "@type": "HowToStep",
+            "name": "Informe seu Peso",
+            "text": "Digite seu peso corporal atual em kg para servir de base para o cálculo dos 35ml por kg.",
+            "url": "https://mestredascontas.com.br/saude/agua#ferramenta"
+          },
+          {
+            "@type": "HowToStep",
+            "name": "Defina o Nível de Atividade Física",
+            "text": "Selecione a intensidade de exercício físico diário para compensar a perda de líquido através do suor.",
+            "url": "https://mestredascontas.com.br/saude/agua#ferramenta"
+          },
+          {
+            "@type": "HowToStep",
+            "name": "Veja e Acompanhe sua Meta",
+            "text": "O sistema calcula instantaneamente sua meta em litros e a quantidade recomendada de copos de água de 200ml ou 300ml.",
+            "url": "https://mestredascontas.com.br/saude/agua#ferramenta"
+          }
+        ]
+      },
       {
         "@type": "Article",
         "headline": "Guia de Hidratação 2026: Quanta Água seu Corpo Realmente Precisa?",
@@ -155,10 +183,43 @@ export default async function AguaPage() {
 
         {/* --- CONTEÚDO EDUCACIONAL --- */}
         <div className="prose prose-slate dark:prose-invert prose-sm md:prose-lg max-w-4xl mx-auto bg-white dark:bg-slate-900 p-6 md:p-12 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-xl shadow-slate-200/40 dark:shadow-none overflow-hidden w-full print:hidden">
-          
-          <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2 border-l-4 border-cyan-500 pl-4">
-              Por que 2 litros não é para todos?
-          </h2>
+            
+            <h3 className="text-xl md:text-2xl font-bold text-slate-900 dark:text-slate-100 mt-2 mb-4 flex items-center gap-2 border-l-4 border-cyan-500 pl-4">
+                Como Usar a Calculadora de Água (Passo a Passo)
+            </h3>
+            <p className="text-slate-600 dark:text-slate-400">
+               Descubra seu consumo de água ideal em 3 etapas rápidas:
+            </p>
+
+            <div className="grid sm:grid-cols-3 gap-6 my-8 not-prose">
+              <div className="bg-slate-50 dark:bg-slate-800/30 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 flex gap-4">
+                <div className="w-8 h-8 rounded-full bg-cyan-100 dark:bg-cyan-900/50 text-cyan-600 dark:text-cyan-400 font-bold flex items-center justify-center shrink-0">1</div>
+                <div className="space-y-1">
+                   <h4 className="font-bold text-slate-800 dark:text-white text-sm">Insira seu Peso</h4>
+                   <p className="text-xs text-slate-500 dark:text-slate-400">Insira seu peso corporal em kg. O cálculo básico usa a proporção ideal de 35ml por kg.</p>
+                </div>
+              </div>
+
+              <div className="bg-slate-50 dark:bg-slate-800/30 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 flex gap-4">
+                <div className="w-8 h-8 rounded-full bg-cyan-100 dark:bg-cyan-900/50 text-cyan-600 dark:text-cyan-400 font-bold flex items-center justify-center shrink-0">2</div>
+                <div className="space-y-1">
+                   <h4 className="font-bold text-slate-800 dark:text-white text-sm">Atividade Física</h4>
+                   <p className="text-xs text-slate-500 dark:text-slate-400">Selecione seu nível de atividade para que o algoritmo compense a perda de líquidos por transpiração.</p>
+                </div>
+              </div>
+
+              <div className="bg-slate-50 dark:bg-slate-800/30 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 flex gap-4">
+                <div className="w-8 h-8 rounded-full bg-cyan-100 dark:bg-cyan-900/50 text-cyan-600 dark:text-cyan-400 font-bold flex items-center justify-center shrink-0">3</div>
+                <div className="space-y-1">
+                   <h4 className="font-bold text-slate-800 dark:text-white text-sm">Veja em Copos</h4>
+                   <p className="text-xs text-slate-500 dark:text-slate-400">O resultado mostra a meta em litros e também traduz em quantos copos normais (200ml/300ml) você deve beber.</p>
+                </div>
+              </div>
+            </div>
+
+            <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2 border-l-4 border-cyan-500 pl-4">
+               Por que 2 litros não é para todos?
+            </h2>
           <p className="lead text-slate-700 dark:text-slate-300 text-lg font-medium">
             Você já deve ter ouvido que "beber 2 litros de água por dia" é o padrão. Mas pense bem: um atleta de 100kg gasta a mesma água que uma pessoa sedentária de 50kg? <strong>Claro que não.</strong>
           </p>
@@ -248,6 +309,8 @@ export default async function AguaPage() {
                   </a>
               </div>
           </div>
+
+          <ExpertSignature updatedAt="Maio de 2026" author="Equipe Editorial" />
         </div>
 
         <SmartCrossLinker currentHref="/saude/agua" category="saude" />

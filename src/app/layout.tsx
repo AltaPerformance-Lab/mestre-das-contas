@@ -1,5 +1,4 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Outfit } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 
@@ -33,24 +32,6 @@ const RightSidebar = dynamic(() => import("@/components/layout/RightSidebar"), {
 
 // --- SEO ---
 import PreloadLinks from "@/components/seo/PreloadLinks";
-
-const inter = Inter({ 
-  subsets: ["latin"],
-  display: 'swap',
-  variable: '--font-inter',
-  preload: true,
-  fallback: ['system-ui', 'arial'],
-  adjustFontFallback: true,
-});
-
-const outfit = Outfit({
-  subsets: ["latin"],
-  display: 'swap',
-  variable: '--font-outfit',
-  preload: true,
-  fallback: ['system-ui', 'arial'],
-  adjustFontFallback: true,
-});
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -120,7 +101,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-BR" className={`${inter.variable} ${outfit.variable}`} suppressHydrationWarning>
+    <html lang="pt-br" suppressHydrationWarning>
       <head>
         <PreloadLinks />
       </head>
@@ -162,6 +143,11 @@ export default function RootLayout({
                   <PageTransition>
                     {children}
                   </PageTransition>
+                  {/* Subtle Global Print Footer */}
+                  <div className="hidden print:flex justify-between items-center text-[9px] text-slate-400 border-t border-slate-200 pt-2 mt-8 w-full max-w-[210mm] mx-auto">
+                    <span>Gerado gratuitamente por Mestre das Contas (mestredascontas.com.br)</span>
+                    <span>Mestre das Contas © {new Date().getFullYear()}</span>
+                  </div>
                 </main>
               </div>
 

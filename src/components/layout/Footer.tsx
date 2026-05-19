@@ -21,6 +21,7 @@ const megaMenuLinks = [
       { label: "Salário de R$ 2.000", href: "/financeiro/salario-liquido/2000" },
       { label: "Salário de R$ 3.000", href: "/financeiro/salario-liquido/3000" },
       { label: "Salário de R$ 5.000", href: "/financeiro/salario-liquido/5000" },
+      { label: "Piso Salarial 2026", href: "/trabalhista/piso-salarial" },
     ]
   },
   {

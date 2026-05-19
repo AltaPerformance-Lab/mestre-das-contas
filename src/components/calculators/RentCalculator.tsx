@@ -30,12 +30,50 @@ export default function RentCalculator({
   const [result, setResult] = useState<RentResult | null>(initialResult);
   const [copiado, setCopiado] = useState(false);
 
+  // Carregar dados salvos no localStorage ao montar o componente
+  useEffect(() => {
+    try {
+      const savedRent = localStorage.getItem("rent_calc_current_rent");
+      const savedMonth = localStorage.getItem("rent_calc_anniversary_month");
+      const savedIndex = localStorage.getItem("rent_calc_index_type");
+
+      if (savedRent) setCurrentRent(savedRent);
+      if (savedMonth) setAnniversaryMonth(savedMonth);
+      if (savedIndex) setIndexType(savedIndex);
+    } catch (e) {
+      console.warn("Erro ao acessar localStorage:", e);
+    }
+  }, []);
+
+  // Salvar alterações no localStorage
+  useEffect(() => {
+    try {
+      if (currentRent) {
+        localStorage.setItem("rent_calc_current_rent", currentRent);
+      } else {
+        localStorage.removeItem("rent_calc_current_rent");
+      }
+      
+      if (anniversaryMonth) {
+        localStorage.setItem("rent_calc_anniversary_month", anniversaryMonth);
+      } else {
+        localStorage.removeItem("rent_calc_anniversary_month");
+      }
+      
+      localStorage.setItem("rent_calc_index_type", indexType);
+    } catch (e) {
+      console.warn("Erro ao salvar no localStorage:", e);
+    }
+  }, [currentRent, anniversaryMonth, indexType]);
+
   useEffect(() => {
     const rentValue = parseFloat(currentRent) || 0;
     if (rentValue > 0 && anniversaryMonth) {
         const res = calculateRent(rentValue, anniversaryMonth, indexType);
         setResult(res);
         trackEvent("calculate_aluguel", { valor_antigo: rentValue, novo_valor: res?.newRent, indice: indexType });
+    } else {
+        setResult(null);
     }
   }, [currentRent, anniversaryMonth, indexType]);
 

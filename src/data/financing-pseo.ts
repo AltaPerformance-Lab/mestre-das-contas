@@ -111,6 +111,10 @@ export const financingCases: FinancingPSeoCase[] = [
             tips: [
                 "Tenha um contrato de agregado ou frete fixo engatilhado antes de assinar.",
                 "Peça carência de 30 a 60 dias para a primeira parcela (tempo de documentar e começar a rodar)."
+            ],
+            faq: [
+                { question: "Qual a melhor linha para financiar um caminhão VUC?", answer: "Para veículos novos, o Finame (BNDES) oferece as menores taxas. Para VUCs seminovos, o CDC tradicional para veículos pesados é a opção mais ágil." },
+                { question: "Posso financiar caminhão sendo autônomo?", answer: "Sim, é possível. Os bancos costumam exigir a comprovação de renda via extratos bancários dos últimos 6 meses ou um pré-contrato de prestação de serviços (frete)." }
             ]
         }
     },

@@ -2,7 +2,8 @@
 import { usePDFStore, ToolType } from '@/store/pdf-store';
 import { 
     MousePointer2, Type, Eraser, Image as ImageIcon, 
-    PenTool, Download, Plus, Minus, RotateCw, X, ChevronLeft, ChevronRight 
+    PenTool, Download, Plus, Minus, RotateCw, X, ChevronLeft, ChevronRight,
+    Maximize2, Minimize2, Sidebar
 } from 'lucide-react';
 import { rgb, StandardFonts } from 'pdf-lib';
 
@@ -12,7 +13,11 @@ export default function PDFToolbar() {
         scale, setScale,
         pdfDoc,
         setIsProcessing,
-        setFile
+        setFile,
+        isFullscreen,
+        setIsFullscreen,
+        isSidebarOpen,
+        setIsSidebarOpen
     } = usePDFStore();
 
     const tools: { id: ToolType; icon: any; label: string }[] = [
@@ -85,6 +90,20 @@ export default function PDFToolbar() {
                 >
                     <X size={20} />
                 </button>
+
+                <button
+                    onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+                    className={`p-2 rounded-lg transition-colors flex-shrink-0
+                        ${isSidebarOpen 
+                            ? 'text-cyan-600 bg-cyan-50 dark:bg-cyan-950/20' 
+                            : 'text-slate-400 hover:text-slate-600 dark:hover:text-slate-350 hover:bg-slate-50 dark:hover:bg-slate-800'
+                        }
+                    `}
+                    title={isSidebarOpen ? "Ocultar Painel Lateral" : "Mostrar Painel Lateral"}
+                >
+                    <Sidebar size={20} />
+                </button>
+
                 <div className="hidden md:block h-8 w-px bg-slate-200 dark:bg-slate-700 mx-1 flex-shrink-0" />
             </div>
 
@@ -148,6 +167,15 @@ export default function PDFToolbar() {
                         <Plus size={16} />
                     </button>
                 </div>
+
+                <button
+                    onClick={() => setIsFullscreen(!isFullscreen)}
+                    className="p-2 text-slate-500 dark:text-slate-400 hover:bg-slate-150 dark:hover:bg-slate-800 rounded-lg transition-colors flex-shrink-0 flex items-center gap-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm"
+                    title={isFullscreen ? "Sair da Tela Cheia" : "Tela Cheia"}
+                >
+                    {isFullscreen ? <Minimize2 size={16} /> : <Maximize2 size={16} />}
+                    <span className="text-xs font-bold hidden lg:inline">{isFullscreen ? "Sair" : "Tela Cheia"}</span>
+                </button>
 
                 <button 
                     onClick={handleDownload}

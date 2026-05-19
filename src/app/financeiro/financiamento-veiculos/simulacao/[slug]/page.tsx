@@ -43,6 +43,7 @@ function getFinancingCase(slug: string) {
         const fmtFinanciado = new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(valorFinanciado);
         const fmtParcela = new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(parcelaEstimada);
         const fmtTotal = new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(totalPago);
+        const tipoNome = veiculoJson?.tipo ? veiculoJson.tipo.toLowerCase() : "veículo";
 
         return {
             slug: slug,
@@ -64,7 +65,7 @@ function getFinancingCase(slug: string) {
                     "Considere os custos de transferência e IPVA no seu orçamento anual."
                 ],
                 faq: [
-                    { question: `Quanto fica a parcela de um carro de ${formatado}?`, answer: `Depende da sua entrada e prazo. Dando ${fmtEntrada} de entrada e parcelando o resto em 48x (com taxa de 1.59% a.m.), a parcela estimada é de ${fmtParcela}.` },
+                    { question: `Quanto fica a parcela de um(a) ${tipoNome} de ${formatado}?`, answer: `Depende da sua entrada e prazo. Dando ${fmtEntrada} de entrada e parcelando o resto em 48x (com taxa de 1.59% a.m.), a parcela estimada é de ${fmtParcela}.` },
                     { question: `Qual a renda para financiar ${formatado}?`, answer: `Os bancos exigem que a parcela não comprometa mais de 30% da sua renda bruta. Logo, a renda familiar exigida seria de pelo menos ${new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(parcelaEstimada * 3.3)}.` }
                 ],
                 closing: "Use a calculadora acima para alterar o valor da entrada e ver como os juros diminuem."
@@ -125,18 +126,19 @@ export default async function VeiculoPorSlugPage({ params }: Props) {
         "name": `Simulador: ${customCase.title}`,
         "applicationCategory": "FinanceApplication",
         "operatingSystem": "Web Browser",
-        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" } },
-      {
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" } 
+      },
+      ...(customCase.articleContent.faq && customCase.articleContent.faq.length > 0 ? [{
         "@type": "FAQPage",
-        "mainEntity": customCase.articleContent.faq?.map(f => ({
+        "mainEntity": customCase.articleContent.faq.map(f => ({
             "@type": "Question",
             "name": f.question,
             "acceptedAnswer": {
                 "@type": "Answer",
                 "text": f.answer
             }
-        })) || []
-      },
+        }))
+      }] : []),
       {
           "@type": "HowTo",
           "name": `Como calcular financiamento de ${customCase.tipo}`,

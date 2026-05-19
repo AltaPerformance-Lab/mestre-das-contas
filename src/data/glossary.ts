@@ -378,5 +378,122 @@ export const glossaryData: GlossaryEntry[] = [
     ],
     practicalExample: "Se você vendeu um celular usado pelo Mercado Livre como pessoa física, deve preencher a Declaração de Conteúdo com o valor real do item para postar nos Correios.",
     relatedTerms: ["mei-microempreendedor-individual", "irrf-imposto-de-renda"]
+  },
+  {
+    term: "Sistema Sexagesimal (Cálculo de Horas)",
+    slug: "sistema-sexagesimal-soma-horas",
+    category: "trabalhista",
+    definition: "Sistema numérico de base 60 utilizado para a medição do tempo, onde cada hora é dividida em 60 minutos e cada minuto em 60 segundos.",
+    detailedContent: "A principal dificuldade ao somar horas de trabalho, como no fechamento de folha ou banco de horas, ocorre porque as calculadoras tradicionais operam na base 100 (decimal). No sistema sexagesimal, ao somar 30 minutos com 45 minutos, o resultado não é 75, mas sim 1 hora e 15 minutos (pois 75 - 60 = 15). Ignorar essa regra causa descontos indevidos no salário.",
+    keyPoints: [
+      "Cada 60 minutos convertem-se automaticamente em 1 hora.",
+      "Cálculos na base decimal (calculadora comum) para horas geram valores errados.",
+      "Fundamental para fechar banco de horas e pagar horas extras."
+    ],
+    practicalExample: "1h30 + 1h45 = 3h15. Se fosse na calculadora normal daria 2,75, o que faria o trabalhador perder dinheiro na hora extra.",
+    relatedTerms: ["adicional-noturno-clt", "dsr-descanso-semanal-remunerado"]
+  },
+  {
+    term: "Cartão de Ponto (Controle de Jornada)",
+    slug: "cartao-de-ponto-jornada",
+    category: "trabalhista",
+    definition: "Registro físico, mecânico ou eletrônico onde são anotados diariamente os horários de entrada, intervalos e saídas do trabalhador.",
+    detailedContent: "O cartão de ponto é a prova legal da jornada cumprida pelo empregado. É obrigatório, segundo a CLT, para estabelecimentos com mais de 20 trabalhadores. A soma correta das anotações do cartão determina o saldo de horas extras a receber ou o desconto por atrasos e faltas no mês.",
+    keyPoints: [
+      "Obrigatório para empresas com mais de 20 funcionários.",
+      "Existe tolerância legal de 5 a 10 minutos diários de atraso sem desconto.",
+      "É o documento base para o pagamento correto de horas extras."
+    ],
+    practicalExample: "Se no cartão de ponto consta a entrada às 08h00, saída pro almoço às 12h00, volta às 13h00 e saída final às 18h00, o funcionário cumpriu 9 horas de jornada.",
+    relatedTerms: ["sistema-sexagesimal-soma-horas", "dsr-descanso-semanal-remunerado"]
+  },
+  {
+    term: "Contrato de Prestação de Serviços",
+    slug: "contrato-de-prestacao-de-servicos",
+    category: "empreendedorismo",
+    definition: "Instrumento jurídico particular que formaliza o acordo entre contratante e contratado para a execução de um trabalho específico mediante remuneração, sem gerar vínculo empregatício.",
+    detailedContent: "Regido pelo Código Civil Brasileiro, este documento é a principal defesa do trabalhador autônomo e de pequenas empresas. Ele especifica o objeto do trabalho, prazo, valor, foro e multas por rescisão. Para ter força de título executivo extrajudicial (permitir cobrança rápida na justiça em caso de calote), o contrato deve estar assinado pelas partes e por 2 (duas) testemunhas.",
+    keyPoints: [
+      "Evita vínculo de emprego (CLT) caso provado a ausência de subordinação.",
+      "Protege contra calotes e alterações unilaterais do escopo (trabalho a mais sem pagamento).",
+      "Ganha força de execução judicial se tiver assinatura de 2 testemunhas."
+    ],
+    practicalExample: "Um fotógrafo freelancer assina um contrato para um casamento. Se o cliente cancelar 1 semana antes, a cláusula do contrato garantirá a retenção de uma taxa de segurança.",
+    relatedTerms: ["mei-microempreendedor-individual"]
+  },
+  {
+    term: "Seguro-Desemprego",
+    slug: "seguro-desemprego-clt",
+    category: "trabalhista",
+    definition: "O Seguro-Desemprego é um benefício da seguridade social que garante assistência financeira temporária ao trabalhador despedido sem justa causa.",
+    detailedContent: "Regulado pela Lei nº 7.998/1990, o benefício é pago de 3 a 5 parcelas mensais, dependendo da quantidade de meses trabalhados e se é a primeira, segunda ou terceira solicitação. O cálculo do valor da parcela leva em conta a média salarial dos últimos 3 meses anteriores à dispensa, respeitando o limite do piso nacional e do teto máximo de pagamento determinado pelo Ministério do Trabalho.",
+    keyPoints: [
+      "Concedido apenas para demissões sem justa causa ou rescisão indireta.",
+      "O trabalhador não pode possuir outra fonte de renda própria de qualquer natureza.",
+      "Prazo para requisição: entre 7 e 120 dias corridos a partir da data de dispensa.",
+      "Quantidade de parcelas varia de acordo com o histórico de meses trabalhados."
+    ],
+    practicalExample: "Se a média dos seus últimos 3 salários foi de R$ 2.500,00, você receberá um valor estimado de R$ 1.950,00 por parcela durante o período do benefício.",
+    relatedTerms: ["aviso-previo-trabalhista", "saldo-de-salario-rescisao"]
+  },
+  {
+    term: "Saque-Aniversário do FGTS",
+    slug: "saque-aniversario-fgts",
+    category: "trabalhista",
+    definition: "Modalidade opcional que permite ao trabalhador sacar uma parte do seu saldo de FGTS anualmente, no mês do seu aniversário, em troca de abrir mão do saque integral em caso de rescisão sem justa causa.",
+    detailedContent: "Criada pela Lei nº 13.932/2019, esta modalidade concede maior autonomia sobre os fundos retidos. O cálculo anual do valor retirável é feito aplicando-se uma alíquota percentual sobre o saldo total da conta ativa e inativa do trabalhador, acrescida de uma parcela fixa adicional. Ao aderir, o trabalhador mantém o direito à multa rescisória de 40% em caso de demissão sem justa causa, mas o saldo remanescente fica retido na conta.",
+    keyPoints: [
+      "Retirada anual do percentual mais parcela fixa no mês de aniversário.",
+      "Perda do saque total do saldo da conta em caso de demissão sem justa causa.",
+      "Direito ao recebimento integral da multa de 40% mantido.",
+      "Período de carência de 25 meses para retornar à modalidade Saque-Rescisão."
+    ],
+    practicalExample: "Se seu saldo do FGTS é R$ 5.000,00, você tem direito a sacar 30% mais a parcela adicional de R$ 150,00, totalizando R$ 1.650,00 anuais no mês do seu aniversário.",
+    relatedTerms: ["fgts-fundo-de-garantia", "saldo-de-salario-rescisao"]
+  },
+  {
+    term: "Antecipação de Recebíveis de Maquininha",
+    slug: "antecipacao-de-vendas-maquininhas",
+    category: "financeiro",
+    definition: "Recurso que permite que o lojista receba antes do prazo contratual os valores das vendas efetuadas a prazo ou no crédito parcelado.",
+    detailedContent: "A antecipação de recebíveis é uma modalidade de crédito de curto prazo onde as adquirentes ou instituições financeiras adiantam o dinheiro das vendas parceladas mediante o desconto de uma taxa de antecipação (juros mensais). Esta taxa pode ser aplicada sob o modelo de antecipação pontual (sob demanda) ou automática (todas as vendas a prazo são pagas em 1 dia útil). É essencial calcular o Custo Efetivo Total para não comprometer a margem líquida dos produtos.",
+    keyPoints: [
+      "Melhora imediata do capital de giro e fluxo de caixa.",
+      "Incidência de taxa de desconto mensal além da taxa de intermediação (MDR).",
+      "Pode ser contratada de forma avulsa ou em regime automático.",
+      "Reduz a margem de lucro real se usada sem planejamento de precificação."
+    ],
+    practicalExample: "Em uma venda de R$ 1.200,00 em 12x sem juros com taxa de antecipação de 2% ao mês, a adquirente desconta o MDR e a taxa de juros composta de cada parcela, liberando aproximadamente R$ 1.050,00 líquidos em 24 horas.",
+    relatedTerms: ["mdr-taxa-da-maquininha", "fluxo-de-caixa-empresa"]
+  },
+  {
+    term: "Tabela FIPE",
+    slug: "tabela-fipe-o-que-e",
+    category: "financeiro",
+    definition: "Índice oficial que expressa o valor médio de mercado nacional de carros, motos e caminhões novos e usados.",
+    detailedContent: "Calculada e mantida pela Fundação Instituto de Pesquisas Econômicas (FIPE), a Tabela FIPE serve como a principal referência nacional de preço para negociações de veículos automotivos usados, cálculo do imposto anual de IPVA e base de indenização para seguradoras brasileiras em casos de sinistro integral (perda total ou roubo).",
+    keyPoints: [
+      "Atualizada mensalmente no início de cada mês.",
+      "Base de cálculo estatística nacional ponderada por transações reais.",
+      "Utilizada obrigatoriamente por seguradoras para indenização de casco.",
+      "Serve de referência para a alíquota do IPVA em praticamente todas as Secretarias de Fazenda estaduais."
+    ],
+    practicalExample: "Se um carro possui valor estipulado de R$ 50.000,00 na FIPE e a alíquota do IPVA do seu estado é de 4%, o imposto será de R$ 2.000,00.",
+    relatedTerms: ["cet-custo-efetivo-total", "amortizacao-price-sac"]
+  },
+  {
+    term: "Piso Salarial (Salário Mínimo Profissional)",
+    slug: "piso-salarial-profissional",
+    category: "trabalhista",
+    definition: "O piso salarial é o menor valor de salário que uma categoria profissional pode receber por lei, convenção coletiva ou acordo sindical.",
+    detailedContent: "Diferente do salário mínimo nacional, o piso salarial profissional é específico para determinadas carreiras ou regiões. Ele pode ser estabelecido por leis federais (como o piso da enfermagem e do magistério), leis estaduais (salário mínimo regional) ou negociações sindicais (convenções coletivas de trabalho). Nenhum funcionário devidamente registrado na respectiva categoria pode receber menos do que o piso estipulado para a sua jornada.",
+    keyPoints: [
+      "Estabelecido por leis federais, regionais ou convenções de sindicatos.",
+      "Varia conforme a jornada de trabalho contratual do empregado.",
+      "Garante a remuneração mínima específica e digna para cada profissão.",
+      "Base legal para o cálculo de diferenças salariais retroativas."
+    ],
+    practicalExample: "Um enfermeiro tem um piso nacional garantido de R$ 4.750,00 por lei federal em 2026, não podendo ser contratado por valor inferior para jornada integral.",
+    relatedTerms: ["dsr-descanso-semanal-remunerado", "inss-previdencia-social"]
   }
 ];

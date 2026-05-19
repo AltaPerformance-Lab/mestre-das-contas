@@ -15,14 +15,14 @@ import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
 
 // --- 1. SEO 2026 DINÂMICO ---
 export async function generateMetadata(): Promise<Metadata> {
-  const title = "Criador de Orçamento PDF: Modelo Profissional (Com Logo e Descontos)";
-  const description = "Faça orçamentos profissionais em PDF. Inclui cálculo de desconto, opções de pagamento (Pix/Boleto) e sua logo. Ferramenta grátis sem cadastro.";
+  const title = "Modelo de Orçamento com Logo (PDF) | Criador Grátis 2026";
+  const description = "Faça orçamentos profissionais em PDF. Inclui cálculo de desconto, opções de pagamento (Pix/Boleto) e folha de orçamento com sua logotipo. Ferramenta grátis sem cadastro.";
 
   return {
     title,
     description,
     keywords: [
-      "criador de orçamento online", "gerar orçamento pdf gratis", "modelo de orçamento editavel",
+      "modelo de orçamento com logo", "folha de orçamento com logotipo", "criador de orçamento online", "gerar orçamento pdf gratis", "modelo de orçamento editavel",
       "fazer orçamento com logo", "emitir orçamento mei", "orçamento para prestação de serviços"
     ],
     alternates: { canonical: "https://mestredascontas.com.br/ferramentas/criador-orcamentos" },

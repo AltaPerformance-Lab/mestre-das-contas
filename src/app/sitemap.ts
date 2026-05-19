@@ -4,12 +4,15 @@ import { conversionData } from '@/data/image-conversions'
 import { receiptCases } from '@/data/receipt-cases'
 import { budgetCases } from '@/data/budget-pseo-list'
 import { orderCases } from '@/data/order-pseo-list'
+import { contractCases } from '@/data/contract-cases'
+import { promissoryCases } from '@/data/promissory-cases'
 import { meiActivities } from '@/data/mei-activities'
 import { rentPSeoCases } from '@/data/rent-pseo'
 import { terminationCases } from '@/data/termination-pseo'
 import { cardMachineCases } from '@/data/card-machine-pseo'
 import { financingCases } from '@/data/financing-pseo'
 import { glossaryData } from '@/data/glossary'
+import { profissoes } from '@/data/profissoes'
 import fs from 'fs'
 import path from 'path'
 
@@ -42,7 +45,7 @@ async function getVeiculosData() {
 function calculatePriority(route: string): number {
   if (route === '') return 1.0;
   // Hubs Principais (Autoridade Máxima)
-  if (['/financeiro', '/trabalhista', '/saude', '/ferramentas', '/glossario'].includes(route)) return 0.95;
+  if (['/financeiro', '/trabalhista', '/saude', '/ferramentas', '/glossario', '/trabalhista/piso-salarial'].includes(route)) return 0.95;
   
   // Calculadoras de Alta Conversão
   if (route.includes('reforma-tributaria')) return 0.90;
@@ -61,7 +64,7 @@ function calculatePriority(route: string): number {
 function getChangeFrequency(route: string): 'daily' | 'weekly' | 'monthly' {
   if (route === '') return 'daily';
   if (route.includes('reforma-tributaria') || route.includes('salario-liquido') || route.includes('financeiro')) return 'weekly';
-  if (route.includes('trabalhista') || route.includes('saude')) return 'weekly';
+  if (route.includes('trabalhista') || route.includes('saude') || route.includes('piso-salarial')) return 'weekly';
   return 'monthly';
 }
 
@@ -83,6 +86,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     '/ferramentas/gerador-de-senhas',
     '/ferramentas/conversor-imagem', 
     '/ferramentas/gerador-recibo', 
+    '/ferramentas/gerador-contrato',
+    '/ferramentas/gerador-promissoria',
+    '/ferramentas/quanto-cobrar',
     '/ferramentas/criador-orcamentos',
     '/ferramentas/criador-pedidos', 
     '/ferramentas/formatador-json', 
@@ -94,9 +100,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     '/trabalhista/ferias', 
     '/trabalhista/decimo-terceiro', 
     '/trabalhista/seguro-desemprego',
+    '/trabalhista/fgts',
+    '/trabalhista/aposentadoria',
+    '/trabalhista/piso-salarial',
     '/trabalhista/horas-extras', 
     '/trabalhista/horas-simples',
     '/trabalhista/horas-trabalhadas',
+    '/trabalhista/soma-de-horas',
+    '/trabalhista/cartao-de-ponto',
     '/financeiro', 
     '/financeiro/juros-compostos', 
     '/financeiro/calculadora-mei',
@@ -109,6 +120,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     '/financeiro/calculadora-dias-uteis',
     '/financeiro/comparador-salario',
     '/financeiro/reforma-tributaria',
+    '/financeiro/imposto-de-renda',
     '/saude', 
     '/saude/imc', 
     '/saude/calorias-diarias',
@@ -123,7 +135,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     '/fale-conosco', 
     '/politica-privacidade',
     '/termos-de-uso', 
-    '/politica-cookies'
+    '/politica-cookies',
+    '/veiculos',
+    '/veiculos/tabela-fipe',
+    '/veiculos/tabela-fipe/carros',
+    '/veiculos/tabela-fipe/motos',
+    '/veiculos/tabela-fipe/caminhoes'
   ].map((route) => ({
     url: `${baseUrl}${route}`,
     lastModified: new Date(),
@@ -234,11 +251,32 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }))
 
+  const contractRoutes: MetadataRoute.Sitemap = contractCases.map((item) => ({
+    url: `${baseUrl}/ferramentas/gerador-contrato/${item.slug}`,
+    lastModified: new Date(),
+    changeFrequency: 'monthly',
+    priority: 0.7,
+  }))
+
+  const promissoryRoutes: MetadataRoute.Sitemap = promissoryCases.map((item) => ({
+    url: `${baseUrl}/ferramentas/gerador-promissoria/${item.slug}`,
+    lastModified: new Date(),
+    changeFrequency: 'monthly',
+    priority: 0.7,
+  }))
+
   const meiRoutes: MetadataRoute.Sitemap = meiActivities.map((item) => ({
     url: `${baseUrl}/financeiro/calculadora-mei/${item.slug}`,
     lastModified: new Date(),
     changeFrequency: 'weekly',
     priority: 0.85,
+  }))
+
+  const pisoRoutes: MetadataRoute.Sitemap = profissoes.map((item) => ({
+    url: `${baseUrl}/trabalhista/piso-salarial/${item.slug}`,
+    lastModified: new Date(),
+    changeFrequency: 'weekly',
+    priority: 0.9,
   }))
 
   return [
@@ -257,6 +295,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...receiptRoutes,
     ...budgetRoutes,
     ...orderRoutes,
-    ...meiRoutes
+    ...contractRoutes,
+    ...promissoryRoutes,
+    ...meiRoutes,
+    ...pisoRoutes
   ]
 }

@@ -6,7 +6,7 @@ import {
   Briefcase, History, BookOpen, 
   CheckCircle2, Coins, Calculator, 
   Wallet, FileText, Scale, ArrowRight,
-  TrendingUp, Clock, CalendarDays, Zap, ShieldCheck
+  TrendingUp, Clock, CalendarDays, Zap, ShieldCheck, Plus
 } from "lucide-react";
 import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
 
@@ -212,23 +212,47 @@ export default function TrabalhistaHubPage() {
             </div>
           </Link>
 
-          {/* 6. FGTS */}
-          <div className="group relative overflow-hidden bg-slate-50 dark:bg-slate-950 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm opacity-60 cursor-not-allowed h-full flex flex-col">
+          {/* 6. Soma de Horas */}
+          <Link href="/trabalhista/soma-de-horas" className="group relative overflow-hidden bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full flex flex-col">
+            <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-opacity">
+              <Plus size={80} className="text-purple-600" />
+            </div>
             <div className="p-6 md:p-8 flex-1 flex flex-col">
-              <div className="w-14 h-14 bg-slate-200 dark:bg-slate-800 rounded-2xl flex items-center justify-center text-slate-400 mb-6 shadow-sm">
-                <TrendingUp size={28} strokeWidth={2.5} />
+              <div className="w-14 h-14 bg-purple-50 rounded-2xl flex items-center justify-center text-purple-600 mb-6 group-hover:scale-110 transition-transform shadow-sm ring-1 ring-purple-100">
+                <Plus size={28} strokeWidth={2.5} />
               </div>
-              <h2 className="text-xl font-bold text-slate-500 dark:text-slate-400 mb-3">Saldo FGTS</h2>
-              <p className="text-slate-400 dark:text-slate-600 mb-6 leading-relaxed flex-1 text-sm">
-                Simule a evolução do seu saldo do FGTS com juros e correções. (Em breve).
+              <h2 className="text-xl font-bold text-slate-900 dark:text-slate-100 mb-3 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">Soma de Horas</h2>
+              <p className="text-slate-600 dark:text-slate-400 mb-6 leading-relaxed flex-1 text-sm">
+                Some ou subtraia tempo facilmente. Nossa calculadora já converte os minutos e evita os erros comuns na soma de plantões.
               </p>
               <div className="mt-auto">
-                <span className="inline-flex items-center text-sm font-bold text-slate-400 bg-slate-200 dark:bg-slate-800 px-4 py-2 rounded-lg">
-                  Em breve
+                <span className="inline-flex items-center text-sm font-bold text-white bg-purple-600 px-4 py-2 rounded-lg group-hover:bg-purple-700 transition-colors">
+                  Somar Tempo <ArrowRight size={16} className="ml-2 group-hover:translate-x-1 transition-transform" />
                 </span>
               </div>
             </div>
-          </div>
+          </Link>
+
+          {/* 7. Piso Salarial */}
+          <Link href="/trabalhista/piso-salarial" className="group relative overflow-hidden bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full flex flex-col">
+            <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-opacity">
+              <Briefcase size={80} className="text-emerald-600" />
+            </div>
+            <div className="p-6 md:p-8 flex-1 flex flex-col">
+              <div className="w-14 h-14 bg-emerald-50 rounded-2xl flex items-center justify-center text-emerald-600 mb-6 group-hover:scale-110 transition-transform shadow-sm ring-1 ring-emerald-100">
+                <Briefcase size={28} strokeWidth={2.5} />
+              </div>
+              <h2 className="text-xl font-bold text-slate-900 dark:text-slate-100 mb-3 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">Piso Salarial por Profissão</h2>
+              <p className="text-slate-600 dark:text-slate-400 mb-6 leading-relaxed flex-1 text-sm">
+                Consulte o salário mínimo e a média de mercado para dezenas de carreiras como enfermeiros, professores e simuladores de holerite correspondentes.
+              </p>
+              <div className="mt-auto">
+                <span className="inline-flex items-center text-sm font-bold text-white bg-emerald-600 px-4 py-2 rounded-lg group-hover:bg-emerald-700 transition-colors">
+                  Consultar Pisos <ArrowRight size={16} className="ml-2 group-hover:translate-x-1 transition-transform" />
+                </span>
+              </div>
+            </div>
+          </Link>
 
         </section>
 

@@ -165,6 +165,47 @@ export default async function PixPage() {
         {/* ARTIGO PROFUNDO (SEO + RETENÇÃO) */}
         <div className="prose prose-slate dark:prose-invert prose-sm md:prose-lg max-w-4xl mx-auto bg-white dark:bg-slate-900 p-6 md:p-12 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-xl shadow-slate-200/40 dark:shadow-none overflow-hidden w-full print:hidden mt-8">
             
+            <h3 className="text-xl md:text-2xl font-bold text-slate-900 dark:text-slate-100 mt-2 mb-4 flex items-center gap-2 border-l-4 border-emerald-500 pl-4">
+                Como Usar o Gerador de Pix (Passo a Passo)
+            </h3>
+            <p className="text-slate-600 dark:text-slate-400">
+               Crie cobranças instantâneas e seguras em 4 etapas rápidas:
+            </p>
+
+            <div className="grid sm:grid-cols-2 gap-6 my-8 not-prose">
+              <div className="bg-slate-50 dark:bg-slate-800/30 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 flex gap-4">
+                <div className="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-900/50 text-emerald-600 dark:text-emerald-400 font-bold flex items-center justify-center shrink-0">1</div>
+                <div className="space-y-1">
+                   <h4 className="font-bold text-slate-800 dark:text-white text-sm">Insira Sua Chave</h4>
+                   <p className="text-xs text-slate-500 dark:text-slate-400">Selecione o tipo de chave (CPF, CNPJ, Celular, E-mail ou Aleatória) e digite o valor correspondente no campo principal.</p>
+                </div>
+              </div>
+
+              <div className="bg-slate-50 dark:bg-slate-800/30 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 flex gap-4">
+                <div className="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-900/50 text-emerald-600 dark:text-emerald-400 font-bold flex items-center justify-center shrink-0">2</div>
+                <div className="space-y-1">
+                   <h4 className="font-bold text-slate-800 dark:text-white text-sm">Dados do Recebedor</h4>
+                   <p className="text-xs text-slate-500 dark:text-slate-400">Preencha o nome do beneficiário (seu nome ou empresa) e a cidade de emissão conforme cadastrado na conta bancária.</p>
+                </div>
+              </div>
+
+              <div className="bg-slate-50 dark:bg-slate-800/30 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 flex gap-4">
+                <div className="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-900/50 text-emerald-600 dark:text-emerald-400 font-bold flex items-center justify-center shrink-0">3</div>
+                <div className="space-y-1">
+                   <h4 className="font-bold text-slate-800 dark:text-white text-sm">Defina o Valor & ID</h4>
+                   <p className="text-xs text-slate-500 dark:text-slate-400">Insira o valor exato da cobrança e, se quiser, um código Identificador opcional para organizar seu fluxo de caixa.</p>
+                </div>
+              </div>
+
+              <div className="bg-slate-50 dark:bg-slate-800/30 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 flex gap-4">
+                <div className="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-900/50 text-emerald-600 dark:text-emerald-400 font-bold flex items-center justify-center shrink-0">4</div>
+                <div className="space-y-1">
+                   <h4 className="font-bold text-slate-800 dark:text-white text-sm">QR Code ou Copia & Cola</h4>
+                   <p className="text-xs text-slate-500 dark:text-slate-400">Copie o código <strong>Pix Copia e Cola</strong> para enviar por WhatsApp ou baixe o <strong>QR Code oficial</strong> pronto para impressão.</p>
+                </div>
+              </div>
+            </div>
+
             <h2 className="text-3xl font-bold text-slate-900 dark:text-slate-100 mb-6 border-l-4 border-emerald-500 pl-4 flex items-center gap-3">
                <Zap className="text-emerald-500"/> O Fim dos Erros de Digitação
             </h2>

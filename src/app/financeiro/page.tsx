@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     canonical: "https://mestredascontas.com.br/financeiro" },
   openGraph: {
     title: "Portal Financeiro 2026 | Mestre das Contas",
-    description: "Tome decisões inteligentes com seu dinheiro. Simule Juros Compostos, Financiamento, Salário Líquido e investimentos com precisão.",
+    description: "Central de cálculos financeiros gratuitos. Simule Juros Compostos, Financiamento (Price/SAC), Descontos e planeje sua independência financeira em 2026.",
     url: "https://mestredascontas.com.br/financeiro",
     siteName: "Mestre das Contas",
     locale: "pt_BR",
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Seu dinheiro sob controle em 2026",
-    description: "Acesse nossas ferramentas financeiras gratuitas e planeje sua liberdade financeira.",
+    description: "Central de cálculos financeiros gratuitos. Simule Juros Compostos, Financiamento (Price/SAC), Descontos e planeje sua independência financeira em 2026.",
     images: ["/opengraph-image"],
   } };
 

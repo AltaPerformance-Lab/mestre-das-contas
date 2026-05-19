@@ -46,7 +46,34 @@ const jsonLd = {
       "applicationCategory": "BusinessApplication",
       "operatingSystem": "Web Browser",
       "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
-      "description": "Ferramenta para criação de termos de privacidade compatíveis com LGPD e AdSense." },
+      "description": "Ferramenta para criação de termos de privacidade compatíveis com LGPD e AdSense."
+    },
+    {
+      "@type": "HowTo",
+      "name": "Como Gerar uma Política de Privacidade e Termos de Uso",
+      "description": "Passo a passo simples para criar políticas de privacidade e termos de uso adequados à LGPD para o seu site.",
+      "totalTime": "PT30S",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "name": "Insira os Dados do Site",
+          "text": "Informe o nome do seu site, a URL principal (link) e o e-mail de contato do responsável pelos dados.",
+          "url": "https://mestredascontas.com.br/ferramentas/gerador-privacidade#ferramenta"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Escolha os Serviços Utilizados",
+          "text": "Marque se o seu site exibe anúncios (Google AdSense), se usa rastreamento (Google Analytics) e se utiliza cookies de terceiros.",
+          "url": "https://mestredascontas.com.br/ferramentas/gerador-privacidade#ferramenta"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Gere e Publique",
+          "text": "Clique em 'Gerar Documento'. Copie o texto em HTML ou texto puro e publique em uma página dedicada no rodapé do seu site.",
+          "url": "https://mestredascontas.com.br/ferramentas/gerador-privacidade#ferramenta"
+        }
+      ]
+    },
     {
       "@type": "Article",
       "headline": "O Guia da LGPD para Pequenos Sites e Blogs",
@@ -109,6 +136,39 @@ export default async function PrivacyGeneratorPage() {
         {/* --- CONTEÚDO PROFUNDO (DEEP CONTENT) --- */}
         <div className="prose prose-slate prose-sm md:prose-lg max-w-4xl mx-auto bg-white dark:bg-slate-900 p-6 md:p-12 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-xl shadow-slate-200/40 dark:shadow-none overflow-hidden w-full print:hidden dark:prose-invert">
             
+            <h3 className="text-xl md:text-2xl font-bold text-slate-900 dark:text-slate-100 mt-2 mb-4 flex items-center gap-2 border-l-4 border-emerald-500 pl-4">
+                Como Usar o Gerador de Política de Privacidade (Passo a Passo)
+            </h3>
+            <p className="text-slate-600 dark:text-slate-400">
+               Gere os termos de uso e política de privacidade do seu site em conformidade com a LGPD em 3 etapas:
+            </p>
+
+            <div className="grid sm:grid-cols-3 gap-6 my-8 not-prose">
+              <div className="bg-slate-50 dark:bg-slate-800/30 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 flex gap-4">
+                <div className="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-900/50 text-emerald-600 dark:text-emerald-400 font-bold flex items-center justify-center shrink-0">1</div>
+                <div className="space-y-1">
+                   <h4 className="font-bold text-slate-800 dark:text-white text-sm">Dados do Site</h4>
+                   <p className="text-xs text-slate-500 dark:text-slate-400">Insira o nome do seu site, o endereço eletrônico principal (URL completa) e informe se você utiliza cookies ou exibe anúncios.</p>
+                </div>
+              </div>
+
+              <div className="bg-slate-50 dark:bg-slate-800/30 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 flex gap-4">
+                <div className="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-900/50 text-emerald-600 dark:text-emerald-400 font-bold flex items-center justify-center shrink-0">2</div>
+                <div className="space-y-1">
+                   <h4 className="font-bold text-slate-800 dark:text-white text-sm">Gere as Políticas</h4>
+                   <p className="text-xs text-slate-500 dark:text-slate-400">Clique em <strong>"Gerar Documento"</strong> para rodar a criação instantânea. Nosso algoritmo criará o termo completo adequado à LGPD e GDPR.</p>
+                </div>
+              </div>
+
+              <div className="bg-slate-50 dark:bg-slate-800/30 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 flex gap-4">
+                <div className="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-900/50 text-emerald-600 dark:text-emerald-400 font-bold flex items-center justify-center shrink-0">3</div>
+                <div className="space-y-1">
+                   <h4 className="font-bold text-slate-800 dark:text-white text-sm">Copie & Publique</h4>
+                   <p className="text-xs text-slate-500 dark:text-slate-400">Copie o código em <strong>HTML</strong> ou o <strong>Texto Puro</strong> gerado, crie uma nova página no seu site e linke-a de forma clara no rodapé.</p>
+                </div>
+              </div>
+            </div>
+
             <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2 border-l-4 border-emerald-500 pl-4">
                O seu site está ilegal? (A verdade sobre a LGPD)
             </h2>

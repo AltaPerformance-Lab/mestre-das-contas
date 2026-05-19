@@ -56,6 +56,32 @@ const jsonLd = {
       "description": "Ferramenta online gratuita para gerar links de conversa direta no WhatsApp com mensagem pré-definida.",
       "featureList": "Gera link wa.me, Mensagem personalizada, Preview em tempo real, Integração com QR Code" },
     {
+      "@type": "HowTo",
+      "name": "Como Gerar um Link para WhatsApp",
+      "description": "Passo a passo simples para criar um link curto wa.me com mensagem de texto pré-definida para vendas e atendimento.",
+      "totalTime": "PT30S",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "name": "Insira o Telefone",
+          "text": "Digite seu número de celular com o DDD (ex: 11 99999-9999). Não se preocupe com espaços ou parênteses.",
+          "url": "https://mestredascontas.com.br/ferramentas/gerador-link-whatsapp#ferramenta"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Escreva a Mensagem",
+          "text": "Digite o texto inicial que seu cliente enviará ao iniciar a conversa (ex: 'Olá, tenho interesse nos produtos'). Emojis são suportados.",
+          "url": "https://mestredascontas.com.br/ferramentas/gerador-link-whatsapp#ferramenta"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Gere e Copie o Link",
+          "text": "Clique em 'Gerar Link'. O sistema encurta o link wa.me na hora. Basta copiar e colar na bio do Instagram ou enviar nas redes.",
+          "url": "https://mestredascontas.com.br/ferramentas/gerador-link-whatsapp#ferramenta"
+        }
+      ]
+    },
+    {
       "@type": "Article",
       "headline": "Como Criar Link para WhatsApp em 2026: Guia Completo",
       "description": "Aprenda a usar a API do WhatsApp para criar links diretos com mensagem personalizada para sua bio do Instagram e anúncios.",
@@ -132,6 +158,39 @@ export default async function GeradorWhatsAppPage() {
         {/* --- CONTEÚDO EDUCACIONAL (SEO) --- */}
         <div className="prose prose-slate dark:prose-invert prose-sm md:prose-lg max-w-4xl mx-auto bg-white dark:bg-slate-900 p-6 md:p-12 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-xl shadow-slate-200/40 dark:shadow-none overflow-hidden w-full print:hidden">
           
+            <h3 className="text-xl md:text-2xl font-bold text-slate-900 dark:text-slate-100 mt-2 mb-4 flex items-center gap-2 border-l-4 border-emerald-500 pl-4">
+                Como Usar o Gerador de Link WhatsApp (Passo a Passo)
+            </h3>
+            <p className="text-slate-600 dark:text-slate-400">
+               Encurte seu contato com clientes e crie chamadas persuasivas em 3 passos simples:
+            </p>
+
+            <div className="grid sm:grid-cols-3 gap-6 my-8 not-prose">
+              <div className="bg-slate-50 dark:bg-slate-800/30 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 flex gap-4">
+                <div className="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-900/50 text-emerald-600 dark:text-emerald-400 font-bold flex items-center justify-center shrink-0">1</div>
+                <div className="space-y-1">
+                   <h4 className="font-bold text-slate-800 dark:text-white text-sm">Digite seu Celular</h4>
+                   <p className="text-xs text-slate-500 dark:text-slate-400">Insira seu número com DDD (exemplo: <code>11999998888</code>). Não precisa colocar traços ou parênteses.</p>
+                </div>
+              </div>
+
+              <div className="bg-slate-50 dark:bg-slate-800/30 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 flex gap-4">
+                <div className="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-900/50 text-emerald-600 dark:text-emerald-400 font-bold flex items-center justify-center shrink-0">2</div>
+                <div className="space-y-1">
+                   <h4 className="font-bold text-slate-800 dark:text-white text-sm">Escreva a Mensagem</h4>
+                   <p className="text-xs text-slate-500 dark:text-slate-400">Escreva um texto de saudação que o cliente enviará para começar o papo (ex: <code>"Quero saber mais sobre os serviços!"</code>).</p>
+                </div>
+              </div>
+
+              <div className="bg-slate-50 dark:bg-slate-800/30 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 flex gap-4">
+                <div className="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-900/50 text-emerald-600 dark:text-emerald-400 font-bold flex items-center justify-center shrink-0">3</div>
+                <div className="space-y-1">
+                   <h4 className="font-bold text-slate-800 dark:text-white text-sm">Gere e Compartilhe</h4>
+                   <p className="text-xs text-slate-500 dark:text-slate-400">Clique em <strong>"Gerar Link"</strong> e copie o link curto encurtado oficial pronto para colar no seu perfil ou bio.</p>
+                </div>
+              </div>
+            </div>
+
             <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-slate-100 mb-6 flex items-center gap-2 border-l-4 border-green-500 pl-4">
                 Como funciona o "Link Mágico"?
             </h2>

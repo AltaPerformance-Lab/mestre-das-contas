@@ -141,6 +141,39 @@ export default async function QRCodePage() {
         {/* --- ARTIGO DENSO (E-E-A-T & STORYTELLING) --- */}
         <div className="prose prose-slate dark:prose-invert prose-sm md:prose-lg max-w-4xl mx-auto bg-white dark:bg-slate-900 p-6 md:p-12 rounded-3xl border border-slate-100 dark:border-slate-700 shadow-xl shadow-slate-200/40 dark:shadow-none overflow-hidden w-full print:hidden">
           
+            <h3 className="text-xl md:text-2xl font-bold text-slate-900 dark:text-slate-100 mt-2 mb-4 flex items-center gap-2 border-l-4 border-slate-700 dark:border-slate-300 pl-4">
+                Como Usar o Gerador de QR Code (Passo a Passo)
+            </h3>
+            <p className="text-slate-600 dark:text-slate-400">
+               Crie códigos QR vitalícios e 100% gratuitos para o seu negócio em 3 passos:
+            </p>
+
+            <div className="grid sm:grid-cols-3 gap-6 my-8 not-prose">
+              <div className="bg-slate-50 dark:bg-slate-800/30 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 flex gap-4">
+                <div className="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold flex items-center justify-center shrink-0">1</div>
+                <div className="space-y-1">
+                   <h4 className="font-bold text-slate-800 dark:text-white text-sm">Escolha o Conteúdo</h4>
+                   <p className="text-xs text-slate-500 dark:text-slate-400">Selecione o tipo de QR Code na aba superior: <strong>Link/URL, Pix, Wi-Fi</strong> ou link direto para o <strong>WhatsApp</strong>.</p>
+                </div>
+              </div>
+
+              <div className="bg-slate-50 dark:bg-slate-800/30 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 flex gap-4">
+                <div className="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold flex items-center justify-center shrink-0">2</div>
+                <div className="space-y-1">
+                   <h4 className="font-bold text-slate-800 dark:text-white text-sm">Preencha & Personalize</h4>
+                   <p className="text-xs text-slate-500 dark:text-slate-400">Insira as informações (Ex: link do site, senha da rede). Ajuste cores de fundo/frente e adicione sua logo se desejar.</p>
+                </div>
+              </div>
+
+              <div className="bg-slate-50 dark:bg-slate-800/30 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 flex gap-4">
+                <div className="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold flex items-center justify-center shrink-0">3</div>
+                <div className="space-y-1">
+                   <h4 className="font-bold text-slate-800 dark:text-white text-sm">Baixe a Imagem</h4>
+                   <p className="text-xs text-slate-500 dark:text-slate-400">Clique em <strong>"Baixar PNG"</strong> para usar em redes e sites, ou <strong>"Baixar SVG"</strong> (vetorial) para impressão gráfica em altíssima qualidade.</p>
+                </div>
+              </div>
+            </div>
+
           <h2 className="text-3xl font-extrabold text-slate-900 dark:text-white mb-6 border-l-4 border-slate-900 dark:border-slate-100 pl-4">
               A revolução silenciosa dos quadradinhos pretos
           </h2>

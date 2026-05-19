@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
 import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
+import ExpertSignature from "@/components/ui/ExpertSignature";
 
 // --- 1. METADATA DE DOMINAÇÃO (SEO 2026) ---
 // --- 1. METADATA DINÂMICA (SEO MAXIMIZADO) ---
@@ -416,6 +417,8 @@ export default async function SeguroPage() {
                   </a>
               </div>
           </div>
+
+          <ExpertSignature updatedAt="Maio de 2026" author="Equipe Editorial" />
         </div>
 
         <SmartCrossLinker currentHref="/trabalhista/seguro-desemprego" category="trabalhista" />

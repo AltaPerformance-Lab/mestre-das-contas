@@ -20,7 +20,8 @@ import {
   CreditCard,
   BarChart3,
   MoonStar,
-  Coins
+  Coins,
+  Plus
 } from "lucide-react";
 
 export interface FeatureCardData {
@@ -38,6 +39,14 @@ export const laborCards: FeatureCardData[] = [
     title: "Rescisão de Contrato",
     desc: "Vai sair da empresa? Calcule o valor exato da sua rescisão, multa de 40% e férias proporcionais.",
     icon: Calculator,
+    highlight: true,
+    theme: "blue"
+  },
+  {
+    href: "/trabalhista/fgts",
+    title: "Antecipação do FGTS",
+    desc: "Simule a antecipação do seu Saque-Aniversário. Veja o valor liberado via Pix na hora.",
+    icon: Coins,
     highlight: true,
     theme: "blue"
   },
@@ -74,6 +83,13 @@ export const laborCards: FeatureCardData[] = [
     title: "Horas Trabalhadas",
     desc: "Controle sua jornada. Calcule o total de horas trabalhadas no mês.",
     icon: Clock,
+    theme: "blue"
+  },
+  {
+    href: "/trabalhista/soma-de-horas",
+    title: "Soma de Horas",
+    desc: "Some e subtraia tempo facilmente. Conversão automática para base 60.",
+    icon: Plus,
     theme: "blue"
   },
 ];
@@ -203,6 +219,14 @@ export const toolsCards: FeatureCardData[] = [
     theme: "violet"
   },
   {
+    href: "/ferramentas/gerador-contrato",
+    title: "Gerador de Contratos",
+    desc: "Gere modelos em PDF de contratos de prestação de serviços com base na Lei.",
+    icon: FileText,
+    highlight: true,
+    theme: "violet"
+  },
+  {
     href: "/ferramentas/conversor-imagem",
     title: "Conversor de Imagem",
     desc: "Converta imagens para WebP, PNG e JPG. Comprime sem perder qualidade.",
@@ -264,6 +288,14 @@ export const toolsCards: FeatureCardData[] = [
     title: "Gerador de Pix",
     desc: "Crie QR Code Pix com valor fixo e código Copia e Cola para cobranças.",
     icon: Zap,
+    highlight: true,
+    theme: "violet"
+  },
+  {
+    href: "/ferramentas/quanto-cobrar",
+    title: "Quanto Cobrar (Precificação)",
+    desc: "Calcule o preço ideal de venda dos seus serviços baseado em custos, lucros e horas.",
+    icon: Coins,
     highlight: true,
     theme: "violet"
   },

@@ -6,6 +6,7 @@ import LazyAdUnit from "@/components/ads/LazyAdUnit";
 import PageHeader from "@/components/layout/PageHeader";
 import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
+import ExpertSignature from "@/components/ui/ExpertSignature";
 import { 
   CalendarDays, Briefcase, Clock, CheckCircle2, 
   AlertTriangle, HelpCircle, Landmark, Calendar, Scale, Scale as ScaleIcon, ShieldCheck
@@ -298,7 +299,9 @@ export default function BusinessDaysPage() {
                         </p>
                     </details>
                 </div>
-            </div>
+              
+            <ExpertSignature updatedAt="Maio de 2026" author="Equipe Editorial" />
+          </div>
 
         </div>
 

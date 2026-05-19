@@ -4,12 +4,12 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { 
   Calculator, Heart, Briefcase, TrendingUp, 
-  Home, Landmark, Sparkles, Scale, QrCode, LucideIcon
+  Home, Landmark, Sparkles, Scale, QrCode, LucideIcon, Car
 } from "lucide-react";
 
 // --- TIPAGEM ---
 interface MenuItem { label: string; href: string; icon: LucideIcon; highlight?: boolean; }
-interface MenuGroup { title: string; theme?: "blue" | "emerald" | "rose"; items: MenuItem[]; }
+interface MenuGroup { title: string; theme?: "blue" | "emerald" | "rose" | "slate"; items: MenuItem[]; }
 
 // --- DADOS DO MENU ---
 const menuGroups: MenuGroup[] = [
@@ -28,14 +28,31 @@ const menuGroups: MenuGroup[] = [
       { label: "Férias", href: "/trabalhista/ferias", icon: Home },
       { label: "13º Salário", href: "/trabalhista/decimo-terceiro", icon: Calculator },
       { label: "Seguro Desemprego", href: "/trabalhista/seguro-desemprego", icon: Briefcase },
+      { label: "Antecipação do FGTS", href: "/trabalhista/fgts", icon: Calculator },
+      { label: "Simulador Aposentadoria", href: "/trabalhista/aposentadoria", icon: Calculator },
+      { label: "Horas Extras", href: "/trabalhista/horas-extras", icon: Calculator },
+      { label: "Horas Simples", href: "/trabalhista/horas-simples", icon: Calculator },
+      { label: "Horas Trabalhadas", href: "/trabalhista/horas-trabalhadas", icon: Calculator },
+      { label: "Soma de Horas", href: "/trabalhista/soma-de-horas", icon: Calculator },
+      { label: "Cartão de Ponto", href: "/trabalhista/cartao-de-ponto", icon: Briefcase },
+      { label: "Piso Salarial 2026", href: "/trabalhista/piso-salarial", icon: Briefcase },
     ]
   },
   {
     title: "Financeiro", theme: "emerald",
     items: [
+      { label: "Imposto de Renda (IRPF)", href: "/financeiro/imposto-de-renda", icon: Calculator },
       { label: "Salário Líquido 2026", href: "/financeiro/salario-liquido", icon: Calculator },
+      { label: "Simulador Maquininha", href: "/financeiro/simulador-maquininha", icon: Calculator },
+      { label: "Calculadora MEI", href: "/financeiro/calculadora-mei", icon: Calculator },
       { label: "Financiamento Veículos", href: "/financeiro/financiamento-veiculos", icon: Landmark },
       { label: "Juros Compostos", href: "/financeiro/juros-compostos", icon: TrendingUp },
+    ]
+  },
+  {
+    title: "Veículos", theme: "slate",
+    items: [
+      { label: "Tabela FIPE", href: "/veiculos/tabela-fipe", icon: Car },
     ]
   },
   {

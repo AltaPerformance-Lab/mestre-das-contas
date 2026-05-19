@@ -12,6 +12,7 @@ import {
   CheckCircle2, Briefcase, Wallet, FileText, Lightbulb, User, ShieldCheck, PieChart
 } from "lucide-react";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
+import ExpertSignature from "@/components/ui/ExpertSignature";
 
 // --- 1. METADATA DINÂMICA (SEO MAXIMIZADO) ---
 export async function generateMetadata(): Promise<Metadata> {
@@ -380,6 +381,8 @@ export default async function MEIPage() {
             <a href="http://www.planalto.gov.br/ccivil_03/leis/lcp/lcp128.htm" target="_blank" rel="nofollow noopener noreferrer" className="hover:underline">
               • Lei Complementar nº 128/2008 (Legislação)
             </a>
+            
+            <ExpertSignature updatedAt="Maio de 2026" author="Equipe Editorial" />
           </div>
 
         </div>

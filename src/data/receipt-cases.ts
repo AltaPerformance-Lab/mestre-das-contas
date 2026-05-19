@@ -93,5 +93,75 @@ export const receiptCases: ReceiptCase[] = [
     desc: "Para médicos, psicólogos e fisioterapeutas. Essencial para reembolso de plano de saúde e declaração de IR.",
     prefill: { referente: "Atendimento de saúde realizado no dia ... para o paciente ..." },
     tips: ["O paciente usará este recibo para reembolso e Imposto de Renda.", "Certifique-se de que os dados do profissional (CRM/CRP/CREFITO) estão no cabeçalho."]
+  },
+  {
+    slug: "recibo-aluguel-comercial",
+    title: "Recibo de Aluguel Comercial",
+    desc: "Modelo oficial para pagamento de aluguel de galpões, salas comerciais e lojas.",
+    prefill: { referente: "Aluguel comercial da sala/loja ... referente ao mês de ..." },
+    tips: ["Se houver retenção de impostos (IRRF), especifique no campo de valor líquido e bruto.", "Mencione a competência correta do aluguel."]
+  },
+  {
+    slug: "recibo-pedreiro-obra",
+    title: "Recibo de Pedreiro e Obra",
+    desc: "Comprovante simples para serviços de alvenaria, reforma, gesso e pintura.",
+    prefill: { referente: "Serviços de reforma/construção realizados na obra situada em ..." },
+    tips: ["Especifique se o pagamento é referente a uma diária, empreitada ou medição.", "Ideal para prestadores de serviço autônomos sem CNPJ."]
+  },
+  {
+    slug: "recibo-jardinagem",
+    title: "Recibo de Jardinagem e Paisagismo",
+    desc: "Comprovante de pagamento para manutenção de jardins, poda de árvores e paisagismo.",
+    prefill: { referente: "Serviços de jardinagem e manutenção realizados no dia ..." },
+    tips: ["Descreva se houve custo de materiais (adubos, plantas) incluído no valor.", "Muito útil para prestar contas a síndicos de condomínios."]
+  },
+  {
+    slug: "recibo-diarias-hotel",
+    title: "Recibo de Diárias (Hospedagem)",
+    desc: "Comprovante de pagamento para pousadas, hostels e aluguel por temporada (Airbnb).",
+    prefill: { referente: "Pagamento de ... diárias de hospedagem, no período de ... a ..." },
+    tips: ["O hóspede pode precisar deste recibo para reembolso corporativo.", "Separe o valor das diárias de eventuais taxas de limpeza."]
+  },
+  {
+    slug: "recibo-patrocinio",
+    title: "Recibo de Patrocínio e Apoio",
+    desc: "Comprovante de recebimento de doação de patrocínio para eventos, atletas ou causas.",
+    prefill: { referente: "Cota de patrocínio / Apoio financeiro para a realização do projeto ..." },
+    tips: ["Empresas precisam deste recibo para justificar a saída do dinheiro na contabilidade.", "Se for uma doação com incentivo fiscal, mencione a lei correspondente."]
+  },
+  {
+    slug: "recibo-pensao-alimenticia",
+    title: "Recibo de Pensão Alimentícia",
+    desc: "Comprovante legal de pagamento de pensão alimentícia feito em dinheiro ou acordo extrajudicial.",
+    prefill: { referente: "Pagamento de pensão alimentícia referente ao mês de ... em favor do(s) menor(es) ..." },
+    tips: ["Coloque o nome de quem está pagando e de quem está recebendo (responsável legal).", "Se for referente a meses atrasados, especifique no recibo."]
+  },
+  {
+    slug: "recibo-adiantamento-salarial",
+    title: "Recibo de Adiantamento Salarial (Vale)",
+    desc: "Comprovante de vale ou adiantamento quinzenal entregue a funcionários.",
+    prefill: { referente: "Adiantamento salarial (vale) referente ao mês de ..." },
+    tips: ["O funcionário deve assinar. Este valor será descontado no contracheque no fechamento do mês."]
+  },
+  {
+    slug: "recibo-entrega-chaves",
+    title: "Recibo de Entrega de Chaves",
+    desc: "Documento que formaliza a devolução das chaves no encerramento do contrato de aluguel.",
+    prefill: { referente: "Devolução das chaves do imóvel situado em ... encerrando as obrigações de locação." },
+    tips: ["Use este recibo após a vistoria final do imóvel.", "Isenta o inquilino de cobranças de aluguel a partir desta data."]
+  },
+  {
+    slug: "recibo-compra-celular",
+    title: "Recibo de Compra/Venda de Celular ou Eletrônico",
+    desc: "Comprovante de venda de itens usados (celulares, notebooks) entre pessoas físicas.",
+    prefill: { referente: "Venda de 01 aparelho celular marca/modelo ..., IMEI nº ..., em perfeito estado de funcionamento." },
+    tips: ["Coloque o IMEI ou número de série do aparelho para segurança.", "Deixe claro que o aparelho é usado e testado no ato."]
+  },
+  {
+    slug: "recibo-oficina-mecanica",
+    title: "Recibo de Oficina Mecânica / Funilaria",
+    desc: "Comprovante de pagamento de serviços automotivos, troca de óleo ou peças.",
+    prefill: { referente: "Serviços mecânicos e/ou peças aplicadas no veículo ..., placa ..." },
+    tips: ["Especifique a quilometragem do veículo no ato do serviço.", "Se houver garantia do serviço, mencione no campo de descrição."]
   }
 ];

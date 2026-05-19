@@ -8,6 +8,7 @@ import DisclaimerBox from "@/components/ui/DisclaimerBox";
 import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
 import { Users, BarChart3, TrendingUp, CheckCircle2, ArrowLeft, Share2, HelpCircle, BookOpen, AlertTriangle } from "lucide-react";
 import Link from 'next/link';
+import ExpertSignature from "@/components/ui/ExpertSignature";
 
 // --- DATASET PSEO (Common Salaries) ---
 const commonSalaries = [
@@ -268,6 +269,7 @@ export default async function PseoSalaryComparatorPage({ params }: Props) {
                         </p>
                     </div>
 
+                    <ExpertSignature updatedAt="Maio de 2026" author="Equipe Editorial" />
                 </div>
 
                 {/* --- SEÇÃO FAQ GERAL --- */}

@@ -234,7 +234,7 @@ export default function SalaryCalculator({
         </div>
 
         <div className="lg:col-span-5 h-full">
-            <Card id="resultado-salario-card" className={`h-full border-0 shadow-lg transition-all duration-500 overflow-hidden ${resultado ? 'bg-white dark:bg-slate-900' : 'bg-slate-50 dark:bg-slate-950'}`}>
+            <Card id="resultado-salario-card" ref={contentRef} className={`h-full border-0 shadow-lg transition-all duration-500 overflow-hidden ${resultado ? 'bg-white dark:bg-slate-900' : 'bg-slate-50 dark:bg-slate-950'}`}>
             <CardHeader className="px-6 py-5 border-b border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 shrink-0"><h3 className="text-lg font-bold">Resumo</h3></CardHeader>
             <CardContent className="p-6 flex-1 flex flex-col">
                 {!resultado ? (
@@ -257,7 +257,7 @@ export default function SalaryCalculator({
                         <div className="flex justify-between items-center p-3 bg-slate-50 dark:bg-slate-800 font-bold text-xs uppercase text-slate-400"><span>Total Descontos</span><span>{resultado.totalDescontos}</span></div>
                     </div>
                     <div className="text-center"><span className="text-[10px] text-slate-400 bg-slate-100 dark:bg-slate-800 px-3 py-1 rounded-full border border-slate-200 dark:border-slate-700">Alíquota Efetiva: <strong>{resultado.aliquotaEfetiva}</strong></span></div>
-                    <div className="grid grid-cols-2 gap-3 pt-2">
+                    <div className="grid grid-cols-2 gap-3 pt-2 print:hidden">
                         <Button variant="outline" onClick={() => handleShare("link")} className="h-11 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 dark:text-white text-xs font-bold uppercase tracking-wide">{copiado === "link" ? "Copiado" : "Link"}</Button>
                         <Button variant="outline" onClick={() => reactToPrintFn()} className="h-11 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 dark:text-white text-xs font-bold uppercase tracking-wide"><Printer size={16}/> PDF</Button>
                         <div className="col-span-2"><ShareAsImage elementId="resultado-salario-card" className="w-full h-11 bg-slate-900 dark:bg-slate-800 text-white" /></div>

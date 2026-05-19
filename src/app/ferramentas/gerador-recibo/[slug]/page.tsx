@@ -159,22 +159,45 @@ export default async function ReceiptCasePage({ params }: Props) {
                 Seja você um autônomo, empresa ou pessoa física, o recibo é o documento que comprova legalmente que um pagamento foi realizado. Sem ele, você pode ser cobrado duas vezes pela mesma dívida.
             </p>
 
-            <div className="my-8 grid gap-6 md:grid-cols-3 not-prose">
-                <div className="bg-slate-50 dark:bg-slate-800 p-5 rounded-xl border border-slate-100 dark:border-slate-700">
-                    <span className="block text-2xl font-bold text-blue-600 dark:text-blue-400 mb-2">01</span>
-                    <h3 className="font-bold text-slate-900 dark:text-white mb-1">Preencha</h3>
-                    <p className="text-sm text-slate-600 dark:text-slate-400">Informe o valor e os dados das partes.</p>
+            <h3 className="text-xl md:text-2xl font-bold text-slate-900 dark:text-white mt-10 mb-4 flex items-center gap-2 border-l-4 border-blue-500 pl-4">
+                Como Usar o Gerador de Recibos (Passo a Passo)
+            </h3>
+            <p className="text-slate-600 dark:text-slate-400">
+               Gere seu recibo profissional duplicado de forma instantânea seguindo estes 4 passos simples:
+            </p>
+
+            <div className="grid sm:grid-cols-2 gap-6 my-8 not-prose">
+              <div className="bg-slate-50 dark:bg-slate-800/30 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 flex gap-4">
+                <div className="w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400 font-bold flex items-center justify-center shrink-0">1</div>
+                <div className="space-y-1">
+                   <h4 className="font-bold text-slate-800 dark:text-white text-sm">Insira o Valor</h4>
+                   <p className="text-xs text-slate-500 dark:text-slate-400">Digite o valor numérico em reais. O sistema converterá automaticamente em <strong>valor por extenso</strong> por segurança.</p>
                 </div>
-                <div className="bg-slate-50 dark:bg-slate-800 p-5 rounded-xl border border-slate-100 dark:border-slate-700">
-                    <span className="block text-2xl font-bold text-blue-600 dark:text-blue-400 mb-2">02</span>
-                    <h3 className="font-bold text-slate-900 dark:text-white mb-1">Imprima</h3>
-                    <p className="text-sm text-slate-600 dark:text-slate-400">Gere o PDF com 2 vias automáticas.</p>
+              </div>
+
+              <div className="bg-slate-50 dark:bg-slate-800/30 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 flex gap-4">
+                <div className="w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400 font-bold flex items-center justify-center shrink-0">2</div>
+                <div className="space-y-1">
+                   <h4 className="font-bold text-slate-800 dark:text-white text-sm">Preencha os Envolvidos</h4>
+                   <p className="text-xs text-slate-500 dark:text-slate-400">Insira os dados do Emissor (quem prestou o serviço e recebe) e do Pagador (quem paga pelo serviço), incluindo CPF ou CNPJ.</p>
                 </div>
-                <div className="bg-slate-50 dark:bg-slate-800 p-5 rounded-xl border border-slate-100 dark:border-slate-700">
-                    <span className="block text-2xl font-bold text-blue-600 dark:text-blue-400 mb-2">03</span>
-                    <h3 className="font-bold text-slate-900 dark:text-white mb-1">Assine</h3>
-                    <p className="text-sm text-slate-600 dark:text-slate-400">Assine a via do cliente e arquive a sua.</p>
+              </div>
+
+              <div className="bg-slate-50 dark:bg-slate-800/30 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 flex gap-4">
+                <div className="w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400 font-bold flex items-center justify-center shrink-0">3</div>
+                <div className="space-y-1">
+                   <h4 className="font-bold text-slate-800 dark:text-white text-sm">Insira o Motivo (Objeto)</h4>
+                   <p className="text-xs text-slate-500 dark:text-slate-400">Descreva de forma curta o que motivou o pagamento. Exemplo: <code>Referente aos serviços prestados de pintura de parede</code>.</p>
                 </div>
+              </div>
+
+              <div className="bg-slate-50 dark:bg-slate-800/30 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 flex gap-4">
+                <div className="w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400 font-bold flex items-center justify-center shrink-0">4</div>
+                <div className="space-y-1">
+                   <h4 className="font-bold text-slate-800 dark:text-white text-sm">Imprima ou Baixe em PDF</h4>
+                   <p className="text-xs text-slate-500 dark:text-slate-400">Clique em <strong>"Imprimir"</strong>. O layout já duplicará a folha automaticamente, gerando <strong>2 vias idênticas</strong> para assinatura.</p>
+                </div>
+              </div>
             </div>
 
             <h3 className="text-xl font-bold text-slate-900 dark:text-white">O que não pode faltar?</h3>

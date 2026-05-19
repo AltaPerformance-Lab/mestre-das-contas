@@ -6,6 +6,7 @@ import PageHeader from "@/components/layout/PageHeader";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
 import DisclaimerBox from "@/components/ui/DisclaimerBox";
 import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
+import ExpertSignature from "@/components/ui/ExpertSignature";
 import { BarChart3, CheckCircle2, HelpCircle, BookOpen, AlertTriangle, ShieldCheck } from "lucide-react";
 
 // --- 1. METADATA DINÂMICA (SEO MAXIMIZADO) ---
@@ -298,7 +299,9 @@ export default async function SalaryComparatorPage() {
                         Use nosso comparador como um choque de realidade. Se você descobriu que já ganha mais que 90% do Brasil, pare de reclamar e comece a multiplicar. O privilégio traz responsabilidade.
                     </p>
 
-                </div>
+                  
+            <ExpertSignature updatedAt="Maio de 2026" author="Equipe Editorial" />
+          </div>
 
                 {/* --- SEÇÃO FAQ --- */}
                 <div className="max-w-4xl mx-auto w-full mt-8">

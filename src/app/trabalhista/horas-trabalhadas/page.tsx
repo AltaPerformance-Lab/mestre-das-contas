@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
 import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
+import ExpertSignature from "@/components/ui/ExpertSignature";
 
 // --- 1. METADATA DINÂMICA (SEO) ---
 export async function generateMetadata(): Promise<Metadata> {
@@ -66,7 +67,34 @@ const jsonLd = {
       "applicationCategory": "ProductivityApplication",
       "operatingSystem": "Web",
       "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
-      "description": "Ferramenta para somar horas de trabalho, calcular intervalos e saldo de banco de horas." },
+      "description": "Ferramenta para somar horas de trabalho, calcular intervalos e saldo de banco de horas."
+    },
+    {
+      "@type": "HowTo",
+      "name": "Como Calcular Horas Trabalhadas e Ponto Online",
+      "description": "Aprenda a somar suas horas diárias e controlar seu banco de horas com nossa calculadora de ponto.",
+      "totalTime": "PT30S",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "name": "Insira os Horários de Entrada e Saída",
+          "text": "Digite o horário de início (Entrada 1) e o horário de fim da primeira jornada (Saída 1/Almoço).",
+          "url": "https://mestredascontas.com.br/trabalhista/horas-trabalhadas#ferramenta"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Informe o Período da Tarde/Retorno",
+          "text": "Digite o horário de volta do intervalo (Entrada 2) e a saída no fim do expediente (Saída 2).",
+          "url": "https://mestredascontas.com.br/trabalhista/horas-trabalhadas#ferramenta"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Adicione Turnos ou Defina a Jornada",
+          "text": "Se tiver turnos extras, clique em '+ Adicionar Turno'. Digite sua jornada contratual para ver o saldo diário de horas extras ou negativas.",
+          "url": "https://mestredascontas.com.br/trabalhista/horas-trabalhadas#ferramenta"
+        }
+      ]
+    },
     {
       "@type": "Article",
       "headline": "Como controlar seu Banco de Horas e evitar descontos",
@@ -157,10 +185,43 @@ export default async function HorasPage() {
 
         {/* --- CONTEÚDO EDUCACIONAL --- */}
         <div className="prose prose-slate dark:prose-invert prose-sm md:prose-lg max-w-4xl mx-auto bg-white dark:bg-slate-900 p-6 md:p-12 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-xl shadow-slate-200/40 dark:shadow-none overflow-hidden w-full print:hidden">
-          
-          <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2 border-l-4 border-indigo-500 pl-4">
-              Como controlar o Banco de Horas?
-          </h2>
+            
+            <h3 className="text-xl md:text-2xl font-bold text-slate-900 dark:text-slate-100 mt-2 mb-4 flex items-center gap-2 border-l-4 border-indigo-500 pl-4">
+                Como Usar a Calculadora de Horas Trabalhadas (Passo a Passo)
+            </h3>
+            <p className="text-slate-600 dark:text-slate-400">
+               Some suas horas diárias e saiba seu saldo de banco de horas em 3 passos:
+            </p>
+
+            <div className="grid sm:grid-cols-3 gap-6 my-8 not-prose">
+              <div className="bg-slate-50 dark:bg-slate-800/30 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 flex gap-4">
+                <div className="w-8 h-8 rounded-full bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400 font-bold flex items-center justify-center shrink-0">1</div>
+                <div className="space-y-1">
+                   <h4 className="font-bold text-slate-800 dark:text-white text-sm">Entrada e Almoço</h4>
+                   <p className="text-xs text-slate-500 dark:text-slate-400">Informe o horário de entrada (Entrada 1) e o horário em que saiu para o almoço (Saída 1).</p>
+                </div>
+              </div>
+
+              <div className="bg-slate-50 dark:bg-slate-800/30 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 flex gap-4">
+                <div className="w-8 h-8 rounded-full bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400 font-bold flex items-center justify-center shrink-0">2</div>
+                <div className="space-y-1">
+                   <h4 className="font-bold text-slate-800 dark:text-white text-sm">Retorno e Fim do Dia</h4>
+                   <p className="text-xs text-slate-500 dark:text-slate-400">Informe o horário em que voltou do almoço (Entrada 2) e o encerramento do seu dia (Saída 2).</p>
+                </div>
+              </div>
+
+              <div className="bg-slate-50 dark:bg-slate-800/30 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 flex gap-4">
+                <div className="w-8 h-8 rounded-full bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400 font-bold flex items-center justify-center shrink-0">3</div>
+                <div className="space-y-1">
+                   <h4 className="font-bold text-slate-800 dark:text-white text-sm">Jornada e Saldo</h4>
+                   <p className="text-xs text-slate-500 dark:text-slate-400">Defina sua jornada de trabalho regular (ex: 8h) para ver o saldo diário de horas positivas ou negativas.</p>
+                </div>
+              </div>
+            </div>
+
+            <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2 border-l-4 border-indigo-500 pl-4">
+               Como controlar o Banco de Horas?
+            </h2>
           <p className="lead text-slate-700 dark:text-slate-300 text-lg font-medium">
             Somar horas não é como somar dinheiro. O sistema de tempo é sexagesimal (base 60), o que confunde muita gente. Se você somar 8,50 + 8,50 na calculadora comum, dá 17,00. Mas em horas, 8h50 + 8h50 são 17h40!
           </p>
@@ -241,7 +302,8 @@ export default async function HorasPage() {
                   </a>
               </div>
           </div>
-
+          
+          <ExpertSignature updatedAt="Maio de 2026" author="Equipe Editorial" />
         </div>
 
         <SmartCrossLinker currentHref="/trabalhista/horas-trabalhadas" category="trabalhista" />

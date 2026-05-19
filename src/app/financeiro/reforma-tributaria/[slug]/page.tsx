@@ -94,14 +94,14 @@ export default async function ReformPage({ params }: Props) {
           { "@type": "ListItem", "position": 4, "name": data.jobTitle, "item": `https://mestredascontas.com.br/financeiro/reforma-tributaria/${data.slug}` }
         ]
       },
-      {
+      ...(data.faq && data.faq.length > 0 ? [{
         "@type": "FAQPage",
-        "mainEntity": data.faq.map(f => ({ 
+        "mainEntity": data.faq.map((f: any) => ({ 
             "@type": "Question", 
             "name": f.question, 
             "acceptedAnswer": { "@type": "Answer", "text": f.answer } 
         }))
-      },
+      }] : []),
       {
         "@type": "TechArticle",
         "headline": `O Impacto da EC 132/2023 para ${data.jobTitle}`,

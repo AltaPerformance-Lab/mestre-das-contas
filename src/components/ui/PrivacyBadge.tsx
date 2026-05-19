@@ -3,7 +3,7 @@ import { ShieldCheck, Lock } from 'lucide-react';
 
 export default function PrivacyBadge() {
   return (
-    <div className="bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-100 dark:border-emerald-900/50 rounded-xl p-4 flex flex-col sm:flex-row items-start sm:items-center gap-3 shadow-sm my-4">
+    <div className="bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-100 dark:border-emerald-900/50 rounded-xl p-4 flex flex-col sm:flex-row items-start sm:items-center gap-3 shadow-sm my-4 print:hidden">
       <div className="bg-emerald-100 dark:bg-emerald-900/50 p-2 rounded-full text-emerald-700 dark:text-emerald-400 shrink-0">
         <Lock size={20} />
       </div>

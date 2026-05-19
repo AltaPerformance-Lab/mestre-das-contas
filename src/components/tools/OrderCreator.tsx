@@ -234,7 +234,7 @@ const OrderTemplate = ({ data }: { data: OrderData }) => {
                          <p className="text-[10px] text-slate-400 uppercase">Assinatura</p>
                     </div>
                     <div className="text-[10px] text-slate-300 italic">
-                         Gerado por <strong>Mestre das Contas</strong>
+                         Gerado gratuitamente por <strong>mestredascontas.com.br</strong>
                     </div>
                 </div>
             </div>
