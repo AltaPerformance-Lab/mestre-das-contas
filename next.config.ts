@@ -22,27 +22,85 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   reactStrictMode: true,
 
-  // ===== REDIRECTS SEO (Correção de 404) =====
+  // ===== REDIRECTS SEO (Correção de 404 — Search Console 01/06/2026) =====
   async redirects() {
     return [
-      // 1. Redireciona a antiga rota /reforma-tributaria/* para a nova /financeiro/reforma-tributaria/*
+      // --- ROTAS LEGADAS DE REFORMA TRIBUTÁRIA (sem prefixo /financeiro/) ---
       {
         source: '/reforma-tributaria/:slug*',
         destination: '/financeiro/reforma-tributaria/:slug*',
         permanent: true,
       },
-      // 2. Redireciona a antiga URL com traço /simulacao-50000 para a nova com barra /simulacao/50000
+
+      // --- SIMULAÇÃO DE FINANCIAMENTO: formato antigo com traço (simulacao-XXXXX) ---
       {
         source: '/financeiro/financiamento-veiculos/simulacao-:valor',
         destination: '/financeiro/financiamento-veiculos/simulacao/:valor',
         permanent: true,
       },
-      // 3. Corrige link quebrado /saude/calorias para a nova rota correta
+
+      // --- FINANCIAMENTO: rotas antigas /financeiro/financiamento/[slug] → /simulacao/[slug] ---
+      {
+        source: '/financeiro/financiamento/energia-solar-residencial',
+        destination: '/financeiro/financiamento-veiculos/simulacao/energia-solar-residencial',
+        permanent: true,
+      },
+      {
+        source: '/financeiro/financiamento/carro-popular-usado',
+        destination: '/financeiro/financiamento-veiculos/simulacao/carro-popular-usado',
+        permanent: true,
+      },
+      {
+        source: '/financeiro/financiamento/construcao-casa-terreno',
+        destination: '/financeiro/financiamento-veiculos/simulacao/construcao-casa-terreno',
+        permanent: true,
+      },
+      {
+        source: '/financeiro/financiamento/moto-alta-cilindrada',
+        destination: '/financeiro/financiamento-veiculos/simulacao/moto-alta-cilindrada',
+        permanent: true,
+      },
+      {
+        source: '/financeiro/financiamento/caminhao-leve',
+        destination: '/financeiro/financiamento-veiculos/simulacao/caminhao-leve',
+        permanent: true,
+      },
+      {
+        source: '/financeiro/financiamento/suv-seminovo',
+        destination: '/financeiro/financiamento-veiculos/simulacao/suv-seminovo',
+        permanent: true,
+      },
+
+      // --- ROTA INCORRETA: /financeiro/rescisao → /trabalhista/rescisao ---
+      {
+        source: '/financeiro/rescisao',
+        destination: '/trabalhista/rescisao',
+        permanent: true,
+      },
+
+      // --- ROTAS INSTITUCIONAIS LEGADAS ---
+      {
+        source: '/contato',
+        destination: '/fale-conosco',
+        permanent: true,
+      },
+      {
+        source: '/privacidade',
+        destination: '/politica-privacidade',
+        permanent: true,
+      },
+      {
+        source: '/termos',
+        destination: '/termos-de-uso',
+        permanent: true,
+      },
+
+      // --- SAÚDE: rota antiga ---
       {
         source: '/saude/calorias',
         destination: '/saude/calorias-diarias',
         permanent: true,
-      }
+      },
     ];
   },
   
@@ -82,13 +140,78 @@ const nextConfig: NextConfig = {
           },
         ],
       },
-      // Cache para páginas
+      // Cache para página inicial
       {
         source: '/',
         headers: [
           {
             key: 'Cache-Control',
-            value: 'public, s-maxage=3600, stale-while-revalidate=86400',
+            value: 'public, s-maxage=86400, stale-while-revalidate=86400',
+          },
+        ],
+      },
+      // Cache para páginas estáticas institucionais (24 horas)
+      {
+        source: '/:path(sobre|fale-conosco|politica-privacidade|termos-de-uso|politica-cookies|sitemap-html)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, s-maxage=86400, stale-while-revalidate=86400',
+          },
+        ],
+      },
+      // Cache de 30 dias na CDN para todas as rotas de calculadoras e pSEO
+      {
+        source: '/financeiro/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, s-maxage=2592000, stale-while-revalidate=86400',
+          },
+        ],
+      },
+      {
+        source: '/trabalhista/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, s-maxage=2592000, stale-while-revalidate=86400',
+          },
+        ],
+      },
+      {
+        source: '/ferramentas/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, s-maxage=2592000, stale-while-revalidate=86400',
+          },
+        ],
+      },
+      {
+        source: '/saude/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, s-maxage=2592000, stale-while-revalidate=86400',
+          },
+        ],
+      },
+      {
+        source: '/glossario/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, s-maxage=2592000, stale-while-revalidate=86400',
+          },
+        ],
+      },
+      {
+        source: '/veiculos/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, s-maxage=2592000, stale-while-revalidate=86400',
           },
         ],
       },

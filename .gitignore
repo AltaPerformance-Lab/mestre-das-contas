@@ -39,3 +39,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# analytics and search console data
+/Search_console/
+/analytics/
+/bing/

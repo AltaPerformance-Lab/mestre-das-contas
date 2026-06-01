@@ -20,8 +20,8 @@ import ExpertSignature from "@/components/ui/ExpertSignature";
 
 // --- 1. METADATA DINÂMICA (SEO MAXIMIZADO) ---
 export async function generateMetadata(): Promise<Metadata> {
-  const title = "Calculadora de Rescisão Trabalhista Grátis e Ilimitada 2026";
-  const description = "Simulador 100% grátis e ilimitado de rescisão CLT 2026. Calcule sua multa do FGTS, férias e aviso prévio. Saiba quanto vai receber no seu acerto sem pagar nada.";
+  const title = "Calculadora de Rescisão CLT 2026: Calcule seu Acerto Online";
+  const description = "Simule seu acerto trabalhista CLT 2026 grátis. Calcule multa do FGTS, férias proporcionais, 13º salário e aviso prévio em segundos.";
 
   return {
     title,
@@ -105,6 +105,14 @@ const jsonLd = {
         "name": item.q,
         "acceptedAnswer": { "@type": "Answer", "text": item.a }
       }))
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Início", "item": "https://mestredascontas.com.br" },
+        { "@type": "ListItem", "position": 2, "name": "Trabalhista", "item": "https://mestredascontas.com.br/trabalhista" },
+        { "@type": "ListItem", "position": 3, "name": "Rescisão CLT", "item": "https://mestredascontas.com.br/trabalhista/rescisao" }
+      ]
     }
   ]
 };

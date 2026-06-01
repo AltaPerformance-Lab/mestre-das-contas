@@ -40,8 +40,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     };
   }
 
-  const title = `Piso Salarial do ${profissao.title} 2026 | Salário Mínimo`;
-  const description = `Confira qual é o piso salarial do ${profissao.title} em 2026: R$ ${profissao.piso2026.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}. Veja a média salarial, carga horária, benefícios e simule o salário líquido.`;
+  const formatValue = (val: number) => val.toLocaleString("pt-BR", { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+
+  const title = `Piso Salarial do ${profissao.title} 2026: R$ ${formatValue(profissao.piso2026)} [Valor Oficial]`;
+  const description = `Qual o piso salarial do ${profissao.title} em 2026? Veja a tabela oficial de R$ ${profissao.piso2026.toLocaleString("pt-BR", { minimumFractionDigits: 2 })} homologado por convenção coletiva, benefícios e faça o cálculo líquido.`;
 
   return {
     title,

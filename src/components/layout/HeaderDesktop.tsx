@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { 
     Search, CalendarDays, Briefcase, Calculator, 
-    TrendingUp, Heart, Baby, Landmark, Percent, Droplet, LucideIcon, QrCode, FileText, ShieldCheck, MoonStar, Book, Car
+    TrendingUp, Heart, Baby, Landmark, Percent, Droplet, LucideIcon, QrCode, FileText, ShieldCheck, MoonStar, Book, Car, Coins
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 
@@ -20,6 +20,7 @@ interface SearchItem {
 // --- LISTA DE PÁGINAS ATUALIZADA ---
 const searchablePages: SearchItem[] = [
     // Ferramentas
+    { title: "Precificação (Quanto Cobrar?)", url: "/ferramentas/quanto-cobrar", icon: Coins, category: "Ferramentas" },
     { title: "Editor de PDF Online", url: "/ferramentas/editor-pdf-online", icon: FileText, category: "Ferramentas" },
     { title: "Gerador de QR Code", url: "/ferramentas/gerador-qr-code", icon: QrCode, category: "Ferramentas" },
     { title: "Gerador de Contrato", url: "/ferramentas/gerador-contrato", icon: FileText, category: "Ferramentas" },

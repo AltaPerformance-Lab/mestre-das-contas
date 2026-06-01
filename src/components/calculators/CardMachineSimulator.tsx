@@ -22,7 +22,7 @@ interface CardMachineSimulatorProps {
 }
 
 export default function CardMachineSimulator({ 
-    initialValue = 0,
+    initialValue = 1000,
     initialMdr = 3.5, 
     initialAnticipation = 2.5, 
     initialInstallments = "1",

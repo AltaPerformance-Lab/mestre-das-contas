@@ -66,6 +66,7 @@ const menuGroups: MenuGroup[] = [
       { label: "Gerador de Recibo", href: "/ferramentas/gerador-recibo", icon: FileText, badge: "PDF" },
       { label: "Gerador de Contratos", href: "/ferramentas/gerador-contrato", icon: FileText },
       { label: "Nota Promissória", href: "/ferramentas/gerador-promissoria", icon: FileText, badge: "PDF" },
+      { label: "Precificação de Serviços", href: "/ferramentas/quanto-cobrar", icon: Coins, badge: "Top" },
       { label: "Criar Orçamento", href: "/ferramentas/criador-orcamentos", icon: Calculator, badge: "Novo" },
       { label: "Criar Pedido", href: "/ferramentas/criador-pedidos", icon: Briefcase, badge: "Novo" },
       { label: "Gerador de Pix", href: "/ferramentas/gerador-pix", icon: Zap, badge: "Pix" },

@@ -122,7 +122,8 @@ async function submitIndexNow() {
                 { file: 'termination-pseo.ts', prefix: '/trabalhista/rescisao/' },
                 { file: 'card-machine-pseo.ts', prefix: '/financeiro/simulador-maquininha/' },
                 { file: 'financing-pseo.ts', prefix: '/financeiro/financiamento-veiculos/simulacao/' },
-                { file: 'glossary.ts', prefix: '/glossario/' }
+                { file: 'glossary.ts', prefix: '/glossario/' },
+                { file: 'profissoes.ts', prefix: '/trabalhista/piso-salarial/' }
             ];
 
             tsFiles.forEach(({ file, prefix }) => {
@@ -146,6 +147,65 @@ async function submitIndexNow() {
         return;
     }
 
+    // --- 1. GERAÇÃO DO SITEMAP.XML ESTÁTICO EM public/sitemap.xml ---
+    console.log("📦 Gerando sitemap.xml estático em public/sitemap.xml...");
+    const lastmod = new Date().toISOString().split('T')[0];
+    
+    function calculatePriority(url) {
+      const path = url.replace('https://mestredascontas.com.br', '');
+      if (path === '') return '1.0';
+      if (['/financeiro', '/trabalhista', '/saude', '/ferramentas', '/glossario', '/trabalhista/piso-salarial'].includes(path)) return '0.95';
+      if (path.includes('reforma-tributaria')) return '0.90';
+      if (path.includes('rescisao')) return '0.90';
+      if (path.includes('salario-liquido')) return '0.90';
+      if (path.includes('calculadora-mei')) return '0.85';
+      if (path.includes('juros-compostos')) return '0.85';
+      if (path.includes('ferias')) return '0.85';
+      if (path.includes('imc')) return '0.85';
+      if (path.includes('para-empresas')) return '0.80';
+      if (path.includes('sobre')) return '0.70';
+      return '0.65';
+    }
+
+    function getChangeFrequency(url) {
+      const path = url.replace('https://mestredascontas.com.br', '');
+      if (path === '') return 'daily';
+      if (path.includes('reforma-tributaria') || path.includes('salario-liquido') || path.includes('financeiro')) return 'weekly';
+      if (path.includes('trabalhista') || path.includes('saude') || path.includes('piso-salarial')) return 'weekly';
+      return 'monthly';
+    }
+
+    let sitemapXml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">`;
+
+    urlList.forEach(url => {
+        const priority = calculatePriority(url);
+        const freq = getChangeFrequency(url);
+        sitemapXml += `
+  <url>
+    <loc>${url}</loc>
+    <lastmod>${lastmod}</lastmod>
+    <changefreq>${freq}</changefreq>
+    <priority>${priority}</priority>
+  </url>`;
+    });
+
+    sitemapXml += `\n</urlset>`;
+
+    const publicDir = path.join(process.cwd(), 'public');
+    if (!fs.existsSync(publicDir)) fs.mkdirSync(publicDir, { recursive: true });
+    fs.writeFileSync(path.join(publicDir, 'sitemap.xml'), sitemapXml);
+    console.log("✅ Sitemap estático gravado com sucesso em public/sitemap.xml");
+
+    // --- 2. SUBMISSÃO CONDICIONAL AO INDEXNOW (APENAS VERCEL PRODUCTION OU MANUAL LOCAL) ---
+    const isProduction = process.env.VERCEL_ENV === 'production' || !process.env.VERCEL;
+    if (!isProduction) {
+        console.log(`⚠️ Ambiente Vercel não produtivo (${process.env.VERCEL_ENV}). Submissão IndexNow ignorada para evitar bot-storming.`);
+        console.log("🏁 Processo concluído com sucesso.");
+        return;
+    }
+
+    console.log("🚀 Iniciando envio de URLs para a API do IndexNow...");
     // Dividir em lotes de 10.000
     const chunkSize = 10000;
     for (let i = 0; i < urlList.length; i += chunkSize) {

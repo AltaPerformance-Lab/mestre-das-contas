@@ -232,29 +232,36 @@ export default function TrabalhistaHubPage() {
               </div>
             </div>
           </Link>
-
           {/* 7. Piso Salarial */}
-          <Link href="/trabalhista/piso-salarial" className="group relative overflow-hidden bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full flex flex-col">
+          <div className="group relative overflow-hidden bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full flex flex-col justify-between">
             <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-opacity">
               <Briefcase size={80} className="text-emerald-600" />
             </div>
-            <div className="p-6 md:p-8 flex-1 flex flex-col">
-              <div className="w-14 h-14 bg-emerald-50 rounded-2xl flex items-center justify-center text-emerald-600 mb-6 group-hover:scale-110 transition-transform shadow-sm ring-1 ring-emerald-100">
-                <Briefcase size={28} strokeWidth={2.5} />
+            <div className="p-6 md:p-8 flex-1 flex flex-col justify-between">
+              <div>
+                <div className="w-14 h-14 bg-emerald-50 rounded-2xl flex items-center justify-center text-emerald-600 mb-6 group-hover:scale-110 transition-transform shadow-sm ring-1 ring-emerald-100">
+                  <Briefcase size={28} strokeWidth={2.5} />
+                </div>
+                <h2 className="text-xl font-bold text-slate-900 dark:text-slate-100 mb-3 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
+                  Piso Salarial por Profissão
+                </h2>
+                <p className="text-slate-600 dark:text-slate-400 mb-4 leading-relaxed text-sm">
+                  Consulte o salário mínimo e a média de mercado para dezenas de carreiras como enfermeiros, professores e simuladores de holerite correspondentes.
+                </p>
+                <div className="flex flex-wrap gap-2 mb-6">
+                  <Link href="/trabalhista/piso-salarial/auxiliar-administrativo" className="text-xs bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-100 dark:hover:bg-emerald-900/40 px-2.5 py-1 rounded-lg transition-colors font-medium">Aux. Administrativo</Link>
+                  <Link href="/trabalhista/piso-salarial/recepcionista" className="text-xs bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-100 dark:hover:bg-emerald-900/40 px-2.5 py-1 rounded-lg transition-colors font-medium">Recepcionista</Link>
+                  <Link href="/trabalhista/piso-salarial/pedreiro" className="text-xs bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-100 dark:hover:bg-emerald-900/40 px-2.5 py-1 rounded-lg transition-colors font-medium">Pedreiro</Link>
+                  <Link href="/trabalhista/piso-salarial/engenheiro-civil" className="text-xs bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-100 dark:hover:bg-emerald-900/40 px-2.5 py-1 rounded-lg transition-colors font-medium">Eng. Civil</Link>
+                </div>
               </div>
-              <h2 className="text-xl font-bold text-slate-900 dark:text-slate-100 mb-3 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">Piso Salarial por Profissão</h2>
-              <p className="text-slate-600 dark:text-slate-400 mb-6 leading-relaxed flex-1 text-sm">
-                Consulte o salário mínimo e a média de mercado para dezenas de carreiras como enfermeiros, professores e simuladores de holerite correspondentes.
-              </p>
-              <div className="mt-auto">
-                <span className="inline-flex items-center text-sm font-bold text-white bg-emerald-600 px-4 py-2 rounded-lg group-hover:bg-emerald-700 transition-colors">
-                  Consultar Pisos <ArrowRight size={16} className="ml-2 group-hover:translate-x-1 transition-transform" />
-                </span>
+              <div>
+                <Link href="/trabalhista/piso-salarial" className="inline-flex items-center text-sm font-bold text-white bg-emerald-600 px-4 py-2 rounded-lg hover:bg-emerald-700 transition-colors w-full justify-center">
+                  Consultar Tabela Completa <ArrowRight size={16} className="ml-2 group-hover:translate-x-1 transition-transform" />
+                </Link>
               </div>
             </div>
-          </Link>
-
-        </section>
+          </div>        </section>
 
         {/* --- CONTEÚDO SEO (ARTIGO) --- */}
         <div className="prose prose-slate dark:prose-invert prose-sm md:prose-lg max-w-none bg-white dark:bg-slate-900 p-6 md:p-12 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-sm mt-10">

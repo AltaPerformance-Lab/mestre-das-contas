@@ -28,6 +28,8 @@ export async function generateStaticParams() {
 import fs from 'fs';
 import path from 'path';
 
+import { calculateSalary } from "@/lib/calculators/salary";
+
 type Props = { params: Promise<{ valor: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -37,17 +39,22 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (isNaN(salarioNum)) return {};
 
   const formatado = new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(salarioNum);
+  const calculated = calculateSalary(salarioNum);
+  const liquidoStr = calculated ? calculated.liquido : "";
+
+  const title = `Salário Líquido de ${formatado} em 2026: Receba ${liquidoStr}`;
+  const description = `Qual o salário líquido de ${formatado} em 2026? Veja o cálculo exato com desconto de INSS, IRRF e saiba quanto cai na sua conta: ${liquidoStr} líquidos.`;
 
   return {
-    title: `Salário Líquido de ${formatado} (2026) - Cálculo Exato`,
-    description: `Descubra quanto sobra de um salário bruto de ${formatado}. Tabela INSS e IRRF 2026 atualizada. Veja o valor líquido real após os descontos na sua conta corrente.`,
+    title,
+    description,
     keywords: [`salario liquido ${valor}`, `calcular salario ${valor}`, "desconto inss 2026", "irrf 2026", "calculadora salario liquido", `liquido de ${valor}`],
     alternates: {
         canonical: `https://mestredascontas.com.br/financeiro/salario-liquido/${valor}`
     },
     openGraph: {
-        title: `Salário Líquido de ${formatado} (2026)`,
-        description: `Simulação detalhada: Veja quanto cai na conta de quem ganha ${formatado}.`,
+        title,
+        description,
         url: `https://mestredascontas.com.br/financeiro/salario-liquido/${valor}`,
         type: "article" }
   };

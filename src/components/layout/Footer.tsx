@@ -15,13 +15,14 @@ import {
 
 const megaMenuLinks = [
   {
-    category: "Salário Líquido",
+    category: "Salários & Pisos",
     links: [
-      { label: "Salário de R$ 1.500", href: "/financeiro/salario-liquido/1500" },
-      { label: "Salário de R$ 2.000", href: "/financeiro/salario-liquido/2000" },
-      { label: "Salário de R$ 3.000", href: "/financeiro/salario-liquido/3000" },
-      { label: "Salário de R$ 5.000", href: "/financeiro/salario-liquido/5000" },
-      { label: "Piso Salarial 2026", href: "/trabalhista/piso-salarial" },
+      { label: "Tabela Geral de Pisos", href: "/trabalhista/piso-salarial" },
+      { label: "Auxiliar Administrativo", href: "/trabalhista/piso-salarial/auxiliar-administrativo" },
+      { label: "Recepcionista", href: "/trabalhista/piso-salarial/recepcionista" },
+      { label: "Pedreiro", href: "/trabalhista/piso-salarial/pedreiro" },
+      { label: "Engenheiro Civil", href: "/trabalhista/piso-salarial/engenheiro-civil" },
+      { label: "Fisioterapeuta", href: "/trabalhista/piso-salarial/fisioterapeuta" },
     ]
   },
   {
@@ -72,6 +73,7 @@ const megaMenuLinks = [
     category: "Ferramentas Úteis",
     links: [
       { label: "Editor de PDF Online", href: "/ferramentas/editor-pdf-online" },
+      { label: "Precificação de Serviços", href: "/ferramentas/quanto-cobrar" },
       { label: "Gerador de Pix", href: "/ferramentas/gerador-pix" },
       { label: "Link de WhatsApp", href: "/ferramentas/gerador-link-whatsapp" },
       { label: "Gerador de Senhas", href: "/ferramentas/gerador-de-senhas" },

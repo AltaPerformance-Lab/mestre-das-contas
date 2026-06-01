@@ -326,3 +326,31 @@
     content: none !important;
   }
 }
+
+/* --- PREMIUM AD BLOCK WRAPPER STYLING (GLASSMORPHISM & PERFECT ROUNDING) --- */
+div[class*="bg-slate-50/50"][class*="border-dashed"] {
+  background-color: rgba(148, 163, 184, 0.04) !important;
+  border-color: rgba(148, 163, 184, 0.25) !important;
+  border-radius: 1.5rem !important; /* rounded-3xl */
+  padding: 12px !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.02);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+.dark div[class*="bg-slate-50/50"][class*="border-dashed"] {
+  background-color: rgba(15, 23, 42, 0.3) !important;
+  border-color: rgba(51, 65, 85, 0.4) !important;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+}
+
+div[class*="bg-slate-50/50"][class*="border-dashed"]:hover {
+  border-color: rgba(99, 102, 241, 0.4) !important; /* Indigo glow on hover */
+  background-color: rgba(148, 163, 184, 0.06) !important;
+}
+
+.dark div[class*="bg-slate-50/50"][class*="border-dashed"]:hover {
+  border-color: rgba(99, 102, 241, 0.3) !important;
+  background-color: rgba(15, 23, 42, 0.5) !important;
+}

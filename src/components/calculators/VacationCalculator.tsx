@@ -69,6 +69,7 @@ export default function VacationCalculator({
   const reactToPrintFn = useReactToPrint({
     contentRef,
     documentTitle: "Ferias_Simulada_MestreDasContas",
+    onAfterPrint: () => trackEvent("print_ferias_success"),
     pageStyle: `@page { size: auto; margin: 0mm; } @media print { body { -webkit-print-color-adjust: exact; } }`
   });
 
@@ -170,8 +171,10 @@ export default function VacationCalculator({
             params.set("dependentes", resultado.rawDeps.toString());
         }
         navigator.clipboard.writeText(`${baseUrl}?${params.toString()}`);
+        trackEvent("share_ferias_link");
     } else {
         navigator.clipboard.writeText(`<iframe src="https://mestredascontas.com.br/trabalhista/ferias?embed=true" width="100%" height="700" frameborder="0" style="border:0; border-radius:12px;" title="Calculadora de Férias"></iframe>`);
+        trackEvent("share_ferias_embed");
     }
     setCopiado(type);
     setTimeout(() => setCopiado(null), 2000);

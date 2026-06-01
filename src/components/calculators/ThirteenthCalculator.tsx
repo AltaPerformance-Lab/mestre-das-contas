@@ -62,6 +62,7 @@ export default function ThirteenthCalculator({
   const reactToPrintFn = useReactToPrint({
     contentRef,
     documentTitle: "Decimo_Terceiro_Simulado_MestreDasContas",
+    onAfterPrint: () => trackEvent("print_13_success", { value: salarioValue }),
     pageStyle: `@page { size: auto; margin: 0mm; } @media print { body { -webkit-print-color-adjust: exact; } }`
   });
 

@@ -45,6 +45,7 @@ const menuGroups: MenuGroup[] = [
       { label: "Salário Líquido 2026", href: "/financeiro/salario-liquido", icon: Calculator },
       { label: "Simulador Maquininha", href: "/financeiro/simulador-maquininha", icon: Calculator },
       { label: "Calculadora MEI", href: "/financeiro/calculadora-mei", icon: Calculator },
+      { label: "Precificação (Quanto Cobrar?)", href: "/ferramentas/quanto-cobrar", icon: Calculator },
       { label: "Financiamento Veículos", href: "/financeiro/financiamento-veiculos", icon: Landmark },
       { label: "Juros Compostos", href: "/financeiro/juros-compostos", icon: TrendingUp },
     ]

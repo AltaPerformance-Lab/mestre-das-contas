@@ -238,6 +238,10 @@ export default function ReceiptGenerator({ initialValues }: ReceiptGeneratorProp
   const handlePrint = useReactToPrint({
     contentRef: printRef,
     documentTitle: `Recibo_${pagador || "Cliente"}`,
+    onAfterPrint: () => {
+      const numericVal = Number(valor.replace(/\D/g, "")) / 100 || 0;
+      trackEvent("print_receipt_success", { value: numericVal });
+    },
     pageStyle: `
       @page { size: A4 portrait; margin: 0; }
       @media print { 

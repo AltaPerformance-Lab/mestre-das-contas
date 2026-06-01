@@ -113,6 +113,14 @@ const jsonLd = {
         "name": item.q,
         "acceptedAnswer": { "@type": "Answer", "text": item.a }
       }))
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Início", "item": "https://mestredascontas.com.br" },
+        { "@type": "ListItem", "position": 2, "name": "Saúde", "item": "https://mestredascontas.com.br/saude" },
+        { "@type": "ListItem", "position": 3, "name": "Calorias Diárias", "item": "https://mestredascontas.com.br/saude/calorias-diarias" }
+      ]
     }
   ]
 };

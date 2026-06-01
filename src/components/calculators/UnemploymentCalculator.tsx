@@ -64,6 +64,7 @@ export default function UnemploymentCalculator({
   const reactToPrintFn = useReactToPrint({
     contentRef,
     documentTitle: "Seguro_Desemprego_Simulado_MestreDasContas",
+    onAfterPrint: () => trackEvent("print_seguro_success"),
     pageStyle: `@page { size: auto; margin: 0mm; } @media print { body { -webkit-print-color-adjust: exact; } }`
   });
 
@@ -146,8 +147,10 @@ export default function UnemploymentCalculator({
             params.set("sol", resultado.rawVez.toString());
         }
         navigator.clipboard.writeText(`${baseUrl}?${params.toString()}`);
+        trackEvent("share_seguro_link");
     } else {
         navigator.clipboard.writeText(`<iframe src="https://mestredascontas.com.br/trabalhista/seguro-desemprego?embed=true" width="100%" height="750" frameborder="0" style="border:0; border-radius:12px;" title="Calculadora Seguro Desemprego"></iframe>`);
+        trackEvent("share_seguro_embed");
     }
     setCopiado(type);
     setTimeout(() => setCopiado(null), 2000);

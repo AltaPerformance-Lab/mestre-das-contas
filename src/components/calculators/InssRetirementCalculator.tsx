@@ -7,6 +7,7 @@ import {
   CheckCircle2, AlertCircle, TrendingUp, Landmark, Flame,
   Share2, Printer
 } from "lucide-react";
+import { trackEvent } from "@/lib/analytics";
 
 export default function InssRetirementCalculator() {
   // Inputs
@@ -27,6 +28,7 @@ export default function InssRetirementCalculator() {
     const url = window.location.href;
     navigator.clipboard.writeText(url);
     setCopiado(true);
+    trackEvent("share_aposentadoria");
     setTimeout(() => setCopiado(false), 2000);
   };
 
@@ -154,6 +156,7 @@ export default function InssRetirementCalculator() {
       finalBenefit
     });
     setIsCalculated(true);
+    trackEvent("calculate_aposentadoria", { genero: gender, anos_contrib: totalYears });
   };
 
   return (
@@ -517,7 +520,7 @@ export default function InssRetirementCalculator() {
                 </button>
                 <button
                   type="button"
-                  onClick={() => window.print()}
+                  onClick={() => { trackEvent("print_aposentadoria"); window.print(); }}
                   className="flex-1 h-12 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold gap-2 rounded-xl border border-slate-700 flex items-center justify-center transition-all"
                 >
                   <Printer size={18} /> Imprimir / Salvar PDF

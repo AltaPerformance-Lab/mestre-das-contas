@@ -17,7 +17,7 @@ import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
 import ExpertSignature from "@/components/ui/ExpertSignature";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const title = "Simulador de Financiamento de Veículos 2026: Parcelas e Juros";
+  const title = "Simulador de Financiamento de Veículos 2026: Calcule as Parcelas";
   const description = "Quer comprar seu carro ou moto? Simule o financiamento (CDC), calcule o valor da parcela com juros e descubra o Custo Efetivo Total (CET) antes de ir à concessionária.";
 
   return {
@@ -82,6 +82,14 @@ const jsonLd = {
         "name": item.q,
         "acceptedAnswer": { "@type": "Answer", "text": item.a }
       }))
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Início", "item": "https://mestredascontas.com.br" },
+        { "@type": "ListItem", "position": 2, "name": "Financeiro", "item": "https://mestredascontas.com.br/financeiro" },
+        { "@type": "ListItem", "position": 3, "name": "Financiamento Veículos", "item": "https://mestredascontas.com.br/financeiro/financiamento-veiculos" }
+      ]
     }
   ]
 };

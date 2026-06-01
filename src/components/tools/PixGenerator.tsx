@@ -88,14 +88,20 @@ export default function PixGenerator({
     }
   }, []);
 
+  const hasTrackedRef = useRef(false);
+
   // Generate Payload Effect
   useEffect(() => {
     if (key && name && city) {
       const payload = generatePayload();
       setGeneratedPayload(payload);
-      trackEvent("generate_pix_payload", { has_amount: amount > 0, key_type: keyType });
+      if (!hasTrackedRef.current) {
+        trackEvent("generate_pix_payload", { has_amount: amount > 0, key_type: keyType });
+        hasTrackedRef.current = true;
+      }
     } else {
         setGeneratedPayload("");
+        hasTrackedRef.current = false;
     }
   }, [key, name, city, amount, txid]);
 

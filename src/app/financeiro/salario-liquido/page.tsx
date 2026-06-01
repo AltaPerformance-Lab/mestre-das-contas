@@ -17,7 +17,7 @@ import ExpertSignature from "@/components/ui/ExpertSignature";
 
 
 export async function generateMetadata(): Promise<Metadata> {
-  const title = "Calculadora de Salário Líquido 2026 | Saiba quanto vai receber";
+  const title = "Calculadora de Salário Líquido 2026: Simule o Holerite CLT";
   const description = "Descubra o valor real do seu salário após descontos de INSS e IRRF em 2026. Simulação gratuita, rápida e atualizada com a nova tabela de impostos.";
 
   return {

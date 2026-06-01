@@ -29,7 +29,7 @@ export default function FgtsCalculator() {
   const [balanceInput, setBalanceInput] = useState("5.000,00");
   const [years, setYears] = useState(7);
   const [interestRate, setInterestRate] = useState(1.8); // Monthly standard rate
-  const [showResult, setShowResult] = useState(false);
+  const [showResult, setShowResult] = useState(true);
   const [copiado, setCopiado] = useState(false);
 
   const parsedBalance = parseFloat(balanceInput.replace(/\./g, "").replace(",", ".")) || 0;
