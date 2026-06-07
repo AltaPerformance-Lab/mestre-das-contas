@@ -105,7 +105,7 @@ export default function RootLayout({
       <head>
         <PreloadLinks />
       </head>
-      <body className="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 antialiased font-sans selection:bg-indigo-500 selection:text-white min-h-screen flex flex-col overflow-x-hidden scroll-smooth">
+      <body className="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 antialiased font-sans selection:bg-indigo-500 selection:text-white min-h-screen flex flex-col overflow-x-clip scroll-smooth">
         
         {/* PROVIDER DE TEMA (DARK MODE) */}
         <ThemeProvider
@@ -134,7 +134,7 @@ export default function RootLayout({
               </aside>
 
               {/* CENTRO (CONTEÚDO) */}
-              <div className="flex flex-col min-w-0 bg-white dark:bg-slate-900 min-h-screen rounded-tl-2xl rounded-tr-2xl xl:rounded-none print:min-h-0 print:border-none">
+              <div className="flex flex-col min-w-0 w-full max-w-full overflow-x-clip bg-white dark:bg-slate-900 min-h-screen rounded-tl-2xl rounded-tr-2xl xl:rounded-none print:min-h-0 print:border-none">
                 <div className="hidden xl:block sticky top-0 z-40 bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm border-b border-slate-100 dark:border-slate-800 h-20 print:hidden">
                   <HeaderDesktop />
                 </div>
@@ -152,7 +152,7 @@ export default function RootLayout({
               </div>
 
               {/* DIREITA (ADS) */}
-              <aside className="hidden xl:block border-l border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 z-20 h-full min-h-screen rounded-br-2xl print:hidden transition-colors duration-300">
+              <aside className="hidden xl:block border-l border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 z-20 sticky top-0 h-screen max-h-screen overflow-y-auto scrollbar-thin scrollbar-thumb-slate-100 dark:scrollbar-thumb-slate-800 rounded-br-2xl print:hidden transition-colors duration-300">
                 <RightSidebar />
               </aside>
 

@@ -8,8 +8,11 @@ import PageHeader from "@/components/layout/PageHeader";
 import DisclaimerBox from "@/components/ui/DisclaimerBox";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
 import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
+import SmartGlossaryLinker from "@/components/layout/SmartGlossaryLinker";
+import GlossaryTerm from "@/components/ui/GlossaryTerm";
+import ExpertSignature from "@/components/ui/ExpertSignature";
 import { terminationCases } from "@/data/termination-pseo";
-import { Calculator, ArrowLeft, Star, Briefcase, FileText, ShieldCheck } from "lucide-react";
+import { Calculator, ArrowLeft, Star, Briefcase, FileText, ShieldCheck, HelpCircle } from "lucide-react";
 
 // --- SSG ---
 export async function generateStaticParams() {
@@ -239,56 +242,64 @@ export default async function TerminationPSeoPage({ params }: { params: Promise<
                         {customCase.articleContent.lawText && (
                             <div className="bg-slate-50 dark:bg-slate-800 p-6 rounded-2xl border-l-4 border-slate-500 my-8">
                                 <h4 className="flex items-center gap-2 font-bold text-slate-900 dark:text-white mb-3 text-lg">
-                                    <span className="text-2xl">⚖️</span> O que diz a Lei (CLT)?
+                                    <span className="text-2xl">⚖️</span> O que diz a Lei (<GlossaryTerm slug="inss-previdencia-social">CLT</GlossaryTerm>)?
                                 </h4>
                                 <div className="text-slate-700 dark:text-slate-300 italic" dangerouslySetInnerHTML={{ __html: customCase.articleContent.lawText }} />
                             </div>
                         )}
 
                         {customCase.articleContent.closing && (
-                             <p dangerouslySetInnerHTML={{ __html: customCase.articleContent.closing }} />
+                            <p dangerouslySetInnerHTML={{ __html: customCase.articleContent.closing }} />
                         )}
+                        <p className="text-xs text-slate-500 mt-6">
+                            Dica: Conheça também os termos técnicos como <GlossaryTerm slug="aviso-previo-trabalhista">Aviso Prévio</GlossaryTerm>, <GlossaryTerm slug="saldo-de-salario-rescisao">Saldo de Salário</GlossaryTerm> e <GlossaryTerm slug="dsr-descanso-semanal-remunerado">DSR</GlossaryTerm> no nosso glossário.
+                        </p>
+                        <ExpertSignature updatedAt="Junho de 2026" author="Rodrigo Costa (Analista de Sistemas)" />
+                     </div>
                      </div>
 
-                    {customCase.articleContent.faq && customCase.articleContent.faq.length > 0 && (
-                        <>
-                            <hr className="border-slate-200 dark:border-slate-800 my-8"/>
-                            <h3 className="text-xl font-bold text-slate-900 dark:text-white mt-8">Perguntas Frequentes</h3>
-                            <div className="space-y-4 mt-4 not-prose">
-                                {customCase.articleContent.faq.map((f, i) => (
-                                    <details key={i} className="group [&_summary::-webkit-details-marker]:hidden">
-                                        <summary className="flex cursor-pointer items-center justify-between gap-1.5 rounded-lg bg-slate-50 dark:bg-slate-800 p-4 text-slate-900 dark:text-white font-medium">
-                                            <h4 className="text-sm font-bold m-0 text-slate-900 dark:text-white">{f.question}</h4>
-                                            <svg className="h-5 w-5 shrink-0 transition duration-300 group-open:-rotate-180 text-slate-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-                                            </svg>
-                                        </summary>
-                                        <p className="mt-4 leading-relaxed text-slate-700 dark:text-slate-300 px-4 text-sm">
-                                            {f.answer}
-                                        </p>
-                                    </details>
-                                ))}
-                            </div>
-                        </>
-                    )}
-
-                     <div className="bg-slate-50 dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 mt-8 not-prose">
-                        <h4 className="font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
-                            <Briefcase size={18} className="text-indigo-500"/> Outros Tipos de Rescisão
-                        </h4>
-                        <div className="flex flex-wrap gap-2">
-                             {terminationCases.filter(c => c.slug !== slug).map(c => (
-                                 <Link key={c.slug} href={`/trabalhista/rescisao/${c.slug}`} className="px-3 py-1 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-full text-xs font-bold text-slate-600 dark:text-slate-300 hover:border-indigo-500 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
-                                     {c.reasonLabel}
-                                 </Link>
-                             ))}
-                        </div>
-                     </div>
-                </div>
+                <SmartGlossaryLinker currentHref={`/trabalhista/rescisao/${slug}`} category="trabalhista" />
 
                 {/* --- CROSS SELLING (FERRAMENTAS ÚTEIS) --- */}
                 <div className="mt-8 not-prose border-t border-slate-200 dark:border-slate-800 pt-8 print:hidden">
                     <SmartCrossLinker currentHref={`/trabalhista/rescisao/${slug}`} category="trabalhista" />
+                </div>
+
+                {customCase.articleContent.faq && customCase.articleContent.faq.length > 0 && (
+                    <div className="mt-8 not-prose max-w-4xl mx-auto w-full print:hidden">
+                        <h3 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-6 flex items-center gap-2">
+                            <HelpCircle className="text-indigo-500"/> Perguntas Frequentes
+                        </h3>
+                        <div className="space-y-4">
+                            {customCase.articleContent.faq.map((f, i) => (
+                                <details key={i} className="group bg-white dark:bg-slate-900 p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm cursor-pointer open:ring-1 open:ring-indigo-100 dark:open:ring-indigo-900/30 transition-all">
+                                    <summary className="font-semibold text-slate-800 dark:text-slate-100 list-none flex justify-between items-center select-none">
+                                        <div className="flex items-start gap-3">
+                                            <span className="text-indigo-500 dark:text-indigo-400 font-bold text-xs mt-1">#</span>
+                                            <span className="leading-snug text-slate-800 dark:text-slate-200">{f.question}</span>
+                                        </div>
+                                        <span className="text-slate-400 group-open:rotate-180 transition-transform ml-2 shrink-0">▼</span>
+                                    </summary>
+                                    <p className="mt-3 text-slate-600 dark:text-slate-300 leading-relaxed border-t border-slate-100 dark:border-slate-800 pt-3 text-sm">
+                                        {f.answer}
+                                    </p>
+                                </details>
+                            ))}
+                        </div>
+                    </div>
+                )}
+
+                <div className="bg-slate-50 dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 mt-8 not-prose max-w-4xl mx-auto w-full print:hidden">
+                    <h4 className="font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
+                        <Briefcase size={18} className="text-indigo-500"/> Outros Tipos de Rescisão
+                    </h4>
+                    <div className="flex flex-wrap gap-2">
+                            {terminationCases.filter(c => c.slug !== slug).map(c => (
+                                <Link key={c.slug} href={`/trabalhista/rescisao/${c.slug}`} className="px-3 py-1 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-full text-xs font-bold text-slate-600 dark:text-slate-300 hover:border-indigo-500 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
+                                    {c.reasonLabel}
+                                </Link>
+                            ))}
+                    </div>
                 </div>
 
                 {/* ANÚNCIO BOTTOM */}

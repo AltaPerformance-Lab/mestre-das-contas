@@ -13,8 +13,10 @@ import {
 } from "lucide-react";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
 import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
+import SmartGlossaryLinker from "@/components/layout/SmartGlossaryLinker";
+import GlossaryTerm from "@/components/ui/GlossaryTerm";
+import ExpertSignature from "@/components/ui/ExpertSignature";
 import { conversionData } from "@/data/image-conversions";
-import FeaturedTools from "@/components/home/FeaturedTools";
 
 // --- GERAÇÃO ESTÁTICA (pSEO) ---
 export async function generateStaticParams() {
@@ -51,17 +53,50 @@ export default async function ConversionPage({ params }: Props) {
 
   if (!data) return notFound();
 
-  // JSON-LD Dinâmico (Dual: App + HowTo)
+  // 7 FAQs Dinâmicas Sincronizadas
+  const faqs = [
+    {
+      q: `A qualidade da imagem diminui ao converter de ${data.from} para ${data.to}?`,
+      a: "Nossa prioridade absoluta é manter a fidelidade visual idêntica à original. Para conversões que envolvem formatos com perdas (como JPG), aplicamos taxas de compressão de alta qualidade (92%) para que a perda seja imperceptível ao olho humano."
+    },
+    {
+      q: `Como funciona o conversor de ${data.from} para ${data.to} no celular?`,
+      a: "Funciona perfeitamente em qualquer smartphone ou tablet, seja Android ou iOS (iPhone). O processo é executado diretamente na memória do seu navegador móvel, sem exigir downloads de aplicativos da App Store ou Play Store."
+    },
+    {
+      q: "O Mestre das Contas armazena ou tem acesso às minhas fotos enviadas?",
+      a: "Jamais! Nosso conversor opera inteiramente sob a arquitetura Client-Side (WASM/JS). Isso significa que as imagens são convertidas localmente no seu dispositivo e nunca são transmitidas para os nossos servidores. Sua privacidade é 100% garantida."
+    },
+    {
+      q: `Quais são as vantagens reais de usar o formato ${data.to}?`,
+      a: `A verdade é que cada formato de imagem atende a uma demanda específica. O formato ${data.to} é amplamente reconhecido por sua finalidade, seja para compactação otimizada na internet, fundo transparente para logomarcas ou compatibilidade com sistemas operacionais antigos.`
+    },
+    {
+      q: "Existe algum limite diário ou de tamanho de arquivo na ferramenta?",
+      a: "Não há limites! O Mestre das Contas disponibiliza a conversão de forma ilimitada e 100% gratuita. Veja bem: por rodar localmente no seu computador ou celular, você pode carregar múltiplos arquivos simultaneamente sem enfrentar filas."
+    },
+    {
+      q: "Como o formato WebP ajuda a melhorar o SEO do meu site?",
+      a: "O WebP é um formato moderno recomendado pelo Google. Ele oferece transparência e fidelidade visual semelhante ao PNG, mas com arquivos de tamanho 30% a 50% menores. Isso faz com que as páginas carreguem mais rápido, melhorando sua nota no Google PageSpeed."
+    },
+    {
+      q: "Posso reverter a conversão de volta caso mude de ideia?",
+      a: "Sim, com certeza. Se você converteu um arquivo para testar, basta usar a ferramenta correspondente em nosso painel para realizar a conversão inversa (como transformar a imagem resultante de volta para o formato de origem) sem complicações."
+    }
+  ];
+
+  // JSON-LD Dinâmico (Triple: App + HowTo + FAQPage)
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
       {
         "@type": "SoftwareApplication",
-        "name": `Conversor de ${data.from} para ${data.to}`,
+        "name": `Conversor de ${data.from} para ${data.to} Mestre das Contas`,
         "applicationCategory": "MultimediaApplication",
         "operatingSystem": "Web Browser",
         "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
-        "description": `Ferramenta online para converter imagens ${data.from} para ${data.to} gratuitamente e com segurança.` },
+        "description": `Ferramenta online para converter imagens ${data.from} para ${data.to} gratuitamente e com segurança.` 
+      },
       {
         "@type": "HowTo",
         "name": `Como converter ${data.from} para ${data.to} passo a passo`,
@@ -87,6 +122,17 @@ export default async function ConversionPage({ params }: Props) {
             "url": `https://mestredascontas.com.br/ferramentas/conversor-imagem/${slug}#ferramenta`
           }
         ]
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": faqs.map(f => ({
+          "@type": "Question",
+          "name": f.q,
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": f.a
+          }
+        }))
       }
     ]
   };
@@ -202,52 +248,58 @@ export default async function ConversionPage({ params }: Props) {
                 <p className="text-sm text-emerald-700 dark:text-emerald-300/80 leading-relaxed">
                     Preocupado com a privacidade das suas fotos? Nós também. Por isso, <strong>nossa ferramenta roda 100% no seu navegador</strong>. Suas imagens nunca saem do seu computador e nunca são enviadas para nossos servidores. É como se você tivesse baixado um programa, mas sem precisar instalar nada.
                 </p>
+                <ExpertSignature author="Equipe Técnica Mestre das Contas" updatedAt="Junho de 2026" />
             </div>
-
-            <h3 className="text-xl font-bold text-slate-800 dark:text-white mt-10 mb-6 flex items-center gap-2">
-                <HelpCircle className="text-slate-500 dark:text-slate-400"/> Dúvidas Comuns
-            </h3>
-            
-            <div className="space-y-4">
-                <details className="group bg-slate-50 dark:bg-slate-800/50 p-4 rounded-xl border border-slate-100 dark:border-slate-800 cursor-pointer transition-all hover:border-blue-200 dark:hover:border-blue-800">
-                    <summary className="font-bold text-slate-800 dark:text-slate-200 flex justify-between items-center list-none">
-                        A qualidade da imagem diminui?
-                        <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
-                    </summary>
-                    <p className="mt-3 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-                        Nossa prioridade é manter a qualidade visual idêntica à original. Para formatos com compressão (como JPG), aplicamos o padrão de alta fidelidade (92%).
-                    </p>
-                </details>
-
-                <details className="group bg-slate-50 dark:bg-slate-800/50 p-4 rounded-xl border border-slate-100 dark:border-slate-800 cursor-pointer transition-all hover:border-blue-200 dark:hover:border-blue-800">
-                    <summary className="font-bold text-slate-800 dark:text-slate-200 flex justify-between items-center list-none">
-                        Funciona no celular?
-                        <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
-                    </summary>
-                    <p className="mt-3 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-                        Sim! Funciona perfeitamente em iPhone (iOS) e Android. É ótimo para converter aquelas fotos HEIC do iPhone para enviar no WhatsApp.
-                    </p>
-                </details>
-
-                <details className="group bg-slate-50 dark:bg-slate-800/50 p-4 rounded-xl border border-slate-100 dark:border-slate-800 cursor-pointer transition-all hover:border-blue-200 dark:hover:border-blue-800">
-                    <summary className="font-bold text-slate-800 dark:text-slate-200 flex justify-between items-center list-none">
-                        É realmente gratuito?
-                        <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
-                    </summary>
-                    <p className="mt-3 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-                        100% Gratuito e ilimitado. Você pode converter quantas imagens quiser, sem marcas d'água e sem cadastro.
-                    </p>
-                </details>
-            </div>
-
         </div>
 
-        {/* ANÚNCIO BOTTOM */}
-        <div className="w-full flex justify-center mt-8 min-h-[250px]">
-            <LazyAdUnit slot="convert_bottom" format="horizontal" variant="software" />
-        </div>
-
+        <SmartGlossaryLinker currentHref={`/ferramentas/conversor-imagem/${slug}`} />
         <SmartCrossLinker currentHref={`/ferramentas/conversor-imagem/${slug}`} category="ferramentas" />
+
+        {/* --- FAQ SECTION ACCORDION (EXATAMENTE 7 QUESTÕES COM BASE EM DIRECTIVES) --- */}
+        <section id="faq" className="max-w-4xl mx-auto w-full">
+          <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl p-6 md:p-12">
+            <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-2 flex items-center gap-3">
+              <HelpCircle className="text-emerald-500 shrink-0" size={32} /> Tira-Dúvidas Definitivo
+            </h2>
+            <p className="text-sm text-slate-500 dark:text-slate-400 mb-8">
+              Encontre respostas para as perguntas mais recorrentes sobre a conversão de arquivos de imagem.
+            </p>
+
+            <div className="space-y-4 not-prose">
+              {faqs.map((faq, index) => (
+                <details 
+                  key={index}
+                  className="group border border-slate-200 dark:border-slate-800 rounded-2xl bg-white dark:bg-slate-900/50 transition-all duration-300 overflow-hidden"
+                >
+                  <summary className="flex items-center justify-between p-5 text-base font-bold text-slate-800 dark:text-slate-200 cursor-pointer list-none select-none hover:bg-slate-50 dark:hover:bg-slate-800/30">
+                    <span className="pr-4">{faq.q}</span>
+                    <span className="transition-transform duration-300 group-open:rotate-180 text-emerald-500">
+                      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </span>
+                  </summary>
+                  <div className="p-5 border-t border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/20 text-sm leading-relaxed text-slate-600 dark:text-slate-400">
+                    {faq.a.includes("WebP") ? (
+                      faq.a.split("WebP").reduce((prev, current, i) => {
+                        if (i === 0) return [current];
+                        return prev.concat(
+                          <GlossaryTerm key={i} slug="webp-formato-imagem">WebP</GlossaryTerm>,
+                          current
+                        );
+                      }, [] as any)
+                    ) : faq.a}
+                  </div>
+                </details>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* PUBLICIDADE BOTTOM */}
+        <div className="w-full flex justify-center mt-8">
+           <LazyAdUnit slot="convert_bottom" format="horizontal" variant="software" className="min-h-[100px] w-full" />
+        </div>
 
       </div>
     </article>

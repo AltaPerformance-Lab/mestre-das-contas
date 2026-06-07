@@ -1,7 +1,6 @@
 import { Suspense } from "react";
 import type { Metadata } from "next";
 import TimeMathCalculator from "@/components/calculators/TimeMathCalculator";
-
 import LazyAdUnit from "@/components/ads/LazyAdUnit";
 import DisclaimerBox from "@/components/ui/DisclaimerBox";
 import PageHeader from "@/components/layout/PageHeader";
@@ -10,11 +9,13 @@ import {
 } from "lucide-react";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
 import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
+import SmartGlossaryLinker from "@/components/layout/SmartGlossaryLinker";
+import GlossaryTerm from "@/components/ui/GlossaryTerm";
 import ExpertSignature from "@/components/ui/ExpertSignature";
 
 export async function generateMetadata(): Promise<Metadata> {
   const title = "Calculadora de Soma de Horas Trabalhadas | Somar e Subtrair (Grátis)";
-  const description = "Some horas e minutos facilmente. Ferramenta gratuita para calcular banco de horas, plantões e fazer adição ou subtração de tempo (Ex: 1h30 + 2h45).";
+  const description = "Soma de horas trabalhadas sem complicações. Adicione e subtraia minutos da sua jornada de trabalho de forma exata e instantânea. Simulação grátis!";
 
   return {
     title,
@@ -23,7 +24,6 @@ export async function generateMetadata(): Promise<Metadata> {
     alternates: { canonical: "https://mestredascontas.com.br/trabalhista/soma-de-horas" },
     openGraph: {
       title: "Somador de Horas Grátis",
-      description: "Adicione e subtraia horas trabalhadas rapidamente com nossa ferramenta gratuita.",
       url: "https://mestredascontas.com.br/trabalhista/soma-de-horas",
       siteName: "Mestre das Contas",
       locale: "pt_BR",
@@ -41,9 +41,34 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 const faqList = [
-    { q: "Como somar horas trabalhadas manualmente?", a: "Como o tempo é calculado em base 60, não é uma soma decimal simples. Se você somar 1h30 + 1h45, o total é 3h15. O cálculo exato é: some os minutos (30+45=75). Como passou de 60, subtraia 60 e adicione 1 às horas (75-60 = 15m extras). Depois some as horas (1+1+1 extra = 3h). Nossa calculadora já faz isso." },
-    { q: "Posso somar e subtrair ao mesmo tempo?", a: "Sim! Na nossa ferramenta, basta alterar o sinal de '+' para '-' ao lado do tempo para que aquele valor seja subtraído do total." },
-    { q: "Como transformar os minutos em dinheiro?", a: "Você precisa converter os minutos para formato decimal. Divida os minutos por 60. Ex: 30 minutos = 30/60 = 0,5. Então 3h30 equivalem a 3,5 horas decimais. Multiplique isso pelo valor da sua hora." }
+  { 
+    q: "Como somar horas trabalhadas manualmente?", 
+    a: "Como o tempo opera em sistema sexagesimal (base 60), some os minutos separadamente. Se a soma dos minutos ultrapassar 60, divida-os por 60 para obter a parte inteira (horas) e o resto (minutos adicionais). Depois, some todas as horas junto com a hora convertida." 
+  },
+  { 
+    q: "Posso realizar soma e subtração de horas simultaneamente?", 
+    a: "Sim, perfeitamente! Em nossa ferramenta interativa, basta alternar o símbolo matemático de mais (+) para menos (-) ao lado de cada linha correspondente de horário para subtrair aquele intervalo do saldo total acumulado." 
+  },
+  { 
+    q: "Como transformar os minutos de trabalho em formato de dinheiro (salário)?", 
+    a: "Você deve converter os minutos para o formato decimal dividindo-os por 60 (ex: 45 minutos viram 0,75 horas decimais). Depois, multiplique o total acumulado das horas decimais diretamente pelo valor bruto do seu salário-hora." 
+  },
+  {
+    q: "Por que a soma de horas no celular ou calculadora padrão costuma dar erro?",
+    a: "As calculadoras e smartphones tradicionais operam na base decimal (centésimos). Ao digitar 1,30 + 1,30, a máquina lê 2,60 (duas horas e sessenta centésimos), ignorando que 60 minutos físicos já totalizam uma hora inteira nova (3h00)."
+  },
+  {
+    q: "O que significa somar horas em formato sexagesimal (base 60)?",
+    a: "Representa a soma matemática estruturada onde a unidade máxima fracionária da hora é limitada em 60 partes (minutos), reiniciando o ciclo a cada grupo inteiro de 60 unidades, ao contrário da base métrica comum de 10 ou 100 partes."
+  },
+  {
+    q: "Como o banco de horas positivo deve ser compensado ou pago na rescisão?",
+    a: "As horas acumuladas em banco de horas devem ser usufruídas como folgas dentro do prazo contratado. Caso ocorra demissão antes da compensação das horas, elas deverão ser pagas de forma indenizatória como horas extras comuns."
+  },
+  {
+    q: "Qual a tolerância máxima diária para variações na marcação de ponto eletrônico?",
+    a: "De acordo com o Artigo 58 da CLT, o limite permitido de variação tolerada nos registros é de até 5 minutos por batida (entrada ou saída), contanto que não exceda o limite geral máximo de 10 minutos diários agregados."
+  }
 ];
 
 const jsonLd = {
@@ -149,7 +174,7 @@ export default async function SomaDeHorasPage() {
               Como Usar o Somador de Horas (Passo a Passo)
           </h2>
           <p className="text-slate-600 dark:text-slate-400">
-             Nossa ferramenta foi desenhada para ser ultra intuitiva, permitindo que você some uma lista completa de horários de entrada e saída (banco de horas) sem complicação. Siga os passos:
+             Nossa ferramenta foi desenhada para ser ultra intuitiva, permitindo que você some uma lista completa de horários de entrada e saída (banco de horas) sem complicação. Nós queremos facilitar a sua rotina! Siga os passos:
           </p>
 
           <div className="grid sm:grid-cols-2 gap-6 my-8 not-prose">
@@ -190,10 +215,10 @@ export default async function SomaDeHorasPage() {
               Entenda: Por que é Difícil Somar Horas Trabalhadas?
           </h2>
           <p className="lead text-slate-700 dark:text-slate-300 text-lg font-medium">
-            Se você já tentou fechar sua folha de ponto ou calcular as horas extras do mês usando uma calculadora comum ou o celular, provavelmente se deparou com um resultado estranho. 
+            Se você já tentou fechar sua <GlossaryTerm slug="cartao-de-ponto-jornada">folha de ponto</GlossaryTerm> ou calcular as horas extras do mês usando uma calculadora comum ou o celular, provavelmente se deparou com um resultado estranho. A verdade é que o formato do relógio engana a matemática decimal do cérebro.
           </p>
           <p>
-            Isso acontece por causa de um choque matemático simples: o nosso sistema financeiro e matemático padrão opera na <strong>base 100 (Decimal)</strong>, enquanto a medição do tempo opera na <strong>base 60 (Sexagesimal)</strong>. 
+            Isso acontece por causa de um choque matemático simples: o nosso sistema financeiro e matemático padrão opera na <strong>base 100 (Decimal)</strong>, enquanto a medição do tempo opera na <strong>base 60 (<GlossaryTerm slug="sistema-sexagesimal-soma-horas">Sexagesimal</GlossaryTerm>)</strong>.
           </p>
 
           <div className="my-8 bg-amber-50 dark:bg-amber-950/20 border-l-4 border-amber-500 p-6 rounded-r-2xl">
@@ -272,7 +297,7 @@ export default async function SomaDeHorasPage() {
               <Plus className="text-emerald-600" /> Como Converter Horas para Decimal (Dinheiro/Salário)
           </h3>
           <p>
-            Se você ganha por hora trabalhada (ou precisa calcular o valor exato de horas extras), <strong>nunca multiplique o horário do relógio direto pelo valor financeiro</strong>. Fazer <code>8h30 * R$ 20,00</code> e colocar 8.3 na calculadora dará R$ 166,00 (Errado!). 
+            Se você ganha por hora trabalhada (ou precisa calcular o valor exato de horas extras), <strong>nunca multiplique o horário do relógio direto pelo valor financeiro</strong>. Fazer <code>8h30 * R$ 20,00</code> e colocar 8.3 na calculadora dará R$ 166,00 (Errado!). Veja bem, a matemática decimal é vital para não perder dinheiro.
           </p>
           <p>
             Você precisa converter os minutos em formato decimal dividindo-os por 60. A fórmula é simples:
@@ -285,23 +310,47 @@ export default async function SomaDeHorasPage() {
           </div>
 
           <p>Veja a tabela de conversão rápida dos minutos mais comuns:</p>
-          <div className="overflow-x-auto my-6">
-            <table className="w-full text-sm text-left border-collapse">
-              <thead>
-                <tr className="border-b border-slate-200 dark:border-slate-800 text-slate-500">
-                  <th className="py-2">Minutos do Relógio</th>
-                  <th className="py-2">Fórmula</th>
-                  <th className="py-2">Formato Decimal (Multiplicador)</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
-                <tr><td className="py-2 font-mono">15 min</td><td className="py-2">15 / 60</td><td className="py-2 font-bold text-indigo-600 dark:text-indigo-400">0,25</td></tr>
-                <tr><td className="py-2 font-mono">30 min</td><td className="py-2">30 / 60</td><td className="py-2 font-bold text-indigo-600 dark:text-indigo-400">0,50</td></tr>
-                <tr><td className="py-2 font-mono">45 min</td><td className="py-2">45 / 60</td><td className="py-2 font-bold text-indigo-600 dark:text-indigo-400">0,75</td></tr>
-                <tr><td className="py-2 font-mono">10 min</td><td className="py-2">10 / 60</td><td className="py-2 font-bold text-indigo-600 dark:text-indigo-400">0,17</td></tr>
-                <tr><td className="py-2 font-mono">50 min</td><td className="py-2">50 / 60</td><td className="py-2 font-bold text-indigo-600 dark:text-indigo-400">0,83</td></tr>
-              </tbody>
-            </table>
+          
+          {/* TABELA DE CONVERSÃO DE MINUTOS E HORAS DECIMAIS (HTML PURO RESPONSIVO) */}
+          <div className="not-prose my-6 border rounded-xl overflow-hidden border-slate-200 dark:border-slate-700 shadow-sm bg-white dark:bg-slate-900">
+              <div className="overflow-x-auto w-full">
+                  <table className="w-full text-sm text-left border-collapse min-w-[500px]">
+                      <thead className="bg-slate-50 dark:bg-slate-800/50 text-slate-600 dark:text-slate-300 text-xs uppercase tracking-wider">
+                          <tr>
+                              <th className="px-6 py-4 font-bold">Minutos do Relógio</th>
+                              <th className="px-6 py-4 font-bold">Fórmula</th>
+                              <th className="px-6 py-4 font-bold">Formato Decimal (Multiplicador)</th>
+                          </tr>
+                      </thead>
+                      <tbody className="divide-y divide-slate-100 dark:divide-slate-800 font-mono text-slate-700 dark:text-slate-350">
+                          <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors">
+                              <td className="px-6 py-4 font-sans font-bold">15 min</td>
+                              <td className="px-6 py-4">15 / 60</td>
+                              <td className="px-6 py-4 font-bold text-indigo-600 dark:text-indigo-400">0,25</td>
+                          </tr>
+                          <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors">
+                              <td className="px-6 py-4 font-sans font-bold">30 min</td>
+                              <td className="px-6 py-4">30 / 60</td>
+                              <td className="px-6 py-4 font-bold text-indigo-600 dark:text-indigo-400">0,50</td>
+                          </tr>
+                          <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors">
+                              <td className="px-6 py-4 font-sans font-bold">45 min</td>
+                              <td className="px-6 py-4">45 / 60</td>
+                              <td className="px-6 py-4 font-bold text-indigo-600 dark:text-indigo-400">0,75</td>
+                          </tr>
+                          <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors">
+                              <td className="px-6 py-4 font-sans font-bold">10 min</td>
+                              <td className="px-6 py-4">10 / 60</td>
+                              <td className="px-6 py-4 font-bold text-indigo-600 dark:text-indigo-400">0,17</td>
+                          </tr>
+                          <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors">
+                              <td className="px-6 py-4 font-sans font-bold">50 min</td>
+                              <td className="px-6 py-4">50 / 60</td>
+                              <td className="px-6 py-4 font-bold text-indigo-600 dark:text-indigo-400">0,83</td>
+                          </tr>
+                      </tbody>
+                  </table>
+              </div>
           </div>
 
           <p>
@@ -320,7 +369,7 @@ export default async function SomaDeHorasPage() {
           <p>
             Segundo a Consolidação das Leis do Trabalho (CLT), a jornada normal de trabalho é de até <strong>8 horas diárias e 44 horas semanais</strong>.
           </p>
-          <ul>
+          <ul className="list-disc pl-5 space-y-2">
             <li>
               <strong>Tolerância de Ponto (Artigo 58, § 1º da CLT):</strong> Não são descontadas nem computadas como horas extras as variações de registro de ponto que não excedam <strong>5 minutos</strong> em cada entrada e saída, observado o limite máximo de <strong>10 minutos diários</strong>.
             </li>
@@ -329,18 +378,18 @@ export default async function SomaDeHorasPage() {
             </li>
           </ul>
 
-          <div className="mt-16 not-prose">
-            <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-8 flex items-center gap-3 border-b border-slate-200 dark:border-slate-800 pb-4">
+          <div className="mt-16 not-prose bg-white dark:bg-slate-900 rounded-3xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm">
+            <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-8 flex items-center gap-3 border-b border-slate-100 dark:border-slate-800 pb-4">
                 <HelpCircle className="text-indigo-600 dark:text-indigo-400" /> Dúvidas Frequentes sobre Cálculo de Horas
             </h3>
             
             <div className="space-y-4">
               {faqList.map((item, idx) => (
-                  <details key={idx} className="group bg-white dark:bg-slate-900 p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm cursor-pointer open:ring-2 open:ring-indigo-100 dark:open:ring-indigo-900/30 transition-all">
-                      <summary className="font-semibold text-slate-800 dark:text-slate-100 list-none flex justify-between items-center select-none">
+                  <details key={idx} className="group bg-slate-50/50 dark:bg-slate-900/40 p-5 rounded-2xl border border-slate-200/60 dark:border-slate-800/80 cursor-pointer open:ring-2 open:ring-indigo-100 dark:open:ring-indigo-900/30 transition-all duration-200">
+                      <summary className="font-bold text-slate-850 dark:text-slate-105 list-none flex justify-between items-center select-none">
                           <div className="flex items-start gap-3">
-                              <span className="text-indigo-500 dark:text-indigo-400 font-bold text-xs mt-1">#</span>
-                              <span className="leading-snug">{item.q}</span>
+                              <span className="text-indigo-600 font-bold text-xs mt-1">#</span>
+                              <span className="leading-snug text-slate-800 dark:text-slate-200 font-semibold">{item.q}</span>
                           </div>
                           <span className="text-slate-400 group-open:rotate-180 transition-transform ml-2 shrink-0">▼</span>
                       </summary>
@@ -355,6 +404,7 @@ export default async function SomaDeHorasPage() {
             <ExpertSignature updatedAt="Maio de 2026" author="Equipe Editorial" />
         </div>
 
+        <SmartGlossaryLinker currentHref="/trabalhista/soma-de-horas" />
         <SmartCrossLinker currentHref="/trabalhista/soma-de-horas" category="trabalhista" />
 
         <div className="w-full flex justify-center my-8 min-h-[250px]">

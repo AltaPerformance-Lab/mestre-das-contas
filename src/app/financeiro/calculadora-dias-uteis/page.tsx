@@ -1,10 +1,11 @@
-
 import { Suspense } from "react";
 import { Metadata } from "next";
 import BusinessDaysCalculator from "@/components/tools/BusinessDaysCalculator";
 import LazyAdUnit from "@/components/ads/LazyAdUnit";
 import PageHeader from "@/components/layout/PageHeader";
 import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
+import SmartGlossaryLinker from "@/components/layout/SmartGlossaryLinker";
+import GlossaryTerm from "@/components/ui/GlossaryTerm";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
 import ExpertSignature from "@/components/ui/ExpertSignature";
 import { 
@@ -15,7 +16,7 @@ import DisclaimerBox from "@/components/ui/DisclaimerBox";
 
 export const metadata: Metadata = {
   title: "Calculadora de Dias Úteis 2026 (Grátis) | Contagem de Prazos",
-  description: "Calcule prazos processuais, entrega de projetos e datas de vencimento em segundos. Nossa ferramenta considera todos os feriados nacionais de 2026. Grátis.",
+  description: "Precisa contar prazos processuais ou comerciais? Calcule dias úteis entre duas datas considerando todos os feriados nacionais brasileiros. Rápido e grátis!",
   keywords: [
     "calculadora dias uteis", 
     "contagem de prazo dias uteis", 
@@ -31,14 +32,43 @@ export const metadata: Metadata = {
   alternates: { canonical: "https://mestredascontas.com.br/financeiro/calculadora-dias-uteis" },
   openGraph: {
     title: "Calculadora de Dias Úteis 2026",
-    description: "Ferramenta essencial para calcular prazos bancários e processuais. Inclui feriados.",
     url: "https://mestredascontas.com.br/financeiro/calculadora-dias-uteis",
     siteName: "Mestre das Contas",
     type: "website" }
 };
 
+const faqList = [
+  { 
+    q: "O sábado é considerado dia útil para fins de prazo ou trabalho?", 
+    a: "Depende da finalidade. Para fins bancários, liquidação de boletos e prazos processuais do Novo CPC, o sábado NÃO é considerado dia útil. Já para fins trabalhistas de jornada padrão na CLT, o sábado é computado como dia útil." 
+  },
+  { 
+    q: "Como funciona a contagem de prazos: exclui-se o dia do início?", 
+    a: "Sim. A regra civil e processual determina que você exclui o dia do começo (a data da intimação ou evento) e inclui o dia de vencimento final. Se o prazo for útil, a contagem inicia no primeiro dia útil subsequente." 
+  },
+  { 
+    q: "Como adicionar feriados municipais ou estaduais na contagem?", 
+    a: "Nossa calculadora padrão processa feriados NACIONAIS federais. Para descontar feriados locais (municipais/estaduais), você pode incluí-los de forma totalmente personalizada no campo 'Configurações' da ferramenta." 
+  },
+  {
+    q: "A quarta-feira de cinzas e a véspera de natal contam como dias úteis?",
+    a: "A Quarta-feira de Cinzas (até as 12h) e as vésperas de feriados são pontos facultativos ou dias de expediente reduzido bancário. Via de regra, são computados como dias úteis bancários parciais, exceto se decretado recesso local."
+  },
+  {
+    q: "Qual a diferença de prazo processual no Novo CPC vs. prazo de dias corridos?",
+    a: "No Novo Código de Processo Civil (CPC, Artigo 219), a contagem de qualquer prazo processual computa exclusivamente os dias úteis. Prazos civis comuns ou contratuais gerais seguem a regra de dias corridos seguidos."
+  },
+  {
+    q: "O que acontece se a data de vencimento de um boleto cai em um feriado ou final de semana?",
+    a: "Segundo a Lei Federal nº 7.089/1983, o pagamento de qualquer título ou obrigação tributária cujo vencimento coincidir com dia não útil poderá ser efetuado no primeiro dia útil subsequente sem qualquer cobrança de juros ou multa."
+  },
+  {
+    q: "Como funciona a contagem de prazos trabalhistas para aviso prévio pela CLT?",
+    a: "A contagem do prazo do aviso prévio trabalhista obedece à regra civil comum (exclui o dia da notificação e inclui o dia do vencimento final), porém ela é computada em dias corridos ininterruptos, sem descontar finais de semana."
+  }
+];
+
 export default function BusinessDaysPage() {
-  
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
@@ -59,21 +89,20 @@ export default function BusinessDaysPage() {
         "dateModified": new Date().toISOString()
       },
       {
-      "@type": "FAQPage",
-      "mainEntity": [
-        { "@type": "Question", "name": "O sábado é considerado dia útil?", "acceptedAnswer": { "@type": "Answer", "text": "Depende. Para fins bancários e de pagamentos, NÃO. Para fins trabalhistas (jornada de trabalho), o sábado é considerado dia útil (salvo acordo sindical). Na nossa calculadora, você tem um botão opcional para incluir sábados na contagem." } },
-        { "@type": "Question", "name": "Como contar o dia do início?", "acceptedAnswer": { "@type": "Answer", "text": "A regra de ouro do Código Civil e Processual é: exclui-se o dia do começo e inclui-se o do vencimento. Exemplo: Se o prazo começa dia 01/04, o dia 1 não conta. O 'Dia 1' do prazo será o dia 02/04 (se for útil)." } },
-        { "@type": "Question", "name": "E os feriados municipais?", "acceptedAnswer": { "@type": "Answer", "text": "Nossa calculadora traz os feriados NACIONAIS. Feriados estaduais (como 9 de julho em SP) ou municipais (aniversário da cidade) devem ser adicionados manualmente no campo 'Configurações' para garantir a precisão total." } }
-      ]
-    }
+        "@type": "FAQPage",
+        "mainEntity": faqList.map(item => ({
+          "@type": "Question",
+          "name": item.q,
+          "acceptedAnswer": { "@type": "Answer", "text": item.a }
+        }))
+      }
     ]
   };
 
   return (
-    <article className="w-full max-w-full overflow-hidden pb-12 font-sans">
+    <article className="w-full max-w-full overflow-hidden pb-12 font-sans bg-slate-50 dark:bg-slate-950">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
-      {/* HEADER */}
       <div className="px-4 pt-4 md:pt-6">
         <PageHeader 
           title="Calculadora de Dias Úteis"
@@ -90,7 +119,7 @@ export default function BusinessDaysPage() {
         />
       </div>
 
-      <div className="flex flex-col gap-8 px-4 sm:px-6 max-w-7xl mx-auto">
+      <div className="flex flex-col gap-8 px-4 sm:px-6 max-w-7xl mx-auto w-full">
         
         {/* REVISÃO LEGAL/FINANCEIRA (E-E-A-T) */}
         <div className="bg-blue-50/50 dark:bg-blue-900/10 border border-blue-100 dark:border-blue-800 p-4 rounded-2xl flex items-center gap-3 text-xs text-blue-700 dark:text-blue-300 mb-2">
@@ -129,13 +158,13 @@ export default function BusinessDaysPage() {
             </h2>
             
             <p className="lead text-lg font-medium text-slate-700 dark:text-slate-300">
-               Seja você um advogado contando prazos processuais, um gestor de projetos planejando uma entrega ou apenas alguém querendo saber quando cairá o pagamento de um boleto, uma coisa é certa: <strong>dias corridos e dias úteis são universos diferentes</strong>.
+               Seja você um advogado contando prazos processuais, um gestor de projetos planejando uma entrega ou apenas alguém querendo saber quando cairá o pagamento de um boleto, uma coisa é certa: <strong>dias corridos e dias úteis são universos diferentes</strong>. Nós estamos aqui para te ajudar a desvendar esses prazos.
             </p>
             <p>
-               Um prazo de "30 dias" pode facilmente se transformar em 45 dias reais se houver feriados e muitos finais de semana no caminho. Errar essa conta pode custar caro: multas, juros ou a perda de um direito na justiça.
+               Um prazo de "30 dias" pode facilmente se transformar em 45 dias reais se houver feriados e muitos finais de semana no caminho. Errar essa conta pode custar caro: multas, <GlossaryTerm slug="juros-compostos-o-que-e">juros</GlossaryTerm> ou a perda de um direito na justiça. Veja bem, a verdade é que dominar a contagem previne surpresas indesejáveis.
             </p>
             <p>
-               Neste guia completo, não vamos apenas te dar a calculadora (que está acima e é ótima), mas vamos te ensinar a lógica por trás da contagem de prazos bancários e civis no Brasil.
+               Neste guia completo, não vamos apenas te dar a calculadora (que está acima e é ótima), mas vamos te ensinar a lógica por trás da contagem de prazos bancários e civis no Brasil. O melhor de tudo? Nós facilitamos essa conta!
             </p>
 
             <div className="bg-blue-50 dark:bg-blue-900/10 border border-blue-200 dark:border-blue-900/30 p-6 rounded-2xl my-8 not-prose shadow-sm">
@@ -263,49 +292,36 @@ export default function BusinessDaysPage() {
                 </p>
             </div>
 
-            {/* FAQ */}
-            <div className="mt-16 not-prose">
-                <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-8 flex items-center gap-3 border-b border-slate-200 dark:border-slate-800 pb-4">
-                    <HelpCircle className="text-blue-600 dark:text-blue-400" /> Perguntas Frequentes
-                </h2>
-                <div className="grid gap-4">
-                    <details className="group bg-white dark:bg-slate-800/50 p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm cursor-pointer open:ring-2 open:ring-blue-100 dark:open:ring-blue-900/30 transition-all">
-                        <summary className="font-bold text-slate-800 dark:text-slate-100 flex justify-between items-center list-none select-none">
-                            O sábado é considerado dia útil?
-                            <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
-                        </summary>
-                        <p className="mt-2 text-slate-600 dark:text-slate-300 text-sm leading-relaxed border-t border-slate-100 dark:border-slate-700 pt-2">
-                            Depende. Para fins bancários e de pagamentos, <strong>NÃO</strong>. Para fins trabalhistas (jornada de trabalho), o sábado é considerado dia útil (salvo acordo sindical). Na nossa calculadora, você tem um botão opcional para incluir sábados na contagem.
-                        </p>
-                    </details>
-
-                    <details className="group bg-white dark:bg-slate-800/50 p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm cursor-pointer open:ring-2 open:ring-blue-100 dark:open:ring-blue-900/30 transition-all">
-                        <summary className="font-bold text-slate-800 dark:text-slate-100 flex justify-between items-center list-none select-none">
-                            Como contar o dia do início?
-                            <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
-                        </summary>
-                        <p className="mt-2 text-slate-600 dark:text-slate-300 text-sm leading-relaxed border-t border-slate-100 dark:border-slate-700 pt-2">
-                            A regra de ouro do Código Civil e Processual é: <strong>exclui-se o dia do começo e inclui-se o do vencimento</strong>. Exemplo: Se o prazo começa dia 01/04, o dia 1 não conta. O "Dia 1" do prazo será o dia 02/04 (se for útil).
-                        </p>
-                    </details>
-
-                    <details className="group bg-white dark:bg-slate-800/50 p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm cursor-pointer open:ring-2 open:ring-blue-100 dark:open:ring-blue-900/30 transition-all">
-                        <summary className="font-bold text-slate-800 dark:text-slate-100 flex justify-between items-center list-none select-none">
-                            E os feriados municipais?
-                            <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
-                        </summary>
-                        <p className="mt-2 text-slate-600 dark:text-slate-300 text-sm leading-relaxed border-t border-slate-100 dark:border-slate-700 pt-2">
-                            Nossa calculadora traz os feriados NACIONAIS. Feriados estaduais (como 9 de julho em SP) ou municipais (aniversário da cidade) devem ser adicionados manualmente no campo "Configurações" para garantir a precisão total.
-                        </p>
-                    </details>
-                </div>
-              
             <ExpertSignature updatedAt="Maio de 2026" author="Equipe Editorial" />
-          </div>
-
         </div>
 
+        <SmartGlossaryLinker currentHref="/financeiro/calculadora-dias-uteis" category="financeiro" />
         <SmartCrossLinker currentHref="/financeiro/calculadora-dias-uteis" category="financeiro" />
+
+        {/* FAQ */}
+        <div className="max-w-4xl mx-auto w-full print:hidden">
+          <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm">
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-8 flex items-center gap-3 border-b border-slate-200 dark:border-slate-800 pb-4">
+                <HelpCircle className="text-blue-600 dark:text-blue-400" /> Dúvidas Frequentes sobre Dias Úteis
+            </h2>
+            <div className="space-y-4">
+                {faqList.map((faq, idx) => (
+                  <details key={idx} className="group bg-slate-50/50 dark:bg-slate-900/40 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 cursor-pointer open:ring-2 open:ring-blue-100 dark:open:ring-blue-900/30 transition-all duration-200">
+                      <summary className="font-bold text-slate-800 dark:text-slate-100 list-none flex justify-between items-center select-none">
+                          <div className="flex items-start gap-3">
+                              <span className="text-blue-600 font-bold text-xs mt-1">#</span>
+                              <span className="leading-snug text-slate-800 dark:text-slate-200 font-semibold">{faq.q}</span>
+                          </div>
+                          <span className="text-slate-400 group-open:rotate-180 transition-transform ml-2 shrink-0">▼</span>
+                      </summary>
+                      <p className="mt-3 text-slate-600 dark:text-slate-400 leading-relaxed border-t border-slate-100 dark:border-slate-800 pt-3 text-sm animate-in fade-in">
+                          {faq.a}
+                      </p>
+                  </details>
+                ))}
+            </div>
+          </div>
+        </div>
 
         {/* ANÚNCIO FINAL */}
         <div className="w-full flex justify-center my-8 print:hidden min-h-[250px]">

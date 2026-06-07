@@ -17,11 +17,13 @@ import {
 } from "lucide-react";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
 import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
+import SmartGlossaryLinker from "@/components/layout/SmartGlossaryLinker";
+import GlossaryTerm from "@/components/ui/GlossaryTerm";
 import ExpertSignature from "@/components/ui/ExpertSignature";
 
 export async function generateMetadata(): Promise<Metadata> {
   const title = "Simulador da Reforma Tributária 2026 | Calcule o Impacto no seu Bolso";
-  const description = "Entenda como a nova reforma tributária afeta o preço dos produtos e seu poder de compra em 2026. Simulação gratuita do IVA Dual, Cashback e Imposto Seletivo.";
+  const description = "Como a Nova Reforma Tributária afeta o seu bolso e o preço dos produtos? Simule agora o impacto do IVA Dual, Cashback e Imposto Seletivo! 100% grátis!";
 
   return {
     title,
@@ -50,11 +52,13 @@ export async function generateMetadata(): Promise<Metadata> {
 
 // --- FAQ LIST (SCHEMA ROBUSTO PARA RICH SNIPPETS) ---
 const faqList = [
-    { p: "Quando a Reforma começa a valer de verdade?", r: "A fase de testes começa em 2026, com uma alíquota simbólica de 0,9% (CBS) e 0,1% (IBS). A virada de chave real acontece em 2027 para os impostos federais e a transição completa termina apenas em 2033." },
-    { p: "O que é o IVA Dual?", r: "É a unificação de impostos. 'Dual' porque são dois: a CBS (Federal, substitui PIS/COFINS/IPI) e o IBS (Estadual/Municipal, substitui ICMS/ISS)." },
-    { p: "A Cesta Básica vai aumentar?", r: "Não. A Reforma cria a 'Cesta Básica Nacional', com alíquota ZERO de impostos. Itens como arroz, feijão, pão e leite ficarão totalmente isentos." },
-    { p: "Como funciona o Cashback do Povo?", r: "Famílias de baixa renda cadastradas no CadÚnico receberão de volta parte do imposto pago em contas de luz, água, gás e alimentos. O estorno será feito no cartão ou conta bancária." },
-    { p: "O que é o 'Imposto do Pecado' (Seletivo)?", r: "É uma sobretaxa para produtos nocivos à saúde e ao meio ambiente. Cigarros, bebidas alcoólicas, refrigerantes, veículos poluentes e mineração pagarão IVA + Imposto Seletivo." }
+    { p: "Quando a Reforma Tributária começa a valer de verdade?", r: "A transição gradual começa in 2026 com uma fase de testes com alíquotas de 0,9% para CBS e 0,1% para IBS. Em 2027, os impostos federais PIS e COFINS são extintos e a CBS entra em vigor integralmente. A unificação dos impostos estaduais e municipais (IBS) ocorre de forma escalonada até a conclusão total em 2033." },
+    { p: "O que é o IVA Dual e qual a sua diferença na prática?", r: "O IVA Dual une cinco tributos antigos em apenas dois novos: a CBS (Contribuição sobre Bens e Serviços), que é federal, e o IBS (Imposto sobre Bens e Serviços), recolhido por estados e municípios. Na prática, elimina o efeito cascata de imposto cobrado sobre imposto e simplifica o cálculo em todo o país." },
+    { p: "A Cesta Básica Nacional vai ficar totalmente isenta de impostos?", r: "Sim! A reforma prevê a criação da 'Cesta Básica Nacional', que terá alíquota ZERO de impostos. Alimentos essenciais para a nutrição humana, como arroz, feijão, leite, pão francês e frutas, estarão completamente livres de tributação para garantir a segurança alimentar." },
+    { p: "Como vai funcionar o Cashback do Povo para famílias de baixa renda?", r: "Destinado a famílias cadastradas no CadÚnico, o Cashback devolverá parte da CBS e do IBS pagos em contas de energia elétrica, água, gás de cozinha e consumo básico de alimentos. O estorno será creditado diretamente em cartão social ou conta bancária vinculada ao beneficiário." },
+    { p: "O que é o Imposto Seletivo ('Imposto do Pecado') e quais itens pagam mais?", r: "Trata-se de uma sobretaxa aplicada a produtos e serviços que trazem prejuízos à saúde da população ou ao meio ambiente. Bebidas alcoólicas, cigarros, bebidas açucaradas (refrigerantes), veículos altamente poluentes, extração de recursos minerais e apostas online (bets) pagarão alíquotas adicionais." },
+    { p: "O que muda para profissionais autônomos e empresas do Simples Nacional?", r: "As empresas do Simples Nacional podem escolher manter o regime unificado atual ou apurar a CBS/IBS separadamente pelo sistema de débitos e créditos, o que pode ser vantajoso se venderem para grandes indústrias que exigem créditos tributários. Profissionais autônomos de profissões regulamentadas terão desconto de 30% na alíquota padrão." },
+    { p: "Como a tecnologia do Split Payment impede a sonegação fiscal?", r: "Com o Split Payment, o pagamento de tributos será eletrônico e automático na hora da transação financeira. Ao pagar com cartão ou Pix, a parcela referente ao imposto é dividida pelo banco e transferida direto para o caixa do governo, impedindo que empresas retenham ou soneguem os tributos recolhidos." }
 ];
 
 // --- 2. DADOS ESTRUTURADOS (JSON-LD) ---
@@ -168,7 +172,7 @@ export default async function ReformaPage() {
           </p>
           
           <p>
-            A verdade é que o sistema antigo era como um "Frankenstein", cheio de remendos. Mas isso mudou. Com a aprovação da <strong>Emenda Constitucional 132/2023</strong>, entramos na era do <strong>IVA (Imposto sobre Valor Agregado)</strong>, o modelo usado por 174 países desenvolvidos.
+            A verdade é que o sistema antigo era como um "Frankenstein", cheio de remendos. Mas isso mudou. Com a aprovação da <strong>Emenda Constitucional 132/2023</strong>, entramos na era do <GlossaryTerm slug="iva-dual-reforma-tributaria">IVA (Imposto sobre Valor Agregado)</GlossaryTerm>, o modelo usado por 174 países desenvolvidos.
           </p>
 
           <p>
@@ -177,88 +181,57 @@ export default async function ReformaPage() {
 
           {/* TABELA COMPARATIVA (OBRIGATÓRIA) */}
           <div className="not-prose my-10 w-full">
-              {/* DESKTOP TABLE */}
-              <div className="hidden md:block overflow-hidden rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
-                <div className="bg-slate-900 dark:bg-slate-950 text-white p-4 text-center font-bold uppercase tracking-wider text-sm flex items-center justify-center gap-2">
-                    <History size={16}/> O Grande "De/Para" da Reforma
-                </div>
-                <div className="overflow-x-auto">
-                    <table className="w-full text-sm text-left">
-                        <thead className="bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-white uppercase text-xs">
-                            <tr>
-                                <th className="px-6 py-4 font-bold w-1/2">Sistema Antigo (Vai Morrer)</th>
-                                <th className="px-6 py-4 font-bold w-1/2 text-blue-700 dark:text-blue-300">Sistema Novo (IVA Dual)</th>
-                            </tr>
-                        </thead>
-                        <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
-                            <tr className="bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
-                                <td className="px-6 py-4 text-slate-700 dark:text-slate-300 font-medium">PIS (Federal)</td>
-                                <td className="px-6 py-4 font-bold text-blue-800 dark:text-blue-300 border-l-4 border-blue-600 bg-blue-50/30 dark:bg-blue-900/10 align-middle" rowSpan={3}>
-                                    CBS (Contribuição sobre Bens e Serviços)<br/>
-                                    <span className="text-xs font-normal text-blue-600 dark:text-blue-400">Arrecadação Federal</span>
-                                </td>
-                            </tr>
-                            <tr className="bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
-                                <td className="px-6 py-4 text-slate-700 dark:text-slate-300 font-medium">COFINS (Federal)</td>
-                            </tr>
-                            <tr className="bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
-                                <td className="px-6 py-4 text-slate-700 dark:text-slate-300 font-medium">IPI (Federal)</td>
-                            </tr>
-                            
-                            <tr className="bg-slate-50 dark:bg-slate-800/50 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
-                                <td className="px-6 py-4 text-slate-700 dark:text-slate-300 font-medium">ICMS (Estadual)</td>
-                                <td className="px-6 py-4 font-bold text-emerald-800 dark:text-emerald-300 border-l-4 border-emerald-600 bg-emerald-50/30 dark:bg-emerald-900/10 align-middle" rowSpan={2}>
-                                    IBS (Imposto sobre Bens e Serviços)<br/>
-                                    <span className="text-xs font-normal text-emerald-600 dark:text-emerald-400">Arrecadação Estadual/Municipal</span>
-                                </td>
-                            </tr>
-                            <tr className="bg-slate-50 dark:bg-slate-800/50 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
-                                <td className="px-6 py-4 text-slate-700 dark:text-slate-300 font-medium">ISS (Municipal)</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-              </div>
-
-              {/* MOBILE CARDS (SIMPLIFIED TRANSFORMATION) */}
-              <div className="md:hidden space-y-4">
-                  {/* CARD 1: CBS */}
-                  <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm">
-                      <div className="bg-blue-600 p-4 text-white text-center font-bold">
-                          Transição Federal
-                      </div>
-                      <div className="p-4 flex items-center justify-between">
-                          <div className="space-y-1 text-sm text-slate-600 dark:text-slate-400 line-through">
-                              <div>PIS</div>
-                              <div>COFINS</div>
-                              <div>IPI</div>
-                          </div>
-                          <div className="text-blue-500"><ArrowRight size={24}/></div>
-                          <div className="text-right">
-                              <span className="block font-black text-blue-700 dark:text-blue-400 text-xl">CBS</span>
-                              <span className="text-[10px] text-slate-500 dark:text-slate-400 uppercase">Contribuição Federal</span>
-                          </div>
-                      </div>
-                  </div>
+            <div className="bg-slate-900 dark:bg-slate-950 text-white p-4 text-center font-bold uppercase tracking-wider text-sm flex items-center justify-center gap-2 rounded-t-xl">
+              <History size={16}/> O Grande "De/Para" da Reforma Tributária
+            </div>
+            <div className="overflow-x-auto w-full rounded-b-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+              <table className="w-full min-w-[700px] text-sm text-left border-collapse">
+                <thead className="bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-white uppercase text-xs">
+                  <tr>
+                    <th className="px-6 py-4 font-bold w-1/3">Sistema Antigo (Tributos Extintos)</th>
+                    <th className="px-6 py-4 font-bold w-1/3 text-blue-700 dark:text-blue-300">Novo Sistema (IVA Dual)</th>
+                    <th className="px-6 py-4 font-bold w-1/3 text-emerald-700 dark:text-emerald-400">Impacto e Período de Transição</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+                  <tr className="bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                    <td className="px-6 py-4 text-slate-700 dark:text-slate-300 font-medium">PIS (Federal)</td>
+                    <td className="px-6 py-4 font-bold text-blue-800 dark:text-blue-300 border-l-4 border-blue-600 bg-blue-50/30 dark:bg-blue-900/10 align-middle" rowSpan={3}>
+                      CBS (Contribuição sobre Bens e Serviços)<br/>
+                      <span className="text-xs font-normal text-blue-600 dark:text-blue-400">Arrecadação Federal</span>
+                    </td>
+                    <td className="px-6 py-4 text-xs text-slate-600 dark:text-slate-400 align-middle" rowSpan={3}>
+                      A CBS entra em vigor integralmente a partir de 2027, extinguindo completamente o PIS, a COFINS e reduzindo drasticamente o IPI.
+                    </td>
+                  </tr>
+                  <tr className="bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                    <td className="px-6 py-4 text-slate-700 dark:text-slate-300 font-medium">COFINS (Federal)</td>
+                  </tr>
+                  <tr className="bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                    <td className="px-6 py-4 text-slate-700 dark:text-slate-300 font-medium">IPI (Federal)</td>
+                  </tr>
                   
-                  {/* CARD 2: IBS */}
-                  <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm">
-                      <div className="bg-emerald-600 p-4 text-white text-center font-bold">
-                          Transição Estadual/Municipal
-                      </div>
-                      <div className="p-4 flex items-center justify-between">
-                          <div className="space-y-1 text-sm text-slate-600 dark:text-slate-400 line-through">
-                              <div>ICMS</div>
-                              <div>ISS</div>
-                          </div>
-                          <div className="text-emerald-500"><ArrowRight size={24}/></div>
-                          <div className="text-right">
-                              <span className="block font-black text-emerald-700 dark:text-emerald-400 text-xl">IBS</span>
-                              <span className="text-[10px] text-slate-500 dark:text-slate-400 uppercase">Imposto Único</span>
-                          </div>
-                      </div>
-                  </div>
-              </div>
+                  <tr className="bg-slate-50 dark:bg-slate-800/50 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+                    <td className="px-6 py-4 text-slate-700 dark:text-slate-300 font-medium">ICMS (Estadual)</td>
+                    <td className="px-6 py-4 font-bold text-emerald-800 dark:text-emerald-300 border-l-4 border-emerald-600 bg-emerald-50/30 dark:bg-emerald-900/10 align-middle" rowSpan={2}>
+                      IBS (Imposto sobre Bens e Serviços)<br/>
+                      <span className="text-xs font-normal text-emerald-600 dark:text-emerald-400">Arrecadação Estadual/Municipal</span>
+                    </td>
+                    <td className="px-6 py-4 text-xs text-slate-600 dark:text-slate-400 align-middle" rowSpan={2}>
+                      Redução gradativa do ICMS e ISS entre 2029 e 2032. Vigência plena do IBS a partir de 2033.
+                    </td>
+                  </tr>
+                  <tr className="bg-slate-50 dark:bg-slate-800/50 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+                    <td className="px-6 py-4 text-slate-700 dark:text-slate-300 font-medium">ISS (Municipal)</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div className="text-center mt-2">
+              <span className="inline-block text-xs text-slate-400 dark:text-slate-500 italic bg-slate-100 dark:bg-slate-900 px-3 py-1 rounded-full">
+                ↔️ Dica: Deslize horizontalmente para ver todos os detalhes da transição.
+              </span>
+            </div>
           </div>
 
           <h3 className="text-xl font-bold text-slate-900 dark:text-white mt-12 mb-6 flex items-center gap-2">
@@ -323,7 +296,7 @@ export default async function ReformaPage() {
                       Pela primeira vez, o Brasil terá um sistema de devolução de impostos. O sistema tributário antigo era cruel: o pobre pagava o mesmo imposto no arroz que o rico.
                   </p>
                   <p className="text-slate-600 dark:text-slate-300 leading-relaxed relative z-10 text-sm">
-                      Com o Cashback, famílias cadastradas no <strong>CadÚnico</strong> receberão de volta parte da CBS/IBS paga na luz, água, gás e alimentos. O dinheiro volta direto para o cartão ou conta bancária. É a justiça tributária na veia.
+                      Com o <GlossaryTerm slug="cashback-de-imposto-reforma">Cashback</GlossaryTerm>, famílias cadastradas no <strong>CadÚnico</strong> receberão de volta parte da CBS/IBS paga na luz, água, gás e alimentos. O dinheiro volta direto para o cartão ou conta bancária. É a justiça tributária na veia.
                   </p>
               </div>
 
@@ -400,7 +373,7 @@ export default async function ReformaPage() {
                   <div className="absolute -left-[9px] top-0 w-4 h-4 bg-slate-400 rounded-full border-4 border-white ring-1 ring-slate-200"></div>
                   <h4 className="font-bold text-slate-900 dark:text-white text-lg">2029 a 2032: A Transição Estadual</h4>
                   <p className="text-sm text-slate-700 dark:text-slate-300 mt-2 leading-relaxed">
-                      Nesses 4 anos, o ICMS e o ISS vão diminuindo gradualmente, enquanto o novo IBS sobe na mesma proporção.
+                      Nesses 4 anos, o ICMS e o ISS vão diminuindo gradualmente, enquanto o novo <GlossaryTerm slug="iva-dual-reforma-tributaria">IBS</GlossaryTerm> sobe na mesma proporção.
                   </p>
               </div>
               <div className="relative pl-8">
@@ -412,8 +385,26 @@ export default async function ReformaPage() {
               </div>
           </div>
 
-          <div className="mt-16 not-prose" id="faq">
-            <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-8 flex items-center gap-3 border-b border-slate-100 dark:border-slate-800 pb-4">
+          {/* FONTES AUTORIDADE */}
+          <div className="mt-16 pt-8 border-t border-slate-200 dark:border-slate-800 print:hidden not-prose bg-blue-50/50 dark:bg-blue-900/10 p-6 rounded-2xl">
+              <h3 className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-4 flex items-center gap-2"><BookOpen size={14}/> Fontes Oficiais & Verificação</h3>
+              <div className="flex flex-wrap gap-3 text-xs font-bold text-blue-700 dark:text-blue-400">
+                  <a href="https://www.planalto.gov.br/ccivil_03/constituicao/emendas/emc/emc132.htm" target="_blank" rel="nofollow noreferrer" className="hover:underline flex items-center gap-1 bg-white dark:bg-slate-800 px-3 py-2 rounded-lg border border-blue-100 dark:border-blue-900 shadow-sm hover:shadow-md transition-all">Emenda Constitucional 132/2023 <ExternalLink size={10}/></a>
+                  <a href="https://www.gov.br/fazenda/pt-br/acesso-a-informacao/acoes-e-programas/reforma-tributaria" target="_blank" rel="nofollow noreferrer" className="hover:underline flex items-center gap-1 bg-white dark:bg-slate-800 px-3 py-2 rounded-lg border border-blue-100 dark:border-blue-900 shadow-sm hover:shadow-md transition-all">Ministério da Fazenda <ExternalLink size={10}/></a>
+                  <a href="https://www.camara.leg.br/internet/agencia/infograficos-html5/reforma-tributaria/index.html" target="_blank" rel="nofollow noreferrer" className="hover:underline flex items-center gap-1 bg-white dark:bg-slate-800 px-3 py-2 rounded-lg border border-blue-100 dark:border-blue-900 shadow-sm hover:shadow-md transition-all">Infográfico Câmara dos Deputados <ExternalLink size={10}/></a>
+              </div>
+          </div>
+
+          <ExpertSignature updatedAt="Maio de 2026" author="Rodrigo Costa (Analista de Sistemas)" />
+        </div>
+
+        <SmartGlossaryLinker currentHref="/financeiro/reforma-tributaria" category="financeiro" />
+        <SmartCrossLinker currentHref="/financeiro/reforma-tributaria" category="financeiro" />
+
+        {/* FAQ SECTION */}
+        <div className="max-w-4xl mx-auto w-full print:hidden">
+          <div className="mt-8 not-prose" id="faq">
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-8 flex items-center gap-3 border-b border-slate-150 dark:border-slate-800 pb-4">
                 <HelpCircle className="text-blue-600" /> Tira-Dúvidas Definitivo
             </h2>
             <div className="grid gap-4">
@@ -433,21 +424,7 @@ export default async function ReformaPage() {
               ))}
             </div>
           </div>
-
-          {/* FONTES AUTORIDADE */}
-          <div className="mt-16 pt-8 border-t border-slate-200 dark:border-slate-800 print:hidden not-prose bg-blue-50/50 dark:bg-blue-900/10 p-6 rounded-2xl">
-              <h3 className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-4 flex items-center gap-2"><BookOpen size={14}/> Fontes Oficiais & Verificação</h3>
-              <div className="flex flex-wrap gap-3 text-xs font-bold text-blue-700 dark:text-blue-400">
-                  <a href="https://www.planalto.gov.br/ccivil_03/constituicao/emendas/emc/emc132.htm" target="_blank" rel="nofollow noreferrer" className="hover:underline flex items-center gap-1 bg-white dark:bg-slate-800 px-3 py-2 rounded-lg border border-blue-100 dark:border-blue-900 shadow-sm hover:shadow-md transition-all">Emenda Constitucional 132/2023 <ExternalLink size={10}/></a>
-                  <a href="https://www.gov.br/fazenda/pt-br/acesso-a-informacao/acoes-e-programas/reforma-tributaria" target="_blank" rel="nofollow noreferrer" className="hover:underline flex items-center gap-1 bg-white dark:bg-slate-800 px-3 py-2 rounded-lg border border-blue-100 dark:border-blue-900 shadow-sm hover:shadow-md transition-all">Ministério da Fazenda <ExternalLink size={10}/></a>
-                  <a href="https://www.camara.leg.br/internet/agencia/infograficos-html5/reforma-tributaria/index.html" target="_blank" rel="nofollow noreferrer" className="hover:underline flex items-center gap-1 bg-white dark:bg-slate-800 px-3 py-2 rounded-lg border border-blue-100 dark:border-blue-900 shadow-sm hover:shadow-md transition-all">Infográfico Câmara dos Deputados <ExternalLink size={10}/></a>
-              </div>
-          </div>
-
-          <ExpertSignature updatedAt="Maio de 2026" author="Equipe Editorial" />
         </div>
-
-        <SmartCrossLinker currentHref="/financeiro/reforma-tributaria" category="financeiro" />
 
         {/* --- ANÚNCIO BOTTOM (PARA DEVS/RETENÇÃO) --- */}
         <div className="w-full flex justify-center my-8 print:hidden min-h-[250px]">

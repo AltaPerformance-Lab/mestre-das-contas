@@ -9,10 +9,12 @@ import {
   Landmark, Info, ShieldCheck, HelpCircle, 
   TrendingUp, Award, Calculator, CheckCircle2, ExternalLink
 } from "lucide-react";
+import PrivacyBadge from "@/components/ui/PrivacyBadge";
 import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
+import SmartGlossaryLinker from "@/components/layout/SmartGlossaryLinker";
+import GlossaryTerm from "@/components/ui/GlossaryTerm";
 import ExpertSignature from "@/components/ui/ExpertSignature";
 
-// --- 1. METADATA DINÂMICA ---
 export async function generateMetadata(): Promise<Metadata> {
   const title = "Calculadora e Simulador de Imposto de Renda (IRPF) 2025-2026";
   const description = "Simule sua declaração de IRPF (Exercício 2026, Ano-Calendário 2025). Compare o modelo Completo (Deduções Legais) com o Simplificado e saiba se tem imposto a restituir ou pagar.";
@@ -54,7 +56,6 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-// --- DADOS ESTRUTURADOS & FAQ ---
 const faqList = [
   {
     q: "Quem é obrigado a declarar o Imposto de Renda em 2026 (Ano-Calendário 2025)?",
@@ -75,6 +76,14 @@ const faqList = [
   {
     q: "Esta calculadora salva meus dados financeiros?",
     a: "Não! No Mestre das Contas, respeitamos integralmente sua privacidade e a LGPD. Todas as informações inseridas na calculadora de Imposto de Renda são processadas de forma 100% local diretamente no seu navegador, sem armazenamento externo ou tráfego de dados confidenciais."
+  },
+  {
+    q: "Quem é considerado dependente legal perante a Receita Federal?",
+    a: "Podem ser declarados dependentes: companheiro(a) ou cônjuge, filhos e enteados até 21 anos (ou até 24 anos se universitários ou escola técnica), além de pais e avós que receberam rendimentos dentro do limite de isenção estipulado legalmente."
+  },
+  {
+    q: "Como declarar investimentos em ações ou criptoativos no Imposto de Renda?",
+    a: "Esses ativos devem ser preenchidos na ficha de 'Bens e Direitos' com o CNPJ correspondente ou o tipo do criptoativo. Ganhos de capital nas vendas tributáveis devem ser declarados com apuração e pagamento de imposto mensal por meio de DARF até o último dia útil do mês subsequente."
   }
 ];
 
@@ -192,10 +201,10 @@ export default function IrpfPage() {
         <div className="prose prose-slate dark:prose-invert prose-sm md:prose-lg max-w-4xl mx-auto bg-white dark:bg-slate-900 p-6 md:p-12 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-xl shadow-slate-200/40 dark:shadow-none overflow-hidden w-full print:hidden">
             
             <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2 border-l-4 border-blue-500 pl-4">
-               Como Declarar Imposto de Renda: Completo ou Simplificado?
+               Como Declarar <GlossaryTerm slug="irrf-imposto-de-renda">Imposto de Renda</GlossaryTerm>: Completo ou Simplificado?
             </h2>
             <p className="lead text-slate-700 dark:text-slate-300 text-lg font-medium">
-               Um dos maiores dilemas dos contribuintes brasileiros na época da entrega da declaração de ajuste anual do IRPF é escolher a modalidade de tributação mais econômica.
+               Um dos maiores dilemas dos contribuintes brasileiros na época da entrega da declaração de ajuste anual do IRPF é escolher a modalidade de tributação mais econômica. Nós queremos te ajudar a decifrar essas faixas e economizar dinheiro legitimamente!
             </p>
 
             <div className="space-y-6 my-8">
@@ -222,12 +231,12 @@ export default function IrpfPage() {
                 <TrendingUp className="text-blue-600 dark:text-blue-400" /> Limites e Regras Vigentes para Dedução
             </h3>
             <p>
-               Para simular corretamente no modelo completo, é essencial estar atento aos limites previstos pela Receita Federal:
+               Para simular corretamente no modelo completo, é essencial estar atento aos limites previstos pela Receita Federal: Veja bem, a organização dos recibos e notas fiscais ao longo do ano é o segredo para uma boa restituição.
             </p>
-            <ul>
+            <ul className="list-disc pl-5 space-y-2">
               <li><strong>Dependentes:</strong> Abatimento fixado em R$ 2.275,08 por dependente legal ao ano.</li>
               <li><strong>Educação/Instrução:</strong> Limite máximo anual de R$ 3.561,50 por dependente ou contribuinte (exclusivo para ensino básico, técnico ou superior; cursos livres ou de idiomas não entram).</li>
-              <li><strong>Previdência Privada PGBL:</strong> Limite de dedução correspondente a no máximo 12% dos seus rendimentos tributáveis declarados.</li>
+              <li><strong>Previdência Privada PGBL:</strong> Limite de dedução correspondente a no máximo 12% dos seus rendimentos tributáveis declarados. Você também pode deduzir contribuições normais ao <GlossaryTerm slug="inss-previdencia-social">INSS</GlossaryTerm>.</li>
               <li><strong>Despesas de Saúde:</strong> Não há teto legal de limite máximo. Toda despesa médica ou odontológica comprovada pode ser abatida integralmente.</li>
             </ul>
 
@@ -238,66 +247,49 @@ export default function IrpfPage() {
                A tabela progressiva anual aplicada sobre os rendimentos líquidos do ano é dividida conforme as faixas abaixo:
             </p>
 
-            <table className="w-full text-sm border-collapse my-6">
-              <thead>
-                <tr className="bg-slate-50 dark:bg-slate-900 border-b">
-                  <th className="p-3 text-left">Base de Cálculo Anual</th>
-                  <th className="p-3 text-center">Alíquota</th>
-                  <th className="p-3 text-right">Parcela a Deduzir</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
-                <tr>
-                  <td className="p-3">Até R$ 28.467,20</td>
-                  <td className="p-3 text-center">Isento</td>
-                  <td className="p-3 text-right">R$ 0,00</td>
-                </tr>
-                <tr>
-                  <td className="p-3">De R$ 28.467,21 até R$ 33.919,80</td>
-                  <td className="p-3 text-center">7,5%</td>
-                  <td className="p-3 text-right">R$ 2.135,04</td>
-                </tr>
-                <tr>
-                  <td className="p-3">De R$ 33.919,81 até R$ 45.012,60</td>
-                  <td className="p-3 text-center">15,0%</td>
-                  <td className="p-3 text-right">R$ 4.679,03</td>
-                </tr>
-                <tr>
-                  <td className="p-3">De R$ 45.012,61 até R$ 55.976,16</td>
-                  <td className="p-3 text-center">22,5%</td>
-                  <td className="p-3 text-right">R$ 8.054,97</td>
-                </tr>
-                <tr>
-                  <td className="p-3">Acima de R$ 55.976,16</td>
-                  <td className="p-3 text-center">27,5%</td>
-                  <td className="p-3 text-right">R$ 10.853,78</td>
-                </tr>
-              </tbody>
-            </table>
-
-            {/* FAQ ACCORDION */}
-            <div className="mt-16 not-prose">
-              <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-8 flex items-center gap-3 border-b border-slate-200 dark:border-slate-800 pb-4">
-                  <HelpCircle className="text-blue-600 dark:text-blue-400" /> Perguntas Frequentes
-              </h3>
-              
-              <div className="space-y-4">
-                {faqList.map((item, idx) => (
-                    <details key={idx} className="group bg-white dark:bg-slate-900 p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm cursor-pointer open:ring-2 open:ring-blue-100 dark:open:ring-blue-900/30 transition-all">
-                        <summary className="font-semibold text-slate-800 dark:text-slate-100 list-none flex justify-between items-center select-none">
-                            <div className="flex items-start gap-3">
-                                <span className="text-blue-500 dark:text-blue-400 font-bold text-xs mt-1">#</span>
-                                <span className="leading-snug">{item.q}</span>
-                            </div>
-                            <span className="text-slate-400 group-open:rotate-180 transition-transform ml-2 shrink-0">▼</span>
-                        </summary>
-                        <p className="mt-3 text-slate-600 dark:text-slate-400 leading-relaxed border-t border-slate-100 dark:border-slate-800 pt-3 text-sm animate-in fade-in">
-                            {item.a}
-                        </p>
-                    </details>
-                ))}
-              </div>
+            {/* TABELA DE ALÍQUOTAS IRPF (HTML PURO RESPONSIVO) */}
+            <div className="not-prose my-10 border rounded-xl overflow-hidden border-slate-200 dark:border-slate-700 shadow-sm bg-white dark:bg-slate-900">
+                <div className="overflow-x-auto w-full">
+                    <table className="w-full text-sm text-left border-collapse min-w-[600px]">
+                        <thead className="bg-slate-50 dark:bg-slate-800/50 text-slate-600 dark:text-slate-300 text-xs uppercase tracking-wider">
+                            <tr>
+                                <th className="px-6 py-4 font-bold border-b border-slate-200 dark:border-slate-700">Base de Cálculo Anual</th>
+                                <th className="px-6 py-4 font-bold border-b border-slate-200 dark:border-slate-700 text-center">Alíquota</th>
+                                <th className="px-6 py-4 font-bold border-b border-slate-200 dark:border-slate-700 text-right">Parcela a Deduzir (Desconto Máximo)</th>
+                            </tr>
+                        </thead>
+                        <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-slate-700 dark:text-slate-300 font-mono">
+                            <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors">
+                                <td className="px-6 py-4 font-sans font-medium text-slate-800 dark:text-slate-100">Até R$ 28.467,20</td>
+                                <td className="px-6 py-4 text-center font-sans font-bold text-emerald-600">Isento</td>
+                                <td className="px-6 py-4 text-right">R$ 0,00</td>
+                            </tr>
+                            <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors">
+                                <td className="px-6 py-4 font-sans font-medium text-slate-800 dark:text-slate-100">De R$ 28.467,21 até R$ 33.919,80</td>
+                                <td className="px-6 py-4 text-center font-sans font-bold text-blue-600">7,5%</td>
+                                <td className="px-6 py-4 text-right">R$ 2.135,04</td>
+                            </tr>
+                            <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors">
+                                <td className="px-6 py-4 font-sans font-medium text-slate-800 dark:text-slate-100">De R$ 33.919,81 até R$ 45.012,60</td>
+                                <td className="px-6 py-4 text-center font-sans font-bold text-blue-600">15,0%</td>
+                                <td className="px-6 py-4 text-right">R$ 4.679,03</td>
+                            </tr>
+                            <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors">
+                                <td className="px-6 py-4 font-sans font-medium text-slate-800 dark:text-slate-100">De R$ 45.012,61 até R$ 55.976,16</td>
+                                <td className="px-6 py-4 text-center font-sans font-bold text-orange-500">22,5%</td>
+                                <td className="px-6 py-4 text-right">R$ 8.054,97</td>
+                            </tr>
+                            <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors">
+                                <td className="px-6 py-4 font-sans font-medium text-slate-800 dark:text-slate-100">Acima de R$ 55.976,16</td>
+                                <td className="px-6 py-4 text-center font-sans font-bold text-rose-500">27,5%</td>
+                                <td className="px-6 py-4 text-right">R$ 10.853,78</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
+
+
 
             {/* REFERÊNCIAS OFICIAIS */}
             <div className="mt-12 pt-8 border-t border-slate-200 dark:border-slate-800 print:hidden not-prose bg-slate-50 dark:bg-slate-900 p-6 rounded-xl">
@@ -315,11 +307,37 @@ export default function IrpfPage() {
                 </div>
             </div>
             
-            <ExpertSignature updatedAt="Maio de 2026" author="Equipe Editorial" />
-        </div>
+            <ExpertSignature updatedAt="Maio de 2026" author="Rodrigo Costa (Analista de Sistemas)" />
+          </div>
 
-        {/* CROSS LINKER NAVEGAÇÃO */}
+        <SmartGlossaryLinker currentHref="/financeiro/imposto-de-renda" category="financeiro" />
         <SmartCrossLinker currentHref="/financeiro/imposto-de-renda" category="financeiro" />
+
+        {/* FAQ ACCORDION */}
+        <div className="max-w-4xl mx-auto w-full print:hidden">
+          <div className="mt-8 not-prose bg-white dark:bg-slate-900 rounded-3xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm">
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-8 flex items-center gap-3 border-b border-slate-200 dark:border-slate-800 pb-4">
+                <HelpCircle className="text-blue-600 dark:text-blue-400" /> Dúvidas Frequentes sobre IRPF
+            </h2>
+            
+            <div className="space-y-4">
+              {faqList.map((item, idx) => (
+                  <details key={idx} className="group bg-slate-50/50 dark:bg-slate-900/40 p-5 rounded-2xl border border-slate-200/60 dark:border-slate-800/80 cursor-pointer open:ring-2 open:ring-blue-100 dark:open:ring-blue-900/30 transition-all duration-200">
+                      <summary className="font-bold text-slate-800 dark:text-slate-100 list-none flex justify-between items-center select-none">
+                          <div className="flex items-start gap-3">
+                              <span className="text-blue-500 dark:text-blue-400 font-bold text-xs mt-1">#</span>
+                              <span className="leading-snug text-slate-800 dark:text-slate-200 font-semibold">{item.q}</span>
+                          </div>
+                          <span className="text-slate-400 group-open:rotate-180 transition-transform ml-2 shrink-0">▼</span>
+                      </summary>
+                      <p className="mt-3 text-slate-600 dark:text-slate-400 leading-relaxed border-t border-slate-100 dark:border-slate-800 pt-3 text-sm animate-in fade-in">
+                          {item.a}
+                      </p>
+                  </details>
+              ))}
+            </div>
+          </div>
+        </div>
 
         {/* --- ANÚNCIO BOTTOM --- */}
         <div className="w-full flex justify-center my-8 print:hidden min-h-[250px]">

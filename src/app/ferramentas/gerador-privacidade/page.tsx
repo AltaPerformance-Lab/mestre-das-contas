@@ -4,240 +4,380 @@ import PrivacyPolicyGenerator from "@/components/tools/PrivacyPolicyGenerator";
 import LazyAdUnit from "@/components/ads/LazyAdUnit";
 import PageHeader from "@/components/layout/PageHeader";
 import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
+import SmartGlossaryLinker from "@/components/layout/SmartGlossaryLinker";
+import GlossaryTerm from "@/components/ui/GlossaryTerm";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
 import { 
   ShieldCheck, FileText, AlertTriangle, Link as LinkIcon, 
-  HelpCircle, Eye, Lock, Globe
+  HelpCircle, Eye, Lock, Globe, Star, Sparkles, Scale
 } from "lucide-react";
 import DisclaimerBox from "@/components/ui/DisclaimerBox";
+import ExpertSignature from "@/components/ui/ExpertSignature";
 
 // --- 1. METADATA (ESTÁTICA PARA SSG) ---
-export async function generateMetadata(): Promise<Metadata> {
-  const title = "Gerador de Política de Privacidade: Sites e AdSense (LGPD)";
-  const description = "Crie uma Política de Privacidade profissional para seu site ou blog. Compatível com LGPD, Google AdSense e GDPR. Gerador gratuito e instantâneo.";
+export const metadata: Metadata = {
+  title: "Gerador de Política de Privacidade Grátis 2026 | LGPD & AdSense",
+  description: "Evite multas e aprove seu site no AdSense! Gere políticas de privacidade e termos de uso em total conformidade com a LGPD e GDPR. Rápido e gratuito!",
+  keywords: [
+    "gerador politica de privacidade", "modelo politica privacidade lgpd", 
+    "politica privacidade adsense", "termo de uso site gratis", "gerar politica cookies"
+  ],
+  alternates: { canonical: "https://mestredascontas.com.br/ferramentas/gerador-privacidade" },
+  openGraph: {
+    title: "Gerador de Política de Privacidade LGPD | Mestre das Contas",
+    url: "https://mestredascontas.com.br/ferramentas/gerador-privacidade",
+    siteName: "Mestre das Contas",
+    locale: "pt_BR",
+    type: "website",
+    images: [{ url: "https://mestredascontas.com.br/opengraph/gerador-privacidade.jpg", width: 1200, height: 630, alt: "Gerador de Política de Privacidade" }]
+  },
+  robots: { index: true, follow: true }
+};
 
-  return {
-    title,
-    description,
-    keywords: [
-      "gerador politica de privacidade", 
-      "modelo politica privacidade lgpd", 
-      "politica privacidade adsense", 
-      "termo de uso site gratis", 
-      "gerar politica cookies"
-    ],
-    alternates: { canonical: "https://mestredascontas.com.br/ferramentas/gerador-privacidade" },
-    openGraph: {
-      title,
-      description,
-      url: "https://mestredascontas.com.br/ferramentas/gerador-privacidade",
-      siteName: "Mestre das Contas",
-      type: "website" }
-  };
-}
+// 7 FAQs Dinâmicas Sincronizadas
+const faqs = [
+  {
+    q: "A Política de Privacidade gerada por esta ferramenta é 100% válida perante a LGPD e a ANPD no Brasil?",
+    a: "Sim! Os termos gerados abrangem as diretrizes fundamentais estipuladas pela Lei Geral de Proteção de Dados (Lei nº 13.709/18). O documento descreve a finalidade do tratamento, a coleta de dados básicos de navegação (cookies, analytics) e os direitos dos titulares. Lembramos que, caso sua empresa lide com dados sensíveis complexos (como prontuários médicos ou dados biométricos), uma consultoria jurídica dedicada é aconselhável."
+  },
+  {
+    q: "Por que o Google AdSense exige obrigatoriamente que meu site ou blog tenha uma Política de Privacidade?",
+    a: "Veja bem, o Google AdSense utiliza cookies de terceiros para veicular anúncios segmentados com base nas preferências e histórico de navegação dos usuários. As políticas do Google exigem que você informe claramente a seus visitantes essa prática de rastreamento e forneça opções de desativação (opt-out), sendo este um critério eliminatório para aprovação da monetização."
+  },
+  {
+    q: "Como a minha empresa ou blog deve informar os visitantes sobre o uso de Cookies de rastreamento?",
+    a: "A melhor prática é utilizar um banner de consentimento ativo de cookies na entrada do site (o famoso 'Aviso de Cookies') integrado ao link da sua Política de Privacidade gerada. Dessa forma, os visitantes tomam ciência de que cookies de analytics e publicidade estão sendo carregados e podem aceitar ou recusar de forma livre e informada."
+  },
+  {
+    q: "O que acontece se o meu site ou blog coletar dados de usuários sem exibir termos de uso claros?",
+    a: "A verdade é que a coleta sem transparência representa uma violação direta da LGPD, expondo o seu negócio a sanções administrativas impostas pela ANPD. Além disso, plataformas de tecnologia (como Google, Facebook e sistemas de e-commerce) podem suspender sua conta de anúncios, banir seu site da rede de pesquisa ou bloquear suas vendas por desrespeito às políticas de segurança corporativas."
+  },
+  {
+    q: "Qual é a diferença real entre os termos de Política de Privacidade e os Termos de Uso de um site?",
+    a: "A Política de Privacidade foca estritamente no fluxo dos dados pessoais dos usuários (como são coletados, onde são armazenados e para que servem). Já os Termos de Uso regulam o comportamento do visitante no site, estabelecendo as regras de uso dos conteúdos, direitos autorais, restrições de conduta e isenções de responsabilidade do administrador do portal."
+  },
+  {
+    q: "Eu preciso contratar um advogado especializado em direito digital para revisar a minha política de dados?",
+    a: "Para blogs institucionais, portais de conteúdo pSEO e pequenos e-commerces que coletam dados básicos de contato e tráfego, o nosso gerador gratuito fornece a base estrutural ideal sem a necessidade de investimentos financeiros. Contudo, corporações de grande porte que realizam tratamentos de dados complexos ou transações financeiras de escala devem possuir assessoria especializada para auditorias contínuas."
+  },
+  {
+    q: "Como devo atualizar a Política de Privacidade do meu site quando adicionar novos serviços ou cookies?",
+    a: "Sempre que você implementar novos plugins de terceiros (como novas ferramentas de pixel de marketing, novos chats ao vivo ou novas ferramentas de email marketing), acesse novamente o nosso gerador, marque as novas caixas de serviços correspondentes e atualize a página de privacidade do seu site. Lembre-se de registrar no topo do documento a data da última modificação."
+  }
+];
 
-// --- DADOS ESTRUTURADOS ---
 const jsonLd = {
   "@context": "https://schema.org",
   "@graph": [
     {
       "@type": "SoftwareApplication",
-      "name": "Gerador de Política de Privacidade",
+      "name": "Gerador de Política de Privacidade Mestre das Contas",
       "applicationCategory": "BusinessApplication",
       "operatingSystem": "Web Browser",
       "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
-      "description": "Ferramenta para criação de termos de privacidade compatíveis com LGPD e AdSense."
+      "description": "Ferramenta online gratuita para gerar termos de privacidade em conformidade técnica com a LGPD e o Google AdSense."
     },
     {
-      "@type": "HowTo",
-      "name": "Como Gerar uma Política de Privacidade e Termos de Uso",
-      "description": "Passo a passo simples para criar políticas de privacidade e termos de uso adequados à LGPD para o seu site.",
-      "totalTime": "PT30S",
-      "step": [
-        {
-          "@type": "HowToStep",
-          "name": "Insira os Dados do Site",
-          "text": "Informe o nome do seu site, a URL principal (link) e o e-mail de contato do responsável pelos dados.",
-          "url": "https://mestredascontas.com.br/ferramentas/gerador-privacidade#ferramenta"
-        },
-        {
-          "@type": "HowToStep",
-          "name": "Escolha os Serviços Utilizados",
-          "text": "Marque se o seu site exibe anúncios (Google AdSense), se usa rastreamento (Google Analytics) e se utiliza cookies de terceiros.",
-          "url": "https://mestredascontas.com.br/ferramentas/gerador-privacidade#ferramenta"
-        },
-        {
-          "@type": "HowToStep",
-          "name": "Gere e Publique",
-          "text": "Clique em 'Gerar Documento'. Copie o texto em HTML ou texto puro e publique em uma página dedicada no rodapé do seu site.",
-          "url": "https://mestredascontas.com.br/ferramentas/gerador-privacidade#ferramenta"
-        }
-      ]
-    },
-    {
-      "@type": "Article",
-      "headline": "O Guia da LGPD para Pequenos Sites e Blogs",
-      "description": "Entenda por que a Política de Privacidade é obrigatória para quem usa Google AdSense e como evitar multas da ANPD.",
-      "author": { "@type": "Organization", "name": "Mestre das Contas" },
-      "publisher": { "@type": "Organization", "name": "Mestre das Contas", "logo": { "@type": "ImageObject", "url": "https://mestredascontas.com.br/icon.png" } },
-      "datePublished": "2024-04-15",
-      "dateModified": new Date().toISOString()
+      "@type": "FAQPage",
+      "mainEntity": faqs.map(item => ({
+        "@type": "Question",
+        "name": item.q,
+        "acceptedAnswer": { "@type": "Answer", "text": item.a }
+      }))
     }
   ]
 };
 
-export default async function PrivacyGeneratorPage() {
+export default function PrivacyGeneratorPage() {
   return (
-    <article className="w-full max-w-full overflow-hidden pb-12 font-sans bg-slate-50 dark:bg-slate-950">
+    <article className="w-full min-h-screen bg-slate-50 dark:bg-slate-950 pb-20 font-sans">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
-      {/* HEADER */}
-      <div className="px-4 pt-4 md:pt-6 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
-        <PageHeader 
-          title="Gerador de Política de Privacidade"
-          description="A ferramenta essencial para quem tem site, blog ou e-commerce. Gere um documento jurídico compatível com a LGPD (Brasil) e requisitos do Google AdSense."
-          category="Jurídico & Web"
-          icon={<ShieldCheck size={32} strokeWidth={2} />}
-          variant="tools"
-          categoryColor="emerald"
-          badge="Compatível LGPD"
-          breadcrumbs={[
-            { label: "Ferramentas", href: "/ferramentas" },
-            { label: "Gerador Privacidade" }
-          ]}
-        />
+      {/* --- HEADER --- */}
+      <div className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
+        <div className="max-w-7xl mx-auto px-4 pt-6 pb-6 w-full">
+          <PageHeader 
+            title="Gerador de Política de Privacidade"
+            description="A ferramenta essencial para quem tem site, blog ou e-commerce. Gere um documento jurídico compatível com a LGPD (Brasil) e os requisitos rigorosos do Google AdSense."
+            category="Jurídico & Web"
+            icon={<ShieldCheck size={32} className="text-emerald-600" />}
+            variant="tools"
+            categoryColor="emerald"
+            badge="Compatível LGPD & GDPR"
+            breadcrumbs={[
+              { label: "Ferramentas", href: "/ferramentas" },
+              { label: "Gerador Privacidade" }
+            ]}
+          />
+        </div>
       </div>
 
-      <div className="flex flex-col gap-8 px-4 sm:px-6 max-w-7xl mx-auto">
-
+      <div className="max-w-7xl mx-auto px-4 pt-6 pb-4 flex flex-col gap-4 w-full">
         {/* ANÚNCIO TOPO */}
-        <div className="w-full max-w-5xl mx-auto overflow-hidden flex justify-center bg-slate-50/50 dark:bg-slate-900/50 rounded-lg border border-dashed border-slate-200/50 dark:border-slate-800/50 print:hidden min-h-[100px]">
-           <LazyAdUnit slot="privacidade_top" format="horizontal" variant="agency" />
+        <div className="w-full max-w-5xl mx-auto overflow-hidden flex justify-center bg-slate-50/50 dark:bg-slate-900/50 rounded-lg border border-dashed border-slate-200/50 dark:border-slate-800 print:hidden min-h-[100px]">
+           <LazyAdUnit slot="privacidade_top" format="horizontal" variant="software" />
         </div>
 
-        {/* FERRAMENTA */}
-        <section className="w-full max-w-full relative z-10">
-           <div className="mb-6 print:hidden">
-              <PrivacyBadge />
-           </div>
-           
-           <Suspense fallback={<div className="h-96 w-full bg-slate-100 dark:bg-slate-800 animate-pulse rounded-3xl" />}>
-              <PrivacyPolicyGenerator />
-           </Suspense>
-           
-           <div className="mt-8 print:hidden max-w-5xl mx-auto"><DisclaimerBox /></div>
-        </section>
-
-        {/* ANÚNCIO MEIO */}
-        <div className="w-full max-w-4xl mx-auto flex justify-center my-6 print:hidden min-h-[250px]">
-            <LazyAdUnit slot="privacidade_mid" format="auto" />
+        {/* PRIVACIDADE E SEGURANÇA (E-E-A-T) */}
+        <div className="bg-emerald-50/50 dark:bg-emerald-900/10 border border-emerald-100 dark:border-emerald-800 p-4 rounded-2xl flex items-center gap-3 text-xs text-emerald-700 dark:text-emerald-300 mb-2">
+          <ShieldCheck size={18} className="text-emerald-600 shrink-0" />
+          <span>Conformidade com ANPD: Os termos gerados atendem as regras do Brasil. Proteja o seu blog contra penalidades financeiras.</span>
         </div>
 
-        {/* --- CONTEÚDO PROFUNDO (DEEP CONTENT) --- */}
-        <div className="prose prose-slate prose-sm md:prose-lg max-w-4xl mx-auto bg-white dark:bg-slate-900 p-6 md:p-12 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-xl shadow-slate-200/40 dark:shadow-none overflow-hidden w-full print:hidden dark:prose-invert">
-            
-            <h3 className="text-xl md:text-2xl font-bold text-slate-900 dark:text-slate-100 mt-2 mb-4 flex items-center gap-2 border-l-4 border-emerald-500 pl-4">
-                Como Usar o Gerador de Política de Privacidade (Passo a Passo)
-            </h3>
-            <p className="text-slate-600 dark:text-slate-400">
-               Gere os termos de uso e política de privacidade do seu site em conformidade com a LGPD em 3 etapas:
-            </p>
+        <PrivacyBadge />
+      </div>
 
-            <div className="grid sm:grid-cols-3 gap-6 my-8 not-prose">
-              <div className="bg-slate-50 dark:bg-slate-800/30 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 flex gap-4">
-                <div className="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-900/50 text-emerald-600 dark:text-emerald-400 font-bold flex items-center justify-center shrink-0">1</div>
-                <div className="space-y-1">
-                   <h4 className="font-bold text-slate-800 dark:text-white text-sm">Dados do Site</h4>
-                   <p className="text-xs text-slate-500 dark:text-slate-400">Insira o nome do seu site, o endereço eletrônico principal (URL completa) e informe se você utiliza cookies ou exibe anúncios.</p>
-                </div>
-              </div>
+      {/* --- FERRAMENTA --- */}
+      <div className="max-w-5xl mx-auto px-4 pb-12 w-full">
+        <Suspense fallback={<div className="h-96 w-full bg-slate-100 dark:bg-slate-800 animate-pulse rounded-3xl" />}>
+          <PrivacyPolicyGenerator />
+        </Suspense>
+        <div className="mt-8 print:hidden max-w-5xl mx-auto">
+          <DisclaimerBox />
+        </div>
+      </div>
 
-              <div className="bg-slate-50 dark:bg-slate-800/30 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 flex gap-4">
-                <div className="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-900/50 text-emerald-600 dark:text-emerald-400 font-bold flex items-center justify-center shrink-0">2</div>
-                <div className="space-y-1">
-                   <h4 className="font-bold text-slate-800 dark:text-white text-sm">Gere as Políticas</h4>
-                   <p className="text-xs text-slate-500 dark:text-slate-400">Clique em <strong>"Gerar Documento"</strong> para rodar a criação instantânea. Nosso algoritmo criará o termo completo adequado à LGPD e GDPR.</p>
+      <div className="max-w-7xl mx-auto px-6 py-12 space-y-16 w-full">
+        
+        {/* --- FEATURES GRID --- */}
+        <section className="grid md:grid-cols-3 gap-8">
+            <div className="bg-white dark:bg-slate-900 p-8 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-xl hover:-translate-y-1 transition-transform duration-300">
+                <div className="bg-emerald-50 dark:bg-emerald-900/20 w-14 h-14 rounded-2xl flex items-center justify-center text-emerald-600 dark:text-emerald-400 mb-6 shadow-sm">
+                    <ShieldCheck size={32} />
                 </div>
-              </div>
-
-              <div className="bg-slate-50 dark:bg-slate-800/30 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 flex gap-4">
-                <div className="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-900/50 text-emerald-600 dark:text-emerald-400 font-bold flex items-center justify-center shrink-0">3</div>
-                <div className="space-y-1">
-                   <h4 className="font-bold text-slate-800 dark:text-white text-sm">Copie & Publique</h4>
-                   <p className="text-xs text-slate-500 dark:text-slate-400">Copie o código em <strong>HTML</strong> ou o <strong>Texto Puro</strong> gerado, crie uma nova página no seu site e linke-a de forma clara no rodapé.</p>
+                <h3 className="font-bold text-xl text-slate-900 dark:text-slate-100 mb-3">Conformidade Legal</h3>
+                <p className="text-slate-600 dark:text-slate-400 leading-relaxed text-sm">
+                    Estruture suas políticas de privacidade sob os pilares da LGPD nacional e GDPR europeia de forma simples.
+                </p>
+                <div className="mt-4 inline-flex items-center gap-1 text-xs font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-900/20 px-3 py-1 rounded-full">
+                    <Scale size={12}/> Evite Advertências Jurídicas
                 </div>
-              </div>
             </div>
-
-            <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2 border-l-4 border-emerald-500 pl-4">
-               O seu site está ilegal? (A verdade sobre a LGPD)
-            </h2>
             
-            <p className="lead text-lg font-medium text-slate-700 dark:text-slate-300">
-               Você criou seu site, caprichou no design, escreveu ótimos artigos... mas esqueceu de uma página que quase ninguém lê, mas que todo advogado procura: a <strong>Política de Privacidade</strong>.
-            </p>
-            <p>
-               Muitos donos de pequenos sites acham que a Lei Geral de Proteção de Dados (LGPD) só vale para gigantes como Facebook ou Google. Esse é um erro perigoso.
-            </p>
-            <p>
-               Se o seu site tem um formulário de contato, usa Google Analytics ou exibe anúncios do AdSense, você está coletando dados. E se você coleta dados, você precisa dizer ao usuário <strong>o que</strong> você faz com eles.
-            </p>
-
-            <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-900/50 p-6 rounded-2xl my-8 not-prose shadow-sm">
-                <h3 className="text-lg font-bold text-red-900 dark:text-red-200 mb-3 flex items-center gap-2">
-                    <AlertTriangle size={20}/> O Risco da Multa
-                </h3>
-                <p className="text-slate-700 dark:text-slate-300 leading-relaxed mb-0">
-                    A ANPD (Autoridade Nacional de Proteção de Dados) já começou a aplicar multas no Brasil. Para pequenas empresas, a sanção pode começar com uma advertência, mas pode escalar para multa de até 2% do faturamento. O Google AdSense bane impiedosamente sites sem política clara.
+            <div className="bg-white dark:bg-slate-900 p-8 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-xl hover:-translate-y-1 transition-transform duration-300">
+                <div className="bg-blue-50 dark:bg-blue-900/20 w-14 h-14 rounded-2xl flex items-center justify-center text-blue-600 dark:text-blue-400 mb-6 shadow-sm">
+                    <Lock size={32} />
+                </div>
+                <h3 className="font-bold text-xl text-slate-900 dark:text-slate-100 mb-3">Aprovação no AdSense</h3>
+                <p className="text-slate-600 dark:text-slate-400 leading-relaxed text-sm">
+                    Cumpra a cláusula de privacidade do Google sobre cookies e pixel de marketing sem fricções ou reprovações.
                 </p>
             </div>
 
-            <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100 mt-10 mb-4 flex items-center gap-2">
-                <FileText className="text-blue-600"/> O que deve ter numa Política de Privacidade?
-            </h3>
-            <p>
-                Não basta copiar e colar um texto qualquer da internet. A política precisa refletir a realidade do SEU site. Os pilares fundamentais são:
-            </p>
-            
-            <div className="grid md:grid-cols-2 gap-4 my-6 not-prose">
-               <div className="bg-slate-50 dark:bg-slate-800 p-5 rounded-xl border border-slate-200 dark:border-slate-700">
-                  <h4 className="font-bold text-slate-800 dark:text-white mb-2 flex items-center gap-2"><Eye size={18} className="text-blue-500"/> Coleta</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-300">Quais dados você pega? Nome? IP? Cookies? Histórico de navegação?</p>
-               </div>
-               <div className="bg-slate-50 dark:bg-slate-800 p-5 rounded-xl border border-slate-200 dark:border-slate-700">
-                  <h4 className="font-bold text-slate-800 dark:text-white mb-2 flex items-center gap-2"><Lock size={18} className="text-emerald-500"/> Finalidade</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-300">Por que você quer esses dados? Marketing? Segurança? Melhoria do site?</p>
-               </div>
+            <div className="bg-white dark:bg-slate-900 p-8 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-xl hover:-translate-y-1 transition-transform duration-300">
+                <div className="bg-purple-50 dark:bg-purple-900/20 w-14 h-14 rounded-2xl flex items-center justify-center text-purple-600 dark:text-purple-400 mb-6 shadow-sm">
+                    <Globe size={32} />
+                </div>
+                <h3 className="font-bold text-xl text-slate-900 dark:text-slate-100 mb-3">Exportação Flexível</h3>
+                <p className="text-slate-600 dark:text-slate-400 leading-relaxed text-sm">
+                    Copie a documentação jurídica em formato HTML limpo ou Texto Puro para colagem imediata na sua plataforma web.
+                </p>
             </div>
+        </section>
 
-            {/* FAQ */}
-            <div className="mt-16 not-prose">
-                <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-8 flex items-center gap-3 border-b border-slate-200 dark:border-slate-800 pb-4">
-                    <HelpCircle className="text-emerald-600 dark:text-emerald-500" /> Perguntas Frequentes
-                </h2>
-                <div className="grid gap-4">
-                    <details className="group bg-white dark:bg-slate-900 p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm cursor-pointer transition-all">
-                        <summary className="font-bold text-slate-800 dark:text-slate-100 flex justify-between items-center list-none select-none">
-                            Onde devo colocar o link da política?
-                            <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
-                        </summary>
-                        <p className="mt-2 text-slate-600 dark:text-slate-400 text-sm leading-relaxed border-t border-slate-100 dark:border-slate-800 pt-2">
-                            O padrão da indústria é no <strong>Rodapé (Footer)</strong> do site, visível em todas as páginas.
-                        </p>
-                    </details>
+        {/* --- ARTIGO EDUCACIONAL DE ALTA DENSIDADE --- */}
+        <div className="max-w-4xl mx-auto w-full space-y-8">
+            
+            {/* Review Card */}
+            <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col md:flex-row items-start md:items-center gap-4">
+                <div className="bg-emerald-100 dark:bg-emerald-900/30 p-3 rounded-xl text-emerald-600 dark:text-emerald-400 shrink-0">
+                    <ShieldCheck size={28} />
+                </div>
+                <div>
+                    <div className="flex items-baseline gap-2">
+                        <p className="font-bold text-slate-900 dark:text-white text-sm">Segurança Certificada</p>
+                        <span className="text-[10px] text-slate-500 uppercase font-bold tracking-widest">Controle LGPD</span>
+                    </div>
+                    <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed italic mt-1">
+                        "O uso do Mestre das Contas elimina auditorias demoradas para rotinas de tráfego usuais. A ferramenta gera as políticas de privacidade localmente no seu computador com isolamento absoluto de segurança."
+                    </p>
                 </div>
             </div>
 
+            {/* Main Content */}
+            <div className="prose prose-slate dark:prose-invert max-w-none bg-white dark:bg-slate-900 p-6 md:p-12 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-sm w-full">
+                <h2 className="text-3xl font-bold text-slate-950 dark:text-white mb-6 border-l-4 border-emerald-500 pl-4 flex items-center gap-3">
+                    <Star className="text-emerald-500 fill-emerald-500 animate-pulse" /> O Escudo Jurídico Web: Por Que Sua Política É Crítica
+                </h2>
+                
+                <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed mb-4">
+                  Imagine que você decidiu pilotar uma lancha rápida e motorizada em águas profundas e movimentadas de alto-mar.
+                </p>
+
+                <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed mb-4">
+                  Contudo, você não levou coletes salva-vidas a bordo e deixou a tampa do tanque de combustível inteiramente escancarada.
+                </p>
+
+                <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed mb-4">
+                  A verdade é que administrar um site ou blog comercial sem uma Política de Privacidade adequada funciona de forma idêntica.
+                </p>
+
+                <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed mb-4">
+                  Os fiscais do ecossistema de dados não buscam apenas fraudes intencionais ou invasões massivas de cibercriminosos.
+                </p>
+
+                <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed mb-4">
+                  Nós compreendemos que o simples uso do rastreamento do Google Analytics sem o consentimento livre já viola a legislação.
+                </p>
+
+                <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed mb-6">
+                  Aí é que está o segredo: ao formalizar os processos de tratamento de dados na sua página, você ganha um escudo inquebrável.
+                </p>
+
+                {/* Tabela Comparativa de Compliance - Tabela HTML */}
+                <h3 className="text-2xl font-bold text-slate-950 dark:text-white mt-10 mb-4">Planilha de Proteção: Comparando Requisitos da LGPD e Status Legal</h3>
+                
+                <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed mb-4">
+                   Compreender os termos regulatórios evita processos civis e otimiza a credibilidade do seu domínio na rede de pesquisa.
+                </p>
+
+                <div className="overflow-x-auto my-6 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-sm not-prose">
+                    <table className="w-full min-w-[750px] text-left border-collapse bg-white dark:bg-slate-900">
+                        <thead>
+                            <tr className="bg-slate-50 dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700">
+                                <th className="px-6 py-4 text-sm font-bold text-slate-900 dark:text-white">Requisito Legal</th>
+                                <th className="px-6 py-4 text-sm font-bold text-slate-900 dark:text-white">Nível de Obrigatoriedade</th>
+                                <th className="px-6 py-4 text-sm font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-50/10 dark:bg-emerald-950/10">Principal Benefício Técnico</th>
+                                <th className="px-6 py-4 text-sm font-bold text-slate-700 dark:text-slate-300">Relação Direta com Google AdSense</th>
+                            </tr>
+                        </thead>
+                        <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+                            <tr>
+                                <td className="px-6 py-4 text-sm font-bold text-slate-900 dark:text-white">Política de Privacidade</td>
+                                <td className="px-6 py-4 text-sm text-emerald-600 font-bold bg-emerald-50/10 dark:bg-emerald-950/10">Obrigatório por Lei (LGPD)</td>
+                                <td className="px-6 py-4 text-sm text-emerald-600">Elimina risco de advertências da ANPD</td>
+                                <td className="px-6 py-4 text-sm text-emerald-600 font-bold">Fator crítico obrigatório para aprovação</td>
+                            </tr>
+                            <tr>
+                                <td className="px-6 py-4 text-sm font-bold text-slate-900 dark:text-white">Termos e Condições de Uso</td>
+                                <td className="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">Recomendado (Melhor Prática)</td>
+                                <td className="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">Protege propriedade intelectual e marca</td>
+                                <td className="px-6 py-4 text-sm text-slate-500">Opcional para a rede de anúncios</td>
+                            </tr>
+                            <tr>
+                                <td className="px-6 py-4 text-sm font-bold text-slate-900 dark:text-white">Banner de Consentimento Cookies</td>
+                                <td className="px-6 py-4 text-sm text-emerald-600 font-bold bg-emerald-50/10 dark:bg-emerald-950/10">Obrigatório para Rastreamento</td>
+                                <td className="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">Garante consentimento ativo do visitante</td>
+                                <td className="px-6 py-4 text-sm text-slate-500">Altamente recomendado no mobile</td>
+                            </tr>
+                            <tr>
+                                <td className="px-6 py-4 text-sm font-bold text-slate-900 dark:text-white">Registro de Consentimento Ativo</td>
+                                <td className="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">Exigido para E-commerces / Leads</td>
+                                <td className="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">Prova material de proteção em vistorias</td>
+                                <td className="px-6 py-4 text-sm text-slate-500">Opcional em blogs de conteúdo</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed mb-6">
+                   O melhor de tudo? Ao confrontar as diretrizes técnicas na nossa planilha comparativa, fica claro que a Política de Privacidade é a base primária de qualquer governança de dados na rede mundial de computadores.
+                </p>
+
+                {/* Metáfora do Colete Salva-Vidas */}
+                <h3 className="text-2xl font-bold text-slate-800 dark:text-slate-100 mt-10 mb-4 flex items-center gap-2">
+                    <Scale className="text-emerald-500" /> A Metáfora do "Colete Salva-Vidas": Construindo Segurança Digital
+                </h3>
+                <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed mb-4">
+                  Para ilustrar a gravidade de esquecer essa página no rodapé do seu blog, nós adoramos fazer alusão ao colete salva-vidas na nossa embarcação de lazer.
+                </p>
+
+                <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed mb-4">
+                  O mar representa a internet e o mercado de tráfego orgânico, repleto de ventos dinâmicos e eventuais tempestades inesperadas.
+                </p>
+
+                <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed mb-4">
+                  O colete salva-vidas não impede a lancha de balançar com a força das ondas, tampouco garante que peixes não saltem no convés.
+                </p>
+
+                <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed mb-4">
+                  No entanto, se a lancha sofrer uma colisão acidental com pedras ocultas sob a água (uma fiscalização governamental), o colete garante que todos flutuem.
+                </p>
+
+                <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed mb-6">
+                  Nossa ferramenta funciona fornecendo a você esse colete certificado de forma instantânea, permitindo que você navegue e fature com total tranquilidade mental.
+                </p>
+
+                <h3 className="text-2xl font-bold text-slate-800 dark:text-slate-100 mt-10 mb-4 flex items-center gap-2">
+                    <Sparkles className="text-emerald-500" /> Como Publicar Sua Política no WordPress, Wix ou Next.js
+                </h3>
+                <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed mb-4">
+                    Obter a redação ideal do termo de privacidade é apenas a etapa inicial. Agora, execute o processo de indexação no seu portal:
+                </p>
+                <ol className="space-y-4 marker:text-emerald-600 marker:font-bold">
+                    <li className="text-slate-700 dark:text-slate-300 text-sm">
+                      <strong>Crie uma Nova Página Estática:</strong> Nunca publique os termos em um post comum de blog. Crie uma página isolada com a URL amigável <code>/politica-de-privacidade</code>.
+                    </li>
+                    <li className="text-slate-700 dark:text-slate-300 text-sm">
+                      <strong>Cole o Código HTML ou Texto:</strong> Use o painel da nossa ferramenta para copiar o documento formatado e cole no editor da sua plataforma na aba de código-fonte.
+                    </li>
+                    <li className="text-slate-700 dark:text-slate-300 text-sm">
+                      <strong>Adicione o Link no Footer:</strong> Garanta que o link esteja presente no rodapé do tema global, tornando-o visível em todas as páginas, posts e categorias do seu site.
+                    </li>
+                </ol>
+
+                <div className="bg-slate-50 dark:bg-slate-800 p-6 rounded-2xl border-l-4 border-emerald-500 mt-10 not-prose">
+                    <h4 className="font-bold text-slate-900 dark:text-white text-lg mb-2 flex items-center gap-2">
+                        <AlertTriangle size={20} className="text-emerald-600 dark:text-emerald-400"/> Advertência da ANPD
+                    </h4>
+                    <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                        Multas decorrentes de vazamento ou captação ilegal de dados no Brasil já estão em andamento. Proteja a saúde corporativa da sua marca executando processos transparentes e mantendo documentações completas na sua estrutura web.
+                    </p>
+                </div>
+            </div>
+
+            {/* Horizontal Ad */}
+            <div className="w-full flex justify-center bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-xl min-h-[100px] overflow-hidden py-4">
+                <LazyAdUnit slot="privacidade_sidebar" format="horizontal" />
+            </div>
         </div>
 
-        {/* ANÚNCIO FINAL */}
-        <div className="w-full flex justify-center my-8 print:hidden min-h-[250px]">
-            <LazyAdUnit slot="privacidade_bottom" format="horizontal" variant="software" />
-        </div>
+        <ExpertSignature author="Equipe Jurídica e de TI Mestre das Contas" updatedAt="Junho de 2026" />
+
+        <SmartGlossaryLinker currentHref="/ferramentas/gerador-privacidade" />
 
         <SmartCrossLinker currentHref="/ferramentas/gerador-privacidade" category="ferramentas" />
+
+        {/* --- FAQ SECTION ACCORDION (EXATAMENTE 7 QUESTÕES COM BASE EM DIRECTIVES) --- */}
+        <section id="faq" className="max-w-4xl mx-auto w-full">
+          <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl p-6 md:p-12">
+            <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-2 flex items-center gap-3">
+              <HelpCircle className="text-emerald-600 dark:text-emerald-400 shrink-0" size={32} /> Tira-Dúvidas Definitivo
+            </h2>
+            <p className="text-sm text-slate-500 dark:text-slate-400 mb-8">
+              Encontre respostas para as perguntas mais frequentes sobre o tratamento de dados pessoais de acordo com a LGPD.
+            </p>
+
+            <div className="space-y-4 not-prose">
+              {faqs.map((faq, index) => (
+                <details 
+                  key={index}
+                  className="group border border-slate-200 dark:border-slate-800 rounded-2xl bg-white dark:bg-slate-900/50 transition-all duration-300 overflow-hidden"
+                >
+                  <summary className="flex items-center justify-between p-5 text-base font-bold text-slate-800 dark:text-slate-200 cursor-pointer list-none select-none hover:bg-slate-50 dark:hover:bg-slate-800/30">
+                    <span className="pr-4">{faq.q}</span>
+                    <span className="transition-transform duration-300 group-open:rotate-180 text-emerald-500">
+                      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </span>
+                  </summary>
+                  <div className="p-5 border-t border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/20 text-sm leading-relaxed text-slate-600 dark:text-slate-400">
+                    {faq.a}
+                  </div>
+                </details>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Ad Unit Bottom */}
+        <div className="w-full flex justify-center py-6">
+             <LazyAdUnit slot="privacidade_bottom" format="auto" />
+        </div>
 
       </div>
     </article>
   );
 }
+

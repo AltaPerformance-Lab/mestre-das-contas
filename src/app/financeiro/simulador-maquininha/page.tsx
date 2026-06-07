@@ -11,6 +11,8 @@ import {
 } from "lucide-react";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
 import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
+import SmartGlossaryLinker from "@/components/layout/SmartGlossaryLinker";
+import GlossaryTerm from "@/components/ui/GlossaryTerm";
 import ExpertSignature from "@/components/ui/ExpertSignature";
 
 // --- 1. METADATA DINÂMICA (SEO MAXIMIZADO) ---
@@ -71,6 +73,22 @@ const faqList = [
     {
         q: "Minha taxa é \"10% tudo incluso\". Como simulo?",
         a: "Algumas maquininhas (como a InfinitePay ou Ton em certos planos) cobram uma taxa única fechada. Nesse caso, coloque \"0\" na taxa de antecipação e coloque o valor total (ex: 10%) no campo MDR aqui no simulador. O resultado será o mesmo."
+    },
+    {
+        q: "Qual a diferença entre débito e crédito nas taxas?",
+        a: "A taxa de débito desconta o valor imediatamente no momento da compra e o dinheiro cai na conta em até 1 dia útil. O crédito à vista possui uma taxa MDR um pouco maior, e o parcelado acumula a taxa de intermediação acrescida da antecipação de parcelas."
+    },
+    {
+        q: "O que significa taxa de intermediação ou MDR?",
+        a: "É a taxa básica que a bandeira do cartão e a credenciadora cobram pelo serviço de processamento do pagamento. Ela varia conforme o tipo de cartão (nacional, internacional) e modalidade (físico ou online)."
+    },
+    {
+        q: "Existe limite de simulações de taxa de maquininha?",
+        a: "Não, o nosso simulador de taxas de maquininha é 100% gratuito e ilimitado. Você pode realizar quantas simulações quiser para precificar seus produtos de forma justa e consciente."
+    },
+    {
+        q: "Vale a pena comprar uma maquininha sem aluguel?",
+        a: "Sim, na maioria das vezes para microempreendedores e autônomos é mais vantajoso comprar a maquininha própria sem mensalidades, pagando apenas as taxas incidentes sobre cada venda realizada."
     }
 ];
 
@@ -237,7 +255,7 @@ const jsonLd = {
                      <ShieldAlert size={20}/> Atenção nas vendas acima de 6x
                  </h4>
                  <p className="text-red-800 dark:text-red-200 text-sm leading-relaxed m-0">
-                     A taxa de antecipação é <strong>Juros Compostos</strong>. Quanto mais parcelas, mais caro fica "trazer o dinheiro do futuro". Uma venda em 12x antecipada pode ter um desconto total de quase 20% a 25% dependendo da sua maquininha. Nunca parcele longo prazo sem recalcular seu preço.
+                     A taxa de antecipação é <GlossaryTerm slug="juros-compostos">Juros Compostos</GlossaryTerm>. Quanto mais parcelas, mais caro fica "trazer o dinheiro do futuro". Uma venda em 12x antecipada pode ter um desconto total de quase 20% a 25% dependendo da sua maquininha. Nunca parcele longo prazo sem recalcular seu preço.
                  </p>
             </div>
             
@@ -256,34 +274,37 @@ const jsonLd = {
                     <p className="text-slate-700 dark:text-slate-300"><strong>Receba no Fluxo:</strong> Se você tem caixa, configure para receber em 30/60/90 dias. A taxa cai de ~15% para ~3%.</p>
                  </div>
             </div>
+              
+            <ExpertSignature updatedAt="Maio de 2026" author="Equipe Editorial" />
+        </div>
 
-            {/* FAQ */}
-            <div className="mt-12 not-prose">
-                <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-6 flex items-center gap-2">
-                    <HelpCircle className="text-indigo-600 dark:text-indigo-500" /> Perguntas Frequentes
+        <SmartGlossaryLinker currentHref="/financeiro/simulador-maquininha" category="financeiro" />
+        <SmartCrossLinker currentHref="/financeiro/simulador-maquininha" category="financeiro" />
+
+        {/* FAQ */}
+        <div className="max-w-4xl mx-auto w-full print:hidden">
+            <div className="mt-8 not-prose bg-white dark:bg-slate-900 rounded-3xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm">
+                <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-8 flex items-center gap-3 border-b border-slate-150 dark:border-slate-800 pb-4">
+                    <HelpCircle className="text-indigo-600 dark:text-indigo-500" /> Perguntas Frequentes sobre Maquininhas
                 </h2>
                 <div className="space-y-4">
-                    
                     {faqList.map((faq, idx) => (
-                        <details key={idx} id={`faq-${idx}`} className="group bg-slate-50 dark:bg-slate-800 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 cursor-pointer open:ring-2 open:ring-indigo-100 dark:open:ring-indigo-900/30 transition-all">
+                        <details key={idx} id={`faq-${idx}`} className="group bg-slate-50 dark:bg-slate-800 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 cursor-pointer open:bg-white dark:open:bg-slate-900 open:ring-2 open:ring-indigo-100 dark:open:ring-indigo-900/30 transition-all duration-200">
                             <summary className="font-bold text-slate-800 dark:text-slate-100 list-none flex justify-between items-center select-none">
-                                {faq.q}
-                                <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
+                                <div className="flex items-start gap-3">
+                                    <span className="text-indigo-600 font-bold text-xs mt-1">#</span>
+                                    <span className="leading-snug text-slate-800 dark:text-slate-200 font-semibold">{faq.q}</span>
+                                </div>
+                                <span className="text-slate-400 group-open:rotate-180 transition-transform ml-2 shrink-0">▼</span>
                             </summary>
-                            <p className="mt-3 text-slate-600 dark:text-slate-300 leading-relaxed border-t border-slate-200/50 dark:border-slate-700 pt-3 text-sm">
+                            <p className="mt-3 text-slate-600 dark:text-slate-400 leading-relaxed border-t border-slate-100 dark:border-slate-800 pt-3 text-sm animate-in fade-in">
                                 {faq.a}
                             </p>
                         </details>
                     ))}
-
                 </div>
-              
-            <ExpertSignature updatedAt="Maio de 2026" author="Equipe Editorial" />
-          </div>
-
+            </div>
         </div>
-
-        <SmartCrossLinker currentHref="/financeiro/simulador-maquininha" category="financeiro" /> 
 
         {/* PUBLICIDADE BOTTOM */}
         <div className="w-full flex justify-center mt-8">

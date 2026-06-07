@@ -6,14 +6,13 @@ import {
   QrCode, Zap, Lock, FileJson, Image as ImageIcon, 
   Wrench, ArrowRight, MousePointer2, Smartphone, 
   CheckCircle2, Box, MessageCircle, FileText, ShieldCheck,
-  Cpu, Calculator, Briefcase, ShoppingBag, MoonStar
+  Cpu, Calculator, Briefcase, ShoppingBag, MoonStar, HelpCircle
 } from "lucide-react";
 import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
 
-// --- METADATA (SEO 2026) ---
 export const metadata: Metadata = {
   title: "Ferramentas e Utilitários Online Grátis 2026 | Mestre das Contas",
-  description: "Aumente sua produtividade em 2026 com nossa suíte de utilitários. Gere QR Codes, Links de WhatsApp, Recibos em PDF e converta Imagens. Tudo gratuito e seguro.",
+  description: "Precisa de utilitários rápidos? Acesse nossa suíte gratuita de ferramentas para gerar Pix, criar PDFs, QR Codes e encurtar links de WhatsApp em 1 clique!",
   keywords: [
     "ferramentas online gratis", 
     "gerador de qr code", 
@@ -27,7 +26,6 @@ export const metadata: Metadata = {
     canonical: "https://mestredascontas.com.br/ferramentas" },
   openGraph: {
     title: "Ferramentas Digitais 2026 | Mestre das Contas",
-    description: "Sua suíte completa de utilitários online: Gerador de Pix, Recibos, QR Codes, Editores de PDF e muito mais. Tudo grátis e seguro.",
     url: "https://mestredascontas.com.br/ferramentas",
     siteName: "Mestre das Contas",
     locale: "pt_BR",
@@ -44,7 +42,6 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Mais produtividade para o seu dia a dia!",
-    description: "Acesse nossas ferramentas gratuitas e simplifique suas tarefas digitais agora.",
     images: ["/opengraph-image"],
   } };
 
@@ -70,6 +67,67 @@ const jsonLd = {
       "itemListElement": [
         { "@type": "ListItem", "position": 1, "name": "Início", "item": "https://mestredascontas.com.br" },
         { "@type": "ListItem", "position": 2, "name": "Ferramentas", "item": "https://mestredascontas.com.br/ferramentas" }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "1. Os geradores de recibo e orçamentos funcionam offline?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Sim. Uma vez que a página é totalmente carregada no seu navegador, todo o mecanismo e renderização em PDF funcionam de forma local. Você pode preencher e exportar documentos mesmo sem conexão com a internet."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "2. Meus arquivos de PDF são enviados para a nuvem ao editar?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Não, de forma alguma. Nosso Editor de PDF funciona 100% no lado do cliente (Client-Side). Seus documentos são processados diretamente na memória do seu computador ou celular, garantindo sigilo absoluto dos dados."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "3. Como funciona a privacidade dos geradores de senhas e QR Code?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "As senhas e imagens de QR Code são computadas instantaneamente utilizando APIs locais do navegador. Nenhuma informação de links, senhas ou dados digitados é armazenada ou enviada a servidores externos."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "4. O QR Code gerado pelo portal possui prazo de validade?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Não. Nossos QR Codes são estáticos e vitalícios. As informações são gravadas em definitivo nos pixels da imagem, funcionando por tempo indeterminado e sem qualquer cobrança de taxas."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "5. Posso inserir a logomarca da minha empresa nos recibos gerados?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Sim. Nossas ferramentas de recibos e orçamentos possuem o campo de upload de imagem para que você incorpore o logotipo da sua marca e emita propostas altamente profissionais em formato A4."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "6. As imagens enviadas para conversão de formato estão seguras?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Sim, totalmente. A conversão de formatos de imagem (como converter PNG para WebP ou JPG) é processada de maneira local pelo motor do seu próprio navegador. Seus arquivos de foto nunca tocam a nuvem."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "7. Como criar um link personalizado para contato de WhatsApp?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Basta usar nosso Gerador de Link do WhatsApp: insira o número de telefone com o DDD e escreva a mensagem personalizada desejada. A ferramenta gera um link encurtado pronto para ser compartilhado em 1 clique."
+          }
+        }
       ]
     }
   ]
@@ -381,74 +439,140 @@ export default function FerramentasHubPage() {
               </div>
             </div>
           </Link>
-
         </section>
 
         {/* --- CONTEÚDO SEO (ARTIGO) --- */}
         <div className="prose prose-slate dark:prose-invert prose-sm md:prose-lg max-w-none bg-white dark:bg-slate-900 p-6 md:p-12 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-sm mt-10">
           
           <h2 className="text-3xl font-bold text-slate-900 dark:text-slate-100 mb-6 flex items-center gap-3">
-            <Zap className="text-amber-500" size={32} /> Produtividade na Ponta dos Dedos
+            <Zap className="text-indigo-600" size={32} /> Produtividade e Segurança Sem Complicações
           </h2>
-          <p className="lead text-slate-700 dark:text-slate-300 text-lg">
-            No <strong>Mestre das Contas</strong>, acreditamos que ferramentas úteis não precisam ser complicadas ou pagas. Nossa missão é criar utilitários web que rodam direto no seu navegador, sem necessidade de instalar programas pesados ou criar contas.
+          <p className="lead text-slate-700 dark:text-slate-300 text-lg mb-6">
+            Nós entendemos perfeitamente que no dia a dia digital, o que você mais precisa é de agilidade para resolver pequenas tarefas como gerar um recibo, assinar um contrato ou criar um QR Code. A verdade é que ninguém quer perder tempo fazendo cadastros demorados ou instalando softwares pesados e suspeitos no computador.
+          </p>
+          <p className="text-slate-600 dark:text-slate-400 mb-8 text-sm leading-relaxed">
+            Aqui no <strong>Mestre das Contas</strong>, estruturamos uma suíte completa de utilitários rápidos que rodam direto no seu navegador. Nossas ferramentas operam sob a arquitetura Client-Side (lado do cliente), o que significa que o processamento acontece de forma local, mantendo seus dados e arquivos 100% seguros e privados.
           </p>
 
-          <div className="grid md:grid-cols-2 gap-8 my-10 not-prose">
-              <div className="bg-slate-50 dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 hover:border-indigo-400 dark:hover:border-indigo-500 transition-colors relative overflow-hidden group">
-                  <div className="absolute top-0 right-0 p-4 opacity-5 dark:opacity-10 group-hover:scale-110 transition-transform">
-                     <MousePointer2 size={100} className="text-indigo-600 dark:text-indigo-400"/>
-                  </div>
-                  <h3 className="text-xl font-bold text-slate-900 dark:text-slate-100 mb-4 flex items-center gap-2 relative z-10">
-                      <div className="p-2 bg-indigo-100 dark:bg-indigo-900/30 rounded-lg text-indigo-600 dark:text-indigo-400">
-                        <MousePointer2 size={24}/>
-                      </div>
-                      100% Online e Gratuito
-                  </h3>
-                  <p className="text-slate-600 dark:text-slate-300 text-sm leading-relaxed relative z-10">
-                      Esqueça downloads suspeitos. Nossas ferramentas utilizam a tecnologia <strong>Client-Side</strong>. O processamento acontece no seu navegador, garantindo velocidade e privacidade.
-                  </p>
-                  <div className="mt-6 flex items-center gap-2 text-xs font-bold text-indigo-700 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-900/30 px-3 py-1.5 rounded-full w-fit relative z-10">
-                      <ShieldCheck size={14}/> Dados não saem do seu PC
-                  </div>
-              </div>
-
-              <div className="bg-slate-50 dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 hover:border-blue-400 dark:hover:border-blue-500 transition-colors relative overflow-hidden group">
-                   <div className="absolute top-0 right-0 p-4 opacity-5 dark:opacity-10 group-hover:scale-110 transition-transform">
-                     <Smartphone size={100} className="text-blue-600 dark:text-blue-400"/>
-                  </div>
-                  <h3 className="text-xl font-bold text-slate-900 dark:text-slate-100 mb-4 flex items-center gap-2 relative z-10">
-                       <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg text-blue-600 dark:text-blue-400">
-                        <Smartphone size={24}/>
-                      </div>
-                      Responsivo e Rápido
-                  </h3>
-                  <p className="text-slate-600 dark:text-slate-300 text-sm leading-relaxed relative z-10">
-                      Interfaces projetadas para carregar em milissegundos. Funciona perfeitamente no celular, tablet ou computador, sem travamentos ou pop-ups invasivos.
-                  </p>
-                  <div className="mt-6 flex items-center gap-2 text-xs font-bold text-blue-700 dark:text-blue-300 bg-blue-50 dark:bg-blue-900/30 px-3 py-1.5 rounded-full w-fit relative z-10">
-                      <Zap size={14}/> Otimizado para 4G/5G
-                  </div>
-              </div>
+          {/* TABELA COMPARATIVA DE FORMATOS DE FERRAMENTAS */}
+          <h3 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mt-10 mb-6">
+            Comparativo de Formatos de Utilidades
+          </h3>
+          <div className="overflow-x-auto w-full rounded-2xl border border-slate-200 dark:border-slate-800 mb-8">
+            <table className="min-w-[600px] w-full border-collapse text-left text-sm text-slate-600 dark:text-slate-400">
+              <thead className="bg-slate-50 dark:bg-slate-800/50 text-slate-800 dark:text-slate-200 font-bold border-b border-slate-200 dark:border-slate-800">
+                <tr>
+                  <th className="p-4">Aspecto</th>
+                  <th className="p-4">Utilitários Mestre das Contas</th>
+                  <th className="p-4">Softwares Instaláveis</th>
+                  <th className="p-4">Soluções Manuais</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
+                <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-800/30">
+                  <td className="p-4 font-semibold text-slate-900 dark:text-slate-200">Velocidade</td>
+                  <td className="p-4">Instantânea (sem downloads, roda no navegador)</td>
+                  <td className="p-4">Lenta (exige download, instalação e atualizações)</td>
+                  <td className="p-4">Muito lenta (preenchimento físico à mão)</td>
+                </tr>
+                <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-800/30">
+                  <td className="p-4 font-semibold text-slate-900 dark:text-slate-200">Privacidade dos Dados</td>
+                  <td className="p-4">Máxima (processamento 100% local no cliente)</td>
+                  <td className="p-4">Variável (risco de coleta por telemetria)</td>
+                  <td className="p-4">Física (risco de perda ou extravio do papel)</td>
+                </tr>
+                <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-800/30">
+                  <td className="p-4 font-semibold text-slate-900 dark:text-slate-200">Custo de Licença</td>
+                  <td className="p-4">Totalmente gratuito e sem anúncios invasivos</td>
+                  <td className="p-4">Pago (assinaturas mensais ou licenças caras)</td>
+                  <td className="p-4">Baixo (custo apenas de papel e caneta)</td>
+                </tr>
+                <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-800/30">
+                  <td className="p-4 font-semibold text-slate-900 dark:text-slate-200">Mobilidade / Multiplataforma</td>
+                  <td className="p-4">Total (acessível de qualquer PC, celular ou tablet)</td>
+                  <td className="p-4">Limitada (depende do sistema operacional compatível)</td>
+                  <td className="p-4">Nula (exige carregar blocos físicos de papel)</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
 
-          {/* ROADMAP */}
-          <div className="bg-gradient-to-r from-slate-900 to-slate-800 p-8 rounded-3xl text-white relative overflow-hidden shadow-xl shadow-slate-900/20">
-              <div className="absolute top-0 right-0 p-6 opacity-10">
-                  <Box size={150} className="text-white"/>
+          {/* PERGUNTAS FREQUENTES (FAQ) */}
+          <h3 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mt-12 mb-6 flex items-center gap-2">
+            Perguntas Frequentes sobre Nossos Utilitários
+          </h3>
+          <div className="space-y-4">
+            <details className="group border-b border-slate-200 dark:border-slate-800 pb-4 cursor-pointer">
+              <summary className="font-bold text-slate-800 dark:text-slate-200 flex justify-between items-center list-none p-2 hover:bg-slate-50 dark:hover:bg-slate-800 rounded select-none">
+                1. Os geradores de recibo e orçamentos funcionam offline?
+                <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
+              </summary>
+              <div className="mt-2 text-slate-600 dark:text-slate-400 px-2 text-sm leading-relaxed">
+                Sim. Uma vez que a página é totalmente carregada no seu navegador, todo o mecanismo e renderização em PDF funcionam de forma local. Você pode preencher e exportar documentos mesmo sem conexão com a internet.
               </div>
-              <h3 className="text-2xl font-bold text-white mb-6 flex items-center gap-2 relative z-10">
-                  <Cpu size={24} className="text-amber-400"/> O que vem por aí?
-              </h3>
-              <p className="text-slate-300 mb-6 relative z-10">
-                  Estamos constantemente desenvolvendo novas soluções. Em nosso roadmap de 2026, já estamos trabalhando em:
-              </p>
-              <ul className="grid sm:grid-cols-2 gap-3 relative z-10 text-sm font-medium">
-                  <li className="flex items-center gap-2"><CheckCircle2 size={16} className="text-emerald-400"/> Teste de Velocidade de Digitação</li>
-                  <li className="flex items-center gap-2"><CheckCircle2 size={16} className="text-emerald-400"/> Contador de Caracteres e Palavras</li>
-                  <li className="flex items-center gap-2"><CheckCircle2 size={16} className="text-emerald-400"/> Formatador de Código (JSON/XML)</li>
-              </ul>
+            </details>
+
+            <details className="group border-b border-slate-200 dark:border-slate-800 pb-4 cursor-pointer">
+              <summary className="font-bold text-slate-800 dark:text-slate-200 flex justify-between items-center list-none p-2 hover:bg-slate-50 dark:hover:bg-slate-800 rounded select-none">
+                2. Meus arquivos de PDF são enviados para a nuvem ao editar?
+                <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
+              </summary>
+              <div className="mt-2 text-slate-600 dark:text-slate-400 px-2 text-sm leading-relaxed">
+                Não, de forma alguma. Nosso Editor de PDF funciona 100% no lado do cliente (Client-Side). Seus documentos são processados diretamente na memória do seu computador ou celular, garantindo sigilo absoluto dos dados.
+              </div>
+            </details>
+
+            <details className="group border-b border-slate-200 dark:border-slate-800 pb-4 cursor-pointer">
+              <summary className="font-bold text-slate-800 dark:text-slate-200 flex justify-between items-center list-none p-2 hover:bg-slate-50 dark:hover:bg-slate-800 rounded select-none">
+                3. Como funciona a privacidade dos geradores de senhas e QR Code?
+                <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
+              </summary>
+              <div className="mt-2 text-slate-600 dark:text-slate-400 px-2 text-sm leading-relaxed">
+                As senhas e imagens de QR Code são computadas instantaneamente utilizando APIs locais do navegador. Nenhuma informação de links, senhas ou dados digitados é armazenada ou enviada a servidores externos.
+              </div>
+            </details>
+
+            <details className="group border-b border-slate-200 dark:border-slate-800 pb-4 cursor-pointer">
+              <summary className="font-bold text-slate-800 dark:text-slate-200 flex justify-between items-center list-none p-2 hover:bg-slate-50 dark:hover:bg-slate-800 rounded select-none">
+                4. O QR Code gerado pelo portal possui prazo de validade?
+                <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
+              </summary>
+              <div className="mt-2 text-slate-600 dark:text-slate-400 px-2 text-sm leading-relaxed">
+                Não. Nossos QR Codes são estáticos e vitalícios. As informações são gravadas em definitivo nos pixels da imagem, funcionando por tempo indeterminado e sem qualquer cobrança de taxas.
+              </div>
+            </details>
+
+            <details className="group border-b border-slate-200 dark:border-slate-800 pb-4 cursor-pointer">
+              <summary className="font-bold text-slate-800 dark:text-slate-200 flex justify-between items-center list-none p-2 hover:bg-slate-50 dark:hover:bg-slate-800 rounded select-none">
+                5. Posso inserir a logomarca da minha empresa nos recibos gerados?
+                <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
+              </summary>
+              <div className="mt-2 text-slate-600 dark:text-slate-400 px-2 text-sm leading-relaxed">
+                Sim. Nossas ferramentas de recibos e orçamentos possuem o campo de upload de imagem para que você incorpore o logotipo da sua marca e emita propostas altamente profissionais em formato A4.
+              </div>
+            </details>
+
+            <details className="group border-b border-slate-200 dark:border-slate-800 pb-4 cursor-pointer">
+              <summary className="font-bold text-slate-800 dark:text-slate-200 flex justify-between items-center list-none p-2 hover:bg-slate-50 dark:hover:bg-slate-800 rounded select-none">
+                6. As imagens enviadas para conversão de formato estão seguras?
+                <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
+              </summary>
+              <div className="mt-2 text-slate-600 dark:text-slate-400 px-2 text-sm leading-relaxed">
+                Sim, totalmente. A conversão de formatos de imagem (como converter PNG para WebP ou JPG) é processada de maneira local pelo motor do seu próprio navegador. Seus arquivos de foto nunca tocam a nuvem.
+              </div>
+            </details>
+
+            <details className="group border-b border-slate-200 dark:border-slate-800 pb-4 cursor-pointer">
+              <summary className="font-bold text-slate-800 dark:text-slate-200 flex justify-between items-center list-none p-2 hover:bg-slate-50 dark:hover:bg-slate-800 rounded select-none">
+                7. Como criar um link personalizado para contato de WhatsApp?
+                <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
+              </summary>
+              <div className="mt-2 text-slate-600 dark:text-slate-400 px-2 text-sm leading-relaxed">
+                Basta usar nosso Gerador de Link do WhatsApp: insira o número de telefone com o DDD e escreva a mensagem personalizada desejada. A ferramenta gera um link encurtado pronto para ser compartilhado em 1 clique.
+              </div>
+            </details>
           </div>
+        </div>
 
         </div>
 
@@ -460,6 +584,5 @@ export default function FerramentasHubPage() {
         </div>
 
       </div>
-    </div>
   );
 }

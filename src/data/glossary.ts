@@ -495,5 +495,125 @@ export const glossaryData: GlossaryEntry[] = [
     ],
     practicalExample: "Um enfermeiro tem um piso nacional garantido de R$ 4.750,00 por lei federal em 2026, não podendo ser contratado por valor inferior para jornada integral.",
     relatedTerms: ["dsr-descanso-semanal-remunerado", "inss-previdencia-social"]
+  },
+  {
+    term: "WebP (Formato de Imagem)",
+    slug: "webp-formato-imagem",
+    category: "empreendedorismo",
+    definition: "Formato de imagem moderno desenvolvido pelo Google que oferece compressão sem perda e com perda superior para imagens na web.",
+    detailedContent: "O WebP permite que criadores de conteúdo e desenvolvedores web criem imagens menores e mais ricas que tornam a web mais rápida. Imagens WebP sem perdas são 26% menores em tamanho em comparação com PNGs, e imagens com perdas são de 25% a 34% menores do que imagens JPEG comparáveis.",
+    keyPoints: [
+      "Suporta transparência (canal alfa) como o PNG.",
+      "Oferece compressão com perda superior ao JPEG.",
+      "Reduz o tempo de carregamento de páginas web (SEO).",
+      "Compatível com todos os navegadores modernos."
+    ],
+    practicalExample: "Converter uma imagem JPEG de 2MB para WebP pode reduzir seu tamanho para apenas 300KB sem perda visível de qualidade.",
+    relatedTerms: ["mei-microempreendedor-individual", "declaracao-de-conteudo-correios"]
+  },
+  {
+    term: "Compressão de Imagens",
+    slug: "compressao-de-imagens-web",
+    category: "empreendedorismo",
+    definition: "Processo de redução do tamanho do arquivo de uma imagem sem degradar excessivamente sua qualidade visual.",
+    detailedContent: "A compressão de imagens pode ser com perda (lossy) ou sem perda (lossless). É um fator crucial para otimização de sites, pois imagens pesadas lentificam o carregamento de páginas, prejudicando a experiência do usuário e o ranqueamento no Google.",
+    keyPoints: [
+      "Compressão com perda descarta dados invisíveis ao olho humano.",
+      "Compressão sem perda mantém a qualidade perfeita e reduz o tamanho.",
+      "Otimiza o uso de largura de banda e armazenamento.",
+      "Diretamente ligada às métricas de Core Web Vitals do Google."
+    ],
+    practicalExample: "Ao compactar as fotos do seu e-commerce, o site carrega em 1.5 segundos em vez de 5 segundos, aumentando as vendas.",
+    relatedTerms: ["mei-microempreendedor-individual", "declaracao-de-conteudo-correios"]
+  },
+  {
+    term: "Assinatura Digital (Validade de Documentos)",
+    slug: "assinatura-digital-documentos",
+    category: "fiscal",
+    definition: "Tecnologia de criptografia usada para validar a autenticidade e integridade de uma documento digital.",
+    detailedContent: "A assinatura digital equivale a uma assinatura física com firma reconhecida. Ela garante que o documento não foi alterado desde a assinatura (integridade) e que o assinante é realmente quem diz ser (autenticidade), conforme as regras da ICP-Brasil.",
+    keyPoints: [
+      "Possui validade jurídica inquestionável pela MP nº 2.200-2/2001.",
+      "Garante não repúdio: o assinante não pode negar a autoria.",
+      "Economiza custos com impressão, reconhecimento de firma e cartórios.",
+      "Diferente de assinatura digitalizada (que é apenas uma foto da assinatura física)."
+    ],
+    practicalExample: "Assinar um contrato de prestação de serviços em PDF usando seu certificado digital (e-CPF) ou conta gov.br.",
+    relatedTerms: ["contrato-de-prestacao-de-servicos", "declaracao-de-conteudo-correios"]
+  },
+  {
+    term: "PDF/A (Padrão de Arquivamento)",
+    slug: "pdf-a-padrao-arquivamento",
+    category: "fiscal",
+    definition: "Versão do formato PDF padronizada pela ISO para preservação e arquivamento de documentos eletrônicos a longo prazo.",
+    detailedContent: "O padrão PDF/A garante que um documento eletrônico possa ser reproduzido exatamente da mesma maneira, independentemente do software ou dispositivo utilizado no futuro. Ele proíbe elementos externos como fontes não embutidas e JavaScript.",
+    keyPoints: [
+      "Especificado pela norma internacional ISO 19005.",
+      "Todas as fontes e cores devem ser embutidas no próprio arquivo.",
+      "Garante que o documento nunca mude de aparência visual.",
+      "Obrigatório em muitos processos judiciais e arquivos públicos."
+    ],
+    practicalExample: "Salvar um contrato finalizado em formato PDF/A-1b para garantir que ele possa ser lido daqui a 50 anos sem distorções.",
+    relatedTerms: ["contrato-de-prestacao-de-servicos", "declaracao-de-conteudo-correios"]
+  },
+  {
+    term: "QR Code Estático vs Dinâmico",
+    slug: "qr-code-estatico-dinamico",
+    category: "empreendedorismo",
+    definition: "Diferença entre códigos QR com dados fixos gravados (estáticos) e códigos QR que redirecionam através de um link editável (dinâmicos).",
+    detailedContent: "No QR Code Estático, as informações (como o Pix Copia e Cola ou uma senha Wi-Fi) são codificadas diretamente nos pixels. No QR Code Dinâmico, o código aponta para um link curto que pode ser alterado posteriormente, além de permitir rastreamento de acessos.",
+    keyPoints: [
+      "Estáticos: Não expiram, são vitalícios e gratuitos, ideais para Pix fixo.",
+      "Dinâmicos: Permitem alterar o destino do link sem mudar a imagem impressa.",
+      "Dinâmicos fornecem estatísticas de leitura (data, local, dispositivo).",
+      "Códigos estáticos ficam visualmente mais complexos conforme o volume de dados aumenta."
+    ],
+    practicalExample: "Usar um QR Code Estático para a senha do Wi-Fi na recepção e um QR Code Dinâmico para uma campanha publicitária externa.",
+    relatedTerms: ["mdr-taxa-da-maquininha", "antecipacao-de-recebiveis-negocios"]
+  },
+  {
+    term: "API do WhatsApp (Links Diretos)",
+    slug: "api-whatsapp-links-diretos",
+    category: "empreendedorismo",
+    definition: "Recurso que permite iniciar uma conversa com um número de telefone no WhatsApp através de um endereço de internet (URL) pré-configurado.",
+    detailedContent: "O recurso 'Conversar com um clique' do WhatsApp utiliza a API de links (no formato wa.me) para abrir uma janela de bate-papo sem que o usuário precise adicionar o número na agenda do celular primeiro. Pode conter um texto pré-preenchido.",
+    keyPoints: [
+      "Formato oficial: https://wa.me/numero.",
+      "O número de telefone deve incluir o código do país (55 para Brasil) e DDD.",
+      "Permite adicionar mensagens pré-configuradas codificadas em URL.",
+      "Aumenta a conversão de vendas em landing pages e perfis de redes sociais."
+    ],
+    practicalExample: "Colocar um botão 'Falar no WhatsApp' na sua bio do Instagram que direciona para 'https://wa.me/5511999999999?text=Olá!'",
+    relatedTerms: ["mei-microempreendedor-individual", "contrato-de-prestacao-de-servicos"]
+  },
+  {
+    term: "Criptografia de Senhas (Hash)",
+    slug: "criptografia-senhas-hash",
+    category: "empreendedorismo",
+    definition: "Processo de transformar um texto em uma sequência de caracteres de tamanho fixo impossível de ser revertida ao formato original.",
+    detailedContent: "A criptografia de senhas local garante a segurança dos dados do usuário. Hash algorithms como SHA-256 ou bcrypt transformam a senha em um código único. Senhas fortes geradas aleatoriamente previnem ataques de força bruta ou vazamentos.",
+    keyPoints: [
+      "Uma boa função de hash é unidirecional (impossível descriptografar de volta).",
+      "Mesma senha sempre gera o mesmo hash.",
+      "Senhas devem ser longas (mínimo 12 caracteres) e misturar letras, números e símbolos.",
+      "Geradores locais de senhas rodam no navegador sem enviar dados à rede."
+    ],
+    practicalExample: "Sua senha 'MinhaSenha123!' é convertida no hash '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92'.",
+    relatedTerms: ["mei-microempreendedor-individual", "contrato-de-prestacao-de-servicos"]
+  },
+  {
+    term: "Fases da Lua (Calendário Lunar)",
+    slug: "fases-da-lua-calendario-lunar",
+    category: "empreendedorismo",
+    definition: "As diferentes aparências da Lua vistas da Terra ao longo do mês, resultantes da sua órbita ao redor da Terra em relação ao Sol.",
+    detailedContent: "O ciclo lunar dura aproximadamente 29,5 dias e passa pelas quatro fases principais: Nova, Crescente, Cheia e Minguante. Historicamente e culturalmente, o calendário lunar é associado a ciclos de plantio, pescaria, marés e estética (corte de cabelo).",
+    keyPoints: [
+      "Influência direta na amplitude das marés (marés de sizígia e de quadratura).",
+      "Muito utilizado na agricultura biodinâmica para planejar semeaduras.",
+      "O ciclo lunar completo é conhecido como lunação.",
+      "Indica a iluminação da face voltada para a Terra (0% na Nova a 100% na Cheia)."
+    ],
+    practicalExample: "Agricultores planejam o plantio de hortaliças de folha durante a Lua Crescente para estimular o desenvolvimento foliar.",
+    relatedTerms: ["mei-microempreendedor-individual", "tabela-fipe-o-que-e"]
   }
 ];

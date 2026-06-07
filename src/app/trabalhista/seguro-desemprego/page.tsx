@@ -2,7 +2,6 @@ import { Suspense } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import UnemploymentCalculator from "@/components/calculators/UnemploymentCalculator";
-
 import LazyAdUnit from "@/components/ads/LazyAdUnit";
 import DisclaimerBox from "@/components/ui/DisclaimerBox";
 import PageHeader from "@/components/layout/PageHeader";
@@ -10,17 +9,18 @@ import {
   Briefcase, HelpCircle, History, BookOpen, 
   AlertTriangle, CheckCircle2, Coins, Calculator, 
   Wallet, FileText, Scale, Users, Calendar, ShieldCheck, XCircle, Search,
-  Landmark, AlertOctagon, Link as LinkIcon, ExternalLink
+  Landmark, AlertOctagon, ExternalLink
 } from "lucide-react";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
 import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
+import SmartGlossaryLinker from "@/components/layout/SmartGlossaryLinker";
+import GlossaryTerm from "@/components/ui/GlossaryTerm";
 import ExpertSignature from "@/components/ui/ExpertSignature";
 
-// --- 1. METADATA DE DOMINAÇÃO (SEO 2026) ---
 // --- 1. METADATA DINÂMICA (SEO MAXIMIZADO) ---
 export async function generateMetadata(): Promise<Metadata> {
   const title = "Calculadora de Seguro-Desemprego 2026 | Valor e Parcelas";
-  const description = "Saiba quanto você vai receber de Seguro-Desemprego em 2026. Veja o valor das parcelas e o tempo de recebimento em segundos. Grátis e Online.";
+  const description = "Tem direito ao Seguro-Desemprego? Descubra o valor exato das suas parcelas e quantas parcelas irá receber em 2026 de forma grátis, rápida e 100% segura!";
 
   return {
     title,
@@ -36,8 +36,7 @@ export async function generateMetadata(): Promise<Metadata> {
     ],
     alternates: { canonical: "https://mestredascontas.com.br/trabalhista/seguro-desemprego" },
     openGraph: {
-      title: "Calculadora de Seguro-Desemprego 2026 | Valor e Parcelas",
-      description: "Saiba quanto você vai receber de Seguro-Desemprego em 2026. Veja o valor das parcelas e o tempo de recebimento em segundos. Grátis e preciso.",
+      title,
       url: "https://mestredascontas.com.br/trabalhista/seguro-desemprego",
       siteName: "Mestre das Contas",
       locale: "pt_BR",
@@ -54,7 +53,6 @@ export async function generateMetadata(): Promise<Metadata> {
     twitter: {
       card: "summary_large_image",
       title: "Foi demitido? Saiba quanto o governo vai te pagar!",
-      description: "Simule seu seguro-desemprego 2026 e descubra o valor e quantidade de parcelas agora.",
       images: ["/opengraph-image"],
     },
     robots: {
@@ -62,16 +60,39 @@ export async function generateMetadata(): Promise<Metadata> {
       googleBot: { index: true, follow: true, "max-video-preview": -1, "max-image-preview": "large", "max-snippet": -1 } } };
 }
 
-// --- FAQ LIST (Conteúdo Evergreen 2026) ---
+// --- LISTA FAQ (Exatamente 7 Dúvidas Reais de Usuários) ---
 const faqList = [
-    { q: "Quantas parcelas eu recebo?", a: "Depende de quanto tempo você trabalhou nos últimos 36 meses e de quantas vezes já solicitou o benefício. Varia de 3 a 5 parcelas." },
-    { q: "Qual o valor máximo do seguro em 2026?", a: "O teto máximo é reajustado anualmente pelo governo (baseado no INPC). Para 2026, a estimativa é que o teto ultrapasse R$ 2.500,00 (valor sujeito a confirmação oficial em janeiro). Ninguém recebe menos que um salário mínimo." },
-    { q: "MEI tem direito a seguro-desemprego?", a: "Em regra não, pois o sistema entende que você tem renda própria. Para receber, você precisa comprovar que o MEI está inativo ou não gera renda suficiente para o sustento." },
-    { q: "Qual o prazo para dar entrada?", a: "Trabalhador formal tem de 7 a 120 dias corridos após a demissão. Empregada doméstica tem de 7 a 90 dias." },
-    { q: "Arrumei emprego, continuo recebendo?", a: "Não. O benefício é suspenso automaticamente assim que o novo registro em carteira é identificado pelo sistema do governo (eSocial)." }
+  { 
+    q: "Afinal, quantas parcelas do seguro-desemprego eu vou receber?", 
+    a: "A quantidade de parcelas varia entre 3, 4 ou 5 meses, dependendo de quantos meses você trabalhou sob regime CLT nos últimos 36 meses e de quantas solicitações do benefício você já realizou ao longo da sua vida profissional." 
+  },
+  { 
+    q: "Qual é o valor máximo da parcela (teto) do seguro-desemprego em 2026?", 
+    a: "O valor máximo pago pelo governo é reajustado anualmente com base no Índice Nacional de Preços ao Consumidor (INPC). Em 2026, o teto do benefício ultrapassa R$ 2.500,00 por parcela, garantindo um patamar de subsistência mínimo." 
+  },
+  { 
+    q: "Quem tem empresa aberta (CNPJ MEI) ativo pode receber o seguro-desemprego?", 
+    a: "Em regra, ter um CNPJ ativo (mesmo como MEI) gera o bloqueio automático do benefício pelo sistema do governo. Para conseguir a liberação, o trabalhador precisa comprovar que a empresa está totalmente inativa ou que não aufere lucros." 
+  },
+  { 
+    q: "Qual é o prazo regulamentar para dar entrada no pedido de seguro-desemprego?", 
+    a: "Para trabalhadores formais sob regime de CLT, o prazo estipulado por lei é de 7 a 120 dias corridos a contar do dia seguinte à demissão. Para trabalhadores domésticos, o prazo regulamentar é menor, sendo de 7 a 90 dias corridos." 
+  },
+  { 
+    q: "O que acontece com as parcelas do seguro-desemprego caso eu consiga um novo emprego?", 
+    a: "Assim que um novo registro de contrato é ativado na sua Carteira de Trabalho Digital pelo eSocial, o sistema suspende imediatamente a liberação das parcelas futuras do seguro, sendo pago apenas os dias proporcionais de desemprego." 
+  },
+  { 
+    q: "Quem é dispensado por justa causa ou pede demissão tem direito ao seguro-desemprego?", 
+    a: "Não. O seguro-desemprego é um programa governamental de proteção exclusivo para trabalhadores demitidos sem justa causa ou em situações específicas de rescisão indireta. Pedidos de demissão voluntária não dão direito ao benefício." 
+  },
+  { 
+    q: "Como dar entrada no requerimento de seguro-desemprego totalmente online?", 
+    a: "Você pode solicitar de forma 100% online e sem sair de casa utilizando o aplicativo 'Carteira de Trabalho Digital' ou acessando o portal Gov.br, munido do número de Requerimento de Seguro-Desemprego fornecido pela empresa na demissão." 
+  }
 ];
 
-// --- 2. DADOS ESTRUTURADOS (JSON-LD) ---
+// --- 2. DADOS ESTRUTURADOS (JSON-LD COMPLETO COM 7 FAQ) ---
 const jsonLd = {
   "@context": "https://schema.org",
   "@graph": [
@@ -81,43 +102,39 @@ const jsonLd = {
       "applicationCategory": "FinanceApplication",
       "operatingSystem": "Web",
       "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
-      "description": "Simulador online para cálculo de valor e parcelas do Seguro-Desemprego no Brasil de acordo com as regras do FAT vigentes em 2026." },
-    {
-      "@type": "TechArticle",
-      "headline": "Seguro-Desemprego 2026: Guia Definitivo de Direitos e Prazos",
-      "description": "Tudo sobre o benefício: quem tem direito, como calcular a média salarial e prazos para requerimento este ano.",
-      "proficiencyLevel": "Beginner",
-      "author": { "@type": "Organization", "name": "Equipe Trabalhista Mestre das Contas", "url": "https://mestredascontas.com.br/sobre" },
-      "publisher": { "@type": "Organization", "name": "Mestre das Contas", "logo": { "@type": "ImageObject", "url": "https://mestredascontas.com.br/opengraph-image" } },
-      "datePublished": "2024-05-15",
-      "dateModified": new Date().toISOString(),
-      "speakable": {
-           "@type": "SpeakableSpecification",
-           "xpath": ["/html/head/title", "/html/head/meta[@name='description']/@content"]
-      }
+      "description": "Simulador online para cálculo de valor e parcelas do Seguro-Desemprego no Brasil de acordo com as regras vigentes em 2026."
     },
     {
       "@type": "HowTo",
-      "name": "Como Calcular o Seguro-Desemprego",
-      "description": "Descubra o valor e o número de parcelas a receber.",
+      "name": "Como Solicitar o Seguro-Desemprego Online",
+      "description": "Aprenda a calcular o valor do seu seguro e realizar o requerimento digital passo a passo.",
       "image": "https://mestredascontas.com.br/opengraph-image",
       "step": [
         {
           "@type": "HowToStep",
-          "name": "Média Salarial",
-          "text": "Calcule a média dos seus últimos 3 salários anteriores à demissão."
+          "name": "Apure os Três Últimos Salários",
+          "text": "Calcule a média aritmética dos seus três últimos salários em folha."
         },
         {
           "@type": "HowToStep",
-          "name": "Aplique a Faixa",
-          "text": "Se a média for até R$ 2.041, multiplica-se por 0.8. Acima disso, há regras específicas."
+          "name": "Verifique a Quantidade de Parcelas",
+          "text": "Conte os meses de carteira assinada nos últimos 36 meses para definir se recebe 3, 4 ou 5 meses."
         },
         {
-           "@type": "HowToStep",
-           "name": "Número de Parcelas",
-           "text": "Verifique quantos meses trabalhou nos últimos 36 meses para saber se recebe 3, 4 ou 5 parcelas."
+          "@type": "HowToStep",
+          "name": "Faça a Solicitação Online",
+          "text": "Insira os dados no aplicativo Carteira de Trabalho Digital ou portal Gov.br."
         }
       ]
+    },
+    {
+      "@type": "Article",
+      "headline": "Guia de Seguro-Desemprego: Regras, Parcelas, Prazos e Evitando Bloqueios",
+      "description": "Tudo sobre o seguro-desemprego em 2026: regras de carência, cálculo de média salarial e o impacto de ter um CNPJ MEI.",
+      "author": { "@type": "Organization", "name": "Mestre das Contas" },
+      "publisher": { "@type": "Organization", "name": "Mestre das Contas", "logo": { "@type": "ImageObject", "url": "https://mestredascontas.com.br/opengraph-image" } },
+      "datePublished": "2024-05-15",
+      "dateModified": new Date().toISOString()
     },
     {
       "@type": "FAQPage",
@@ -130,12 +147,9 @@ const jsonLd = {
   ]
 };
 
-
 export default async function SeguroPage() {
-  // --- MODO PÁGINA NORMAL ---
   return (
     <article className="w-full max-w-full overflow-hidden pb-12">
-      
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
       {/* --- PAGE HEADER PADRONIZADO --- */}
@@ -145,7 +159,7 @@ export default async function SeguroPage() {
           description="Foi demitido sem justa causa? Descubra o valor exato do benefício e quantas parcelas você tem direito de receber segundo a regra oficial de 2026."
           category="Proteção Social"
           icon={<ShieldCheck size={32} strokeWidth={2} />}
-          variant="default" // Azul/Indigo
+          variant="default" 
           categoryColor="blue"
           badge="Regra 2026"
           breadcrumbs={[
@@ -179,23 +193,17 @@ export default async function SeguroPage() {
            <LazyAdUnit slot="seguro_top" format="horizontal" variant="agency" />
         </div>
 
-        {/* REVISÃO TRABALHISTA (E-E-A-T) */}
-        <div className="bg-blue-50/50 dark:bg-blue-900/10 border border-blue-100 dark:border-blue-800 p-4 rounded-2xl flex items-center gap-3 text-xs text-blue-700 dark:text-blue-300 mb-2">
-          <ShieldCheck size={18} className="text-blue-600 shrink-0" />
-          <span>Simulador atualizado com o novo teto do Seguro-Desemprego e regras de solicitação para 2026.</span>
-        </div>
-
         {/* FERRAMENTA */}
         <section id="ferramenta" className="scroll-mt-28 w-full max-w-full">
           <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/40 dark:shadow-none p-1 md:p-2">
-                  <PrivacyBadge />
-                   <Suspense fallback={<div className="h-96 w-full bg-slate-100 dark:bg-slate-800 animate-pulse rounded-3xl" />}>
-                     <UnemploymentCalculator />
-                   </Suspense>
+            <PrivacyBadge />
+            <Suspense fallback={<div className="h-96 w-full bg-slate-100 dark:bg-slate-800 animate-pulse rounded-3xl" />}>
+              <UnemploymentCalculator />
+            </Suspense>
           </div>
           
           <div className="mt-8 print:hidden max-w-5xl mx-auto">
-              <DisclaimerBox />
+            <DisclaimerBox />
           </div>
         </section>
 
@@ -204,194 +212,154 @@ export default async function SeguroPage() {
             <LazyAdUnit slot="seguro_mid" format="auto" />
         </div>
 
-        {/* --- CONTEÚDO EDUCACIONAL DENSO --- */}
+        {/* --- CONTEÚDO EDUCACIONAL DE ALTA PERFORMANCE (ADSENSE & AI GROUNDING) --- */}
         <div className="prose prose-slate dark:prose-invert prose-sm md:prose-lg max-w-4xl mx-auto bg-white dark:bg-slate-900 p-6 md:p-12 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-xl shadow-slate-200/40 dark:shadow-none overflow-hidden w-full print:hidden">
           
           <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2 border-l-4 border-blue-600 pl-4">
-              O "Colchão" do Trabalhador Brasileiro
+              O Paraquedas Social: Tudo Sobre o Seguro-Desemprego
           </h2>
+          
           <p className="lead text-slate-700 dark:text-slate-300 text-lg font-medium">
-            Perder o emprego é um dos momentos mais estressantes da vida adulta. As contas não param de chegar e a incerteza do futuro pesa. É justamente para esse momento que existe o <strong>Seguro-Desemprego</strong>.
-          </p>
-          <p>
-            Mas atenção: muitas pessoas acham que vão receber o mesmo valor do último salário que está na carteira, e é aí que mora o perigo. O cálculo segue uma lógica própria baseada na <strong>média dos últimos 3 meses</strong>.
-          </p>
-          <p>
-            Além disso, o governo impõe um "teto" (valor máximo). Mesmo que você ganhasse R$ 10.000,00, o valor do seguro é limitado. Vamos entender essa matemática agora.
+            Você já vivenciou a dolorosa e frustrante sensação de receber a notícia de uma demissão surpresa, acompanhada pelo temor imediato de como arcar com as contas nos próximos meses?
           </p>
 
-          <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100 mt-10 mb-6 flex items-center gap-2">
-              <Calculator className="text-blue-600 dark:text-blue-400" /> A Matemática do Benefício (Tabela 2026)
+          <p>
+            A verdade é que a perda involuntária de um posto de trabalho representa um dos períodos de maior instabilidade e pressão emocional na vida de qualquer cidadão.
+          </p>
+
+          <p>
+            Veja bem, o <GlossaryTerm slug="seguro-desemprego-clt">seguro-desemprego</GlossaryTerm> funciona como uma espécie de paraquedas de emergência robusto, acionado para amortecer nossa queda e garantir um pouso controlado.
+          </p>
+
+          <p>
+            Enquanto nós reorganizamos o rumo profissional e focamos na conquista de novas oportunidades no mercado, esse programa governamental garante que o prato de comida continue na mesa.
+          </p>
+
+          <p>
+            Parece um benefício fácil de compreender, né? No entanto, as complexas faixas de cálculo do governo e os prazos rígidos podem pregar peças muito desagradáveis.
+          </p>
+
+          <p>
+            O melhor de tudo? Nós preparamos este material denso para clarear cada regra e ajudar você a realizar a simulação mais precisa do mercado!
+          </p>
+
+          <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100 mt-10 mb-4 flex items-center gap-2 border-l-4 border-blue-600 pl-4">
+              Quem Tem Direito vs Quem Não Tem Direito: Tabela Detalhada
           </h3>
+
           <p>
-             O cálculo não é feito sobre o seu último salário isolado, mas sim sobre a média dos três últimos salários anteriores à demissão. Se você não trabalhou os 3 meses, a média é feita com os meses trabalhados.
-          </p>
-          <p>
-             Com a média em mãos, aplica-se a seguinte tabela (Projeção baseada no INPC vigente para 2026):
+            Uma das etapas que mais provocam bloqueios de benefícios no Ministério do Trabalho diz respeito ao enquadramento das regras de elegibilidade.
           </p>
 
-          {/* TABELA DE CÁLCULO VISUAL (OBRIGATÓRIA) */}
-          <div className="my-8">
-              {/* DESKTOP TABLE */}
-              <div className="hidden md:block overflow-hidden border rounded-xl border-slate-200 dark:border-slate-800 shadow-sm bg-white dark:bg-slate-900">
-                  <div className="bg-slate-100 dark:bg-slate-800 p-3 border-b border-slate-200 dark:border-slate-700 flex justify-between items-center">
-                      <h3 className="font-bold text-slate-700 dark:text-slate-200 text-xs md:text-sm uppercase flex items-center gap-2">
-                          <Scale size={16} /> Faixas de Cálculo (Estimativa 2026)
-                      </h3>
-                      <span className="text-[10px] bg-white dark:bg-slate-700 border dark:border-slate-600 px-2 py-0.5 rounded text-slate-500 dark:text-slate-300">Salário Mínimo R$ 1.621 (Proj.)</span>
-                  </div>
-                  <table className="w-full text-sm text-left">
-                      <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
-                          <tr className="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
-                              <td className="px-4 py-3 font-medium text-slate-600 dark:text-slate-300">Média até <strong>R$ 2.245,69</strong></td>
-                              <td className="px-4 py-3 text-slate-800 dark:text-slate-100">Multiplica-se a média por <strong>0.8</strong> (80%)</td>
-                          </tr>
-                          <tr className="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
-                              <td className="px-4 py-3 font-medium text-slate-600 dark:text-slate-300">De <strong>R$ 2.245,70</strong> até <strong>R$ 3.743,21</strong></td>
-                              <td className="px-4 py-3 text-slate-800 dark:text-slate-100">O que exceder a 2.245,69 multiplica por <strong>0.5</strong> e soma a 1.796,55</td>
-                          </tr>
-                          <tr className="bg-blue-50/50 dark:bg-blue-900/20 hover:bg-blue-100/50 dark:hover:bg-blue-900/30 transition-colors">
-                              <td className="px-4 py-3 font-bold text-blue-800 dark:text-blue-300">Acima de <strong>R$ 3.743,21</strong></td>
-                              <td className="px-4 py-3 font-bold text-blue-800 dark:text-blue-300">Valor fixo (Teto): <strong>R$ 2.545,31</strong></td>
-                          </tr>
-                      </tbody>
-                  </table>
-              </div>
+          <p>
+            Para que você não cometa erros ao solicitar o auxílio, desenhamos uma tabela comparativa pure HTML com todos os regimes de trabalho vigentes no país.
+          </p>
 
-              {/* MOBILE CARDS */}
-              <div className="md:hidden space-y-3">
-                  {[
-                      { faixa: "Média até R$ 2.245,69", regra: "Multiplica por 0.8 (80%)", destaque: false },
-                      { faixa: "De R$ 2.245,70 até R$ 3.743,21", regra: "Excedente x 0.5 + 1.796,55", destaque: false },
-                      { faixa: "Acima de R$ 3.743,21", regra: "Recebe o Teto: R$ 2.545,31", destaque: true }
-                  ].map((item, idx) => (
-                      <div key={idx} className={`p-4 rounded-xl border flex flex-col gap-2 ${item.destaque ? 'bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800' : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800'}`}>
-                          <div>
-                              <span className="text-[10px] uppercase font-bold text-slate-400 block mb-1">Faixa de Salário</span>
-                              <span className="font-bold text-slate-800 dark:text-slate-200 text-sm">{item.faixa}</span>
-                          </div>
-                          <div className={`pt-2 border-t ${item.destaque ? 'border-blue-100 dark:border-blue-800' : 'border-slate-100 dark:border-slate-800'}`}>
-                              <span className="text-[10px] uppercase font-bold text-slate-400 block mb-1">Cálculo</span>
-                              <span className={`text-sm ${item.destaque ? 'font-bold text-blue-700 dark:text-blue-300' : 'text-slate-600 dark:text-slate-300'}`}>{item.regra}</span>
-                          </div>
-                      </div>
-                  ))}
-              </div>
-
-              <p className="text-[10px] text-slate-400 dark:text-slate-500 mt-2 text-center">* Valores estimados com base na projeção do INPC para 2025/2026. A portaria oficial sai em Janeiro.</p>
+          <div className="not-prose my-6 overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+            <table className="w-full min-w-[600px] text-sm text-left border-collapse bg-white dark:bg-slate-900">
+              <thead>
+                <tr className="bg-slate-50 dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700">
+                  <th scope="col" className="px-6 py-3 font-bold text-slate-700 dark:text-slate-300">Regime de Trabalho</th>
+                  <th scope="col" className="px-6 py-3 font-bold text-slate-700 dark:text-slate-300">Situação Exigida</th>
+                  <th scope="col" className="px-6 py-3 font-bold text-slate-700 dark:text-slate-300 text-right">Tem Direito ao Seguro?</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-slate-650 dark:text-slate-350">
+                <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
+                  <td className="px-6 py-4 font-semibold text-slate-900 dark:text-slate-100">CLT Formal (Urbano/Rural)</td>
+                  <td className="px-6 py-4 text-xs">Dispensa sem justa causa ou rescisão indireta forçada judicialmente.</td>
+                  <td className="px-6 py-4 text-xs font-bold text-emerald-650 text-right uppercase">Sim (Regra padrão)</td>
+                </tr>
+                <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
+                  <td className="px-6 py-4 font-semibold text-slate-900 dark:text-slate-100">Empregado Doméstico</td>
+                  <td className="px-6 py-4 text-xs">Rescisão sem justa causa, com comprovação de recolhimento de FGTS.</td>
+                  <td className="px-6 py-4 text-xs font-bold text-emerald-650 text-right uppercase">Sim (Até 3 parcelas)</td>
+                </tr>
+                <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
+                  <td className="px-6 py-4 font-semibold text-slate-900 dark:text-slate-100">Microempreendedor (CNPJ <GlossaryTerm slug="mei-microempreendedor-individual">MEI</GlossaryTerm>)</td>
+                  <td className="px-6 py-4 text-xs">Empresa sem movimentação e sem retirada de pró-labore comprovada.</td>
+                  <td className="px-6 py-4 text-xs font-bold text-amber-650 text-right uppercase">Apenas sob análise restrita</td>
+                </tr>
+                <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
+                  <td className="px-6 py-4 font-semibold text-slate-900 dark:text-slate-100">Estagiários ou Autônomos</td>
+                  <td className="px-6 py-4 text-xs">Contratos regidos por termos específicos, sem recolhimento previdenciário FAT.</td>
+                  <td className="px-6 py-4 text-xs font-bold text-red-650 text-right uppercase">Não tem direito</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
 
-          <h3 className="text-xl font-bold text-slate-800 dark:text-white mt-10 mb-6 flex items-center gap-2">
-              <Coins className="text-green-600 dark:text-green-500" /> Quantas parcelas vou receber?
+          <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100 mt-10 mb-4 flex items-center gap-2">
+              <Calculator className="text-blue-600 dark:text-blue-400" /> A Complexa Faixa de Cálculo Governamental
           </h3>
+          
           <p>
-              A verdade é que nem todo mundo recebe 5 parcelas. A quantidade depende da sua "carência", ou seja, de quanto tempo você trabalhou com carteira assinada nos meses anteriores e de quantas vezes você já pediu o seguro na vida.
+            Muitos trabalhadores ficam assustados ao ver o depósito do seguro cair abaixo da média salarial declarada em carteira.
           </p>
 
-          <div className="grid md:grid-cols-3 gap-6 not-prose mb-10">
-              {/* Card 1ª Solicitação */}
-              <div className="bg-white dark:bg-slate-900 p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm relative overflow-hidden group hover:border-blue-300 dark:hover:border-blue-700 transition-all">
-                  <div className="absolute top-0 right-0 p-2 opacity-5"><Briefcase size={60} className="text-blue-500 dark:text-blue-400" /></div>
-                  <div className="inline-block bg-blue-100 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 font-bold px-3 py-1 rounded-full text-xs mb-3 border border-blue-200 dark:border-blue-900/30">1ª Solicitação</div>
-                  <ul className="text-sm text-slate-600 dark:text-slate-300 space-y-2">
-                      <li className="flex justify-between border-b border-slate-100 dark:border-slate-800 pb-1"><span>12 a 23 meses</span> <strong>4 parcelas</strong></li>
-                      <li className="flex justify-between pt-1"><span>24 meses ou mais</span> <strong>5 parcelas</strong></li>
-                  </ul>
-                  <p className="text-xs text-slate-400 dark:text-slate-500 mt-3 italic">* Exige mínimo de 12 meses trabalhados.</p>
-              </div>
+          <p>
+            A verdade é que as parcelas sofrem um reajuste proporcional de faixas para garantir que o caixa público permaneça sustentável.
+          </p>
 
-              {/* Card 2ª Solicitação */}
-              <div className="bg-white dark:bg-slate-900 p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm relative overflow-hidden group hover:border-indigo-300 dark:hover:border-indigo-700 transition-all">
-                  <div className="absolute top-0 right-0 p-2 opacity-5"><Briefcase size={60} className="text-indigo-500 dark:text-indigo-400"/></div>
-                  <div className="inline-block bg-indigo-100 dark:bg-indigo-900/20 text-indigo-700 dark:text-indigo-300 font-bold px-3 py-1 rounded-full text-xs mb-3 border border-indigo-200 dark:border-indigo-900/30">2ª Solicitação</div>
-                  <ul className="text-sm text-slate-600 dark:text-slate-300 space-y-2">
-                      <li className="flex justify-between border-b border-slate-100 dark:border-slate-800 pb-1"><span>9 a 11 meses</span> <strong>3 parcelas</strong></li>
-                      <li className="flex justify-between border-b border-slate-100 dark:border-slate-800 pb-1 pt-1"><span>12 a 23 meses</span> <strong>4 parcelas</strong></li>
-                      <li className="flex justify-between pt-1"><span>24 meses +</span> <strong>5 parcelas</strong></li>
-                  </ul>
-              </div>
-
-              {/* Card 3ª Solicitação */}
-              <div className="bg-white dark:bg-slate-900 p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm relative overflow-hidden group hover:border-purple-300 dark:hover:border-purple-700 transition-all">
-                  <div className="absolute top-0 right-0 p-2 opacity-5"><Briefcase size={60} className="text-purple-500 dark:text-purple-400"/></div>
-                  <div className="inline-block bg-purple-100 dark:bg-purple-900/20 text-purple-700 dark:text-purple-300 font-bold px-3 py-1 rounded-full text-xs mb-3 border border-purple-200 dark:border-purple-900/30">3ª Solicitação</div>
-                  <ul className="text-sm text-slate-600 dark:text-slate-300 space-y-2">
-                      <li className="flex justify-between border-b border-slate-100 dark:border-slate-800 pb-1"><span>6 a 11 meses</span> <strong>3 parcelas</strong></li>
-                      <li className="flex justify-between border-b border-slate-100 dark:border-slate-800 pb-1 pt-1"><span>12 a 23 meses</span> <strong>4 parcelas</strong></li>
-                      <li className="flex justify-between pt-1"><span>24 meses +</span> <strong>5 parcelas</strong></li>
-                  </ul>
-              </div>
-          </div>
-
-          {/* CURIOSIDADE HISTÓRICA */}
-          <div className="bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 p-6 md:p-8 rounded-2xl border border-blue-100 dark:border-blue-800 my-10 not-prose relative overflow-hidden shadow-sm">
-              <div className="absolute top-0 right-0 p-4 opacity-10">
-                  <History size={140} className="text-blue-900 dark:text-blue-100"/>
-              </div>
-              <h3 className="text-xl font-bold text-blue-900 dark:text-white mb-4 flex items-center gap-2 relative z-10">
-                  <BookOpen size={24} className="text-blue-600 dark:text-blue-400"/> Você Sabia? A Origem do Benefício
+          <div className="my-8 overflow-hidden border rounded-xl border-slate-200 dark:border-slate-800 shadow-sm bg-white dark:bg-slate-900 not-prose">
+            <div className="bg-slate-100 dark:bg-slate-800 p-3 border-b border-slate-200 dark:border-slate-700 flex justify-between items-center">
+              <h3 className="font-bold text-slate-700 dark:text-slate-200 text-xs md:text-sm uppercase flex items-center gap-2">
+                <Scale size={16} /> Faixas de Cálculo Governamentais 2026
               </h3>
-              <div className="space-y-4 text-slate-700 dark:text-slate-200 relative z-10 text-sm md:text-base leading-relaxed">
-                  <p>
-                      O Seguro-Desemprego foi criado no Brasil em <strong>1986</strong>, durante o governo Sarney, como parte do famoso "Plano Cruzado". O objetivo era proteger o trabalhador em momentos de grande instabilidade econômica e hiperinflação. 
-                  </p>
-                  <p>
-                      Ele é financiado pelo <strong>FAT (Fundo de Amparo ao Trabalhador)</strong>, que recebe recursos do PIS/PASEP. Ou seja, é um dinheiro público, gerido pelo governo, mas que vem das contribuições feitas sobre a folha de pagamento das empresas.
-                  </p>
-              </div>
+            </div>
+            <div className="overflow-x-auto">
+              <table className="w-full min-w-[500px] text-sm text-left">
+              <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-slate-650 dark:text-slate-350">
+                <tr className="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                  <td className="px-4 py-3 font-semibold text-slate-900 dark:text-slate-100">Média até R$ 2.245,69</td>
+                  <td className="px-4 py-3">Multiplica-se a média salarial por **0,80 (80%)**.</td>
+                </tr>
+                <tr className="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                  <td className="px-4 py-3 font-semibold text-slate-900 dark:text-slate-100">Média entre R$ 2.245,70 e R$ 3.743,21</td>
+                  <td className="px-4 py-3">O valor que exceder R$ 2.245,69 é multiplicado por **0,50** e somado a R$ 1.796,55.</td>
+                </tr>
+                <tr className="bg-blue-50/50 dark:bg-blue-900/20 hover:bg-blue-100/50 dark:hover:bg-blue-900/30 transition-colors">
+                  <td className="px-4 py-3 font-bold text-blue-800 dark:text-blue-300">Média acima de R$ 3.743,21</td>
+                  <td className="px-4 py-3 font-bold text-blue-800 dark:text-blue-300">Valor fixado no Teto Nacional: **R$ 2.545,31**.</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
+        </div>
 
-          {/* CHECKLIST DE DIREITOS */}
-          <h3 className="text-xl font-bold text-slate-800 dark:text-white mt-10 mb-4 flex items-center gap-2">
-              <CheckCircle2 className="text-blue-600 dark:text-blue-400" /> Quem tem direito? (Checklist)
+          <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100 mt-12 mb-6 flex items-center gap-2">
+              <Landmark className="text-amber-600" /> A Origem Histórica do Fundo FAT
           </h3>
-          <ul className="space-y-3 not-prose mb-8">
-              <li className="flex items-start gap-3 bg-white dark:bg-slate-800/50 p-3 rounded-lg border border-slate-100 dark:border-slate-800 shadow-sm">
-                  <CheckCircle2 className="text-green-500 mt-0.5 shrink-0" size={18} />
-                  <span className="text-slate-700 dark:text-slate-300 text-sm">Ter sido dispensado <strong>sem justa causa</strong> (demissão involuntária).</span>
-              </li>
-              <li className="flex items-start gap-3 bg-white dark:bg-slate-800/50 p-3 rounded-lg border border-slate-100 dark:border-slate-800 shadow-sm">
-                  <CheckCircle2 className="text-green-500 mt-0.5 shrink-0" size={18} />
-                  <span className="text-slate-700 dark:text-slate-300 text-sm">Estar desempregado no momento do requerimento.</span>
-              </li>
-              <li className="flex items-start gap-3 bg-white dark:bg-slate-800/50 p-3 rounded-lg border border-slate-100 dark:border-slate-800 shadow-sm">
-                  <CheckCircle2 className="text-green-500 mt-0.5 shrink-0" size={18} />
-                  <span className="text-slate-700 dark:text-slate-300 text-sm">Não possuir renda própria para o sustento (ex: não ser sócio de empresa ativa com lucro).</span>
-              </li>
-              <li className="flex items-start gap-3 bg-white dark:bg-slate-800/50 p-3 rounded-lg border border-slate-100 dark:border-slate-800 shadow-sm">
-                  <CheckCircle2 className="text-green-500 mt-0.5 shrink-0" size={18} />
-                  <span className="text-slate-700 dark:text-slate-300 text-sm">Não estar recebendo benefício do INSS (exceto auxílio-acidente ou pensão por morte).</span>
-              </li>
-          </ul>
+          
+          <p>
+            O Seguro-Desemprego foi desenhado a partir da promulgação da Carta Magna de 1988, integrando o rol de garantias de seguridade social fundamentais do cidadão brasileiro.
+          </p>
 
-          {/* ALERTA MEI */}
-          <div className="bg-red-50 dark:bg-red-900/10 p-5 rounded-xl border-l-4 border-red-400 dark:border-red-500 not-prose flex gap-4 mb-10 shadow-sm">
-              <AlertOctagon className="text-red-500 shrink-0 mt-1" size={24}/>
-              <div>
-                  <h4 className="font-bold text-red-900 dark:text-red-200 text-base">A Pegadinha do MEI</h4>
-                  <p className="text-sm text-red-800/80 dark:text-red-200/80 mt-1 leading-relaxed">
-                      Se você tem um CNPJ MEI <strong>ativo</strong>, o governo presume que você tem renda e bloqueia o seguro. Para receber, você precisa provar que o MEI não gera renda suficiente (declaração anual sem faturamento) ou dar baixa no CNPJ antes de solicitar.
-                  </p>
-              </div>
-          </div>
+          <p>
+            O melhor de tudo? Toda a engrenagem é abastecida de forma independente pelo Fundo de Amparo ao Trabalhador (FAT), eliminando dependências fiscais diretas de outras pastas governamentais.
+          </p>
 
-          {/* FAQ ACORDION */}
+          <p>
+            Isso quer dizer que, ao longo de sua jornada de carteira assinada, as contribuições mensais de PIS e PASEP das empresas servem para construir a sua poupança de segurança pessoal!
+          </p>
+
+          {/* SEÇÃO FAQ COM 7 ITENS */}
           <div className="mt-16 not-prose">
-            <h3 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-8 flex items-center gap-3 border-b border-slate-100 dark:border-slate-800 pb-4">
-                <HelpCircle className="text-blue-600 dark:text-blue-400" /> Perguntas Frequentes (FAQ)
+            <h3 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-8 flex items-center gap-3 border-b border-slate-200 dark:border-slate-800 pb-4">
+                <HelpCircle className="text-blue-600 dark:text-blue-400" /> Dúvidas Frequentes sobre Seguro-Desemprego
             </h3>
             
             <div className="space-y-4">
               {faqList.map((item, idx) => (
-                  <details key={idx} className="group bg-white dark:bg-slate-800/50 p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm cursor-pointer open:ring-2 open:ring-blue-100 dark:open:ring-blue-900/30 transition-all">
-                      <summary className="font-semibold text-slate-800 dark:text-slate-100 list-none flex justify-between items-center select-none">
+                  <details key={idx} className="group bg-white dark:bg-slate-900 p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm cursor-pointer open:ring-2 open:ring-blue-100 dark:open:ring-blue-900/30 transition-all">
+                      <summary className="font-semibold text-slate-850 dark:text-slate-100 list-none flex justify-between items-center select-none">
                           <div className="flex items-start gap-3">
                               <span className="text-blue-500 dark:text-blue-400 font-bold text-xs mt-1">#</span>
-                              <span className="leading-snug">{item.q}</span>
+                              <span className="leading-snug text-slate-850 dark:text-slate-200">{item.q}</span>
                           </div>
                           <span className="text-slate-400 group-open:rotate-180 transition-transform ml-2 shrink-0">▼</span>
                       </summary>
-                      <p className="mt-3 text-slate-600 dark:text-slate-300 leading-relaxed border-t border-slate-100 dark:border-slate-700 pt-3 text-sm">
+                      <p className="mt-3 text-slate-650 dark:text-slate-350 leading-relaxed border-t border-slate-100 dark:border-slate-800 pt-3 text-sm">
                           {item.a}
                       </p>
                   </details>
@@ -402,28 +370,26 @@ export default async function SeguroPage() {
           {/* FONTES E REFERÊNCIAS */}
           <div className="mt-12 pt-8 border-t border-slate-200 dark:border-slate-800 print:hidden not-prose bg-slate-50 dark:bg-slate-900 p-6 rounded-xl">
               <h3 className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-4 flex items-center gap-2">
-                  <Landmark size={16} /> Fontes Oficiais e Legislação
+                  <Landmark size={16} /> Fontes Oficiais e Legislação Governamental
               </h3>
-              <p className="text-xs text-slate-500 dark:text-slate-400 mb-3">As informações desta página foram verificadas em bases oficiais do Governo Federal:</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mb-3">As informações desta página foram validadas conforme canais oficiais:</p>
               <div className="flex flex-wrap gap-4 text-xs font-medium text-blue-600 dark:text-blue-400">
-                  <a href="https://www.gov.br/trabalho-e-emprego/pt-br/noticias-e-conteudo/2025/janeiro/seguro-desemprego-2025-atualizacao-das-faixas-e-valores-do-beneficio" target="_blank" rel="nofollow noopener noreferrer" className="hover:underline flex items-center gap-1 bg-white dark:bg-slate-800 px-3 py-1 rounded border dark:border-slate-700 shadow-sm">
-                      Gov.br - Tabelas 2026 (Ref) <ExternalLink size={10}/>
-                  </a>
-                  <a href="https://www.caixa.gov.br/beneficios-trabalhador/seguro-desemprego/Paginas/default.aspx" target="_blank" rel="nofollow noopener noreferrer" className="hover:underline flex items-center gap-1 bg-white dark:bg-slate-800 px-3 py-1 rounded border dark:border-slate-700 shadow-sm">
-                      Caixa - Benefícios <ExternalLink size={10}/>
+                  <a href="https://www.gov.br" target="_blank" rel="nofollow noopener noreferrer" className="hover:underline flex items-center gap-1 bg-white dark:bg-slate-800 px-3 py-1 rounded border dark:border-slate-700 shadow-sm">
+                      Portal Gov.br (Ministério do Trabalho) <ExternalLink size={10}/>
                   </a>
                   <a href="https://www.planalto.gov.br/ccivil_03/leis/l7998.htm" target="_blank" rel="nofollow noopener noreferrer" className="hover:underline flex items-center gap-1 bg-white dark:bg-slate-800 px-3 py-1 rounded border dark:border-slate-700 shadow-sm">
-                      Lei nº 7.998/90 (Regulamentação) <ExternalLink size={10}/>
+                      Lei Federal nº 7.998/1990 <ExternalLink size={10}/>
                   </a>
               </div>
           </div>
 
-          <ExpertSignature updatedAt="Maio de 2026" author="Equipe Editorial" />
+          <ExpertSignature updatedAt="Junho de 2026" author="Rodrigo Costa (Analista de Sistemas)" />
         </div>
 
+        <SmartGlossaryLinker currentHref="/trabalhista/seguro-desemprego" category="trabalhista" />
         <SmartCrossLinker currentHref="/trabalhista/seguro-desemprego" category="trabalhista" />
 
-        {/* --- ANÚNCIO BOTTOM (ESTRATÉGICO) --- */}
+        {/* --- ANÚNCIO BOTTOM --- */}
         <div className="w-full flex justify-center my-8 print:hidden min-h-[250px]">
             <LazyAdUnit slot="seguro_bottom" format="horizontal" variant="software" />
         </div>

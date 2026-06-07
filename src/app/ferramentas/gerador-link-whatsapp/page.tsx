@@ -6,44 +6,68 @@ import LazyAdUnit from "@/components/ads/LazyAdUnit";
 import DisclaimerBox from "@/components/ui/DisclaimerBox";
 import PageHeader from "@/components/layout/PageHeader";
 import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
+import SmartGlossaryLinker from "@/components/layout/SmartGlossaryLinker";
+import GlossaryTerm from "@/components/ui/GlossaryTerm";
 import { 
   MessageCircle, Zap, ShieldCheck, TrendingUp, 
-  HelpCircle, CheckCircle2, Smartphone, Globe
+  HelpCircle, CheckCircle2, Smartphone, Globe, Star, Sparkles, AlertTriangle
 } from "lucide-react";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
+import ExpertSignature from "@/components/ui/ExpertSignature";
 
 // --- 1. METADATA DINÂMICA (SEO MAXIMIZADO) ---
-export async function generateMetadata(): Promise<Metadata> {
-  const title = "Gerador de Link WhatsApp 2026 (Grátis) | Criar Link Curto";
-  const description = "Crie links curtos para WhatsApp (wa.me) com mensagem personalizada em 1 clique. Ideal para Bio do Instagram e Vendas em 2026. Grátis e sem cadastro.";
+export const metadata: Metadata = {
+  title: "Gerador de Link WhatsApp Grátis 2026 | Criar Link Curto wa.me",
+  description: "Crie links curtos para WhatsApp (wa.me) com mensagem personalizada em 1 clique. Ideal para Bio do Instagram e Vendas em 2026. Grátis e sem cadastro.",
+  keywords: [
+    "gerador link whatsapp", "link whatsapp", "link zap", "whatsapp api link", 
+    "link bio instagram", "api whatsapp", "gerar link whatsapp gratis"
+  ],
+  alternates: { canonical: "https://mestredascontas.com.br/ferramentas/gerador-link-whatsapp" },
+  openGraph: {
+    title: "Gerador de Link WhatsApp | Mestre das Contas",
+    description: "Crie um link direto para o seu WhatsApp com mensagem pré-definida e impulsione as suas conversas em segundos.",
+    url: "https://mestredascontas.com.br/ferramentas/gerador-link-whatsapp",
+    siteName: "Mestre das Contas",
+    locale: "pt_BR",
+    type: "website",
+    images: [{ url: "https://mestredascontas.com.br/opengraph/whatsapp-link.jpg", width: 1200, height: 630, alt: "Gerador de Link WhatsApp" }]
+  },
+  robots: { index: true, follow: true }
+};
 
-  return {
-    title,
-    description,
-    keywords: ["gerador link whatsapp", "link whatsapp", "link zap", "whatsapp api link", "link bio instagram", "api whatsapp"],
-    alternates: { canonical: "https://mestredascontas.com.br/ferramentas/gerador-link-whatsapp" },
-    openGraph: {
-      title,
-      description,
-      url: "https://mestredascontas.com.br/ferramentas/gerador-link-whatsapp",
-      siteName: "Mestre das Contas",
-      locale: "pt_BR",
-      type: "website",
-      images: [{ url: "https://mestredascontas.com.br/opengraph-image", width: 1200, height: 630, alt: "Gerador de Link WhatsApp", }],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title,
-      description,
-      images: ["https://mestredascontas.com.br/opengraph-image"],
-    },
-    robots: {
-      index: true, follow: true,
-      googleBot: { index: true, follow: true, "max-video-preview": -1, "max-image-preview": "large", "max-snippet": -1 } } };
-}
+// 7 FAQs Dinâmicas Sincronizadas
+const faqs = [
+  {
+    q: "O link gerado para o WhatsApp possui alguma data de validade ou expira depois de um tempo?",
+    a: "Não! O link direto gerado por nossa ferramenta é permanente e nunca expira. Ele é construído utilizando o protocolo oficial da API do WhatsApp. Portanto, enquanto você mantiver o mesmo número de telefone ativo e cadastrado na operadora, o seu link continuará funcionando por tempo indeterminado e sem qualquer custo adicional."
+  },
+  {
+    q: "Esta ferramenta funciona perfeitamente para contas do WhatsApp Business (Comercial)?",
+    a: "Sim, funciona com perfeição em ambas as versões. A API do WhatsApp identifica automaticamente o tipo de conta vinculado ao seu número de celular. Dessa forma, quando um cliente clica no link, a conversa é aberta perfeitamente no WhatsApp Business ou no aplicativo pessoal, dependendo de qual deles estiver instalado no dispositivo."
+  },
+  {
+    q: "O Mestre das Contas armazena ou coleta o meu número de telefone ou as minhas mensagens digitadas?",
+    a: "Absolutamente não! A nossa ferramenta adota uma filosofia rígida de privacidade sob a arquitetura Client-Side. Todos os dados digitados são formatados localmente na memória do seu navegador. Não salvamos registros de contatos, números ou mensagens comerciais em nenhum servidor nosso, garantindo conformidade total com a LGPD."
+  },
+  {
+    q: "Como posso adicionar emojis e quebras de linha na mensagem personalizada do meu link?",
+    a: "Você pode digitar a sua mensagem normalmente na ferramenta, incluindo emojis e pressionando a tecla Enter para pular linhas. Nosso algoritmo decodifica esses caracteres automaticamente no formato percent-encoding exigido pelo WhatsApp (como converter espaços em %20 e quebras de linha em %0A), mantendo o design do seu texto intacto."
+  },
+  {
+    q: "Qual é a real diferença entre o link 'wa.me' oficial e outros encurtadores de links comerciais?",
+    a: "A verdade é que o link 'wa.me' é o formato oficial e seguro do próprio WhatsApp. Encurtadores genéricos de terceiros frequentemente causam atrasos de redirecionamento, exibem telas intermediárias de publicidade intrusiva ou podem ser bloqueados pelas redes sociais. O nosso link vai direto ao ponto, eliminando fricção na navegação do cliente."
+  },
+  {
+    q: "Como colocar o link do WhatsApp na minha biografia do Instagram de forma profissional?",
+    a: "Para colocar o link na bio do Instagram, abra o aplicativo móvel, vá até o seu perfil, clique em 'Editar perfil' e insira a URL gerada (o link wa.me) no campo 'Links' ou 'Site'. Recomendamos usar uma chamada atraente para ação no seu perfil (como 'Fale conosco no WhatsApp pelo link abaixo') para maximizar os cliques diários."
+  },
+  {
+    q: "Existe algum limite diário de links que eu posso gerar gratuitamente nesta plataforma?",
+    a: "Não há absolutamente nenhum limite! Você pode usar a ferramenta quantas vezes desejar para criar links comerciais para diferentes campanhas, números de atendentes, vendedores ou mensagens promocionais variadas. O serviço é 100% gratuito e ilimitado para apoiar o empreendedorismo nacional em 2026."
+  }
+];
 
-// --- 2. DADOS ESTRUTURADOS (JSON-LD) ---
 const jsonLd = {
   "@context": "https://schema.org",
   "@graph": [
@@ -53,241 +77,303 @@ const jsonLd = {
       "applicationCategory": "BusinessApplication",
       "operatingSystem": "Web Browser",
       "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
-      "description": "Ferramenta online gratuita para gerar links de conversa direta no WhatsApp com mensagem pré-definida.",
-      "featureList": "Gera link wa.me, Mensagem personalizada, Preview em tempo real, Integração com QR Code" },
-    {
-      "@type": "HowTo",
-      "name": "Como Gerar um Link para WhatsApp",
-      "description": "Passo a passo simples para criar um link curto wa.me com mensagem de texto pré-definida para vendas e atendimento.",
-      "totalTime": "PT30S",
-      "step": [
-        {
-          "@type": "HowToStep",
-          "name": "Insira o Telefone",
-          "text": "Digite seu número de celular com o DDD (ex: 11 99999-9999). Não se preocupe com espaços ou parênteses.",
-          "url": "https://mestredascontas.com.br/ferramentas/gerador-link-whatsapp#ferramenta"
-        },
-        {
-          "@type": "HowToStep",
-          "name": "Escreva a Mensagem",
-          "text": "Digite o texto inicial que seu cliente enviará ao iniciar a conversa (ex: 'Olá, tenho interesse nos produtos'). Emojis são suportados.",
-          "url": "https://mestredascontas.com.br/ferramentas/gerador-link-whatsapp#ferramenta"
-        },
-        {
-          "@type": "HowToStep",
-          "name": "Gere e Copie o Link",
-          "text": "Clique em 'Gerar Link'. O sistema encurta o link wa.me na hora. Basta copiar e colar na bio do Instagram ou enviar nas redes.",
-          "url": "https://mestredascontas.com.br/ferramentas/gerador-link-whatsapp#ferramenta"
-        }
-      ]
-    },
-    {
-      "@type": "Article",
-      "headline": "Como Criar Link para WhatsApp em 2026: Guia Completo",
-      "description": "Aprenda a usar a API do WhatsApp para criar links diretos com mensagem personalizada para sua bio do Instagram e anúncios.",
-      "author": { "@type": "Organization", "name": "Mestre das Contas" },
-      "publisher": { "@type": "Organization", "name": "Mestre das Contas", "logo": { "@type": "ImageObject", "url": "https://mestredascontas.com.br/icon.png" } },
-      "datePublished": "2024-05-10",
-      "dateModified": new Date().toISOString()
+      "description": "Ferramenta online gratuita para gerar links de conversa direta no WhatsApp com mensagem pré-definida de forma segura."
     },
     {
       "@type": "FAQPage",
-      "mainEntity": [
-        { "@type": "Question", "name": "O link expira?", "acceptedAnswer": { "@type": "Answer", "text": "Não! O link gerado é permanente. Ele é baseado apenas no seu número de telefone e na mensagem. Enquanto seu número for o mesmo, o link funcionará para sempre." } },
-        { "@type": "Question", "name": "Funciona para WhatsApp Business?", "acceptedAnswer": { "@type": "Answer", "text": "Sim, funciona perfeitamente para WhatsApp Pessoal e Business. O link é universal e abre o aplicativo que estiver instalado no celular do cliente." } },
-        { "@type": "Question", "name": "Vocês salvam meu número?", "acceptedAnswer": { "@type": "Answer", "text": "Absolutamente não. Nossa ferramenta é 'Client-Side', o que significa que o código roda inteiramente no seu dispositivo. Nenhuma informação é enviada para nossos servidores ou banco de dados." } },
-        { "@type": "Question", "name": "Posso colocar emojis na mensagem?", "acceptedAnswer": { "@type": "Answer", "text": "Com certeza! Nossa ferramenta suporta emojis e caracteres especiais. Eles serão codificados automaticamente para funcionar no link (ex: %F0%9F%98%80)." } }
-      ]
+      "mainEntity": faqs.map(item => ({
+        "@type": "Question",
+        "name": item.q,
+        "acceptedAnswer": { "@type": "Answer", "text": item.a }
+      }))
     }
   ]
 };
 
-export default async function GeradorWhatsAppPage() {
+export default function GeradorWhatsAppPage() {
   return (
-    <article className="w-full max-w-full overflow-hidden font-sans">
-      
-      {/* JSON-LD PARA SEO */}
+    <article className="w-full min-h-screen bg-slate-50 dark:bg-slate-950 pb-20 font-sans">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
-      {/* --- PAGE HEADER PADRONIZADO --- */}
-      <div className="px-4 pt-4 md:pt-6">
-        <PageHeader 
-          title="Gerador de Link WhatsApp"
-          description="Facilite o contato com seus clientes. Crie um link direto que abre uma conversa no seu WhatsApp com uma mensagem pronta, sem precisar salvar o número."
-          category="Ferramentas Úteis"
-          icon={<MessageCircle size={32} strokeWidth={2} />}
-          variant="default" // Tema Padrão (Azul/Verde)
-          categoryColor="emerald" // Cor do ícone/tema
-          badge="Grátis & Ilimitado"
-          breadcrumbs={[
-            { label: "Ferramentas", href: "/ferramentas" },
-            { label: "Link WhatsApp" }
-          ]}
-        />
+      {/* --- HEADER --- */}
+      <div className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
+        <div className="max-w-7xl mx-auto px-4 pt-6 pb-6 w-full">
+          <PageHeader 
+            title="Gerador de Link WhatsApp"
+            description="Facilite o contato comercial imediatamente. Crie um link curto wa.me direto que abre conversas instantâneas com mensagens pré-definidas para acelerar suas vendas."
+            category="Ferramentas Úteis"
+            icon={<MessageCircle size={32} className="text-emerald-600" />}
+            variant="default"
+            categoryColor="emerald"
+            badge="Grátis & Ilimitado"
+            breadcrumbs={[
+              { label: "Ferramentas", href: "/ferramentas" },
+              { label: "Link WhatsApp" }
+            ]}
+          />
+        </div>
       </div>
 
-      <div className="flex flex-col gap-8 px-4 sm:px-6 pb-12 max-w-7xl mx-auto">
-        
+      <div className="max-w-7xl mx-auto px-4 pt-6 pb-4 flex flex-col gap-4 w-full">
         {/* ANÚNCIO TOPO */}
-        <div className="w-full max-w-5xl mx-auto overflow-hidden flex justify-center bg-slate-50/50 dark:bg-slate-900/50 rounded-lg border border-dashed border-slate-200/50 dark:border-slate-800/50 print:hidden min-h-[100px]">
-           <LazyAdUnit slot="whatsapp_top" format="horizontal" variant="agency" />
+        <div className="w-full max-w-5xl mx-auto overflow-hidden flex justify-center bg-slate-50/50 dark:bg-slate-900/50 rounded-lg border border-dashed border-slate-200/50 dark:border-slate-800 print:hidden min-h-[100px]">
+           <LazyAdUnit slot="whatsapp_top" format="horizontal" variant="software" />
         </div>
 
         {/* PRIVACIDADE E SEGURANÇA (E-E-A-T) */}
         <div className="bg-emerald-50/50 dark:bg-emerald-900/10 border border-emerald-100 dark:border-emerald-800 p-4 rounded-2xl flex items-center gap-3 text-xs text-emerald-700 dark:text-emerald-300 mb-2">
           <ShieldCheck size={18} className="text-emerald-600 shrink-0" />
-          <span>Link direto via API oficial do WhatsApp. Não armazenamos números ou mensagens. 100% privado e seguro em 2026.</span>
+          <span>Segurança em Vendas: A geração do link wa.me utiliza a API oficial. Nós nunca armazenamos ou coletamos seus números de telefone.</span>
         </div>
 
-        {/* --- FERRAMENTA PRINCIPAL --- */}
-        <section id="ferramenta" className="scroll-mt-28 w-full max-w-full relative z-10">
-           <PrivacyBadge />
-           <Suspense fallback={<div className="h-96 w-full bg-slate-100 dark:bg-slate-800 animate-pulse rounded-3xl" />}>
-             <WhatsAppGenerator />
-           </Suspense>
-           <div className="mt-8 print:hidden max-w-5xl mx-auto">
-              <DisclaimerBox />
-           </div>
-        </section>
+        <PrivacyBadge />
+      </div>
 
-        {/* ANÚNCIO MEIO */}
-        <div className="w-full max-w-4xl mx-auto flex justify-center my-6 print:hidden min-h-[250px]">
-            <LazyAdUnit slot="whatsapp_mid" format="auto" />
+      {/* --- FERRAMENTA PRINCIPAL --- */}
+      <div className="max-w-5xl mx-auto px-4 pb-12 w-full">
+        <Suspense fallback={<div className="h-96 w-full bg-slate-100 dark:bg-slate-800 animate-pulse rounded-3xl" />}>
+          <WhatsAppGenerator />
+        </Suspense>
+        <div className="mt-8 print:hidden max-w-5xl mx-auto">
+          <DisclaimerBox />
         </div>
+      </div>
 
-        {/* --- CONTEÚDO EDUCACIONAL (SEO) --- */}
-        <div className="prose prose-slate dark:prose-invert prose-sm md:prose-lg max-w-4xl mx-auto bg-white dark:bg-slate-900 p-6 md:p-12 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-xl shadow-slate-200/40 dark:shadow-none overflow-hidden w-full print:hidden">
-          
-            <h3 className="text-xl md:text-2xl font-bold text-slate-900 dark:text-slate-100 mt-2 mb-4 flex items-center gap-2 border-l-4 border-emerald-500 pl-4">
-                Como Usar o Gerador de Link WhatsApp (Passo a Passo)
-            </h3>
-            <p className="text-slate-600 dark:text-slate-400">
-               Encurte seu contato com clientes e crie chamadas persuasivas em 3 passos simples:
-            </p>
-
-            <div className="grid sm:grid-cols-3 gap-6 my-8 not-prose">
-              <div className="bg-slate-50 dark:bg-slate-800/30 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 flex gap-4">
-                <div className="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-900/50 text-emerald-600 dark:text-emerald-400 font-bold flex items-center justify-center shrink-0">1</div>
-                <div className="space-y-1">
-                   <h4 className="font-bold text-slate-800 dark:text-white text-sm">Digite seu Celular</h4>
-                   <p className="text-xs text-slate-500 dark:text-slate-400">Insira seu número com DDD (exemplo: <code>11999998888</code>). Não precisa colocar traços ou parênteses.</p>
+      <div className="max-w-7xl mx-auto px-6 py-12 space-y-16 w-full">
+        
+        {/* --- FEATURES GRID --- */}
+        <section className="grid md:grid-cols-3 gap-8">
+            <div className="bg-white dark:bg-slate-900 p-8 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-xl hover:-translate-y-1 transition-transform duration-300">
+                <div className="bg-emerald-50 dark:bg-emerald-900/20 w-14 h-14 rounded-2xl flex items-center justify-center text-emerald-600 dark:text-emerald-400 mb-6 shadow-sm">
+                    <Zap size={32} />
                 </div>
-              </div>
-
-              <div className="bg-slate-50 dark:bg-slate-800/30 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 flex gap-4">
-                <div className="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-900/50 text-emerald-600 dark:text-emerald-400 font-bold flex items-center justify-center shrink-0">2</div>
-                <div className="space-y-1">
-                   <h4 className="font-bold text-slate-800 dark:text-white text-sm">Escreva a Mensagem</h4>
-                   <p className="text-xs text-slate-500 dark:text-slate-400">Escreva um texto de saudação que o cliente enviará para começar o papo (ex: <code>"Quero saber mais sobre os serviços!"</code>).</p>
+                <h3 className="font-bold text-xl text-slate-900 dark:text-slate-100 mb-3">Redirecionamento Rápido</h3>
+                <p className="text-slate-600 dark:text-slate-400 leading-relaxed text-sm">
+                    Elimine etapas irritantes e faça seu cliente entrar em contato direto em menos de um piscar de olhos.
+                </p>
+                <div className="mt-4 inline-flex items-center gap-1 text-xs font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-900/20 px-3 py-1 rounded-full">
+                    <Smartphone size={12}/> Link Curto wa.me Oficial
                 </div>
-              </div>
-
-              <div className="bg-slate-50 dark:bg-slate-800/30 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 flex gap-4">
-                <div className="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-900/50 text-emerald-600 dark:text-emerald-400 font-bold flex items-center justify-center shrink-0">3</div>
-                <div className="space-y-1">
-                   <h4 className="font-bold text-slate-800 dark:text-white text-sm">Gere e Compartilhe</h4>
-                   <p className="text-xs text-slate-500 dark:text-slate-400">Clique em <strong>"Gerar Link"</strong> e copie o link curto encurtado oficial pronto para colar no seu perfil ou bio.</p>
-                </div>
-              </div>
             </div>
-
-            <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-slate-100 mb-6 flex items-center gap-2 border-l-4 border-green-500 pl-4">
-                Como funciona o "Link Mágico"?
-            </h2>
-            <p className="lead text-slate-700 dark:text-slate-300 text-lg font-medium">
-                Você já clicou em um link e o WhatsApp abriu magicamente com uma mensagem tipo <em>"Olá, gostaria de saber o preço..."</em> já escrita? Isso é feito através da <strong>API Universal do WhatsApp</strong>.
-            </p>
-            <p>
-                Antigamente, você precisava entender de programação e códigos URL (como <code>%20</code> para espaços) para fazer isso. O <strong>Gerador do Mestre das Contas</strong> automatiza todo esse processo técnico. Nós limpamos a formatação do seu número, codificamos a mensagem corretamente e entregamos o link pronto para uso.
-            </p>
             
-            {/* GRID DE VANTAGENS */}
-            <div className="grid md:grid-cols-3 gap-6 not-prose my-10">
-                <div className="bg-slate-50 dark:bg-slate-800/50 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm hover:border-green-300 dark:hover:border-green-700 transition-colors">
-                    <div className="w-10 h-10 bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 rounded-xl flex items-center justify-center mb-3">
-                        <Zap size={20} />
-                    </div>
-                    <h3 className="font-bold text-slate-900 dark:text-slate-100 mb-2">Atendimento Rápido</h3>
-                    <p className="text-sm text-slate-600 dark:text-slate-400">Elimine a barreira de "salvar o contato". Seu cliente clica e já está falando com você.</p>
+            <div className="bg-white dark:bg-slate-900 p-8 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-xl hover:-translate-y-1 transition-transform duration-300">
+                <div className="bg-blue-50 dark:bg-blue-900/20 w-14 h-14 rounded-2xl flex items-center justify-center text-blue-600 dark:text-blue-400 mb-6 shadow-sm">
+                    <TrendingUp size={32} />
                 </div>
-                <div className="bg-slate-50 dark:bg-slate-800/50 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm hover:border-blue-300 dark:hover:border-blue-700 transition-colors">
-                    <div className="w-10 h-10 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-xl flex items-center justify-center mb-3">
-                        <TrendingUp size={20} />
-                    </div>
-                    <h3 className="font-bold text-slate-900 dark:text-slate-100 mb-2">Mais Conversão</h3>
-                    <p className="text-sm text-slate-600 dark:text-slate-400">Links na bio do Instagram ou em anúncios aumentam em até 40% a chance de contato.</p>
+                <h3 className="font-bold text-xl text-slate-900 dark:text-slate-100 mb-3">Escalada de Vendas</h3>
+                <p className="text-slate-600 dark:text-slate-400 leading-relaxed text-sm">
+                    Links persas e mensuráveis para perfis no Instagram e anúncios que aumentam a conversão digital instantaneamente.
+                </p>
+            </div>
+
+            <div className="bg-white dark:bg-slate-900 p-8 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-xl hover:-translate-y-1 transition-transform duration-300">
+                <div className="bg-purple-50 dark:bg-purple-900/20 w-14 h-14 rounded-2xl flex items-center justify-center text-purple-600 dark:text-purple-400 mb-6 shadow-sm">
+                    <Globe size={32} />
                 </div>
-                <div className="bg-slate-50 dark:bg-slate-800/50 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm hover:border-purple-300 dark:hover:border-purple-700 transition-colors">
-                    <div className="w-10 h-10 bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 rounded-xl flex items-center justify-center mb-3">
-                        <ShieldCheck size={20} />
+                <h3 className="font-bold text-xl text-slate-900 dark:text-slate-100 mb-3">Independência de Rede</h3>
+                <p className="text-slate-600 dark:text-slate-400 leading-relaxed text-sm">
+                    Use o link universal em panfletos físicos, propostas em PDF, emails, blogs ou mensagens diretas.
+                </p>
+            </div>
+        </section>
+
+        {/* --- ARTIGO EDUCACIONAL DE ALTA DENSIDADE --- */}
+        <div className="max-w-4xl mx-auto w-full space-y-8">
+            
+            {/* Review Card */}
+            <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col md:flex-row items-start md:items-center gap-4">
+                <div className="bg-emerald-100 dark:bg-emerald-900/30 p-3 rounded-xl text-emerald-600 dark:text-emerald-400 shrink-0">
+                    <ShieldCheck size={28} />
+                </div>
+                <div>
+                    <div className="flex items-baseline gap-2">
+                        <p className="font-bold text-slate-900 dark:text-white text-sm">Conformidade e LGPD</p>
+                        <span className="text-[10px] text-slate-500 uppercase font-bold tracking-widest">Segurança Digital</span>
                     </div>
-                    <h3 className="font-bold text-slate-900 dark:text-slate-100 mb-2">100% Seguro</h3>
-                    <p className="text-sm text-slate-600 dark:text-slate-400">Não armazenamos seu número. A ferramenta roda direto no seu navegador com privacidade total.</p>
+                    <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed italic mt-1">
+                        "O Mestre das Contas utiliza a API nativa local. Isso assegura que nenhum número telefônico de cliente seja guardado ou traficado para disparo indesejado de spam, mantendo a reputação da sua marca intocável."
+                    </p>
                 </div>
             </div>
 
-            <h3>Onde usar seu link de WhatsApp?</h3>
-            <ul className="space-y-2 marker:text-green-600">
-                <li><strong>Instagram Bio:</strong> Use ferramentas como Linktree ou coloque direto no perfil.</li>
-                <li><strong>Anúncios (Facebook/Google Ads):</strong> Direcione o tráfego direto para o fechamento da venda.</li>
-                <li><strong>Email Marketing:</strong> Coloque um botão "Falar com Consultor" no rodapé dos seus emails.</li>
-                <li><strong>QR Code Impresso:</strong> Use nossa <Link href="/ferramentas/gerador-qr-code" className="text-blue-600 hover:underline font-bold">ferramenta de QR Code</Link> integrada para imprimir em cardápios e cartões.</li>
-            </ul>
+            {/* Main Content */}
+            <div className="prose prose-slate dark:prose-invert max-w-none bg-white dark:bg-slate-900 p-6 md:p-12 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-sm w-full">
+                <h2 className="text-3xl font-bold text-slate-950 dark:text-white mb-6 border-l-4 border-emerald-500 pl-4 flex items-center gap-3">
+                    <Star className="text-emerald-500 fill-emerald-500 animate-pulse" /> A Rodovia da Conversão Digital: O Segredo de Gerar Links
+                </h2>
+                
+                <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed mb-4">
+                  Imagine que o seu potencial cliente acabou de ver um story atraente sobre os seus serviços de consultoria comercial.
+                </p>
 
+                <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed mb-4">
+                  Se você exige que essa pessoa pegue uma caneta, anote seu telefone, adicione nos contatos do celular e só então digite uma saudação...
+                </p>
+
+                <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed mb-4">
+                  A verdade é que você está forçando esse cliente a atravessar um labirinto cheio de trânsito lento e semáforos fechados.
+                </p>
+
+                <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed mb-4">
+                  No dinâmico mercado digital, cada etapa extra de fricção elimina cerca de 40% das suas chances diárias de fechamento de novos negócios.
+                </p>
+
+                <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed mb-4">
+                  Nós compreendemos que o sucesso comercial moderno é um jogo de milissegundos e conexões diretas.
+                </p>
+
+                <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed mb-6">
+                  Aí é que está o segredo: ao converter seu telefone em um <GlossaryTerm slug="api-whatsapp-links-diretos">link wa.me</GlossaryTerm> direto, você constrói uma ponte aérea limpa e instantânea.
+                </p>
+
+                {/* Tabela Comparativa de Métodos - Tabela HTML */}
+                <h3 className="text-2xl font-bold text-slate-950 dark:text-white mt-10 mb-4">Tabela Comparativa: Diferentes Formas de Iniciar um Chat no WhatsApp</h3>
+                
+                <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed mb-4">
+                   Compreenda as vantagens e desvantagens de cada método de integração para escolher a estratégia ideal para a sua empresa.
+                </p>
+
+                <div className="overflow-x-auto my-6 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-sm not-prose">
+                    <table className="w-full min-w-[750px] text-left border-collapse bg-white dark:bg-slate-900">
+                        <thead>
+                            <tr className="bg-slate-50 dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700">
+                                <th className="px-6 py-4 text-sm font-bold text-slate-900 dark:text-white">Forma de Contato</th>
+                                <th className="px-6 py-4 text-sm font-bold text-slate-900 dark:text-white">Ações Exigidas do Cliente</th>
+                                <th className="px-6 py-4 text-sm font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-50/10 dark:bg-emerald-950/10">Fricção de Contato</th>
+                                <th className="px-6 py-4 text-sm font-bold text-slate-700 dark:text-slate-300">Impacto Médio na Conversão</th>
+                            </tr>
+                        </thead>
+                        <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+                            <tr>
+                                <td className="px-6 py-4 text-sm font-bold text-slate-900 dark:text-white">Link wa.me Oficial (Nosso)</td>
+                                <td className="px-6 py-4 text-sm text-slate-600 dark:text-slate-400 font-mono">1 único clique na tela</td>
+                                <td className="px-6 py-4 text-sm text-emerald-600 font-bold bg-emerald-50/10 dark:bg-emerald-950/10">Nula (Excelente)</td>
+                                <td className="px-6 py-4 text-sm text-emerald-600 font-bold">Aumento de até 40% nas conversões</td>
+                            </tr>
+                            <tr>
+                                <td className="px-6 py-4 text-sm font-bold text-slate-900 dark:text-white">Número de Telefone Puro</td>
+                                <td className="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">Digitar, salvar contato, atualizar lista e escrever</td>
+                                <td className="px-6 py-4 text-sm text-red-500 font-bold">Altíssima (Inadequado)</td>
+                                <td className="px-6 py-4 text-sm text-red-500">Queda massiva nas tentativas de contato</td>
+                            </tr>
+                            <tr>
+                                <td className="px-6 py-4 text-sm font-bold text-slate-900 dark:text-white">Encurtadores Pagos</td>
+                                <td className="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">Ver anúncio intermediário e esperar 5s</td>
+                                <td className="px-6 py-4 text-sm text-amber-500 font-bold">Média (Gera desconfiança)</td>
+                                <td className="px-6 py-4 text-sm text-amber-500">Desistência devido ao tempo de espera</td>
+                            </tr>
+                            <tr>
+                                <td className="px-6 py-4 text-sm font-bold text-slate-900 dark:text-white">Formulários Tradicionais</td>
+                                <td className="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">Preencher 5 ou 6 campos de dados</td>
+                                <td className="px-6 py-4 text-sm text-amber-500 font-bold">Alta (Barreira clássica)</td>
+                                <td className="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">Conversão lenta em longo prazo</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed mb-6">
+                   O melhor de tudo? Ao analisar nossa tabela técnica comparativa, fica explícito que a simplicidade operacional do protocolo wa.me ganha em disparada de qualquer outro canal.
+                </p>
+
+                {/* Metáfora da Rodovia Expressa */}
+                <h3 className="text-2xl font-bold text-slate-800 dark:text-slate-100 mt-10 mb-4 flex items-center gap-2">
+                    <Sparkles className="text-emerald-500" /> A Metáfora da "Rodovia Expressa": O Poder dos Links Diretos
+                </h3>
+                <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed mb-4">
+                  Para explicar de forma simples por que a nossa ferramenta é a queridinha dos assessores de marketing em 2026, gostamos de usar a analogia das estradas de pedágio automático.
+                </p>
+
+                <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed mb-4">
+                  Pedir para alguém salvar seu número e mandar mensagem é como forçar um motorista a parar no guichê manual, procurar moedas trocadas, pagar e aguardar a cancela levantar.
+                </p>
+
+                <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed mb-4">
+                  O link do WhatsApp Mestre das Contas funciona como uma tag de pedágio expresso instalada no para-brisa.
+                </p>
+
+                <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed mb-4">
+                  O veículo (seu cliente) passa pela cancela a 80 km/h sem parar, iniciando o bate-papo de vendas imediatamente com a mensagem pronta de saudação na tela do smartphone.
+                </p>
+
+                <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed mb-6">
+                  Isso evita a dispersão, impede que ele mude de ideia no caminho e reduz a fadiga de decisão do comprador.
+                </p>
+
+                <h3 className="text-2xl font-bold text-slate-800 dark:text-slate-100 mt-10 mb-4 flex items-center gap-2">
+                    <CheckCircle2 className="text-emerald-500" /> Estratégias Avançadas de Marketing no WhatsApp para 2026
+                </h3>
+                <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed mb-4">
+                    Ter o link é apenas o primeiro passo estratégico. Veja como os grandes profissionais usam essa tecnologia para explodir seus faturamentos:
+                </p>
+                <ol className="space-y-4 marker:text-emerald-600 marker:font-bold">
+                    <li className="text-slate-700 dark:text-slate-300 text-sm">
+                      <strong>Mensagens de Origem Específica:</strong> Crie um link diferente para cada campanha. Se o cliente veio da Bio, use "Olá, vim pelo Instagram!". Se veio do Blog, use "Vim pelo artigo do Mestre das Contas!". Isso ajuda você a mapear o canal de vendas mais rentável.
+                    </li>
+                    <li className="text-slate-700 dark:text-slate-300 text-sm">
+                      <strong>Integração com <GlossaryTerm slug="qr-code-estatico-dinamico">QR Code</GlossaryTerm>:</strong> Converta seu link curto wa.me em um código visual. Imprima-o em cartões de visitas, embalagens de delivery ou cardápios de restaurantes para facilitar o contato físico.
+                    </li>
+                    <li className="text-slate-700 dark:text-slate-300 text-sm">
+                      <strong>Bandeiras de Campanhas no Google Ads:</strong> Insira o link direto como extensão de chamada ou em anúncios gráficos mobile para acelerar o processo comercial.
+                    </li>
+                </ol>
+
+                <div className="bg-slate-50 dark:bg-slate-800 p-6 rounded-2xl border-l-4 border-emerald-500 mt-10 not-prose">
+                    <h4 className="font-bold text-slate-900 dark:text-white text-lg mb-2 flex items-center gap-2">
+                        <AlertTriangle size={20} className="text-emerald-600 dark:text-emerald-400"/> Aviso aos Empreendedores
+                    </h4>
+                    <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                        Fazer com que o seu cliente execute tarefas manuais desnecessárias mata a conversão digital. Agilize o atendimento da sua empresa e lidere o mercado B2B ou varejista implementando acessos expressos e mensagens curtas otimizadas.
+                    </p>
+                </div>
+            </div>
+
+            {/* Horizontal Ad */}
+            <div className="w-full flex justify-center bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-xl min-h-[100px] overflow-hidden py-4">
+                <LazyAdUnit slot="whatsapp_sidebar" format="horizontal" />
+            </div>
         </div>
 
-        {/* FAQ (PERGUNTAS FREQUENTES) */}
-        <section className="max-w-4xl mx-auto w-full mt-8">
-            <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-8 text-center flex items-center justify-center gap-2">
-                <HelpCircle className="text-green-600 dark:text-green-500"/> Perguntas Frequentes
-            </h2>
-            <Accordion type="single" collapsible className="w-full bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-2 shadow-sm">
-                <AccordionItem value="item-1" className="border-b border-slate-100 dark:border-slate-800 px-4">
-                    <AccordionTrigger className="text-slate-800 dark:text-slate-200 font-semibold hover:text-green-600 dark:hover:text-green-400 hover:no-underline py-4">
-                        O link expira?
-                    </AccordionTrigger>
-                    <AccordionContent className="text-slate-600 dark:text-slate-400 pb-4">
-                        Não! O link gerado é permanente. Ele é baseado apenas no seu número de telefone e na mensagem. Enquanto seu número for o mesmo, o link funcionará para sempre.
-                    </AccordionContent>
-                </AccordionItem>
-                <AccordionItem value="item-2" className="border-b border-slate-100 dark:border-slate-800 px-4">
-                    <AccordionTrigger className="text-slate-800 dark:text-slate-200 font-semibold hover:text-green-600 dark:hover:text-green-400 hover:no-underline py-4">
-                        Funciona para WhatsApp Business?
-                    </AccordionTrigger>
-                    <AccordionContent className="text-slate-600 dark:text-slate-400 pb-4">
-                        Sim, funciona perfeitamente para WhatsApp Pessoal e Business. O link é universal e abre o aplicativo que estiver instalado no celular do cliente.
-                    </AccordionContent>
-                </AccordionItem>
-                <AccordionItem value="item-3" className="border-b border-slate-100 dark:border-slate-800 px-4">
-                    <AccordionTrigger className="text-slate-800 dark:text-slate-200 font-semibold hover:text-green-600 dark:hover:text-green-400 hover:no-underline py-4">
-                        Vocês salvam meu número?
-                    </AccordionTrigger>
-                    <AccordionContent className="text-slate-600 dark:text-slate-400 pb-4">
-                        Absolutamente não. Nossa ferramenta é "Client-Side", o que significa que o código roda inteiramente no seu dispositivo. Nenhuma informação é enviada para nossos servidores ou banco de dados.
-                    </AccordionContent>
-                </AccordionItem>
-                 <AccordionItem value="item-4" className="px-4 border-b-0">
-                    <AccordionTrigger className="text-slate-800 dark:text-slate-200 font-semibold hover:text-green-600 dark:hover:text-green-400 hover:no-underline py-4">
-                        Posso colocar emojis na mensagem?
-                    </AccordionTrigger>
-                    <AccordionContent className="text-slate-600 dark:text-slate-400 pb-4">
-                        Com certeza! Nossa ferramenta suporta emojis e caracteres especiais. Eles serão codificados automaticamente para funcionar no link (ex: %F0%9F%98%80).
-                    </AccordionContent>
-                </AccordionItem>
-            </Accordion>
-        </section>
-
-        {/* --- ANÚNCIO BOTTOM --- */}
-        <div className="w-full flex justify-center my-8 print:hidden min-h-[250px]">
-            <LazyAdUnit slot="whatsapp_bottom" format="horizontal" variant="software" />
-        </div>
-
+        <ExpertSignature author="Equipe de Marketing e Tecnologia Mestre das Contas" updatedAt="Junho de 2026" />
+        <SmartGlossaryLinker currentHref="/ferramentas/gerador-link-whatsapp" />
         <SmartCrossLinker currentHref="/ferramentas/gerador-link-whatsapp" category="ferramentas" />
 
-        {/* RODAPÉ IMPRESSÃO */}
-        <div className="hidden print:block text-center pt-8 border-t border-slate-300 mt-8">
-            <p className="text-sm font-bold text-slate-900 mb-1">Mestre das Contas</p>
-            <p className="text-xs text-slate-500">www.mestredascontas.com.br</p>
+        {/* --- FAQ SECTION ACCORDION (EXATAMENTE 7 QUESTÕES COM BASE EM DIRECTIVES) --- */}
+        <section id="faq" className="max-w-4xl mx-auto w-full">
+          <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl p-6 md:p-12">
+            <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-2 flex items-center gap-3">
+              <HelpCircle className="text-emerald-600 dark:text-emerald-400 shrink-0" size={32} /> Tira-Dúvidas Definitivo
+            </h2>
+            <p className="text-sm text-slate-500 dark:text-slate-400 mb-8">
+              Encontre respostas para as perguntas mais recorrentes sobre a geração de links curtos do WhatsApp.
+            </p>
+
+            <div className="space-y-4 not-prose">
+              {faqs.map((faq, index) => (
+                <details 
+                  key={index}
+                  className="group border border-slate-200 dark:border-slate-800 rounded-2xl bg-white dark:bg-slate-900/50 transition-all duration-300 overflow-hidden"
+                >
+                  <summary className="flex items-center justify-between p-5 text-base font-bold text-slate-800 dark:text-slate-200 cursor-pointer list-none select-none hover:bg-slate-50 dark:hover:bg-slate-800/30">
+                    <span className="pr-4">{faq.q}</span>
+                    <span className="transition-transform duration-300 group-open:rotate-180 text-emerald-500">
+                      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </span>
+                  </summary>
+                  <div className="p-5 border-t border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/20 text-sm leading-relaxed text-slate-600 dark:text-slate-400">
+                    {faq.a}
+                  </div>
+                </details>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Ad Unit Bottom */}
+        <div className="w-full flex justify-center py-6">
+             <LazyAdUnit slot="whatsapp_bottom" format="auto" />
         </div>
 
       </div>

@@ -44,3 +44,7 @@ next-env.d.ts
 /Search_console/
 /analytics/
 /bing/
+
+# templates and guides
+/MODELO_PAGINA_PADRAO.tsx
+/DIRETRIZES_PAGINAS.md

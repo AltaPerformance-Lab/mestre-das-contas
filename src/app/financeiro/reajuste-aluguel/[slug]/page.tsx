@@ -8,8 +8,10 @@ import PageHeader from "@/components/layout/PageHeader";
 import DisclaimerBox from "@/components/ui/DisclaimerBox";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
 import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
+import SmartGlossaryLinker from "@/components/layout/SmartGlossaryLinker";
+import GlossaryTerm from "@/components/ui/GlossaryTerm";
 import { rentPSeoCases } from "@/data/rent-pseo";
-import { Home, ArrowLeft, CalendarDays, TrendingUp, Briefcase } from "lucide-react";
+import { Home, ArrowLeft, CalendarDays, TrendingUp, Briefcase, HelpCircle } from "lucide-react";
 import ExpertSignature from "@/components/ui/ExpertSignature";
 
 // --- SSG ---
@@ -45,6 +47,37 @@ export default async function RentPSeoPage({ params }: { params: Promise<{ slug:
     if (!customCase) {
         notFound();
     }
+
+    const faqs = [
+        {
+            q: `Qual índice devo usar para o reajuste em ${customCase.monthYear}?`,
+            a: `Isso deve estar escrito no seu contrato de locação. Historicamente o IGP-M foi mais utilizado, mas devido à alta volatilidade recente, muitos novos contratos migraram para o IPCA. Verifique a cláusula "Do Reajuste".`
+        },
+        {
+            q: `Quando o reajuste de ${customCase.monthYear} é aplicado?`,
+            a: `O reajuste ocorre anualmente, no mês de "aniversário" do contrato. Se você assinou em ${customCase.monthYear.split('/')[0]}, o aumento será aplicado no aluguel que vence a partir deste mês, usando o índice acumulado dos 12 meses anteriores.`
+        },
+        {
+            q: "Como inquilino e proprietário podem fazer uma negociação de reajuste amigável?",
+            a: "Ambos devem analisar o mercado local de imóveis vazios na região. O inquilino pode apresentar propostas baseadas em índices de inflação oficiais mais estáveis, como o IPCA, para demonstrar o equilíbrio financeiro do contrato."
+        },
+        {
+            q: "O que diz a Lei do Inquilinato (Lei 8.245/91) sobre o prazo e periodicidade de reajuste?",
+            a: "A legislação brasileira estabelece que a periodicidade mínima obrigatória aplicável para qualquer reajuste de valor de aluguel residencial no país é de 1 ano comercial (12 meses de vigência do contrato)."
+        },
+        {
+            q: "O que fazer se a imobiliária ou o proprietário se recusarem a negociar o reajuste?",
+            a: "Caso não haja acordo consensual para reajuste, o inquilino deve quitar o boleto com o índice estipulado em contrato para evitar inadimplência, ou, se o contrato já estiver por prazo indeterminado, planejar a desocupação formal."
+        },
+        {
+            q: "É legalmente obrigatório utilizar o IGP-M como índice no contrato?",
+            a: "Não. A Lei do Inquilinato (Lei 8.245/91) veda apenas a indexação em moeda estrangeira ou ao salário mínimo. As partes são totalmente livres para adotar outros índices oficiais de inflação, como o IPCA ou o INPC."
+        },
+        {
+            q: "O proprietário pode reajustar o aluguel acima do índice estipulado?",
+            a: "Durante o aniversário anual do contrato, o índice fixado em contrato serve como o teto máximo permitido por lei. O proprietário só pode cobrar valores acima desse índice se houver um acordo consensual mútuo entre as partes."
+        }
+    ];
 
     // JSON-LD Dinâmico (Dual: App + HowTo)
     const jsonLd = {
@@ -88,6 +121,14 @@ export default async function RentPSeoPage({ params }: { params: Promise<{ slug:
                         "url": `https://mestredascontas.com.br/financeiro/reajuste-aluguel/${slug}`
                     }
                 ]
+            },
+            {
+                "@type": "FAQPage",
+                "mainEntity": faqs.map(f => ({
+                    "@type": "Question",
+                    "name": f.q,
+                    "acceptedAnswer": { "@type": "Answer", "text": f.a }
+                }))
             }
         ]
     };
@@ -159,7 +200,7 @@ export default async function RentPSeoPage({ params }: { params: Promise<{ slug:
                 </div>
 
                 {/* ARTIGO ESPECÍFICO */}
-                <div className="prose prose-slate dark:prose-invert prose-sm md:prose-lg max-w-4xl mx-auto bg-white dark:bg-slate-900 p-6 md:p-12 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-xl shadow-slate-200/40 dark:shadow-none overflow-hidden w-full print:hidden mt-8">
+                <div className="prose prose-slate dark:prose-invert prose-sm md:prose-lg max-w-4xl mx-auto bg-white dark:bg-slate-900 p-6 md:p-12 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-xl shadow-slate-200/40 dark:shadow-none overflow-hidden w-full print:hidden mt-8 font-sans">
                      
                      <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-6 border-l-4 border-blue-600 pl-4 flex items-center gap-3">
                         <TrendingUp className="text-blue-600 dark:text-blue-400"/> Análise: {customCase.monthYear}
@@ -201,34 +242,6 @@ export default async function RentPSeoPage({ params }: { params: Promise<{ slug:
                         )}
                      </div>
 
-                    <hr className="border-slate-200 dark:border-slate-800 my-8"/>
-
-                    <h3 className="text-xl font-bold text-slate-900 dark:text-white mt-8">Dúvidas Comuns</h3>
-                    <div className="space-y-4 mt-4 not-prose">
-                        <details className="group [&_summary::-webkit-details-marker]:hidden">
-                            <summary className="flex cursor-pointer items-center justify-between gap-1.5 rounded-lg bg-slate-50 dark:bg-slate-800 p-4 text-slate-900 dark:text-white font-medium">
-                                <h4 className="text-sm font-bold m-0 text-slate-900 dark:text-white">Qual índice devo usar: IGP-M ou IPCA?</h4>
-                                <svg className="h-5 w-5 shrink-0 transition duration-300 group-open:-rotate-180 text-slate-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-                                </svg>
-                            </summary>
-                            <p className="mt-4 leading-relaxed text-slate-700 dark:text-slate-300 px-4 text-sm">
-                                Isso deve estar escrito no seu contrato de locação. Historicamente o IGP-M foi mais utilizado, mas devido à alta volatilidade recente, muitos novos contratos migraram para o IPCA. Verifique a cláusula "Do Reajuste".
-                            </p>
-                        </details>
-                        <details className="group [&_summary::-webkit-details-marker]:hidden">
-                            <summary className="flex cursor-pointer items-center justify-between gap-1.5 rounded-lg bg-slate-50 dark:bg-slate-800 p-4 text-slate-900 dark:text-white font-medium">
-                                <h4 className="text-sm font-bold m-0 text-slate-900 dark:text-white">Quando o reajuste é aplicado?</h4>
-                                <svg className="h-5 w-5 shrink-0 transition duration-300 group-open:-rotate-180 text-slate-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-                                </svg>
-                            </summary>
-                            <p className="mt-4 leading-relaxed text-slate-700 dark:text-slate-300 px-4 text-sm">
-                                O reajuste ocorre anualmente, no mês de "aniversário" do contrato. Se você assinou em {customCase.month}, o aumento será aplicado no aluguel que vence em diante, usando o índice acumulado dos 12 meses anteriores.
-                            </p>
-                        </details>
-                    </div>
-
                      <div className="bg-slate-50 dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 mt-8 not-prose">
                         <h4 className="font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
                              <TrendingUp size={18} className="text-blue-500"/> Outros Meses
@@ -245,7 +258,41 @@ export default async function RentPSeoPage({ params }: { params: Promise<{ slug:
                      <ExpertSignature updatedAt="Maio de 2026" author="Equipe Editorial" />
                 </div>
 
+                <SmartGlossaryLinker currentHref={"/financeiro/reajuste-aluguel/" + slug} category="financeiro" />
                 <SmartCrossLinker currentHref={"/financeiro/reajuste-aluguel/" + slug} category="financeiro" />
+
+                {/* FAQ */}
+                <section className="w-full max-w-4xl mx-auto mt-8 print:hidden">
+                  <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl p-6 md:p-12">
+                    <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-2 flex items-center gap-3">
+                      <HelpCircle className="text-blue-500 shrink-0" size={32} /> Dúvidas Frequentes Resolvidas
+                    </h2>
+                    <p className="text-sm text-slate-500 dark:text-slate-400 mb-8">
+                      Confira as respostas definitivas sobre o reajuste anual de aluguel no mês de {customCase.monthYear}.
+                    </p>
+
+                    <div className="space-y-4 not-prose">
+                      {faqs.map((faq, index) => (
+                        <details 
+                          key={index}
+                          className="group border border-slate-200 dark:border-slate-800 rounded-2xl bg-white dark:bg-slate-900/50 transition-all duration-300 overflow-hidden"
+                        >
+                          <summary className="flex items-center justify-between p-5 text-base font-bold text-slate-800 dark:text-slate-200 cursor-pointer list-none select-none hover:bg-slate-50 dark:hover:bg-slate-800/30">
+                            <span className="pr-4">{faq.q}</span>
+                            <span className="transition-transform duration-300 group-open:rotate-180 text-blue-500">
+                              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                              </svg>
+                            </span>
+                          </summary>
+                          <div className="p-5 border-t border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/20 text-sm leading-relaxed text-slate-650 dark:text-slate-400">
+                            {faq.a}
+                          </div>
+                        </details>
+                      ))}
+                    </div>
+                  </div>
+                </section>
 
                 {/* ANÚNCIO BOTTOM */}
                 <div className="w-full flex justify-center mt-8">

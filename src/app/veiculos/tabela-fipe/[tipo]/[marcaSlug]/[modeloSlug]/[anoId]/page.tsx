@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getMarcas, getModelos, getValor, extractIdFromSlug } from "@/lib/fipeApi";
 import PageHeader from "@/components/layout/PageHeader";
-import { Car, Info, Calendar, DollarSign, Fingerprint, Fuel, HelpCircle, ShieldAlert, CheckCircle2 } from "lucide-react";
+import { Car, Info, Calendar, DollarSign, Fingerprint, Fuel, HelpCircle, ShieldAlert, CheckCircle2, TrendingUp, Calculator } from "lucide-react";
 import LazyAdUnit from "@/components/ads/LazyAdUnit";
 import ExpertSignature from "@/components/ui/ExpertSignature";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
@@ -63,6 +63,37 @@ export default async function FipeValorPage({ params }: PageProps) {
   const anoFormatado = fipeResult.AnoModelo === 32000 ? "Zero KM" : fipeResult.AnoModelo;
   const priceNumeric = fipeResult.Valor.replace(/[^\d,]/g, '').replace(',', '.');
 
+  const faqList = [
+    {
+      q: `Qual o valor da FIPE do ${fipeResult.Marca} ${fipeResult.Modelo} ${anoFormatado}?`,
+      a: `Segundo a Tabela FIPE oficial atualizada para ${fipeResult.MesReferencia}, o valor referencial de mercado do ${fipeResult.Marca} ${fipeResult.Modelo} ano ${anoFormatado} é de ${fipeResult.Valor}.`
+    },
+    {
+      q: `O que significa o Código FIPE ${fipeResult.CodigoFipe} e qual a sua utilidade?`,
+      a: `O Código FIPE ${fipeResult.CodigoFipe} é uma chave de identificação única gerada pela Fundação Instituto de Pesquisas Econômicas. Ele serve para unificar e auditar o histórico de variações de preços deste modelo em cartórios, seguradoras e sistemas do Detran.`
+    },
+    {
+      q: `Como é calculado o IPVA para o ${fipeResult.Marca} ${fipeResult.Modelo} (${anoFormatado})?`,
+      a: `O IPVA é calculado multiplicando-se o valor de ${fipeResult.Valor} pela alíquota específica do seu estado (geralmente entre 1% e 4%). Por exemplo, com uma alíquota de 4%, o IPVA anual estimado é de R$ ${(parseFloat(priceNumeric) * 0.04).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}.`
+    },
+    {
+      q: `Como o tipo de combustível (${fipeResult.Combustivel}) impacta no preço de revenda?`,
+      a: `Veículos movidos a ${fipeResult.Combustivel} possuem dinâmicas específicas de liquidez. Por exemplo, modelos flex oferecem rápida aceitação urbana, enquanto motores a diesel retêm melhor o valor em picapes e SUVs pesados.`
+    },
+    {
+      q: "Como a Tabela FIPE é utilizada na contratação de seguros?",
+      a: "A Tabela FIPE é o indexador oficial padrão de mercado. No caso de perda total, roubo ou furto qualificado, a seguradora indenizará o segurado com base em 100% do valor registrado na tabela FIPE correspondente ao mês do sinistro."
+    },
+    {
+      q: "Por que o preço real de transação pode ser diferente da Tabela FIPE?",
+      a: "A Tabela FIPE expressa uma média nacional ponderada de anúncios. Variáveis específicas como quilometragem rodada, conservação de estofados, revisões em concessionárias e demanda regional causam variações para mais ou para menos no preço de fechamento."
+    },
+    {
+      q: "Veículos com histórico de leilão ou sinistro perdem quanto de valor frente à FIPE?",
+      a: "Veículos que possuem laudo cautelar apontando recuperação de leilão, sinistros de média ou grande monta sofrem depreciação e deságio severos no mercado, sendo negociados tipicamente de 20% a 40% abaixo da Tabela FIPE."
+    }
+  ];
+
   // JSON-LD Completo com Vehicle (Offer) + FAQPage
   const jsonLd = {
     "@context": "https://schema.org",
@@ -85,24 +116,11 @@ export default async function FipeValorPage({ params }: PageProps) {
       },
       {
         "@type": "FAQPage",
-        "mainEntity": [
-          {
-            "@type": "Question",
-            "name": `Qual o valor da FIPE do ${fipeResult.Marca} ${fipeResult.Modelo} ${anoFormatado}?`,
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": `Segundo a Tabela FIPE atualizada para ${fipeResult.MesReferencia}, o valor oficial do ${fipeResult.Marca} ${fipeResult.Modelo} ano ${anoFormatado} é de ${fipeResult.Valor}.`
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "O que significa o código FIPE?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "O código FIPE é o identificador único oficial utilizado pela Fundação Instituto de Pesquisas Econômicas para rastrear a variação histórica de preço de um veículo específico."
-            }
-          }
-        ]
+        "mainEntity": faqList.map(item => ({
+          "@type": "Question",
+          "name": item.q,
+          "acceptedAnswer": { "@type": "Answer", "text": item.a }
+        }))
       }
     ]
   };
@@ -229,7 +247,7 @@ export default async function FipeValorPage({ params }: PageProps) {
             
             <div className="prose prose-slate dark:prose-invert max-w-none text-slate-600 dark:text-slate-400 space-y-6 text-sm md:text-base leading-relaxed">
                 <p>
-                    A cotação oficial de <strong>{fipeResult.Valor}</strong> reflete o valor médio nacional para o modelo <strong>{fipeResult.Modelo}</strong>, fabricado no ano <strong>{anoFormatado}</strong> pela <strong>{fipeResult.Marca}</strong>. Esta avaliação é baseada em dados estatísticos fornecidos diretamente pela Fundação Instituto de Pesquisas Econômicas (FIPE) e atualizada no mês de <strong>{fipeResult.MesReferencia}</strong>.
+                    A cotação oficial de <strong>{fipeResult.Valor}</strong> reflete o valor médio nacional para o modelo <strong>{fipeResult.Modelo}</strong>, fabricado no ano <strong>{anoFormatado}</strong> pela <strong>{fipeResult.Marca}</strong>. Esta avaliação é baseada em dados estatísticos fornecidos diretamente pela Fundação Instituto de Pesquisas Econômicas (FIPE) e atualizada no mês de <strong>{fipeResult.MesReferencia}</strong>. Nós garantimos dados precisos para que você tome a melhor decisão.
                 </p>
 
                 <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100 mt-8 mb-4">
@@ -241,6 +259,48 @@ export default async function FipeValorPage({ params }: PageProps) {
                 <p>
                     Por isso, a Tabela FIPE serve como o principal norteador em transações comerciais de veículos automotivos no Brasil, garantindo que compradores e vendedores iniciem suas negociações em uma base sólida e neutra.
                 </p>
+
+                {/* TABELA DE COMPARAÇÃO DE TAXAS E CUSTOS OPERACIONAIS (HTML PURO RESPONSIVO) */}
+                <div className="not-prose my-10 border rounded-xl overflow-hidden border-slate-200 dark:border-slate-700 shadow-sm bg-white dark:bg-slate-900">
+                    <div className="bg-slate-100 dark:bg-slate-800 p-4 border-b border-slate-200 dark:border-slate-700">
+                        <h4 className="text-sm font-bold text-slate-750 dark:text-slate-250 uppercase tracking-wide flex items-center gap-2">
+                            <Calculator size={16} /> Custos Operacionais e Taxas de Categoria Estimados
+                        </h4>
+                    </div>
+                    
+                    <div className="overflow-x-auto w-full">
+                        <table className="w-full text-sm text-left border-collapse min-w-[600px]">
+                            <thead className="bg-slate-50 dark:bg-slate-800/50 text-slate-600 dark:text-slate-300 text-xs uppercase tracking-wider">
+                                <tr>
+                                    <th className="px-6 py-4 font-bold border-b border-slate-200 dark:border-slate-700">Tipo de Encargo</th>
+                                    <th className="px-6 py-4 font-bold border-b border-slate-200 dark:border-slate-700">Custo Base Estimado</th>
+                                    <th className="px-6 py-4 font-bold border-b border-slate-200 dark:border-slate-700">Base de Incidência</th>
+                                    <th className="px-6 py-4 font-bold border-b border-slate-200 dark:border-slate-700">Impacto Financeiro</th>
+                                </tr>
+                            </thead>
+                            <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-slate-700 dark:text-slate-300 font-mono">
+                                <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors">
+                                    <td className="px-6 py-4 font-bold text-slate-800 dark:text-slate-100 font-sans">IPVA Anual</td>
+                                    <td className="px-6 py-4 text-rose-500 font-bold">1% a 4% do valor</td>
+                                    <td className="px-6 py-4 font-sans text-slate-550">Incide sobre o Valor FIPE</td>
+                                    <td className="px-6 py-4 font-sans text-center"><span className="bg-red-100 text-red-600 dark:bg-red-900/20 dark:text-red-400 px-2 py-0.5 rounded text-xs font-bold">Alto</span></td>
+                                </tr>
+                                <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors">
+                                    <td className="px-6 py-4 font-bold text-slate-800 dark:text-slate-100 font-sans">Seguro Automotivo</td>
+                                    <td className="px-6 py-4 text-yellow-600 dark:text-yellow-500 font-bold">3% a 6% do valor (Média)</td>
+                                    <td className="px-6 py-4 font-sans text-slate-550">Perfil do condutor + FIPE</td>
+                                    <td className="px-6 py-4 font-sans text-center"><span className="bg-red-100 text-red-600 dark:bg-red-900/20 dark:text-red-400 px-2 py-0.5 rounded text-xs font-bold">Alto</span></td>
+                                </tr>
+                                <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors">
+                                    <td className="px-6 py-4 font-bold text-slate-800 dark:text-slate-100 font-sans">Taxa Licenciamento</td>
+                                    <td className="px-6 py-4 text-emerald-600 dark:text-emerald-400 font-bold">R$ 100 a R$ 200</td>
+                                    <td className="px-6 py-4 font-sans text-slate-550">Definição estadual do Detran</td>
+                                    <td className="px-6 py-4 font-sans text-center"><span className="bg-green-100 text-green-700 dark:bg-green-900/20 dark:text-green-400 px-2 py-0.5 rounded text-xs font-bold">Baixo</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
 
                 <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100 mt-8 mb-4">
                     Fatores de Depreciação: Por que o preço real pode variar da FIPE?
@@ -268,7 +328,6 @@ export default async function FipeValorPage({ params }: PageProps) {
                     </div>
                 </div>
 
-
                 <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100 mt-8 mb-4">
                     Como calcular o IPVA e o Seguro do {fipeResult.Modelo}
                 </h3>
@@ -277,10 +336,10 @@ export default async function FipeValorPage({ params }: PageProps) {
                 </p>
                 <ul className="list-disc pl-5 space-y-2">
                     <li>
-                        <strong>Imposto sobre a Propriedade de Veículos Automotores (IPVA):</strong> A Secretaria da Fazenda de cada estado utiliza o valor FIPE do veículo em setembro ou outubro do ano anterior para gerar a cobrança. Em São Paulo, Rio de Janeiro e Minas Gerais, a alíquota padrão para veículos de passeio é de <strong>4%</strong> (gerando um imposto estimado em {typeof fipeResult.Valor === 'string' ? `R$ ${(parseFloat(fipeResult.Valor.replace(/[^\d]/g, '')) / 2500).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` : '4% do valor'}). Em outros estados, as alíquotas variam de 1% a 3%. Você pode simular o valor exato para o seu estado e aplicar alíquotas personalizadas no nosso <strong>Simulador de IPVA interativo</strong> logo acima!
+                        <strong>Imposto sobre a Propriedade de Veículos Automotores (IPVA):</strong> A Secretaria da Fazenda de cada estado utiliza o valor FIPE do veículo em setembro ou outubro do ano anterior para gerar a cobrança. Em São Paulo, Rio de Janeiro e Minas Gerais, a alíquota padrão para veículos de passeio é de <strong>4%</strong> (gerando um imposto estimado em R$ {(parseFloat(priceNumeric) * 0.04).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}). Em outros estados, as alíquotas variam de 1% a 3%. Você pode simular o valor exato para o seu estado e aplicar alíquotas personalizadas no nosso <strong>Simulador de IPVA interativo</strong> logo acima!
                     </li>
                     <li>
-                        <strong>Cotação de Seguro Automotivo:</strong> Ao fechar ou renovar uma apólice de seguro contra furto, roubo ou colisões, o contrato padrão de cobertura de casco garante **100% da Tabela FIPE** (ou percentual acordado) no momento da liquidação do sinistro.
+                        <strong>Cotação de Seguro Automotivo:</strong> Ao fechar ou renovar uma apólice de seguro contra furto, roubo ou colisões, o contrato padrão de cobertura de casco garante <strong>100% da Tabela FIPE</strong> (ou percentual acordado) no momento da liquidação do sinistro.
                     </li>
                 </ul>
 
@@ -297,7 +356,7 @@ export default async function FipeValorPage({ params }: PageProps) {
                     </h4>
                     <ol className="list-decimal pl-5 space-y-3 mt-3 mb-0 text-sm text-emerald-900/90 dark:text-emerald-200/90">
                         <li><strong>Exija sempre o Laudo Cautelar:</strong> Evite comprar carros com histórico de adulteração de chassi ou reparos estruturais profundos nas colunas e longarinas.</li>
-                        <li><strong>Verifique Débitos e Restrições:</strong> Consulte o Renavam no site do Detran estatual para verificar multas, IPVAs atrasados e restrições judiciais ativas.</li>
+                        <li><strong>Verifique Débitos e Restrições:</strong> Consulte o Renavam no site do Detran estadual para verificar multas, IPVAs atrasados e restrições judiciais ativas.</li>
                         <li><strong>Exame Mecânico Completo:</strong> Nunca finalize o negócio sem levar o carro a um mecânico de confiança para inspecionar motor, caixa de marcha, suspensão e sistemas eletrônicos (scanner OBD).</li>
                         <li><strong>Cuidado com o Golpe do Sinal:</strong> Nunca efetue transferências Pix de "sinal" ou "reserva" antes de ver o veículo pessoalmente e validar os documentos da pessoa que se diz proprietária.</li>
                     </ol>
@@ -312,31 +371,20 @@ export default async function FipeValorPage({ params }: PageProps) {
                 </h3>
                 
                 <div className="space-y-4">
-                    <details className="group bg-slate-50/50 dark:bg-slate-900/40 p-5 rounded-2xl border border-slate-200/60 dark:border-slate-800/80 cursor-pointer open:ring-2 open:ring-emerald-100 dark:open:ring-emerald-900/30 transition-all duration-200">
-                        <summary className="font-bold text-slate-850 dark:text-slate-105 list-none flex justify-between items-center select-none">
-                            <div className="flex items-start gap-3">
-                                <span className="text-emerald-500 font-bold text-xs mt-1">#</span>
-                                <span className="leading-snug text-slate-800 dark:text-slate-200 font-semibold">O IPVA é calculado sobre o valor da FIPE?</span>
-                            </div>
-                            <span className="text-slate-400 group-open:rotate-180 transition-transform ml-2 shrink-0">▼</span>
-                        </summary>
-                        <p className="mt-3 text-slate-600 dark:text-slate-400 leading-relaxed border-t border-slate-100 dark:border-slate-800 pt-3 text-sm animate-in fade-in">
-                            Sim, na maioria dos estados brasileiros a Secretaria da Fazenda utiliza exatamente o valor da Tabela FIPE (de Setembro ou Outubro do ano anterior) como base de cálculo para a cobrança do IPVA do ano corrente. A alíquota do imposto geralmente varia entre 1% e 4% deste valor dependendo da UF.
-                        </p>
-                    </details>
-
-                    <details className="group bg-slate-50/50 dark:bg-slate-900/40 p-5 rounded-2xl border border-slate-200/60 dark:border-slate-800/80 cursor-pointer open:ring-2 open:ring-emerald-100 dark:open:ring-emerald-900/30 transition-all duration-200">
-                        <summary className="font-bold text-slate-850 dark:text-slate-105 list-none flex justify-between items-center select-none">
-                            <div className="flex items-start gap-3">
-                                <span className="text-emerald-500 font-bold text-xs mt-1">#</span>
-                                <span className="leading-snug text-slate-800 dark:text-slate-200 font-semibold">Por que as concessionárias pagam abaixo da Tabela FIPE?</span>
-                            </div>
-                            <span className="text-slate-400 group-open:rotate-180 transition-transform ml-2 shrink-0">▼</span>
-                        </summary>
-                        <p className="mt-3 text-slate-600 dark:text-slate-400 leading-relaxed border-t border-slate-100 dark:border-slate-800 pt-3 text-sm animate-in fade-in">
-                            Concessionárias e revendedoras são empresas com fins lucrativos. Quando adquirem um veículo, consideram uma "margem de repasse". Eles descontarão do valor FIPE os custos de vitrine, documentação, revisão mecânica, margem de negociação e lucro líquido, pagando geralmente de 10% a 25% abaixo do estipulado no índice.
-                        </p>
-                    </details>
+                    {faqList.map((item, idx) => (
+                      <details key={idx} className="group bg-slate-50/50 dark:bg-slate-900/40 p-5 rounded-2xl border border-slate-200/60 dark:border-slate-800/80 cursor-pointer open:ring-2 open:ring-emerald-100 dark:open:ring-emerald-900/30 transition-all duration-200">
+                          <summary className="font-bold text-slate-850 dark:text-slate-105 list-none flex justify-between items-center select-none">
+                              <div className="flex items-start gap-3">
+                                  <span className="text-emerald-500 font-bold text-xs mt-1">#</span>
+                                  <span className="leading-snug text-slate-800 dark:text-slate-200 font-semibold">{item.q}</span>
+                              </div>
+                              <span className="text-slate-400 group-open:rotate-180 transition-transform ml-2 shrink-0">▼</span>
+                          </summary>
+                          <p className="mt-3 text-slate-600 dark:text-slate-400 leading-relaxed border-t border-slate-100 dark:border-slate-800 pt-3 text-sm animate-in fade-in">
+                              {item.a}
+                          </p>
+                      </details>
+                    ))}
                 </div>
             </div>
         </div>

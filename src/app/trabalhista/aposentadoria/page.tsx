@@ -10,6 +10,8 @@ import {
   TrendingUp, Award, Calculator, Info, CheckCircle2, ExternalLink
 } from "lucide-react";
 import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
+import SmartGlossaryLinker from "@/components/layout/SmartGlossaryLinker";
+import GlossaryTerm from "@/components/ui/GlossaryTerm";
 import ExpertSignature from "@/components/ui/ExpertSignature";
 
 // --- 1. METADATA DINÂMICA ---
@@ -47,11 +49,36 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-// --- DADOS ESTRUTURADOS & FAQ ---
+// --- DADOS ESTRUTURADOS & FAQ (EXACTLY 7 SYNCED ITEMS) ---
 const faqList = [
-  { q: "Quais são as regras de transição da Reforma da Previdência para 2026?", a: "Para 2026, vigoram 5 regras de transição principais: 1) Transição por Pontos (93F / 103M), 2) Idade Mínima Progressiva (59,5F / 64,5M), 3) Pedágio de 50% (exclusivo para quem faltava menos de 2 anos em 2019), 4) Pedágio de 100% (com idade mínima de 57F / 60M) e 5) Aposentadoria por Idade (62F / 65M)." },
-  { q: "Como funciona a regra do pedágio de 100%?", a: "Na regra do pedágio de 100%, o trabalhador deve completar a idade mínima exigida (57 anos para mulheres e 60 anos para homens) e trabalhar o dobro do tempo que faltava para se aposentar na data da Reforma (13/11/2019)." },
-  { q: "Como é calculado o valor da aposentadoria após a Reforma?", a: "O valor padrão do benefício é 60% da média de todos os seus salários de contribuição desde julho de 1994, acrescido de 2% para cada ano que exceder 20 anos de contribuição (para homens) ou 15 anos de contribuição (para mulheres), limitado ao teto do INSS." }
+  { 
+    q: "Quais são as regras de transição da Reforma da Previdência para 2026?", 
+    a: "Para 2026, vigoram 5 regras de transição principais: 1) Transição por Pontos (93F / 103M), 2) Idade Mínima Progressiva (59,5F / 64,5M), 3) Pedágio de 50% (exclusivo para quem faltava menos de 2 anos em 2019), 4) Pedágio de 100% (com idade mínima de 57F / 60M) e 5) Aposentadoria por Idade (62F / 65M)." 
+  },
+  { 
+    q: "Como funciona a regra do pedágio de 100%?", 
+    a: "Na regra do pedágio de 100%, o trabalhador deve completar a idade mínima exigida (57 anos para mulheres e 60 anos para homens) e trabalhar o dobro (100% de pedágio) do tempo que faltava para se aposentar na data da Reforma (13/11/2019)." 
+  },
+  { 
+    q: "Como é calculado o valor da aposentadoria após a Reforma?", 
+    a: "O valor padrão do benefício é 60% da média de todos os seus salários de contribuição desde julho de 1994, acrescido de 2% para cada ano que exceder 20 anos de contribuição (para homens) ou 15 anos de contribuição (para mulheres), limitado ao teto do INSS." 
+  },
+  {
+    q: "O que é a regra do pedágio de 50% e quem tem direito?",
+    a: "Esta regra é restrita aos segurados que, em 13/11/2019, estavam a menos de 2 anos de atingir o tempo de contribuição antigo (33 anos para homens e 28 anos para mulheres). É cobrado um pedágio de 50% sobre o tempo que faltava, aplicando-se o Fator Previdenciário."
+  },
+  {
+    q: "Como funciona o cálculo dos pontos na aposentadoria em 2026?",
+    a: "A pontuação é a soma simples da idade com o tempo de contribuição total do trabalhador. Em 2026, a pontuação exigida subiu para 93 pontos para mulheres (mínimo de 30 anos de contribuição) e 103 pontos para homens (mínimo de 35 anos de contribuição)."
+  },
+  {
+    q: "Posso usar períodos de trabalho rural ou especial para adiantar a aposentadoria?",
+    a: "Sim, períodos sob condições insalubres (tempo especial) ou atividade de agricultura de subsistência/familiar (trabalho rural) comprovados em laudo ou autodeclaração homologada podem ser convertidos para aumentar seu tempo de contribuição geral no INSS."
+  },
+  {
+    q: "Como faço para dar entrada no pedido de aposentadoria?",
+    a: "O processo é feito 100% de forma digital pelo portal ou aplicativo Meu INSS. Você deve conferir o extrato CNIS, atualizar vínculos de empregos antigos com carteira de trabalho ou guias pagas, anexar os documentos solicitados e fazer a solicitação."
+  }
 ];
 
 const jsonLd = {
@@ -135,7 +162,10 @@ export default async function AposentadoriaPage() {
                Entenda as 5 Regras de Transição da Aposentadoria em 2026
             </h2>
             <p className="lead text-slate-700 dark:text-slate-300 text-lg font-medium">
-               A Reforma da Previdência (EC 103/2019) extinguiu a antiga aposentadoria por tempo de contribuição, criando regras de transição para quem já contribuía para a Previdência Social.
+               A Reforma da Previdência (EC 103/2019) extinguiu a antiga aposentadoria por tempo de contribuição, criando regras de transição para quem já contribuía para a <GlossaryTerm slug="inss-previdencia-social">Previdência Social</GlossaryTerm>. Nós entendemos o quão confuso isso pode parecer para você, por isso vamos explicar cada detalhe de maneira simples e acessível.
+            </p>
+            <p className="text-sm text-slate-600 dark:text-slate-400">
+               Pense nas regras de transição como diferentes pontes para cruzar o mesmo rio: cada uma exige taxas e caminhos diferentes. O segredo é descobrir qual delas oferece o menor pedágio para o seu perfil. Veja bem, fazer essa simulação pode representar a diferença entre se aposentar mais cedo ou receber um benefício significativamente maior.
             </p>
             
             <div className="space-y-6 my-8">
@@ -185,6 +215,66 @@ export default async function AposentadoriaPage() {
               </div>
             </div>
 
+            {/* TABELA DE COMPARAÇÃO DE REGRAS (HTML PURO RESPONSIVO) */}
+            <div className="not-prose my-10 border rounded-xl overflow-hidden border-slate-200 dark:border-slate-700 shadow-sm bg-white dark:bg-slate-900">
+                <div className="bg-slate-100 dark:bg-slate-800 p-4 border-b border-slate-200 dark:border-slate-700">
+                    <h4 className="text-sm font-bold text-slate-750 dark:text-slate-250 uppercase tracking-wide flex items-center gap-2">
+                        <Calculator size={16} /> Comparativo de Regras de Transição (2026)
+                    </h4>
+                </div>
+                
+                <div className="overflow-x-auto w-full">
+                    <table className="w-full text-sm text-left border-collapse min-w-[750px]">
+                        <thead className="bg-slate-50 dark:bg-slate-800/50 text-slate-600 dark:text-slate-300 text-xs uppercase tracking-wider">
+                            <tr>
+                                <th className="px-6 py-4 font-bold border-b border-slate-200 dark:border-slate-700">Regra de Transição</th>
+                                <th className="px-6 py-4 font-bold border-b border-slate-200 dark:border-slate-700">Requisito Mulheres (2026)</th>
+                                <th className="px-6 py-4 font-bold border-b border-slate-200 dark:border-slate-700">Requisito Homens (2026)</th>
+                                <th className="px-6 py-4 font-bold border-b border-slate-200 dark:border-slate-700">Cálculo do Benefício</th>
+                                <th className="px-6 py-4 font-bold border-b border-slate-200 dark:border-slate-700">Perfil Recomendado</th>
+                            </tr>
+                        </thead>
+                        <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-slate-700 dark:text-slate-300">
+                            <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors">
+                                <td className="px-6 py-4 font-bold text-slate-850 dark:text-slate-100">1. Por Pontos</td>
+                                <td className="px-6 py-4 font-semibold text-blue-600">93 Pontos (min. 30 contrib.)</td>
+                                <td className="px-6 py-4 font-semibold text-blue-600">103 Pontos (min. 35 contrib.)</td>
+                                <td className="px-6 py-4">60% + 2% por ano adicional</td>
+                                <td className="px-6 py-4 text-xs font-semibold text-emerald-600 dark:text-emerald-400">Idade e tempo altos</td>
+                            </tr>
+                            <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors">
+                                <td className="px-6 py-4 font-bold text-slate-850 dark:text-slate-100">2. Idade Progressiva</td>
+                                <td className="px-6 py-4 font-semibold text-blue-600">59,5 anos + 30 contrib.</td>
+                                <td className="px-6 py-4 font-semibold text-blue-600">64,5 anos + 35 contrib.</td>
+                                <td className="px-6 py-4">60% + 2% por ano adicional</td>
+                                <td className="px-6 py-4 text-xs font-semibold text-emerald-600 dark:text-emerald-400">Muito tempo trabalhado</td>
+                            </tr>
+                            <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors">
+                                <td className="px-6 py-4 font-bold text-slate-850 dark:text-slate-100">3. Pedágio de 50%</td>
+                                <td className="px-6 py-4 font-semibold text-rose-500">28 anos em 2019 + pedágio</td>
+                                <td className="px-6 py-4 font-semibold text-rose-500">33 anos em 2019 + pedágio</td>
+                                <td className="px-6 py-4">Média x Fator Previdenciário</td>
+                                <td className="px-6 py-4 text-xs font-semibold text-emerald-600 dark:text-emerald-400">Estava a 2 anos da aposentadoria em 2019</td>
+                            </tr>
+                            <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors">
+                                <td className="px-6 py-4 font-bold text-slate-850 dark:text-slate-100">4. Pedágio de 100%</td>
+                                <td className="px-6 py-4 font-semibold text-blue-600">57 anos + 100% pedágio</td>
+                                <td className="px-6 py-4 font-semibold text-blue-600">60 anos + 100% pedágio</td>
+                                <td className="px-6 py-4 font-bold text-emerald-600">100% Integral da Média</td>
+                                <td className="px-6 py-4 text-xs font-semibold text-emerald-600 dark:text-emerald-400">Idade média, busca valor de benefício alto</td>
+                            </tr>
+                            <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors">
+                                <td className="px-6 py-4 font-bold text-slate-850 dark:text-slate-100">5. Idade Transição</td>
+                                <td className="px-6 py-4 font-semibold text-blue-600">62 anos + 15 contrib.</td>
+                                <td className="px-6 py-4 font-semibold text-blue-600">65 anos + 15 contrib.</td>
+                                <td className="px-6 py-4">60% + 2% por ano adicional</td>
+                                <td className="px-6 py-4 text-xs font-semibold text-emerald-600 dark:text-emerald-400">Menos tempo de contribuição</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
             <h3 className="text-xl font-bold text-slate-800 dark:text-white mt-10 mb-4 flex items-center gap-2">
                 <Award className="text-blue-600 dark:text-blue-400" /> Como é calculado o valor da aposentadoria?
             </h3>
@@ -192,7 +282,7 @@ export default async function AposentadoriaPage() {
                Desde a Reforma, a regra geral de cálculo de benefício considera 60% da média de todas as contribuições desde 1994, com acréscimo de 2% para cada ano trabalhado acima de 20 anos de contribuição para homens e 15 anos para mulheres.
             </p>
             <p>
-               Na regra do pedágio de 100%, o benefício é integral (100% da média de contribuição), sem a redução da regra geral. Por isso, simular todas as opções é crucial para garantir a melhor remuneração mensal.
+               Na regra do pedágio de 100%, o benefício é integral (100% da média de contribuição), sem a redução da regra geral. Por isso, simular todas as opções é crucial para garantir a melhor remuneração mensal. E quer saber mais? Um planejamento previdenciário cuidadoso evita surpresas desagradáveis no futuro.
             </p>
 
             {/* FAQ ACCORDION */}
@@ -238,6 +328,7 @@ export default async function AposentadoriaPage() {
             <ExpertSignature updatedAt="Maio de 2026" author="Equipe Editorial" />
         </div>
 
+        <SmartGlossaryLinker currentHref="/trabalhista/aposentadoria" />
         {/* NAVEGAÇÃO FINAL */}
         <SmartCrossLinker currentHref="/trabalhista/aposentadoria" category="trabalhista" />
 

@@ -5,14 +5,13 @@ import PageHeader from "@/components/layout/PageHeader";
 import { 
   TrendingUp, Calculator, Wallet, Percent, 
   Landmark, ArrowRight, PiggyBank, Coins,
-  LineChart, DollarSign, ShieldCheck, Briefcase, Calendar, Car, BarChart3
+  LineChart, DollarSign, ShieldCheck, Briefcase, Calendar, Car, BarChart3, HelpCircle
 } from "lucide-react";
 import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
 
-// --- METADATA (SEO DE CATEGORIA) ---
 export const metadata: Metadata = {
   title: "Calculadoras Financeiras 2026 | Juros, Financiamento e Investimentos",
-  description: "Central de cálculos financeiros gratuitos. Simule Juros Compostos, Financiamento (Price/SAC), Descontos e planeje sua independência financeira em 2026.",
+  description: "Tome decisões financeiras inteligentes. Simule financiamentos de veículos, compare reajustes de aluguel e calcule o salário líquido com precisão grátis!",
   keywords: [
     "calculadoras financeiras", 
     "simulador investimentos", 
@@ -24,7 +23,6 @@ export const metadata: Metadata = {
     canonical: "https://mestredascontas.com.br/financeiro" },
   openGraph: {
     title: "Portal Financeiro 2026 | Mestre das Contas",
-    description: "Central de cálculos financeiros gratuitos. Simule Juros Compostos, Financiamento (Price/SAC), Descontos e planeje sua independência financeira em 2026.",
     url: "https://mestredascontas.com.br/financeiro",
     siteName: "Mestre das Contas",
     locale: "pt_BR",
@@ -41,7 +39,6 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Seu dinheiro sob controle em 2026",
-    description: "Central de cálculos financeiros gratuitos. Simule Juros Compostos, Financiamento (Price/SAC), Descontos e planeje sua independência financeira em 2026.",
     images: ["/opengraph-image"],
   } };
 
@@ -69,6 +66,67 @@ const jsonLd = {
       "itemListElement": [
         { "@type": "ListItem", "position": 1, "name": "Início", "item": "https://mestredascontas.com.br" },
         { "@type": "ListItem", "position": 2, "name": "Financeiro", "item": "https://mestredascontas.com.br/financeiro" }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "1. Qual é a diferença entre juros simples e juros compostos?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Nos juros simples, a taxa incide apenas sobre o valor principal inicial. Nos juros compostos (os chamados 'juros sobre juros'), a taxa incide sobre o capital inicial acrescido dos juros acumulados nos períodos anteriores."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "2. Como funciona a amortização pela Tabela Price e SAC?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Na Tabela Price, as parcelas mensais são fixas e constantes, mas a amortização é crescente. No Sistema de Amortização Constante (SAC), a amortização é constante, fazendo as parcelas começarem mais caras e diminuírem ao longo do tempo."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "3. O que é o Custo Efetivo Total (CET) de um financiamento?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "O Custo Efetivo Total (CET) é a taxa real que resume todas as despesas de um financiamento ou empréstimo, incluindo juros, impostos (IOF), seguros obrigatórios e taxas administrativas bancárias."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "4. Vale a pena antecipar parcelas de um financiamento?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Sim, altamente recomendável. Ao antecipar o pagamento do saldo devedor (amortização extraordinária), o banco é obrigado a conceder desconto proporcional de 100% dos juros futuros que incidiriam sobre aquela parcela."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "5. Como calcular a porcentagem de desconto de um produto?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Basta multiplicar o preço original do produto pela taxa de desconto decimal (ex: 20% é 0,20) para encontrar o valor do desconto em reais. Subtraia esse resultado do valor original para saber o preço final."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "6. Qual a carga tributária simplificada cobrada de um MEI?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "O MEI paga mensalmente uma guia única de imposto (DAS-MEI) que varia conforme a atividade (comércio, indústria ou serviço). O valor varia de aproximadamente R$ 70 a R$ 85, englobando o INSS, ICMS e ISS."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "7. Como a inflação afeta o reajuste do aluguel anual?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Os contratos de locação são reajustados por índices inflacionários como o IGP-M ou o IPCA. No mês de aniversário do contrato, aplica-se o acumulado desses índices nos últimos 12 meses sobre o valor do aluguel."
+          }
+        }
       ]
     }
   ]
@@ -288,39 +346,133 @@ export default function FinanceiroHubPage() {
           <div className="prose prose-slate dark:prose-invert prose-sm md:prose-lg max-w-none bg-white dark:bg-slate-900 p-6 md:p-12 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-sm mt-10">
             
             <h2 className="text-3xl font-bold text-slate-900 dark:text-slate-100 mb-6 flex items-center gap-3">
-              <ShieldCheck className="text-green-600" size={32} /> Educação Financeira é Liberdade
+              <ShieldCheck className="text-green-600" size={32} /> Planejamento Financeiro e Decisões Inteligentes
             </h2>
-            <p className="lead text-slate-700 dark:text-slate-300 text-lg">
-              No Brasil, a falta de educação financeira faz milhões de pessoas pagarem juros abusivos sem saber. Nossa missão é entregar as ferramentas para você inverter esse jogo: parar de pagar juros e começar a recebê-los.
+            <p className="lead text-slate-700 dark:text-slate-300 text-lg mb-6">
+              Nós sabemos perfeitamente que lidar com taxas de juros, parcelamentos e tributação no Brasil pode parecer um desafio intimidador. A verdade é que a falta de informação clara faz milhares de pessoas pagarem juros abusivos sem perceberem a bola de neve que estão criando.
+            </p>
+            <p className="text-slate-600 dark:text-slate-400 mb-8 text-sm leading-relaxed">
+              No <strong>Mestre das Contas</strong>, nossa missão é entregar simuladores matemáticos de alta precisão de forma gratuita e transparente. Queremos ajudar você a entender exatamente para onde vai seu dinheiro, seja simulando um financiamento pela tabela SAC, calculando juros compostos de investimentos ou comparando salários CLT vs PJ.
             </p>
 
-            {/* BLOCO DE DICAS VISUAL */}
-            <div className="grid md:grid-cols-2 gap-8 my-10 not-prose">
-                <div className="bg-gradient-to-br from-slate-900 to-slate-800 p-8 rounded-2xl text-white relative overflow-hidden shadow-lg">
-                    <div className="absolute top-0 right-0 p-4 opacity-10"><PiggyBank size={140} className="text-white"/></div>
-                    <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2 relative z-10">
-                        <LineChart size={24} className="text-green-400"/> Para Investidores
-                    </h3>
-                    <ul className="space-y-4 text-slate-300 relative z-10 text-sm">
-                        <li className="flex gap-3"><div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-green-400 shrink-0"/> <span>O tempo é seu maior aliado nos <strong>Juros Compostos</strong>. Comece hoje.</span></li>
-                        <li className="flex gap-3"><div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-green-400 shrink-0"/> <span>Aporte mensal constante vence o "timing" de mercado a longo prazo.</span></li>
-                        <li className="flex gap-3"><div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-green-400 shrink-0"/> <span>Use a calculadora para traçar metas reais de aposentadoria.</span></li>
-                    </ul>
-                </div>
-
-                <div className="bg-white dark:bg-slate-800 p-8 rounded-2xl border border-slate-200 dark:border-slate-700 relative overflow-hidden shadow-sm">
-                    <div className="absolute top-0 right-0 p-4 opacity-5"><Coins size={140} className="text-slate-900"/></div>
-                    <h3 className="text-xl font-bold text-slate-900 dark:text-slate-100 mb-4 flex items-center gap-2 relative z-10">
-                        <Calculator size={24} className="text-indigo-600"/> Para Quem Vai Financiar
-                    </h3>
-                    <ul className="space-y-4 text-slate-600 dark:text-slate-400 relative z-10 text-sm">
-                        <li className="flex gap-3"><div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-indigo-600 shrink-0"/> <span>Nunca olhe apenas se a "parcela cabe no bolso". Olhe o total pago.</span></li>
-                        <li className="flex gap-3"><div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-indigo-600 shrink-0"/> <span>Exija o <strong>CET (Custo Efetivo Total)</strong> antes de assinar qualquer contrato.</span></li>
-                        <li className="flex gap-3"><div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-indigo-600 shrink-0"/> <span>Compare Price (fixa) vs SAC (decrescente). A SAC costuma ser mais barata.</span></li>
-                    </ul>
-                </div>
+            {/* TABELA COMPARATIVA DE CÁLCULO FINANCEIRO */}
+            <h3 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mt-10 mb-6">
+              Comparativo de Regimes de Juros e Amortização
+            </h3>
+            <div className="overflow-x-auto w-full rounded-2xl border border-slate-200 dark:border-slate-800 mb-8">
+              <table className="min-w-[600px] w-full border-collapse text-left text-sm text-slate-600 dark:text-slate-400">
+                <thead className="bg-slate-50 dark:bg-slate-800/50 text-slate-800 dark:text-slate-200 font-bold border-b border-slate-200 dark:border-slate-800">
+                  <tr>
+                    <th className="p-4">Regime / Sistema</th>
+                    <th className="p-4">Lógica Principal</th>
+                    <th className="p-4">Aplicação Comum</th>
+                    <th className="p-4">Impacto a Longo Prazo</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
+                  <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-800/30">
+                    <td className="p-4 font-semibold text-slate-900 dark:text-slate-200">Juros Simples</td>
+                    <td className="p-4">Taxa incide apenas sobre o capital inicial</td>
+                    <td className="p-4">Atrasos de contas de consumo, empréstimos informais</td>
+                    <td className="p-4">Crescimento linear e previsível da dívida</td>
+                  </tr>
+                  <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-800/30">
+                    <td className="p-4 font-semibold text-slate-900 dark:text-slate-200">Juros Compostos</td>
+                    <td className="p-4">Taxa incide sobre o saldo acumulado (juros sobre juros)</td>
+                    <td className="p-4">Investimentos de renda fixa/variável, faturamento do cartão</td>
+                    <td className="p-4">Crescimento exponencial da meta ou da dívida</td>
+                  </tr>
+                  <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-800/30">
+                    <td className="p-4 font-semibold text-slate-900 dark:text-slate-200">Tabela SAC</td>
+                    <td className="p-4">Amortização constante; parcelas decrescentes</td>
+                    <td className="p-4">Financiamento imobiliário de longo prazo</td>
+                    <td className="p-4">Menor custo total de juros acumulados no fim</td>
+                  </tr>
+                  <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-800/30">
+                    <td className="p-4 font-semibold text-slate-900 dark:text-slate-200">Tabela Price</td>
+                    <td className="p-4">Amortização crescente; parcelas fixas e iguais</td>
+                    <td className="p-4">Financiamento de veículos, empréstimos pessoais</td>
+                    <td className="p-4">Maior custo total de juros, mas parcelas iniciais menores</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
 
+            {/* SEÇÃO DE FAQ (7 PERGUNTAS) */}
+            <h3 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mt-12 mb-6 flex items-center gap-2">
+              Perguntas Frequentes sobre Finanças e Cálculos
+            </h3>
+            <div className="space-y-4">
+              <details className="group border-b border-slate-200 dark:border-slate-800 pb-4 cursor-pointer">
+                <summary className="font-bold text-slate-800 dark:text-slate-200 flex justify-between items-center list-none p-2 hover:bg-slate-50 dark:hover:bg-slate-800 rounded select-none">
+                  1. Qual é a diferença entre juros simples e juros compostos?
+                  <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
+                </summary>
+                <div className="mt-2 text-slate-600 dark:text-slate-400 px-2 text-sm leading-relaxed">
+                  Nos juros simples, a taxa incide apenas sobre o valor principal inicial. Nos juros compostos (os chamados 'juros sobre juros'), a taxa incide sobre o capital inicial acrescido dos juros acumulados nos períodos anteriores.
+                </div>
+              </details>
+
+              <details className="group border-b border-slate-200 dark:border-slate-800 pb-4 cursor-pointer">
+                <summary className="font-bold text-slate-800 dark:text-slate-200 flex justify-between items-center list-none p-2 hover:bg-slate-50 dark:hover:bg-slate-800 rounded select-none">
+                  2. Como funciona a amortização pela Tabela Price e SAC?
+                  <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
+                </summary>
+                <div className="mt-2 text-slate-600 dark:text-slate-400 px-2 text-sm leading-relaxed">
+                  Na Tabela Price, as parcelas mensais são fixas e constantes, mas a amortização é crescente. No Sistema de Amortização Constante (SAC), a amortização é constante, fazendo as parcelas começarem mais caras e diminuírem ao longo do tempo.
+                </div>
+              </details>
+
+              <details className="group border-b border-slate-200 dark:border-slate-800 pb-4 cursor-pointer">
+                <summary className="font-bold text-slate-800 dark:text-slate-200 flex justify-between items-center list-none p-2 hover:bg-slate-50 dark:hover:bg-slate-800 rounded select-none">
+                  3. O que é o Custo Efetivo Total (CET) de um financiamento?
+                  <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
+                </summary>
+                <div className="mt-2 text-slate-600 dark:text-slate-400 px-2 text-sm leading-relaxed">
+                  O Custo Efetivo Total (CET) é a taxa real que resume todas as despesas de um financiamento ou empréstimo, incluindo juros, impostos (IOF), seguros obrigatórios e taxas administrativas bancárias.
+                </div>
+              </details>
+
+              <details className="group border-b border-slate-200 dark:border-slate-800 pb-4 cursor-pointer">
+                <summary className="font-bold text-slate-800 dark:text-slate-200 flex justify-between items-center list-none p-2 hover:bg-slate-50 dark:hover:bg-slate-800 rounded select-none">
+                  4. Vale a pena antecipar parcelas de um financiamento?
+                  <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
+                </summary>
+                <div className="mt-2 text-slate-600 dark:text-slate-400 px-2 text-sm leading-relaxed">
+                  Sim, altamente recomendável. Ao antecipar o pagamento do saldo devedor (amortização extraordinária), o banco é obrigado a conceder desconto proporcional de 100% dos juros futuros que incidiriam sobre aquela parcela.
+                </div>
+              </details>
+
+              <details className="group border-b border-slate-200 dark:border-slate-800 pb-4 cursor-pointer">
+                <summary className="font-bold text-slate-800 dark:text-slate-200 flex justify-between items-center list-none p-2 hover:bg-slate-50 dark:hover:bg-slate-800 rounded select-none">
+                  5. Como calcular a porcentagem de desconto de um produto?
+                  <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
+                </summary>
+                <div className="mt-2 text-slate-600 dark:text-slate-400 px-2 text-sm leading-relaxed">
+                  Basta multiplicar o preço original do produto pela taxa de desconto decimal (ex: 20% é 0,20) para encontrar o valor do desconto em reais. Subtraia esse resultado do valor original para saber o preço final.
+                </div>
+              </details>
+
+              <details className="group border-b border-slate-200 dark:border-slate-800 pb-4 cursor-pointer">
+                <summary className="font-bold text-slate-800 dark:text-slate-200 flex justify-between items-center list-none p-2 hover:bg-slate-50 dark:hover:bg-slate-800 rounded select-none">
+                  6. Qual a carga tributária simplificada cobrada de um MEI?
+                  <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
+                </summary>
+                <div className="mt-2 text-slate-600 dark:text-slate-400 px-2 text-sm leading-relaxed">
+                  O MEI paga mensalmente uma guia única de imposto (DAS-MEI) que varia conforme a atividade (comércio, indústria ou serviço). O valor varia de aproximadamente R$ 70 a R$ 85, englobando o INSS, ICMS e ISS.
+                </div>
+              </details>
+
+              <details className="group border-b border-slate-200 dark:border-slate-800 pb-4 cursor-pointer">
+                <summary className="font-bold text-slate-800 dark:text-slate-200 flex justify-between items-center list-none p-2 hover:bg-slate-50 dark:hover:bg-slate-800 rounded select-none">
+                  7. Como a inflação afeta o reajuste do aluguel anual?
+                  <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
+                </summary>
+                <div className="mt-2 text-slate-600 dark:text-slate-400 px-2 text-sm leading-relaxed">
+                  Os contratos de locação são reajustados por índices inflacionários como o IGP-M ou o IPCA. No mês de aniversário do contrato, aplica-se o acumulado desses índices nos últimos 12 meses sobre o valor do aluguel.
+                </div>
+              </details>
+            </div>
           </div>
 
           <SmartCrossLinker currentHref="/financeiro" category="trabalhista" />

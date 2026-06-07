@@ -10,11 +10,13 @@ import {
 } from "lucide-react";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
 import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
+import SmartGlossaryLinker from "@/components/layout/SmartGlossaryLinker";
+import GlossaryTerm from "@/components/ui/GlossaryTerm";
+import ExpertSignature from "@/components/ui/ExpertSignature";
 
-// --- SEO 2026 ---
 export const metadata: Metadata = {
   title: "Formatador JSON Online: Validar, Beautify e Minificar (Lint)",
-  description: "Ferramenta para formatar, validar e minificar JSON. Identifique erros de sintaxe, converta para uma só linha ou indente para leitura. Seguro e 100% no navegador.",
+  description: "Precisa organizar ou validar um código JSON? Formate, indente, minifique e corrija erros de sintaxe instantaneamente. 100% seguro e direto no seu navegador!",
   keywords: [
     "formatador json online", "json validator", "json beautifier",
     "minificar json", "validar json", "json parser online",
@@ -23,11 +25,42 @@ export const metadata: Metadata = {
   alternates: { canonical: "https://mestredascontas.com.br/ferramentas/formatador-json" },
   openGraph: {
     title: "Formatador JSON Online - Valide e Organize seu Código",
-    description: "Ferramenta essencial para desenvolvedores. Formate, minifique e corrija erros de JSON instantaneamente. Sem cadastro e ilimitado.",
     url: "https://mestredascontas.com.br/ferramentas/formatador-json",
     siteName: "Mestre das Contas",
     locale: "pt_BR",
     type: "website" } };
+
+// --- FAQ LIST (SCHEMA ROBUSTO PARA RICH SNIPPETS) ---
+const faqList = [
+  {
+    p: "É seguro colar senhas ou chaves de API aqui?",
+    r: "Sim, é 100% seguro! Diferente de outras ferramentas web, nosso formatador de JSON processa todas as informações localmente no seu navegador via JavaScript (client-side). Seus dados sigilosos, códigos ou chaves de API nunca são transmitidos ou armazenados em servidores externos."
+  },
+  {
+    p: "Qual a diferença entre JSON e XML?",
+    r: "O XML é um formato mais antigo, verboso e complexo, estruturado com tags personalizáveis de abertura e fechamento. O JSON (JavaScript Object Notation) é moderno, extremamente leve, fácil de ler para humanos e nativo da web, sendo o padrão absoluto para APIs RESTful modernas."
+  },
+  {
+    p: "O que fazer quando recebo o erro 'Unexpected token'?",
+    r: "Esse erro indica um desvio das regras estritas do JSON. Geralmente é causado por aspas simples em vez de aspas duplas, vírgulas sobressalentes no final de listas ou objetos (trailing commas), ausência de fechamento de chaves/colchetes ou caracteres invisíveis copiados da web."
+  },
+  {
+    p: "Existe limite de tamanho para o arquivo formatado?",
+    r: "Não há limites rígidos impostos por nós, pois o processamento ocorre direto na máquina do usuário. O limite real é a capacidade de memória RAM do seu navegador. Testamos com sucesso arquivos grandes de até 100MB, mas payloads em Gigabytes podem travar a aba."
+  },
+  {
+    p: "A ferramenta de formatação ordena as chaves do objeto?",
+    r: "Por padrão, preservamos rigorosamente a ordem original de inserção das chaves informadas no payload bruto para evitar distorções no mapeamento das APIs. O formato JSON não define uma ordem obrigatória para os pares de chave e valor."
+  },
+  {
+    p: "Posso usar este formatador para converter JSON em CSV?",
+    r: "Esta ferramenta específica é focada em validação, beautify (pretty print) e minificação de dados. Se você precisa converter estruturas de dados complexas para CSV, XML ou planilhas Excel, disponibilizamos ferramentas específicas de conversão em nosso hub de utilitários."
+  },
+  {
+    p: "Por que o Mestre das Contas possui ferramentas de desenvolvimento?",
+    r: "Acreditamos em centralizar soluções úteis para a produtividade de empreendedores, analistas de TI e profissionais de tecnologia que trabalham diariamente com integrações de dados, Webhooks, arquivos de configurações e notas fiscais eletrônicas estruturadas."
+  }
+];
 
 // --- DADOS ESTRUTURADOS ---
 const jsonLd = {
@@ -76,6 +109,14 @@ const jsonLd = {
       "publisher": { "@type": "Organization", "name": "Mestre das Contas", "logo": { "@type": "ImageObject", "url": "https://mestredascontas.com.br/icon.png" } },
       "datePublished": "2024-07-02",
       "dateModified": new Date().toISOString()
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": faqList.map(item => ({
+        "@type": "Question",
+        "name": item.p,
+        "acceptedAnswer": { "@type": "Answer", "text": item.r }
+      }))
     }
   ]
 };
@@ -180,33 +221,41 @@ export default function JsonFormatterPage() {
                 Se você está começando agora ou apenas precisa relembrar, essa é a dúvida número um. A diferença é visual e de performance:
             </p>
 
-            <div className="my-8 overflow-x-auto">
-                <table className="w-full text-left border-collapse border border-slate-200 dark:border-slate-700">
-                    <thead>
-                        <tr className="bg-slate-100 dark:bg-slate-800">
-                            <th className="p-4 border-b border-slate-200 dark:border-slate-700 font-bold text-slate-800 dark:text-slate-200">Característica</th>
-                            <th className="p-4 border-b border-slate-200 dark:border-slate-700 font-bold text-indigo-700 dark:text-indigo-400">Beautify (Formatado)</th>
-                            <th className="p-4 border-b border-slate-200 dark:border-slate-700 font-bold text-slate-700 dark:text-slate-300">Minify (Minificado)</th>
-                        </tr>
-                    </thead>
-                    <tbody className="text-sm">
-                        <tr>
-                            <td className="p-4 border-b border-slate-100 dark:border-slate-800 font-medium">Legibilidade</td>
-                            <td className="p-4 border-b border-slate-100 dark:border-slate-800 text-green-600 dark:text-green-400 font-bold">Alta (Humanos leem)</td>
-                            <td className="p-4 border-b border-slate-100 dark:border-slate-800 text-red-500 dark:text-red-400">Nula (Máquinas leem)</td>
-                        </tr>
-                        <tr>
-                            <td className="p-4 border-b border-slate-100 dark:border-slate-800 font-medium">Tamanho</td>
-                            <td className="p-4 border-b border-slate-100 dark:border-slate-800">Maior (Espaços e quebras)</td>
-                            <td className="p-4 border-b border-slate-100 dark:border-slate-800 text-green-600 dark:text-green-400 font-bold">Menor possível</td>
-                        </tr>
-                        <tr>
-                            <td className="p-4 border-b border-slate-100 dark:border-slate-800 font-medium">Uso Ideal</td>
-                            <td className="p-4 border-b border-slate-100 dark:border-slate-800">Debug, Edição, Configuração</td>
-                            <td className="p-4 border-b border-slate-100 dark:border-slate-800">Requisicões de API, Banco de Dados</td>
-                        </tr>
-                    </tbody>
+            {/* TABELA COMPARATIVA 1 (OBRIGATÓRIA & RESPONSIVA) */}
+            <div className="not-prose my-8 w-full">
+              <div className="overflow-x-auto w-full rounded-2xl border border-slate-200 dark:border-slate-800 shadow-md">
+                <table className="w-full min-w-[600px] text-sm text-left border-collapse">
+                  <thead className="bg-slate-900 text-white dark:bg-slate-950 uppercase text-xs tracking-wider">
+                    <tr>
+                      <th className="px-6 py-4 font-bold">Característica</th>
+                      <th className="px-6 py-4 font-bold text-indigo-300">Beautify (Formatado)</th>
+                      <th className="px-6 py-4 font-bold text-emerald-300">Minify (Minificado)</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-slate-700 dark:text-slate-300">
+                    <tr className="bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                      <td className="px-6 py-4 font-semibold">Legibilidade</td>
+                      <td className="px-6 py-4 font-bold text-green-600 dark:text-green-400">Excelente (Pronto para leitura humana)</td>
+                      <td className="px-6 py-4 text-red-500 dark:text-red-400">Complexo (Código em linha única contínua)</td>
+                    </tr>
+                    <tr className="bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800/50 transition-colors">
+                      <td className="px-6 py-4 font-semibold">Tamanho & Peso</td>
+                      <td className="px-6 py-4">Maior (Inclui espaços, tabulações e quebras de linha)</td>
+                      <td className="px-6 py-4 font-bold text-green-600 dark:text-green-400">Mínimo possível (Compactado ao extremo)</td>
+                    </tr>
+                    <tr className="bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                      <td className="px-6 py-4 font-semibold">Aplicação Recomendada</td>
+                      <td className="px-6 py-4 font-medium text-slate-900 dark:text-white">Debugging, desenvolvimento local, revisão de código e arquivos de configuração</td>
+                      <td className="px-6 py-4 font-medium text-slate-900 dark:text-white">Produção, tráfego de dados em APIs, economia de banda e performance</td>
+                    </tr>
+                  </tbody>
                 </table>
+              </div>
+              <div className="text-center mt-2">
+                <span className="inline-block text-xs text-slate-400 dark:text-slate-500 italic bg-slate-100 dark:bg-slate-900 px-3 py-1 rounded-full">
+                  ↔️ Deslize horizontalmente para comparar todos os atributos.
+                </span>
+              </div>
             </div>
 
             <h3 className="text-2xl font-bold text-slate-900 dark:text-white mt-12 mb-6 flex items-center gap-3">
@@ -244,89 +293,84 @@ export default function JsonFormatterPage() {
                 A praticidade de ter um validador no navegador, que funciona offline (graças ao processamento client-side), é imbatível. Além disso, incluímos funcionalidades que editores simples não têm, como a conversão rápida para download de arquivo.
             </p>
 
-             {/* --- FAQ --- */}
-            <div className="mt-16 pt-10 border-t border-slate-200 dark:border-slate-800">
+            <h3 className="text-2xl font-bold text-slate-900 dark:text-white mt-12 mb-6 flex items-center gap-3">
+                <BookOpen className="text-indigo-600" /> Comparativo Técnico: JSON vs. XML vs. YAML
+            </h3>
+            <p className="text-slate-600 dark:text-slate-300">
+              Escolher a estrutura correta para tráfego ou configuração de dados faz toda a diferença na arquitetura do seu sistema. Compare os três principais formatos do mercado:
+            </p>
+
+            {/* TABELA COMPARATIVA 2 (RESPONSIVA) */}
+            <div className="not-prose my-8 w-full">
+              <div className="overflow-x-auto w-full rounded-2xl border border-slate-200 dark:border-slate-800 shadow-md">
+                <table className="w-full min-w-[700px] text-sm text-left border-collapse">
+                  <thead className="bg-slate-900 text-white dark:bg-slate-950 uppercase text-xs tracking-wider">
+                    <tr>
+                      <th className="px-6 py-4 font-bold">Métrica</th>
+                      <th className="px-6 py-4 font-bold text-blue-300">JSON (Universal)</th>
+                      <th className="px-6 py-4 font-bold text-yellow-300">XML (Legado)</th>
+                      <th className="px-6 py-4 font-bold text-purple-300">YAML (Configs)</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-slate-700 dark:text-slate-300">
+                    <tr className="bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                      <td className="px-6 py-4 font-semibold">Legibilidade</td>
+                      <td className="px-6 py-4 text-emerald-600 dark:text-emerald-400 font-bold">Alta</td>
+                      <td className="px-6 py-4">Média (Tags poluídas)</td>
+                      <td className="px-6 py-4 text-emerald-600 dark:text-emerald-400 font-bold">Excelente (Sem tags/chaves)</td>
+                    </tr>
+                    <tr className="bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800/50 transition-colors">
+                      <td className="px-6 py-4 font-semibold">Peso da Payload</td>
+                      <td className="px-6 py-4 text-emerald-600 dark:text-emerald-400 font-bold">Leve</td>
+                      <td className="px-6 py-4 text-red-500 dark:text-red-400">Muito Pesado</td>
+                      <td className="px-6 py-4 text-emerald-600 dark:text-emerald-400 font-bold">Leve</td>
+                    </tr>
+                    <tr className="bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                      <td className="px-6 py-4 font-semibold">Comentários</td>
+                      <td className="px-6 py-4">Não nativo (Ignorado no padrão)</td>
+                      <td className="px-6 py-4 font-medium">Sim (Tags de comentários)</td>
+                      <td className="px-6 py-4 text-emerald-600 dark:text-emerald-400 font-bold">Sim (Nativo via #)</td>
+                    </tr>
+                    <tr className="bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800/50 transition-colors">
+                      <td className="px-6 py-4 font-semibold">Foco de Uso</td>
+                      <td className="px-6 py-4 font-semibold">APIs RESTful e GraphQL, NoSQL</td>
+                      <td className="px-6 py-4">Notas fiscais (NF-e), SOAP, sistemas legados</td>
+                      <td className="px-6 py-4">Arquivos de Configuração (Docker, CI/CD, Kubernetes)</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            
+            <ExpertSignature author="Equipe de Tecnologia Mestre das Contas" updatedAt="Junho de 2026" />
+        </div>
+
+        <SmartGlossaryLinker currentHref="/ferramentas/formatador-json" />
+        <SmartCrossLinker currentHref="/ferramentas/formatador-json" category="ferramentas" />
+
+        {/* --- FAQ --- */}
+        <div className="mt-16 pt-10 border-t border-slate-200 dark:border-slate-800">
                 <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
                     <BookOpen className="text-slate-500 dark:text-slate-400"/> Perguntas Frequentes (FAQ)
                 </h3>
                 
                 <div className="space-y-4">
-                    <details className="group border border-slate-200 dark:border-slate-700 rounded-xl bg-slate-50/50 dark:bg-slate-900/50 open:bg-white dark:open:bg-slate-900 open:shadow-md transition-all">
-                        <summary className="font-bold text-slate-800 dark:text-slate-200 flex justify-between items-center cursor-pointer p-4 list-none select-none">
-                            1. É seguro colar senhas ou chaves de API aqui?
-                            <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
-                        </summary>
-                        <div className="text-slate-600 dark:text-slate-400 px-4 pb-4 pt-0 leading-relaxed border-t border-transparent group-open:border-slate-100 dark:group-open:border-slate-800 group-open:pt-2">
-                            A resposta curta é: <strong>Sim, nesta ferramenta específica é seguro.</strong><br/><br/>
-                            Diferente de muitos sites, nós não enviamos seus dados para a "nuvem" para serem processados. Tudo acontece via JavaScript no seu próprio computador. Você pode testar: carregue a página, desligue o Wi-Fi e use a ferramenta. Ela continuará funcionando.
-                        </div>
-                    </details>
-
-                    <details className="group border border-slate-200 dark:border-slate-700 rounded-xl bg-slate-50/50 dark:bg-slate-900/50 open:bg-white dark:open:bg-slate-900 open:shadow-md transition-all">
-                        <summary className="font-bold text-slate-800 dark:text-slate-200 flex justify-between items-center cursor-pointer p-4 list-none select-none">
-                            2. Qual a diferença entre JSON e XML?
-                            <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
-                        </summary>
-                        <div className="text-slate-600 dark:text-slate-400 px-4 pb-4 pt-0 leading-relaxed border-t border-transparent group-open:border-slate-100 dark:group-open:border-slate-800 group-open:pt-2">
-                            O XML é mais antigo, verboso e difícil de ler (usa tags de abertura e fechamento). O JSON é moderno, leve e nativo da web. Hoje em dia, 99% das APIs modernas (REST/GraphQL) preferem JSON por ser mais rápido de processar e consumir menos banda.
-                        </div>
-                    </details>
-
-                    <details className="group border border-slate-200 dark:border-slate-700 rounded-xl bg-slate-50/50 dark:bg-slate-900/50 open:bg-white dark:open:bg-slate-900 open:shadow-md transition-all">
-                        <summary className="font-bold text-slate-800 dark:text-slate-200 flex justify-between items-center cursor-pointer p-4 list-none select-none">
-                            3. O que fazer quando recebo "Unexpected token"?
-                            <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
-                        </summary>
-                        <div className="text-slate-600 dark:text-slate-400 px-4 pb-4 pt-0 leading-relaxed border-t border-transparent group-open:border-slate-100 dark:group-open:border-slate-800 group-open:pt-2">
-                           Esse é o erro mais comum. Geralmente significa que você tem uma aspa faltando, uma vírgula a mais no final de uma lista, ou caracteres invisíveis copiados de sites da web. Cole seu código na nossa área de entrada e o nosso validador apontará a linha exata do problema.
-                        </div>
-                    </details>
-
-                    <details className="group border border-slate-200 dark:border-slate-700 rounded-xl bg-slate-50/50 dark:bg-slate-900/50 open:bg-white dark:open:bg-slate-900 open:shadow-md transition-all">
-                        <summary className="font-bold text-slate-800 dark:text-slate-200 flex justify-between items-center cursor-pointer p-4 list-none select-none">
-                            4. Existe limite de tamanho para o arquivo?
-                            <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
-                        </summary>
-                        <div className="text-slate-600 dark:text-slate-400 px-4 pb-4 pt-0 leading-relaxed border-t border-transparent group-open:border-slate-100 dark:group-open:border-slate-800 group-open:pt-2">
-                            Tecnicamente, o limite é a memória RAM do seu navegador. Nós já testamos arquivos de 50MB a 100MB com sucesso. Porém, se o arquivo for gigantesco (Gigabytes), o navegador pode travar.
-                        </div>
-                    </details>
-
-                    <details className="group border border-slate-200 dark:border-slate-700 rounded-xl bg-slate-50/50 dark:bg-slate-900/50 open:bg-white dark:open:bg-slate-900 open:shadow-md transition-all">
-                        <summary className="font-bold text-slate-800 dark:text-slate-200 flex justify-between items-center cursor-pointer p-4 list-none select-none">
-                            5. A ferramenta ordena as chaves do objeto?
-                            <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
-                        </summary>
-                        <div className="text-slate-600 dark:text-slate-400 px-4 pb-4 pt-0 leading-relaxed border-t border-transparent group-open:border-slate-100 dark:group-open:border-slate-800 group-open:pt-2">
-                           Por padrão, o JSON.stringify respeita a ordem de inserção na maioria dos navegadores modernos, mas JSON não garante ordem de chaves. Nossa ferramenta foca em validação e formatação visual, mantendo a estrutura original o máximo possível.
-                        </div>
-                    </details>
-
-                    <details className="group border border-slate-200 dark:border-slate-700 rounded-xl bg-slate-50/50 dark:bg-slate-900/50 open:bg-white dark:open:bg-slate-900 open:shadow-md transition-all">
-                         <summary className="font-bold text-slate-800 dark:text-slate-200 flex justify-between items-center cursor-pointer p-4 list-none select-none">
-                            6. Posso usar isso para converter JSON em CSV?
-                            <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
-                        </summary>
-                        <div className="text-slate-600 dark:text-slate-400 px-4 pb-4 pt-0 leading-relaxed border-t border-transparent group-open:border-slate-100 dark:group-open:border-slate-800 group-open:pt-2">
-                           Esta ferramenta específica é para validação e formatação. Para conversão de dados (JSON para CSV, XML ou Excel), estamos desenvolvendo ferramentas específicas que estarão disponíveis em breve no menu "Ferramentas".
-                        </div>
-                    </details>
-
-                    <details className="group border border-slate-200 dark:border-slate-700 rounded-xl bg-slate-50/50 dark:bg-slate-900/50 open:bg-white dark:open:bg-slate-900 open:shadow-md transition-all">
-                        <summary className="font-bold text-slate-800 dark:text-slate-200 flex justify-between items-center cursor-pointer p-4 list-none select-none">
-                            7. Por que "Mestre das Contas" tem ferramentas de dev?
-                            <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
-                        </summary>
-                        <div className="text-slate-600 dark:text-slate-400 px-4 pb-4 pt-0 leading-relaxed border-t border-transparent group-open:border-slate-100 dark:group-open:border-slate-800 group-open:pt-2">
-                           Porque empreendedores modernos, contadores e gestores tech muitas vezes precisam lidar com integrações, notas fiscais eletrônicas (que usam JSON/XML) e dados brutos. Queremos ser o hub completo para resolver seus problemas, sejam financeiros ou técnicos.
-                        </div>
-                    </details>
+                    {faqList.map((item, idx) => (
+                        <details key={idx} className="group border border-slate-200 dark:border-slate-700 rounded-xl bg-slate-50/50 dark:bg-slate-900/50 open:bg-white dark:open:bg-slate-900 open:shadow-md transition-all">
+                            <summary className="font-bold text-slate-800 dark:text-slate-200 flex justify-between items-center cursor-pointer p-4 list-none select-none">
+                                <div className="flex items-start gap-3">
+                                    <span className="text-indigo-600 dark:text-indigo-400 font-black text-sm mt-1">#{idx + 1}</span>
+                                    <span className="leading-snug">{item.p}</span>
+                                </div>
+                                <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
+                            </summary>
+                            <div className="text-slate-600 dark:text-slate-300 px-4 pb-4 pt-0 leading-relaxed border-t border-transparent group-open:border-slate-100 dark:group-open:border-slate-800 group-open:pt-2 pl-8">
+                                {item.r}
+                            </div>
+                        </details>
+                    ))}
                 </div>
             </div>
-
-        </div>
-
-        <SmartCrossLinker currentHref="/ferramentas/formatador-json" category="ferramentas" />
 
         {/* ANÚNCIO BOTTOM */}
         <div className="w-full flex justify-center mt-8 min-h-[250px]">

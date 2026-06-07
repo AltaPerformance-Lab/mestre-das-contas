@@ -7,20 +7,21 @@ import LazyAdUnit from "@/components/ads/LazyAdUnit";
 import DisclaimerBox from "@/components/ui/DisclaimerBox";
 import PageHeader from "@/components/layout/PageHeader";
 import { 
-  AlertTriangle, Calendar, Coins, CircleHelp, 
+  AlertTriangle, Calendar, Coins, HelpCircle, 
   CheckCircle2, History, BookOpen, Calculator,
   Wallet, Sun, Palmtree, Clock, FileText, Check, Briefcase, XCircle,
   Landmark, ExternalLink, Plane, ShieldCheck
 } from "lucide-react";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
 import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
+import SmartGlossaryLinker from "@/components/layout/SmartGlossaryLinker";
+import GlossaryTerm from "@/components/ui/GlossaryTerm";
 import ExpertSignature from "@/components/ui/ExpertSignature";
 
-// --- 1. METADATA DE ALTA PERFORMANCE (SEO 2026) ---
 // --- 1. METADATA DINÂMICA (SEO MAXIMIZADO) ---
 export async function generateMetadata(): Promise<Metadata> {
   const title = "Calculadora de Férias 2026 | Simule seu Valor Líquido";
-  const description = "Saiba exatamente quanto vai receber de férias em 2026. Simule o valor líquido com 1/3, abono pecuniário e descontos em segundos. Grátis e online.";
+  const description = "Vai tirar férias e quer simular o seu ganho real? Calcule o valor das suas férias com o terço constitucional, abono pecuniário e descontos. Grátis e rápido!";
 
   return {
     title,
@@ -35,10 +36,10 @@ export async function generateMetadata(): Promise<Metadata> {
       "quanto recebo de férias liquido"
     ],
     alternates: {
-      canonical: "https://mestredascontas.com.br/trabalhista/ferias" },
+      canonical: "https://mestredascontas.com.br/trabalhista/ferias" 
+    },
     openGraph: {
-      title: "Calculadora de Férias 2026 | Valor Líquido e 1/3",
-      description: "Planeje seu descanso. Calcule quanto vai receber de férias com 1/3 constitucional, abono e descontos. Grátis e preciso.",
+      title,
       url: "https://mestredascontas.com.br/trabalhista/ferias",
       siteName: "Mestre das Contas",
       locale: "pt_BR",
@@ -55,7 +56,6 @@ export async function generateMetadata(): Promise<Metadata> {
     twitter: {
       card: "summary_large_image",
       title: "Hora de descansar? Saiba quanto vai receber!",
-      description: "Simule seu pagamento de férias com 1/3 e abono pecuniário agora.",
       images: ["/opengraph-image"],
     },
     robots: {
@@ -63,16 +63,39 @@ export async function generateMetadata(): Promise<Metadata> {
       googleBot: { index: true, follow: true, "max-video-preview": -1, "max-image-preview": "large", "max-snippet": -1 } } };
 }
 
-// --- LISTA FAQ (DRY Content) ---
+// --- LISTA FAQ (Exatamente 7 Dúvidas Reais de Usuários) ---
 const faqList = [
-    { q: "Quando o pagamento das férias deve ser feito?", a: "A lei determina que o pagamento deve ser feito até 2 dias antes do início do período de descanso. Se a empresa atrasar, ela pode ser obrigada a pagar o valor em dobro (Súmula 450 do TST)." },
-    { q: "Posso vender 20 dias de férias?", a: "Não. A CLT permite converter em dinheiro (abono pecuniário) apenas 1/3 do período a que você tem direito. Se tem 30 dias, pode vender no máximo 10." },
-    { q: "O abono pecuniário (venda) tem desconto?", a: "Não! Esta é a grande vantagem. O valor correspondente aos dias vendidos e seu respectivo terço constitucional são isentos de INSS e Imposto de Renda." },
-    { q: "Posso dividir minhas férias em 3 vezes?", a: "Sim, desde a Reforma Trabalhista de 2017. Um período não pode ser menor que 14 dias corridos, e os outros não podem ser menores que 5 dias." },
-    { q: "Férias começam na sexta-feira?", a: "Não pode. A lei proíbe o início das férias no período de dois dias que antecede feriado ou descanso semanal remunerado (DSR). Logo, não pode começar na quinta ou sexta (se você folga sábado/domingo)." }
+  { 
+    q: "O que é o período aquisitivo e o período concessivo de férias?", 
+    a: "O período aquisitivo corresponde aos 12 meses de trabalho que você precisa completar na empresa para adquirir o direito a tirar férias. Já o período concessivo refere-se aos 12 meses subsequentes, período no qual a empresa é obrigada por lei a conceder os seus dias de descanso." 
+  },
+  { 
+    q: "Quando o pagamento das férias deve ser feito por lei?", 
+    a: "O pagamento das férias, incluindo o acréscimo constitucional de 1/3, deve ser depositado integralmente na conta do trabalhador até 2 dias antes do início do descanso. Caso a empresa atrase, ela é obrigada por lei a pagar o valor total das férias em dobro." 
+  },
+  { 
+    q: "Posso vender quantos dias das minhas férias?", 
+    a: "De acordo com as regras da CLT, o trabalhador pode converter em dinheiro (<GlossaryTerm slug=\"abono-pecuniario-venda-ferias\">abono pecuniário</GlossaryTerm>) até 1/3 do total de dias de férias a que tem direito. Portanto, para quem tem direito a 30 dias de férias no ano, o limite máximo permitido para venda é de 10 dias." 
+  },
+  { 
+    q: "O abono pecuniário (venda de férias) sofre descontos de impostos?", 
+    a: "Não. Essa é uma das principais vantagens financeiras de vender parte das férias. O valor recebido pela venda dos 10 dias e o seu respectivo terço constitucional de férias são totalmente isentos de descontos de INSS e Imposto de Renda (IRRF)." 
+  },
+  { 
+    q: "Como funciona o fracionamento das férias em até três vezes?", 
+    a: "A legislação permite dividir as férias em até três períodos, desde que haja concordância do trabalhador. Dentre esses períodos, um deles não pode ser inferior a 14 dias corridos, e nenhum dos outros períodos restantes pode ser menor do que 5 dias corridos cada." 
+  },
+  { 
+    q: "As férias podem começar em qualquer dia da semana?", 
+    a: "Não. A CLT proíbe expressamente o início das férias nos dois dias que antecedem um feriado ou o dia de Descanso Semanal Remunerado (DSR). Portanto, para quem folga aos sábados e domingos, as férias não podem ter início em uma quinta ou sexta-feira." 
+  },
+  { 
+    q: "O que acontece se a empresa não conceder as férias no prazo correto?", 
+    a: "Se o empregador não conceder as férias ao trabalhador dentro do limite do período concessivo (12 meses após a aquisição do direito), a empresa será penalizada e obrigada a pagar a remuneração das férias vencidas em dobro, além de estar sujeita a autuações administrativas." 
+  }
 ];
 
-// --- 2. DADOS ESTRUTURADOS (JSON-LD) ---
+// --- 2. DADOS ESTRUTURADOS (JSON-LD COMPLETO COM 7 FAQ) ---
 const jsonLd = {
   "@context": "https://schema.org",
   "@graph": [
@@ -82,48 +105,39 @@ const jsonLd = {
       "applicationCategory": "FinanceApplication",
       "operatingSystem": "Web",
       "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
-      "description": "Ferramenta online para cálculo de férias, abono pecuniário e 1/3 constitucional." },
+      "description": "Ferramenta online para cálculo de férias, abono pecuniário e 1/3 constitucional."
+    },
     {
       "@type": "HowTo",
       "name": "Como Calcular Férias com Venda de 10 Dias",
-      "description": "Veja quanto você recebe ao vender parte das férias.",
+      "description": "Aprenda a simular seu valor de férias líquidas e abono pecuniário passo a passo.",
       "image": "https://mestredascontas.com.br/opengraph-image",
       "step": [
         {
           "@type": "HowToStep",
-          "name": "Salário Bruto",
-          "text": "Informe o valor do seu salário registrado em carteira."
+          "name": "Informe o Salário Bruto",
+          "text": "Digite o seu salário contratual em carteira de trabalho para iniciar os cálculos."
         },
         {
           "@type": "HowToStep",
-          "name": "Dias de Descanso",
-          "text": "Escolha se vai tirar 30, 20 ou 15 dias de férias."
-        },
-        {
-           "@type": "HowToStep",
-           "name": "Abono Pecuniário",
-           "text": "Marque a opção 'Vender 10 dias' para adicionar o valor extra isento de impostos."
+          "name": "Escolha os Dias de Gozo",
+          "text": "Selecione se pretende descansar 30, 20 ou 15 dias no ano."
         },
         {
           "@type": "HowToStep",
-          "name": "Adiantamento do 13º",
-          "text": "Se desejar, inclua a primeira parcela do décimo terceiro no cálculo."
+          "name": "Configure a Venda (Abono)",
+          "text": "Ative a venda de 10 dias se preferir receber o abono pecuniário de férias."
         }
       ]
     },
     {
-      "@type": "TechArticle",
-      "headline": "Guia Completo das Férias: Cálculo, Venda e Prazos 2026",
-      "description": "Tudo o que você precisa saber antes de sair de férias: como calcular, quando o dinheiro cai e se vale a pena vender 10 dias.",
-      "proficiencyLevel": "Beginner",
-      "author": { "@type": "Organization", "name": "Equipe Trabalhista Mestre das Contas", "url": "https://mestredascontas.com.br/sobre" },
+      "@type": "Article",
+      "headline": "Guia Completo de Férias CLT: Períodos, Venda e Remuneração Líquida",
+      "description": "Aprenda a planejar suas férias entendendo o período aquisitivo e concessivo, regras de faltas e impostos retidos.",
+      "author": { "@type": "Organization", "name": "Mestre das Contas" },
       "publisher": { "@type": "Organization", "name": "Mestre das Contas", "logo": { "@type": "ImageObject", "url": "https://mestredascontas.com.br/opengraph-image" } },
       "datePublished": "2024-11-01",
-      "dateModified": new Date().toISOString(),
-      "speakable": {
-           "@type": "SpeakableSpecification",
-           "xpath": ["/html/head/title", "/html/head/meta[@name='description']/@content"]
-      }
+      "dateModified": new Date().toISOString()
     },
     {
       "@type": "FAQPage",
@@ -132,27 +146,15 @@ const jsonLd = {
         "name": item.q,
         "acceptedAnswer": { "@type": "Answer", "text": item.a }
       }))
-    },
-    {
-      "@type": "BreadcrumbList",
-      "itemListElement": [
-        { "@type": "ListItem", "position": 1, "name": "Início", "item": "https://mestredascontas.com.br" },
-        { "@type": "ListItem", "position": 2, "name": "Trabalhista", "item": "https://mestredascontas.com.br/trabalhista" },
-        { "@type": "ListItem", "position": 3, "name": "Calculadora de Férias", "item": "https://mestredascontas.com.br/trabalhista/ferias" }
-      ]
     }
   ]
 };
 
 export default async function FeriasPage() {
-
-  // --- PÁGINA COMPLETA ---
   return (
     <article className="w-full max-w-full overflow-hidden pb-12">
-      
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
-      {/* --- PAGE HEADER PADRONIZADO --- */}
       {/* --- PAGE HEADER PADRONIZADO --- */}
       <div className="px-4 sm:px-6 pt-4 md:pt-6 max-w-7xl mx-auto w-full">
         <PageHeader 
@@ -160,8 +162,8 @@ export default async function FeriasPage() {
           description="Chegou a hora do descanso! Simule o valor líquido das suas férias, incluindo a opção de vender 10 dias (abono pecuniário) e adiantar o 13º salário."
           category="Direito Trabalhista"
           icon={<Palmtree size={32} strokeWidth={2} />}
-          variant="default" // Azul/Indigo
-          categoryColor="amber" // Destaque Laranja/Amarelo
+          variant="default" 
+          categoryColor="amber" 
           badge="Tabela 2026"
           breadcrumbs={[
             { label: "Trabalhista", href: "/trabalhista" },
@@ -194,23 +196,17 @@ export default async function FeriasPage() {
            <LazyAdUnit slot="ferias_top" format="horizontal" variant="agency" />
         </div>
 
-        {/* REVISÃO TRABALHISTA (E-E-A-T) */}
-        <div className="bg-blue-50/50 dark:bg-blue-900/10 border border-blue-100 dark:border-blue-800 p-4 rounded-2xl flex items-center gap-3 text-xs text-blue-700 dark:text-blue-300 mb-2">
-          <ShieldCheck size={18} className="text-blue-600 shrink-0" />
-          <span>Cálculo de férias atualizado com as novas alíquotas de INSS e IRRF vigentes em 2026.</span>
-        </div>
-
         {/* FERRAMENTA */}
         <section id="ferramenta" className="scroll-mt-28 w-full max-w-full">
           <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/40 dark:shadow-none p-1 md:p-2">
-                  <PrivacyBadge />
-                  <Suspense fallback={<div className="h-96 w-full bg-slate-100 dark:bg-slate-800 animate-pulse rounded-3xl" />}>
-                    <VacationCalculator />
-                  </Suspense>
+            <PrivacyBadge />
+            <Suspense fallback={<div className="h-96 w-full bg-slate-100 dark:bg-slate-800 animate-pulse rounded-3xl" />}>
+              <VacationCalculator />
+            </Suspense>
           </div>
           
           <div className="mt-8 print:hidden max-w-5xl mx-auto">
-              <DisclaimerBox />
+            <DisclaimerBox />
           </div>
         </section>
 
@@ -219,200 +215,211 @@ export default async function FeriasPage() {
             <LazyAdUnit slot="ferias_mid" format="auto" />
         </div>
 
-        {/* --- CONTEÚDO EDUCACIONAL DENSO --- */}
-        <div className="prose prose-slate dark:prose-invert prose-sm md:prose-lg w-full max-w-none mx-auto bg-white dark:bg-slate-900 p-6 md:p-12 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-xl shadow-slate-200/40 dark:shadow-none overflow-hidden print:hidden">
+        {/* --- CONTEÚDO EDUCACIONAL DENSO (ADSENSE & AI GROUNDING RICH) --- */}
+        <div className="prose prose-slate dark:prose-invert prose-sm md:prose-lg w-full max-w-4xl mx-auto bg-white dark:bg-slate-900 p-6 md:p-12 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-xl shadow-slate-200/40 dark:shadow-none overflow-hidden print:hidden">
           
           <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-slate-100 mb-6 flex items-center gap-2 border-l-4 border-amber-500 pl-4">
-              Como funciona o cálculo das Férias?
+              O Segredo Oculto no Cálculo das Férias Trabalhistas
           </h2>
+          
           <p className="lead text-slate-700 dark:text-slate-300 text-lg font-medium">
-            Todo trabalhador CLT tem direito a 30 dias de descanso remunerado após completar 12 meses de trabalho (o chamado período aquisitivo). 
-            Mas o melhor vem agora: você recebe seu salário adiantado + um bônus obrigatório de 1/3!
-          </p>
-          <p>
-            Muitas pessoas confundem o "vender férias" com perder dinheiro, mas na verdade, o <strong>Abono Pecuniário</strong> é uma das formas mais inteligentes de aumentar sua renda líquida no ano, pois é livre de impostos.
+            Você já sentiu aquela incrível sensação de alívio ao ver a data das suas férias se aproximando, para logo depois se deparar com a clássica confusão de como calcular o valor líquido a receber?
           </p>
 
-          <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100 mt-10 mb-4 flex items-center gap-2">
-              <BookOpen className="text-amber-600 dark:text-amber-500" /> Tabela de Faltas e Dias de Direito
+          <p>
+            A verdade é que planejar o merecido descanso é maravilhoso, mas a matemática que envolve as férias no regime CLT pode parecer um verdadeiro labirinto cheio de regras.
+          </p>
+
+          <p>
+            Veja bem, as férias funcionam como um saldo de bateria recarregável. Nós passamos um ano inteiro desgastando nossas energias e investindo dedicação no trabalho.
+          </p>
+
+          <p>
+            Quando o ciclo se fecha, a legislação nos concede a chance de desconectar sem que nosso bolso sofra com a perda de rendimentos.
+          </p>
+
+          <p>
+            O melhor de tudo? Além do adiantamento integral do seu salário normal, você ainda conta com o reforço financeiro do famoso 1/3 Constitucional de férias!
+          </p>
+
+          <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100 mt-10 mb-4 flex items-center gap-2 border-l-4 border-amber-500 pl-4">
+              Período Aquisitivo vs Período Concessivo: Evite Mal-Entendidos
           </h3>
-          <p className="mb-6">Cuidado: suas faltas injustificadas durante o ano podem reduzir o seu período de descanso. Confira a regra oficial do Art. 130 da CLT:</p>
-          
-          <div className="overflow-x-auto mb-10 not-prose">
-              <table className="w-full text-sm text-left border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-sm">
-                  <thead className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200">
-                      <tr>
-                          <th className="p-4 font-bold border-b border-slate-200 dark:border-slate-700">Faltas Injustificadas</th>
-                          <th className="p-4 font-bold border-b border-slate-200 dark:border-slate-700 text-center">Dias de Férias</th>
-                          <th className="p-4 font-bold border-b border-slate-200 dark:border-slate-700">O que você recebe?</th>
-                      </tr>
-                  </thead>
-                  <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
-                      <tr className="hover:bg-slate-50 dark:hover:bg-slate-900/50 transition-colors">
-                          <td className="p-4">Até <strong>5 faltas</strong></td>
-                          <td className="p-4 text-center font-bold text-emerald-600">30 dias</td>
-                          <td className="p-4">Período Integral</td>
-                      </tr>
-                      <tr className="hover:bg-slate-50 dark:hover:bg-slate-900/50 transition-colors">
-                          <td className="p-4">De <strong>6 a 14 faltas</strong></td>
-                          <td className="p-4 text-center font-bold">24 dias</td>
-                          <td className="p-4">Redução de 6 dias</td>
-                      </tr>
-                      <tr className="hover:bg-slate-50 dark:hover:bg-slate-900/50 transition-colors">
-                          <td className="p-4">De <strong>15 a 23 faltas</strong></td>
-                          <td className="p-4 text-center font-bold">18 dias</td>
-                          <td className="p-4">Redução de 12 dias</td>
-                      </tr>
-                      <tr className="hover:bg-slate-50 dark:hover:bg-slate-900/50 transition-colors">
-                          <td className="p-4">De <strong>24 a 32 faltas</strong></td>
-                          <td className="p-4 text-center font-bold">12 dias</td>
-                          <td className="p-4">Redução de 18 dias</td>
-                      </tr>
-                      <tr className="bg-red-50/50 dark:bg-red-900/20 hover:bg-red-50 dark:hover:bg-red-900/30 transition-colors">
-                          <td className="p-4 font-bold text-red-900 dark:text-red-400">Acima de 32 faltas</td>
-                          <td className="p-4 text-center font-black text-red-600">0 dias</td>
-                          <td className="p-4 font-bold text-red-800 dark:text-red-400">Perda do Direito</td>
-                      </tr>
-                  </tbody>
-              </table>
-              <p className="mt-2 text-[10px] text-slate-400 text-center italic">* Faltas justificadas (atestados, óbito em família, etc.) não entram nessa contagem.</p>
+
+          <p>
+            Um dos maiores equívocos cometidos no dia a dia das empresas diz respeito aos prazos e conceitos de aquisição e concessão dos dias de folga.
+          </p>
+
+          <p>
+            Para que você nunca mais seja pego de surpresa, estruturamos uma comparação clara e direta sobre a diferença fundamental entre essas duas etapas previstas em lei.
+          </p>
+
+          <div className="not-prose my-6 overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+            <table className="w-full min-w-[600px] text-sm text-left border-collapse bg-white dark:bg-slate-900">
+              <thead>
+                <tr className="bg-slate-50 dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700">
+                  <th scope="col" className="px-6 py-3 font-bold text-slate-700 dark:text-slate-300">Conceito</th>
+                  <th scope="col" className="px-6 py-3 font-bold text-slate-700 dark:text-slate-300">Período Aquisitivo</th>
+                  <th scope="col" className="px-6 py-3 font-bold text-slate-700 dark:text-slate-300">Período Concessivo</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-slate-650 dark:text-slate-350">
+                <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
+                  <td className="px-6 py-4 font-semibold text-slate-900 dark:text-slate-100">O que significa?</td>
+                  <td className="px-6 py-4 text-xs">Os primeiros 12 meses em que você trabalha na empresa para ganhar o direito.</td>
+                  <td className="px-6 py-4 text-xs">Os 12 meses seguintes nos quais o patrão deve obrigar você a descansar.</td>
+                </tr>
+                <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
+                  <td className="px-6 py-4 font-semibold text-slate-900 dark:text-slate-100">Quem decide a data?</td>
+                  <td className="px-6 py-4 text-xs">Fase de contagem automática de dias prestados e faltas injustificadas.</td>
+                  <td className="px-6 py-4 text-xs font-semibold text-amber-600">A decisão final da data cabe exclusivamente ao empregador.</td>
+                </tr>
+                <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
+                  <td className="px-6 py-4 font-semibold text-slate-900 dark:text-slate-100">Consequência de Atrasos</td>
+                  <td className="px-6 py-4 text-xs">Caso seja demitido antes de tirar, recebe férias proporcionais.</td>
+                  <td className="px-6 py-4 text-xs font-semibold text-red-600">Se passar do prazo final, o patrão deve pagar tudo em dobro!</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
 
-          {/* CARDS EXPLICATIVOS */}
-          <div className="grid md:grid-cols-3 gap-6 not-prose my-8">
-              <div className="bg-amber-50 dark:bg-amber-900/10 p-5 rounded-2xl border border-amber-200 dark:border-amber-900/30 hover:shadow-md transition-shadow">
-                  <Sun className="text-amber-600 dark:text-amber-500 mb-3" size={32} />
-                  <h3 className="font-bold text-amber-900 dark:text-amber-400 mb-2 text-lg">Salário + 1/3</h3>
-                  <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
-                      Você recebe o salário dos dias que vai descansar, acrescido de 1/3 constitucional (33,33% a mais) para curtir as férias.
-                  </p>
-              </div>
-              <div className="bg-green-50 dark:bg-green-900/10 p-5 rounded-2xl border border-green-200 dark:border-green-900/30 hover:shadow-md transition-shadow">
-                  <Wallet className="text-green-600 dark:text-green-500 mb-3" size={32} />
-                  <h3 className="font-bold text-green-900 dark:text-green-400 mb-2 text-lg">Abono Pecuniário</h3>
-                  <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
-                      É a famosa "venda de férias". Você pode trocar até 10 dias de descanso por dinheiro. A vantagem? Esse valor é <strong>isento de impostos</strong>.
-                  </p>
-              </div>
-              <div className="bg-blue-50 dark:bg-blue-900/10 p-5 rounded-2xl border border-blue-200 dark:border-blue-900/30 hover:shadow-md transition-shadow">
-                  <Calendar className="text-blue-600 dark:text-blue-500 mb-3" size={32} />
-                  <h3 className="font-bold text-blue-900 dark:text-blue-400 mb-2 text-lg">Adiantamento 13º</h3>
-                  <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
-                      Você pode pedir a 1ª parcela do 13º salário para receber junto com as férias. O prazo para solicitar isso geralmente é Janeiro.
-                  </p>
-              </div>
+          <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100 mt-10 mb-4 flex items-center gap-2">
+              <BookOpen className="text-amber-600 dark:text-amber-500" /> Tabela de Faltas e Seus Reflexos nas Férias
+          </h3>
+          
+          <p className="mb-6">
+            Fique extremamente atento: suas ausências sem justificativa legal ao longo do ano interferem diretamente no tempo de descanso regulamentado. 
+          </p>
+          
+          <div className="overflow-x-auto mb-10 not-prose rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+            <table className="w-full min-w-[600px] text-sm text-left border-collapse bg-white dark:bg-slate-900">
+              <thead className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200">
+                <tr>
+                  <th className="p-4 font-bold border-b border-slate-200 dark:border-slate-700">Faltas Injustificadas no Ano</th>
+                  <th className="p-4 font-bold border-b border-slate-200 dark:border-slate-700 text-center">Dias de Férias Restantes</th>
+                  <th className="p-4 font-bold border-b border-slate-200 dark:border-slate-700">Impacto Legal</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-slate-650 dark:text-slate-350">
+                <tr className="hover:bg-slate-50 dark:hover:bg-slate-900/50 transition-colors">
+                  <td className="p-4">Até <strong>5 faltas</strong></td>
+                  <td className="p-4 text-center font-bold text-emerald-600">30 dias</td>
+                  <td className="p-4 text-xs">Sem penalidades aplicadas.</td>
+                </tr>
+                <tr className="hover:bg-slate-50 dark:hover:bg-slate-900/50 transition-colors">
+                  <td className="p-4">De <strong>6 a 14 faltas</strong></td>
+                  <td className="p-4 text-center font-bold text-slate-800 dark:text-slate-100">24 dias</td>
+                  <td className="p-4 text-xs">Perda de 6 dias de repouso.</td>
+                </tr>
+                <tr className="hover:bg-slate-50 dark:hover:bg-slate-900/50 transition-colors">
+                  <td className="p-4">De <strong>15 a 23 faltas</strong></td>
+                  <td className="p-4 text-center font-bold text-slate-800 dark:text-slate-100">18 dias</td>
+                  <td className="p-4 text-xs">Perda de 12 dias de repouso.</td>
+                </tr>
+                <tr className="hover:bg-slate-50 dark:hover:bg-slate-900/50 transition-colors">
+                  <td className="p-4">De <strong>24 a 32 faltas</strong></td>
+                  <td className="p-4 text-center font-bold text-slate-800 dark:text-slate-100">12 dias</td>
+                  <td className="p-4 text-xs">Perda de 18 dias de repouso.</td>
+                </tr>
+                <tr className="bg-red-50/50 dark:bg-red-900/20 hover:bg-red-50 dark:hover:bg-red-900/30 transition-colors">
+                  <td className="p-4 font-bold text-red-900 dark:text-red-400">Acima de 32 faltas</td>
+                  <td className="p-4 text-center font-black text-red-600">0 dias</td>
+                  <td className="p-4 font-bold text-red-800 dark:text-red-450 text-xs">Perda total do direito ao descanso anual.</td>
+                </tr>
+              </tbody>
+            </table>
+            <p className="mt-2 text-[10px] text-slate-400 text-center italic p-2 bg-slate-50 dark:bg-slate-800">* Apenas ausências não justificadas reduzem o prazo. Atestados médicos legais mantêm seu saldo intocado.</p>
           </div>
 
           <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100 mt-10 mb-6 flex items-center gap-2">
-              <FileText className="text-slate-500 dark:text-slate-400" /> O que é descontado (Tributação)?
+              <FileText className="text-slate-500 dark:text-slate-400" /> A Anatomia das Verbas do Seu Holerite de Férias
           </h3>
+
           <p>
-              Sim, o leão morde suas férias. O INSS e o Imposto de Renda incidem sobre o pagamento, mas <strong>não sobre tudo</strong>. Veja a tabela abaixo para entender onde você economiza:
+            Muitas pessoas consideram o desconto do INSS e do Imposto de Renda (IRRF) nas férias um mistério absoluto. 
           </p>
 
-          {/* TABELA DE TRIBUTAÇÃO (OBRIGATÓRIA) */}
-          <div className="my-8">
-              {/* DESKTOP TABLE */}
-              <div className="hidden md:block border rounded-xl overflow-hidden border-slate-200 dark:border-slate-700 shadow-sm bg-white dark:bg-slate-900">
-                  <div className="bg-slate-100 dark:bg-slate-800 p-3 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
-                      <h4 className="text-sm font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wide">Tabela de Incidência</h4>
-                      <span className="text-xs text-slate-500 font-medium">Regra Geral CLT</span>
-                  </div>
-                  <table className="w-full text-sm text-left border-collapse">
-                      <thead className="bg-slate-50 dark:bg-slate-800/50 text-slate-600 dark:text-slate-300 text-xs">
-                          <tr>
-                              <th className="px-6 py-3 font-bold border-b border-slate-200 dark:border-slate-700">Verba</th>
-                              <th className="px-6 py-3 font-bold border-b border-slate-200 dark:border-slate-700 text-center">Incide INSS?</th>
-                              <th className="px-6 py-3 font-bold border-b border-slate-200 dark:border-slate-700 text-center">Incide IRRF?</th>
-                          </tr>
-                      </thead>
-                      <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
-                          <tr className="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
-                              <td className="px-6 py-4 font-medium text-slate-900 dark:text-slate-100">Férias Gozadas (Descanso)</td>
-                              <td className="px-6 py-4 text-center"><span className="inline-flex items-center gap-1 text-red-700 dark:text-red-400 font-bold text-[10px] uppercase bg-red-100 dark:bg-red-900/30 px-2 py-1 rounded-full"><XCircle size={12}/> Sim</span></td>
-                              <td className="px-6 py-4 text-center"><span className="inline-flex items-center gap-1 text-red-700 dark:text-red-400 font-bold text-[10px] uppercase bg-red-100 dark:bg-red-900/30 px-2 py-1 rounded-full"><XCircle size={12}/> Sim</span></td>
-                          </tr>
-                          <tr className="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
-                              <td className="px-6 py-4 font-medium text-slate-900 dark:text-slate-100">1/3 Constitucional (sobre gozo)</td>
-                              <td className="px-6 py-4 text-center"><span className="inline-flex items-center gap-1 text-red-700 dark:text-red-400 font-bold text-[10px] uppercase bg-red-100 dark:bg-red-900/30 px-2 py-1 rounded-full"><XCircle size={12}/> Sim</span></td>
-                              <td className="px-6 py-4 text-center"><span className="inline-flex items-center gap-1 text-red-700 dark:text-red-400 font-bold text-[10px] uppercase bg-red-100 dark:bg-red-900/30 px-2 py-1 rounded-full"><XCircle size={12}/> Sim</span></td>
-                          </tr>
-                          <tr className="bg-green-50/50 dark:bg-green-900/10 hover:bg-green-50 dark:hover:bg-green-900/20 transition-colors">
-                              <td className="px-6 py-4 font-bold text-green-800 dark:text-green-300">Abono Pecuniário (Venda)</td>
-                              <td className="px-6 py-4 text-center"><span className="inline-flex items-center gap-1 text-green-700 dark:text-green-300 font-bold text-[10px] uppercase bg-green-100 dark:bg-green-900/30 px-2 py-1 rounded-full border border-green-200 dark:border-green-800"><Check size={12}/> Isento</span></td>
-                              <td className="px-6 py-4 text-center"><span className="inline-flex items-center gap-1 text-green-700 dark:text-green-300 font-bold text-[10px] uppercase bg-green-100 dark:bg-green-900/30 px-2 py-1 rounded-full border border-green-200 dark:border-green-800"><Check size={12}/> Isento</span></td>
-                          </tr>
-                          <tr className="bg-green-50/50 dark:bg-green-900/10 hover:bg-green-50 dark:hover:bg-green-900/20 transition-colors">
-                              <td className="px-6 py-4 font-bold text-green-800 dark:text-green-300">1/3 sobre Abono</td>
-                              <td className="px-6 py-4 text-center"><span className="inline-flex items-center gap-1 text-green-700 dark:text-green-300 font-bold text-[10px] uppercase bg-green-100 dark:bg-green-900/30 px-2 py-1 rounded-full border border-green-200 dark:border-green-800"><Check size={12}/> Isento</span></td>
-                              <td className="px-6 py-4 text-center"><span className="inline-flex items-center gap-1 text-green-700 dark:text-green-300 font-bold text-[10px] uppercase bg-green-100 dark:bg-green-900/30 px-2 py-1 rounded-full border border-green-200 dark:border-green-800"><Check size={12}/> Isento</span></td>
-                          </tr>
-                      </tbody>
-                  </table>
-              </div>
+          <p>
+            A verdade é que os tributos incidem sobre a maior parte do salário que você recebe antecipadamente e seu respectivo terço de férias.
+          </p>
 
-              {/* MOBILE CARDS */}
-              <div className="md:hidden space-y-3">
-                  {[
-                      { verba: "Férias Gozadas", inss: true, irrf: true },
-                      { verba: "1/3 sobre Gozo", inss: true, irrf: true },
-                      { verba: "Abono (Venda 10 dias)", inss: false, irrf: false, highlight: true },
-                      { verba: "1/3 sobre Abono", inss: false, irrf: false, highlight: true },
-                  ].map((item, idx) => (
-                      <div key={idx} className={`p-4 rounded-xl border flex justify-between items-center ${item.highlight ? 'bg-green-50/50 dark:bg-green-900/10 border-green-200 dark:border-green-900/30' : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800'}`}>
-                          <div>
-                              <span className="font-bold text-slate-800 dark:text-slate-100 text-sm block">{item.verba}</span>
-                          </div>
-                          <div className="flex gap-4">
-                              <div className="text-center">
-                                  <span className="text-[9px] font-bold text-slate-400 uppercase block mb-1">INSS</span>
-                                  {item.inss ? <span className="text-red-600 font-bold text-xs"><XCircle size={16} /></span> : <span className="text-green-600 font-bold text-xs"><Check size={16} /></span>}
-                              </div>
-                              <div className="text-center">
-                                  <span className="text-[9px] font-bold text-slate-400 uppercase block mb-1">IRRF</span>
-                                  {item.irrf ? <span className="text-red-600 font-bold text-xs"><XCircle size={16} /></span> : <span className="text-green-600 font-bold text-xs"><Check size={16} /></span>}
-                              </div>
-                          </div>
-                      </div>
-                  ))}
-              </div>
+          <p>
+            Apenas uma saída legal muito atraente! Se você decidir realizar a venda das férias (<GlossaryTerm slug="abono-pecuniario-venda-ferias">abono pecuniário</GlossaryTerm>), esse saldo extra entra direto na sua conta, 100% livre de qualquer tributação.
+          </p>
+
+          <div className="my-8 not-prose border rounded-xl overflow-hidden border-slate-200 dark:border-slate-800 shadow-sm bg-white dark:bg-slate-900">
+            <div className="bg-slate-100 dark:bg-slate-800 p-3 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
+              <h4 className="text-sm font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wide">Incidência de Impostos nas Férias</h4>
+              <span className="text-xs text-slate-500 font-medium">Instrução Normativa RFB</span>
+            </div>
+            <div className="overflow-x-auto">
+              <table className="w-full min-w-[600px] text-sm text-left border-collapse">
+              <thead className="bg-slate-50 dark:bg-slate-800/50 text-slate-600 dark:text-slate-300 text-xs">
+                <tr>
+                  <th className="px-6 py-3 font-bold border-b border-slate-200 dark:border-slate-700">Verba / Parcela Recebida</th>
+                  <th className="px-6 py-3 font-bold border-b border-slate-200 dark:border-slate-700 text-center">Desconto de INSS</th>
+                  <th className="px-6 py-3 font-bold border-b border-slate-200 dark:border-slate-700 text-center">Desconto de IRRF</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+                <tr className="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                  <td className="px-6 py-4 font-medium text-slate-900 dark:text-slate-100">Férias Gozadas (Descanso Normal)</td>
+                  <td className="px-6 py-4 text-center"><span className="inline-flex items-center gap-1 text-red-700 dark:text-red-400 font-bold text-[10px] uppercase bg-red-100 dark:bg-red-900/30 px-2 py-1 rounded-full"><XCircle size={12}/> Sim</span></td>
+                  <td className="px-6 py-4 text-center"><span className="inline-flex items-center gap-1 text-red-700 dark:text-red-400 font-bold text-[10px] uppercase bg-red-100 dark:bg-red-900/30 px-2 py-1 rounded-full"><XCircle size={12}/> Sim</span></td>
+                </tr>
+                <tr className="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                  <td className="px-6 py-4 font-medium text-slate-900 dark:text-slate-100">1/3 Constitucional sobre os Dias de Descanso</td>
+                  <td className="px-6 py-4 text-center"><span className="inline-flex items-center gap-1 text-red-700 dark:text-red-400 font-bold text-[10px] uppercase bg-red-100 dark:bg-red-900/30 px-2 py-1 rounded-full"><XCircle size={12}/> Sim</span></td>
+                  <td className="px-6 py-4 text-center"><span className="inline-flex items-center gap-1 text-red-700 dark:text-red-400 font-bold text-[10px] uppercase bg-red-100 dark:bg-red-900/30 px-2 py-1 rounded-full"><XCircle size={12}/> Sim</span></td>
+                </tr>
+                <tr className="bg-green-50/50 dark:bg-green-900/10 hover:bg-green-50 dark:hover:bg-green-900/20 transition-colors">
+                  <td className="px-6 py-4 font-bold text-green-800 dark:text-green-300">Abono Pecuniário (Venda dos 10 Dias)</td>
+                  <td className="px-6 py-4 text-center"><span className="inline-flex items-center gap-1 text-green-700 dark:text-green-300 font-bold text-[10px] uppercase bg-green-100 dark:bg-green-900/30 px-2 py-1 rounded-full border border-green-200"><Check size={12}/> Isento</span></td>
+                  <td className="px-6 py-4 text-center"><span className="inline-flex items-center gap-1 text-green-700 dark:text-green-300 font-bold text-[10px] uppercase bg-green-100 dark:bg-green-900/30 px-2 py-1 rounded-full border border-green-200"><Check size={12}/> Isento</span></td>
+                </tr>
+                <tr className="bg-green-50/50 dark:bg-green-900/10 hover:bg-green-50 dark:hover:bg-green-900/20 transition-colors">
+                  <td className="px-6 py-4 font-bold text-green-800 dark:text-green-300">1/3 Constitucional sobre o Abono</td>
+                  <td className="px-6 py-4 text-center"><span className="inline-flex items-center gap-1 text-green-700 dark:text-green-300 font-bold text-[10px] uppercase bg-green-100 dark:bg-green-900/30 px-2 py-1 rounded-full border border-green-200"><Check size={12}/> Isento</span></td>
+                  <td className="px-6 py-4 text-center"><span className="inline-flex items-center gap-1 text-green-700 dark:text-green-300 font-bold text-[10px] uppercase bg-green-100 dark:bg-green-900/30 px-2 py-1 rounded-full border border-green-200"><Check size={12}/> Isento</span></td>
+                </tr>
+              </tbody>
+            </table>
           </div>
+        </div>
 
-          {/* CURIOSIDADE HISTÓRICA */}
-          <div className="bg-gradient-to-br from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20 p-6 md:p-8 rounded-2xl border border-amber-100 dark:border-amber-900/30 my-10 not-prose relative overflow-hidden shadow-sm">
-              <div className="absolute top-0 right-0 p-4 opacity-10">
-                  <Palmtree size={140} className="text-amber-900 dark:text-amber-500"/>
-              </div>
-              <h3 className="text-xl font-bold text-amber-900 dark:text-amber-400 mb-4 flex items-center gap-2 relative z-10">
-                  <History size={24} className="text-amber-600 dark:text-amber-500"/> Você Sabia? Férias nem sempre existiram
-              </h3>
-              <div className="space-y-4 text-slate-700 dark:text-slate-300 relative z-10 text-sm md:text-base leading-relaxed">
-                  <p>
-                      No início da industrialização, trabalhava-se até a exaustão, sem férias remuneradas. No Brasil, o direito a 15 dias de férias só surgiu em <strong>1925</strong>, mas apenas para ferroviários e bancários.
-                  </p>
-                  <p>
-                      A extensão para todos os operários veio com Getúlio Vargas em 1943 (CLT). Mas o famoso <strong>&quot;Terço de Férias&quot;</strong> (o bônus de 33%) é uma conquista mais recente: nasceu apenas com a Constituição de 1988, para garantir que o trabalhador tivesse dinheiro extra para realmente viajar ou descansar.
-                  </p>
-              </div>
-          </div>
+          <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100 mt-10 mb-4">
+              Dica Pro: Maximize Sua Renda unindo Férias e Décimo Terceiro
+          </h3>
 
-          {/* FAQ ACORDION */}
+          <p>
+            Você sabia que é possível unir forças com a primeira parcela do seu 13º salário e programá-la para cair no mesmo depósito de férias?
+          </p>
+
+          <p>
+            Isso cria uma volumosa injeção de liquidez na sua conta corrente logo antes de embarcar em sua viagem.
+          </p>
+
+          <p>
+            No entanto, fique muito atento aos prazos burocráticos! O requerimento para receber a antecipação deve ser realizado por escrito ao departamento de recursos humanos até o dia 31 de janeiro de cada ano.
+          </p>
+
+          {/* FAQ ACORDION COM 7 ITENS */}
           <div className="mt-16 not-prose">
             <h3 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-8 flex items-center gap-3 border-b border-slate-200 dark:border-slate-800 pb-4">
-                <CircleHelp className="text-blue-600 dark:text-blue-400" /> Perguntas Frequentes (FAQ)
+                <HelpCircle className="text-amber-500" /> Dúvidas Frequentes sobre Férias (CLT)
             </h3>
             
             <div className="space-y-4">
               {faqList.map((item, idx) => (
-                  <details key={idx} className="group bg-white dark:bg-slate-800/50 p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm cursor-pointer open:ring-2 open:ring-amber-100 dark:open:ring-amber-900/30 transition-all">
-                      <summary className="font-semibold text-slate-800 dark:text-slate-100 list-none flex justify-between items-center select-none">
+                  <details key={idx} className="group bg-white dark:bg-slate-900 p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm cursor-pointer open:ring-2 open:ring-amber-100 dark:open:ring-amber-900/30 transition-all">
+                      <summary className="font-semibold text-slate-850 dark:text-slate-100 list-none flex justify-between items-center select-none">
                           <div className="flex items-start gap-3">
                               <span className="text-amber-500 font-bold text-xs mt-1">#</span>
-                              <span className="leading-snug">{item.q}</span>
+                              <span className="leading-snug text-slate-850 dark:text-slate-200">{item.q}</span>
                           </div>
                           <span className="text-slate-400 group-open:rotate-180 transition-transform ml-2 shrink-0">▼</span>
                       </summary>
-                      <p className="mt-3 text-slate-600 dark:text-slate-300 leading-relaxed border-t border-slate-100 dark:border-slate-700 pt-3 text-sm animate-in fade-in">
+                      <p className="mt-3 text-slate-650 dark:text-slate-350 leading-relaxed border-t border-slate-100 dark:border-slate-800 pt-3 text-sm animate-in fade-in">
                           {item.a}
                       </p>
                   </details>
@@ -423,26 +430,24 @@ export default async function FeriasPage() {
           {/* REFERÊNCIAS OFICIAIS */}
           <div className="mt-12 pt-8 border-t border-slate-200 dark:border-slate-800 print:hidden not-prose bg-slate-50 dark:bg-slate-800/50 p-6 rounded-xl">
               <h3 className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-4 flex items-center gap-2">
-                  <Landmark size={16} /> Legislação e Fontes
+                  <Landmark size={16} /> Legislação e Fontes Oficiais
               </h3>
-              <p className="text-xs text-slate-500 dark:text-slate-400 mb-3">Consulte a legislação original para mais detalhes:</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mb-3">Consulte diretamente a legislação original:</p>
               <div className="flex flex-wrap gap-4 text-xs font-medium text-blue-600 dark:text-blue-400">
                   <a href="https://www.planalto.gov.br/ccivil_03/decreto-lei/del5452.htm" target="_blank" rel="nofollow noopener noreferrer" className="hover:underline flex items-center gap-1 bg-white dark:bg-slate-900 px-3 py-1 rounded border dark:border-slate-700 shadow-sm">
-                      CLT - Artigos 129 a 153 <ExternalLink size={10}/>
+                      CLT - Artigos 129 a 153 (Férias) <ExternalLink size={10}/>
                   </a>
                   <a href="https://www.tst.jus.br/sumulas" target="_blank" rel="nofollow noopener noreferrer" className="hover:underline flex items-center gap-1 bg-white dark:bg-slate-900 px-3 py-1 rounded border dark:border-slate-700 shadow-sm">
-                      Súmula 450 TST (Atraso) <ExternalLink size={10}/>
+                      Súmula 450 TST (Pagamento no Prazo) <ExternalLink size={10}/>
                   </a>
               </div>
           </div>
 
-          <ExpertSignature updatedAt="Maio de 2026" author="Equipe Editorial" />
-          {/* NAVEGAÇÃO FINAL */}
-          </div>
-          
-          <SmartCrossLinker currentHref="/trabalhista/ferias" category="trabalhista" />
+          <ExpertSignature updatedAt="Junho de 2026" author="Rodrigo Costa (Analista de Sistemas)" />
+        </div>
 
-
+        <SmartGlossaryLinker currentHref="/trabalhista/ferias" />
+        <SmartCrossLinker currentHref="/trabalhista/ferias" category="trabalhista" />
 
         {/* --- ANÚNCIO BOTTOM (ESTRATÉGICO) --- */}
         <div className="w-full flex justify-center my-8 print:hidden min-h-[250px]">

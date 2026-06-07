@@ -6,6 +6,8 @@ import PageHeader from "@/components/layout/PageHeader";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
 import DisclaimerBox from "@/components/ui/DisclaimerBox";
 import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
+import SmartGlossaryLinker from "@/components/layout/SmartGlossaryLinker";
+import GlossaryTerm from "@/components/ui/GlossaryTerm";
 import { Users, BarChart3, TrendingUp, CheckCircle2, ArrowLeft, Share2, HelpCircle, BookOpen, AlertTriangle } from "lucide-react";
 import Link from 'next/link';
 import ExpertSignature from "@/components/ui/ExpertSignature";
@@ -61,6 +63,39 @@ export default async function PseoSalaryComparatorPage({ params }: Props) {
     const salaryNum = parseFloat(valor);
     const formatted = new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(salaryNum);
 
+    const faqs = [
+        {
+            q: `É possível viver bem com ${formatted}?`,
+            a: salaryNum > 5000 
+                ? "Sim, é um valor acima da média nacional que permite conforto se bem administrado, mas exige controle para não cair em dívidas supérfluas."
+                : "Depende da sua localização. Em grandes capitais, esse valor exige um orçamento muito apertado. No interior, pode oferecer uma qualidade de vida razoável."
+        },
+        {
+            q: "Como este cálculo é feito?",
+            a: "Cruzamos seu dado de entrada com as faixas de rendimento domiciliar per capita da PNAD Contínua (IBGE) mais recente, ajustadas pela inflação para o ano base 2026."
+        },
+        {
+            q: "O valor considera descontos?",
+            a: "Não, a comparação é feita pelo Bruto. Se o valor que você digitou é o que cai na conta (Líquido), sua posição real é ainda melhor do que a mostrada."
+        },
+        {
+            q: "Qual a renda para ser Classe A no Brasil em 2026?",
+            a: "Considera-se Classe A famílias com renda superior a R$ 22.000 mensais. Em algumas metodologias mais restritas, o corte pode ser acima de R$ 27.000."
+        },
+        {
+            q: "Como a região do Brasil influencia no meu poder de compra?",
+            a: "MUITO. Ganhar R$ 5.000 no interior do Nordeste te dá um poder de compra de Classe A/B local. O mesmo valor em São Paulo capital ou Brasília mal aluga um apartamento no centro (Classe C/D)."
+        },
+        {
+            q: "Como é calculado o percentual do ranking?",
+            a: "Utilizamos a curva de distribuição de renda acumulada da PNAD Contínua do IBGE. É uma estimativa estatística de distribuição populacional baseada em dados oficiais."
+        },
+        {
+            q: "Por que as faixas de salário mudam tanto?",
+            a: "Existem vários critérios (IBGE, FGV, Critério Brasil). Adotamos uma faixa mista que reflete o poder de compra real atualizado pela inflação (IPCA) projetada até 2026."
+        }
+    ];
+
     // JSON-LD Expandido
     const jsonLd = {
         "@context": "https://schema.org",
@@ -80,6 +115,14 @@ export default async function PseoSalaryComparatorPage({ params }: Props) {
                     { "@type": "HowToStep", "name": "Compare com a Média", "text": "Veja quantos salários mínimos esse valor representa." },
                     { "@type": "HowToStep", "name": "Entenda sua Classe", "text": "Leia a análise detalhada sobre o poder de compra dessa faixa de renda." }
                 ]
+            },
+            {
+                "@type": "FAQPage",
+                "mainEntity": faqs.map(f => ({
+                    "@type": "Question",
+                    "name": f.q,
+                    "acceptedAnswer": { "@type": "Answer", "text": f.a }
+                }))
             }
         ]
     };
@@ -145,7 +188,7 @@ export default async function PseoSalaryComparatorPage({ params }: Props) {
                 </section>
 
                 {/* CONTENT ANALYSIS RICH */}
-                <div className="prose prose-slate dark:prose-invert prose-sm md:prose-lg max-w-4xl mx-auto bg-white dark:bg-slate-900 p-6 md:p-12 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-xl shadow-slate-200/40 dark:shadow-none w-full mt-8">
+                <div className="prose prose-slate dark:prose-invert prose-sm md:prose-lg max-w-4xl mx-auto bg-white dark:bg-slate-900 p-6 md:p-12 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-xl shadow-slate-200/40 dark:shadow-none w-full mt-8 font-sans">
                     
                     {/* CUSTOM INTRODUCTION */}
                     <div className="bg-slate-50 dark:bg-slate-800/50 p-6 rounded-2xl border-l-4 border-indigo-500 mb-8 not-prose">
@@ -158,7 +201,7 @@ export default async function PseoSalaryComparatorPage({ params }: Props) {
                          <ul className="space-y-2 text-sm">
                             <li className="flex items-center gap-2 text-slate-700 dark:text-slate-300">
                                 <CheckCircle2 size={16} className="text-emerald-500"/>
-                                Equivalente a: <strong>{(salaryNum / 1500).toFixed(1)} salários mínimos</strong> (Base 2026).
+                                Equivalent a: <strong>{(salaryNum / 1500).toFixed(1)} salários mínimos</strong> (Base 2026).
                             </li>
                         </ul>
                     </div>
@@ -211,7 +254,7 @@ export default async function PseoSalaryComparatorPage({ params }: Props) {
                                         </td>
                                     </tr>
                                 </tbody>
-                            </table>
+                             </table>
                         </div>
 
                         {/* VIEW MOBILE (Cards) */}
@@ -230,7 +273,7 @@ export default async function PseoSalaryComparatorPage({ params }: Props) {
                                 <div className="absolute top-4 right-4 text-xs font-bold text-indigo-400 px-2 py-0.5 border border-indigo-100 rounded-full">Média</div>
                                 <h4 className="font-bold text-indigo-900 dark:text-indigo-100 mb-2 pr-12">Comparado à Média (R$ 2.800)</h4>
                                 <p className="text-sm text-indigo-800 dark:text-indigo-200 leading-relaxed">
-                                      {salaryNum > 2800 
+                                       {salaryNum > 2800 
                                         ? "Sua renda supera a da grande massa trabalhadora. Você tem acesso a crédito que a maioria não tem." 
                                         : "Você está próximo à média nacional, onde qualquer despesa extra exige planejamento rigoroso."}
                                 </p>
@@ -272,42 +315,31 @@ export default async function PseoSalaryComparatorPage({ params }: Props) {
                     <ExpertSignature updatedAt="Maio de 2026" author="Equipe Editorial" />
                 </div>
 
-                {/* --- SEÇÃO FAQ GERAL --- */}
-                <div className="max-w-4xl mx-auto w-full mt-8">
-                     <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
-                        <HelpCircle className="text-indigo-500"/> Dúvidas Comuns
-                    </h3>
-                    <div className="space-y-4">
-                        {[
-                            {
-                                q: `É possível viver bem com ${formatted}?`,
-                                a: salaryNum > 5000 
-                                    ? "Sim, é um valor acima da média nacional que permite conforto se bem administrado, mas exige controle para não cair em dívidas supérfluas."
-                                    : "Depende da sua localização. Em grandes capitais, esse valor exige um orçamento muito apertado. No interior, pode oferecer uma qualidade de vida razoável."
-                            },
-                            {
-                                q: "Como este cálculo é feito?",
-                                a: "Cruzamos seu dado de entrada com as faixas de rendimento domiciliar per capita da PNAD Contínua (IBGE) mais recente, ajustadas pela inflação para o ano base 2026."
-                            },
-                             {
-                                q: "O valor considera descontos?",
-                                a: "Não, a comparação é feita pelo Bruto. Se o valor que você digitou é o que cai na conta (Líquido), sua posição real é ainda melhor do que a mostrada."
-                            }
-                        ].map((faq, idx) => (
-                            <details key={idx} className="group bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 open:border-indigo-500 dark:open:border-indigo-500 transition-colors duration-300">
-                                <summary className="flex cursor-pointer items-center justify-between p-4 font-bold text-slate-800 dark:text-slate-200 group-open:text-indigo-600 dark:group-open:text-indigo-400">
-                                    {faq.q}
-                                    <span className="shrink-0 ml-4 p-1.5 rounded-full bg-slate-100 dark:bg-slate-800 group-open:bg-indigo-100 dark:group-open:bg-indigo-900/30 text-slate-500 group-open:text-indigo-600 transition-all">
-                                        <svg className="h-5 w-5 group-open:rotate-180 transition-transform" viewBox="0 0 20 20" fill="currentColor">
-                                            <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
-                                        </svg>
-                                    </span>
-                                </summary>
-                                <div className="p-4 pt-0 text-slate-600 dark:text-slate-400 leading-relaxed text-sm">
-                                    {faq.a}
-                                </div>
-                            </details>
-                        ))}
+                <SmartGlossaryLinker currentHref={"/financeiro/comparador-salario/" + valor} category="financeiro" />
+                <SmartCrossLinker currentHref={"/financeiro/comparador-salario/" + valor} category="financeiro" />
+
+                {/* --- SEÇÃO FAQ --- */}
+                <div className="max-w-4xl mx-auto w-full mt-8 print:hidden">
+                    <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm">
+                        <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-8 flex items-center gap-3 border-b border-slate-150 dark:border-slate-800 pb-4">
+                            <HelpCircle className="text-indigo-500"/> Dúvidas Frequentes sobre a Renda de {formatted}
+                        </h2>
+                        <div className="space-y-4">
+                            {faqs.map((faq, idx) => (
+                                <details key={idx} id={`faq-${idx}`} className="group bg-slate-50 dark:bg-slate-800 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 cursor-pointer open:bg-white dark:open:bg-slate-900 open:ring-2 open:ring-indigo-100 dark:open:ring-indigo-900/30 transition-all duration-200">
+                                    <summary className="font-bold text-slate-800 dark:text-slate-100 list-none flex justify-between items-center select-none">
+                                        <div className="flex items-start gap-3">
+                                            <span className="text-indigo-500 font-bold text-xs mt-1">#</span>
+                                            <span className="leading-snug text-slate-800 dark:text-slate-200 font-semibold">{faq.q}</span>
+                                        </div>
+                                        <span className="text-slate-400 group-open:rotate-180 transition-transform ml-2 shrink-0">▼</span>
+                                    </summary>
+                                    <p className="mt-3 text-slate-600 dark:text-slate-400 leading-relaxed border-t border-slate-100 dark:border-slate-800 pt-3 text-sm animate-in fade-in">
+                                        {faq.a}
+                                    </p>
+                                </details>
+                            ))}
+                        </div>
                     </div>
                 </div>
 
@@ -330,8 +362,6 @@ export default async function PseoSalaryComparatorPage({ params }: Props) {
                 <div className="w-full flex justify-center mt-8 min-h-[250px]">
                     <LazyAdUnit slot="comparator_bottom" format="horizontal" variant="software" />
                 </div>
-
-                <SmartCrossLinker currentHref={"/financeiro/comparador-salario/" + valor} category="financeiro" />
 
             </div>
         </article>

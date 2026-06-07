@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getMarcas, getModelos, getAnos, createSlugWithId, extractIdFromSlug } from "@/lib/fipeApi";
 import PageHeader from "@/components/layout/PageHeader";
-import { Calendar, ChevronRight, Activity, HelpCircle, FileText, TrendingDown } from "lucide-react";
+import { Calendar, ChevronRight, Activity, HelpCircle, FileText, TrendingDown, BookOpen } from "lucide-react";
 import LazyAdUnit from "@/components/ads/LazyAdUnit";
 import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
 import ExpertSignature from "@/components/ui/ExpertSignature";
@@ -74,6 +74,37 @@ export default async function FipeAnosPage({ params }: PageProps) {
 
   const tipoName = tipo.charAt(0).toUpperCase() + tipo.slice(1);
 
+  const faqList = [
+    {
+      q: `Como funciona a desvalorização por ano do ${marca.nome} ${modelo.nome}?`,
+      a: "A desvalorização tende a ser mais acentuada nos primeiros 3 anos de vida útil do veículo, acumulando de 12% a 18% ao ano. Passada essa fase de maior impacto cambial e comercial, a depreciação anual se estabiliza em torno de 8% a 10% dependendo diretamente de fatores como o estado de conservação do motor e lataria."
+    },
+    {
+      q: "Por que carros de anos diferentes podem ter o mesmo preço de tabela FIPE?",
+      a: "Isso ocorre raramente quando há transições bruscas de pacotes de opcionais ou motores na linha de montagem, ou em casos de flutuações atípicas no mercado de usados, mas o normal é que cada ano de fabricação ou ano-modelo possua cotações distintas no índice."
+    },
+    {
+      q: "O que significa um veículo classificado como 'Zero KM' ou com código '32000'?",
+      a: "Os registros que trazem a identificação 'Zero KM' ou o código interno de ano '32000' na base de dados expressam o preço médio nacional de varejo sugerido pelas montadoras e concessionárias autorizadas para veículos novos sem licenciamento prévio."
+    },
+    {
+      q: "Veículos importados desvalorizam mais rápido a cada ano do que os nacionais?",
+      a: "Sim, geralmente veículos importados sofrem uma curva de depreciação anual ligeiramente mais inclinada. Isso ocorre devido ao custo elevado de importação de autopeças de reposição e redes autorizadas mais restritas geograficamente."
+    },
+    {
+      q: "Como a quilometragem e o estado físico alteram o valor real frente à FIPE?",
+      a: "A Tabela FIPE aponta estritamente um valor médio nacional. Na prática de mercado, veículos extremamente rodados ou com avarias na funilaria sofrem um desconto físico que varia de 10% a 25% na cotação real de fechamento."
+    },
+    {
+      q: "Qual a diferença real entre o ano de fabricação e o ano-modelo?",
+      a: "O ano de fabricação denota o ano civil em que o chassi do carro foi fisicamente construído e montado. O ano-modelo representa a especificação e o design mercadológico definido pelo fabricante para as vendas. A Tabela FIPE considera exclusivamente o ano-modelo."
+    },
+    {
+      q: "Veículos descontinuados ou fora de linha sofrem maior desvalorização?",
+      a: "Sim, a descontinuação oficial de um modelo acarreta costumeiramente uma depreciação extra imediata de 10% a 15% na tabela FIPE, alimentada pelo receio dos consumidores em relação à futura escassez de componentes de reposição originais."
+    }
+  ];
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
@@ -85,16 +116,11 @@ export default async function FipeAnosPage({ params }: PageProps) {
       },
       {
         "@type": "FAQPage",
-        "mainEntity": [
-          {
-            "@type": "Question",
-            "name": `Como funciona a desvalorização por ano do ${marca.nome} ${modelo.nome}?`,
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "A desvalorização é mais aguda nos primeiros 3 anos de uso (entre 12% a 18% ao ano). Após este período de acomodação do mercado, a depreciação anual se estabiliza em torno de 8% a 10% dependendo do estado de conservação do veículo."
-            }
-          }
-        ]
+        "mainEntity": faqList.map(item => ({
+          "@type": "Question",
+          "name": item.q,
+          "acceptedAnswer": { "@type": "Answer", "text": item.a }
+        }))
       }
     ]
   };
@@ -166,7 +192,7 @@ export default async function FipeAnosPage({ params }: PageProps) {
           </h2>
           
           <p className="text-base text-slate-600 dark:text-slate-400 leading-relaxed mb-6">
-            A desvalorização de um veículo está diretamente ligada ao seu ano de fabricação e modelo. Nesta página, listamos o histórico completo de anos disponíveis para o modelo <strong>{modelo.nome}</strong> da <strong>{marca.nome}</strong>.
+            A desvalorização de um veículo está diretamente ligada ao seu ano de fabricação e modelo. Nesta página, listamos o histórico completo de anos disponíveis para o modelo <strong>{modelo.nome}</strong> da <strong>{marca.nome}</strong>. Nós nos empenhamos para trazer os dados mais atualizados do mercado para que você faça a melhor escolha financeira.
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 my-8">
@@ -188,6 +214,52 @@ export default async function FipeAnosPage({ params }: PageProps) {
               </p>
             </div>
           </div>
+
+          {/* TABELA DE COMPARAÇÃO DE DESVALORIZAÇÃO ANUAL (HTML PURO RESPONSIVO) */}
+          <div className="not-prose my-10 border rounded-xl overflow-hidden border-slate-200 dark:border-slate-700 shadow-sm bg-white dark:bg-slate-900">
+              <div className="bg-slate-100 dark:bg-slate-800 p-4 border-b border-slate-200 dark:border-slate-700">
+                  <h4 className="text-sm font-bold text-slate-750 dark:text-slate-250 uppercase tracking-wide flex items-center gap-2">
+                      <TrendingDown size={16} /> Depreciação Média por Idade do Veículo
+                  </h4>
+              </div>
+              
+              <div className="overflow-x-auto w-full">
+                  <table className="w-full text-sm text-left border-collapse min-w-[600px]">
+                      <thead className="bg-slate-50 dark:bg-slate-800/50 text-slate-600 dark:text-slate-300 text-xs uppercase tracking-wider">
+                          <tr>
+                              <th className="px-6 py-4 font-bold border-b border-slate-200 dark:border-slate-700">Segmento de Veículo</th>
+                              <th className="px-6 py-4 font-bold border-b border-slate-200 dark:border-slate-700 text-center">Desvalorização Anual (1-3 Anos)</th>
+                              <th className="px-6 py-4 font-bold border-b border-slate-200 dark:border-slate-700 text-center">Desvalorização Anual (3-5 Anos)</th>
+                              <th className="px-6 py-4 font-bold border-b border-slate-200 dark:border-slate-700 text-center">Depreciação (5+ Anos)</th>
+                              <th className="px-6 py-4 font-bold border-b border-slate-200 dark:border-slate-700 text-center">Liquidez Média</th>
+                          </tr>
+                      </thead>
+                      <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-slate-700 dark:text-slate-300 font-mono text-center">
+                          <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors">
+                              <td className="px-6 py-4 font-bold text-slate-800 dark:text-slate-100 text-left font-sans">Hatches Compactos</td>
+                              <td className="px-6 py-4 text-rose-500 font-bold">~ 10%</td>
+                              <td className="px-6 py-4 text-slate-500">~ 8%</td>
+                              <td className="px-6 py-4 text-slate-500">~ 6%</td>
+                              <td className="px-6 py-4 font-sans"><span className="bg-green-100/80 text-green-700 dark:bg-green-900/20 dark:text-green-400 px-2 py-0.5 rounded text-xs font-bold">Muito Alta</span></td>
+                          </tr>
+                          <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors">
+                              <td className="px-6 py-4 font-bold text-slate-800 dark:text-slate-100 text-left font-sans">Sedans / SUVs Médios</td>
+                              <td className="px-6 py-4 text-rose-500 font-bold">~ 12%</td>
+                              <td className="px-6 py-4 text-slate-500">~ 9%</td>
+                              <td className="px-6 py-4 text-slate-500">~ 7%</td>
+                              <td className="px-6 py-4 font-sans"><span className="bg-green-100/80 text-green-700 dark:bg-green-900/20 dark:text-green-400 px-2 py-0.5 rounded text-xs font-bold">Alta</span></td>
+                          </tr>
+                          <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors">
+                              <td className="px-6 py-4 font-bold text-slate-800 dark:text-slate-100 text-left font-sans">Importados de Luxo</td>
+                              <td className="px-6 py-4 text-rose-600 font-bold">~ 18%</td>
+                              <td className="px-6 py-4 text-slate-600 font-semibold">~ 14%</td>
+                              <td className="px-6 py-4 text-slate-500">~ 10%</td>
+                              <td className="px-6 py-4 font-sans"><span className="bg-red-100 text-red-600 dark:bg-red-900/20 dark:text-red-400 px-2 py-0.5 rounded text-xs font-bold">Baixa a Média</span></td>
+                          </tr>
+                      </tbody>
+                  </table>
+              </div>
+          </div>
         </div>
 
         {/* ACCORDION FAQ */}
@@ -197,22 +269,16 @@ export default async function FipeAnosPage({ params }: PageProps) {
           </h3>
           
           <Accordion type="single" collapsible className="w-full">
-            <AccordionItem value="year-faq-1">
-              <AccordionTrigger className="text-left font-semibold text-slate-800 dark:text-slate-200 hover:text-blue-600">
-                Qual a diferença entre ano de fabricação e ano modelo no documento?
-              </AccordionTrigger>
-              <AccordionContent className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-                O ano de fabricação é o ano exato em que o chassi foi montado na linha. O ano modelo representa o ano comercial de especificação de vendas do fabricante (Ex: Fabricação 2023, Modelo 2024). A Tabela FIPE e as seguradoras utilizam estritamente o <strong>Ano Modelo</strong> como indexador de valor.
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="year-faq-2">
-              <AccordionTrigger className="text-left font-semibold text-slate-800 dark:text-slate-200 hover:text-blue-600">
-                Por que carros antigos de certos anos não aparecem na Tabela FIPE?
-              </AccordionTrigger>
-              <AccordionContent className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-                A FIPE costuma manter registros históricos ativos até 30 anos atrás. Veículos muito antigos, fora deste escopo, passam a ter valores puramente de colecionismo ou negociação bilateral de peças antigas, perdendo a utilidade do índice de média nacional de comércio de massa.
-              </AccordionContent>
-            </AccordionItem>
+            {faqList.map((item, idx) => (
+              <AccordionItem key={idx} value={`year-faq-${idx}`}>
+                <AccordionTrigger className="text-left font-semibold text-slate-800 dark:text-slate-200 hover:text-blue-600">
+                  {item.q}
+                </AccordionTrigger>
+                <AccordionContent className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                  {item.a}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
           </Accordion>
         </div>
 

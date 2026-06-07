@@ -57,6 +57,37 @@ export default async function ReceiptCasePage({ params }: Props) {
 
   if (!data) return notFound();
 
+  const faqs = [
+    {
+      q: `O ${data.title} gerado online tem real validade jurídica?`,
+      a: "Sim, com certeza! O recibo emitido de forma digital possui plena validade jurídica como prova civil de quitação de pagamento, conforme regulamentado pelo Código Civil brasileiro. Para isso, ele precisa ser preenchido com os dados de identificação do emissor e pagador."
+    },
+    {
+      q: `Qual a diferença entre o ${data.title} e uma Nota Fiscal?`,
+      a: "A diferença é tributária. O recibo comprova a quitação de valores entre as partes (fim civil). A Nota Fiscal é emitida por PJ e serve para registrar a operação perante o fisco para recolhimento de impostos correspondentes."
+    },
+    {
+      q: "Como salvar o recibo preenchido em arquivo PDF para enviar pelo WhatsApp?",
+      a: "Ao terminar de preencher o formulário, clique no botão 'Imprimir'. Altere a impressora de destino e escolha 'Salvar como PDF'. Baixe o arquivo no seu dispositivo e anexe na mensagem de chat."
+    },
+    {
+      q: `Posso preencher o ${data.title} usando celular ou tablet?`,
+      a: "Sim, nossa plataforma é 100% responsiva. Você pode acessar, preencher todos os campos da ferramenta e fazer o download do PDF formatado no padrão A4 diretamente da tela de qualquer aparelho móvel."
+    },
+    {
+      q: "Como funciona a geração de duas vias automáticas para impressão?",
+      a: "Nosso sistema calcula as dimensões e renderiza duas cópias perfeitamente iguais do recibo na mesma página de papel A4. Assim, após imprimir, você pode cortar a folha ao meio e assinar ambas as vias."
+    },
+    {
+      q: "O processamento dos meus dados pessoais informados no recibo é seguro?",
+      a: "A verdade é que todo o processamento de dados é executado localmente (Client-Side). Seus dados pessoais de identificação não são enviados ou salvos em nenhum servidor remoto, garantindo privacidade total."
+    },
+    {
+      q: "Quais são as informações que não podem faltar em um recibo?",
+      a: "O documento deve conter obrigatoriamente a identificação das partes (CPF/CNPJ, nome completo), data do pagamento, local da transação, descrição do serviço e a assinatura de próprio punho do credor."
+    }
+  ];
+
   // JSON-LD Dinâmico (Dual: App + HowTo)
   const jsonLd = {
     "@context": "https://schema.org",
@@ -93,6 +124,17 @@ export default async function ReceiptCasePage({ params }: Props) {
             "url": `https://mestredascontas.com.br/ferramentas/gerador-recibo/${slug}#ferramenta`
           }
         ]
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": faqs.map(f => ({
+          "@type": "Question",
+          "name": f.q,
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": f.a
+          }
+        }))
       }
     ]
   };

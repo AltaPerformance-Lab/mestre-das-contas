@@ -6,6 +6,8 @@ import LazyAdUnit from "@/components/ads/LazyAdUnit";
 import DisclaimerBox from "@/components/ui/DisclaimerBox";
 import PageHeader from "@/components/layout/PageHeader";
 import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
+import SmartGlossaryLinker from "@/components/layout/SmartGlossaryLinker";
+import GlossaryTerm from "@/components/ui/GlossaryTerm";
 import { meiActivities } from "@/data/mei-activities";
 import { 
   Calculator, HelpCircle, BookOpen, TrendingUp, AlertTriangle, 
@@ -62,6 +64,37 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
+const faqList = [
+  { 
+    q: "O que acontece se eu estourar o limite de R$ 81 mil?", 
+    a: "Depende do valor. Se estourar em até 20% (até R$ 97.200,00), você paga uma guia complementar e vira Microempresa (ME) apenas no ano seguinte. Se estourar mais de 20%, o desenquadramento é retroativo a janeiro, e você pagará impostos altos sobre tudo o que faturou no ano, com juros e multa." 
+  },
+  { 
+    q: "MEI tem direito a PIS e Seguro-Desemprego?", 
+    a: "Não diretamente. O MEI em si é um empresário, não um empregado. Porém, se você trabalha de carteira assinada (CLT) e tem um MEI como renda extra, você mantém o direito ao PIS e Seguro-Desemprego, desde que a renda do MEI não seja suficiente para seu sustento." 
+  },
+  { 
+    q: "Como me aposento pelo MEI?", 
+    a: "Pagando o DAS em dia, você tem direito à Aposentadoria por Idade (62 anos mulher, 65 homem) e auxílio-doença. O valor da aposentadoria será de 1 salário mínimo. Se quiser se aposentar por Tempo de Contribuição ou com valor maior, você deve pagar uma guia complementar (GPS Código 1910) de 15% sobre o salário mínimo todo mês." 
+  },
+  { 
+    q: "Preciso de contador?", 
+    a: "Por lei, o MEI dispensa contador para abertura e obrigações mensais. Você mesmo pode fazer tudo no Portal do Empreendedor. Porém, contratar um contador é recomendado se você tem funcionários ou faturamento próximo do limite, para evitar erros na declaração anual." 
+  },
+  {
+    q: "Quais são os impostos inclusos no pagamento do DAS MEI?",
+    a: "A guia do DAS engloba a contribuição para a Previdência Social (INSS), além do ICMS (caso atue com comércio/indústria) e do ISS (caso atue com prestação de serviços)."
+  },
+  {
+    q: "O MEI pode emitir Nota Fiscal Eletrônica?",
+    a: "Sim, o MEI está plenamente autorizado e, em muitos casos (como na prestação de serviços para pessoas jurídicas), obrigado a emitir nota fiscal de serviços nacional."
+  },
+  {
+    q: "Como fazer a Declaração Anual do MEI (DASN-SIMEI)?",
+    a: "Todo ano, o MEI deve enviar a Declaração Anual de Faturamento (DASN-SIMEI) pelo Portal do Empreendedor até o último dia de maio, informando o faturamento bruto total do ano anterior."
+  }
+];
+
 // --- 2. DADOS ESTRUTURADOS (SCHEMA.ORG) ---
 const jsonLd = {
   "@context": "https://schema.org",
@@ -86,40 +119,11 @@ const jsonLd = {
     },
     {
       "@type": "FAQPage",
-      "mainEntity": [
-        { 
-          "@type": "Question", 
-          "name": "O que acontece se eu estourar o limite de R$ 81 mil?", 
-          "acceptedAnswer": { 
-            "@type": "Answer", 
-            "text": "Depende do valor. Se estourar em até 20% (até R$ 97.200,00), você paga uma guia complementar e vira Microempresa (ME) apenas no ano seguinte. Se estourar mais de 20%, o desenquadramento é retroativo a janeiro, e você pagará impostos altos sobre tudo o que faturou no ano, com juros e multa." 
-          } 
-        },
-        { 
-          "@type": "Question", 
-          "name": "MEI tem direito a PIS e Seguro-Desemprego?", 
-          "acceptedAnswer": { 
-            "@type": "Answer", 
-            "text": "Não diretamente. O MEI em si é um empresário, não um empregado. Porém, se você trabalha de carteira assinada (CLT) e tem um MEI como renda extra, você mantém o direito ao PIS e Seguro-Desemprego, desde que a renda do MEI não seja suficiente para seu sustento." 
-          } 
-        },
-        { 
-          "@type": "Question", 
-          "name": "Como me aposento pelo MEI?", 
-          "acceptedAnswer": { 
-            "@type": "Answer", 
-            "text": "Pagando o DAS em dia, você tem direito à Aposentadoria por Idade (62 anos mulher, 65 homem) e auxílio-doença. O valor da aposentadoria será de 1 salário mínimo. Se quiser se aposentar por Tempo de Contribuição ou com valor maior, você deve pagar uma guia complementar (GPS Código 1910) de 15% sobre o salário mínimo todo mês." 
-          } 
-        },
-        { 
-          "@type": "Question", 
-          "name": "Preciso de contador?", 
-          "acceptedAnswer": { 
-            "@type": "Answer", 
-            "text": "Por lei, o MEI dispensa contador para abertura e obrigações mensais. Você mesmo pode fazer tudo no Portal do Empreendedor. Porém, contratar um contador é recomendado se você tem funcionários ou faturamento próximo do limite, para evitar erros na declaração anual." 
-          } 
-        }
-      ]
+      "mainEntity": faqList.map(item => ({
+        "@type": "Question",
+        "name": item.q,
+        "acceptedAnswer": { "@type": "Answer", "text": item.a }
+      }))
     },
     {
       "@type": "BreadcrumbList",
@@ -132,19 +136,13 @@ const jsonLd = {
   ]
 };
 
-
-
-
 export default async function MEIPage() {
-
-
   return (
     <article className="w-full max-w-full overflow-hidden pb-12">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-
 
       {/* --- HEADER --- */}
       <div className="px-4 pt-4 md:pt-6">
@@ -189,7 +187,6 @@ export default async function MEIPage() {
           </div>
         </section>
 
-
         {/* ANÚNCIO MEIO */}
         <div className="w-full max-w-4xl mx-auto flex justify-center my-6 print:hidden">
             <LazyAdUnit slot="mei_mid" format="auto" />
@@ -202,7 +199,7 @@ export default async function MEIPage() {
               Guia Definitivo do MEI 2026
           </h2>
           <p className="lead text-slate-700 dark:text-slate-300 text-lg font-medium">
-            O <strong>Microempreendedor Individual (MEI)</strong> é a maior política de inclusão econômica do mundo. Criado para tirar milhões de brasileiros da informalidade, ele oferece CNPJ, aposentadoria e benefícios por um custo baixíssimo. Mas as regras mudaram em 2026.
+            O <GlossaryTerm slug="mei-microempreendedor-individual">Microempreendedor Individual (MEI)</GlossaryTerm> é a maior política de inclusão econômica do mundo. Criado para tirar milhões de brasileiros da informalidade, ele oferece CNPJ, aposentadoria e benefícios por um custo baixíssimo. Mas as regras mudaram em 2026.
           </p>
 
           {/* HISTÓRIA E CONTEXTO */}
@@ -239,7 +236,7 @@ export default async function MEIPage() {
                       <span><strong>Atividade:</strong> Exercer uma das mais de 470 ocupações permitidas (CNAE).</span>
                   </li>
               </ul>
-              <div className="mt-4 pt-4 border-t border-slate-200 dark:border-slate-700 text-sm italic text-slate-600 dark:text-slate-400">
+              <div className="mt-4 pt-4 border-t border-slate-200 dark:border-slate-700 text-sm italic text-slate-650 dark:text-slate-400">
                   <span className="font-bold text-amber-600 dark:text-amber-500">Atenção:</span> Servidores públicos federais em atividade não podem ser MEI. Pensionistas e beneficiários do BPC/LOAS podem perder o benefício ao abrir o CNPJ.
               </div>
           </div>
@@ -248,7 +245,7 @@ export default async function MEIPage() {
               <Wallet className="text-emerald-600 dark:text-emerald-500"/> Quanto custa ser MEI em 2026?
           </h3>
           <p>
-            O custo é fixo e mensal, através do DAS (Documento de Arrecadação do Simples Nacional). Em 2026, com o salário mínimo de <strong>R$ 1.621,00</strong>, os valores são:
+            O custo é fixo e mensal, através do <GlossaryTerm slug="das-documento-de-arrecadacao-do-simples-nacional">DAS</GlossaryTerm> (Documento de Arrecadação do Simples Nacional). Em 2026, com o salário mínimo de <strong>R$ 1.621,00</strong>, os valores são:
           </p>
           
           <div className="my-6">
@@ -273,11 +270,11 @@ export default async function MEIPage() {
 
              {/* MOBILE CARDS */}
              <div className="md:hidden space-y-3">
-                 {[
+                  {[
                       { atv: "Comércio/Indústria", imp: "ICMS R$ 1,00", total: "R$ 82,05" },
                       { atv: "Serviços", imp: "ISS R$ 5,00", total: "R$ 86,05" },
                       { atv: "Comércio + Serviços", imp: "ICMS + ISS R$ 6,00", total: "R$ 87,05" },
-                 ].map((item, idx) => (
+                  ].map((item, idx) => (
                     <div key={idx} className="bg-white dark:bg-slate-800/50 p-4 rounded-xl border border-slate-200 dark:border-slate-700 flex justify-between items-center">
                         <div>
                              <span className="font-bold text-slate-800 dark:text-slate-200 text-sm block">{item.atv}</span>
@@ -288,7 +285,7 @@ export default async function MEIPage() {
                              <span className="font-bold text-blue-600 dark:text-blue-400 text-lg">{item.total}</span>
                         </div>
                     </div>
-                 ))}
+                  ))}
              </div>
           </div>
 
@@ -324,55 +321,6 @@ export default async function MEIPage() {
               ))}
           </div>
 
-          {/* FAQ COMPLETO */}
-          <div className="mt-12 pt-8 border-t border-slate-200 dark:border-slate-800">
-              <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
-                  <HelpCircle className="text-purple-600 dark:text-purple-400"/> Perguntas Frequentes (FAQ)
-              </h3>
-              
-              <div className="space-y-4">
-                <details className="group bg-white dark:bg-slate-800/50 p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm cursor-pointer open:ring-2 open:ring-blue-100 dark:open:ring-blue-900/30 transition-all">
-                  <summary className="font-semibold text-slate-800 dark:text-slate-100 list-none flex justify-between items-center select-none">
-                    O que acontece se eu estourar o limite de R$ 81 mil?
-                    <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
-                  </summary>
-                  <p className="mt-3 text-slate-600 dark:text-slate-300 leading-relaxed border-t border-slate-100 dark:border-slate-700 pt-3 text-sm">
-                    Depende do valor. Se estourar em até 20% (até R$ 97.200,00), você paga uma guia complementar e vira Microempresa (ME) apenas no ano seguinte. Se estourar <strong>mais de 20%</strong>, o desenquadramento é <strong>retroativo</strong> a janeiro, e você pagará impostos altos sobre tudo o que faturou no ano, com juros e multa.
-                  </p>
-                </details>
-                
-                <details className="group bg-white dark:bg-slate-800/50 p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm cursor-pointer open:ring-2 open:ring-blue-100 dark:open:ring-blue-900/30 transition-all">
-                  <summary className="font-semibold text-slate-800 dark:text-slate-100 list-none flex justify-between items-center select-none">
-                    MEI tem direito a PIS e Seguro-Desemprego?
-                    <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
-                  </summary>
-                  <p className="mt-3 text-slate-600 dark:text-slate-300 leading-relaxed border-t border-slate-100 dark:border-slate-700 pt-3 text-sm">
-                    <strong>Não diretamente.</strong> O MEI em si é um empresário, não um empregado. Porém, se você trabalha de carteira assinada (CLT) e tem um MEI como renda extra, você <em>mantém</em> o direito ao PIS e Seguro-Desemprego, desde que a renda do MEI não seja suficiente para seu sustento (o governo cruza esses dados).
-                  </p>
-                </details>
-
-                <details className="group bg-white dark:bg-slate-800/50 p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm cursor-pointer open:ring-2 open:ring-blue-100 dark:open:ring-blue-900/30 transition-all">
-                  <summary className="font-semibold text-slate-800 dark:text-slate-100 list-none flex justify-between items-center select-none">
-                    Como me aposento pelo MEI?
-                    <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
-                  </summary>
-                  <p className="mt-3 text-slate-600 dark:text-slate-300 leading-relaxed border-t border-slate-100 dark:border-slate-700 pt-3 text-sm">
-                    Pagando o DAS em dia, você tem direito à <strong>Aposentadoria por Idade</strong> (62 anos mulher, 65 homem) e auxílio-doença. O valor da aposentadoria será de 1 salário mínimo. Se quiser se aposentar por <em>Tempo de Contribuição</em> ou com valor maior, você deve pagar uma guia complementar (GPS Código 1910) de 15% sobre o salário mínimo todo mês.
-                  </p>
-                </details>
-
-                <details className="group bg-white dark:bg-slate-800/50 p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm cursor-pointer open:ring-2 open:ring-blue-100 dark:open:ring-blue-900/30 transition-all">
-                  <summary className="font-semibold text-slate-800 dark:text-slate-100 list-none flex justify-between items-center select-none">
-                    Preciso de contador?
-                    <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
-                  </summary>
-                  <p className="mt-3 text-slate-600 dark:text-slate-300 leading-relaxed border-t border-slate-100 dark:border-slate-700 pt-3 text-sm">
-                    Por lei, o MEI dispensa contador para abertura e obrigações mensais. Você mesmo pode fazer tudo no Portal do Empreendedor. Porém, contratar um contador é recomendado se você tem funcionários ou faturamento próximo do limite, para evitar erros na declaração anual.
-                  </p>
-                </details>
-              </div>
-          </div>
-
           <div className="mt-8 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg text-sm text-blue-800 dark:text-blue-300 flex flex-col gap-2">
             <span className="font-bold flex items-center gap-2"><BookOpen size={16}/> Fontes Oficiais:</span>
             <a href="https://www.gov.br/empresas-e-negocios/pt-br/empreendedor" target="_blank" rel="nofollow noopener noreferrer" className="hover:underline">
@@ -381,13 +329,39 @@ export default async function MEIPage() {
             <a href="http://www.planalto.gov.br/ccivil_03/leis/lcp/lcp128.htm" target="_blank" rel="nofollow noopener noreferrer" className="hover:underline">
               • Lei Complementar nº 128/2008 (Legislação)
             </a>
-            
-            <ExpertSignature updatedAt="Maio de 2026" author="Equipe Editorial" />
           </div>
 
+          <ExpertSignature updatedAt="Maio de 2026" author="Equipe Editorial" />
         </div>
 
+        <SmartGlossaryLinker currentHref="/financeiro/calculadora-mei" category="financeiro" />
         <SmartCrossLinker currentHref="/financeiro/calculadora-mei" category="financeiro" />
+
+        {/* FAQ COMPLETO */}
+        <div className="max-w-4xl mx-auto w-full print:hidden">
+            <div className="mt-8 not-prose bg-white dark:bg-slate-900 rounded-3xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm">
+                <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
+                    <HelpCircle className="text-purple-600 dark:text-purple-400"/> Perguntas Frequentes (FAQ)
+                </h2>
+                
+                <div className="space-y-4">
+                  {faqList.map((item, idx) => (
+                    <details key={idx} className="group bg-slate-50 dark:bg-slate-800 p-5 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm cursor-pointer open:bg-white dark:open:bg-slate-900 open:ring-2 open:ring-blue-100 dark:open:ring-blue-900/30 transition-all duration-200">
+                      <summary className="font-semibold text-slate-800 dark:text-slate-100 list-none flex justify-between items-center select-none">
+                        <div className="flex items-start gap-3">
+                          <span className="text-blue-500 font-bold text-xs mt-1">#</span>
+                          <span className="leading-snug text-slate-800 dark:text-slate-200 font-semibold">{item.q}</span>
+                        </div>
+                        <span className="text-slate-400 group-open:rotate-180 transition-transform ml-2 shrink-0">▼</span>
+                      </summary>
+                      <p className="mt-3 text-slate-600 dark:text-slate-400 leading-relaxed border-t border-slate-100 dark:border-slate-800 pt-3 text-sm animate-in fade-in">
+                        {item.a}
+                      </p>
+                    </details>
+                  ))}
+                </div>
+            </div>
+        </div>
 
         {/* --- ANÚNCIO BOTTOM --- */}
         <div className="w-full flex justify-center my-8 print:hidden min-h-[250px]">

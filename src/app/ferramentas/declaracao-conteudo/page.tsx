@@ -5,6 +5,8 @@ import ContentDeclarationGenerator from "@/components/tools/ContentDeclarationGe
 import LazyAdUnit from "@/components/ads/LazyAdUnit";
 import PageHeader from "@/components/layout/PageHeader";
 import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
+import SmartGlossaryLinker from "@/components/layout/SmartGlossaryLinker";
+import GlossaryTerm from "@/components/ui/GlossaryTerm";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
 import { 
   FileText, ShieldCheck, Truck, Scale, AlertTriangle, 
@@ -40,6 +42,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 // --- DADOS ESTRUTURADOS ---
+// --- DADOS ESTRUTURADOS COMPLEXOS COM 7 DÚVIDAS REAIS ---
 const jsonLd = {
   "@context": "https://schema.org",
   "@graph": [
@@ -89,15 +92,78 @@ const jsonLd = {
     {
       "@type": "FAQPage",
       "mainEntity": [
-        { "@type": "Question", "name": "Posso preencher a mão?", "acceptedAnswer": { "@type": "Answer", "text": "Sim, você pode pegar o formulário em branco na agência e preencher com caneta. Mas nosso gerador é mais legível, evita erros e você já chega na agência pronto, pulando a etapa de ficar procurando caneta no balcão." } },
-        { "@type": "Question", "name": "Serve para transportadoras (Jadlog, Azul, etc)?", "acceptedAnswer": { "@type": "Answer", "text": "Sim! A Declaração de Conteúdo é um documento fiscal padrão aceito por todas as transportadoras terrestres e aéreas para transporte entre não contribuintes. O modelo gerado aqui é 100% compatível." } },
-        { "@type": "Question", "name": "Preciso colocar o CPF do destinatário?", "acceptedAnswer": { "@type": "Answer", "text": "Sim, é obrigatório. Sem o CPF/CNPJ do destinatário, o sistema dos Correios trava e não permite a postagem. Peça esse dado ao seu cliente antes de sair de casa." } }
+        { 
+          "@type": "Question", 
+          "name": "O que é e para que serve a Declaração de Conteúdo dos Correios?", 
+          "acceptedAnswer": { "@type": "Answer", "text": "A Declaração de Conteúdo é um documento fiscal exigido por lei que atesta quais produtos estão sendo transportados dentro de uma encomenda pelos Correios ou transportadoras, servindo para fiscalização tributária e fins de seguro do pacote." } 
+        },
+        { 
+          "@type": "Question", 
+          "name": "Quando posso usar a declaração em vez da Nota Fiscal?", 
+          "acceptedAnswer": { "@type": "Answer", "text": "Você deve usar a Declaração de Conteúdo apenas quando realizar envios não comerciais (como presentes, devoluções pessoais ou bens próprios) ou em vendas ocasionais feitas por pessoas físicas que não sejam contribuintes frequentes de ICMS." } 
+        },
+        { 
+          "@type": "Question", 
+          "name": "É obrigatório colocar o CPF do destinatário na declaração de conteúdo?", 
+          "acceptedAnswer": { "@type": "Answer", "text": "Sim, é 100% obrigatório. Sem o preenchimento correto do CPF ou CNPJ de quem vai receber a encomenda, as agências dos Correios e os sistemas das transportadoras barram a postagem do objeto imediatamente." } 
+        },
+        { 
+          "@type": "Question", 
+          "name": "Posso imprimir em preto e branco ou preencher à mão?", 
+          "acceptedAnswer": { "@type": "Answer", "text": "Sim, você pode imprimir em preto e branco sem problemas. O preenchimento também pode ser feito à mão com caneta azul ou preta em formulários físicos, mas a impressão digital evita rasuras, erros de digitação do atendente e garante um aspecto muito mais profissional." } 
+        },
+        { 
+          "@type": "Question", 
+          "name": "Como funciona o seguro em caso de extravio de mercadoria?", 
+          "acceptedAnswer": { "@type": "Answer", "text": "Caso o seu pacote seja extraviado ou roubado, os Correios indenizam o remetente com base no valor declarado no documento, respeitando o teto estabelecido nas normas da empresa. Por isso, declare sempre o valor real aproximado do produto." } 
+        },
+        { 
+          "@type": "Question", 
+          "name": "A declaração serve para transportadoras privadas como Jadlog e Azul Cargo?", 
+          "acceptedAnswer": { "@type": "Answer", "text": "Sim, com certeza. A Declaração de Conteúdo é um documento oficial padronizado pela Receita Federal, sendo aceita e exigida por todas as transportadoras aéreas ou terrestres que operam no território nacional." } 
+        },
+        { 
+          "@type": "Question", 
+          "name": "Microempreendedor Individual (MEI) pode enviar mercadorias com ela?", 
+          "acceptedAnswer": { "@type": "Answer", "text": "O MEI é dispensado de emitir Nota Fiscal nas vendas diretas para pessoa física, podendo sim usar a Declaração de Conteúdo nos envios pelos Correios. No entanto, se o destinatário for uma pessoa jurídica (outra empresa), a emissão da NF-e é obrigatória por lei." } 
+        }
       ]
     }
   ]
 };
 
 export default async function ContentDeclarationPage() {
+
+  const faqList = [
+    { 
+      q: "O que é e para que serve a Declaração de Conteúdo dos Correios?", 
+      a: "A Declaração de Conteúdo é um documento fiscal exigido por lei que atesta quais produtos estão sendo transportados dentro de uma encomenda pelos Correios ou transportadoras, servindo para fiscalização tributária e fins de seguro do pacote." 
+    },
+    { 
+      q: "Quando posso usar a declaração em vez da Nota Fiscal?", 
+      a: "Você deve usar a Declaração de Conteúdo apenas quando realizar envios não comerciais (como presentes, devoluções pessoais ou bens próprios) ou em vendas ocasionais feitas por pessoas físicas que não sejam contribuintes frequentes de ICMS." 
+    },
+    { 
+      q: "É obrigatório colocar o CPF do destinatário na declaração de conteúdo?", 
+      a: "Sim, é 100% obrigatório. Sem o preenchimento correto do CPF ou CNPJ de quem vai receber a encomenda, as agências dos Correios e os sistemas das transportadoras barram a postagem do objeto imediatamente." 
+    },
+    { 
+      q: "Posso imprimir em preto e branco ou preencher à mão?", 
+      a: "Sim, você pode imprimir em preto e branco sem problemas. O preenchimento também pode ser feito à mão com caneta azul ou preta em formulários físicos, mas a impressão digital evita rasuras, erros de digitação do atendente e garante um aspecto muito mais profissional." 
+    },
+    { 
+      q: "Como funciona o seguro em caso de extravio de mercadoria?", 
+      a: "Caso o seu pacote seja extraviado ou roubado, os Correios indenizam o remetente com base no valor declarado no documento, respeitando o teto estabelecido nas normas da empresa. Por isso, declare sempre o valor real aproximado do produto." 
+    },
+    { 
+      q: "A declaração serve para transportadoras privadas como Jadlog e Azul Cargo?", 
+      a: "Sim, com certeza. A Declaração de Conteúdo é um documento oficial padronizado pela Receita Federal, sendo aceita e exigida por todas as transportadoras aéreas ou terrestres que operam no território nacional." 
+    },
+    { 
+      q: "Microempreendedor Individual (MEI) pode enviar mercadorias com ela?", 
+      a: "O MEI é dispensado de emitir Nota Fiscal nas vendas diretas para pessoa física, podendo sim usar a Declaração de Conteúdo nos envios pelos Correios. No entanto, se o destinatário for uma pessoa jurídica (outra empresa), a emissão da NF-e é obrigatória por lei." 
+    }
+  ];
 
   return (
     <article className="w-full max-w-full overflow-hidden pb-12 font-sans bg-slate-50 dark:bg-slate-950">
@@ -219,95 +285,142 @@ export default async function ContentDeclarationPage() {
             </div>
 
             <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2 border-l-4 border-amber-500 pl-4">
-               O Guia Definitivo da Declaração de Conteúdo
+               O Segredo da Declaração de Conteúdo nos Correios
             </h2>
             
             <p className="lead text-lg font-medium text-slate-700 dark:text-slate-300">
                Você preparou o pacote com todo carinho, foi até a agência dos Correios, enfrentou a fila e, na hora de postar, o atendente soltou aquela frase clássica: <em>"Cadê a nota fiscal ou a declaração de conteúdo?"</em>.
             </p>
-            <p>
-               Se isso já aconteceu com você, respire fundo. Você não está sozinho. Desde 2018, uma regra federal mudou o jogo das postagens no Brasil, pegando muito e-commerce e vendedor informal de surpresa.
-            </p>
-            <p>
-               A verdade é que <strong>nenhuma encomenda viaja no Brasil sem documento fiscal</strong>. Mas calma! Se você não tem Nota Fiscal (porque é pessoa física ou MEI vendendo produto usado/artesanato), a "Declaração de Conteúdo" é o seu salvo-conduto.
-            </p>
             
+            <p>
+               Nós entendemos perfeitamente como essa situação é frustrante. 
+            </p>
+
+            <p>
+               A verdade é que, desde 2018, uma regra unificada e rigidamente fiscalizada pela Receita Federal mudou completamente o fluxo de envios no Brasil, pegando milhares de pequenos empreendedores, autônomos e pessoas comuns de surpresa nas agências de postagem.
+            </p>
+
+            <p>
+               Nenhuma caixa ou envelope viaja pelas estradas ou céus do país sem um documento fiscal adequado anexado na parte externa do pacote.
+            </p>
+
+            <p>
+               Mas não se desespere! Se você está realizando um envio sem finalidade de comércio regular — como um presente para um familiar, a devolução de uma compra própria, ou mesmo uma venda informal esporádica como pessoa física —, a **Declaração de Conteúdo** é a sua salvadora.
+            </p>
+
             <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-900/50 p-6 rounded-2xl my-8 not-prose shadow-sm">
                 <h3 className="text-lg font-bold text-amber-900 dark:text-amber-200 mb-3 flex items-center gap-2">
-                    <ShieldCheck size={20}/> Regra de Ouro
+                    <ShieldCheck size={20}/> O que a Legislação Determina
                 </h3>
                 <p className="text-slate-700 dark:text-slate-300 leading-relaxed mb-0">
-                    A Declaração de Conteúdo substitui a Nota Fiscal <strong>APENAS</strong> para envios não comerciais ou transporte de bens entre não contribuintes de ICMS. Se você tem empresa e vende habitualmente, a Nota Fiscal é obrigatória. Usar a declaração indevidamente é crime de sonegação fiscal.
+                    A declaração de conteúdo substitui a nota fiscal de forma excepcional **apenas** nas remessas de mercadorias sem intuito comercial, realizadas por indivíduos não contribuintes de ICMS. Tentar burlar essa norma para fins comerciais recorrentes configura crime tributário direto.
                 </p>
             </div>
 
             <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100 mt-10 mb-4 flex items-center gap-2">
-                <Truck className="text-blue-600"/> Por que os Correios exigem isso?
+                <Truck className="text-blue-600"/> Por que os Correios e Transportadoras Exigem?
             </h3>
+            
             <p>
-                Não é burocracia dos Correios, é lei. A exigência vem do protocolo ICMS 32/01 e da Lei Postal. O objetivo é duplo: saber o que está circulando para evitar sonegação de impostos e garantir que itens perigosos não sejam transportados.
+               Veja bem, a regra não é uma mera invenção dos Correios ou burocracia dos funcionários de balcão. 
             </p>
 
-            <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100 mt-10 mb-4 flex items-center gap-2">
-                <Scale className="text-emerald-600"/> Nota Fiscal vs. Declaração
-            </h3>
             <p>
-                A Declaração de Conteúdo é para pessoas físicas ou MEIs em transações não comerciais. Para lojas virtuais formais com faturamento recorrente, a Nota Fiscal é sempre o documento correto.
+               Ela é fruto de uma regulação integrada entre as Secretarias de Fazenda de todos os estados brasileiros (Protocolo ICMS 32/01), com o objetivo de combater a sonegação fiscal nas divisas interestaduais e barrar o tráfego ilegal de cargas perigosas ou substâncias proibidas. 
             </p>
 
-            <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100 mt-10 mb-4 flex items-center gap-2">
-                <AlertTriangle className="text-red-500"/> Cuidados ao Preencher
-            </h3>
-            <ul className="list-disc pl-5 space-y-2">
-                <li><strong>Descrição:</strong> Evite termos genéricos. Seja específico sobre o que está no pacote.</li>
-                <li><strong>Valor:</strong> Declare o valor real para garantir a cobertura do seguro.</li>
-                <li><strong>Assinatura:</strong> O documento só tem validade se estiver assinado pelo remetente.</li>
-            </ul>
-
-            <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100 mt-10 mb-4 flex items-center gap-2">
-                <Package className="text-purple-600"/> Como fixar na embalagem
-            </h3>
             <p>
-                A declaração deve ser fixada na parte externa da caixa, preferencialmente dentro de um saquinho plástico transparente (canguru), permitindo a leitura sem abrir o pacote.
+               O melhor de tudo? Ao preencher a declaração, a sua encomenda ganha direito ao seguro postal obrigatório contra extravios, protegendo o seu patrimônio.
             </p>
 
-            {/* FAQ */}
-            <div className="mt-16 not-prose">
-                <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-8 flex items-center gap-3 border-b border-slate-200 dark:border-slate-800 pb-4">
-                    <HelpCircle className="text-blue-600 dark:text-blue-400" /> Perguntas Frequentes
-                </h2>
-                <div className="grid gap-4">
-                    <details className="group bg-white dark:bg-slate-900 p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm cursor-pointer transition-all">
-                        <summary className="font-bold text-slate-800 dark:text-slate-100 flex justify-between items-center list-none select-none">
-                            Posso preencher a mão?
-                            <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
-                        </summary>
-                        <p className="mt-2 text-slate-600 dark:text-slate-400 text-sm leading-relaxed border-t border-slate-100 dark:border-slate-800 pt-2">
-                            Sim, mas o gerador digital evita erros de leitura e agiliza sua postagem na agência.
-                        </p>
-                    </details>
+            <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2 border-l-4 border-amber-500 pl-4">
+               Nota Fiscal vs. Declaração de Conteúdo: Prós e Contras
+            </h2>
 
-                    <details className="group bg-white dark:bg-slate-900 p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm cursor-pointer transition-all">
-                        <summary className="font-bold text-slate-800 dark:text-slate-100 flex justify-between items-center list-none select-none">
-                            Serve para transportadoras?
-                            <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
-                        </summary>
-                        <p className="mt-2 text-slate-600 dark:text-slate-400 text-sm leading-relaxed border-t border-slate-100 dark:border-slate-800 pt-2">
-                            Sim! A Declaração de Conteúdo é aceita pela Jadlog, Azul Cargo e diversas outras transportadoras.
-                        </p>
-                    </details>
-                </div>
+            <p>
+               Aí é que está o segredo: estruturamos uma tabela comparativa direta e cirúrgica para que você tome a decisão certa sem qualquer risco de ter sua mercadoria retida pela Receita Federal na barreira fiscal de trânsito.
+            </p>
+
+            <div className="not-prose my-6 overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+              <table className="w-full min-w-[600px] text-sm text-left border-collapse bg-white dark:bg-slate-900">
+                <thead>
+                  <tr className="bg-slate-50 dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700">
+                    <th scope="col" className="px-6 py-3 font-bold text-slate-700 dark:text-slate-300">Característica</th>
+                    <th scope="col" className="px-6 py-3 font-bold text-slate-700 dark:text-slate-300">Nota Fiscal (NF-e)</th>
+                    <th scope="col" className="px-6 py-3 font-bold text-slate-700 dark:text-slate-300">Declaração de Conteúdo</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+                  <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
+                    <td className="px-6 py-4 font-semibold text-slate-900 dark:text-slate-100">Finalidade Comercial</td>
+                    <td className="px-6 py-4 text-xs text-emerald-600 font-semibold">Sim, obrigatória para comércio regular.</td>
+                    <td className="px-6 py-4 text-xs text-red-600 font-semibold">Não, restrita a envios não comerciais ou informais.</td>
+                  </tr>
+                  <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
+                    <td className="px-6 py-4 font-semibold text-slate-900 dark:text-slate-100">Exigência de CNPJ</td>
+                    <td className="px-6 py-4 text-xs text-emerald-600 font-semibold">Sim, exige empresa constituída (exceto produtor rural).</td>
+                    <td className="px-6 py-4 text-xs text-slate-500">Não, qualquer pessoa física com CPF pode emitir.</td>
+                  </tr>
+                  <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
+                    <td className="px-6 py-4 font-semibold text-slate-900 dark:text-slate-100">Tributação (Impostos)</td>
+                    <td className="px-6 py-4 text-xs text-slate-500">Gera incidência e apuração automática de impostos (ICMS/ISS).</td>
+                    <td className="px-6 py-4 text-xs text-emerald-600 font-semibold">Isento, não gera cobrança de impostos diretos.</td>
+                  </tr>
+                  <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
+                    <td className="px-6 py-4 font-semibold text-slate-900 dark:text-slate-100">Limite de Envio</td>
+                    <td className="px-6 py-4 text-xs text-slate-500">Ilimitado, de acordo com o estoque e faturamento fiscal.</td>
+                    <td className="px-6 py-4 text-xs text-amber-600 font-semibold">Foco pessoal ou esporádico (fiscalização barra envios recorrentes).</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
 
-        </div>
+            <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100 mt-10 mb-4 flex items-center gap-2">
+                <AlertTriangle className="text-red-500"/> Cuidados Críticos ao Preencher o Formulário
+            </h3>
 
-        <SmartCrossLinker currentHref="/ferramentas/declaracao-conteudo" category="glossario" />
-        <SmartCrossLinker currentHref="/ferramentas/declaracao-conteudo" category="destaques" />
-        
-        {/* ANÚNCIO FINAL */}
-        <div className="w-full flex justify-center my-8 print:hidden min-h-[250px]">
-            <LazyAdUnit slot="declaracao_bottom" format="horizontal" variant="software" />
-        </div>
+            <p>
+               Para que a sua mercadoria não fique presa ou seja recusada no balcão da agência, siga estas 3 regras simples:
+            </p>
+
+            <ul className="list-disc pl-5 space-y-2">
+                <li><strong>Descrição dos Bens:</strong> Evite de qualquer maneira palavras vagas como *"presente"*, *"ferramenta"* ou *"diversos"*. Prefira especificações claras, como *"Camisa Polo de Algodão"* ou *"Carregador USB Tipo C"*.</li>
+                <li><strong>Valores Declarados:</strong> Declare valores próximos aos de mercado para o produto. Em caso de extravio ou sinistro durante o trajeto, a sua indenização será calculada estritamente sobre esse valor.</li>
+                <li><strong>Fixação na Embalagem:</strong> A <GlossaryTerm slug="declaracao-de-conteudo-correios">declaração de conteúdo</GlossaryTerm> deve ser afixada na parte externa da caixa. A dica de ouro é dobrar o papel deixando apenas a parte escrita visível e colocá-lo dentro de uma bolsa plástica transparente auto-adesiva.</li>
+            </ul>
+
+            <SmartGlossaryLinker currentHref="/ferramentas/declaracao-conteudo" />
+            <SmartCrossLinker currentHref="/ferramentas/declaracao-conteudo" category="destaques" />
+
+             {/* SEÇÃO FAQ COM 7 DÚVIDAS REAIS (MANDATORY RULE 5) */}
+             <div className="mt-16 not-prose">
+                 <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-8 flex items-center gap-3 border-b border-slate-200 dark:border-slate-800 pb-4">
+                     <HelpCircle className="text-amber-500" /> Perguntas Frequentes
+                 </h2>
+                 <div className="space-y-4">
+                   {faqList.map((item, idx) => (
+                       <details key={idx} className="group bg-white dark:bg-slate-900 p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm cursor-pointer open:ring-1 open:ring-amber-100 dark:open:ring-amber-900/30 transition-all">
+                           <summary className="font-bold text-slate-800 dark:text-slate-100 list-none flex justify-between items-center select-none">
+                               <div className="flex items-start gap-3">
+                                   <span className="text-amber-500 font-bold text-xs mt-1">#</span>
+                                   <span className="leading-snug text-slate-800 dark:text-slate-200">{item.q}</span>
+                               </div>
+                               <span className="text-slate-400 group-open:rotate-180 transition-transform ml-2 shrink-0">▼</span>
+                           </summary>
+                           <p className="mt-3 text-slate-600 dark:text-slate-300 text-sm leading-relaxed border-t border-slate-100 dark:border-slate-800 pt-3">
+                               {item.a}
+                           </p>
+                        </details>
+                    ))}
+                 </div>
+             </div>
+
+         </div>
+         
+         {/* ANÚNCIO FINAL */}
+         <div className="w-full flex justify-center my-8 print:hidden min-h-[250px]">
+             <LazyAdUnit slot="declaracao_bottom" format="horizontal" variant="software" />
+         </div>
 
       </div>
     </article>

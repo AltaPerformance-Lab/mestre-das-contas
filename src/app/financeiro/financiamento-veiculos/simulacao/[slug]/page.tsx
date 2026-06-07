@@ -7,7 +7,10 @@ import PageHeader from "@/components/layout/PageHeader";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
 import DisclaimerBox from "@/components/ui/DisclaimerBox";
 import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
-import { Car, CheckCircle2, TrendingUp, AlertCircle, Fuel, Wrench, ArrowLeft, ShieldCheck } from "lucide-react";
+import SmartGlossaryLinker from "@/components/layout/SmartGlossaryLinker";
+import GlossaryTerm from "@/components/ui/GlossaryTerm";
+import ExpertSignature from "@/components/ui/ExpertSignature";
+import { Car, CheckCircle2, TrendingUp, AlertCircle, Fuel, Wrench, ArrowLeft, ShieldCheck, HelpCircle } from "lucide-react";
 import { financingCases } from "@/data/financing-pseo";
 import veiculosData from "@/data/veiculos.json";
 
@@ -116,6 +119,39 @@ export default async function VeiculoPorSlugPage({ params }: Props) {
   if (!customCase) return notFound();
 
   const formatado = new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(customCase.valor);
+  const tipoNome = customCase.tipo.toLowerCase();
+
+  // FAQ list with exactly 7 items
+  const faqs = [
+    {
+      q: `Quanto fica a parcela de um(a) ${tipoNome} de ${formatado}?`,
+      a: `Depende do valor da entrada e do prazo do financiamento. Por exemplo, dando 30% de entrada (${new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(customCase.valor * 0.3)}) e parcelando o restante em 48x (com taxa média de 1.59% a.m.), a parcela estimada é de ${new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format((customCase.valor * 0.7 * 0.0159) / (1 - Math.pow(1 + 0.0159, -48)))}.`
+    },
+    {
+      q: `Qual a renda recomendada para financiar um(a) ${tipoNome} de ${formatado}?`,
+      a: `Os bancos exigem que o valor da parcela não comprometa mais do que 30% da sua renda familiar bruta mensal. Para uma parcela estimada em 48x, a renda familiar líquida sugerida deve ser de pelo menos 3.3 vezes o valor calculado da prestação.`
+    },
+    {
+      q: "Como economizar nos juros do financiamento CDC?",
+      a: "A melhor forma de economizar juros no Crédito Direto ao Consumidor (CDC) é realizar amortizações antecipadas de trás para frente, solicitando a redução proporcional dos juros futuros."
+    },
+    {
+      q: "Qual a porcentagem de entrada recomendada para a simulação?",
+      a: "A entrada mínima exigida pela maioria das instituições financeiras é de 10% a 20%, mas para obter taxas de juros reduzidas e aprovação mais rápida, recomendamos dar pelo menos 30% de entrada."
+    },
+    {
+      q: "O que é o Custo Efetivo Total (CET) do veículo?",
+      a: "O Custo Efetivo Total (CET) é a taxa global que soma todos os encargos do financiamento, incluindo juros nominais, IOF, taxas cadastrais e seguros obrigatórios. Sempre compare o CET antes de assinar."
+    },
+    {
+      q: "É possível quitar o financiamento de veículo antecipadamente?",
+      a: "Sim, é um direito garantido pelo Código de Defesa do Consumidor. Você pode quitar o saldo devedor restante a qualquer momento com o desconto integral e proporcional de todos os juros futuros."
+    },
+    {
+      q: "Como funciona a alienação fiduciária do veículo?",
+      a: "O veículo alienado fiduciariamente fica registrado em seu nome, mas com gravame que o vincula à instituição financeira como garantia do pagamento da dívida. O gravame é retirado automaticamente após a quitação das parcelas."
+    }
+  ];
 
   // --- DADOS ESTRUTURADOS FULL SEO ---
   const jsonLd = {
@@ -128,17 +164,17 @@ export default async function VeiculoPorSlugPage({ params }: Props) {
         "operatingSystem": "Web Browser",
         "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" } 
       },
-      ...(customCase.articleContent.faq && customCase.articleContent.faq.length > 0 ? [{
+      {
         "@type": "FAQPage",
-        "mainEntity": customCase.articleContent.faq.map(f => ({
+        "mainEntity": faqs.map(f => ({
             "@type": "Question",
-            "name": f.question,
+            "name": f.q,
             "acceptedAnswer": {
                 "@type": "Answer",
-                "text": f.answer
+                "text": f.a
             }
         }))
-      }] : []),
+      },
       {
           "@type": "HowTo",
           "name": `Como calcular financiamento de ${customCase.tipo}`,
@@ -221,7 +257,7 @@ export default async function VeiculoPorSlugPage({ params }: Props) {
                         Valor referência: <strong>{formatado}</strong>. Taxa média aplicada pelo mercado: <strong>{customCase.articleContent.taxaMedia || "1.5% a.m."}</strong>.
                     </p>
                 </div>
-            </div>
+             </div>
 
              <PrivacyBadge />
              <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/40 dark:shadow-none p-4 md:p-8">
@@ -283,7 +319,7 @@ export default async function VeiculoPorSlugPage({ params }: Props) {
           <ul className="space-y-2 not-prose">
               {customCase.articleContent.tips.map((tip, i) => (
                   <li key={i} className="flex gap-3 items-start p-3 bg-slate-50 dark:bg-slate-800 rounded-lg border border-slate-100 dark:border-slate-700">
-                      <CheckCircle2 className="text-blue-500 shrink-0 mt-0.5" size={18} />
+                      <CheckCircle2 className="text-blue-500 shrink-0" size={18} />
                       <span className="text-slate-700 dark:text-slate-300 text-sm font-medium">{tip}</span>
                   </li>
               ))}
@@ -302,34 +338,49 @@ export default async function VeiculoPorSlugPage({ params }: Props) {
               </div>
           </div>
 
-          {customCase.articleContent.faq && customCase.articleContent.faq.length > 0 && (
-            <>
-                <h3 className="text-xl font-bold text-slate-900 dark:text-white mt-12 mb-6">Perguntas Frequentes</h3>
-                <div className="space-y-4 not-prose">
-                    {customCase.articleContent.faq.map((f, i) => (
-                        <details key={i} className="group [&_summary::-webkit-details-marker]:hidden">
-                            <summary className="flex cursor-pointer items-center justify-between gap-1.5 rounded-lg bg-slate-50 dark:bg-slate-800 p-4 text-slate-900 dark:text-white font-bold border border-slate-100 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
-                                <h4 className="text-sm m-0">{f.question}</h4>
-                                <svg className="h-5 w-5 shrink-0 transition duration-300 group-open:-rotate-180 text-slate-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-                                </svg>
-                            </summary>
-                            <p className="mt-4 leading-relaxed text-slate-700 dark:text-slate-300 px-4 text-sm pb-4">
-                                {f.answer}
-                            </p>
-                        </details>
-                    ))}
-                </div>
-            </>
-          )}
-
            {customCase.articleContent.closing && (
-               <p className="mt-8 text-slate-600 dark:text-slate-400 italic text-sm border-t border-slate-200 dark:border-slate-800 pt-6" dangerouslySetInnerHTML={{ __html: customCase.articleContent.closing }} />
+               <p className="mt-8 text-slate-650 dark:text-slate-400 italic text-sm border-t border-slate-200 dark:border-slate-800 pt-6" dangerouslySetInnerHTML={{ __html: customCase.articleContent.closing }} />
            )}
         </div>
 
+        <ExpertSignature updatedAt="Junho de 2026" author="Equipe Editorial" />
+        <SmartGlossaryLinker currentHref={`/financeiro/financiamento-veiculos/simulacao/${slug}`} category="financeiro" />
         <SmartCrossLinker currentHref={`/financeiro/financiamento-veiculos/simulacao/${slug}`} category="financeiro" />
 
+        {/* FAQ ACORDION */}
+        <section className="w-full max-w-4xl mx-auto mt-8">
+          <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl p-6 md:p-12">
+            <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-2 flex items-center gap-3">
+              <HelpCircle className="text-indigo-500 shrink-0" size={32} /> Dúvidas Frequentes Resolvidas
+            </h2>
+            <p className="text-sm text-slate-500 dark:text-slate-400 mb-8">
+              Confira as respostas definitivas para as perguntas mais recorrentes sobre o financiamento de {customCase.tipo}.
+            </p>
+
+            <div className="space-y-4 not-prose">
+              {faqs.map((faq, index) => (
+                <details 
+                  key={index}
+                  className="group border border-slate-200 dark:border-slate-800 rounded-2xl bg-white dark:bg-slate-900/50 transition-all duration-300 overflow-hidden"
+                >
+                  <summary className="flex items-center justify-between p-5 text-base font-bold text-slate-800 dark:text-slate-200 cursor-pointer list-none select-none hover:bg-slate-50 dark:hover:bg-slate-800/30">
+                    <span className="pr-4">{faq.q}</span>
+                    <span className="transition-transform duration-300 group-open:rotate-180 text-indigo-500">
+                      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </span>
+                  </summary>
+                  <div className="p-5 border-t border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/20 text-sm leading-relaxed text-slate-650 dark:text-slate-400">
+                    {faq.a}
+                  </div>
+                </details>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ANÚNCIO BOTTOM */}
         <div className="w-full flex justify-center mt-8 min-h-[250px]">
             <LazyAdUnit slot="veiculo_bottom" format="horizontal" variant="software" />
         </div>

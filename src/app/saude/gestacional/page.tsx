@@ -6,18 +6,17 @@ import LazyAdUnit from "@/components/ads/LazyAdUnit";
 import DisclaimerBox from "@/components/ui/DisclaimerBox";
 import PageHeader from "@/components/layout/PageHeader";
 import { 
-  Baby, HelpCircle, Heart, 
+  Baby, HelpCircle, Heart, Activity,
   CalendarHeart, Stethoscope, Sparkles, 
   CheckCircle2, Dna, ExternalLink, 
   Smile, Coffee, Moon, Sun, Utensils, ShieldCheck
 } from "lucide-react";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
 import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
+import SmartGlossaryLinker from "@/components/layout/SmartGlossaryLinker";
+import GlossaryTerm from "@/components/ui/GlossaryTerm";
 import ExpertSignature from "@/components/ui/ExpertSignature";
-
-// --- 1. METADATA 2026 ---
 import { calculatePregnancy } from "@/lib/calculators/health";
-
 
 // --- 1. METADATA DINÂMICA (SEO MAXIMIZADO) ---
 export async function generateMetadata(): Promise<Metadata> {
@@ -58,16 +57,19 @@ export async function generateMetadata(): Promise<Metadata> {
       title: "De quantas semanas eu estou?",
       description: "Calcule sua DPP e acompanhe o desenvolvimento do seu bebê agora.",
       images: ["/opengraph-image"],
-    } };
+    } 
+  };
 }
 
 // Lista de FAQ para uso no componente e no JSON-LD (DRY Principle)
 const faqList = [
-    { p: "Como é calculada a data do parto?", r: "Utilizamos a Regra de Naegele: soma-se 7 dias ao primeiro dia da última menstruação e subtrai-se 3 meses (ou adiciona-se 9 meses)." },
-    { p: "A data do ultrassom é mais precisa que a DUM?", r: "Sim. O ultrassom do primeiro trimestre (até 12 semanas) é o 'padrão ouro'. Ele mede o comprimento do embrião (CCN) e tem margem de erro de apenas 3 a 5 dias." },
-    { p: "Quando dá para ver o sexo do bebê?", r: "Pela sexagem fetal (exame de sangue), a partir da 8ª semana. Pelo ultrassom, geralmente a partir da 16ª semana, mas com certeza absoluta após a 20ª semana (morfológico)." },
-    { p: "Estou de quantas semanas e meses?", r: "Essa é a confusão clássica! Médicos contam em semanas. Para saber o mês, consulte nossa tabela abaixo. Basicamente, 40 semanas completam 9 meses e 1 semana." },
-    { p: "Grávida pode tomar café?", r: "Sim, mas com moderação. A OMS recomenda limitar a cafeína a 200mg por dia (cerca de 2 xícaras pequenas). Excesso pode aumentar risco de baixo peso ao nascer." }
+    { p: "Como é calculada a data provável do parto (DPP)?", r: "Utilizamos a consagrada Regra de Naegele em obstetrícia: soma-se exatamente 7 dias ao primeiro dia da sua última menstruação (DUM), subtrai-se 3 meses e adiciona-se 1 ano (ou soma-se 9 meses diretos). Esse cálculo assume um ciclo regular de 28 dias." },
+    { p: "A idade gestacional obtida por ultrassom é mais precisa que a DUM?", r: "Sim. O exame de ultrassonografia transvaginal realizado no primeiro trimestre (idealmente entre a 7ª e a 12ª semana) é o padrão-ouro de precisão. Ele avalia o Comprimento Cabeça-Nádega (CCN) do embrião e possui uma margem de erro mínima de apenas 3 a 5 dias." },
+    { p: "Quando dá para descobrir o sexo do bebê com segurança?", r: "Através do exame de sangue de sexagem fetal, é possível descobrir a partir da 8ª semana completa de gestação. Já pelo ultrassom obstétrico, os genitais costumam ser visualizados a partir da 16ª semana, obtendo-se certeza no morfológico de segundo trimestre (20ª à 24ª semana)." },
+    { p: "De quantas semanas e meses eu realmente estou grávida?", r: "Médicos contam em semanas porque a embriologia muda em dias. Para converter de forma simplificada: o primeiro mês compreende as semanas 1 a 4; o segundo, de 5 a 8; o terceiro, de 9 a 13; e assim por diante. Consulte nossa tabela de conversão oficial no guia para tirar suas dúvidas de cabeça." },
+    { p: "Grávida pode tomar café ou bebidas com cafeína?", r: "Sim, mas de forma muito controlada. A Organização Mundial da Saúde (OMS) orienta que a gestante deve limitar o consumo a menos de 200mg de cafeína ao dia (o equivalente a duas xícaras pequenas de café coado), pois o excesso pode estar associado a restrições de crescimento fetal." },
+    { p: "Com quantas semanas o bebê é considerado maduro e fora de perigo?", r: "O bebê deixa a faixa de prematuridade ao completar 37 semanas de gestação, sendo classificado como termo inicial. O período ideal e mais seguro para o nascimento voluntário ou agendamento de parto situa-se entre a 39ª e a 41ª semana." },
+    { p: "É normal sentir cólicas leves no início da gestação?", r: "Sim. Cólicas leves são normais no primeiro trimestre devido à implantação do embrião e ao rápido estiramento dos ligamentos e músculos uterinos. Contudo, se a dor for intensa, unilateral ou acompanhada de sangramento vaginal, um médico deve ser procurado imediatamente." }
 ];
 
 export default async function GestacionalPage() {
@@ -77,6 +79,7 @@ export default async function GestacionalPage() {
       {
         "@type": "SoftwareApplication",
         "name": "Calculadora Gestacional",
+        "url": "https://mestredascontas.com.br/saude/gestacional",
         "applicationCategory": "HealthApplication",
         "operatingSystem": "Web",
         "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
@@ -127,9 +130,8 @@ export default async function GestacionalPage() {
     ]
   };
 
-  // --- MODO PÁGINA NORMAL ---
   return (
-    <article className="w-full max-w-full overflow-hidden pb-12">
+    <article className="w-full max-w-full overflow-hidden pb-12 bg-slate-50 dark:bg-slate-950 font-sans">
       
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
@@ -140,7 +142,7 @@ export default async function GestacionalPage() {
           description="O milagre da vida começou! Calcule a Data Provável do Parto (DPP), acompanhe o desenvolvimento do bebê semana a semana e tire todas as suas dúvidas."
           category="Maternidade & Família"
           icon={<Baby size={32} strokeWidth={2} />}
-          variant="health" // Laranja/Rosa (Saúde)
+          variant="health"
           categoryColor="rose"
           badge="Atualizado 2026"
           breadcrumbs={[
@@ -150,7 +152,7 @@ export default async function GestacionalPage() {
         />
       </div>
 
-      <div className="flex flex-col gap-8 px-4 sm:px-6 max-w-7xl mx-auto">
+      <div className="flex flex-col gap-8 px-4 sm:px-6 max-w-7xl mx-auto w-full">
         
         {/* REVISÃO CIENTÍFICA (E-E-A-T) */}
         <div className="bg-blue-50/50 dark:bg-blue-900/10 border border-blue-100 dark:border-blue-800 p-4 rounded-2xl flex items-center gap-3 text-xs text-blue-700 dark:text-blue-300 mb-2">
@@ -230,88 +232,109 @@ export default async function GestacionalPage() {
                Parabéns, mamãe! E agora?
             </h2>
           <p className="lead text-slate-700 dark:text-slate-300 text-lg font-medium">
-            Aquele segundo em que o teste dá positivo é indescritível. É um misto de alegria, medo e uma pergunta que não cala: <strong>"De quanto tempo eu estou?"</strong>.
+            Aquele segundo em que o teste dá positivo é indescritível. É um misto de alegria pura, leve receio e uma pergunta que não quer calar na sua mente: <strong>"De quanto tempo eu realmente estou grávida?"</strong>.
           </p>
           <p>
-            Calma, respira. Nós vamos te ajudar a decifrar a "matemática da gravidez". Diferente do que pensamos, a gravidez não começa no dia que o bebê foi feito (concepção), mas sim no primeiro dia da sua última menstruação (DUM).
+            Calma, respira. Nós estamos aqui para te ajudar a decifrar a maravilhosa biologia por trás da gravidez.
+          </p>
+          <p>
+            Veja bem, ao contrário do que a maioria das pessoas pensa inicialmente, a idade gestacional não começa no dia em que o bebê foi gerado (concepção). Ela é calculada com base no primeiro dia da sua última menstruação (DUM), quando o útero inicia a preparação do endométrio.
           </p>
 
           <div className="my-10">
             <h3 className="text-xl font-bold text-slate-800 dark:text-white mb-4 flex items-center gap-2">
-                <CalendarHeart className="text-purple-500" /> Tabela Oficial: Semanas x Meses
+                <CalendarHeart className="text-purple-500" /> Tabela Oficial de Correlação: Semanas x Meses
             </h3>
-            <p className="text-slate-600 dark:text-slate-300 mb-4">A dúvida número 1: "Doutor, 24 semanas são quantos meses?". Salve esta tabela oficial:</p>
+            <p className="text-slate-600 dark:text-slate-300 mb-4">
+              A dúvida clássica em qualquer consultório obstétrico: "Doutora, 24 semanas são quantos meses?". Facilitamos a sua vida organizando a conversão oficial abaixo:
+            </p>
             
-            {/* TABELA HTML OBRIGATÓRIA */}
-            <div className="overflow-hidden border rounded-xl border-slate-200 dark:border-slate-800 shadow-sm w-full bg-white dark:bg-slate-900">
+            {/* TABELA DE CORRELAÇÃO GESTACIONAL (HTML PURO TOTALMENTE RESPONSIVO) */}
+            <div className="not-prose my-10 border rounded-xl overflow-hidden border-slate-200 dark:border-slate-800 shadow-sm bg-white dark:bg-slate-900">
+                <div className="bg-slate-100 dark:bg-slate-800 p-4 border-b border-slate-200 dark:border-slate-800">
+                    <h4 className="text-sm font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wide flex items-center gap-2">
+                        <Activity size={16} /> Conversão de Semanas em Meses e Trimestres Gestacionais
+                    </h4>
+                </div>
                 
-                {/* DESKTOP TABLE */}
-                <div className="hidden md:block">
-                    <table className="w-full text-sm text-left">
-                        <thead className="bg-pink-50 dark:bg-pink-900/20 text-pink-900 dark:text-pink-100 uppercase text-xs">
+                <div className="overflow-x-auto w-full">
+                    <table className="w-full text-sm text-left border-collapse min-w-[650px]">
+                        <thead className="bg-pink-50 dark:bg-pink-900/20 text-pink-900 dark:text-pink-100 uppercase text-xs tracking-wider">
                             <tr>
-                                <th className="px-4 py-3 font-bold whitespace-nowrap border-b border-pink-100 dark:border-pink-900">Trimestre</th>
-                                <th className="px-4 py-3 font-bold whitespace-nowrap border-b border-pink-100 dark:border-pink-900">Mês</th>
-                                <th className="px-4 py-3 font-bold whitespace-nowrap border-b border-pink-100 dark:border-pink-900">Semanas Correspondentes</th>
+                                <th className="px-6 py-4 font-bold border-b border-pink-100 dark:border-pink-900">Trimestre Oficial</th>
+                                <th className="px-6 py-4 font-bold border-b border-pink-100 dark:border-pink-900">Mês de Gestação</th>
+                                <th className="px-6 py-4 font-bold border-b border-pink-100 dark:border-pink-900">Intervalo de Semanas</th>
+                                <th className="px-6 py-4 font-bold border-b border-pink-100 dark:border-pink-900 text-center">Foco de Desenvolvimento Fetal</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-slate-700 dark:text-slate-300">
                             {/* 1º Trimestre */}
-                            <tr className="bg-white dark:bg-slate-900"><td className="px-4 py-3 font-bold text-slate-500 dark:text-slate-400 border-r border-slate-50 dark:border-slate-800" rowSpan={3}>1º Trimestre</td><td className="px-4 py-3 font-medium">Mês 1</td><td className="px-4 py-3">0 a 4 semanas e meia</td></tr>
-                            <tr className="bg-white dark:bg-slate-900"><td className="px-4 py-3 font-medium">Mês 2</td><td className="px-4 py-3">4 e meia a 9 semanas</td></tr>
-                            <tr className="bg-white dark:bg-slate-900"><td className="px-4 py-3 font-medium">Mês 3</td><td className="px-4 py-3">9 a 13 semanas e meia</td></tr>
+                            <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors">
+                                <td className="px-6 py-4 font-bold text-pink-600 dark:text-pink-400 border-r border-slate-100 dark:border-slate-800" rowSpan={3}>1º Trimestre (Formação)</td>
+                                <td className="px-6 py-4 font-medium">1º Mês</td>
+                                <td className="px-6 py-4 font-mono">0 a 4 semanas e meia</td>
+                                <td className="px-6 py-4 text-xs">Fecundação, fixação do embrião no útero (nidação) e início do sistema neural.</td>
+                            </tr>
+                            <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors">
+                                <td className="px-6 py-4 font-medium">2º Mês</td>
+                                <td className="px-6 py-4 font-mono">4 semanas e meia a 9 semanas</td>
+                                <td className="px-6 py-4 text-xs">Batimentos cardíacos detectáveis, formação de braços, pernas e órgãos principais.</td>
+                            </tr>
+                            <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors">
+                                <td className="px-6 py-4 font-medium">3º Mês</td>
+                                <td className="px-6 py-4 font-mono">9 a 13 semanas e meia</td>
+                                <td className="px-6 py-4 text-xs">O embrião vira feto oficialmente; formação de unhas, pálpebras e cordas vocais.</td>
+                            </tr>
                             
                             {/* 2º Trimestre */}
-                            <tr className="bg-slate-50/50 dark:bg-slate-800/50"><td className="px-4 py-3 font-bold text-slate-500 dark:text-slate-400 border-r border-slate-100 dark:border-slate-700" rowSpan={3}>2º Trimestre</td><td className="px-4 py-3 font-medium">Mês 4</td><td className="px-4 py-3">13 e meia a 18 semanas</td></tr>
-                            <tr className="bg-slate-50/50 dark:bg-slate-800/50"><td className="px-4 py-3 font-medium">Mês 5</td><td className="px-4 py-3">18 a 22 semanas e meia</td></tr>
-                            <tr className="bg-slate-50/50 dark:bg-slate-800/50"><td className="px-4 py-3 font-medium">Mês 6</td><td className="px-4 py-3">22 e meia a 27 semanas</td></tr>
+                            <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors bg-slate-50/20 dark:bg-slate-800/20">
+                                <td className="px-6 py-4 font-bold text-purple-600 dark:text-purple-400 border-r border-slate-100 dark:border-slate-800" rowSpan={3}>2º Trimestre (Crescimento)</td>
+                                <td className="px-6 py-4 font-medium">4º Mês</td>
+                                <td className="px-6 py-4 font-mono">13 semanas e meia a 18 semanas</td>
+                                <td className="px-6 py-4 text-xs">Desenvolvimento dos órgãos sexuais, crescimento esquelético e sucção do polegar.</td>
+                            </tr>
+                            <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors bg-slate-50/20 dark:bg-slate-800/20">
+                                <td className="px-6 py-4 font-medium">5º Mês</td>
+                                <td className="px-6 py-4 font-mono">18 a 22 semanas e meia</td>
+                                <td className="px-6 py-4 text-xs">A mãe começa a sentir os primeiros chutes; surgimento do lanugo e verniz protetor.</td>
+                            </tr>
+                            <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors bg-slate-50/20 dark:bg-slate-800/20">
+                                <td className="px-6 py-4 font-medium">6º Mês</td>
+                                <td className="px-6 py-4 font-mono">22 semanas e meia a 27 semanas</td>
+                                <td className="px-6 py-4 text-xs">Desenvolvimento dos alvéolos pulmonares; o feto começa a abrir os olhos e ouvir sons.</td>
+                            </tr>
 
                             {/* 3º Trimestre */}
-                            <tr className="bg-white dark:bg-slate-900"><td className="px-4 py-3 font-bold text-slate-500 dark:text-slate-400 border-r border-slate-50 dark:border-slate-800" rowSpan={3}>3º Trimestre</td><td className="px-4 py-3 font-medium">Mês 7</td><td className="px-4 py-3">27 a 31 semanas e meia</td></tr>
-                            <tr className="bg-white dark:bg-slate-900"><td className="px-4 py-3 font-medium">Mês 8</td><td className="px-4 py-3">31 e meia a 36 semanas</td></tr>
-                            <tr className="bg-pink-100/30 dark:bg-pink-900/10"><td className="px-4 py-3 font-bold text-pink-700 dark:text-pink-300">Mês 9</td><td className="px-4 py-3 font-bold text-pink-700 dark:text-pink-300">36 a 42 semanas (Reta Final)</td></tr>
+                            <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors">
+                                <td className="px-6 py-4 font-bold text-teal-600 dark:text-teal-400 border-r border-slate-100 dark:border-slate-800" rowSpan={3}>3º Trimestre (Maturação)</td>
+                                <td className="px-6 py-4 font-medium">7º Mês</td>
+                                <td className="px-6 py-4 font-mono">27 a 31 semanas e meia</td>
+                                <td className="px-6 py-4 text-xs">Ganho acelerado de peso; cérebro desenvolve sulcos complexos e os pulmões amadurecem.</td>
+                            </tr>
+                            <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors">
+                                <td className="px-6 py-4 font-medium">8º Mês</td>
+                                <td className="px-6 py-4 font-mono">31 semanas e meia a 36 semanas</td>
+                                <td className="px-6 py-4 text-xs">O bebê se posiciona de cabeça para baixo (geralmente); pele fica mais lisa com gordura.</td>
+                            </tr>
+                            <tr className="hover:bg-pink-50/20 dark:hover:bg-pink-900/20 bg-pink-50/10 dark:bg-pink-900/10 font-semibold text-pink-700 dark:text-pink-300">
+                                <td className="px-6 py-4">9º Mês</td>
+                                <td className="px-6 py-4 font-mono">36 a 42 semanas</td>
+                                <td className="px-6 py-4 text-xs">Bebê totalmente formado e pronto para nascer a qualquer momento da gestação.</td>
+                            </tr>
                         </tbody>
                     </table>
-                </div>
-
-                {/* MOBILE LIST */}
-                <div className="md:hidden divide-y divide-slate-100 dark:divide-slate-800">
-                     {[
-                        { mes: 1, sem: "0 a 4½", tri: 1 },
-                        { mes: 2, sem: "4½ a 9", tri: 1 },
-                        { mes: 3, sem: "9 a 13½", tri: 1 },
-                        { mes: 4, sem: "13½ a 18", tri: 2 },
-                        { mes: 5, sem: "18 a 22½", tri: 2 },
-                        { mes: 6, sem: "22½ a 27", tri: 2 },
-                        { mes: 7, sem: "27 a 31½", tri: 3 },
-                        { mes: 8, sem: "31½ a 36", tri: 3 },
-                        { mes: 9, sem: "36 a 42", tri: 3, highlight: true },
-                     ].map((item, idx) => (
-                         <div key={idx} className={`p-4 flex justify-between items-center ${item.highlight ? 'bg-pink-50 dark:bg-pink-900/10' : ''}`}>
-                             <div className="flex items-center gap-3">
-                                 <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${item.tri === 1 ? 'bg-pink-100 text-pink-600' : item.tri === 2 ? 'bg-blue-100 text-blue-600' : 'bg-teal-100 text-teal-600'}`}>
-                                     {item.mes}º
-                                 </div>
-                                 <div>
-                                     <span className="text-xs font-bold text-slate-400 block uppercase">Mês {item.mes}</span>
-                                     <span className="text-sm font-bold text-slate-800 dark:text-slate-100">{item.sem} semanas</span>
-                                 </div>
-                             </div>
-                             <span className="text-[10px] text-slate-400 font-medium bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded-full">{item.tri}º Trimestre</span>
-                         </div>
-                     ))}
                 </div>
             </div>
           </div>
 
           <h3 className="text-xl font-bold text-slate-800 dark:text-white mt-10 mb-4 flex items-center gap-2">
-              <Stethoscope className="text-teal-600 dark:text-teal-400" /> Regra de Naegele: A Ciência por Trás
+              <Stethoscope className="text-teal-600 dark:text-teal-400" /> Regra de Naegele: A Ciência por Trás do Cálculo
           </h3>
           <p className="text-slate-700 dark:text-slate-300">
-              A calculadora usa um método criado pelo obstetra alemão Franz Naegele no século 19. Ele percebeu que a gestação humana dura em média <strong>280 dias</strong>.
+              O algoritmo da nossa calculadora aplica com rigor científico a Regra de Naegele, padrão mundial obstétrico.
           </p>
           <p>
-              Mas atenção: apenas <strong>5% dos bebês</strong> nascem na data exata (DPP). A maioria decide vir ao mundo entre 38 e 41 semanas. A DPP é apenas um norte, não uma promessa!
+              A verdade é que apenas cerca de <strong>5% dos bebês</strong> de fato nascem exatamente na data estimada (DPP). A gestação humana saudável acomoda nascimentos perfeitamente normais a qualquer dia entre a 38ª e a 41ª semana gestacional completa.
           </p>
 
           {/* CURIOSIDADE LUNAR */}
@@ -320,20 +343,20 @@ export default async function GestacionalPage() {
                   <Sparkles size={120} className="text-purple-900 dark:text-purple-300"/>
               </div>
               <h3 className="text-xl font-bold text-purple-900 dark:text-purple-300 mb-4 flex items-center gap-2 relative z-10">
-                  <Dna size={24} className="text-pink-500 dark:text-pink-400"/> Mito ou Verdade: A Lua Influencia?
+                  <Dna size={24} className="text-pink-500 dark:text-pink-400"/> Mito ou Verdade: A Lua e o Momento do Parto
               </h3>
               <div className="space-y-4 text-slate-700 dark:text-slate-300 relative z-10 text-sm md:text-base leading-relaxed">
                   <p>
-                      Acredite se quiser: muitas parteiras juram que nas <strong>mudanças de lua</strong> (especialmente na Lua Cheia) as maternidades lotam.
+                      Muitas avós e doulas experientes afirmam com certeza absoluta que a troca das fases lunares (principalmente na virada para a Lua Cheia) causa picos de internações em maternidades.
                   </p>
                   <p>
-                      Embora a ciência não tenha comprovado uma ligação direta entre a gravidade lunar e o trabalho de parto, a coincidência é intrigante. Fique de olho no calendário lunar quando estiver chegando perto das 39 semanas!
+                      Embora a ciência oficial atribua isso a coincidências estatísticas ou efeito placebo populacional, a correlação histórica e folclórica é maravilhosa. Vale super a pena acompanhar o <GlossaryTerm slug="fases-da-lua-calendario-lunar">calendário lunar</GlossaryTerm> conforme suas 39 semanas forem se aproximando!
                   </p>
               </div>
           </div>
 
           <h3 className="text-xl font-bold text-slate-800 dark:text-white mt-10 mb-6 flex items-center gap-2">
-              <Heart className="text-red-500" /> Cuidados Essenciais por Trimestre
+              <Heart className="text-red-500" /> Cuidados Médicos por Trimestre
           </h3>
           
           <div className="grid gap-4 not-prose">
@@ -341,47 +364,23 @@ export default async function GestacionalPage() {
                   <div className="bg-pink-100 dark:bg-pink-900/30 text-pink-600 dark:text-pink-400 w-12 h-12 rounded-full flex items-center justify-center shrink-0 font-bold mx-auto md:mx-0 text-lg">1º</div>
                   <div>
                       <h4 className="font-bold text-slate-900 dark:text-slate-100 mb-1 text-center md:text-left">O Início Delicado (Semana 1 a 13)</h4>
-                      <p className="text-sm text-slate-600 dark:text-slate-400 text-center md:text-left leading-relaxed">É a fase de formação dos órgãos. O ácido fólico é obrigatório. Enjoos e sono excessivo são comuns. Evite remédios sem prescrição.</p>
+                      <p className="text-sm text-slate-600 dark:text-slate-400 text-center md:text-left leading-relaxed">Fase crítica de organogênese do feto. O uso monitorado de ácido fólico é mandatório para prevenção do tubo neural. Sintomas de fadiga, enjoos matinais e flutuações hormonais acentuadas são esperados.</p>
                   </div>
               </div>
               <div className="bg-white dark:bg-slate-900 p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col md:flex-row gap-4 hover:border-blue-200 dark:hover:border-blue-800 transition-colors">
                   <div className="bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 w-12 h-12 rounded-full flex items-center justify-center shrink-0 font-bold mx-auto md:mx-0 text-lg">2º</div>
                   <div>
-                      <h4 className="font-bold text-slate-900 dark:text-slate-100 mb-1 text-center md:text-left">A Fase de Ouro (Semana 14 a 27)</h4>
-                      <p className="text-sm text-slate-600 dark:text-slate-400 text-center md:text-left leading-relaxed">A disposição volta! A barriga aparece, você sente o bebê mexer e descobre o sexo. Hora de cuidar das estrias com hidratação intensa.</p>
+                      <h4 className="font-bold text-slate-900 dark:text-slate-100 mb-1 text-center md:text-left">O Trimestre do Bem-Estar (Semana 14 a 27)</h4>
+                      <p className="text-sm text-slate-600 dark:text-slate-400 text-center md:text-left leading-relaxed">Os incômodos iniciais regridem gradualmente e a energia celular retorna. A barriga torna-se visível, os primeiros chutes do bebê são sentidos e o sexo é facilmente mapeável via ultrassonografia de rotina.</p>
                   </div>
               </div>
               <div className="bg-white dark:bg-slate-900 p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col md:flex-row gap-4 hover:border-teal-200 dark:hover:border-teal-800 transition-colors">
                   <div className="bg-teal-100 dark:bg-teal-900/30 text-teal-600 dark:text-teal-400 w-12 h-12 rounded-full flex items-center justify-center shrink-0 font-bold mx-auto md:mx-0 text-lg">3º</div>
                   <div>
-                      <h4 className="font-bold text-slate-900 dark:text-slate-100 mb-1 text-center md:text-left">A Reta Final (Semana 28 a 40+)</h4>
-                      <p className="text-sm text-slate-600 dark:text-slate-400 text-center md:text-left leading-relaxed">O peso aumenta, o cansaço volta e a ansiedade bate. Prepare a mala da maternidade, lave as roupinhas e descanse o máximo possível.</p>
+                      <h4 className="font-bold text-slate-900 dark:text-slate-100 mb-1 text-center md:text-left">A Preparação Final (Semana 28 a 40+)</h4>
+                      <p className="text-sm text-slate-600 dark:text-slate-400 text-center md:text-left leading-relaxed">Ganho acelerado de volume e peso fetal. O cansaço físico aumenta por conta da sobrecarga lombar. Momento ideal para finalizar o plano de parto, lavar o enxoval e arrumar a bolsa maternidade.</p>
                   </div>
               </div>
-          </div>
-
-          {/* 20 PERGUNTAS FREQUENTES */}
-          <div className="mt-16 not-prose" id="faq">
-            <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-8 flex items-center gap-3 border-b border-pink-100 dark:border-pink-900/30 pb-4">
-                <HelpCircle className="text-pink-500" /> Tira-Dúvidas da Gestante
-            </h2>
-            
-            <div className="grid gap-3">
-              {faqList.map((item, idx) => (
-                  <details key={idx} className="group bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm cursor-pointer open:ring-2 open:ring-pink-100 dark:open:ring-pink-900/30 transition-all">
-                      <summary className="font-semibold text-slate-800 dark:text-slate-100 list-none flex justify-between items-center text-sm md:text-base select-none">
-                          <div className="flex items-start gap-3">
-                              <span className="text-pink-400 font-bold text-xs mt-1">#{idx + 1}</span>
-                              <span className="leading-snug">{item.p}</span>
-                          </div>
-                          <span className="text-slate-400 group-open:rotate-180 transition-transform ml-2 shrink-0">▼</span>
-                      </summary>
-                      <p className="mt-3 text-slate-600 dark:text-slate-400 leading-relaxed border-t border-slate-100 dark:border-slate-800 pt-3 text-sm md:text-base pl-7 animate-in fade-in">
-                          {item.r}
-                      </p>
-                  </details>
-              ))}
-            </div>
           </div>
 
           {/* FONTES */}
@@ -399,10 +398,37 @@ export default async function GestacionalPage() {
               </p>
           </div>
 
-          <ExpertSignature updatedAt="Maio de 2026" author="Equipe Editorial" />
+          <ExpertSignature updatedAt="Junho de 2026" author="Equipe Editorial" />
         </div>
 
+        <SmartGlossaryLinker currentHref="/saude/gestacional" />
         <SmartCrossLinker currentHref="/saude/gestacional" category="saude" />
+
+        {/* 7 PERGUNTAS FREQUENTES (EXATAMENTE 7 SINCRONIZADAS COM JSON-LD) */}
+        <div className="max-w-4xl mx-auto w-full print:hidden" id="faq">
+          <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm">
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-8 flex items-center gap-3 border-b border-pink-100 dark:border-pink-900/30 pb-4">
+                <HelpCircle className="text-pink-500" /> Tira-Dúvidas da Maternidade
+            </h2>
+            
+            <div className="grid gap-3 not-prose">
+              {faqList.map((item, idx) => (
+                  <details key={idx} className="group bg-slate-50/50 dark:bg-slate-900/40 p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm cursor-pointer open:ring-2 open:ring-pink-100 dark:open:ring-pink-900/30 transition-all">
+                      <summary className="font-semibold text-slate-800 dark:text-slate-100 list-none flex justify-between items-center text-sm md:text-base select-none">
+                          <div className="flex items-start gap-3">
+                              <span className="text-pink-400 font-bold text-xs mt-1">#{idx + 1}</span>
+                              <span className="leading-snug text-slate-800 dark:text-slate-200 font-semibold">{item.p}</span>
+                          </div>
+                          <span className="text-slate-400 group-open:rotate-180 transition-transform ml-2 shrink-0">▼</span>
+                      </summary>
+                      <p className="mt-3 text-slate-600 dark:text-slate-300 leading-relaxed border-t border-slate-100 dark:border-slate-800 pt-3 text-sm md:text-base pl-7 animate-in fade-in">
+                          {item.r}
+                      </p>
+                  </details>
+              ))}
+            </div>
+          </div>
+        </div>
 
         {/* --- ANÚNCIO BOTTOM (ESTRATÉGICO) --- */}
         <div className="w-full flex justify-center my-8 print:hidden min-h-[250px]">

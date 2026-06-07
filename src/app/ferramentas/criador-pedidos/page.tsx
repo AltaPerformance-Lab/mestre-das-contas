@@ -8,23 +8,25 @@ import PageHeader from "@/components/layout/PageHeader";
 import { orderCases } from "@/data/order-pseo-list";
 import { 
   ShoppingBag, Star, TrendingUp, HelpCircle, Briefcase, 
-  Truck, Calculator, PenTool
+  Truck, Calculator, PenTool, CheckCircle2
 } from "lucide-react";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
 import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
-
+import SmartGlossaryLinker from "@/components/layout/SmartGlossaryLinker";
+import GlossaryTerm from "@/components/ui/GlossaryTerm";
+import ExpertSignature from "@/components/ui/ExpertSignature";
 
 // --- 1. SEO 2026 DINÂMICO ---
 export async function generateMetadata(): Promise<Metadata> {
-  const title = "Gerador de Talão de Pedido de Venda Grátis | Criar PDF";
-  const description = "Faça pedidos de venda, orçamentos e ordens de serviço em PDF. Adicione frete, cálculos automáticos e sua logo. Ferramenta online gratuita para lojistas.";
+  const title = "Criador de Pedidos de Venda Grátis | Bloco de Pedido PDF";
+  const description = "Crie pedidos de venda e ordens de serviço profissionais em PDF. Adicione sua logo, frete e faça cálculos automatizados 100% grátis e sem cadastro.";
 
   return {
     title,
     description,
     keywords: [
       "talão de pedido grátis", "bloco de pedido pdf", "gerador de talão de venda",
-      "gerar pedido venda online", "o que é um talão de venda", "fazer pedido com logo"
+      "gerar pedido venda online", "o que é um talão de venda", "fazer pedido com logo", "criador de pedidos de venda"
     ],
     alternates: { canonical: "https://mestredascontas.com.br/ferramentas/criador-pedidos" },
     openGraph: {
@@ -33,21 +35,65 @@ export async function generateMetadata(): Promise<Metadata> {
       url: "https://mestredascontas.com.br/ferramentas/criador-pedidos",
       siteName: "Mestre das Contas",
       locale: "pt_BR",
-      type: "website" } };
+      type: "website" 
+    } 
+  };
 }
 
-// --- DADOS ESTRUTURADOS ---
+// 7 FAQs Dinâmicas Sincronizadas
+const faqs = [
+  {
+    q: "Qual a diferença jurídica entre um pedido de venda e um orçamento?",
+    a: "A diferença reside na intenção de compra. O Orçamento é apenas uma estimativa de preços sem compromisso comercial ou financeiro. O Pedido de Venda, por outro lado, formaliza que o negócio foi fechado. Quando assinado ou confirmado via e-mail/WhatsApp, o pedido funciona como um contrato de prestação de serviços ou compra e venda, obrigando ambas as partes a cumprir o combinado."
+  },
+  {
+    q: "Como posso gerar meu bloco de pedidos em PDF de graça?",
+    a: "Com a nossa ferramenta, o processo é imediato e 100% gratuito. Basta preencher os dados da sua empresa (emissor) e do seu cliente, adicionar os itens com suas respectivas quantidades e valores, e configurar as observações de frete. Ao final, clique no botão 'Imprimir Pedido' e selecione a opção 'Salvar como PDF' para fazer o download do documento em formato A4 profissional."
+  },
+  {
+    q: "Posso incluir a logo da minha empresa no cabeçalho do pedido?",
+    a: "Com certeza! Nosso emissor possui uma área de upload no topo. Basta carregar o arquivo da sua logomarca (em formato PNG ou JPG) para que ela apareça centralizada no cabeçalho do documento PDF final. Isso agrega um valor estético impressionante e passa muito mais profissionalismo para o seu cliente."
+  },
+  {
+    q: "O pedido de venda substitui a emissão da Nota Fiscal (NF-e)?",
+    a: "Não. O talão de pedido de venda é um documento de controle interno e comprovação contratual entre as partes. Ele não substitui a Nota Fiscal exigida pela Receita Federal para fins tributários. Contudo, ele serve como o rascunho de dados ideal e seguro para o posterior preenchimento e faturamento da sua nota fiscal oficial."
+  },
+  {
+    q: "Como preencher os dados de frete e prazos de entrega de forma segura?",
+    a: "A regra de ouro é detalhar todas as especificações no campo de observações do frete. Especifique quem pagará pelo frete (FOB ou CIF), o nome da transportadora e a data estimada de entrega ou o prazo em dias úteis após a confirmação do pagamento. Isso evita atritos logísticos e cobranças indevidas de ambas as partes."
+  },
+  {
+    q: "Posso usar este emissor de pedidos pelo celular ou tablet?",
+    a: "Sim! Nossa ferramenta foi desenvolvida com design 100% responsivo e tecnologia mobile-first. Você pode emitir, preencher e salvar seus pedidos em formato PDF diretamente da tela do seu smartphone ou tablet, permitindo realizar faturamentos de vendas na frente do cliente ou enquanto faz entregas na rua."
+  },
+  {
+    q: "Como me proteger de desistências de pedidos personalizados?",
+    a: "A melhor estratégia legal é exigir um pagamento de sinal mínimo (normalmente 50%) antes de começar a produzir ou comprar materiais para itens personalizados. Deixe claro nos termos do pedido que produtos sob medida não são passíveis de devolução por mero arrependimento, uma vez que não podem ser revendidos a terceiros. Isso protege o caixa do seu negócio."
+  }
+];
+
 const jsonLd = {
   "@context": "https://schema.org",
   "@graph": [
     {
       "@type": "SoftwareApplication",
-      "name": "Criador de Pedidos de Venda Online",
+      "name": "Criador de Pedidos de Venda Online Mestre das Contas",
       "applicationCategory": "BusinessApplication",
-      "operatingSystem": "Web Browser",
+      "operatingSystem": "Web",
       "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
-      "description": "Ferramenta para emissão de pedidos de venda, orçamentos e ordens de serviço com cálculo de frete e layout profissional.",
-      "featureList": "Gerar PDF, Adicionar Logo, Calcular Frete, Termos de Garantia, Impressão A4" }
+      "description": "Crie e imprima talões e blocos de pedido de venda de forma profissional, adicionando sua logo e fazendo cálculos de frete de maneira 100% gratuita."
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": faqs.map(f => ({
+        "@type": "Question",
+        "name": f.q,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": f.a
+        }
+      }))
+    }
   ]
 };
 
@@ -113,51 +159,204 @@ export default async function OrderPage() {
             </div>
         </div>
 
-        {/* --- ARTIGO EDUCACIONAL --- */}
-        <div className="prose prose-slate dark:prose-invert prose-sm md:prose-lg max-w-4xl mx-auto bg-white dark:bg-slate-900 p-6 md:p-12 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-xl shadow-slate-200/40 dark:shadow-none overflow-hidden w-full print:hidden">
-            <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400 font-bold uppercase tracking-wider text-xs mb-2">
-                <TrendingUp size={16} /> Vendas Profissionais
-            </div>
-            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-slate-100 mb-6 leading-tight">
-                Pedido de Venda x Orçamento: Qual a diferença?
+        {/* --- ARTIGO EDUCACIONAL DE ALTA DENSIDADE (PADRÃO OURO) --- */}
+        <div className="prose prose-slate dark:prose-invert max-w-4xl mx-auto bg-white dark:bg-slate-900 p-6 md:p-12 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-xl overflow-hidden w-full print:hidden mt-8">
+            
+            <h2 className="text-3xl font-bold text-slate-950 dark:text-white mb-6 border-l-4 border-emerald-500 pl-4 flex items-center gap-3">
+               <PenTool className="text-emerald-500"/> O Segredo do Fechamento Perfeito: Como o Bloco de Pedidos Protege Seu Caixa
             </h2>
-            <p className="lead text-slate-700 dark:text-slate-300 text-xl font-medium mb-8">
-                Muitos empreendedores confundem, mas a diferença jurídica é enorme. O orçamento é uma proposta, enquanto o pedido é um contrato fechado.
+
+            <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed mb-4">
+              Você já passou pelo desespero de produzir uma encomenda personalizada inteirinha e, na hora da entrega, o cliente simplesmente sumir?
             </p>
 
-            <h3 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mt-12 mb-6 flex items-center gap-3">
-                <Truck className="text-slate-800 dark:text-slate-200" /> Por que documentar seus pedidos?
-            </h3>
-            <p>
-                Documentar cada venda protege você e seu cliente. Com um pedido formal, você evita mal-entendidos sobre prazos de entrega, valores de frete e especificações de produtos.
+            <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed mb-4">
+              Ou então ele alegar que o tamanho, a cor ou a especificação do item não era exatamente o que ele tinha em mente no bate-papo informal?
             </p>
 
-            <h3 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mt-12 mb-6 flex items-center gap-3">
-                <Calculator className="text-emerald-600 dark:text-emerald-400" /> Cálculo Automático e Transparência
-            </h3>
-            <p>
-                Nossa ferramenta calcula automaticamente subtotais, descontos e o valor total com frete. Isso transmite confiança ao cliente, que vê exatamente pelo que está pagando.
+            <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed mb-4">
+              A verdade é que fechar vendas de boca ou depender apenas de históricos de conversas no chat é um convite aberto a mal-entendidos e prejuízos.
             </p>
 
-            <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100 mt-12 mb-4 flex items-center gap-2">
-                <HelpCircle className="text-slate-500 dark:text-slate-400"/> Perguntas Frequentes
+            <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed mb-4">
+              O mercado atual exige velocidade, mas abrir mão do profissionalismo na formalização de vendas mata a saúde financeira de qualquer negócio.
+            </p>
+
+            <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed mb-4">
+              Nós projetamos essa ferramenta para funcionar como o escudo protetor da sua produção e o cartão de visitas que eleva sua marca comercial.
+            </p>
+
+            <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed mb-6">
+              Aí é que está o segredo: ao formalizar o pedido com um documento claro em PDF, você estabelece um acordo inabalável e ganha respeito.
+            </p>
+
+            {/* Como usar - Passo a passo visual */}
+            <h3 className="text-2xl font-bold text-slate-900 dark:text-white mt-10 mb-4 flex items-center gap-2">
+                <CheckCircle2 className="text-emerald-500 shrink-0" size={24} /> Fluxo de Trabalho Sem Fricção
             </h3>
-            <details className="group border-b border-slate-200 dark:border-slate-800 pb-4 mb-4 cursor-pointer">
-                <summary className="font-bold text-slate-800 dark:text-slate-100 flex justify-between items-center list-none p-2 hover:bg-slate-50 dark:hover:bg-slate-800 rounded select-none">
-                    Esse pedido tem validade jurídica?
-                    <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
-                </summary>
-                <div className="mt-2 text-slate-600 dark:text-slate-400 px-2">
-                    Sim, funciona como um contrato entre as partes. Se assinado, comprova o acordo comercial, embora não substitua a Nota Fiscal.
+            <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed mb-4">
+               Profissionalize seu faturamento e fature mais em apenas 4 etapas rápidas com o nosso emissor digital:
+            </p>
+
+            <div className="grid sm:grid-cols-2 gap-6 my-8 not-prose">
+              <div className="bg-slate-50 dark:bg-slate-800/30 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 flex gap-4">
+                <div className="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-900/50 text-emerald-600 dark:text-emerald-400 font-bold flex items-center justify-center shrink-0">1</div>
+                <div className="space-y-1">
+                   <h4 className="font-bold text-slate-800 dark:text-white text-sm">Insira Sua Logo & Emissor</h4>
+                   <p className="text-xs text-slate-500 dark:text-slate-400">Carregue o logotipo do seu negócio e preencha as informações completas de contato e endereço comercial.</p>
                 </div>
-            </details>
+              </div>
+
+              <div className="bg-slate-50 dark:bg-slate-800/30 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 flex gap-4">
+                <div className="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-900/50 text-emerald-600 dark:text-emerald-400 font-bold flex items-center justify-center shrink-0">2</div>
+                <div className="space-y-1">
+                   <h4 className="font-bold text-slate-800 dark:text-white text-sm">Preencha o Comprador</h4>
+                   <p className="text-xs text-slate-500 dark:text-slate-400">Anote nome, CPF/CNPJ e contatos do cliente para assegurar a validade do documento em transações comerciais.</p>
+                </div>
+              </div>
+
+              <div className="bg-slate-50 dark:bg-slate-800/30 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 flex gap-4">
+                <div className="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-900/50 text-emerald-600 dark:text-emerald-400 font-bold flex items-center justify-center shrink-0">3</div>
+                <div className="space-y-1">
+                   <h4 className="font-bold text-slate-800 dark:text-white text-sm">Liste Produtos & Frete</h4>
+                   <p className="text-xs text-slate-500 dark:text-slate-400">Adicione as descrições dos produtos, quantidades, valores e o custo de envio. O sistema soma tudo automaticamente.</p>
+                </div>
+              </div>
+
+              <div className="bg-slate-50 dark:bg-slate-800/30 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 flex gap-4">
+                <div className="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-900/50 text-emerald-600 dark:text-emerald-400 font-bold flex items-center justify-center shrink-0">4</div>
+                <div className="space-y-1">
+                   <h4 className="font-bold text-slate-800 dark:text-white text-sm">Gere o PDF A4 Grátis</h4>
+                   <p className="text-xs text-slate-500 dark:text-slate-400">Clique em 'Imprimir Pedido' e salve como PDF. Envie ao cliente para assinatura e valide o sinal financeiro.</p>
+                </div>
+              </div>
+            </div>
+
+            <hr className="my-8 border-slate-100 dark:border-slate-800" />
+
+            {/* Comparativo de Documentos - Tabela HTML */}
+            <h2 className="text-2xl font-bold text-slate-950 dark:text-white">Diferenças Técnicas: Pedido de Venda vs Orçamento vs Nota Fiscal</h2>
+
+            <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed mb-4">
+               Muitos empreendedores informais ou atuando como <GlossaryTerm slug="mei-microempreendedor-individual">MEI</GlossaryTerm> confundem a função exata de cada papel no faturamento diário.
+            </p>
+
+            <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed mb-4">
+               Para sanar essas dúvidas operacionais, nós elaboramos uma tabela comparativa direta detalhando a finalidade e o nível de compromisso de cada um.
+            </p>
+
+            <div className="overflow-x-auto my-6 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-sm not-prose">
+                <table className="w-full min-w-[750px] text-left border-collapse bg-white dark:bg-slate-900">
+                    <thead>
+                        <tr className="bg-slate-50 dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700">
+                            <th className="px-6 py-4 text-sm font-bold text-slate-900 dark:text-white">Característica Legal</th>
+                            <th className="px-6 py-4 text-sm font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-50/10 dark:bg-emerald-950/10">Pedido de Venda (Nossa Ferramenta)</th>
+                            <th className="px-6 py-4 text-sm font-bold text-slate-700 dark:text-slate-300">Orçamento Comercial</th>
+                            <th className="px-6 py-4 text-sm font-bold text-slate-700 dark:text-slate-300">Nota Fiscal (NF-e / NFS-e)</th>
+                        </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+                        <tr>
+                            <td className="px-6 py-4 text-sm font-bold text-slate-900 dark:text-white">Status da Transação</td>
+                            <td className="px-6 py-4 text-sm font-bold text-emerald-600 bg-emerald-50/10 dark:bg-emerald-950/10">Confirmada (Compra Fechada)</td>
+                            <td className="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">Provisória (Apenas Estimativa)</td>
+                            <td className="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">Finalizada (Despachada/Faturada)</td>
+                        </tr>
+                        <tr>
+                            <td className="px-6 py-4 text-sm font-bold text-slate-900 dark:text-white">Vínculo Contratual</td>
+                            <td className="px-6 py-4 text-sm text-emerald-600 bg-emerald-50/10 dark:bg-emerald-950/10">Atua como <GlossaryTerm slug="contrato-de-prestacao-de-servicos">contrato</GlossaryTerm> após aprovação</td>
+                            <td className="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">Sem obrigação mútua de compra</td>
+                            <td className="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">Comprovação fiscal e tributária obrigatória</td>
+                        </tr>
+                        <tr>
+                            <td className="px-6 py-4 text-sm font-bold text-slate-900 dark:text-white">Exigência de Sistema</td>
+                            <td className="px-6 py-4 text-sm text-emerald-600 bg-emerald-50/10 dark:bg-emerald-950/10">Dispensado (Geração rápida online)</td>
+                            <td className="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">Dispensado (Geração rápida online)</td>
+                            <td className="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">Requer cadastro no governo e certificado digital</td>
+                        </tr>
+                        <tr>
+                            <td className="px-6 py-4 text-sm font-bold text-slate-900 dark:text-white">Impacto Logístico</td>
+                            <td className="px-6 py-4 text-sm text-emerald-600 bg-emerald-50/10 dark:bg-emerald-950/10">Inicia separação de estoque/produção</td>
+                            <td className="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">Não reserva produtos no estoque</td>
+                            <td className="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">Garante o transporte legal da mercadoria</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed mb-6">
+              O melhor de tudo? Usar o pedido de venda como rascunho simplificado agiliza a posterior emissão da nota fiscal, mantendo sua contabilidade limpa e sem refações.
+            </p>
+
+            {/* Metáfora Visual / Analogia */}
+            <h2 className="text-2xl font-bold text-slate-950 dark:text-white">A Metáfora do "Recibo de Bagagem": Por que a Cópia Física Evita Atritos</h2>
+
+            <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed mb-4">
+              Para quem acha que formalizar pedidos é excesso de burocracia para quem vende pouco, nós propomos uma analogia simples com os despachos de bagagem em aeroportos.
+            </p>
+
+            <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed mb-4">
+              Se você entrega sua mala valiosa na mão de um funcionário sem receber um ticket impresso com o código de rastreamento...
+            </p>
+
+            <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed mb-4">
+              Como você comprovará que aquela mala específica de cor preta pertencia a você caso ocorra um extravio no meio da viagem?
+            </p>
+
+            <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed mb-4">
+              O talão de pedido de venda timbrado funciona exatamente como esse ticket de rastreamento de bagagem.
+            </p>
+
+            <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed mb-4">
+              Ele prova em papel que as especificações do bolo, do kit de artesanato ou da peça de vestuário foram combinadas e aprovadas de forma explícita antes da produção.
+            </p>
+
+            <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed mb-6">
+              Veja bem, nós não queremos que você perca noites de sono se preocupando com desentendimentos. Nosso gerador imprime o seu ticket de segurança em segundos.
+            </p>
+
+            <ExpertSignature author="Equipe Editorial Mestre das Contas" updatedAt="Junho de 2026" />
         </div>
 
+        <SmartGlossaryLinker currentHref="/ferramentas/criador-pedidos" />
         <SmartCrossLinker currentHref="/ferramentas/criador-pedidos" category="ferramentas" />
 
-        {/* ANÚNCIO BOTTOM */}
-        <div className="w-full flex justify-center mt-8 min-h-[250px]">
-            <LazyAdUnit slot="orcamento_bottom" format="horizontal" variant="software" />
+        {/* --- FAQ COMPLETO ACCORDION (EXATAMENTE 7 QUESTÕES COM BASE EM DIRECTIVES) --- */}
+        <section className="w-full max-w-4xl mx-auto mt-8">
+          <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl p-6 md:p-12">
+            <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-2 flex items-center gap-3">
+              <HelpCircle className="text-emerald-500 shrink-0" size={32} /> Perguntas Frequentes Resolvidas
+            </h2>
+            <p className="text-sm text-slate-500 dark:text-slate-400 mb-8">
+              Encontre respostas para as suas principais dúvidas sobre faturamento e emissão de talões de pedido online.
+            </p>
+
+            <div className="space-y-4 not-prose">
+              {faqs.map((faq, index) => (
+                <details 
+                  key={index}
+                  className="group border border-slate-200 dark:border-slate-800 rounded-2xl bg-white dark:bg-slate-900/50 transition-all duration-300 overflow-hidden"
+                >
+                  <summary className="flex items-center justify-between p-5 text-base font-bold text-slate-800 dark:text-slate-200 cursor-pointer list-none select-none hover:bg-slate-50 dark:hover:bg-slate-800/30">
+                    <span className="pr-4">{faq.q}</span>
+                    <span className="transition-transform duration-300 group-open:rotate-180 text-emerald-500">
+                      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </span>
+                  </summary>
+                  <div className="p-5 border-t border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/20 text-sm leading-relaxed text-slate-600 dark:text-slate-400">
+                    {faq.a}
+                  </div>
+                </details>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* PUBLICIDADE BOTTOM */}
+        <div className="w-full flex justify-center mt-8">
+           <LazyAdUnit slot="orcamento_bottom" format="horizontal" variant="software" className="min-h-[100px] w-full" />
         </div>
       </div>
     </article>

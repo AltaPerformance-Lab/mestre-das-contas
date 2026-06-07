@@ -6,7 +6,7 @@ import {
   Briefcase, History, BookOpen, 
   CheckCircle2, Coins, Calculator, 
   Wallet, FileText, Scale, ArrowRight,
-  TrendingUp, Clock, CalendarDays, Zap, ShieldCheck, Plus
+  TrendingUp, Clock, CalendarDays, Zap, ShieldCheck, Plus, HelpCircle
 } from "lucide-react";
 import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
 
@@ -69,6 +69,67 @@ const jsonLd = {
       "itemListElement": [
         { "@type": "ListItem", "position": 1, "name": "Início", "item": "https://mestredascontas.com.br" },
         { "@type": "ListItem", "position": 2, "name": "Trabalhista", "item": "https://mestredascontas.com.br/trabalhista" }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "1. Qual é o prazo legal para a empresa fazer o acerto rescisório?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Conforme o artigo 477, § 6º da CLT, a empresa tem o prazo improrrogável de até 10 dias corridos, contados a partir do término do contrato de trabalho, para efetuar o pagamento das verbas rescisórias e entregar os documentos de rescisão ao trabalhador."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "2. Como funciona o cálculo de férias proporcionais?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "As férias proporcionais correspondem a 1/12 (um doze avos) do salário por cada mês trabalhado ou fração superior a 14 dias dentro do período aquisitivo. Ao valor final, adiciona-se o terço constitucional (1/3)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "3. O décimo terceiro salário pode ser pago em uma única parcela?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Legalmente, o 13º salário deve ser dividido em duas parcelas: a primeira entre 1º de fevereiro e 30 de novembro, e a segunda até 20 de dezembro. O pagamento em parcela única só é permitido se efetuado até 30 de novembro."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "4. Quem pede demissão tem direito a receber o seguro-desemprego?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Não. O seguro-desemprego é um benefício de amparo financeiro temporário concedido exclusivamente a trabalhadores demitidos sem justa causa ou em rescisão indireta. Quem pede demissão perde o direito ao benefício."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "5. Qual é o limite de horas extras permitidas por lei diariamente?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "De acordo com o artigo 59 da CLT, a jornada diária normal de trabalho pode ser acrescida de horas suplementares em número não excedente a 2 (duas) horas por dia, mediante acordo escrito ou contrato coletivo."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "6. O que é o saldo de salário na rescisão de contrato?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "O saldo de salário é o pagamento pelos dias em que o empregado efetivamente trabalhou no mês da rescisão. Calcula-se dividindo o salário mensal por 30 e multiplicando pelo número de dias trabalhados até o desligamento."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "7. A multa de 40% incide sobre o saldo atual do FGTS?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A multa de 40% nas demissões sem justa causa incide sobre a totalidade de todos os depósitos realizados pelo empregador ao longo do contrato de trabalho, mesmo que o funcionário tenha efetuado saques anteriores (como no saque-aniversário)."
+          }
+        }
       ]
     }
   ]
@@ -267,50 +328,132 @@ export default function TrabalhistaHubPage() {
         <div className="prose prose-slate dark:prose-invert prose-sm md:prose-lg max-w-none bg-white dark:bg-slate-900 p-6 md:p-12 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-sm mt-10">
           
           <h2 className="text-3xl font-bold text-slate-900 dark:text-slate-100 mb-6 flex items-center gap-3">
-            <Scale className="text-blue-600" size={32} /> Seus Direitos Protegidos pela Tecnologia
+            <Scale className="text-blue-600" size={32} /> Seus Direitos CLT Protegidos e Simplificados
           </h2>
-          <p className="lead text-slate-700 dark:text-slate-300 text-lg">
-            No <strong>Mestre das Contas</strong>, nossa missão é traduzir a complexidade da legislação trabalhista brasileira em ferramentas simples e poderosas. Seja em uma demissão sem justa causa ou no planejamento das férias, você merece saber os valores exatos.
+          <p className="lead text-slate-700 dark:text-slate-300 text-lg mb-6">
+            Nós sabemos perfeitamente que o universo das leis trabalhistas brasileiras pode parecer um labirinto burocrático e confuso. A verdade é que cada trabalhador de carteira assinada precisa compreender exatamente quais verbas possui direito a receber, seja no pagamento mensal, nas férias ou no momento de uma rescisão de contrato.
+          </p>
+          <p className="text-slate-600 dark:text-slate-400 mb-8 text-sm leading-relaxed">
+            Aqui no <strong>Mestre das Contas</strong>, traduzimos toda essa complexidade legal (Consolidação das Leis do Trabalho - CLT) em simuladores e ferramentas práticas de uso imediato. Nosso objetivo é blindar sua segurança jurídica e garantir que seus cálculos sejam feitos com precisão absoluta, sem surpresas desagradáveis ou erros de cálculo que drenam o seu bolso.
           </p>
 
-          <div className="grid md:grid-cols-2 gap-8 my-10 not-prose">
-              <div className="bg-slate-50 dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 hover:border-blue-400 dark:hover:border-blue-500 transition-colors group">
-                  <h3 className="text-xl font-bold text-slate-900 dark:text-slate-100 mb-4 flex items-center gap-2">
-                      <Zap className="text-amber-500" size={24}/> Cálculos Instantâneos
-                  </h3>
-                  <p className="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">
-                      Nossas calculadoras processam milhares de regras tributárias e trabalhistas em milissegundos. Você informa os dados e o resultado aparece na hora, com memória de cálculo detalhada.
-                  </p>
-              </div>
-
-              <div className="bg-slate-50 dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 hover:border-emerald-400 dark:hover:border-emerald-500 transition-colors group">
-                  <h3 className="text-xl font-bold text-slate-900 dark:text-slate-100 mb-4 flex items-center gap-2">
-                      <ShieldCheck className="text-emerald-500" size={24}/> 100% Auditado
-                  </h3>
-                  <p className="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">
-                      Todas as ferramentas são baseadas na <strong>CLT (Consolidação das Leis do Trabalho)</strong> e nas tabelas oficiais da Receita Federal e Previdência Social atualizadas para 2026.
-                  </p>
-              </div>
+          {/* TABELA DE DIREITOS CLT E BASES LEGAIS */}
+          <h3 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mt-10 mb-6">
+            Guia de Direitos Trabalhistas Principais
+          </h3>
+          <div className="overflow-x-auto w-full rounded-2xl border border-slate-200 dark:border-slate-800 mb-8">
+            <table className="min-w-[600px] w-full border-collapse text-left text-sm text-slate-600 dark:text-slate-400">
+              <thead className="bg-slate-50 dark:bg-slate-800/50 text-slate-800 dark:text-slate-200 font-bold border-b border-slate-200 dark:border-slate-800">
+                <tr>
+                  <th className="p-4">Direito CLT</th>
+                  <th className="p-4">Base Legal</th>
+                  <th className="p-4">Regra Principal</th>
+                  <th className="p-4">Impacto Financeiro</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
+                <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-800/30">
+                  <td className="p-4 font-semibold text-slate-900 dark:text-slate-200">Férias + 1/3</td>
+                  <td className="p-4">Art. 129 da CLT</td>
+                  <td className="p-4">Direito a 30 dias de descanso remunerado a cada 12 meses trabalhados</td>
+                  <td className="p-4">Salário integral acrescido de 33,33% de abono constitucional</td>
+                </tr>
+                <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-800/30">
+                  <td className="p-4 font-semibold text-slate-900 dark:text-slate-200">13º Salário</td>
+                  <td className="p-4">Lei nº 4.090/1962</td>
+                  <td className="p-4">Gratificação natalina correspondente a 1/12 avos por mês trabalhado</td>
+                  <td className="p-4">Equivale a um salário extra pago em duas parcelas anuais</td>
+                </tr>
+                <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-800/30">
+                  <td className="p-4 font-semibold text-slate-900 dark:text-slate-200">Horas Extras</td>
+                  <td className="p-4">Art. 59 da CLT</td>
+                  <td className="p-4">Remuneração do tempo de trabalho que excede a jornada diária contratual</td>
+                  <td className="p-4">Acréscimo mínimo de 50% em dias úteis ou 100% em domingos e feriados</td>
+                </tr>
+                <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-800/30">
+                  <td className="p-4 font-semibold text-slate-900 dark:text-slate-200">Rescisão de Contrato</td>
+                  <td className="p-4">Art. 477 da CLT</td>
+                  <td className="p-4">Quitação de haveres rescisórios com pagamento devido em até 10 dias corridos</td>
+                  <td className="p-4">Variável de acordo com o tipo de rescisão (sem justa causa, acordo, etc.)</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
 
-          <div className="bg-slate-900 rounded-3xl p-8 text-white relative overflow-hidden shadow-xl shadow-slate-900/20">
-              <div className="absolute top-0 right-0 p-6 opacity-10">
-                  <BookOpen size={150} className="text-white"/>
+          {/* PERGUNTAS FREQUENTES (FAQ) */}
+          <h3 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mt-12 mb-6 flex items-center gap-2">
+            <HelpCircle className="text-slate-500" size={26} /> Perguntas Frequentes sobre Direitos Trabalhistas
+          </h3>
+          <div className="space-y-4">
+            <details className="group border-b border-slate-200 dark:border-slate-800 pb-4 cursor-pointer">
+              <summary className="font-bold text-slate-800 dark:text-slate-200 flex justify-between items-center list-none p-2 hover:bg-slate-50 dark:hover:bg-slate-800 rounded select-none">
+                1. Qual é o prazo legal para a empresa fazer o acerto rescisório?
+                <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
+              </summary>
+              <div className="mt-2 text-slate-600 dark:text-slate-400 px-2 text-sm leading-relaxed">
+                Conforme o artigo 477, § 6º da CLT, a empresa tem o prazo improrrogável de até 10 dias corridos, contados a partir do término do contrato de trabalho, para efetuar o pagamento das verbas rescisórias e entregar os documentos de rescisão ao trabalhador.
               </div>
-              <h3 className="text-2xl font-bold text-white mb-4 flex items-center gap-2 relative z-10">
-                  Educação Financeira
-              </h3>
-              <p className="text-slate-300 mb-6 relative z-10">
-                  Mais do que apenas números, oferecemos guias completos em cada ferramenta para que você entenda conceitos como Aviso Prévio Indenizado, Proporcionalidade de Férias e Alíquotas Progressivas do INSS.
-              </p>
-              <div className="flex gap-4 relative z-10">
-                  <div className="flex items-center gap-2 text-xs font-bold bg-white/10 px-3 py-1.5 rounded-full">
-                      <CheckCircle2 size={14} className="text-emerald-400"/> Tabela INSS 2026
-                  </div>
-                  <div className="flex items-center gap-2 text-xs font-bold bg-white/10 px-3 py-1.5 rounded-full">
-                      <CheckCircle2 size={14} className="text-emerald-400"/> IRRF Atualizado
-                  </div>
+            </details>
+
+            <details className="group border-b border-slate-200 dark:border-slate-800 pb-4 cursor-pointer">
+              <summary className="font-bold text-slate-800 dark:text-slate-200 flex justify-between items-center list-none p-2 hover:bg-slate-50 dark:hover:bg-slate-800 rounded select-none">
+                2. Como funciona o cálculo de férias proporcionais?
+                <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
+              </summary>
+              <div className="mt-2 text-slate-600 dark:text-slate-400 px-2 text-sm leading-relaxed">
+                As férias proporcionais correspondem a 1/12 (um doze avos) do salário por cada mês trabalhado ou fração superior a 14 dias dentro do período aquisitivo. Ao valor final, adiciona-se o terço constitucional (1/3).
               </div>
+            </details>
+
+            <details className="group border-b border-slate-200 dark:border-slate-800 pb-4 cursor-pointer">
+              <summary className="font-bold text-slate-800 dark:text-slate-200 flex justify-between items-center list-none p-2 hover:bg-slate-50 dark:hover:bg-slate-800 rounded select-none">
+                3. O décimo terceiro salário pode ser pago em uma única parcela?
+                <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
+              </summary>
+              <div className="mt-2 text-slate-600 dark:text-slate-400 px-2 text-sm leading-relaxed">
+                Legalmente, o 13º salário deve ser dividido em duas parcelas: a primeira entre 1º de fevereiro e 30 de novembro, e a segunda até 20 de dezembro. O pagamento em parcela única só é permitido se efetuado até 30 de novembro.
+              </div>
+            </details>
+
+            <details className="group border-b border-slate-200 dark:border-slate-800 pb-4 cursor-pointer">
+              <summary className="font-bold text-slate-800 dark:text-slate-200 flex justify-between items-center list-none p-2 hover:bg-slate-50 dark:hover:bg-slate-800 rounded select-none">
+                4. Quem pede demissão tem direito a receber o seguro-desemprego?
+                <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
+              </summary>
+              <div className="mt-2 text-slate-600 dark:text-slate-400 px-2 text-sm leading-relaxed">
+                Não. O seguro-desemprego é um benefício de amparo financeiro temporário concedido exclusivamente a trabalhadores demitidos sem justa causa ou em rescisão indireta. Quem pede demissão perde o direito ao benefício.
+              </div>
+            </details>
+
+            <details className="group border-b border-slate-200 dark:border-slate-800 pb-4 cursor-pointer">
+              <summary className="font-bold text-slate-800 dark:text-slate-200 flex justify-between items-center list-none p-2 hover:bg-slate-50 dark:hover:bg-slate-800 rounded select-none">
+                5. Qual é o limite de horas extras permitidas por lei diariamente?
+                <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
+              </summary>
+              <div className="mt-2 text-slate-600 dark:text-slate-400 px-2 text-sm leading-relaxed">
+                De acordo com o artigo 59 da CLT, a jornada diária normal de trabalho pode ser acrescida de horas suplementares em número não excedente a 2 (duas) horas por dia, mediante acordo escrito ou contrato coletivo.
+              </div>
+            </details>
+
+            <details className="group border-b border-slate-200 dark:border-slate-800 pb-4 cursor-pointer">
+              <summary className="font-bold text-slate-800 dark:text-slate-200 flex justify-between items-center list-none p-2 hover:bg-slate-50 dark:hover:bg-slate-800 rounded select-none">
+                6. O que é o saldo de salário na rescisão de contrato?
+                <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
+              </summary>
+              <div className="mt-2 text-slate-600 dark:text-slate-400 px-2 text-sm leading-relaxed">
+                O saldo de salário é o pagamento pelos dias em que o empregado efetivamente trabalhou no mês da rescisão. Calcula-se dividindo o salário mensal por 30 e multiplicando pelo número de dias trabalhados até o desligamento.
+              </div>
+            </details>
+
+            <details className="group border-b border-slate-200 dark:border-slate-800 pb-4 cursor-pointer">
+              <summary className="font-bold text-slate-800 dark:text-slate-200 flex justify-between items-center list-none p-2 hover:bg-slate-50 dark:hover:bg-slate-800 rounded select-none">
+                7. A multa de 40% incide sobre o saldo atual do FGTS?
+                <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
+              </summary>
+              <div className="mt-2 text-slate-600 dark:text-slate-400 px-2 text-sm leading-relaxed">
+                A multa de 40% nas demissões sem justa causa incide sobre a totalidade de todos os depósitos realizados pelo empregador ao longo do contrato de trabalho, mesmo que o funcionário tenha efetuado saques anteriores (como no saque-aniversário).
+              </div>
+            </details>
           </div>
 
         </div>

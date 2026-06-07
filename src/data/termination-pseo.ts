@@ -1,20 +1,18 @@
-
 export interface TerminationPSeoCase {
     slug: string;
     title: string;
     reasonLabel: string; // O que aparece no select do calculador
     description: string;
     keywords: string[];
-    // Mudança para dados estruturados
     articleContent: {
         intro: string;
-        analysis?: string; // New: Detailed textual analysis
-        lawText?: string;  // New: Specific legislation text
+        analysis?: string; // Detailed textual analysis
+        lawText?: string;  // Specific legislation text
         rightsList?: {
             title: string;
             items: { label: string; desc: string }[];
         };
-        faq?: { question: string; answer: string }[]; // New: FAQs
+        faq: { question: string; answer: string }[]; // Exactly 7 FAQs for all cases
         warningBox?: {
             title: string;
             text: string;
@@ -48,8 +46,13 @@ export const terminationCases: TerminationPSeoCase[] = [
                 ]
             },
             faq: [
-                { question: "O que acontece se a empresa atrasar o pagamento?", answer: "Se a empresa não pagar a rescisão em até 10 dias corridos, ela deve pagar uma multa no valor de um salário do funcionário (Multa do Art. 477 da CLT)." },
-                { question: "Posso sacar meu FGTS total?", answer: "Sim, na demissão sem justa causa o saque é integral, a menos que você tenha aderido ao Saque-Aniversário. Se aderiu, saca apenas a multa de 40%." }
+                { question: "O que acontece se a empresa atrasar o pagamento da rescisão?", answer: "Se a empresa não depositar a rescisão em até 10 dias corridos a contar do fim do contrato, ela é obrigada a pagar uma multa no valor exato de um salário mensal em favor do funcionário (Multa do Art. 477 da CLT)." },
+                { question: "Posso sacar o FGTS acumulado em caso de demissão sem justa causa?", answer: "Sim. A demissão sem justa causa autoriza o saque de 100% dos depósitos da conta vinculada do FGTS, exceto se o empregado tiver aderido previamente ao regime de Saque-Aniversário, hipótese em que saca apenas a multa rescisória de 40%." },
+                { question: "Como é calculado o aviso prévio indenizado?", answer: "O aviso prévio indenizado corresponde ao pagamento de 30 dias de salário integral, acrescidos de 3 dias extras para cada ano trabalhado na mesma empresa, limitando-se ao teto máximo de 90 dias, conforme a Lei do Aviso Prévio Proporcional." },
+                { question: "O que é a multa compensatória de 40% do FGTS?", answer: "É uma indenização paga pelo empregador calculada sobre a totalidade de todos os depósitos mensais de FGTS realizados ao longo da relação de emprego, incluindo a correção monetária, mesmo se o funcionário tiver efetuado saques parciais anteriormente." },
+                { question: "Como dar entrada no seguro-desemprego após ser demitido?", answer: "O trabalhador deve utilizar o número de requerimento emitido pelo empregador e dar entrada de forma 100% digital pelo portal Gov.br ou pelo aplicativo 'Carteira de Trabalho Digital' no prazo de 7 a 120 dias após o término do vínculo." },
+                { question: "O adicional de periculosidade ou insalubridade entra na rescisão?", answer: "Sim. Os adicionais recebidos habitualmente de forma mensal integram a base de cálculo para a apuração do aviso prévio, férias proporcionais, 1/3 constitucional e décimo terceiro salário proporcional." },
+                { question: "Quem tem estabilidade provisória pode ser demitido sem justa causa?", answer: "Não, salvo se a empresa pagar uma indenização correspondente a todo o período restante da estabilidade assegurada por lei (como no caso de gestantes, dirigentes sindicais ou acidentados)." }
             ],
             warningBox: {
                 title: "Atenção ao Aviso Prévio",
@@ -80,8 +83,13 @@ export const terminationCases: TerminationPSeoCase[] = [
                 ]
             },
             faq: [
-                { question: "A empresa é obrigada a aceitar o aviso imediato?", answer: "Não. Se você pedir para sair e não quiser cumprir o aviso, a empresa pode optar por descontar ou abonar os dias. É uma negociação." },
-                { question: "Recebo férias e décimo terceiro?", answer: "Sim! Você recebe saldo de salário, 13º proporcional e férias vencidas/proporcionais + 1/3 normalmente." }
+                { question: "A empresa é obrigada a aceitar a dispensa do aviso prévio no pedido de demissão?", answer: "Não. A empresa pode exigir o cumprimento do aviso de 30 dias. Se você optar por não cumprir e a empresa não dispensar o expediente, o valor correspondente a 30 dias de salário será integralmente descontado da rescisão." },
+                { question: "Recebo férias proporcionais e 13º salário ao pedir demissão?", answer: "Sim. O pedido de demissão garante o recebimento do saldo de salários do mês, férias vencidas (se houver) + 1/3, férias proporcionais + 1/3 e o décimo terceiro salário proporcional normalmente." },
+                { question: "O que acontece com meu FGTS acumulado após pedir demissão?", answer: "O saldo acumulado na conta vinculada permanece retido na conta do FGTS rendendo a remuneração básica legal. Você não poderá sacar de imediato, exceto em hipóteses futuras como aquisição de casa própria ou aposentadoria." },
+                { question: "Posso receber seguro-desemprego se pedir demissão?", answer: "Não. O programa de seguro-desemprego foi desenhado para proteger trabalhadores demitidos involuntariamente sem justa causa. Pedidos de demissão são voluntários e retiram esse direito." },
+                { question: "Como funciona o desconto do aviso prévio não cumprido?", answer: "Se o trabalhador solicitar a dispensa imediata e não cumprir os 30 dias de aviso trabalhado exigidos pelo empregador, a empresa abate exatamente o valor de um salário bruto nominal no cálculo final da rescisão." },
+                { question: "Preciso formalizar o pedido de demissão por escrito?", answer: "Sim. Para resguardar ambas as partes de mal-entendidos jurídicos, o funcionário deve redigir uma carta de pedido de demissão de próprio punho contendo a data e a indicação de cumprimento ou não do aviso." },
+                { question: "Posso desistir do pedido de demissão após ter entregue a carta?", answer: "A desistência só produzirá efeitos jurídicos se a empresa aceitar formalmente a anulação do pedido antes do decurso do prazo final do aviso prévio correspondente." }
             ]
         }
     },
@@ -108,8 +116,13 @@ export const terminationCases: TerminationPSeoCase[] = [
                 ]
             },
             faq: [
-                { question: "A empresa é obrigada a fazer acordo?", answer: "Não. Ambas as partes precisam querer. Se um não quiser, o acordo não acontece." },
-                { question: "Vale a pena?", answer: "Se você quer sair e a empresa não quer te demitir, vale mais a pena do que pedir demissão, pois você acessa 80% do FGTS e leva uma multa menor." }
+                { question: "A empresa é obrigada a aceitar a rescisão por acordo comum?", answer: "Não. Como o próprio nome diz, a rescisão consensual exige a livre concordância e consenso de ambas as partes. Nenhuma empresa ou funcionário pode coagir o outro a aderir ao distrato." },
+                { question: "Qual é o valor da multa do FGTS na rescisão por acordo comum?", answer: "A multa rescisória compensatória devida pelo empregador cai pela metade nesta modalidade, correspondendo a 20% sobre o montante dos saldos históricos depositados na conta vinculada." },
+                { question: "Quantos por cento do saldo do FGTS posso sacar no acordo comum?", answer: "O trabalhador é autorizado a realizar o saque imediato de até 80% do saldo total acumulado de sua conta do FGTS na Caixa Econômica Federal." },
+                { question: "Trabalhador que faz acordo consensual tem direito ao seguro-desemprego?", answer: "Não. A legislação veda a habilitação e o recebimento de parcelas do seguro-desemprego para funcionários desligados via distrato ou acordo de comum acordo." },
+                { question: "Como funciona o aviso prévio indenizado no acordo comum?", answer: "Se o aviso prévio for indenizado, o trabalhador tem o direito de receber metade do valor correspondente (15 dias de salário nominal). Se for trabalhado, cumpre 30 dias e recebe integral." },
+                { question: "Quais verbas são pagas integralmente no acordo consensual?", answer: "As verbas de férias vencidas e proporcionais + 1/3 constitucional, saldo de salários do mês e o décimo terceiro salário proporcional são pagos de forma 100% integral no acordo comum." },
+                { question: "O acordo comum precisa ser homologado no sindicato?", answer: "A Reforma Trabalhista retirou a obrigatoriedade de homologação no sindicato para a validação da rescisão por acordo comum, bastando a assinatura do termo de distrato mútuo." }
             ]
         }
     },
@@ -134,6 +147,15 @@ export const terminationCases: TerminationPSeoCase[] = [
                      { label: "Salário Família:", desc: "Se tiver direito." }
                 ]
             },
+            faq: [
+                { question: "Quais motivos previstos em lei autorizam a demissão por justa causa?", answer: "O artigo 482 da CLT lista taxativamente as hipóteses, que englobam desídia (preguiça/desleixo), indisciplina, insubordinação, embriaguez em serviço, ato de improbidade (furto/fraude) e abandono de emprego." },
+                { question: "Quais verbas rescisórias o trabalhador recebe na justa causa?", answer: "O trabalhador recebe apenas o saldo de salário dos dias trabalhados no respectivo mês e o saldo de férias vencidas (se houver) + 1/3 constitucional. Férias proporcionais não são pagas." },
+                { question: "O que o trabalhador perde ao ser demitido por justa causa?", answer: "Perde-se o direito de receber o aviso prévio, décimo terceiro proporcional, férias proporcionais, a multa de 40%, o direito ao saque de qualquer valor do FGTS e a habilitação no seguro-desemprego." },
+                { question: "A empresa pode aplicar justa causa sem dar advertências prévias?", answer: "Sim, caso a falta cometida pelo funcionário seja de extrema gravidade (como vias de fato/agressão ou roubo) que quebre imediatamente a confiança contratual mútua." },
+                { question: "É possível reverter a justa causa na Justiça do Trabalho?", answer: "Sim. Caso a empresa não consiga provar de forma incontestável a gravidade do ato do trabalhador ou tenha agido com desproporcionalidade, a dispensa pode ser revertida judicialmente para demissão sem justa causa." },
+                { question: "A demissão por justa causa fica anotada na Carteira de Trabalho?", answer: "Não. A legislação proíbe o empregador de realizar anotações desabonadoras na CTPS (Carteira de Trabalho), incluindo menções ao motivo da justa causa, sob pena de processo por danos morais." },
+                { question: "Como funciona o prazo de pagamento do acerto na justa causa?", answer: "O prazo legal permanece rigorosamente idêntico ao das outras modalidades de demissão: até 10 dias corridos a contar da data de notificação da dispensa." }
+            ],
             warningBox: {
                 title: "Perda Total",
                 text: "Na Justa Causa, você PERDE: Aviso Prévio, 13º Proporcional, Férias Proporcionais, Saque do FGTS, Multa de 40% e Seguro Desemprego."
@@ -162,8 +184,13 @@ export const terminationCases: TerminationPSeoCase[] = [
                 ]
             },
             faq: [
-                { question: "Estagiário recebe 13º salário?", answer: "Pela lei federal, não há obrigatoriedade. Porém, algumas empresas concedem por liberalidade ou se estiver previsto no Termo de Compromisso." },
-                { question: "Precisa de aviso prévio?", answer: "Não. O desligamento pode ser imediato sem ônus para nenhuma das partes." }
+                { question: "Estagiário recebe 13º salário proporcional?", answer: "A Lei do Estágio não obriga o pagamento de gratificação de 13º salário. Contudo, a empresa concedente pode pagar opcionalmente ou se estiver pré-estabelecido em contrato." },
+                { question: "Como funciona o recesso remunerado proporcional na rescisão de estágio?", answer: "Para cada mês trabalhado, o estagiário adquire direito a 2,5 dias de recesso. No fechamento do contrato, a empresa deve indenizar em dinheiro todos os dias de recesso não usufruídos." },
+                { question: "É necessário cumprir aviso prévio na rescisão do contrato de estágio?", answer: "Não. Como o estágio não estabelece vínculo CLT, qualquer uma das partes pode dar por rescindido o termo de compromisso imediatamente sem exigência de aviso ou indenização financeira." },
+                { question: "Estagiário tem direito ao saque do FGTS ou multa rescisória?", answer: "Não. Não há recolhimento de Fundo de Garantia do Tempo de Serviço (FGTS) na bolsa de estágio e, portanto, inexistem depósitos ou multas compensatórias de desligamento." },
+                { question: "A rescisão antecipada do estágio gera alguma indenização para as partes?", answer: "Nenhuma das partes responde por multas rescisórias por quebra antecipada de contrato, devido ao caráter essencialmente pedagógico da relação jurídica." },
+                { question: "Quem estagia tem direito a receber seguro-desemprego?", answer: "Não. Por não possuir cadastro CLT e nem vínculo empregatício formal, estagiários desligados não integram o programa de seguro-desemprego do Governo Federal." },
+                { question: "Como deve ser formalizado o desligamento do estagiário?", answer: "A formalização ocorre mediante assinatura de um termo de rescisão de estágio, acompanhado obrigatoriamente de um termo de realização de estágio contendo o sumário das atividades executadas." }
             ]
         }
     },
@@ -189,7 +216,13 @@ export const terminationCases: TerminationPSeoCase[] = [
                 ]
             },
             faq: [
-                { question: "Aprendiz tem direito a seguro-desemprego?", answer: "Sim, caso a rescisão seja antecipada sem justa causa por iniciativa da empresa e ele preencha os requisitos de tempo." }
+                { question: "O jovem aprendiz tem direito a seguro-desemprego ao fim do contrato?", answer: "Sim, caso ocorra demissão antecipada sem justa causa promovida pelo empregador e o aprendiz atenda aos quesitos regulares de carência do Ministério do Trabalho." },
+                { question: "Qual é a alíquota mensal de depósito do FGTS para o jovem aprendiz?", answer: "Ao contrário dos 8% descontados para empregados CLT tradicionais, a alíquota legal de recolhimento de FGTS devida pela empresa para o jovem aprendiz é de apenas 2%." },
+                { question: "O que acontece se o contrato do aprendiz for encerrado antecipadamente?", answer: "Se ocorrer dispensa sem justa causa promovida pela empresa antes do prazo, o aprendiz tem direito a receber todas as verbas normais e indenizações, bem como a multa do FGTS." },
+                { question: "O jovem aprendiz recebe multa rescisória de 40% ao fim do contrato?", answer: "Não, se a rescisão decorrer do término normal do prazo estipulado em contrato (tempo de vigência final). A multa de 40% só é devida na dispensa imotivada precoce." },
+                { question: "Como são calculadas as férias e o 13º proporcional do jovem aprendiz?", answer: "Os cálculos seguem as normas CLT idênticas às do trabalhador comum, rateados na proporção de avos pelos meses trabalhados com fração superior a 15 dias de serviço." },
+                { question: "Quais são os motivos legais para a rescisão antecipada por justa causa do aprendiz?", answer: "São a falta de aproveitamento escolar, ausência sem justificativa às aulas do curso profissionalizante, faltas injustificadas na empresa ou inadequação grave de comportamento." },
+                { question: "O jovem aprendiz tem direito ao saque do FGTS no término regular do contrato?", answer: "Sim. A rescisão pelo término natural do contrato por prazo determinado autoriza o aprendiz a sacar integralmente os depósitos da conta vinculada (código 04)." }
             ]
         }
     },
@@ -215,8 +248,13 @@ export const terminationCases: TerminationPSeoCase[] = [
                 ]
             },
             faq: [
-                { question: "Recebo multa de 40% se o contrato acabar?", answer: "Não. A multa só é devida se a empresa te demitir ANTES do prazo final da experiência chegar." },
-                { question: "Tenho direito a seguro desemprego?", answer: "No término de contrato por prazo determinado, não há direito ao seguro desemprego." }
+                { question: "Recebo a multa compensatória de 40% do FGTS no término da experiência?", answer: "Não. Se o contrato for extinto no prazo de vigência regular acordado previamente, o desligamento não é considerado demissão arbitrária e não enseja pagamento da multa." },
+                { question: "Tenho direito a sacar o FGTS ao fim do contrato de experiência de 90 dias?", answer: "Sim. A rescisão por término regular de contrato de experiência por prazo determinado permite o saque integral dos depósitos da conta do FGTS na Caixa." },
+                { question: "O término do contrato de experiência no prazo dá direito ao seguro-desemprego?", answer: "Não. Não há concessão de seguro-desemprego para o encerramento regular de contratos temporários ou por prazo de experiência preestabelecido." },
+                { question: "Como funciona a rescisão antecipada por iniciativa do empregador?", answer: "Se a empresa demitir o funcionário sem justa causa antes do prazo final da experiência, ela deve pagar as verbas integrais, aviso prévio indenizado ou a indenização prevista no Art. 479 da CLT." },
+                { question: "O que acontece se o trabalhador rescindir o contrato antes do fim da experiência?", answer: "Se o trabalhador sair antes do fim, ele deve indenizar a empresa pelos prejuízos que causar, valor este que fica limitado à metade da remuneração a que teria direito até o fim do contrato." },
+                { question: "O contrato de experiência pode durar mais do que 90 dias?", answer: "Não. O prazo máximo permitido por lei para o período probatório de experiência é de rigorosamente 90 dias, admitindo-se apenas uma única prorrogação dentro desse limite." },
+                { question: "A gravidez durante o contrato de experiência gera estabilidade?", answer: "Sim. Conforme entendimento consolidado do TST (Súmula 244), a empregada gestante tem direito à estabilidade provisória mesmo no decorrer de contratos por prazo determinado." }
             ]
         }
     }

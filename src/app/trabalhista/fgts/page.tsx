@@ -13,6 +13,8 @@ import {
 } from "lucide-react";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
 import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
+import SmartGlossaryLinker from "@/components/layout/SmartGlossaryLinker";
+import GlossaryTerm from "@/components/ui/GlossaryTerm";
 import ExpertSignature from "@/components/ui/ExpertSignature";
 
 // --- 1. METADATA DE DOMINAÇÃO (SEO 2026) ---
@@ -62,11 +64,13 @@ export async function generateMetadata(): Promise<Metadata> {
 
 // --- FAQ LIST ---
 const faqList = [
-  { q: "O que é a antecipação do Saque-Aniversário?", a: "É uma modalidade de crédito que permite que você utilize o saldo do seu FGTS como garantia para antecipar parcelas que seriam pagas apenas no mês do seu aniversário. O dinheiro é liberado na sua conta na hora e o banco desconta a parcela diretamente da Caixa anualmente." },
-  { q: "Qual a taxa de juros do adiantamento de FGTS?", a: "A taxa é regulamentada pelo Banco Central e costuma ser uma das mais baixas do mercado financeiro (média entre 1,49% e 1,99% ao mês), sendo muito mais barata que empréstimo pessoal ou cartão de crédito convencional." },
-  { q: "Quem tem direito a fazer a antecipação?", a: "Qualquer trabalhador com carteira assinada ou saldo em contas ativas/inativas do FGTS (mínimo de R$ 300,00 no total), maior de 18 anos, que tenha optado pela modalidade de 'Saque-Aniversário' no app do FGTS." },
-  { q: "Compromete o limite do meu cartão de crédito?", a: "Não. A antecipação é um desconto em folha do próprio fundo de garantia. Ela não entra no seu score de crédito do Serasa e não utiliza o limite de seus cartões." },
-  { q: "Posso fazer mesmo com o nome sujo/negativado?", a: "Sim, perfeitamente! Como a garantia da operação é o próprio saldo do FGTS que já está depositado na Caixa Econômica, não há análise de score ou restrição cadastral no SPC/Serasa." }
+  { q: "O que exatamente é essa Antecipação do Saque-Aniversário?", a: "Pense nela como um empréstimo onde a garantia é o seu próprio dinheiro guardado no FGTS. Em vez de esperar anos para sacar parcelinhas no mês do seu aniversário, você recebe o valor todo de uma vez (antecipado). O banco que te emprestou o dinheiro vai descontar as parcelas direto do seu saldo na Caixa Econômica anualmente." },
+  { q: "Se eu antecipar, perco minha multa de 40% em caso de demissão?", a: "Esse é o maior medo das pessoas, mas fique tranquilo: a resposta é não! A multa de 40% por demissão sem justa causa é um direito intocável. Você continua recebendo ela normalmente, calculada sobre o saldo total histórico que a empresa depositou." },
+  { q: "A taxa de juros dessa antecipação compensa?", a: "Sem dúvida. Como o banco tem a certeza absoluta de que vai receber (afinal, o dinheiro já está travado na Caixa), o risco de calote é zero. Por isso, a taxa de juros dessa modalidade costuma ser muito mais baixa (entre 1,49% e 1,99% ao mês) do que qualquer empréstimo pessoal ou rotativo do cartão de crédito." },
+  { q: "Meu nome está no SPC/Serasa (negativado). Consigo fazer?", a: "Sim, consegue perfeitamente! Como a garantia é o saldo do FGTS e não a sua renda mensal ou histórico de pagamentos, os bancos não consultam o SPC nem o Serasa para liberar o dinheiro. A aprovação é garantida desde que haja saldo." },
+  { q: "Quanto tempo demora para o dinheiro cair na conta?", a: "Na imensa maioria das vezes, o dinheiro é depositado via Pix na sua conta bancária em poucos minutos, muitas vezes em menos de 10 minutos após a aprovação digital. É um processo totalmente automatizado." },
+  { q: "Essa operação bloqueia ou diminui o limite do meu cartão de crédito?", a: "De forma alguma. A antecipação do FGTS é uma operação à parte que não consome a margem do seu cartão de crédito e nem aparece no SCR do Banco Central como comprometimento da sua renda mensal." },
+  { q: "Se eu pedir demissão depois de antecipar o FGTS, o que acontece?", a: "Nada muda em relação à sua dívida, pois ela já está vinculada ao saldo bloqueado no FGTS. No entanto, lembre-se que, ao pedir demissão, você já não sacaria o FGTS de qualquer forma. O banco simplesmente continuará retirando a parcela anual do seu saldo retido na Caixa." }
 ];
 
 // --- 2. DADOS ESTRUTURADOS (JSON-LD GRAFO CONSISTENTE) ---
@@ -195,138 +199,120 @@ export default async function FgtsPage() {
         {/* --- CONTEÚDO EDUCACIONAL --- */}
         <div className="prose prose-slate dark:prose-invert prose-sm md:prose-lg max-w-4xl mx-auto bg-white dark:bg-slate-900 p-6 md:p-12 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-xl shadow-slate-200/40 dark:shadow-none overflow-hidden w-full print:hidden">
           <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2 border-l-4 border-emerald-600 pl-4">
-            Como Funciona a Antecipação do FGTS?
+            A Verdade Sobre o Seu FGTS Retido
           </h2>
+          
           <p className="lead text-slate-700 dark:text-slate-300 text-lg font-medium">
-            Muitas vezes precisamos de dinheiro rápido para resolver uma emergência, investir em um negócio ou quitar dívidas caras de cartão de crédito. Se você trabalha ou trabalhou com carteira assinada, você possui um patrimônio "escondido" no <strong>FGTS</strong>.
-          </p>
-          <p>
-            O adiantamento do Saque-Aniversário nada mais é do que contratar um empréstimo com taxas super baixas onde a garantia é o dinheiro do seu fundo que já está depositado na Caixa Econômica. O banco antecipa as parcelas anuais para você imediatamente e a própria Caixa transfere esse saldo de volta para o banco parceiro no mês do seu aniversário.
+            Sabe aquele sentimento de ter dinheiro no bolso, mas não poder usar? Essa é a exata sensação de milhares de trabalhadores brasileiros que possuem saldo bloqueado nas contas do <GlossaryTerm slug="fgts-fundo-de-garantia">FGTS</GlossaryTerm>. 
           </p>
 
-          <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100 mt-10 mb-6 flex items-center gap-2">
-            <Calculator className="text-emerald-600 dark:text-emerald-400" /> A Tabela do Saque-Aniversário (Alíquotas da Caixa)
-          </h3>
           <p>
-            O valor anual que você tem direito a sacar é determinado por faixas de saldo. Quanto menor o seu saldo, maior a porcentagem (alíquota) que você pode sacar, porém menor a parcela adicional fixa. Veja a tabela oficial abaixo:
+            O Governo Federal até diz que o Fundo de Garantia é para "proteger o trabalhador". Mas sejamos sinceros: ver o seu próprio dinheiro rendendo quase nada na Caixa Econômica, enquanto a inflação dispara ou os juros do cartão de crédito te sufocam, não parece muita proteção.
+          </p>
+
+          <p>
+            A boa notícia? O jogo virou. Com a chegada da Antecipação do <GlossaryTerm slug="saque-aniversario-fgts">Saque-Aniversário</GlossaryTerm>, você ganhou a chave para destrancar esse cofre.
+          </p>
+
+          <h3 className="text-xl md:text-2xl font-bold text-slate-800 dark:text-slate-100 mt-10 mb-6">
+            Como Funciona a Antecipação na Prática?
+          </h3>
+
+          <p>
+            Imagine a seguinte situação. Você tem R$ 5.000 presos no FGTS. Pela regra comum, você só poderia sacar pequenas parcelas uma vez por ano no mês do seu aniversário (o que levaria quase uma década para limpar a conta).
+          </p>
+
+          <p>
+            É aí que entra a <strong>antecipação</strong>. Ela funciona como um atalho. Um banco parceiro empresta o valor total que você teria direito a sacar nos próximos anos e te transfere na hora, via Pix. O melhor de tudo? Você não precisa pagar boletos mensais. O banco e a Caixa Econômica se resolvem entre si: uma vez ao ano, a Caixa desconta o valor direto do seu saldo do FGTS para pagar o banco.
+          </p>
+
+          <p>
+            Você pega o dinheiro, resolve sua vida e o seu orçamento mensal fica intacto. Genial, não é?
+          </p>
+
+          <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mt-12 mb-6 flex items-center gap-2 border-l-4 border-emerald-600 pl-4">
+            A Tabela Oficial de Alíquotas (Regra da Caixa)
+          </h2>
+
+          <p>
+            Mas atenção, você não pode simplesmente sacar 100% do valor retido em uma única tacada mágica. A Caixa criou uma tabela progressiva para determinar a fatia que pode ser movimentada anualmente.
+          </p>
+
+          <p>
+            Funciona assim: quem tem saldos menores (até R$ 500) pode sacar uma fatia maior (50%). Conforme o seu saldo vai crescendo, a porcentagem diminui, mas o governo acrescenta uma "Parcela Fixa" para compensar. Veja com os próprios olhos:
           </p>
 
           {/* TABELA DE CÁLCULO VISUAL */}
-          <div className="my-8">
-            <div className="overflow-hidden border rounded-xl border-slate-200 dark:border-slate-800 shadow-sm bg-white dark:bg-slate-900">
-              <div className="bg-slate-100 dark:bg-slate-800 p-3 border-b border-slate-200 dark:border-slate-700 flex justify-between items-center">
-                <h3 className="font-bold text-slate-700 dark:text-slate-200 text-xs md:text-sm uppercase flex items-center gap-2">
-                  <Scale size={16} /> Faixas de Saldo e Parcelas Adicionais
-                </h3>
-              </div>
-              <table className="w-full text-xs md:text-sm text-left">
-                <thead className="bg-slate-50 dark:bg-slate-800 text-slate-500 font-bold">
-                  <tr>
-                    <th className="px-4 py-3">Limite de Saldo (R$)</th>
-                    <th className="px-4 py-3">Alíquota (%)</th>
-                    <th className="px-4 py-3">Parcela Adicional (R$)</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
-                  <tr className="hover:bg-slate-50/50 transition-colors">
-                    <td className="px-4 py-3">Até R$ 500,00</td>
-                    <td className="px-4 py-3 font-semibold">50,0%</td>
-                    <td className="px-4 py-3 font-mono">R$ 0,00</td>
-                  </tr>
-                  <tr className="hover:bg-slate-50/50 transition-colors">
-                    <td className="px-4 py-3">De 500,01 até 1.000,00</td>
-                    <td className="px-4 py-3 font-semibold">40,0%</td>
-                    <td className="px-4 py-3 font-mono">R$ 50,00</td>
-                  </tr>
-                  <tr className="hover:bg-slate-50/50 transition-colors">
-                    <td className="px-4 py-3">De 1.000,01 até 5.000,00</td>
-                    <td className="px-4 py-3 font-semibold">30,0%</td>
-                    <td className="px-4 py-3 font-mono">R$ 150,00</td>
-                  </tr>
-                  <tr className="hover:bg-slate-50/50 transition-colors">
-                    <td className="px-4 py-3">De 5.000,01 até 10.000,00</td>
-                    <td className="px-4 py-3 font-semibold">20,0%</td>
-                    <td className="px-4 py-3 font-mono">R$ 650,00</td>
-                  </tr>
-                  <tr className="hover:bg-slate-50/50 transition-colors">
-                    <td className="px-4 py-3">De 10.000,01 até 15.000,00</td>
-                    <td className="px-4 py-3 font-semibold">15,0%</td>
-                    <td className="px-4 py-3 font-mono">R$ 1.150,00</td>
-                  </tr>
-                  <tr className="hover:bg-slate-50/50 transition-colors">
-                    <td className="px-4 py-3">De 15.000,01 até 20.000,00</td>
-                    <td className="px-4 py-3 font-semibold">10,0%</td>
-                    <td className="px-4 py-3 font-mono">R$ 1.900,00</td>
-                  </tr>
-                  <tr className="bg-emerald-500/5 hover:bg-emerald-500/10 font-bold transition-colors">
-                    <td className="px-4 py-3 text-emerald-800 dark:text-emerald-400">Acima de R$ 20.000,00</td>
-                    <td className="px-4 py-3 text-emerald-800 dark:text-emerald-400">5,0%</td>
-                    <td className="px-4 py-3 font-mono text-emerald-800 dark:text-emerald-400">R$ 2.900,00</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+          <div className="overflow-x-auto my-8 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm not-prose">
+            <table className="w-full text-left border-collapse min-w-[600px]">
+              <thead>
+                <tr className="bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-100 text-sm md:text-base">
+                  <th className="p-4 border-b border-slate-200 dark:border-slate-700 font-bold">Limite de Saldo no FGTS (R$)</th>
+                  <th className="p-4 border-b border-slate-200 dark:border-slate-700 font-bold text-center">Alíquota (%)</th>
+                  <th className="p-4 border-b border-slate-200 dark:border-slate-700 font-bold text-right">Parcela Adicional (Fixa)</th>
+                </tr>
+              </thead>
+              <tbody className="text-sm md:text-base text-slate-700 dark:text-slate-300">
+                <tr className="border-b border-slate-100 dark:border-slate-800/50 hover:bg-slate-50 dark:hover:bg-slate-800/20">
+                  <td className="p-4">Até R$ 500,00</td>
+                  <td className="p-4 text-center font-semibold">50,0%</td>
+                  <td className="p-4 text-right font-mono">R$ 0,00</td>
+                </tr>
+                <tr className="border-b border-slate-100 dark:border-slate-800/50 hover:bg-slate-50 dark:hover:bg-slate-800/20">
+                  <td className="p-4">De R$ 500,01 até R$ 1.000,00</td>
+                  <td className="p-4 text-center font-semibold">40,0%</td>
+                  <td className="p-4 text-right font-mono">R$ 50,00</td>
+                </tr>
+                <tr className="border-b border-slate-100 dark:border-slate-800/50 hover:bg-slate-50 dark:hover:bg-slate-800/20">
+                  <td className="p-4">De R$ 1.000,01 até R$ 5.000,00</td>
+                  <td className="p-4 text-center font-semibold">30,0%</td>
+                  <td className="p-4 text-right font-mono">R$ 150,00</td>
+                </tr>
+                <tr className="border-b border-slate-100 dark:border-slate-800/50 hover:bg-slate-50 dark:hover:bg-slate-800/20">
+                  <td className="p-4">De R$ 5.000,01 até R$ 10.000,00</td>
+                  <td className="p-4 text-center font-semibold">20,0%</td>
+                  <td className="p-4 text-right font-mono">R$ 650,00</td>
+                </tr>
+                <tr className="border-b border-slate-100 dark:border-slate-800/50 hover:bg-slate-50 dark:hover:bg-slate-800/20">
+                  <td className="p-4">De R$ 10.000,01 até R$ 15.000,00</td>
+                  <td className="p-4 text-center font-semibold">15,0%</td>
+                  <td className="p-4 text-right font-mono">R$ 1.150,00</td>
+                </tr>
+                <tr className="border-b border-slate-100 dark:border-slate-800/50 hover:bg-slate-50 dark:hover:bg-slate-800/20">
+                  <td className="p-4">De R$ 15.000,01 até R$ 20.000,00</td>
+                  <td className="p-4 text-center font-semibold">10,0%</td>
+                  <td className="p-4 text-right font-mono">R$ 1.900,00</td>
+                </tr>
+                <tr className="bg-emerald-50 dark:bg-emerald-900/20 font-bold transition-colors">
+                  <td className="p-4 text-emerald-900 dark:text-emerald-400">Acima de R$ 20.000,00</td>
+                  <td className="p-4 text-center text-emerald-900 dark:text-emerald-400">5,0%</td>
+                  <td className="p-4 text-right font-mono text-emerald-900 dark:text-emerald-400">R$ 2.900,00</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
 
-          <h3 className="text-xl font-bold text-slate-800 dark:text-white mt-10 mb-4 flex items-center gap-2">
-            <CheckCircle2 className="text-emerald-600 dark:text-emerald-500" /> Vantagens Reais de Adiantar o FGTS
+          <h3 className="text-xl md:text-2xl font-bold text-slate-800 dark:text-slate-100 mt-10 mb-4">
+            Por que os Especialistas Recomendam Antecipar?
           </h3>
-          <ul className="space-y-3 not-prose mb-8">
-            <li className="flex items-start gap-3 bg-white dark:bg-slate-800/50 p-3 rounded-lg border border-slate-100 dark:border-slate-800 shadow-sm">
-              <CheckCircle2 className="text-emerald-500 mt-0.5 shrink-0" size={18} />
-              <span className="text-slate-700 dark:text-slate-300 text-sm"><strong>Sem Boleto Mensal:</strong> A cobrança é feita uma vez por ano e repassada automaticamente pela Caixa ao banco parceiro. Seu orçamento mensal fica intocado.</span>
-            </li>
-            <li className="flex items-start gap-3 bg-white dark:bg-slate-800/50 p-3 rounded-lg border border-slate-100 dark:border-slate-800 shadow-sm">
-              <CheckCircle2 className="text-emerald-500 mt-0.5 shrink-0" size={18} />
-              <span className="text-slate-700 dark:text-slate-300 text-sm"><strong>Aceita Negativados:</strong> Como há saldo em conta como garantia líquida, não há restrições cadastrais para quem possui restrição no nome.</span>
-            </li>
-            <li className="flex items-start gap-3 bg-white dark:bg-slate-800/50 p-3 rounded-lg border border-slate-100 dark:border-slate-800 shadow-sm">
-              <CheckCircle2 className="text-emerald-500 mt-0.5 shrink-0" size={18} />
-              <span className="text-slate-700 dark:text-slate-300 text-sm"><strong>Investimento ou Dívidas:</strong> As taxas de juros de 1.5% a 2% ao mês são até 10 vezes mais baratas do que o rotativo do cartão ou o cheque especial (que chegam a 15% ao mês).</span>
-            </li>
+
+          <p>
+            Sejamos diretos: o FGTS rende oficialmente cerca de 3% ao ano, mais a TR. Enquanto isso, um empréstimo pessoal ou a fatura atrasada do cartão cobram juros absurdos (frequentemente passando de 15% ao mês). 
+          </p>
+
+          <p>
+            Matematicamente, não faz sentido deixar seu dinheiro mofando na conta inativa enquanto você paga juros abusivos na praça. Ao antecipar, você acessa uma das linhas de crédito <strong>mais baratas do Brasil</strong> (em torno de 1,60% ao mês) justamente porque o banco não tem risco de tomar calote. 
+          </p>
+
+          <ul className="list-disc pl-6 space-y-2 mb-6">
+            <li><strong>Ideal para limpar o nome:</strong> Troque uma dívida cara por uma baratíssima.</li>
+            <li><strong>Zero restrição no Serasa:</strong> Aceita negativados sem burocracia.</li>
+            <li><strong>Empreender:</strong> O dinheiro serve de capital de giro inicial para quem deseja abrir um pequeno negócio.</li>
           </ul>
 
-          {/* HISTÓRIA E E-E-A-T */}
-          <div className="bg-gradient-to-br from-emerald-50 to-indigo-50 dark:from-emerald-900/10 dark:to-indigo-900/10 p-6 md:p-8 rounded-2xl border border-emerald-100 dark:border-emerald-800 my-10 not-prose relative overflow-hidden shadow-sm">
-            <div className="absolute top-0 right-0 p-4 opacity-5">
-              <History size={140} className="text-emerald-900 dark:text-emerald-100"/>
-            </div>
-            <h3 className="text-xl font-bold text-emerald-900 dark:text-white mb-4 flex items-center gap-2 relative z-10">
-              <BookOpen size={24} className="text-emerald-600 dark:text-emerald-400"/> Histórico: Por que o FGTS rende pouco?
-            </h3>
-            <div className="space-y-4 text-slate-700 dark:text-slate-200 relative z-10 text-sm md:text-base leading-relaxed">
-              <p>
-                O FGTS rende oficialmente **3% ao ano + TR (Taxa Referencial)**. Historicamente, essa rentabilidade fica consideravelmente abaixo da inflação (IPCA) e do rendimento da poupança ou de títulos do Tesouro Selic. 
-              </p>
-              <p>
-                Deixar o saldo inativo parado no banco significa que seu dinheiro está perdendo poder de compra a cada ano. Por isso, especialistas apontam que antecipar esse saldo para investir em negócios com retorno maior ou quitar dívidas ativas é uma escolha financeiramente estratégica.
-              </p>
-            </div>
-          </div>
-
-          {/* FAQ ACCORDION */}
-          <div className="mt-16 not-prose">
-            <h3 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-8 flex items-center gap-3 border-b border-slate-100 dark:border-slate-800 pb-4">
-              <HelpCircle className="text-emerald-600 dark:text-emerald-400" /> Perguntas Frequentes (FAQ)
-            </h3>
-            
-            <div className="space-y-4">
-              {faqList.map((item, idx) => (
-                <details key={idx} className="group bg-white dark:bg-slate-800/50 p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm cursor-pointer open:ring-2 open:ring-emerald-100 dark:open:ring-emerald-900/30 transition-all">
-                  <summary className="font-semibold text-slate-800 dark:text-slate-100 list-none flex justify-between items-center select-none">
-                    <div className="flex items-start gap-3">
-                      <span className="text-emerald-500 dark:text-emerald-400 font-bold text-xs mt-1">#</span>
-                      <span className="leading-snug">{item.q}</span>
-                    </div>
-                    <span className="text-slate-400 group-open:rotate-180 transition-transform ml-2 shrink-0">▼</span>
-                  </summary>
-                  <p className="mt-3 text-slate-600 dark:text-slate-300 leading-relaxed border-t border-slate-100 dark:border-slate-700 pt-3 text-sm">
-                    {item.a}
-                  </p>
-                </details>
-              ))}
-            </div>
-          </div>
+          <p>
+            Não fique apenas na teoria. Volte ao topo desta página, coloque o seu saldo aproximado e use a nossa calculadora para descobrir na hora o dinheiro que já é seu por direito e pode estar na sua conta hoje mesmo.
+          </p>
 
           {/* FONTES E REFERÊNCIAS */}
           <div className="mt-12 pt-8 border-t border-slate-200 dark:border-slate-800 print:hidden not-prose bg-slate-50 dark:bg-slate-900 p-6 rounded-xl">
@@ -346,11 +332,38 @@ export default async function FgtsPage() {
               </a>
             </div>
             
-            <ExpertSignature updatedAt="Maio de 2026" author="Equipe Editorial" />
+            <ExpertSignature updatedAt="Maio de 2026" author="Rodrigo Costa (Analista de Sistemas)" />
           </div>
         </div>
 
+        <SmartGlossaryLinker currentHref="/trabalhista/fgts" category="trabalhista" />
         <SmartCrossLinker currentHref="/trabalhista/fgts" category="trabalhista" />
+
+        {/* FAQ ACCORDION */}
+        <div className="max-w-4xl mx-auto w-full print:hidden">
+          <div className="mt-8 not-prose">
+            <h3 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-8 flex items-center gap-3 border-b border-slate-150 dark:border-slate-800 pb-4">
+              <HelpCircle className="text-emerald-600 dark:text-emerald-400" /> Perguntas Frequentes (FAQ)
+            </h3>
+            
+            <div className="space-y-4">
+              {faqList.map((item, idx) => (
+                <details key={idx} className="group bg-white dark:bg-slate-900 p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm cursor-pointer open:ring-2 open:ring-emerald-100 dark:open:ring-emerald-900/30 transition-all">
+                  <summary className="font-semibold text-slate-800 dark:text-slate-100 list-none flex justify-between items-center select-none">
+                    <div className="flex items-start gap-3">
+                      <span className="text-emerald-500 dark:text-emerald-400 font-bold text-xs mt-1">#</span>
+                      <span className="leading-snug text-slate-850 dark:text-slate-200">{item.q}</span>
+                    </div>
+                    <span className="text-slate-400 group-open:rotate-180 transition-transform ml-2 shrink-0">▼</span>
+                  </summary>
+                  <p className="mt-3 text-slate-650 dark:text-slate-350 leading-relaxed border-t border-slate-100 dark:border-slate-800 pt-3 text-sm">
+                    {item.a}
+                  </p>
+                </details>
+              ))}
+            </div>
+          </div>
+        </div>
 
         {/* ANÚNCIO DE SAÍDA E MONETIZAÇÃO */}
         <div className="w-full flex justify-center my-8 print:hidden min-h-[250px]">

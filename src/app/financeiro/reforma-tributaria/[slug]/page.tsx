@@ -15,6 +15,9 @@ import LazyAdUnit from "@/components/ads/LazyAdUnit";
 import DisclaimerBox from "@/components/ui/DisclaimerBox";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
 import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
+import SmartGlossaryLinker from "@/components/layout/SmartGlossaryLinker";
+import GlossaryTerm from "@/components/ui/GlossaryTerm";
+import ExpertSignature from "@/components/ui/ExpertSignature";
 
 // --- STATIC GENERATION (pSEO) ---
 export async function generateStaticParams() {
@@ -478,6 +481,13 @@ export default async function ReformPage({ params }: Props) {
             </div>
         </div>
 
+        <p className="text-xs text-slate-500 mt-6 text-center max-w-4xl mx-auto">
+            Dica: Conheça também os termos técnicos como <GlossaryTerm slug="iva-dual-reforma-tributaria">IVA Dual</GlossaryTerm> e <GlossaryTerm slug="cashback-de-imposto-reforma">Cashback</GlossaryTerm> no nosso glossário.
+        </p>
+        <ExpertSignature updatedAt="Junho de 2026" author="Rodrigo Costa (Analista de Sistemas)" />
+        <SmartGlossaryLinker currentHref={`/financeiro/reforma-tributaria/${data.slug}`} category="financeiro" />
+        <SmartCrossLinker currentHref={`/financeiro/reforma-tributaria/${data.slug}`} category="financeiro" />
+
         {/* FAQ ESPECÍFICO (Accordions) */}
         <section className="max-w-4xl mx-auto mb-12 not-prose w-full">
             <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-8 text-center flex items-center justify-center gap-2">
@@ -514,8 +524,6 @@ export default async function ReformPage({ params }: Props) {
                     </Link>
                 ))}
             </div>
-
-            <SmartCrossLinker currentHref={`/financeiro/reforma-tributaria/${data.slug}`} category="financeiro" />
         </section>
 
         {/* Rodapé Legal */}

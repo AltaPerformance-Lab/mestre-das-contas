@@ -16,6 +16,9 @@ import {
 } from "lucide-react";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
 import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
+import SmartGlossaryLinker from "@/components/layout/SmartGlossaryLinker";
+import GlossaryTerm from "@/components/ui/GlossaryTerm";
+import ExpertSignature from "@/components/ui/ExpertSignature";
 
 
 type QRCodeCase = {
@@ -65,16 +68,47 @@ export default async function QRCodeCasePage({ params }: { params: Promise<{ slu
 
   if (!item) notFound();
 
+  // 7 FAQs Dinâmicas Sincronizadas
+  const faqs = [
+    {
+      q: `O QR Code para ${item.title} possui alguma data de validade ou expira depois de um tempo?`,
+      a: "Não! O QR Code gerado em nosso portal é do tipo estático e vitalício. Isso significa que as informações estão codificadas e estruturadas fisicamente nos pixels do código. Ele nunca expira, nunca exibirá telas de propaganda intermediárias e funcionará por tempo indeterminado e de forma 100% gratuita."
+    },
+    {
+      q: `Qual é a diferença real entre um QR Code Estático e um QR Code Dinâmico para ${item.title}?`,
+      a: "Veja bem, o QR Code Estático converte seus dados diretamente em pontos pretos e brancos gravados em definitivo. Ele não exige intermediários e funciona para sempre de graça. Já o QR Code Dinâmico armazena apenas um link curto redirecionador que pertence a um servidor de terceiros. Se a plataforma de terceiros sair do ar ou exigir cobranças e você não pagar, o código deixa de funcionar na hora."
+    },
+    {
+      q: `Posso personalizar as cores e inserir a logomarca da minha empresa no centro do QR Code para ${item.title}?`,
+      a: "Sim, perfeitamente! A nossa ferramenta disponibiliza opções avançadas de personalização. Você pode configurar cores exclusivas para os blocos frontais e para o fundo do código, além de fazer upload da sua logomarca institucional. A imagem é incorporada respeitando as margens técnicas de segurança visual."
+    },
+    {
+      q: `O Mestre das Contas armazena ou tem acesso aos links, senhas ou dados bancários inseridos?`,
+      a: "Absolutamente não! A segurança do usuário é nossa prioridade absoluta. Todo o processamento de compilação da imagem do QR Code funciona localmente no seu computador ou celular (Client-Side). Nenhuma informação de chaves Pix, senhas de redes Wi-Fi locais ou dados comerciais é transmitida para nossos servidores."
+    },
+    {
+      q: `Qual formato de arquivo devo baixar para redes sociais e qual usar para impressões gráficas?`,
+      a: "Para publicações digitais comuns, envio por aplicativos de mensagens e posts nas redes sociais, o formato PNG é ideal e de carregamento leve. Caso pretenda imprimir o código em banners gigantes, cardápios físicos de restaurantes, displays ou cartazes, selecione o formato SVG (vetor), pois ele permite escalabilidade infinita de tamanho sem perda de definição."
+    },
+    {
+      q: `O que é o nível de correção de erro de um QR Code e como ele afeta a leitura para ${item.title}?`,
+      a: "A verdade é que a correção de erros é uma tecnologia matemática (Reed-Solomon) integrada ao QR Code. Ela cria redundância de dados nos pixels, permitindo que a imagem seja lida mesmo se até 30% da sua superfície física sofra arranhões, esteja amassada no papel impresso ou seja bloqueada pela inserção de um logotipo corporativo central."
+    },
+    {
+      q: `Por que algumas câmeras de celulares encontram dificuldades para ler o código de ${item.title}?`,
+      a: "Geralmente, isso ocorre devido à falta de contraste cromático adequado (como imprimir um código cinza-claro sobre papel branco). Para leituras limpas e instantâneas, utilize sempre cores escuras para os blocos da frente e fundo claro de alta luminosidade (de preferência o padrão clássico preto no branco), além de garantir uma iluminação física local ideal no momento do escaneamento."
+    }
+  ];
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
         {
             "@type": "SoftwareApplication",
-            "name": `Gerador de QR Code para ${item.title}`,
+            "name": `Gerador de QR Code para ${item.title} Mestre das Contas`,
             "applicationCategory": "UtilitiesApplication",
             "operatingSystem": "Web",
             "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
-            
             "description": item.desc,
             "featureList": "QR Code Estático, Alta Resolução, Sem Validade, Gratuito"
         },
@@ -88,14 +122,16 @@ export default async function QRCodeCasePage({ params }: { params: Promise<{ slu
             ]
         },
         {
-      "@type": "FAQPage",
-      "mainEntity": [
-        { "@type": "Question", "name": "O QR Code expira?", "acceptedAnswer": { "@type": "Answer", "text": "Não. Como usamos tecnologia estática, o link fica gravado na imagem para sempre." } },
-        { "@type": "Question", "name": "Tem limite de leituras?", "acceptedAnswer": { "@type": "Answer", "text": "Não. Você pode ter 1 ou 1 milhão de acessos, nunca cobraremos por isso." } },
-        { "@type": "Question", "name": "Posso colocar minha logo?", "acceptedAnswer": { "@type": "Answer", "text": "Sim! Use a opção 'Inserir Logo' na ferramenta. Recomendamos usar o nível de correção 'H' (Máximo) para garantir a leitura." } },
-        { "@type": "Question", "name": "É seguro para Pix?", "acceptedAnswer": { "@type": "Answer", "text": "Sim. O código apenas contém sua chave Pix e o valor. O pagamento em si é processado pelo aplicativo do banco do seu cliente, com toda a segurança bancária." } }
-      ]
-    }
+          "@type": "FAQPage",
+          "mainEntity": faqs.map(f => ({
+            "@type": "Question",
+            "name": f.q,
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": f.a
+            }
+          }))
+        }
     ]
   };
 
@@ -330,46 +366,45 @@ export default async function QRCodeCasePage({ params }: { params: Promise<{ slu
             </div>
         </div>
 
-        <div className="mt-12 pt-12 border-t border-slate-200 dark:border-slate-800">
-            <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
-                <HelpCircle className="text-slate-400"/> Perguntas Frequentes
-            </h3>
-            <div className="grid md:grid-cols-2 gap-6">
-                <details className="bg-slate-50 dark:bg-slate-900 p-4 rounded-xl cursor-pointer group border border-transparent dark:border-slate-800">
-                    <summary className="font-bold text-slate-700 dark:text-slate-200 list-none flex justify-between items-center group-hover:text-blue-600 transition-colors">
-                        O QR Code expira?
-                        <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
-                    </summary>
-                    <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">Não. Como usamos tecnologia estática, o link fica gravado na imagem para sempre.</p>
+        <SmartGlossaryLinker currentHref={`/ferramentas/gerador-qr-code/${slug}`} />
+        <SmartCrossLinker currentHref={`/ferramentas/gerador-qr-code/${slug}`} category="ferramentas" />
+
+        {/* --- FAQ SECTION ACCORDION (EXATAMENTE 7 QUESTÕES COM BASE EM DIRECTIVES) --- */}
+        <section id="faq" className="max-w-4xl mx-auto w-full">
+          <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl p-6 md:p-12">
+            <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-2 flex items-center gap-3">
+              <HelpCircle className="text-violet-600 dark:text-violet-400 shrink-0" size={32} /> Tira-Dúvidas Definitivo
+            </h2>
+            <p className="text-sm text-slate-500 dark:text-slate-400 mb-8">
+              Encontre respostas para as perguntas mais recorrentes sobre a geração de códigos QR para {item.title}.
+            </p>
+
+            <div className="space-y-4 not-prose">
+              {faqs.map((faq, index) => (
+                <details 
+                  key={index}
+                  className="group border border-slate-200 dark:border-slate-800 rounded-2xl bg-white dark:bg-slate-900/50 transition-all duration-300 overflow-hidden"
+                >
+                  <summary className="flex items-center justify-between p-5 text-base font-bold text-slate-800 dark:text-slate-200 cursor-pointer list-none select-none hover:bg-slate-50 dark:hover:bg-slate-800/30">
+                    <span className="pr-4">{faq.q}</span>
+                    <span className="transition-transform duration-300 group-open:rotate-180 text-violet-500">
+                      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </span>
+                  </summary>
+                  <div className="p-5 border-t border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/20 text-sm leading-relaxed text-slate-600 dark:text-slate-400">
+                    {faq.a}
+                  </div>
                 </details>
-                <details className="bg-slate-50 dark:bg-slate-900 p-4 rounded-xl cursor-pointer group border border-transparent dark:border-slate-800">
-                    <summary className="font-bold text-slate-700 dark:text-slate-200 list-none flex justify-between items-center group-hover:text-blue-600 transition-colors">
-                        Tem limite de leituras?
-                        <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
-                    </summary>
-                    <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">Não. Você pode ter 1 ou 1 milhão de acessos, nunca cobraremos por isso.</p>
-                </details>
-                <details className="bg-slate-50 dark:bg-slate-900 p-4 rounded-xl cursor-pointer group border border-transparent dark:border-slate-800">
-                    <summary className="font-bold text-slate-700 dark:text-slate-200 list-none flex justify-between items-center group-hover:text-blue-600 transition-colors">
-                        Posso colocar minha logo?
-                        <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
-                    </summary>
-                    <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">Sim! Use a opção "Inserir Logo" na ferramenta. Recomendamos usar o nível de correção "H" (Máximo) para garantir a leitura.</p>
-                </details>
-                <details className="bg-slate-50 dark:bg-slate-900 p-4 rounded-xl cursor-pointer group border border-transparent dark:border-slate-800">
-                    <summary className="font-bold text-slate-700 dark:text-slate-200 list-none flex justify-between items-center group-hover:text-blue-600 transition-colors">
-                        É seguro para Pix?
-                        <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
-                    </summary>
-                    <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">Sim. O código apenas contém sua chave Pix e o valor. O pagamento em si é processado pelo aplicativo do banco do seu cliente, com toda a segurança bancária.</p>
-                </details>
+              ))}
             </div>
-        </div>
+          </div>
+        </section>
 
-        <SmartCrossLinker currentHref={"/ferramentas/gerador-qr-code/" + slug} category="ferramentas" />
-
-        <div className="w-full flex justify-center my-8 min-h-[250px]">
-            <LazyAdUnit slot="qr_case_bottom" format="horizontal" variant="software" />
+        {/* Ad Unit Bottom */}
+        <div className="w-full flex justify-center py-6">
+             <LazyAdUnit slot="qr_case_bottom" format="horizontal" variant="software" />
         </div>
 
       </div>

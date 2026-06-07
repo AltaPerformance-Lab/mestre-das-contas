@@ -1,8 +1,8 @@
 import Link from "next/link";
-import { Wrench, TrendingUp, Briefcase, Heart, PiggyBank, ArrowRight, Book } from "lucide-react";
-import { financeCards, laborCards, healthCards, toolsCards, glossaryCards } from "@/data/home-cards";
+import { Wrench, TrendingUp, Briefcase, Heart, PiggyBank, ArrowRight, Landmark, Coins } from "lucide-react";
+import { financeCards, laborCards, healthCards, toolsCards } from "@/data/home-cards";
 
-type Category = "financeiro" | "trabalhista" | "saude" | "ferramentas" | "destaques" | "glossario";
+type Category = "financeiro" | "trabalhista" | "saude" | "ferramentas" | "destaques";
 
 interface SmartCrossLinkerProps {
   currentHref: string;
@@ -92,18 +92,6 @@ export default function SmartCrossLinker({ currentHref, category, maxItems = 4 }
         arrow: "text-amber-500"
       },
       data: [...financeCards, ...laborCards, ...toolsCards].filter(c => c.highlight)
-    },
-    glossario: {
-      icon: <Book size={22} className="text-slate-500" />,
-      title: "Termos do Glossário Relacionados",
-      theme: {
-        borderHover: "hover:border-indigo-500 dark:hover:border-indigo-500",
-        iconBg: "bg-indigo-100 dark:bg-indigo-900/30",
-        iconBgHover: "group-hover:bg-indigo-500",
-        iconText: "text-indigo-600 dark:text-indigo-400",
-        arrow: "text-indigo-500"
-      },
-      data: glossaryCards,
     }
   };
 
@@ -122,7 +110,6 @@ export default function SmartCrossLinker({ currentHref, category, maxItems = 4 }
   if (recommendedTools.length === 0) return null;
 
   return (
-    // Transformado em <aside> para melhor semântica de SEO estrutural
     <aside aria-label="Links relacionados" className="mt-12 not-prose border-t border-slate-200 dark:border-slate-800 pt-8 print:hidden">
       <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
         {currentConfig.icon} {currentConfig.title}

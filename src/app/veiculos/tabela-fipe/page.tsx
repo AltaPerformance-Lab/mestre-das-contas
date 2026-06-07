@@ -36,6 +36,22 @@ const faqList = [
   {
     q: "Por que o valor real de mercado pode diferir da FIPE?",
     a: "A FIPE expressa uma média nacional de anúncios de veículos em bom estado. Variáveis específicas como quilometragem rodada, histórico de colisões, cor do veículo, opcionais instalados e a demanda específica da sua região geográfica farão com que o preço de transação real divirja do valor de tabela."
+  },
+  {
+    q: "Como é feito o levantamento dos preços pela FIPE?",
+    a: "Os pesquisadores da FIPE coletam preços de anúncios de veículos em todo o país. Após descartar os extremos (valores muito altos ou baixos causados por blindagens, anomalias ou sinistros), eles calculam uma média estatística ponderada."
+  },
+  {
+    q: "A Tabela FIPE serve como base para quais impostos estaduais?",
+    a: "A Tabela FIPE é a base de cálculo oficial para o IPVA (Imposto sobre a Propriedade de Veículos Automotores) na maioria das unidades federativas do Brasil. A alíquota do imposto estadual é aplicada sobre o valor do veículo na tabela FIPE do ano anterior."
+  },
+  {
+    q: "Como o tipo de combustível afeta a cotação do veículo?",
+    a: "Veículos a diesel costumam reter melhor o valor em picapes e pesados, enquanto carros flex oferecem excelente liquidez em modelos compactos de entrada. Motores híbridos e elétricos estão apresentando novos perfis de depreciação à medida que a infraestrutura nacional amadurece."
+  },
+  {
+    q: "Veículos sinistrados ou com passagem por leilão seguem a Tabela FIPE?",
+    a: "Não. Veículos recuperados de sinistros graves, com laudo de leilão ou histórico de enchente sofrem um deságio de mercado acentuado, sendo negociados normalmente de 20% a 40% abaixo do valor oficial estipulado na Tabela FIPE."
   }
 ];
 
@@ -46,12 +62,28 @@ export default function TabelaFipeHubPage() {
     { id: "caminhoes", title: "Caminhões e Micro-ônibus", icon: Truck, desc: "Veículos pesados de carga, ônibus e micro-ônibus." },
   ];
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "FAQPage",
+        "mainEntity": faqList.map(item => ({
+          "@type": "Question",
+          "name": item.q,
+          "acceptedAnswer": { "@type": "Answer", "text": item.a }
+        }))
+      }
+    ]
+  };
+
   return (
     <article className="w-full max-w-full overflow-hidden pb-12">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <PageHeader 
         title="Tabela FIPE Oficial"
         description="Acesse o maior banco de dados de precificação automotiva do Brasil. Consulte o valor médio de mercado de qualquer veículo nacional ou importado."
         category="veiculos"
+        icon={<Car size={32} className="text-blue-600" />}
         variant="finance"
         breadcrumbs={[
           { label: "Veículos", href: "/veiculos" },
@@ -106,7 +138,7 @@ export default function TabelaFipeHubPage() {
           </h2>
           
           <p className="text-base text-slate-600 dark:text-slate-400 leading-relaxed mb-6">
-            Consultar a Tabela FIPE é um passo indispensável no planejamento financeiro de qualquer transação automotiva no Brasil. Quer você esteja comprando um hatch econômico seminovo, vendendo sua motocicleta usada ou buscando o valor referencial para fechar a cotação do seu seguro auto, as informações oficiais fornecem a base justa de partida.
+            Consultar a Tabela FIPE é um passo indispensável no planejamento financeiro de qualquer transação automotiva no Brasil. Quer nós estejamos comprando um hatch econômico seminovo, vendendo uma motocicleta usada ou buscando o valor referencial para fechar a cotação do seu seguro auto, as informações oficiais fornecem a base justa de partida.
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 my-8">
@@ -131,6 +163,48 @@ export default function TabelaFipeHubPage() {
                 <li><strong>Demanda Regional:</strong> Modelos muito cobiçados em certas capitais podem valer acima da média oficial FIPE.</li>
               </ul>
             </div>
+          </div>
+
+          {/* TABELA DE COMPARAÇÃO DE DEPRECIAÇÃO (HTML PURO RESPONSIVO) */}
+          <div className="not-prose my-10 border rounded-xl overflow-hidden border-slate-200 dark:border-slate-700 shadow-sm bg-white dark:bg-slate-900">
+              <div className="bg-slate-100 dark:bg-slate-800 p-4 border-b border-slate-200 dark:border-slate-700">
+                  <h4 className="text-sm font-bold text-slate-750 dark:text-slate-250 uppercase tracking-wide flex items-center gap-2">
+                      <TrendingUp size={16} /> Perfil de Depreciação Automotiva por Categoria
+                  </h4>
+              </div>
+              
+              <div className="overflow-x-auto w-full">
+                  <table className="w-full text-sm text-left border-collapse min-w-[600px]">
+                      <thead className="bg-slate-50 dark:bg-slate-800/50 text-slate-600 dark:text-slate-300 text-xs uppercase tracking-wider">
+                          <tr>
+                              <th className="px-6 py-4 font-bold border-b border-slate-200 dark:border-slate-700">Categoria do Veículo</th>
+                              <th className="px-6 py-4 font-bold border-b border-slate-200 dark:border-slate-700 text-center">Depreciação (1º Ano)</th>
+                              <th className="px-6 py-4 font-bold border-b border-slate-200 dark:border-slate-700 text-center">Depreciação Média Anual</th>
+                              <th className="px-6 py-4 font-bold border-b border-slate-200 dark:border-slate-700">Liquidez de Mercado</th>
+                          </tr>
+                      </thead>
+                      <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-slate-700 dark:text-slate-300">
+                          <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors">
+                              <td className="px-6 py-4 font-bold text-slate-800 dark:text-slate-100">Carros e Utilitários</td>
+                              <td className="px-6 py-4 text-center font-mono font-semibold text-rose-500">15% a 20%</td>
+                              <td className="px-6 py-4 text-center font-mono text-slate-500">8% a 12%</td>
+                              <td className="px-6 py-4"><span className="bg-green-100/80 text-green-700 dark:bg-green-900/20 dark:text-green-400 px-2.5 py-1 rounded-full text-xs font-bold">Alta a Muito Alta</span></td>
+                          </tr>
+                          <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors">
+                              <td className="px-6 py-4 font-bold text-slate-800 dark:text-slate-100">Motos e Quadriciclos</td>
+                              <td className="px-6 py-4 text-center font-mono font-semibold text-rose-500">12% a 18%</td>
+                              <td className="px-6 py-4 text-center font-mono text-slate-500">10% a 14%</td>
+                              <td className="px-6 py-4"><span className="bg-green-100/80 text-green-700 dark:bg-green-900/20 dark:text-green-400 px-2.5 py-1 rounded-full text-xs font-bold">Alta (Honda/Yamaha)</span></td>
+                          </tr>
+                          <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors">
+                              <td className="px-6 py-4 font-bold text-slate-800 dark:text-slate-100">Caminhões e Pesados</td>
+                              <td className="px-6 py-4 text-center font-mono font-semibold text-rose-500">15% a 22%</td>
+                              <td className="px-6 py-4 text-center font-mono text-slate-500">6% a 10%</td>
+                              <td className="px-6 py-4"><span className="bg-blue-100 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400 px-2.5 py-1 rounded-full text-xs font-bold">Média a Alta</span></td>
+                          </tr>
+                      </tbody>
+                  </table>
+              </div>
           </div>
 
           <h3 className="text-xl font-bold text-slate-800 dark:text-slate-200 mt-8 mb-4">
@@ -162,7 +236,7 @@ export default function TabelaFipeHubPage() {
         </div>
 
         {/* EXPERT SIGNATURE */}
-        <ExpertSignature updatedAt="Maio de 2026" author="Equipe Editorial" />
+        <ExpertSignature updatedAt="Junho de 2026" author="Equipe Editorial" />
 
         <SmartCrossLinker currentHref="/veiculos/tabela-fipe" category="destaques" maxItems={3} />
 

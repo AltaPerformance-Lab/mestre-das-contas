@@ -7,6 +7,8 @@ import LazyAdUnit from "@/components/ads/LazyAdUnit";
 import DisclaimerBox from "@/components/ui/DisclaimerBox";
 import PageHeader from "@/components/layout/PageHeader";
 import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
+import SmartGlossaryLinker from "@/components/layout/SmartGlossaryLinker";
+import GlossaryTerm from "@/components/ui/GlossaryTerm";
 import ExpertSignature from "@/components/ui/ExpertSignature";
 import { 
   Percent, HelpCircle, Calculator, 
@@ -16,10 +18,9 @@ import {
 } from "lucide-react";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
 
-// --- 1. METADATA DINÂMICA (SEO MAXIMIZADO) ---
 export async function generateMetadata(): Promise<Metadata> {
   const title = "Calculadora de Porcentagem 2026 (Grátis) | Descontos e Aumentos";
-  const description = "Resolva qualquer conta de % em segundos. Calcule descontos, aumentos de salário e variação percentual com nossa ferramenta 4 em 1 gratuita e online.";
+  const description = "Resolva contas de porcentagem de forma instantânea! Calcule descontos, juros, aumentos salariais e variações percentuais em segundos. Grátis e online!";
 
   return {
     title,
@@ -34,8 +35,7 @@ export async function generateMetadata(): Promise<Metadata> {
     ],
     alternates: { canonical: "https://mestredascontas.com.br/financeiro/porcentagem" },
     openGraph: {
-      title: "Calculadora de Porcentagem 2026 | Rápida e Fácil",
-      description: "Resolva qualquer conta de % em segundos. Calcule descontos, aumentos de salário e variação percentual com nossa ferramenta 4 em 1 gratuita e online.",
+      title,
       url: "https://mestredascontas.com.br/financeiro/porcentagem",
       siteName: "Mestre das Contas",
       locale: "pt_BR",
@@ -51,22 +51,42 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     twitter: {
       card: "summary_large_image",
-      title: "Calculadora de Porcentagem Grátis",
-      description: "Resolva qualquer conta de % em segundos. Calcule descontos, aumentos de salário e variação percentual com nossa ferramenta 4 em 1 gratuita e online.",
       images: ["/opengraph-image"],
     },
     robots: { index: true, follow: true } };
 }
 
-// --- FAQ LIST (DRY Content) ---
 const faqList = [
-    { q: "Como calcular porcentagem na calculadora comum?", a: "Digite o valor principal, aperte o sinal de multiplicação (x), digite a porcentagem e aperte a tecla (%). Depois aperte igual (=). Ex: 500 x 10 % = 50." },
-    { q: "O que é variação percentual?", a: "É a diferença entre um valor antigo e um novo, expressa em porcentagem. É muito usada para medir inflação ou crescimento de lucros. Fórmula: ((Valor Novo - Valor Antigo) ÷ Valor Antigo) × 100." },
-    { q: "Como calcular aumento de salário?", a: "Multiplique o salário atual pela porcentagem de aumento (em decimal, ex: 10% = 0.10) e some ao valor original. Ou multiplique direto por 1.10." },
-    { q: "Como tirar a porcentagem de um valor?", a: "Para descontar (ex: 20% off), multiplique o valor original pelo fator de desconto (0.80). Ex: R$ 100 x 0.80 = R$ 80." }
+  { 
+    q: "Como calcular porcentagem em uma calculadora convencional?", 
+    a: "Digite o valor principal, pressione o botão de multiplicação (x), digite a porcentagem desejada e pressione a tecla (%). Em seguida, aperte o sinal de igual (=). Exemplo: 500 x 10 % = 50." 
+  },
+  { 
+    q: "O que significa o conceito de variação percentual na prática?", 
+    a: "É a taxa de crescimento ou redução entre um valor original e um novo, expressa em percentual. A fórmula matemática aplicada é: ((Valor Novo - Valor Antigo) ÷ Valor Antigo) × 100." 
+  },
+  { 
+    q: "Como calcular aumento salarial com base em índices percentuais?", 
+    a: "Multiplique o salário bruto pelo valor da porcentagem de aumento em formato decimal (exemplo: para 10% de reajuste, multiplique por 0,10) e some o resultado obtido ao salário base original." 
+  },
+  { 
+    q: "Como retirar (descontar) a porcentagem de um valor?", 
+    a: "Para descontar uma taxa (exemplo: 20% off), multiplique o valor principal por (1 - taxa de desconto em formato decimal). Ou seja, para 20% de desconto, multiplique direto por 0,80." 
+  },
+  { 
+    q: "Qual o segredo da regra de inversão mental de porcentagem?", 
+    a: "A porcentagem é comutativa, o que significa que 'x% de y' é matematicamente idêntico a 'y% de x'. Inverter a ordem facilita contas de cabeça (exemplo: calcular 8% de 50 é o mesmo que calcular 50% de 8, que resulta em 4)." 
+  },
+  { 
+    q: "Como a porcentagem é aplicada nas taxas de juros compostos?", 
+    a: "Nos juros compostos, a porcentagem de juros de cada período incide sobre o montante acumulado do período anterior (juros sobre juros), ao contrário dos juros simples que incidem apenas sobre o capital inicial." 
+  },
+  { 
+    q: "Qual a diferença prática entre desconto nominal e percentual?", 
+    a: "O desconto nominal é uma redução de valor fixo absoluto em dinheiro (exemplo: R$ 20 de desconto). O desconto percentual varia proporcionalmente ao preço bruto do produto (exemplo: 20% de desconto)." 
+  }
 ];
 
-// --- 2. DADOS ESTRUTURADOS (JSON-LD COMPLETO) ---
 const jsonLd = {
   "@context": "https://schema.org",
   "@graph": [
@@ -107,23 +127,17 @@ const jsonLd = {
 };
 
 export default async function PorcentagemPage() {
-
-
-  // --- PÁGINA COMPLETA ---
   return (
     <article className="w-full max-w-full overflow-hidden pb-12">
-      
-      {/* INJEÇÃO DE SCHEMA */}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
-      {/* --- PAGE HEADER --- */}
       <div className="px-4 pt-4 md:pt-6">
         <PageHeader 
           title="Calculadora de Porcentagem"
           description="Resolva qualquer dúvida matemática em segundos. Calcule descontos de lojas, aumentos de salário, variação de preços e muito mais com nossa ferramenta 4 em 1."
           category="Matemática Financeira"
           icon={<Percent size={32} strokeWidth={2} />}
-          variant="default" // Azul/Indigo
+          variant="default" 
           categoryColor="indigo"
           badge="Ferramenta Gratuita"
           breadcrumbs={[
@@ -172,10 +186,10 @@ export default async function PorcentagemPage() {
               A Matemática do Dinheiro
           </h2>
           <p className="lead text-slate-700 dark:text-slate-300 text-lg font-medium">
-            A porcentagem é a base de toda a economia moderna. O símbolo "%" significa literalmente "por cento", ou seja, "dividido por 100". Entender isso é a chave para não ser enganado em promoções, empréstimos ou negociações salariais.
+            A <GlossaryTerm slug="porcentagem">porcentagem</GlossaryTerm> é a base de toda a economia moderna. O símbolo "%" significa literalmente 'dividido por 100'. Entender isso é a chave para não ser enganado em promoções, empréstimos ou negociações salariais. Nós descomplicamos essa matemática para que você domine as suas finanças.
           </p>
           <p>
-            Você já se sentiu perdido tentando calcular uma gorjeta ou saber quanto realmente economizou na Black Friday? Não se preocupe, é mais comum do que parece. O segredo está em entender que a porcentagem é apenas uma fração disfarçada.
+            Você já se sentiu perdido tentando calcular uma gorjeta ou saber quanto realmente economizou na Black Friday? Não se preocupe, é mais comum do que parece. O segredo está em entender que a porcentagem é apenas uma fração disfarçada. A verdade é que aprender esses pequenos truques poupa tempo e dinheiro.
           </p>
 
           {/* TRUQUES MENTAIS (FEATURE BOX) */}
@@ -214,7 +228,7 @@ export default async function PorcentagemPage() {
               <GraduationCap className="text-indigo-600 dark:text-indigo-400" /> Tabela de Conversão Rápida
           </h3>
           <p>
-              Muitas vezes, converter a porcentagem em fração ou decimal torna a conta muito mais fácil. Use esta tabela como referência:
+              Muitas vezes, converter a porcentagem em fração ou decimal torna a conta muito mais fácil. Use esta tabela responsiva como referência rápida:
           </p>
 
           {/* TABELA RESPONSIVA */}
@@ -292,29 +306,6 @@ export default async function PorcentagemPage() {
               </li>
           </ul>
 
-          {/* FAQ ACORDION */}
-          <div className="mt-12 not-prose">
-            <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-8 flex items-center gap-3 border-b border-slate-100 dark:border-slate-800 pb-4">
-                <HelpCircle className="text-indigo-600 dark:text-indigo-400" /> Dúvidas Frequentes
-            </h2>
-            <div className="space-y-4">
-              {faqList.map((item, idx) => (
-                  <details key={idx} className="group bg-slate-50 dark:bg-slate-800 p-5 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm cursor-pointer open:bg-white dark:open:bg-slate-900 open:ring-1 open:ring-indigo-100 dark:open:ring-indigo-900/30 transition-all">
-                      <summary className="font-semibold text-slate-800 dark:text-slate-100 list-none flex justify-between items-center select-none">
-                          <div className="flex items-start gap-3">
-                              <span className="text-indigo-400 font-bold text-xs mt-1">#</span>
-                              <span className="leading-snug">{item.q}</span>
-                          </div>
-                          <span className="text-slate-400 group-open:rotate-180 transition-transform ml-2 shrink-0">▼</span>
-                      </summary>
-                      <p className="mt-3 text-slate-600 dark:text-slate-400 leading-relaxed border-t border-slate-100 dark:border-slate-800 pt-3 text-sm animate-in fade-in">
-                          {item.a}
-                      </p>
-                  </details>
-              ))}
-            </div>
-          </div>
-
           {/* FONTES */}
           <div className="mt-12 pt-8 border-t border-slate-200 dark:border-slate-800 print:hidden not-prose bg-slate-50 dark:bg-slate-900 p-6 rounded-xl">
               <h3 className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-4 flex items-center gap-2">
@@ -333,18 +324,38 @@ export default async function PorcentagemPage() {
 
           <ExpertSignature updatedAt="Maio de 2026" author="Equipe Editorial" />
         </div>
-        
+
+        <SmartGlossaryLinker currentHref="/financeiro/porcentagem" category="financeiro" />
         <SmartCrossLinker currentHref="/financeiro/porcentagem" category="financeiro" />
+
+        {/* FAQ ACORDION */}
+        <div className="max-w-4xl mx-auto w-full print:hidden">
+          <div className="mt-8 not-prose bg-white dark:bg-slate-900 rounded-3xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm">
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-8 flex items-center gap-3 border-b border-slate-150 dark:border-slate-800 pb-4">
+                <HelpCircle className="text-indigo-600 dark:text-indigo-400" /> Dúvidas Frequentes sobre Porcentagem
+            </h2>
+            <div className="space-y-4">
+              {faqList.map((item, idx) => (
+                  <details key={idx} className="group bg-slate-50 dark:bg-slate-800 p-5 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm cursor-pointer open:bg-white dark:open:bg-slate-900 open:ring-2 open:ring-indigo-100 dark:open:ring-indigo-900/30 transition-all duration-200">
+                      <summary className="font-bold text-slate-800 dark:text-slate-100 list-none flex justify-between items-center select-none">
+                          <div className="flex items-start gap-3">
+                              <span className="text-indigo-600 font-bold text-xs mt-1">#</span>
+                              <span className="leading-snug text-slate-800 dark:text-slate-200 font-semibold">{item.q}</span>
+                          </div>
+                          <span className="text-slate-400 group-open:rotate-180 transition-transform ml-2 shrink-0">▼</span>
+                      </summary>
+                      <p className="mt-3 text-slate-600 dark:text-slate-400 leading-relaxed border-t border-slate-100 dark:border-slate-800 pt-3 text-sm animate-in fade-in">
+                          {item.a}
+                      </p>
+                  </details>
+              ))}
+            </div>
+          </div>
+        </div>
 
         {/* ANÚNCIO BOTTOM */}
         <div className="w-full flex justify-center my-8 print:hidden min-h-[250px]">
             <LazyAdUnit slot="percent_bottom" format="horizontal" variant="software" />
-        </div>
-
-        {/* RODAPÉ IMPRESSÃO */}
-        <div className="hidden print:block text-center pt-8 border-t border-slate-300 mt-8">
-            <p className="text-sm font-bold text-slate-900 mb-1">Mestre das Contas</p>
-            <p className="text-xs text-slate-500">www.mestredascontas.com.br</p>
         </div>
 
       </div>

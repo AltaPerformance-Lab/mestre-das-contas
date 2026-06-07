@@ -96,7 +96,7 @@ export default function PageHeader({
           </div>
         )}
 
-        <div className="flex-1 space-y-4 w-full">
+        <div className="flex-1 min-w-0 space-y-4 w-full">
           
           {/* Breadcrumbs e Navegação */}
           <div className="flex flex-wrap items-center gap-2 text-xs md:text-sm font-medium text-blue-100/90">

@@ -12,11 +12,14 @@ import {
 } from "lucide-react";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
 import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
+import SmartGlossaryLinker from "@/components/layout/SmartGlossaryLinker";
+import GlossaryTerm from "@/components/ui/GlossaryTerm";
+import ExpertSignature from "@/components/ui/ExpertSignature";
 
 // --- 1. SEO 2026 DINÂMICO ---
 export async function generateMetadata(): Promise<Metadata> {
   const title = "Modelo de Orçamento com Logo (PDF) | Criador Grátis 2026";
-  const description = "Faça orçamentos profissionais em PDF. Inclui cálculo de desconto, opções de pagamento (Pix/Boleto) e folha de orçamento com sua logotipo. Ferramenta grátis sem cadastro.";
+  const description = "Crie propostas comerciais irresistíveis em PDF! Faça orçamentos personalizados com logotipo e valores automáticos em menos de 1 minuto. Grátis e online!";
 
   return {
     title,
@@ -28,12 +31,42 @@ export async function generateMetadata(): Promise<Metadata> {
     alternates: { canonical: "https://mestredascontas.com.br/ferramentas/criador-orcamentos" },
     openGraph: {
       title,
-      description,
       url: "https://mestredascontas.com.br/ferramentas/criador-orcamentos",
       siteName: "Mestre das Contas",
       locale: "pt_BR",
       type: "website" } };
 }
+
+const faqList = [
+  {
+    q: "Como funciona o gerador de orçamento com logotipo?",
+    a: "Nossa ferramenta permite que você insira os dados da sua empresa, envie uma imagem de logotipo, descreva as mercadorias ou serviços e informe os preços de forma rápida. O sistema calcula os totais automaticamente e gera o PDF final formatado no padrão A4."
+  },
+  {
+    q: "É seguro carregar a imagem da minha logomarca no sistema?",
+    a: "Sim, de forma absoluta! Prezamos pela segurança das suas informações. A imagem e todos os dados digitados são processados exclusivamente de forma local no seu navegador. Nenhuma informação pessoal ou arquivo de imagem é armazenado em nossos servidores."
+  },
+  {
+    q: "O PDF gerado pelo criador de orçamentos é gratuito?",
+    a: "Sim, o gerador de orçamentos é 100% gratuito, sem taxas de download, limites de uso ou necessidade de cadastrar cartões de crédito. Você pode gerar propostas ilimitadas para o seu negócio."
+  },
+  {
+    q: "Posso salvar o orçamento para editar as informações depois?",
+    a: "Atualmente, o sistema opera de forma estritamente offline para garantir total privacidade. Se você fechar a aba ou atualizar o navegador, as informações serão limpas. Recomendamos preencher os dados de forma definitiva antes de exportar."
+  },
+  {
+    q: "Qual a validade recomendada para colocar no orçamento?",
+    a: "Nós recomendamos estipular um prazo entre 7 e 15 dias. Definir uma validade curta gera um gatilho de escassez saudável no cliente, incentivando-o a tomar uma decisão rápida de contratação."
+  },
+  {
+    q: "Como o criador de orçamento protege os dados dos meus clientes?",
+    a: "A verdade é que todo o processamento ocorre no lado do cliente (Client-Side). Os dados confidenciais dos seus clientes, valores de prestação e descrições técnicas não são enviados ou salvos por nós."
+  },
+  {
+    q: "Consigo enviar o orçamento gerado diretamente pelo WhatsApp?",
+    a: "Sim. Após clicar no botão para gerar o PDF, o download é feito no seu aparelho celular ou computador. Você pode abrir o WhatsApp Web ou o aplicativo e anexar o arquivo PDF diretamente para o contato do cliente."
+  }
+];
 
 // --- DADOS ESTRUTURADOS ---
 const jsonLd = {
@@ -55,6 +88,17 @@ const jsonLd = {
       "publisher": { "@type": "Organization", "name": "Mestre das Contas", "logo": { "@type": "ImageObject", "url": "https://mestredascontas.com.br/icon.png" } },
       "datePublished": "2024-05-20",
       "dateModified": new Date().toISOString()
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": faqList.map(f => ({
+        "@type": "Question",
+        "name": f.q,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": f.a
+        }
+      }))
     }
   ]
 };
@@ -98,7 +142,7 @@ export default async function BudgetPage() {
 
         {/* ANÚNCIO MEIO */}
         <div className="w-full max-w-4xl mx-auto flex justify-center my-6 print:hidden min-h-[250px]">
-            <LazyAdUnit slot="orcamento_mid" format="auto" />
+             <LazyAdUnit slot="orcamento_mid" format="auto" />
         </div>
 
         {/* --- ARTIGO EDUCACIONAL DENSO --- */}
@@ -186,33 +230,46 @@ export default async function BudgetPage() {
                 <li><strong>Limitações:</strong> "O serviço não inclui alterações estruturais não listadas acima."</li>
             </ol>
 
-            <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100 mt-12 mb-4 flex items-center gap-2">
-                <HelpCircle className="text-slate-500 dark:text-slate-400"/> FAQ - Perguntas Frequentes
-            </h3>
-            
-            <details className="group border-b border-slate-200 dark:border-slate-800 pb-4 mb-4 cursor-pointer">
-                <summary className="font-bold text-slate-800 dark:text-slate-100 flex justify-between items-center list-none p-2 hover:bg-slate-50 dark:hover:bg-slate-800 rounded select-none">
-                    Como enviar o orçamento pelo WhatsApp?
-                    <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
-                </summary>
-                <div className="mt-2 text-slate-600 dark:text-slate-400 px-2">
-                    Após clicar em <strong>"Salvar PDF"</strong>, o arquivo será baixado no seu celular ou computador. Basta abrir o WhatsApp, anexar o documento e enviar para seu cliente.
-                </div>
-            </details>
-            
-            <details className="group border-b border-slate-200 dark:border-slate-800 pb-4 mb-4 cursor-pointer">
-                <summary className="font-bold text-slate-800 dark:text-slate-100 flex justify-between items-center list-none p-2 hover:bg-slate-50 dark:hover:bg-slate-800 rounded select-none">
-                     Posso salvar para editar depois?
-                    <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
-                </summary>
-                <div className="mt-2 text-slate-600 dark:text-slate-400 px-2">
-                    Atualmente o sistema não salva seus dados na nuvem para garantir sua privacidade. Recomendamos manter a aba aberta se for editar em breve, ou gerar um novo orçamento preenchendo os dados novamente.
-                </div>
-            </details>
-
         </div>
 
+        <ExpertSignature author="Equipe Técnica Mestre das Contas" updatedAt="Junho de 2026" />
+
+        <SmartGlossaryLinker currentHref="/ferramentas/criador-orcamentos" />
+
         <SmartCrossLinker currentHref="/ferramentas/criador-orcamentos" category="ferramentas" />
+
+        {/* --- FAQ SECTION ACCORDION (EXATAMENTE 7 QUESTÕES COM BASE EM DIRECTIVES) --- */}
+        <section className="w-full max-w-4xl mx-auto mt-8">
+          <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl p-6 md:p-12">
+            <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-2 flex items-center gap-3">
+              <HelpCircle className="text-blue-500 shrink-0" size={32} /> Perguntas Frequentes Resolvidas
+            </h2>
+            <p className="text-sm text-slate-500 dark:text-slate-400 mb-8">
+              Tira-dúvidas definitivo sobre a utilização e regras legais vinculadas a este recurso.
+            </p>
+
+            <div className="space-y-4 not-prose">
+              {faqList.map((faq, index) => (
+                <details 
+                  key={index}
+                  className="group border border-slate-200 dark:border-slate-800 rounded-2xl bg-white dark:bg-slate-900/50 transition-all duration-300 overflow-hidden"
+                >
+                  <summary className="flex items-center justify-between p-5 text-base font-bold text-slate-800 dark:text-slate-200 cursor-pointer list-none select-none hover:bg-slate-50 dark:hover:bg-slate-800/30">
+                    <span className="pr-4">{faq.q}</span>
+                    <span className="transition-transform duration-300 group-open:rotate-180 text-blue-500">
+                      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </span>
+                  </summary>
+                  <div className="p-5 border-t border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/20 text-sm leading-relaxed text-slate-600 dark:text-slate-400">
+                    {faq.a}
+                  </div>
+                </details>
+              ))}
+            </div>
+          </div>
+        </section>
 
         {/* ANÚNCIO BOTTOM */}
         <div className="w-full flex justify-center mt-8 min-h-[250px]">

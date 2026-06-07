@@ -14,12 +14,14 @@ import {
 } from "lucide-react";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
 import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
+import SmartGlossaryLinker from "@/components/layout/SmartGlossaryLinker";
+import GlossaryTerm from "@/components/ui/GlossaryTerm";
 import ExpertSignature from "@/components/ui/ExpertSignature";
 
 // --- 1. METADATA DINÂMICA (SEO 2026) ---
 export async function generateMetadata(): Promise<Metadata> {
   const title = "Calculadora de IMC 2026 (Grátis) | Tabela Oficial e Peso Ideal";
-  const description = "Calcule seu IMC em 10 segundos em 2026. Tabela oficial da OMS 2026 atualizada para adultos e idosos. Descubra se você está no peso ideal gratuitamente.";
+  const description = "Calcule seu IMC em 10 segundos em 2026. Tabela oficial da OMS 2026 atualizada para adults e idosos. Descubra se você está no peso ideal gratuitamente.";
 
   return {
     title,
@@ -51,16 +53,17 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-
 // --- LISTA FAQ (DRY Content) ---
 const faqList = [
-    { q: "Qual o IMC normal?", a: "Para adultos, o IMC considerado saudável pela Organização Mundial da Saúde (OMS) situa-se entre 18,5 e 24,9 kg/m²." },
-    { q: "Como calcular o peso ideal?", a: "O peso ideal é uma faixa, não um número exato. Uma estimativa rápida é multiplicar sua altura ao quadrado por 22 (índice médio). Exemplo: 1.70 * 1.70 * 22 = 63.5kg." },
-    { q: "O IMC diferencia músculo de gordura?", a: "Não. O IMC é um cálculo geral de massa corporal. Atletas muito musculosos podem apresentar um IMC alto (sobrepeso) sem terem excesso de gordura. Para esses casos, a bioimpedância é mais indicada." },
-    { q: "Qual a tabela de IMC para idosos?", a: "A classificação muda para maiores de 60 anos. O 'normal' é mais alto (geralmente entre 22 e 27), pois uma pequena reserva de peso é considerada protetora contra fragilidade óssea." }
+  { q: "Qual o IMC normal e considerado saudável?", a: "Para adultos entre 20 e 59 anos, o IMC considerado saudável e normal pela Organização Mundial da Saúde (OMS) situa-se entre 18,5 e 24,9 kg/m²." },
+  { q: "Como calcular o meu peso ideal aproximado?", a: "O peso ideal é representado por uma faixa de peso saudável. Uma forma prática de estimar é multiplicar a sua altura ao quadrado por 22 (o IMC médio recomendado). Exemplo para 1,70m: 1,70 * 1,70 * 22 = 63,5 kg." },
+  { q: "O cálculo do IMC consegue diferenciar músculo de gordura?", a: "Não. O IMC avalia apenas a massa total em relação à altura. Por isso, pessoas musculosas ou atletas podem ter um IMC alto (indicando sobrepeso) mesmo com baixo percentual de gordura. Nesses casos, avaliações como bioimpedância e dobras cutâneas são mais adequadas." },
+  { q: "Como funciona a tabela de IMC para idosos (60 anos ou mais)?", a: "A classificação de IMC para idosos é diferente porque uma reserva de peso maior atua como fator de proteção contra osteoporose e outras fragilidades. A faixa de normalidade recomendada pelo Ministério da Saúde para idosos vai de 22 a 27 kg/m²." },
+  { q: "Quais são os principais riscos à saúde de um IMC na faixa de obesidade?", a: "Um IMC acima de 30 aumenta significativamente o risco de desenvolver condições crônicas graves, tais como diabetes tipo 2, hipertensão arterial, dislipidemias, apnéia do sono e problemas articulares decorrentes da sobrecarga de peso." },
+  { q: "O que significa ter o IMC abaixo do peso normal?", a: "Um IMC menor que 18,5 indica baixo peso corporal. Isso pode estar associado a quadros de desnutrição, deficiência de vitaminas essenciais, anemia, perda de massa muscular e enfraquecimento do sistema imunológico, exigindo avaliação médica." },
+  { q: "Com que frequência é recomendado calcular o IMC?", a: "Para monitoramento geral de saúde, calcular o IMC a cada 2 ou 3 meses é suficiente, a menos que você esteja em um programa ativo de ganho ou perda de peso orientado por profissionais de saúde." }
 ];
 
-// --- 2. DADOS ESTRUTURADOS (JSON-LD COMPLETO) ---
 // --- 2. DADOS ESTRUTURADOS (JSON-LD COMPLETO) ---
 const jsonLd = {
   "@context": "https://schema.org",
@@ -129,9 +132,8 @@ const jsonLd = {
 
 export default async function IMCPage() {
 
-  // --- MODO PÁGINA COMPLETA ---
   return (
-    <article className="w-full max-w-full overflow-hidden pb-12">
+    <article className="w-full max-w-full overflow-hidden pb-12 bg-slate-50 dark:bg-slate-950 font-sans">
       
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
@@ -142,7 +144,7 @@ export default async function IMCPage() {
           description="Monitorar seu peso é o primeiro passo para uma vida longa. Utilize nossa ferramenta oficial, atualizada com os protocolos de 2026 da OMS."
           category="Saúde & Bem-Estar"
           icon={<Scale size={32} strokeWidth={2} />}
-          variant="health" // IMPORTANTE: Usa o gradiente Laranja/Rosa
+          variant="health"
           categoryColor="rose"
           badge="Protocolo OMS"
           breadcrumbs={[
@@ -152,7 +154,7 @@ export default async function IMCPage() {
         />
       </div>
 
-      <div className="flex flex-col gap-8 px-4 sm:px-6 max-w-7xl mx-auto">
+      <div className="flex flex-col gap-8 px-4 sm:px-6 max-w-7xl mx-auto w-full">
         
         {/* REVISÃO CIENTÍFICA (E-E-A-T) */}
         <div className="bg-blue-50/50 dark:bg-blue-900/10 border border-blue-100 dark:border-blue-800 p-4 rounded-2xl flex items-center gap-3 text-xs text-blue-700 dark:text-blue-300 mb-2">
@@ -241,86 +243,65 @@ export default async function IMCPage() {
                 O <strong>Índice de Massa Corporal (IMC)</strong> não é apenas um número na balança; é um indicador vital de saúde pública reconhecido internacionalmente. Ele funciona como uma "bússola inicial", apontando se o seu peso está adequado para sua altura, ou se existem riscos potenciais à sua saúde.
             </p>
             <p>
-                Embora não seja perfeito (veremos o porquê mais abaixo), ele é a ferramenta mais rápida para identificar a obesidade, que é um fator de risco para doenças como diabetes tipo 2, hipertensão e problemas cardiovasculares.
+                Veja bem, embora o IMC seja um cálculo indireto, ele fornece uma correlação estatisticamente robusta com o percentual de gordura corporal de grandes populações.
             </p>
-                <p className="text-sm italic text-slate-500 mt-8 pt-6 border-t border-slate-100 dark:border-slate-800">
+            <p>
+                A verdade é que, embora não seja perfeito (veremos o porquê mais abaixo), ele continua sendo a ferramenta de triagem mais rápida para identificar a obesidade, que é um fator de risco comprovado para doenças crônicas como diabetes tipo 2, hipertensão e problemas cardiovasculares graves.
+            </p>
+            <p className="text-sm italic text-slate-500 mt-8 pt-6 border-t border-slate-100 dark:border-slate-800">
                 Além do controle de peso, lembre-se que a <Link href="/saude/agua" className="text-rose-500 font-bold hover:underline">hidratação correta</Link> e o <Link href="/saude/calorias-diarias" className="text-rose-500 font-bold hover:underline">balanço calórico</Link> são fundamentais para uma vida longa.
             </p>
 
-            {/* TABELA OFICIAL (HTML PURO OBRIGATÓRIO) */}
-            {/* TABELA OFICIAL (HTML PURO OBRIGATÓRIO) */}
+            {/* TABELA OFICIAL (HTML PURO OBRIGATÓRIO E TOTALMENTE RESPONSIVO) */}
             <div className="not-prose my-10 border rounded-xl overflow-hidden border-slate-200 dark:border-slate-700 shadow-sm bg-white dark:bg-slate-900">
-                <div className="bg-slate-100 dark:bg-slate-800 p-3 border-b border-slate-200 dark:border-slate-700">
+                <div className="bg-slate-100 dark:bg-slate-800 p-4 border-b border-slate-200 dark:border-slate-700">
                     <h4 className="text-sm font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wide flex items-center gap-2">
-                        <Activity size={16} /> Tabela Oficial OMS (Adultos)
+                        <Activity size={16} /> Tabela Oficial de Classificação do IMC (OMS)
                     </h4>
                 </div>
                 
-                {/* DESKTOP TABLE */}
-                <div className="hidden md:block">
-                    <table className="w-full text-sm text-left border-collapse">
-                        <thead className="bg-slate-50 dark:bg-slate-800/50 text-slate-600 dark:text-slate-300 text-xs">
+                <div className="overflow-x-auto w-full">
+                    <table className="w-full text-sm text-left border-collapse min-w-[650px]">
+                        <thead className="bg-slate-50 dark:bg-slate-800/50 text-slate-600 dark:text-slate-300 text-xs uppercase tracking-wider">
                             <tr>
-                                <th className="px-6 py-3 font-bold border-b border-slate-200 dark:border-slate-700">IMC (kg/m²)</th>
-                                <th className="px-6 py-3 font-bold border-b border-slate-200 dark:border-slate-700">Classificação</th>
-                                <th className="px-6 py-3 font-bold border-b border-slate-200 dark:border-slate-700 hidden sm:table-cell">Risco de Comorbidades</th>
+                                <th className="px-6 py-4 font-bold border-b border-slate-200 dark:border-slate-700">Faixa de IMC (kg/m²)</th>
+                                <th className="px-6 py-4 font-bold border-b border-slate-200 dark:border-slate-700">Classificação Oficial</th>
+                                <th className="px-6 py-4 font-bold border-b border-slate-200 dark:border-slate-700">Nível de Risco Associado</th>
                             </tr>
                         </thead>
-                        <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
-                            <tr className="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
-                                <td className="px-6 py-4 font-medium text-blue-600 dark:text-blue-400">Menor que 18,5</td>
-                                <td className="px-6 py-4 text-slate-700 dark:text-slate-300">Magreza (Baixo Peso)</td>
-                                <td className="px-6 py-4 hidden sm:table-cell text-slate-500 dark:text-slate-400">Baixo (mas risco de desnutrição)</td>
+                        <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-slate-700 dark:text-slate-300">
+                            <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors">
+                                <td className="px-6 py-4 font-medium text-blue-600 dark:text-blue-400">Abaixo de 18,5</td>
+                                <td className="px-6 py-4">Abaixo do peso (Magreza)</td>
+                                <td className="px-6 py-4 text-slate-500 dark:text-slate-400">Baixo (mas com riscos de imunidade baixa e desnutrição)</td>
                             </tr>
-                            <tr className="bg-green-50/50 dark:bg-green-900/10 hover:bg-green-100/50 dark:hover:bg-green-900/20 transition-colors">
-                                <td className="px-6 py-4 font-bold text-green-700 dark:text-green-400">18,5 - 24,9</td>
-                                <td className="px-6 py-4 font-bold text-green-700 dark:text-green-400">Peso Normal</td>
-                                <td className="px-6 py-4 hidden sm:table-cell font-bold text-green-700 dark:text-green-400">Médio (Ideal)</td>
+                            <tr className="bg-green-50/30 dark:bg-green-900/10 hover:bg-green-100/30 dark:hover:bg-green-900/20 transition-colors font-bold text-green-700 dark:text-green-400">
+                                <td className="px-6 py-4">18,5 a 24,9</td>
+                                <td className="px-6 py-4">Peso Normal (Saudável)</td>
+                                <td className="px-6 py-4">Mínimo (Ideal para a saúde geral)</td>
                             </tr>
-                            <tr className="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
-                                <td className="px-6 py-4 font-medium text-yellow-600 dark:text-yellow-500">25,0 - 29,9</td>
-                                <td className="px-6 py-4 text-slate-700 dark:text-slate-300">Sobrepeso</td>
-                                <td className="px-6 py-4 hidden sm:table-cell text-slate-500 dark:text-slate-400">Aumentado</td>
+                            <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors">
+                                <td className="px-6 py-4 font-medium text-yellow-600 dark:text-yellow-500">25,0 a 29,9</td>
+                                <td className="px-6 py-4">Pré-obesidade (Sobrepeso)</td>
+                                <td className="px-6 py-4 text-slate-500 dark:text-slate-400">Moderadamente aumentado</td>
                             </tr>
-                            <tr className="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
-                                <td className="px-6 py-4 font-medium text-orange-600 dark:text-orange-500">30,0 - 34,9</td>
-                                <td className="px-6 py-4 text-slate-700 dark:text-slate-300">Obesidade Grau I</td>
-                                <td className="px-6 py-4 hidden sm:table-cell text-slate-500 dark:text-slate-400">Moderado</td>
+                            <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors">
+                                <td className="px-6 py-4 font-medium text-orange-600 dark:text-orange-500">30,0 a 34,9</td>
+                                <td className="px-6 py-4">Obesidade Grau I</td>
+                                <td className="px-6 py-4 text-slate-500 dark:text-slate-400">Aumentado</td>
                             </tr>
-                            <tr className="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
-                                <td className="px-6 py-4 font-medium text-red-600 dark:text-red-500">35,0 - 39,9</td>
-                                <td className="px-6 py-4 text-slate-700 dark:text-slate-300">Obesidade Grau II</td>
-                                <td className="px-6 py-4 hidden sm:table-cell text-slate-500 dark:text-slate-400">Grave</td>
+                            <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors">
+                                <td className="px-6 py-4 font-medium text-red-500 dark:text-red-400">35,0 a 39,9</td>
+                                <td className="px-6 py-4">Obesidade Grau II (Grave)</td>
+                                <td className="px-6 py-4 text-slate-500 dark:text-slate-400">Muito Alto</td>
                             </tr>
-                            <tr className="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
-                                <td className="px-6 py-4 font-bold text-red-800 dark:text-red-400">Maior que 40,0</td>
-                                <td className="px-6 py-4 text-slate-700 dark:text-slate-300">Obesidade Grau III</td>
-                                <td className="px-6 py-4 hidden sm:table-cell text-red-800 dark:text-red-400 font-bold">Muito Grave</td>
+                            <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors">
+                                <td className="px-6 py-4 font-bold text-red-800 dark:text-red-500">Acima de 40,0</td>
+                                <td className="px-6 py-4">Obesidade Grau III (Mórbida)</td>
+                                <td className="px-6 py-4 text-slate-600 dark:text-slate-400 font-semibold">Extremamente Alto</td>
                             </tr>
                         </tbody>
                     </table>
-                </div>
-
-                {/* MOBILE CARDS */}
-                <div className="md:hidden space-y-2 p-2 bg-slate-50 dark:bg-slate-900">
-                    {[
-                        { imc: "< 18,5", class: "Magreza", risco: "Baixo", cor: "border-l-4 border-blue-500" },
-                        { imc: "18,5 - 24,9", class: "Normal", risco: "Ideal", cor: "border-l-4 border-green-500 bg-green-50 dark:bg-green-900/10" },
-                        { imc: "25,0 - 29,9", class: "Sobrepeso", risco: "Aumentado", cor: "border-l-4 border-yellow-500" },
-                        { imc: "30,0 - 34,9", class: "Obesidade I", risco: "Moderado", cor: "border-l-4 border-orange-500" },
-                        { imc: "35,0 - 39,9", class: "Obesidade II", risco: "Grave", cor: "border-l-4 border-red-500" },
-                        { imc: "> 40,0", class: "Obesidade III", risco: "Muito Grave", cor: "border-l-4 border-red-800" },
-                    ].map((item, idx) => (
-                        <div key={idx} className={`bg-white dark:bg-slate-800 p-4 rounded shadow-sm ${item.cor}`}>
-                            <div className="flex justify-between items-center mb-2">
-                                <span className="text-xs font-bold text-slate-500 uppercase">IMC {item.imc}</span>
-                                <span className="text-xs font-bold text-slate-400">Risco: {item.risco}</span>
-                            </div>
-                            <div className="text-lg font-bold text-slate-800 dark:text-slate-100">
-                                {item.class}
-                            </div>
-                        </div>
-                    ))}
                 </div>
             </div>
 
@@ -334,13 +315,13 @@ export default async function IMCPage() {
                 </h3>
                 <div className="space-y-4 text-rose-900/80 dark:text-rose-200/80 relative z-10 text-sm md:text-base leading-relaxed">
                     <p>
-                        Muitos pensam que o IMC foi criado por médicos, mas a verdade é surpreendente: ele foi inventado por um astrônomo!
+                        Muitos pensam que o IMC foi criado por médicos ou especialistas em nutrição, mas a verdade é surpreendente: ele foi inventado por um astrônomo!
                     </p>
                     <p>
-                        Em 1832, o matemático e estatístico belga <strong>Adolphe Quetelet</strong> buscava definir o "homem médio" perfeito. Ele descobriu que o peso aumenta proporcionalmente ao quadrado da altura.
+                        Em 1832, o matemático, estatístico e astrônomo belga <strong>Adolphe Quetelet</strong> busqua definir matematicamente o "homem médio" perfeito. Ele descobriu que, na biologia humana saudável, o peso aumenta proporcionalmente ao quadrado da altura.
                     </p>
                     <p>
-                        Essa fórmula simples (Peso ÷ Altura²) sobreviveu quase 200 anos por sua genialidade: ela permitiu democratizar o diagnóstico nutricional básico sem a necessidade de equipamentos caros.
+                        O melhor de tudo? Essa fórmula simples (Peso ÷ Altura²) sobreviveu quase 200 anos por sua praticidade operacional: ela democratizou o diagnóstico nutricional de massa sem a necessidade de exames caros de laboratório.
                     </p>
                 </div>
             </div>
@@ -349,7 +330,10 @@ export default async function IMCPage() {
                 <Brain className="text-purple-600 dark:text-purple-400" /> Como a conta é feita?
             </h3>
             <p>
-                A matemática é direta e você pode fazer na calculadora do celular: divide-se o seu peso (em quilogramas) pela sua altura (em metros) multiplicada por ela mesma.
+                A matemática por trás do cálculo é extremamente direta e você pode fazer facilmente com qualquer calculadora de celular.
+            </p>
+            <p>
+                Nós pegamos o peso de uma pessoa (em quilogramas) e o dividimos pelo resultado da altura (em metros) multiplicada por si mesma (altura ao quadrado).
             </p>
             <div className="bg-slate-50 dark:bg-slate-800 p-4 rounded-lg font-mono text-center text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 my-4 text-sm md:text-base">
                 IMC = Peso ÷ (Altura × Altura)
@@ -361,16 +345,16 @@ export default async function IMCPage() {
                     <Ruler className="text-indigo-600 dark:text-indigo-500" /> Dica de Ouro: A Cintura
                 </h3>
                 <p className="text-sm text-indigo-800 dark:text-indigo-300 mb-4 leading-relaxed">
-                    Sabia que o IMC não conta a história toda? A gordura abdominal (visceral) é a mais perigosa para o coração, pois envolve os órgãos. Pegue uma fita métrica e meça sua cintura na altura do umbigo:
+                    Sabia que o IMC não conta a história toda sozinho? A gordura acumulada no abdômen (conhecida como gordura visceral) é muito perigosa porque envolve órgãos vitais. Pegue uma fita métrica e meça sua cintura na altura do umbigo:
                 </p>
                 <div className="grid grid-cols-2 gap-4">
                     <div className="bg-white dark:bg-slate-900 p-4 rounded-xl border border-indigo-100 dark:border-slate-800 text-center shadow-sm">
                         <p className="text-xs text-indigo-400 dark:text-indigo-500 uppercase font-bold mb-1">Homens</p>
-                        <p className="font-bold text-indigo-900 dark:text-indigo-300 text-sm">Risco acima de <span className="text-red-500 dark:text-red-400">94 cm</span></p>
+                        <p className="font-bold text-indigo-900 dark:text-indigo-300 text-sm">Risco aumentado acima de <span className="text-red-500 dark:text-red-400">94 cm</span></p>
                     </div>
                     <div className="bg-white dark:bg-slate-900 p-4 rounded-xl border border-indigo-100 dark:border-slate-800 text-center shadow-sm">
                         <p className="text-xs text-indigo-400 dark:text-indigo-500 uppercase font-bold mb-1">Mulheres</p>
-                        <p className="font-bold text-indigo-900 dark:text-indigo-300 text-sm">Risco acima de <span className="text-red-500 dark:text-red-400">80 cm</span></p>
+                        <p className="font-bold text-indigo-900 dark:text-indigo-300 text-sm">Risco aumentado acima de <span className="text-red-500 dark:text-red-400">80 cm</span></p>
                     </div>
                 </div>
             </div>
@@ -378,19 +362,21 @@ export default async function IMCPage() {
             <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100 mt-10 mb-6 flex items-center gap-2">
                 <Users className="text-rose-500" /> Quem o IMC engana?
             </h3>
-            <p>O IMC é excelente para a população geral, mas ele falha em dois grupos específicos:</p>
+            <p>
+                Embora o IMC seja excelente para triagens epidemiológicas populacionais rápidas, ele falha em ser 100% preciso para dois grupos principais de pessoas:
+            </p>
             
             <div className="grid md:grid-cols-2 gap-6 my-6 not-prose">
                 <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm hover:border-blue-300 dark:hover:border-blue-700 transition-colors">
-                    <h4 className="font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2 mb-3"><Activity size={20} className="text-blue-500"/> Atletas</h4>
+                    <h4 className="font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2 mb-3"><Activity size={20} className="text-blue-500"/> Atletas e Praticantes de Musculação</h4>
                     <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-                        Músculo pesa mais que gordura (ocupa menos espaço). Um fisiculturista pode ter um IMC de 30 (classificado como obesidade) tendo apenas 8% de gordura corporal. Nesse caso, o peso extra é saúde.
+                        Músculo é um tecido mais denso e pesado do que a gordura (ocupa muito menos volume físico). Atletas com alto desenvolvimento muscular podem ter um peso elevado, registrando um IMC indicativo de sobrepeso ou obesidade grau I, quando na verdade possuem pouquíssima gordura corporal e excelente saúde celular.
                     </p>
                 </div>
                 <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm hover:border-rose-300 dark:hover:border-rose-700 transition-colors">
-                    <h4 className="font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2 mb-3"><User size={20} className="text-rose-500"/> Idosos (60+)</h4>
+                    <h4 className="font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2 mb-3"><User size={20} className="text-rose-500"/> Idosos (Maiores de 60 Anos)</h4>
                     <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-                        Para idosos, a tabela muda. Um pouco de "reserva de peso" (IMC até 27) é frequentemente considerado protetor contra fragilidade e perda óssea em caso de quedas.
+                        Com o passar dos anos, o corpo naturalmente perde massa muscular e acumula tecido adiposo. Além disso, uma pequena reserva extra de peso protege o idoso contra quedas, fraturas e desgaste ósseo acelerado, exigindo uma faixa de normalidade própria e mais tolerante.
                     </p>
                 </div>
             </div>
@@ -399,36 +385,19 @@ export default async function IMCPage() {
                <Heart className="text-red-500" /> Os Riscos do Excesso
             </h3>
             <p>
-                Estar acima do peso não é apenas uma questão estética. A obesidade é uma doença inflamatória crônica que aumenta o risco de:
+                Estar na faixa de sobrepeso ou de obesidade não se resume a uma questão visual ou de estética. A obesidade é clinicamente entendida como um estado inflamatório crônico de baixo grau, que afeta negativamente todo o organismo humano:
             </p>
             <ul className="grid sm:grid-cols-2 gap-3 list-none p-0 not-prose mt-4">
-               <li className="flex items-start gap-3 text-slate-700 dark:text-slate-300 bg-red-50 dark:bg-red-900/10 p-3 rounded-lg border border-red-100 dark:border-red-900/30"><div className="mt-1.5 w-2 h-2 rounded-full bg-red-500 shrink-0"/> <span><strong>Diabetes Tipo 2:</strong> A gordura interfere na insulina.</span></li>
-               <li className="flex items-start gap-3 text-slate-700 dark:text-slate-300 bg-red-50 dark:bg-red-900/10 p-3 rounded-lg border border-red-100 dark:border-red-900/30"><div className="mt-1.5 w-2 h-2 rounded-full bg-red-500 shrink-0"/> <span><strong>Hipertensão:</strong> O coração faz mais força.</span></li>
-               <li className="flex items-start gap-3 text-slate-700 dark:text-slate-300 bg-red-50 dark:bg-red-900/10 p-3 rounded-lg border border-red-100 dark:border-red-900/30"><div className="mt-1.5 w-2 h-2 rounded-full bg-red-500 shrink-0"/> <span><strong>Apneia do Sono:</strong> Dificuldade para respirar.</span></li>
-               <li className="flex items-start gap-3 text-slate-700 dark:text-slate-300 bg-blue-50 dark:bg-blue-900/10 p-3 rounded-lg border border-blue-100 dark:border-blue-900/30"><div className="mt-1.5 w-2 h-2 rounded-full bg-blue-500 shrink-0"/> <span><strong>Baixa Imunidade:</strong> Se o IMC for muito baixo.</span></li>
+               <li className="flex items-start gap-3 text-slate-700 dark:text-slate-300 bg-red-50 dark:bg-red-900/10 p-3 rounded-lg border border-red-100 dark:border-red-900/30"><div className="mt-1.5 w-2 h-2 rounded-full bg-red-500 shrink-0"/> <span><strong>Diabetes Tipo 2:</strong> A inflamação das células adiposas prejudica a captação de glicose pela insulina.</span></li>
+               <li className="flex items-start gap-3 text-slate-700 dark:text-slate-300 bg-red-50 dark:bg-red-900/10 p-3 rounded-lg border border-red-100 dark:border-red-900/30"><div className="mt-1.5 w-2 h-2 rounded-full bg-red-500 shrink-0"/> <span><strong>Hipertensão:</strong> O aumento do volume corporal exige que o coração faça mais força para bombear sangue.</span></li>
+               <li className="flex items-start gap-3 text-slate-700 dark:text-slate-300 bg-red-50 dark:bg-red-900/10 p-3 rounded-lg border border-red-100 dark:border-red-900/30"><div className="mt-1.5 w-2 h-2 rounded-full bg-red-500 shrink-0"/> <span><strong>Apneia Obstrutiva:</strong> O acúmulo de gordura na região cervical estreita as vias aéreas durante o sono.</span></li>
+               <li className="flex items-start gap-3 text-slate-700 dark:text-slate-300 bg-blue-50 dark:bg-blue-900/10 p-3 rounded-lg border border-blue-100 dark:border-blue-900/30"><div className="mt-1.5 w-2 h-2 rounded-full bg-blue-500 shrink-0"/> <span><strong>Desnutrição Oculta:</strong> Se o IMC estiver abaixo de 18,5, indicando falta de macro e micronutrientes básicos.</span></li>
             </ul>
 
-            {/* FAQ ACORDION */}
-            <div className="mt-16 not-prose">
-              <h3 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-8 flex items-center gap-3 border-b border-slate-200 dark:border-slate-800 pb-4">
-                  <CircleHelp className="text-blue-600 dark:text-blue-400" /> Perguntas Frequentes
-              </h3>
-              <div className="space-y-4">
-                {faqList.map((item, idx) => (
-                    <details key={idx} className="group bg-white dark:bg-slate-800/50 p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm cursor-pointer open:bg-white dark:open:bg-slate-800 open:ring-1 open:ring-rose-100 dark:open:ring-rose-900/30 transition-all">
-                        <summary className="font-semibold text-slate-800 dark:text-slate-100 list-none flex justify-between items-center select-none">
-                            <div className="flex items-start gap-3">
-                                <span className="text-rose-400 font-bold text-xs mt-1">#</span>
-                                <span className="leading-snug">{item.q}</span>
-                            </div>
-                            <span className="text-slate-400 group-open:rotate-180 transition-transform ml-2 shrink-0">▼</span>
-                        </summary>
-                        <p className="mt-3 text-slate-600 dark:text-slate-300 leading-relaxed border-t border-slate-100 dark:border-slate-700 pt-3 text-sm">
-                            {item.a}
-                        </p>
-                    </details>
-                ))}
-              </div>
+            <div className="bg-rose-50 dark:bg-rose-900/10 p-6 md:p-8 rounded-2xl border border-rose-100 dark:border-rose-900/30 my-8 not-prose">
+                <p className="text-slate-700 dark:text-slate-200 text-sm leading-relaxed m-0">
+                    <strong>Dica de Saúde e Carreira:</strong> Manter a saúde em dia é o melhor investimento para sua produtividade e qualidade de vida no trabalho sob o regime da <GlossaryTerm slug="inss-previdencia-social">CLT</GlossaryTerm>. A prevenção de doenças crônicas ajuda a evitar afastamentos médicos e a garantir uma aposentadoria tranquila com cobertura do <GlossaryTerm slug="inss-previdencia-social">INSS</GlossaryTerm>.
+                </p>
             </div>
 
             {/* REFERÊNCIAS OFICIAIS */}
@@ -447,10 +416,36 @@ export default async function IMCPage() {
                 </div>
             </div>
 
-            <ExpertSignature updatedAt="Maio de 2026" author="Equipe Editorial" />
+            <ExpertSignature updatedAt="Junho de 2026" author="Equipe Editorial" />
         </div>
 
+        <SmartGlossaryLinker currentHref="/saude/imc" />
         <SmartCrossLinker currentHref="/saude/imc" category="saude" />
+
+        {/* FAQ ACORDION (EXATAMENTE 7 ITENS SINCRONIZADOS COM JSON-LD) */}
+        <div className="max-w-4xl mx-auto w-full print:hidden">
+          <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm">
+            <h3 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-8 flex items-center gap-3 border-b border-slate-200 dark:border-slate-800 pb-4">
+                <CircleHelp className="text-blue-600 dark:text-blue-400" /> Perguntas Frequentes sobre IMC
+            </h3>
+            <div className="space-y-4 not-prose">
+              {faqList.map((item, idx) => (
+                  <details key={idx} className="group bg-slate-50/50 dark:bg-slate-900/40 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm cursor-pointer open:ring-2 open:ring-rose-100 dark:open:ring-rose-900/30 transition-all">
+                      <summary className="font-semibold text-slate-800 dark:text-slate-100 list-none flex justify-between items-center select-none">
+                          <div className="flex items-start gap-3">
+                              <span className="text-rose-500 font-bold text-xs mt-1">#</span>
+                              <span className="leading-snug text-slate-800 dark:text-slate-200 font-semibold">{item.q}</span>
+                          </div>
+                          <span className="text-slate-400 group-open:rotate-180 transition-transform ml-2 shrink-0">▼</span>
+                      </summary>
+                      <p className="mt-3 text-slate-600 dark:text-slate-300 leading-relaxed border-t border-slate-100 dark:border-slate-800 pt-3 text-sm">
+                          {item.a}
+                      </p>
+                  </details>
+              ))}
+            </div>
+          </div>
+        </div>
 
         {/* --- ANÚNCIO BOTTOM (ESTRATÉGICO) --- */}
         <div className="w-full flex justify-center my-8 print:hidden min-h-[250px]">

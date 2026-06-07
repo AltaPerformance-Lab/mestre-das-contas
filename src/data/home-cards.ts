@@ -21,7 +21,8 @@ import {
   BarChart3,
   MoonStar,
   Coins,
-  Plus
+  Plus,
+  Car
 } from "lucide-react";
 
 export interface FeatureCardData {
@@ -358,4 +359,30 @@ export const glossaryCards: FeatureCardData[] = [
     icon: Coins,
     theme: "slate"
   },
+];
+
+export const vehicleCards: FeatureCardData[] = [
+  {
+    href: "/veiculos/tabela-fipe",
+    title: "Tabela FIPE Oficial",
+    desc: "Consulte o preço médio de carros, motos e caminhões novos ou usados no Brasil.",
+    icon: Car,
+    highlight: true,
+    theme: "emerald"
+  },
+  {
+    href: "/financeiro/financiamento-veiculos",
+    title: "Financiamento Veículos",
+    desc: "Simule as parcelas e juros do financiamento do seu veículo novo ou usado.",
+    icon: Landmark,
+    highlight: true,
+    theme: "emerald"
+  },
+  {
+    href: "/ferramentas/gerador-recibo",
+    title: "Recibo de Compra/Venda",
+    desc: "Gere recibos de compra e venda de veículos em PDF prontos para assinatura.",
+    icon: FileText,
+    theme: "emerald"
+  }
 ];

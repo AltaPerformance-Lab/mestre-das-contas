@@ -14,6 +14,8 @@ import {
 } from "lucide-react";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
 import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
+import SmartGlossaryLinker from "@/components/layout/SmartGlossaryLinker";
+import GlossaryTerm from "@/components/ui/GlossaryTerm";
 import ExpertSignature from "@/components/ui/ExpertSignature";
 
 // --- 1. METADATA DINÂMICA (SEO 2026) ---
@@ -52,11 +54,13 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 const faqList = [
-    { q: "O que é Taxa Metabólica Basal (TMB)?", a: "É o mínimo de calorias que seu corpo precisa para manter as funções vitais (respiração, batimentos, temperatura) em repouso absoluto." },
-    { q: "Qual a diferença entre TMB e Gasto Total?", a: "A TMB é o repouso. O Gasto Total (GET) inclui sua TMB mais as calorias gastas com exercícios, trabalho e digestão de alimentos." },
-    { q: "Como a calculadora funciona?", a: "Usamos a fórmula de Mifflin-St Jeor, considerada a mais precisa para a população moderna pela Academia de Nutrição e Dietética." },
-    { q: "Para emagrecer, quanto devo comer?", a: "Geralmente recomenda-se um déficit de 300 a 500 calorias abaixo do seu Gasto Diário Total. Nunca coma menos que sua TMB sem supervisão." },
-    { q: "O que é o efeito térmico dos alimentos?", a: "É o gasto de energia que seu corpo tem para digerir o que você come. Proteínas gastam muito mais energia para serem processadas que gorduras." }
+    { q: "Afinal, o que é a Taxa Metabólica Basal (TMB) e por que ela importa tanto?", a: "Pense na TMB como a energia que seu corpo gasta só para manter as 'luzes acesas' se você ficasse o dia inteiro deitado na cama. Ela mantém seu coração batendo, seus pulmões funcionando e seu cérebro ativo. É o ponto de partida de qualquer dieta: você nunca deve comer menos que a sua TMB, senão o seu corpo entra em 'modo de sobrevivência' e trava a perda de gordura." },
+    { q: "Qual a diferença real entre TMB e o Gasto Calórico Total (GET)?", a: "Enquanto a TMB é o seu gasto em repouso absoluto, o GET é a vida real acontecendo. O GET pega a sua TMB e soma com as calorias que você gasta tomando banho, trabalhando, caminhando e treinando. É o GET que dita se você vai engordar ou emagrecer." },
+    { q: "Qual o tamanho do déficit calórico que eu preciso fazer para emagrecer?", a: "A regra de ouro da nutrição moderna é a sustentabilidade. Para um emagrecimento saudável (focado em perder gordura e não músculo), os especialistas recomendam um déficit de 300 a 500 calorias abaixo do seu GET. Dietas malucas com 1000 calorias de déficit só vão te deixar frustrado e causar o efeito sanfona." },
+    { q: "É possível perder gordura e ganhar massa muscular ao mesmo tempo?", a: "Sim, é o famoso processo de 'recomposição corporal'. Porém, ele é mais comum e rápido em iniciantes na musculação, pessoas com sobrepeso ou quem está voltando a treinar após muito tempo. Exige um leve déficit calórico (cerca de 200 calorias) aliado a um alto consumo de proteínas e treino pesado." },
+    { q: "Por que as proteínas são tão recomendadas em dietas de perda de peso?", a: "A proteína é a sua maior aliada por dois motivos. Primeiro: saciedade. Ela te deixa cheio por muito mais tempo. Segundo: o 'Efeito Térmico dos Alimentos'. O seu corpo gasta cerca de 20% a 30% das próprias calorias da proteína só para conseguir digeri-la, o que ajuda na queima passiva." },
+    { q: "Eu realmente preciso contar calorias todos os dias?", a: "Contar calorias é como usar o GPS em uma viagem. Você não precisa usar para sempre, mas é essencial nas primeiras semanas para você 'aprender o caminho' e ter noção real do tamanho das porções. Muitas pessoas juram que comem pouco, mas exageram em alimentos calóricos 'saudáveis' como azeite e pasta de amendoim." },
+    { q: "Se eu furar a dieta no fim de semana, jogo tudo a perder?", a: "De forma alguma! O corpo não zera a conta à meia-noite de domingo. O que importa é o balanço calórico semanal. Se você manteve um bom déficit de segunda a sexta, uma refeição livre no fim de semana não vai destruir o seu progresso. O segredo é a consistência, não a perfeição cega." }
 ];
 
 const jsonLd = {
@@ -128,7 +132,7 @@ const jsonLd = {
 export default async function CaloriasPage() {
 
   return (
-    <article className="w-full max-w-full overflow-hidden pb-12">
+    <article className="w-full max-w-full overflow-hidden pb-12 bg-slate-50 dark:bg-slate-950 font-sans">
       
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
@@ -149,7 +153,7 @@ export default async function CaloriasPage() {
         />
       </div>
 
-      <div className="flex flex-col gap-8 px-4 sm:px-6 max-w-7xl mx-auto">
+      <div className="flex flex-col gap-8 px-4 sm:px-6 max-w-7xl mx-auto w-full">
         
         {/* REVISÃO DE SAÚDE (E-E-A-T) */}
         <div className="bg-orange-50/50 dark:bg-orange-900/10 border border-orange-100 dark:border-orange-800 p-4 rounded-2xl flex items-center gap-3 text-xs text-orange-700 dark:text-orange-300 mb-2">
@@ -184,124 +188,145 @@ export default async function CaloriasPage() {
 
         {/* --- CONTEÚDO EDUCACIONAL --- */}
         <div className="prose prose-slate dark:prose-invert prose-sm md:prose-lg max-w-4xl mx-auto bg-white dark:bg-slate-900 p-6 md:p-12 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-xl shadow-slate-200/40 dark:shadow-none overflow-hidden w-full print:hidden">
-            
-            <h3 className="text-xl md:text-2xl font-bold text-slate-900 dark:text-slate-100 mt-2 mb-4 flex items-center gap-2 border-l-4 border-orange-500 pl-4">
-                Como Usar a Calculadora de Calorias Diárias (Passo a Passo)
-            </h3>
-            <p className="text-slate-600 dark:text-slate-400">
-               Planeje sua ingestão de energia com precisão científica seguindo as etapas abaixo:
-            </p>
-
-            <div className="grid sm:grid-cols-3 gap-6 my-8 not-prose">
-              <div className="bg-slate-50 dark:bg-slate-800/30 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 flex gap-4">
-                <div className="w-8 h-8 rounded-full bg-orange-100 dark:bg-orange-900/50 text-orange-600 dark:text-orange-400 font-bold flex items-center justify-center shrink-0">1</div>
-                <div className="space-y-1">
-                   <h4 className="font-bold text-slate-800 dark:text-white text-sm">Dados Fisiológicos</h4>
-                   <p className="text-xs text-slate-500 dark:text-slate-400">Selecione seu sexo biológico, informe sua idade atual, peso em kg e sua altura em centímetros.</p>
-                </div>
-              </div>
-
-              <div className="bg-slate-50 dark:bg-slate-800/30 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 flex gap-4">
-                <div className="w-8 h-8 rounded-full bg-orange-100 dark:bg-orange-900/50 text-orange-600 dark:text-orange-400 font-bold flex items-center justify-center shrink-0">2</div>
-                <div className="space-y-1">
-                   <h4 className="font-bold text-slate-800 dark:text-white text-sm">Nível de Atividade</h4>
-                   <p className="text-xs text-slate-500 dark:text-slate-400">Escolha a opção de atividade física semanal que melhor descreve sua rotina (sedentário até atleta).</p>
-                </div>
-              </div>
-
-              <div className="bg-slate-50 dark:bg-slate-800/30 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 flex gap-4">
-                <div className="w-8 h-8 rounded-full bg-orange-100 dark:bg-orange-900/50 text-orange-600 dark:text-orange-400 font-bold flex items-center justify-center shrink-0">3</div>
-                <div className="space-y-1">
-                   <h4 className="font-bold text-slate-800 dark:text-white text-sm">Escolha seu Objetivo</h4>
-                   <p className="text-xs text-slate-500 dark:text-slate-400">Marque se deseja Emagrecer (déficit), Manter o Peso ou Ganhar Peso (superávit) para obter sua meta de calorias diárias e macronutrientes.</p>
-                </div>
-              </div>
-            </div>
-
-            <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2 border-l-4 border-orange-500 pl-4">
-               Matemática do Emagrecimento
-            </h2>
+          
+          <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2 border-l-4 border-orange-500 pl-4">
+            A Matemática Escondida do Emagrecimento
+          </h2>
+          
           <p className="lead text-slate-700 dark:text-slate-300 text-lg font-medium">
-             Você já ouviu que "comer menos e se exercitar mais" é o segredo. Mas quanto menos? E quanto exercício? Sem números, você está apenas chutando.
-          </p>
-          <p>
-            O corpo humano é uma máquina térmica. Se você consome mais energia (calorias) do que gasta, ele armazena o excesso em forma de gordura. Se consome menos, ele é obrigado a usar suas reservas. Nossa calculadora descobre seu "ponto de equilíbrio".
+            Seja muito honesto com você mesmo: quantas vezes você já começou uma "dieta da moda" na segunda-feira e desistiu antes da sexta? A frustração de fechar a boca, passar fome e ver a balança travada é esmagadora.
           </p>
 
-          <div className="grid md:grid-cols-2 gap-8 my-10 not-prose">
-              <div className="bg-slate-50 dark:bg-slate-950 p-6 rounded-2xl border border-slate-200 dark:border-slate-800">
-                  <h4 className="font-bold text-slate-900 dark:text-slate-100 mb-2 flex items-center gap-2">
-                      <TrendingDown className="text-emerald-500"/> Déficit Calórico
-                  </h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">Consumir de 300 a 500 kcal a menos por dia. É o caminho seguro e sustentável para a perda de gordura sem perder massa muscular.</p>
-              </div>
-              <div className="bg-slate-50 dark:bg-slate-950 p-6 rounded-2xl border border-slate-200 dark:border-slate-800">
-                  <h4 className="font-bold text-slate-900 dark:text-slate-100 mb-2 flex items-center gap-2">
-                      <TrendingUp className="text-blue-500"/> Superávit Calórico
-                  </h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">Consumir mais calorias do que gasta. Essencial para quem busca hipertrofia (ganho de músculos) e força.</p>
-              </div>
+          <p>
+            Mas preste muita atenção nisto. O erro não está na sua força de vontade. O erro está em lutar contra a biologia do seu próprio corpo. 
+          </p>
+
+          <p>
+            Você já ouviu centenas de vezes que o segredo é "comer menos e treinar mais". Parece simples, não é? O grande problema é: <em>quanto a menos?</em> Se você chuta o valor e come pouco demais, o seu metabolismo freia. Se você chuta e come um pouquinho a mais, você acumula gordura. O fim do achismo começa aqui.
+          </p>
+
+          <h3 className="text-xl md:text-2xl font-bold text-slate-800 dark:text-slate-100 mt-10 mb-6">
+            O Motor do Seu Corpo: TMB e GET
+          </h3>
+
+          <p>
+            Para destrancar o emagrecimento, você precisa conhecer duas siglas que mudam as regras do jogo.
+          </p>
+
+          <p>
+            A primeira é a <strong>TMB (Taxa Metabólica Basal)</strong>. Imagine que você tire um dia inteiro para fazer maratona de séries no sofá, sem levantar nem para beber água. Mesmo paralisado, seu coração está batendo, seus pulmões estão inflando e seu cérebro está consumindo energia. A TMB é a energia mínima para você continuar vivo.
+          </p>
+
+          <p>
+            A segunda é o <strong>GET (Gasto Energético Total)</strong>. O seu corpo não fica só no sofá. Você trabalha, limpa a casa, sobe escadas e treina. O GET é a soma da sua TMB com o esforço físico do seu dia a dia. É esse número (o GET) que define as suas roupas.
+          </p>
+
+          <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mt-12 mb-6 flex items-center gap-2 border-l-4 border-orange-500 pl-4">
+            O Segredo do Déficit Calórico Sustentável
+          </h2>
+
+          <p>
+            A verdade nua e crua é que só existe um caminho cientificamente provado para perder barriga: o déficit calórico. Você precisa consumir menos calorias do que o seu corpo gasta (o seu GET). Se a matemática for negativa, o seu corpo não tem escolha a não ser queimar o "estoque de gordura" para gerar energia.
+          </p>
+
+          <p>
+            Qual é a pegadinha? As pessoas criam déficits absurdos (cortam 1000 calorias por dia). O corpo entra em pânico, aumenta a fome em 10 vezes e sacrifica sua massa muscular. O déficit perfeito e blindado contra o "efeito sanfona" gira em torno de 300 a 500 calorias diárias.
+          </p>
+
+          <h3 className="text-xl md:text-2xl font-bold text-slate-800 dark:text-slate-100 mt-10 mb-4">
+            A Batalha dos Macronutrientes (O Que Colocar no Prato)
+          </h3>
+
+          <p>
+            O próximo passo depois de descobrir suas calorias? Escolher onde investir esse "orçamento". Você poderia comer 1500 calorias só de sorvete? Sim. Você emagreceria? Sim. Você ficaria doente, flácido e com fome mortal? Absolutamente.
+          </p>
+
+          <p>
+            Para garantir saciedade e preservar os músculos, a distribuição das calorias é vital. Montamos uma tabela para você não se perder na hora de ir ao mercado:
+          </p>
+
+          {/* TABELA DE MACROS VISUAL */}
+          <div className="overflow-x-auto my-8 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm not-prose">
+            <table className="w-full text-left border-collapse min-w-[600px]">
+              <thead>
+                <tr className="bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-100 text-sm md:text-base">
+                  <th className="p-4 border-b border-slate-200 dark:border-slate-700 font-bold">Macronutriente</th>
+                  <th className="p-4 border-b border-slate-200 dark:border-slate-700 font-bold">Calorias por Grama</th>
+                  <th className="p-4 border-b border-slate-200 dark:border-slate-700 font-bold">Função Principal no Corpo</th>
+                  <th className="p-4 border-b border-slate-200 dark:border-slate-700 font-bold text-center">Exemplos Práticos</th>
+                </tr>
+              </thead>
+              <tbody className="text-sm md:text-base text-slate-700 dark:text-slate-300">
+                <tr className="border-b border-slate-100 dark:border-slate-800/50 hover:bg-slate-50 dark:hover:bg-slate-800/20">
+                  <td className="p-4 font-bold text-orange-600 dark:text-orange-400">Proteínas</td>
+                  <td className="p-4 text-center font-mono">4 kcal/g</td>
+                  <td className="p-4">Construção muscular, alta saciedade e grande queima térmica.</td>
+                  <td className="p-4 text-center">Frango, ovos, whey, laticínios magros.</td>
+                </tr>
+                <tr className="border-b border-slate-100 dark:border-slate-800/50 hover:bg-slate-50 dark:hover:bg-slate-800/20">
+                  <td className="p-4 font-bold text-blue-600 dark:text-blue-400">Carboidratos</td>
+                  <td className="p-4 text-center font-mono">4 kcal/g</td>
+                  <td className="p-4">Energia rápida para o cérebro e explosão muscular nos treinos.</td>
+                  <td className="p-4 text-center">Arroz, batata, aveia, frutas doces.</td>
+                </tr>
+                <tr className="border-b border-slate-100 dark:border-slate-800/50 hover:bg-slate-50 dark:hover:bg-slate-800/20">
+                  <td className="p-4 font-bold text-yellow-600 dark:text-yellow-400">Gorduras Boas</td>
+                  <td className="p-4 text-center font-mono">9 kcal/g</td>
+                  <td className="p-4">Regulação hormonal e absorção de vitaminas (A, D, E, K).</td>
+                  <td className="p-4 text-center">Azeite, abacate, castanhas, salmão.</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
 
-          <h3 className="text-xl font-bold text-slate-800 dark:text-white mt-10 mb-4 flex items-center gap-2">
-              <Utensils className="text-orange-500" /> Macronutrientes: O que comer?
-          </h3>
-          <p>
-            Tão importante quanto a quantidade é a qualidade. Calorias vindas de proteínas têm um efeito térmico maior e ajudam na saciedade, enquanto calorias de açúcares refinados causam picos de insulina que favorecem o acúmulo de gordura.
-          </p>
-
-          <ul className="space-y-4 my-8">
-              <li className="flex items-start gap-3">
-                  <div className="bg-orange-100 text-orange-600 p-1 rounded-md mt-1 shrink-0"><CheckCircle2 size={16}/></div>
-                  <span><strong>Proteínas (4 kcal/g):</strong> Construção muscular e saciedade.</span>
-              </li>
-              <li className="flex items-start gap-3">
-                  <div className="bg-orange-100 text-orange-600 p-1 rounded-md mt-1 shrink-0"><CheckCircle2 size={16}/></div>
-                  <span><strong>Carboidratos (4 kcal/g):</strong> Fonte primária de energia para o cérebro e treinos intensos.</span>
-              </li>
-              <li className="flex items-start gap-3">
-                  <div className="bg-orange-100 text-orange-600 p-1 rounded-md mt-1 shrink-0"><CheckCircle2 size={16}/></div>
-                  <span><strong>Gorduras (9 kcal/g):</strong> Essenciais para a produção hormonal e absorção de vitaminas.</span>
-              </li>
-          </ul>
-
-          <div className="bg-slate-900 rounded-[2.5rem] p-8 md:p-12 text-white relative overflow-hidden my-12 shadow-2xl">
+          <div className="bg-slate-900 rounded-[2.5rem] p-8 md:p-12 text-white relative overflow-hidden my-12 shadow-2xl not-prose">
               <div className="absolute top-0 right-0 p-8 opacity-10">
                   <Zap size={200} />
               </div>
               <h3 className="text-2xl font-bold mb-6 flex items-center gap-2 relative z-10 text-orange-400">
-                  A Regra dos 80/20
+                  A Regra Psicológica dos 80/20
               </h3>
               <p className="text-slate-300 mb-0 relative z-10 text-lg leading-relaxed">
-                  Não tente ser perfeito 100% do tempo. A maioria das pessoas desiste porque tenta dietas extremamente restritivas. Foque em comer alimentos limpos e saudáveis em 80% do tempo, e deixe os 20% para flexibilidade. O que importa é a média calórica semanal!
+                  Não tente ser perfeito 100% do tempo. A maioria das pessoas desiste porque cria regras parecidas com uma prisão. Foque em comer "alimentos limpos" da natureza em 80% do seu dia. Use os outros 20% para comer um pedaço de chocolate ou tomar um drink. Se couber nas suas calorias, você vai emagrecer sorrindo.
               </p>
           </div>
 
-          <div className="mt-12 not-prose" id="faq">
-            <h3 className="text-xl font-bold text-slate-900 dark:text-slate-100 mb-6 flex items-center gap-2 border-b border-slate-100 dark:border-slate-800 pb-3">
-                <HelpCircle className="text-orange-600 dark:text-orange-500" /> Perguntas Frequentes
+          <div className="bg-orange-50 dark:bg-orange-900/10 p-6 md:p-8 rounded-2xl border border-orange-100 dark:border-orange-900/30 my-8 not-prose">
+              <p className="text-slate-700 dark:text-slate-200 text-sm leading-relaxed m-0">
+                  <strong>Investimento na sua Carreira:</strong> Assim como planejar o orçamento do seu negócio (<GlossaryTerm slug="capital-de-giro-negocios">capital de giro</GlossaryTerm>) ou organizar as contas do seu <GlossaryTerm slug="mei-microempreendedor-individual">MEI</GlossaryTerm> garante estabilidade de longo prazo, planejar seu gasto calórico garante a energia e produtividade necessárias para se destacar no mercado de trabalho.
+              </p>
+          </div>
+
+          <p className="text-sm italic text-slate-500 mt-12 pt-6 border-t border-slate-100 dark:border-slate-800">
+                Além do gasto calórico, não se esqueça que o processo de saúde envolve <Link href="/saude/imc" className="text-orange-500 font-bold hover:underline">o controle do IMC</Link> e a <Link href="/saude/agua" className="text-orange-500 font-bold hover:underline">sua hidratação correta</Link>.
+          </p>
+
+          <ExpertSignature updatedAt="Maio de 2026" author="Equipe Editorial" />
+        </div>
+
+        <SmartGlossaryLinker currentHref="/saude/calorias-diarias" />
+        <SmartCrossLinker currentHref="/saude/calorias-diarias" category="saude" />
+
+        {/* --- FAQ --- */}
+        <div className="max-w-4xl mx-auto w-full print:hidden" id="faq">
+          <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm">
+            <h3 className="text-xl font-bold text-slate-900 dark:text-slate-100 mb-6 flex items-center gap-2 border-b border-slate-200 dark:border-slate-800 pb-3">
+                <HelpCircle className="text-orange-600 dark:text-orange-500" /> Perguntas Frequentes Essenciais
             </h3>
-            <div className="space-y-3">
+            <div className="space-y-3 not-prose">
               {faqList.map((item, idx) => (
                   <details key={idx} className="group bg-slate-50 dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700 cursor-pointer open:bg-white dark:open:bg-slate-900 open:shadow-md transition-all">
-                    <summary className="font-semibold text-slate-800 dark:text-slate-100 flex justify-between items-center text-sm select-none">
-                      {item.q} <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
+                    <summary className="font-semibold text-slate-800 dark:text-slate-100 flex justify-between items-center text-sm md:text-base select-none">
+                      <span className="pr-4">{item.q}</span> <span className="text-slate-400 group-open:rotate-180 transition-transform shrink-0">▼</span>
                     </summary>
-                    <p className="mt-3 text-slate-600 dark:text-slate-400 text-sm leading-relaxed border-t border-slate-100 dark:border-slate-700 pt-3 animate-in fade-in">
+                    <p className="mt-3 text-slate-600 dark:text-slate-400 text-sm md:text-base leading-relaxed border-t border-slate-100 dark:border-slate-700 pt-3 animate-in fade-in">
                       {item.a}
                     </p>
                   </details>
               ))}
             </div>
-            <p className="text-sm italic text-slate-500 mt-12 pt-6 border-t border-slate-100 dark:border-slate-800">
-                  Além das calorias, a qualidade da sua saúde depende do <Link href="/saude/imc" className="text-rose-500 font-bold hover:underline">seu peso ideal</Link> e da <Link href="/saude/agua" className="text-rose-500 font-bold hover:underline">hidratação diária</Link>.
-            </p>
           </div>
-
-          <ExpertSignature updatedAt="Maio de 2026" author="Equipe Editorial" />
         </div>
-
-        <SmartCrossLinker currentHref="/saude/calorias-diarias" category="saude" />
 
         {/* Footer Impressão */}
         <div className="hidden print:block text-center pt-8 border-t border-slate-300 mt-8">

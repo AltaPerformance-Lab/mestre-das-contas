@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getMarcas, getModelos, createSlugWithId, extractIdFromSlug } from "@/lib/fipeApi";
 import PageHeader from "@/components/layout/PageHeader";
-import { Search, ChevronRight, BookOpen, HelpCircle, FileText, Sparkles } from "lucide-react";
+import { Search, ChevronRight, BookOpen, HelpCircle, FileText, Sparkles, TrendingDown } from "lucide-react";
 import LazyAdUnit from "@/components/ads/LazyAdUnit";
 import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
 import ExpertSignature from "@/components/ui/ExpertSignature";
@@ -65,6 +65,37 @@ export default async function FipeModelosPage({ params }: PageProps) {
   // Sort alphabetically by name
   modelos.sort((a, b) => a.nome.localeCompare(b.nome));
 
+  const faqList = [
+    {
+      q: "Como as versões de um mesmo modelo afetam a cotação FIPE?",
+      a: "Diferentes versões possuem motorizações e transmissões distintas (como manual vs automática). Versões com câmbio automático e motores turbo retêm muito mais valor de mercado no índice FIPE."
+    },
+    {
+      q: "Por que a desvalorização varia tanto entre hatchbackbacks, sedans e SUVs?",
+      a: "Os SUVs possuem atualmente a maior preferência de compra do público de seminovos, o que faz com que retenham mais valor e desvalorizem mais lentamente do que sedans e hatches equivalentes."
+    },
+    {
+      q: "O ano-modelo é mais importante que o ano de fabricação para a FIPE?",
+      a: "Sim, absolutamente. A Tabela FIPE e as companhias de seguros consideram estritamente o ano-modelo como o indexador para cálculo referencial de preço do veículo."
+    },
+    {
+      q: "Modelos com motores turbo desvalorizam mais do que motores aspirados?",
+      a: "Não necessariamente. Embora tenham manutenção ligeiramente mais cara, motores turbo modernos entregam excelente desempenho e economia de combustível, sustentando excelente aceitação no mercado secundário."
+    },
+    {
+      q: "Como os pacotes de opcionais são precificados na Tabela FIPE?",
+      a: "A Tabela FIPE não precifica opcionais individuais adicionados na concessionária de forma separada. Ela expressa a média de anúncios de versões prontas, de modo que opcionais extras agregam margem física de negociação."
+    },
+    {
+      q: "Qual a influência do tipo de transmissão (manual vs automática) na revenda?",
+      a: "Câmbios automáticos dominam o mercado moderno. Veículos manuais de segmentos médios ou superiores sofrem desvalorização severa e deságio acentuado em relação à média FIPE por falta de demanda de usados."
+    },
+    {
+      q: "Modelos que saíram de linha sofrem desvalorização instantânea?",
+      a: "Sim, geralmente há uma depreciação extra imediata de 10% a 15% quando um veículo é descontinuado pela fabricante, motivada pelo medo de escassez futura de peças de reposição específicas."
+    }
+  ];
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
@@ -76,16 +107,11 @@ export default async function FipeModelosPage({ params }: PageProps) {
       },
       {
         "@type": "FAQPage",
-        "mainEntity": [
-          {
-            "@type": "Question",
-            "name": `O que define a variação de preço entre modelos da marca ${marca.nome}?`,
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "A motorização, tipo de câmbio (manual ou automático), pacote de opcionais instalados de fábrica e o ano de lançamento definem as diferentes versões e variações no valor FIPE de cada modelo."
-            }
-          }
-        ]
+        "mainEntity": faqList.map(item => ({
+          "@type": "Question",
+          "name": item.q,
+          "acceptedAnswer": { "@type": "Answer", "text": item.a }
+        }))
       }
     ]
   };
@@ -179,6 +205,48 @@ export default async function FipeModelosPage({ params }: PageProps) {
               </p>
             </div>
           </div>
+
+          {/* TABELA DE COMPARAÇÃO DE MODELOS (HTML PURO RESPONSIVO) */}
+          <div className="not-prose my-10 border rounded-xl overflow-hidden border-slate-200 dark:border-slate-700 shadow-sm bg-white dark:bg-slate-900">
+              <div className="bg-slate-100 dark:bg-slate-800 p-4 border-b border-slate-200 dark:border-slate-700">
+                  <h4 className="text-sm font-bold text-slate-750 dark:text-slate-250 uppercase tracking-wide flex items-center gap-2">
+                      <TrendingDown size={16} /> Depreciação de Modelos por Categoria
+                  </h4>
+              </div>
+              
+              <div className="overflow-x-auto w-full">
+                  <table className="w-full text-sm text-left border-collapse min-w-[600px]">
+                      <thead className="bg-slate-50 dark:bg-slate-800/50 text-slate-600 dark:text-slate-300 text-xs uppercase tracking-wider">
+                          <tr>
+                              <th className="px-6 py-4 font-bold border-b border-slate-200 dark:border-slate-700">Segmento do Veículo</th>
+                              <th className="px-6 py-4 font-bold border-b border-slate-200 dark:border-slate-700 text-center">Depreciação (1º Ano)</th>
+                              <th className="px-6 py-4 font-bold border-b border-slate-200 dark:border-slate-700 text-center">Depreciação (3º Ano)</th>
+                              <th className="px-6 py-4 font-bold border-b border-slate-200 dark:border-slate-700 text-center">Depreciação (5º Ano)</th>
+                          </tr>
+                      </thead>
+                      <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-slate-700 dark:text-slate-300 font-mono">
+                          <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors">
+                              <td className="px-6 py-4 font-bold text-slate-850 dark:text-slate-100 font-sans">Hatches Compactos</td>
+                              <td className="px-6 py-4 text-center font-bold text-rose-500">~ 10%</td>
+                              <td className="px-6 py-4 text-center">~ 22%</td>
+                              <td className="px-6 py-4 text-center">~ 35%</td>
+                          </tr>
+                          <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors">
+                              <td className="px-6 py-4 font-bold text-slate-850 dark:text-slate-100 font-sans">SUVs / Sedans Médios</td>
+                              <td className="px-6 py-4 text-center font-bold text-rose-500">~ 13%</td>
+                              <td className="px-6 py-4 text-center">~ 28%</td>
+                              <td className="px-6 py-4 text-center">~ 42%</td>
+                          </tr>
+                          <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors">
+                              <td className="px-6 py-4 font-bold text-slate-850 dark:text-slate-100 font-sans">Executivos / Importados</td>
+                              <td className="px-6 py-4 text-center font-bold text-rose-600">~ 16%</td>
+                              <td className="px-6 py-4 text-center">~ 35%</td>
+                              <td className="px-6 py-4 text-center">~ 50%</td>
+                          </tr>
+                      </tbody>
+                  </table>
+              </div>
+          </div>
         </div>
 
         {/* ACCORDION FAQ */}
@@ -188,27 +256,21 @@ export default async function FipeModelosPage({ params }: PageProps) {
           </h3>
           
           <Accordion type="single" collapsible className="w-full">
-            <AccordionItem value="model-faq-1">
-              <AccordionTrigger className="text-left font-semibold text-slate-800 dark:text-slate-200 hover:text-blue-600">
-                Como encontrar a versão exata do meu veículo?
-              </AccordionTrigger>
-              <AccordionContent className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-                A versão exata (como LT, LTPS, Comfortline, Highline) está descrita no documento de transferência do veículo (CRLV), logo ao lado do nome do modelo. Alternativamente, você pode usar o número do chassi para consultar a ficha técnica diretamente no portal do fabricante ou em nosso buscador.
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="model-faq-2">
-              <AccordionTrigger className="text-left font-semibold text-slate-800 dark:text-slate-200 hover:text-blue-600">
-                Por que dois modelos idênticos da {marca.nome} possuem preços FIPE diferentes?
-              </AccordionTrigger>
-              <AccordionContent className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-                Eles provavelmente possuem motorizações ou tipos de câmbio diferentes. Um modelo 1.0 flex manual terá uma precificação FIPE substancialmente menor do que o mesmo modelo na versão 1.0 turbo automática, devido ao custo inicial de fabricação e à demanda de conveniência.
-              </AccordionContent>
-            </AccordionItem>
+            {faqList.map((item, idx) => (
+              <AccordionItem key={idx} value={`model-faq-${idx}`}>
+                <AccordionTrigger className="text-left font-semibold text-slate-800 dark:text-slate-200 hover:text-blue-600">
+                  {item.q}
+                </AccordionTrigger>
+                <AccordionContent className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                  {item.a}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
           </Accordion>
         </div>
 
         {/* EXPERT SIGNATURE */}
-        <ExpertSignature updatedAt="Maio de 2026" author="Equipe Editorial" />
+        <ExpertSignature updatedAt="Junho de 2026" author="Equipe Editorial" />
 
         <SmartCrossLinker currentHref={`/veiculos/tabela-fipe/${tipo}/${marcaSlug}`} category="destaques" maxItems={3} />
 

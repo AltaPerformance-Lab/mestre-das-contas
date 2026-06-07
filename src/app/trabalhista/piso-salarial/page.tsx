@@ -10,6 +10,8 @@ import {
   Scale, ShieldCheck, Landmark, ExternalLink
 } from "lucide-react";
 import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
+import SmartGlossaryLinker from "@/components/layout/SmartGlossaryLinker";
+import GlossaryTerm from "@/components/ui/GlossaryTerm";
 import ExpertSignature from "@/components/ui/ExpertSignature";
 
 // --- 1. SEO METADATA ---
@@ -82,6 +84,18 @@ const faqList = [
   {
     q: "O piso salarial é igual em todo o Brasil?",
     a: "Depende da profissão. Algumas categorias possuem um piso nacional unificado por lei federal (como enfermeiros e professores da rede básica). Outras categorias têm pisos regionais que variam de estado para estado de acordo com convenções de sindicatos locais."
+  },
+  {
+    q: "O que acontece se a convenção coletiva atrasar?",
+    a: "Enquanto a nova convenção coletiva não é assinada, os trabalhadores continuam recebendo o piso anterior. Contudo, após a homologação do novo acordo, a empresa é obrigada a pagar todos os valores retroativos referentes aos meses de atraso."
+  },
+  {
+    q: "Profissionais de meio período têm direito ao piso integral?",
+    a: "Não necessariamente. De acordo com o entendimento do Supremo Tribunal Federal (STF) e a legislação da CLT, é permitida a contratação por jornada reduzida com pagamento proporcional ao piso salarial da categoria, desde que a jornada de trabalho seja estipulada em contrato."
+  },
+  {
+    q: "Quem define o piso salarial das profissões sem sindicato?",
+    a: "Para profissões que não possuem sindicato organizado ou convenção coletiva própria no estado, aplica-se o salário mínimo regional (piso estadual) definido por lei do próprio governo do estado, ou, na ausência deste, o salário mínimo nacional."
   }
 ];
 
@@ -207,7 +221,7 @@ export default function PisosHubPage() {
               Como funciona o Piso Salarial na CLT?
           </h2>
           <p className="lead text-slate-700 text-lg font-medium">
-            O piso salarial é a garantia mínima de que certas carreiras, expostas a grandes responsabilidades ou riscos, recebam um pagamento compatível com a complexidade técnica do seu serviço.
+            O <GlossaryTerm slug="piso-salarial-profissional">piso salarial</GlossaryTerm> é a garantia mínima de que certas carreiras, expostas a grandes responsabilidades ou riscos, recebam um pagamento compatível com a complexidade técnica do seu serviço.
           </p>
           <p>
             Diferentemente do salário mínimo nacional (que serve de base geral para todas as atividades informais e não regulamentadas), o piso é negociado em acordos coletivos conduzidos por sindicatos patronais e de trabalhadores, ou fixado via projetos de leis federais sancionadas (como é o caso da Enfermagem, Magistério Básico e Engenharia).
@@ -267,6 +281,7 @@ export default function PisosHubPage() {
           <ExpertSignature updatedAt="Maio de 2026" author="Rodrigo Costa (Analista de Sistemas)" />
         </div>
 
+        <SmartGlossaryLinker currentHref="/trabalhista/piso-salarial" category="trabalhista" />
         <SmartCrossLinker currentHref="/trabalhista/piso-salarial" category="trabalhista" />
 
         {/* --- ANÚNCIO BOTTOM --- */}

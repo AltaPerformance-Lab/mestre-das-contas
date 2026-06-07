@@ -6,13 +6,15 @@ import PageHeader from "@/components/layout/PageHeader";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
 import DisclaimerBox from "@/components/ui/DisclaimerBox";
 import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
+import SmartGlossaryLinker from "@/components/layout/SmartGlossaryLinker";
+import GlossaryTerm from "@/components/ui/GlossaryTerm";
 import ExpertSignature from "@/components/ui/ExpertSignature";
 import { BarChart3, CheckCircle2, HelpCircle, BookOpen, AlertTriangle, ShieldCheck } from "lucide-react";
 
 // --- 1. METADATA DINÂMICA (SEO MAXIMIZADO) ---
 export async function generateMetadata(): Promise<Metadata> {
     const title = "Comparador de Renda 2026 (Grátis) | Você é Rico? (Dados IBGE)";
-    const description = "Digite seu salário e descubra sua classe social real e posição no ranking nacional em segundos. Dados oficiais IBGE 2026 atualizados. Simule Grátis.";
+    const description = "Quer saber sua classe social real? Insira seu salário e compare sua renda com a média de todo o Brasil segundo dados oficiais do IBGE. Calcule grátis!";
 
     return {
         title,
@@ -21,7 +23,6 @@ export async function generateMetadata(): Promise<Metadata> {
         alternates: { canonical: "https://mestredascontas.com.br/financeiro/comparador-salario" },
         openGraph: {
             title,
-            description,
             url: "https://mestredascontas.com.br/financeiro/comparador-salario",
             type: "website" }
     };
@@ -58,9 +59,7 @@ const faqList = [
     }
 ];
 
-
 export default async function SalaryComparatorPage() {
-
     // Schema JSON-LD Completo
     const jsonLd = {
         "@context": "https://schema.org",
@@ -153,7 +152,7 @@ export default async function SalaryComparatorPage() {
                 </section>
 
                 {/* --- ARTIGO PROFUNDO (VIRAL) --- */}
-                <div className="prose prose-slate dark:prose-invert prose-sm md:prose-lg max-w-4xl mx-auto bg-white dark:bg-slate-900 p-6 md:p-12 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-xl shadow-slate-200/40 dark:shadow-none overflow-hidden w-full mt-8">
+                <div className="prose prose-slate dark:prose-invert prose-sm md:prose-lg max-w-4xl mx-auto bg-white dark:bg-slate-900 p-6 md:p-12 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-xl shadow-slate-200/40 dark:shadow-none overflow-hidden w-full mt-8 font-sans">
                     
                     <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-6 border-l-4 border-indigo-600 pl-4 flex items-center gap-3">
                         <BookOpen className="text-indigo-600 mb-1"/> A Realidade que Ninguém Te Conta
@@ -219,7 +218,7 @@ export default async function SalaryComparatorPage() {
                                         <td className="px-6 py-4">Liberdade financeira. O dinheiro gera mais dinheiro. Acesso irrestrito ao melhor que o dinheiro compra.</td>
                                     </tr>
                                 </tbody>
-                            </table>
+                             </table>
                         </div>
 
                         {/* VIEW MOBILE (Cards) */}
@@ -242,14 +241,9 @@ export default async function SalaryComparatorPage() {
                         </div>
                     </div>
 
-                    {/* ANÚNCIO MEIO ARTIGO */}
-                    <div className="w-full flex justify-center my-8 not-prose">
-                        <LazyAdUnit slot="comparator_mid" format="auto" />
-                    </div>
-
                     <h3>Por que você se sente "Pobre" ganhando bem?</h3>
                     <p>
-                        Se você está na Classe B ou até na A e ainda sente dificuldade, você não está louco. Existe um fenômeno conhecido como <strong>Inflação de Estilo de Vida</strong>.
+                        Se você está na Classe B ou até na A e ainda sente dificuldade, você não está louco. Existe um fenômeno conhecido como <GlossaryTerm slug="inflacao">Inflação de Estilo de Vida</GlossaryTerm>.
                     </p>
                     <p>
                         Funciona assim:
@@ -266,7 +260,7 @@ export default async function SalaryComparatorPage() {
 
                     <h3>O que os dados do IBGE não mostram</h3>
                     <p>
-                        O gráfico acima mostra renda, mas não mostra <strong>patrimônio</strong> ou <strong>dívida</strong>.
+                        O gráfico acima mostra renda, mas não mostra patrimônio ou dívida.
                     </p>
                     <p>
                         Veja bem: Uma pessoa que ganha R$ 5.000 e investe R$ 1.000 todo mês é infinitamente mais "rica" a longo prazo do que alguém que ganha R$ 20.000 e gasta R$ 21.000 para manter as aparências.
@@ -299,39 +293,40 @@ export default async function SalaryComparatorPage() {
                         Use nosso comparador como um choque de realidade. Se você descobriu que já ganha mais que 90% do Brasil, pare de reclamar e comece a multiplicar. O privilégio traz responsabilidade.
                     </p>
 
-                  
-            <ExpertSignature updatedAt="Maio de 2026" author="Equipe Editorial" />
-          </div>
+                    <ExpertSignature updatedAt="Maio de 2026" author="Equipe Editorial" />
+                </div>
+
+                <SmartGlossaryLinker currentHref="/financeiro/comparador-salario" category="financeiro" />
+                <SmartCrossLinker currentHref="/financeiro/comparador-salario" category="financeiro" />
 
                 {/* --- SEÇÃO FAQ --- */}
-                <div className="max-w-4xl mx-auto w-full mt-8">
-                    <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
-                        <HelpCircle className="text-indigo-500"/> Perguntas Frequentes
-                    </h3>
-                    <div className="space-y-4">
-                        {faqList.map((faq, idx) => (
-                            <details key={idx} id={`faq-${idx}`} className="group bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 open:border-indigo-500 dark:open:border-indigo-500 transition-colors duration-300">
-                                <summary className="flex cursor-pointer items-center justify-between p-4 font-bold text-slate-800 dark:text-slate-200 group-open:text-indigo-600 dark:group-open:text-indigo-400">
-                                    {faq.q}
-                                    <span className="shrink-0 ml-4 p-1.5 rounded-full bg-slate-100 dark:bg-slate-800 group-open:bg-indigo-100 dark:group-open:bg-indigo-900/30 text-slate-500 group-open:text-indigo-600 transition-all">
-                                        <svg className="h-5 w-5 group-open:rotate-180 transition-transform" viewBox="0 0 20 20" fill="currentColor">
-                                            <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
-                                        </svg>
-                                    </span>
-                                </summary>
-                                <div className="p-4 pt-0 text-slate-600 dark:text-slate-400 leading-relaxed text-sm">
-                                    {faq.a}
-                                </div>
-                            </details>
-                        ))}
+                <div className="max-w-4xl mx-auto w-full mt-8 print:hidden">
+                    <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm">
+                        <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-8 flex items-center gap-3 border-b border-slate-150 dark:border-slate-800 pb-4">
+                            <HelpCircle className="text-indigo-500"/> Dúvidas Frequentes sobre Distribuição de Renda
+                        </h2>
+                        <div className="space-y-4">
+                            {faqList.map((faq, idx) => (
+                                <details key={idx} id={`faq-${idx}`} className="group bg-slate-50 dark:bg-slate-800 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 cursor-pointer open:bg-white dark:open:bg-slate-900 open:ring-2 open:ring-indigo-100 dark:open:ring-indigo-900/30 transition-all duration-200">
+                                    <summary className="font-bold text-slate-800 dark:text-slate-100 list-none flex justify-between items-center select-none">
+                                        <div className="flex items-start gap-3">
+                                            <span className="text-indigo-500 font-bold text-xs mt-1">#</span>
+                                            <span className="leading-snug text-slate-800 dark:text-slate-200 font-semibold">{faq.q}</span>
+                                        </div>
+                                        <span className="text-slate-400 group-open:rotate-180 transition-transform ml-2 shrink-0">▼</span>
+                                    </summary>
+                                    <p className="mt-3 text-slate-600 dark:text-slate-400 leading-relaxed border-t border-slate-100 dark:border-slate-800 pt-3 text-sm animate-in fade-in">
+                                        {faq.a}
+                                    </p>
+                                </details>
+                            ))}
+                        </div>
                     </div>
                 </div>
 
                 <div className="w-full flex justify-center mt-8 min-h-[250px]">
                     <LazyAdUnit slot="comparator_bottom" format="horizontal" variant="software" />
                 </div>
-
-                <SmartCrossLinker currentHref="/financeiro/comparador-salario" category="financeiro" />
 
             </div>
         </article>

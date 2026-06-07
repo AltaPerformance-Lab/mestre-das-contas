@@ -3,7 +3,7 @@ import Link from "next/link";
 import LazyAdUnit from "@/components/ads/LazyAdUnit";
 import PageHeader from "@/components/layout/PageHeader";
 import { 
-  Heart, Activity, Scale, Flame, 
+  Heart, Activity, Scale, Flame, HelpCircle,
   Baby, Droplet, Stethoscope, Dna, 
   Brain, Apple, ArrowRight, ShieldPlus,
   CheckCircle2, Coins, Wallet, TrendingUp, PieChart, GlassWater
@@ -13,7 +13,7 @@ import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
 // --- METADATA (SEO SAÚDE 2026) ---
 export const metadata: Metadata = {
   title: "Calculadoras de Saúde e Bem-Estar 2026 | IMC, Calorias e Gestação",
-  description: "Monitore sua saúde com precisão em 2026. Ferramentas gratuitas para calcular IMC, Gasto Calórico Diário (TMB), Idade Gestacional e Ingestão de Água.",
+  description: "Monitore seus principais indicadores corporais grátis. Calcule seu IMC, meta de ingestão de água diária e consumo calórico com dados científicos!",
   keywords: [
     "calculadoras de saúde", 
     "calcular imc online", 
@@ -26,7 +26,6 @@ export const metadata: Metadata = {
     canonical: "https://mestredascontas.com.br/saude" },
   openGraph: {
     title: "Portal de Saúde 2026 | Mestre das Contas",
-    description: "Sua central de ferramentas para saúde. Calcule IMC, Calorias, Gestação e Hidratação com precisão científica.",
     url: "https://mestredascontas.com.br/saude",
     siteName: "Mestre das Contas",
     locale: "pt_BR",
@@ -43,7 +42,6 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Como está sua saúde hoje?",
-    description: "Use nossas ferramentas gratuitas para monitorar seus indicadores vitais.",
     images: ["/opengraph-image"],
   } };
 
@@ -68,6 +66,67 @@ const jsonLd = {
       "itemListElement": [
         { "@type": "ListItem", "position": 1, "name": "Início", "item": "https://mestredascontas.com.br" },
         { "@type": "ListItem", "position": 2, "name": "Saúde", "item": "https://mestredascontas.com.br/saude" }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "1. A calculadora de IMC substitui uma avaliação antropométrica?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Não. A calculadora de IMC fornece uma estimativa de peso ideal baseada apenas em peso e altura. Ela não avalia a porcentagem de gordura corporal, massa muscular ou outros fatores clínicos que apenas um nutricionista ou médico pode determinar."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "2. Quanta água eu realmente devo ingerir com base no meu peso?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A recomendação científica é multiplicar 35 ml de água por cada quilo de peso corporal (ex: uma pessoa de 70 kg deve beber cerca de 2,45 litros por dia). Essa meta varia de acordo com o nível de atividade física e o clima local."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "3. O que é Taxa Metabólica Basal (TMB) e como ela ajuda a emagrecer?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A Taxa Metabólica Basal (TMB) é a quantidade de calorias que o seu corpo gasta em repouso absoluto para manter as funções vitais ativas. Conhecer esse índice ajuda a planejar um déficit calórico seguro e eficiente para perda de peso."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "4. Como é calculada a data provável do parto (DPP)?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A DPP é estimada utilizando a Regra de Naegele: soma-se 7 dias ao primeiro dia da sua última menstruação (DUM), subtrai-se 3 meses e soma-se 1 ano (ou ajusta-se o ano conforme necessário). Corresponde a cerca de 40 semanas de gestação."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "5. Qual a diferença entre caloria e macronutrientes na dieta?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Caloria é a unidade de medida de energia que os alimentos fornecem. Macronutrientes (carboidratos, proteínas e gorduras) são os nutrientes que contêm essas calorias e desempenham funções estruturais e metabólicas específicas no organismo."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "6. Gestantes podem usar a calculadora de IMC padrão?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Não é recomendado. O IMC de gestantes deve ser calculado de acordo com tabelas específicas que consideram a semana gestacional e o ganho de peso esperado. A calculadora de IMC comum pode apresentar classificações incorretas para grávidas."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "7. O cálculo de água diário deve considerar sucos e chás?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A maior parte da meta diária de hidratação deve ser composta por água pura. Embora chás claros sem açúcar e água de coco contribuam para a hidratação, sucos adoçados ou refrigerantes não substituem a água pura e agregam calorias indesejadas."
+          }
+        }
       ]
     }
   ]
@@ -243,6 +302,125 @@ export default function SaudeHubPage() {
                      <PieChart size={16} className="text-blue-400"/> Nutrição Precisa
                   </div>
               </div>
+          </div>
+
+          {/* TABELA COMPARATIVA DE ÍNDICES DE SAÚDE */}
+          <h3 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mt-10 mb-6">
+            Comparativo de Índices Biomatemáticos
+          </h3>
+          <div className="overflow-x-auto w-full rounded-2xl border border-slate-200 dark:border-slate-800 mb-8">
+            <table className="min-w-[600px] w-full border-collapse text-left text-sm text-slate-600 dark:text-slate-400">
+              <thead className="bg-slate-50 dark:bg-slate-800/50 text-slate-800 dark:text-slate-200 font-bold border-b border-slate-200 dark:border-slate-800">
+                <tr>
+                  <th className="p-4">Índice de Saúde</th>
+                  <th className="p-4">Fórmula Científica</th>
+                  <th className="p-4">Classificação / Alvo</th>
+                  <th className="p-4">Benefício de Acompanhar</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
+                <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-800/30">
+                  <td className="p-4 font-semibold text-slate-900 dark:text-slate-200">Índice de Massa Corporal (IMC)</td>
+                  <td className="p-4">Peso (kg) / Altura² (m)</td>
+                  <td className="p-4">18,5 a 24,9 kg/m² (Eutrofia / Normal)</td>
+                  <td className="p-4">Avaliar risco geral de desnutrição ou sobrepeso</td>
+                </tr>
+                <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-800/30">
+                  <td className="p-4 font-semibold text-slate-900 dark:text-slate-200">Taxa Metabólica Basal (TMB)</td>
+                  <td className="p-4">Equações de Harris-Benedict ou Mifflin-St Jeor</td>
+                  <td className="p-4">Variável conforme sexo, idade, peso e altura</td>
+                  <td className="p-4">Calcular o consumo energético de repouso para dietas</td>
+                </tr>
+                <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-800/30">
+                  <td className="p-4 font-semibold text-slate-900 dark:text-slate-200">Ingestão de Água Diária</td>
+                  <td className="p-4">Peso (kg) × 35 ml</td>
+                  <td className="p-4">Aproximadamente 35 ml por quilo corporal</td>
+                  <td className="p-4">Evitar desidratação celular e otimizar função renal</td>
+                </tr>
+                <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-800/30">
+                  <td className="p-4 font-semibold text-slate-900 dark:text-slate-200">Idade Gestacional e DPP</td>
+                  <td className="p-4">Regra de Naegele (DUM + 7 dias - 3 meses)</td>
+                  <td className="p-4">40 semanas de período gestacional médio</td>
+                  <td className="p-4">Previsão do parto e monitoramento do bebê</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          {/* SEÇÃO DE FAQ (7 PERGUNTAS) */}
+          <h3 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mt-12 mb-6 flex items-center gap-2">
+            <HelpCircle className="text-slate-500" size={26} /> Perguntas Frequentes sobre Saúde e Cálculos
+          </h3>
+          <div className="space-y-4">
+            <details className="group border-b border-slate-200 dark:border-slate-800 pb-4 cursor-pointer">
+              <summary className="font-bold text-slate-800 dark:text-slate-200 flex justify-between items-center list-none p-2 hover:bg-slate-50 dark:hover:bg-slate-800 rounded select-none">
+                1. A calculadora de IMC substitui uma avaliação antropométrica?
+                <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
+              </summary>
+              <div className="mt-2 text-slate-600 dark:text-slate-400 px-2 text-sm leading-relaxed">
+                Não. A calculadora de IMC fornece uma estimativa de peso ideal baseada apenas em peso e altura. Ela não avalia a porcentagem de gordura corporal, massa muscular ou outros fatores clínicos que apenas um nutricionista ou médico pode determinar.
+              </div>
+            </details>
+
+            <details className="group border-b border-slate-200 dark:border-slate-800 pb-4 cursor-pointer">
+              <summary className="font-bold text-slate-800 dark:text-slate-200 flex justify-between items-center list-none p-2 hover:bg-slate-50 dark:hover:bg-slate-800 rounded select-none">
+                2. Quanta água eu realmente devo ingerir com base no meu peso?
+                <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
+              </summary>
+              <div className="mt-2 text-slate-600 dark:text-slate-400 px-2 text-sm leading-relaxed">
+                A recomendação científica é multiplicar 35 ml de água por cada quilo de peso corporal (ex: uma pessoa de 70 kg deve beber cerca de 2,45 litros por dia). Essa meta varia de acordo com o nível de atividade física e o clima local.
+              </div>
+            </details>
+
+            <details className="group border-b border-slate-200 dark:border-slate-800 pb-4 cursor-pointer">
+              <summary className="font-bold text-slate-800 dark:text-slate-200 flex justify-between items-center list-none p-2 hover:bg-slate-50 dark:hover:bg-slate-800 rounded select-none">
+                3. O que é Taxa Metabólica Basal (TMB) e como ela ajuda a emagrecer?
+                <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
+              </summary>
+              <div className="mt-2 text-slate-600 dark:text-slate-400 px-2 text-sm leading-relaxed">
+                A Taxa Metabólica Basal (TMB) é a quantidade de calorias que o seu corpo gasta em repouso absoluto para manter as funções vitais ativas. Conhecer esse índice ajuda a planejar um déficit calórico seguro e eficiente para perda de peso.
+              </div>
+            </details>
+
+            <details className="group border-b border-slate-200 dark:border-slate-800 pb-4 cursor-pointer">
+              <summary className="font-bold text-slate-800 dark:text-slate-200 flex justify-between items-center list-none p-2 hover:bg-slate-50 dark:hover:bg-slate-800 rounded select-none">
+                4. Como é calculada a data provável do parto (DPP)?
+                <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
+              </summary>
+              <div className="mt-2 text-slate-600 dark:text-slate-400 px-2 text-sm leading-relaxed">
+                A DPP é estimada utilizando a Regra de Naegele: soma-se 7 dias ao primeiro dia da sua última menstruação (DUM), subtrai-se 3 meses e soma-se 1 ano (ou ajusta-se o ano conforme necessário). Corresponde a cerca de 40 semanas de gestação.
+              </div>
+            </details>
+
+            <details className="group border-b border-slate-200 dark:border-slate-800 pb-4 cursor-pointer">
+              <summary className="font-bold text-slate-800 dark:text-slate-200 flex justify-between items-center list-none p-2 hover:bg-slate-50 dark:hover:bg-slate-800 rounded select-none">
+                5. Qual a diferença entre caloria e macronutrientes na dieta?
+                <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
+              </summary>
+              <div className="mt-2 text-slate-600 dark:text-slate-400 px-2 text-sm leading-relaxed">
+                Caloria é a unidade de medida de energia que os alimentos fornecem. Macronutrientes (carboidratos, proteínas e gorduras) são os nutrientes que contêm essas calorias e desempenham funções estruturais e metabólicas específicas no organismo.
+              </div>
+            </details>
+
+            <details className="group border-b border-slate-200 dark:border-slate-800 pb-4 cursor-pointer">
+              <summary className="font-bold text-slate-800 dark:text-slate-200 flex justify-between items-center list-none p-2 hover:bg-slate-50 dark:hover:bg-slate-800 rounded select-none">
+                6. Gestantes podem usar a calculadora de IMC padrão?
+                <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
+              </summary>
+              <div className="mt-2 text-slate-600 dark:text-slate-400 px-2 text-sm leading-relaxed">
+                Não é recomendado. O IMC de gestantes deve ser calculado de acordo com tabelas específicas que consideram a semana gestacional e o ganho de peso esperado. A calculadora de IMC comum pode apresentar classificações incorretas para grávidas.
+              </div>
+            </details>
+
+            <details className="group border-b border-slate-200 dark:border-slate-800 pb-4 cursor-pointer">
+              <summary className="font-bold text-slate-800 dark:text-slate-200 flex justify-between items-center list-none p-2 hover:bg-slate-50 dark:hover:bg-slate-800 rounded select-none">
+                7. O cálculo de água diário deve considerar sucos e chás?
+                <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
+              </summary>
+              <div className="mt-2 text-slate-600 dark:text-slate-400 px-2 text-sm leading-relaxed">
+                A maior parte da meta diária de hidratação deve ser composta por água pura. Embora chás claros sem açúcar e água de coco contribuam para a hidratação, sucos adoçados ou refrigerantes não substituem a água pura e agregam calorias indesejadas.
+              </div>
+            </details>
           </div>
         </div>
         <SmartCrossLinker currentHref="/saude" category="saude" />

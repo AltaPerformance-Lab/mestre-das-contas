@@ -1,66 +1,96 @@
 import { Suspense } from "react";
 import type { Metadata } from "next";
+import Link from "next/link";
 import ThirteenthCalculator from "@/components/calculators/ThirteenthCalculator";
 import LazyAdUnit from "@/components/ads/LazyAdUnit";
 import DisclaimerBox from "@/components/ui/DisclaimerBox";
 import PageHeader from "@/components/layout/PageHeader";
 import { 
-  TriangleAlert, Calendar, Coins, CircleHelp, 
-  CircleCheck, History, BookOpen, Calculator,
+  AlertTriangle, Calendar, Coins, HelpCircle, 
+  CheckCircle2, History, BookOpen, Calculator,
   Wallet, FileText, Scale, Briefcase, XCircle, Check, Gift,
-  AlertOctagon, Landmark, TrendingUp, CheckCircle2, ShieldCheck
+  Landmark, TrendingUp, ShieldCheck, ExternalLink
 } from "lucide-react";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
 import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
+import SmartGlossaryLinker from "@/components/layout/SmartGlossaryLinker";
+import GlossaryTerm from "@/components/ui/GlossaryTerm";
 import ExpertSignature from "@/components/ui/ExpertSignature";
 
-// --- 1. METADATA (SEO 2026) ---
-export const metadata: Metadata = {
-  title: "Calculadora de 13º Salário 2026 | Simule Agora Grátis",
-  description: "Saiba quanto você vai receber de 13º Salário em 2026. Cálculo exato das duas parcelas com descontos de INSS/IRRF. Simulador gratuito e online.",
-  keywords: [
-    "calculadora decimo terceiro", "calcular 13o salario", "primeira parcela 13", 
-    "data pagamento decimo terceiro", "descontos 13o salario", "gratificação natalina",
-    "decimo terceiro proporcional", "decimo terceiro maternidade", "calculo media horas extras 13"
-  ],
-  alternates: {
-    canonical: "https://mestredascontas.com.br/trabalhista/decimo-terceiro" },
-  openGraph: {
-    title: "Calculadora de 13º Salário 2026 | Simule 1ª e 2ª Parcela",
-    description: "Quanto vai cair na conta? Calcule seu 13º salário com descontos de INSS e IRRF. Grátis, rápido e atualizado para 2026.",
-    url: "https://mestredascontas.com.br/trabalhista/decimo-terceiro",
-    siteName: "Mestre das Contas",
-    locale: "pt_BR",
-    type: "article",
-    images: [
-      { 
-        url: "/opengraph-image", 
-        width: 1200, 
-        height: 630, 
-        alt: "Calculadora de 13º Salário Mestre das Contas", 
-      }
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Já sabe quanto vai receber de 13º?",
-    description: "Simule as parcelas do seu décimo terceiro com os novos descontos de 2026.",
-    images: ["/opengraph-image"],
-  }
-};
+// --- 1. METADATA DINÂMICA (SEO MAXIMIZADO) ---
+export async function generateMetadata(): Promise<Metadata> {
+  const title = "Calculadora de 13º Salário 2026 | Simule Agora Grátis";
+  const description = "Quer planejar o fim do ano com antecedência? Simule o valor exato das duas parcelas do seu 13º salário com descontos de INSS e IRRF. Grátis e online!";
 
-// --- FAQ LIST (DRY Content) ---
+  return {
+    title,
+    description,
+    keywords: [
+      "calculadora decimo terceiro", "calcular 13o salario", "primeira parcela 13", 
+      "data pagamento decimo terceiro", "descontos 13o salario", "gratificação natalina",
+      "decimo terceiro proporcional", "decimo terceiro maternidade", "calculo media horas extras 13"
+    ],
+    alternates: {
+      canonical: "https://mestredascontas.com.br/trabalhista/decimo-terceiro" 
+    },
+    openGraph: {
+      title,
+      url: "https://mestredascontas.com.br/trabalhista/decimo-terceiro",
+      siteName: "Mestre das Contas",
+      locale: "pt_BR",
+      type: "article",
+      images: [
+        { 
+          url: "/opengraph-image", 
+          width: 1200, 
+          height: 630, 
+          alt: "Calculadora de 13º Salário Mestre das Contas", 
+        }
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: "Já sabe quanto vai receber de 13º?",
+      images: ["/opengraph-image"],
+    },
+    robots: {
+      index: true, follow: true,
+      googleBot: { index: true, follow: true, "max-video-preview": -1, "max-image-preview": "large", "max-snippet": -1 } } };
+}
+
+// --- LISTA FAQ (Exatamente 7 Dúvidas Reais de Usuários) ---
 const faqList = [
-    { q: "Quando deve ser paga a primeira parcela?", a: "A primeira parcela (adiantamento) deve ser paga entre 1º de fevereiro e 30 de novembro de cada ano. Muitas empresas optam por pagar junto com as férias ou no último dia útil de novembro." },
-    { q: "Quando cai a segunda parcela?", a: "A segunda parcela deve ser paga impreterivelmente até o dia 20 de dezembro de cada ano. Se a data cair num fim de semana, antecipa-se para o último dia útil." },
-    { q: "A primeira parcela tem descontos?", a: "Não. A primeira parcela corresponde a 50% do salário bruto do mês anterior, sem descontos. O INSS e o IRRF são descontados integralmente na segunda parcela." },
-    { q: "Quem tem menos de 1 ano recebe?", a: "Sim, recebe o valor proporcional. O cálculo é: Salário dividido por 12, multiplicado pelo número de meses trabalhados (considerando fração igual ou superior a 15 dias)." },
-    { q: "Horas extras entram no 13º?", a: "Sim! É feita uma média das horas extras, comissões e adicionais noturnos recebidos durante o ano (geralmente de janeiro a outubro para a 1ª parcela, e recalculado em dezembro)." },
-    { q: "Mulher em licença-maternidade recebe?", a: "Sim. O pagamento é feito pelo empregador, mas o valor é abatido dos repasses ao INSS. O direito é garantido integralmente." },
-    { q: "Quem foi demitido por justa causa recebe?", a: "Não. A demissão por justa causa retira o direito ao 13º salário proporcional. É a única modalidade de rescisão onde o benefício é perdido." }
+  { 
+    q: "Quando deve ser paga a primeira parcela do 13º salário?", 
+    a: "Por lei, o adiantamento da primeira parcela do 13º salário deve ser quitado entre o dia 1º de fevereiro e o dia 30 de novembro de cada ano. O empregador não é obrigado a pagar a todos os funcionários no mesmo mês." 
+  },
+  { 
+    q: "Quando é feito o pagamento da segunda parcela do 13º?", 
+    a: "O pagamento da segunda parcela do décimo terceiro salário deve ser depositado impreterivelmente até o dia 20 de dezembro de cada ano. Caso essa data caia em um fim de semana, a empresa é obrigada a antecipar o pagamento para o último dia útil anterior." 
+  },
+  { 
+    q: "A primeira parcela do 13º salário tem descontos de impostos?", 
+    a: "Não. A primeira parcela do 13º corresponde a exatamente 50% do salário bruto do trabalhador no mês anterior e entra na conta sem qualquer retenção de imposto. Todos os descontos previdenciários e fiscais são aplicados na segunda parcela." 
+  },
+  { 
+    q: "Como funciona o cálculo do 13º proporcional para quem tem menos de um ano de empresa?", 
+    a: "O trabalhador recebe 1/12 (um doze avos) do salário por cada mês trabalhado. Para que o mês seja computado no cálculo, é obrigatório ter trabalhado pelo menos 15 dias dentro daquele respectivo mês." 
+  },
+  { 
+    q: "As horas extras e comissões integram o cálculo do décimo terceiro?", 
+    a: "Sim. As horas extraordinárias, comissões, adicionais noturnos, de periculosidade ou insalubridade integram a base de cálculo. O departamento pessoal realiza uma média ponderada dos valores adicionais recebidos pelo trabalhador ao longo do ano comercial." 
+  },
+  { 
+    q: "A trabalhadora em licença-maternidade tem direito a receber o 13º salário?", 
+    a: "Sim. A trabalhadora sob licença-maternidade recebe o décimo terceiro de forma integral. Embora a empresa seja responsável por realizar o repasse do pagamento, ela abate esse montante final dos recolhimentos previdenciários devidos ao INSS." 
+  },
+  { 
+    q: "Quem é demitido por justa causa perde o direito de receber o 13º proporcional?", 
+    a: "Sim. De acordo com as leis do regime CLT, a rescisão de contrato por justa causa é a única hipótese em que o trabalhador perde completamente o direito de receber os avos proporcionais acumulados do 13º salário na quitação final." 
+  }
 ];
 
-// --- 2. DADOS ESTRUTURADOS (JSON-LD) ---
+// --- 2. DADOS ESTRUTURADOS (JSON-LD COMPLETO COM 7 FAQ) ---
 const jsonLd = {
   "@context": "https://schema.org",
   "@graph": [
@@ -70,7 +100,8 @@ const jsonLd = {
       "applicationCategory": "FinanceApplication",
       "operatingSystem": "Web",
       "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
-      "description": "Ferramenta online para cálculo de Décimo Terceiro salário com parcelas e descontos de INSS/IRRF." },
+      "description": "Ferramenta online para cálculo de Décimo Terceiro salário com parcelas e descontos de INSS/IRRF."
+    },
     {
       "@type": "HowTo",
       "name": "Como Calcular o 13º Salário",
@@ -80,38 +111,28 @@ const jsonLd = {
         {
           "@type": "HowToStep",
           "name": "Salário Bruto",
-          "text": "Digite o valor atual do seu salário na carteira."
+          "text": "Digite o valor atual do seu salário na carteira de trabalho."
         },
         {
           "@type": "HowToStep",
           "name": "Meses Trabalhados",
-          "text": "Informe quantos meses você trabalhou no ano (fração igual ou maior que 15 dias conta como mês cheio)."
+          "text": "Informe a quantidade de meses inteiros de expediente no ano corrente."
         },
         {
           "@type": "HowToStep",
           "name": "Dependentes",
-          "text": "Se tiver dependentes legais, inclua-os para dedução do Imposto de Renda."
-        },
-        {
-          "@type": "HowToStep",
-          "name": "Resultado",
-          "text": "O sistema mostrará o valor líquido da 1ª parcela (adiantamento) e da 2ª (quitação)."
+          "text": "Digite o número de dependentes legais para apuração da base tributária de IRRF."
         }
       ]
     },
     {
-      "@type": "TechArticle",
-      "headline": "Guia Completo do Décimo Terceiro: Cálculos, Prazos e Direitos 2026",
-      "description": "Entenda como funciona o pagamento da gratificação natalina, a média de horas extras e os descontos na segunda parcela.",
-      "proficiencyLevel": "Beginner",
-      "author": { "@type": "Organization", "name": "Equipe Trabalhista Mestre das Contas", "url": "https://mestredascontas.com.br/sobre" },
+      "@type": "Article",
+      "headline": "Guia Completo da Gratificação Natalina: Prazos, Divisões e Acertos do 13º",
+      "description": "Entenda as regras das duas parcelas do décimo terceiro, as alíquotas de tributação e as médias de verbas extras.",
+      "author": { "@type": "Organization", "name": "Mestre das Contas" },
       "publisher": { "@type": "Organization", "name": "Mestre das Contas", "logo": { "@type": "ImageObject", "url": "https://mestredascontas.com.br/opengraph-image" } },
       "datePublished": "2024-10-15",
-      "dateModified": new Date().toISOString(),
-      "speakable": {
-           "@type": "SpeakableSpecification",
-           "xpath": ["/html/head/title", "/html/head/meta[@name='description']/@content"]
-      }
+      "dateModified": new Date().toISOString()
     },
     {
       "@type": "FAQPage",
@@ -127,14 +148,13 @@ const jsonLd = {
 export default function DecimoTerceiroPage() {
   return (
     <article className="w-full max-w-full overflow-hidden pb-12">
-      
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
       {/* --- PAGE HEADER PADRONIZADO --- */}
       <div className="px-4 pt-4 md:pt-6">
         <PageHeader 
           title="Calculadora de 13º Salário"
-          description="Quanto vai cair na sua conta? Calcule o valor exato da 1ª parcela (adiantamento) e da 2ª parcela (quitação) com os devidos descontos."
+          description="Quanto vai cair na sua conta no fim do ano? Calcule o valor exato da 1ª parcela (adiantamento) e da 2ª parcela (quitação) com os devidos descontos."
           category="Direito Trabalhista"
           icon={<Gift size={32} strokeWidth={2} />}
           variant="default"
@@ -157,7 +177,7 @@ export default function DecimoTerceiroPage() {
 
         {/* ALERTA DE PRAZOS */}
         <div className="bg-amber-50 dark:bg-amber-900/10 border border-amber-200 dark:border-amber-900/30 rounded-xl p-4 flex gap-3 items-start text-left shadow-sm max-w-3xl mx-auto w-full">
-          <TriangleAlert className="text-amber-600 dark:text-amber-500 shrink-0 mt-0.5" size={20} />
+          <AlertTriangle className="text-amber-600 dark:text-amber-500 shrink-0 mt-0.5" size={20} />
           <div className="space-y-1">
             <p className="text-sm font-bold text-amber-900 dark:text-amber-400 uppercase tracking-wide">Fique Atento aos Prazos 2026</p>
             <p className="text-sm text-amber-800/90 dark:text-amber-200/90 leading-relaxed">
@@ -171,23 +191,17 @@ export default function DecimoTerceiroPage() {
            <LazyAdUnit slot="13_top" format="horizontal" variant="agency" />
         </div>
 
-        {/* REVISÃO TRABALHISTA (E-E-A-T) */}
-        <div className="bg-blue-50/50 dark:bg-blue-900/10 border border-blue-100 dark:border-blue-800 p-4 rounded-2xl flex items-center gap-3 text-xs text-blue-700 dark:text-blue-300 mb-2">
-          <ShieldCheck size={18} className="text-blue-600 shrink-0" />
-          <span>Simulador calibrado para as datas oficiais de pagamento e descontos previdenciários de 2026.</span>
-        </div>
-
         {/* FERRAMENTA */}
         <section id="ferramenta" className="scroll-mt-28 w-full max-w-full">
           <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/40 dark:shadow-none p-1 md:p-2">
-                  <PrivacyBadge />
-                  <Suspense fallback={<div className="h-96 w-full bg-slate-100 dark:bg-slate-800 animate-pulse rounded-3xl" />}>
-                    <ThirteenthCalculator />
-                  </Suspense>
+            <PrivacyBadge />
+            <Suspense fallback={<div className="h-96 w-full bg-slate-100 dark:bg-slate-800 animate-pulse rounded-3xl" />}>
+              <ThirteenthCalculator />
+            </Suspense>
           </div>
           
           <div className="mt-8 print:hidden max-w-5xl mx-auto">
-              <DisclaimerBox />
+            <DisclaimerBox />
           </div>
         </section>
 
@@ -196,218 +210,151 @@ export default function DecimoTerceiroPage() {
             <LazyAdUnit slot="13_mid" format="auto" />
         </div>
 
-        {/* --- CONTEÚDO EDUCACIONAL PROFUNDO (LONG FORM) --- */}
+        {/* --- CONTEÚDO EDUCACIONAL DE ALTA PERFORMANCE (ADSENSE & AI GROUNDING) --- */}
         <div className="prose prose-slate dark:prose-invert prose-sm md:prose-lg max-w-4xl mx-auto bg-white dark:bg-slate-900 p-6 md:p-12 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-xl shadow-slate-200/40 dark:shadow-none overflow-hidden w-full print:hidden">
           
           <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-slate-100 mb-6 flex items-center gap-2 border-l-4 border-blue-600 pl-4">
-              O Guia Definitivo do 13º Salário
+              A Fascinante Realidade do Décimo Terceiro Salário
           </h2>
+          
           <p className="lead text-slate-700 dark:text-slate-300 text-lg font-medium">
-            O final do ano se aproxima e com ele a expectativa daquele dinheiro extra que salva o orçamento de milhões de brasileiros: a <strong>Gratificação Natalina</strong>, popularmente conhecida como 13º Salário.
-          </p>
-          <p>
-            Mas você sabe exatamente quanto tem para receber? Entende por que a segunda parcela sempre vem menor que a primeira? Se a resposta for não, você está no lugar certo.
-          </p>
-          <p>
-            Neste guia completo, vamos desvendar cada centavo do seu benefício, explicar a matemática por trás dos descontos e te ajudar a conferir se a empresa está pagando o valor correto.
+            Você já parou para pensar na incrível diferença que a chegada do <GlossaryTerm slug="decimo-terceiro-proporcional">décimo terceiro salário</GlossaryTerm> faz no planejamento das suas finanças e nas compras de final de ano?
           </p>
 
-          <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100 mt-10 mb-6 flex items-center gap-2">
-              <Calendar className="text-blue-600 dark:text-blue-400" /> A Dinâmica das Duas Parcelas
+          <p>
+            A verdade é que esse benefício trabalhista, conhecido oficialmente na legislação brasileira como Gratificação Natalina, funciona como um respiro e um combustível essencial para as famílias.
+          </p>
+
+          <p>
+            Veja bem, o <GlossaryTerm slug="decimo-terceiro-proporcional">décimo terceiro salário</GlossaryTerm> representa o fechamento de um ciclo completo. Nós dedicamos 12 meses de suor e foco absoluto no crescimento das empresas.
+          </p>
+
+          <p>
+            No final da jornada anual, é mais do que justo contar com uma fatia adicional de remuneração para comemorar com quem mais amamos ou colocar as pendências financeiras em dia.
+          </p>
+
+          <p>
+            Parece uma conta simples, né? Mas quando começam a incidir os descontos do <GlossaryTerm slug="inss-previdencia-social">INSS</GlossaryTerm> e do <GlossaryTerm slug="irrf-imposto-de-renda">Imposto de Renda</GlossaryTerm> na segunda parcela, a empolgação pode dar lugar a muitas dúvidas.
+          </p>
+
+          <p>
+            O melhor de tudo? Nós organizamos uma análise completa para você compreender o porquê de cada cobrança e simular o saldo exato que vai entrar na sua conta corrente!
+          </p>
+
+          <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100 mt-10 mb-4 flex items-center gap-2 border-l-4 border-blue-600 pl-4">
+              Comparação Definitiva: 1ª Parcela vs 2ª Parcela
           </h3>
+
           <p>
-             Diferente do salário normal, o 13º possui uma regra de pagamento muito específica dividida em duas etapas obrigatórias. Entender isso é crucial para o seu planejamento financeiro.
+            A maior surpresa para quem está ingressando no mercado de trabalho formal é notar a diferença gritante de valores entre o primeiro adiantamento e o acerto de quitação.
           </p>
 
-          <div className="grid md:grid-cols-2 gap-6 not-prose my-8">
-              <div className="bg-blue-50 dark:bg-blue-900/10 p-6 rounded-2xl border border-blue-100 dark:border-blue-900/30 shadow-sm relative overflow-hidden hover:border-blue-300 dark:hover:border-blue-700 transition-colors">
-                  <div className="absolute top-0 right-0 p-3 opacity-10"><Calendar size={80} className="text-blue-600 dark:text-blue-500"/></div>
-                  <h4 className="font-bold text-blue-900 dark:text-blue-400 mb-2 text-lg relative z-10 flex items-center gap-2">1ª Parcela (Adiantamento)</h4>
-                  <span className="inline-block bg-white dark:bg-slate-900 text-blue-700 dark:text-blue-400 text-xs font-bold px-2 py-1 rounded border border-blue-200 dark:border-blue-900/40 mb-3 relative z-10">
-                      Prazo: 01/Fev até 30/Nov
-                  </span>
-                  <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed relative z-10">
-                      Esta é a parcela "limpa". Você recebe exatamente <strong>50% do salário</strong> do mês anterior ao pagamento. Não há descontos de INSS ou Imposto de Renda nesta etapa. É o valor cheio para o seu bolso.
-                  </p>
-              </div>
-              
-              <div className="bg-slate-50 dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm relative overflow-hidden hover:border-slate-300 dark:hover:border-slate-600 transition-colors">
-                  <div className="absolute top-0 right-0 p-3 opacity-10"><Coins size={80} className="text-slate-600 dark:text-slate-500"/></div>
-                  <h4 className="font-bold text-slate-800 dark:text-slate-100 mb-2 text-lg relative z-10 flex items-center gap-2">2ª Parcela (Quitação)</h4>
-                  <span className="inline-block bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 text-xs font-bold px-2 py-1 rounded border border-slate-200 dark:border-slate-700 mb-3 relative z-10">
-                      Prazo: Até 20/Dez
-                  </span>
-                  <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed relative z-10">
-                      É aqui que ocorre o "ajuste de contas". O cálculo é feito sobre o valor total do 13º. Desconta-se o <strong>INSS</strong> e o <strong>IRRF</strong> (sobre o montante total) e depois subtrai-se o valor que já foi adiantado na 1ª parcela. Por isso, ela é sempre menor.
-                  </p>
-              </div>
+          <p>
+            Para esclarecer de vez essa diferença e evitar frustrações, estruturamos uma tabela comparativa direta detalhando os direitos e descontos de cada parcela do seu 13º.
+          </p>
+
+          <div className="not-prose my-6 overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+            <table className="w-full min-w-[600px] text-sm text-left border-collapse bg-white dark:bg-slate-900">
+              <thead>
+                <tr className="bg-slate-50 dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700">
+                  <th scope="col" className="px-6 py-3 font-bold text-slate-700 dark:text-slate-300">Critério</th>
+                  <th scope="col" className="px-6 py-3 font-bold text-slate-700 dark:text-slate-300">1ª Parcela (Adiantamento)</th>
+                  <th scope="col" className="px-6 py-3 font-bold text-slate-700 dark:text-slate-300">2ª Parcela (Quitação final)</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-slate-650 dark:text-slate-350">
+                <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
+                  <td className="px-6 py-4 font-semibold text-slate-900 dark:text-slate-100">Prazo de Recebimento</td>
+                  <td className="px-6 py-4 text-xs">De 1º de fevereiro até 30 de novembro.</td>
+                  <td className="px-6 py-4 text-xs font-semibold text-blue-600">Impreterivelmente até o dia 20 de dezembro.</td>
+                </tr>
+                <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
+                  <td className="px-6 py-4 font-semibold text-slate-900 dark:text-slate-100">Base de Cálculo</td>
+                  <td className="px-6 py-4 text-xs">Exatamente 50% do salário bruto do mês anterior.</td>
+                  <td className="px-6 py-4 text-xs">100% do salário, subtraindo os tributos e a 1ª parcela.</td>
+                </tr>
+                <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
+                  <td className="px-6 py-4 font-semibold text-slate-900 dark:text-slate-100">Descontos (INSS/IRRF)</td>
+                  <td className="px-6 py-4 text-xs text-emerald-600 font-bold">Nenhum desconto (Você recebe o valor limpo).</td>
+                  <td className="px-6 py-4 text-xs text-red-600 font-bold">Desconto integral de INSS e IRRF sobre o valor total.</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
 
           <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100 mt-10 mb-4 flex items-center gap-2">
-              <BookOpen className="text-blue-600 dark:text-blue-400" /> Tabela de Prazos e Regras 2026
+              <Calendar className="text-blue-600 dark:text-blue-400" /> Datas Críticas de Pagamento do 13º Salário
           </h3>
-          <p className="mb-6">Confira os prazos oficiais e o que muda em cada uma das etapas do pagamento da gratificação natalina:</p>
           
-          <div className="overflow-x-auto mb-10 not-prose">
-              <table className="w-full text-sm text-left border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-sm">
-                  <thead className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200">
-                      <tr>
-                          <th className="p-4 font-bold border-b border-slate-200 dark:border-slate-700">Evento</th>
-                          <th className="p-4 font-bold border-b border-slate-200 dark:border-slate-700">Prazo Limite</th>
-                          <th className="p-4 font-bold border-b border-slate-200 dark:border-slate-700">O que é pago?</th>
-                          <th className="p-4 font-bold border-b border-slate-200 dark:border-slate-700">Descontos</th>
-                      </tr>
-                  </thead>
-                  <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
-                      <tr className="hover:bg-slate-50 dark:hover:bg-slate-900/50 transition-colors">
-                          <td className="p-4 font-bold text-slate-900 dark:text-white">1ª Parcela</td>
-                          <td className="p-4">30/11/2026</td>
-                          <td className="p-4 text-emerald-600 dark:text-emerald-400 font-medium">50% do Salário Bruto</td>
-                          <td className="p-4">Nenhum (Valor Integral)</td>
-                      </tr>
-                      <tr className="hover:bg-slate-50 dark:hover:bg-slate-900/50 transition-colors">
-                          <td className="p-4 font-bold text-slate-900 dark:text-white">2ª Parcela</td>
-                          <td className="p-4">20/12/2026</td>
-                          <td className="p-4">Quitação do Salário</td>
-                          <td className="p-4 text-red-600 dark:text-red-400 font-medium">INSS e IRRF (total)</td>
-                      </tr>
-                      <tr className="bg-blue-50/30 dark:bg-blue-900/20 hover:bg-blue-50 dark:hover:bg-blue-900/30 transition-colors">
-                          <td className="p-4 font-bold text-blue-900 dark:text-blue-300">Parcela Única</td>
-                          <td className="p-4">30/11/2026</td>
-                          <td className="p-4 font-bold">100% do Salário</td>
-                          <td className="p-4">Descontos integrais</td>
-                      </tr>
-                  </tbody>
-              </table>
-              <p className="mt-2 text-[10px] text-slate-400 text-center italic">* Se a data limite cair em feriado ou domingo, a empresa deve antecipar o pagamento.</p>
+          <p>
+            Diferente da remuneração diária normal, as parcelas da gratificação natalina possuem prazos de desembolso federais inalteráveis.
+          </p>
+
+          <div className="overflow-x-auto mb-10 not-prose rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm bg-white dark:bg-slate-900">
+            <table className="w-full min-w-[600px] text-sm text-left border-collapse">
+              <thead className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-250">
+                <tr>
+                  <th className="p-4 font-bold border-b border-slate-200">Tipo de Pagamento</th>
+                  <th className="p-4 font-bold border-b border-slate-200">Data Limite CLT</th>
+                  <th className="p-4 font-bold border-b border-slate-200">Como Funciona</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-slate-650 dark:text-slate-350">
+                <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
+                  <td className="p-4 font-semibold text-slate-900 dark:text-slate-100">Adiantamento Parcial</td>
+                  <td className="p-4">30 de Novembro</td>
+                  <td className="p-4 text-xs">Pode ser solicitado junto com as férias ou pago em lote pela empresa.</td>
+                </tr>
+                <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
+                  <td className="p-4 font-semibold text-slate-900 dark:text-slate-100">Quitação de Acerto</td>
+                  <td className="p-4 text-red-600 font-bold">20 de Dezembro</td>
+                  <td className="p-4 text-xs">Nessa fase também incide a média anual de comissões e horas extras.</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
 
           <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100 mt-12 mb-6 flex items-center gap-2">
-              <Landmark className="text-amber-600 dark:text-amber-500" /> Uma Conquista Histórica
+              <Landmark className="text-amber-600" /> A Fascinante História da Gratificação Natalina
           </h3>
-          <div className="bg-slate-50 dark:bg-slate-800 p-6 md:p-8 rounded-2xl border-l-4 border-amber-400 dark:border-amber-500 my-6 not-prose shadow-sm">
-              <div className="flex gap-4">
-                  <History className="text-amber-600 dark:text-amber-500 shrink-0 hidden md:block" size={32}/>
-                  <div className="space-y-3 text-sm md:text-base text-slate-700 dark:text-slate-300 leading-relaxed">
-                      <p>
-                          Você sabia que o 13º salário foi instituído no Brasil em <strong>1962</strong>, pelo presidente <strong>João Goulart</strong> (Lei 4.090)?
-                      </p>
-                      <p>
-                          Na época, a medida gerou uma polêmica gigantesca. Jornais e associações comerciais previam o colapso da economia e a falência em massa das empresas, chamando a lei de "demagógica".
-                      </p>
-                      <p>
-                          A história provou o contrário. O benefício não só não quebrou o país, como se tornou o principal motor do comércio varejista no final do ano, injetando bilhões na economia. Hoje, é considerado uma <strong>cláusula pétrea</strong> dos direitos trabalhistas.
-                      </p>
-                  </div>
-              </div>
+          <div className="bg-slate-50 dark:bg-slate-800/50 p-6 md:p-8 rounded-2xl border-l-4 border-amber-400 dark:border-amber-500 my-6 not-prose shadow-sm text-slate-750 dark:text-slate-300">
+            <p className="text-sm md:text-base leading-relaxed">
+              Você sabia que o 13º salário foi conquistado sob intensa resistência no ano de 1962? A proposta gerou fortes campanhas nos principais veículos de imprensa da época, alegando que o adiantamento provocaria inflação generalizada e fecharia indústrias inteiras no país.
+            </p>
+            <p className="text-sm md:text-base leading-relaxed mt-4">
+              Hoje, o benefício é a engrenagem mais importante para aquecer o varejo brasileiro no encerramento de cada ano, demonstrando que a valorização dos trabalhadores traz impactos sociais e econômicos positivos para todos.
+            </p>
           </div>
 
           <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100 mt-10 mb-6 flex items-center gap-2">
-              <Calculator className="text-purple-600 dark:text-purple-400" /> A Matemática da Proporcionalidade
+              <Calculator className="text-purple-600 dark:text-purple-400" /> A Regra dos 15 Dias e a Proporcionalidade
           </h3>
           <p>
-              "Comecei a trabalhar em abril, quanto vou receber?". Essa é uma dúvida clássica. O 13º é pago na proporção de <strong>1/12 (um doze avos)</strong> para cada mês trabalhado.
+            Muitas dúvidas surgem para quem está empregado há poucos meses: "Será que eu vou receber o décimo terceiro proporcional de forma correta?".
           </p>
           <p>
-              But existe uma "pegadinha" importante: a <strong>Regra dos 15 Dias</strong>.
-          </p>
-          <ul className="list-disc pl-5 space-y-2 marker:text-purple-600 dark:marker:text-purple-400">
-              <li>Para que um mês conte para o cálculo, você precisa ter trabalhado pelo menos <strong>15 dias</strong> nele.</li>
-              <li>Se você foi admitido no dia 14 de maio, maio conta como um mês inteiro.</li>
-              <li>Se foi admitido no dia 16 de maio, maio não conta. O cálculo começa a valer a partir de junho.</li>
-          </ul>
-
-          <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100 mt-10 mb-6 flex items-center gap-2">
-              <TrendingUp className="text-green-600 dark:text-green-500" /> Médias: O Segredo das Comissões
-          </h3>
-          <p>
-              Se o seu salário varia (você recebe comissões, faz horas extras ou tem adicional noturno), o 13º salário não será apenas o seu salário base. Ele deve refletir a sua remuneração real média.
+            A resposta é sim! O cálculo oficial consiste em fatiar o seu ordenado bruto por 12 meses e multiplicar a fração pelo tempo em serviço.
           </p>
           <p>
-              Para a 1ª parcela, a empresa geralmente faz a média dos valores recebidos de janeiro a outubro. Para a 2ª parcela, a média é recalculada considerando até dezembro, e a diferença é paga (ou descontada) no acerto final.
+            Mas atenção ao grande segredo: a chamada **Regra dos 15 Dias** estabelece que se você trabalhou menos de 15 dias em um determinado mês, esse período é totalmente descartado da contagem proporcional do ano comercial.
           </p>
 
-          {/* TABELA DE QUEM TEM DIREITO */}
-          <div className="not-prose my-10">
-            <h3 className="text-lg font-bold text-slate-800 dark:text-slate-100 mb-4">Quem tem e quem NÃO tem direito?</h3>
-            {/* TABELA DE QUEM TEM DIREITO (RESPONSIVA) */}
-            <div className="overflow-hidden border rounded-xl border-slate-200 dark:border-slate-800 shadow-sm hidden md:block">
-                <table className="w-full text-sm text-left">
-                    <thead className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 uppercase text-xs">
-                        <tr>
-                            <th className="px-6 py-4 font-bold border-b border-slate-200 dark:border-slate-700">Situação</th>
-                            <th className="px-6 py-4 font-bold border-b border-slate-200 dark:border-slate-700 text-center">Tem Direito?</th>
-                            <th className="px-6 py-4 font-bold border-b border-slate-200 dark:border-slate-700 hidden sm:table-cell">Detalhe</th>
-                        </tr>
-                    </thead>
-                    <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-slate-700 dark:text-slate-300">
-                        <tr className="bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
-                            <td className="px-6 py-4 font-medium">Trabalhador CLT</td>
-                            <td className="px-6 py-4 text-center text-green-600 dark:text-green-500 font-bold"><Check size={16} className="inline"/> Sim</td>
-                            <td className="px-6 py-4 hidden sm:table-cell text-slate-500 dark:text-slate-400">Integral ou proporcional</td>
-                        </tr>
-                        <tr className="bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
-                            <td className="px-6 py-4 font-medium">Licença Maternidade</td>
-                            <td className="px-6 py-4 text-center text-green-600 dark:text-green-500 font-bold"><Check size={16} className="inline"/> Sim</td>
-                            <td className="px-6 py-4 hidden sm:table-cell text-slate-500 dark:text-slate-400">Pago pelo empregador (deduz do INSS)</td>
-                        </tr>
-                        <tr className="bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
-                            <td className="px-6 py-4 font-medium">Auxílio Doença (Acidente)</td>
-                            <td className="px-6 py-4 text-center text-green-600 dark:text-green-500 font-bold"><Check size={16} className="inline"/> Sim</td>
-                            <td className="px-6 py-4 hidden sm:table-cell text-slate-500 dark:text-slate-400">Empresa paga os primeiros 15 dias</td>
-                        </tr>
-                        <tr className="bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
-                            <td className="px-6 py-4 font-medium">Estagiário</td>
-                            <td className="px-6 py-4 text-center text-red-500 dark:text-red-400 font-bold"><XCircle size={16} className="inline"/> Não</td>
-                            <td className="px-6 py-4 hidden sm:table-cell text-slate-500 dark:text-slate-400">Facultativo da empresa</td>
-                        </tr>
-                        <tr className="bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
-                            <td className="px-6 py-4 font-medium">Demitido por Justa Causa</td>
-                            <td className="px-6 py-4 text-center text-red-500 dark:text-red-400 font-bold"><XCircle size={16} className="inline"/> Não</td>
-                            <td className="px-6 py-4 hidden sm:table-cell text-slate-500 dark:text-slate-400">Perde o direito ao proporcional</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            {/* VERSÃO MOBILE (CARDS) */}
-            <div className="md:hidden space-y-3">
-                 {[
-                    { sit: "Trabalhador CLT", tem: true, det: "Integral ou proporcional" },
-                    { sit: "Licença Maternidade", tem: true, det: "Pago pelo empregador" },
-                    { sit: "Auxílio Doença", tem: true, det: "Empresa paga 15 dias" },
-                    { sit: "Estagiário", tem: false, det: "Facultativo da empresa" },
-                    { sit: "Justa Causa", tem: false, det: "Perde o proporcional" },
-                 ].map((item, idx) => (
-                    <div key={idx} className="bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-800 flex justify-between items-center shadow-sm">
-                        <div>
-                            <span className="font-bold text-slate-800 dark:text-slate-100 text-sm block">{item.sit}</span>
-                            <span className="text-xs text-slate-500 dark:text-slate-400 block mt-0.5">{item.det}</span>
-                        </div>
-                        <div className={`text-sm font-bold flex items-center gap-1 px-3 py-1 rounded-full ${item.tem ? 'bg-green-50 text-green-700 dark:bg-green-900/20 dark:text-green-400' : 'bg-red-50 text-red-700 dark:bg-red-900/20 dark:text-red-400'}`}>
-                            {item.tem ? <><Check size={14}/> Sim</> : <><XCircle size={14}/> Não</>}
-                        </div>
-                    </div>
-                 ))}
-            </div>
-          </div>
-
-          {/* FAQ ACORDION EXPANDIDO */}
+          {/* SEÇÃO FAQ COM 7 ITENS */}
           <div className="mt-16 not-prose">
-            <h3 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-8 flex items-center gap-3 border-b border-slate-100 dark:border-slate-800 pb-4">
-                <CircleHelp className="text-blue-600 dark:text-blue-400" /> Perguntas Frequentes (FAQ)
+            <h3 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-8 flex items-center gap-3 border-b border-slate-200 dark:border-slate-800 pb-4">
+                <HelpCircle className="text-blue-500" /> Perguntas Frequentes sobre 13º Salário
             </h3>
             <div className="space-y-4">
               {faqList.map((item, idx) => (
-                  <details key={idx} className="group bg-white dark:bg-slate-800/50 p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm cursor-pointer open:ring-2 open:ring-blue-100 dark:open:ring-blue-900/30 transition-all">
-                      <summary className="font-semibold text-slate-800 dark:text-slate-100 list-none flex justify-between items-center select-none">
+                  <details key={idx} className="group bg-white dark:bg-slate-900 p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm cursor-pointer open:ring-2 open:ring-blue-100 dark:open:ring-blue-900/30 transition-all">
+                      <summary className="font-semibold text-slate-850 dark:text-slate-100 list-none flex justify-between items-center select-none">
                           <div className="flex items-start gap-3">
                               <span className="text-blue-500 dark:text-blue-400 font-bold text-xs mt-1">#</span>
-                              <span className="leading-snug">{item.q}</span>
+                              <span className="leading-snug text-slate-850 dark:text-slate-200">{item.q}</span>
                           </div>
                           <span className="text-slate-400 group-open:rotate-180 transition-transform ml-2 shrink-0">▼</span>
                       </summary>
-                      <p className="mt-3 text-slate-600 dark:text-slate-300 leading-relaxed border-t border-slate-100 dark:border-slate-700 pt-3 text-sm animate-in fade-in">
+                      <p className="mt-3 text-slate-650 dark:text-slate-350 leading-relaxed border-t border-slate-100 dark:border-slate-800 pt-3 text-sm animate-in fade-in">
                           {item.a}
                       </p>
                   </details>
@@ -415,13 +362,29 @@ export default function DecimoTerceiroPage() {
             </div>
           </div>
 
-          <ExpertSignature updatedAt="Maio de 2026" author="Equipe Editorial" />
-          {/* NAVEGAÇÃO FINAL */}
+          {/* REFERÊNCIAS OFICIAIS */}
+          <div className="mt-12 pt-8 border-t border-slate-200 dark:border-slate-800 print:hidden not-prose bg-slate-50 dark:bg-slate-800/50 p-6 rounded-xl">
+              <h3 className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-4 flex items-center gap-2">
+                  <Landmark size={16} /> Legislação e Fontes Oficiais
+              </h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mb-3">Consulte diretamente a legislação original:</p>
+              <div className="flex flex-wrap gap-4 text-xs font-medium text-blue-600 dark:text-blue-400">
+                  <a href="https://www.planalto.gov.br/ccivil_03/leis/l4090.htm" target="_blank" rel="nofollow noopener noreferrer" className="hover:underline flex items-center gap-1 bg-white dark:bg-slate-900 px-3 py-1 rounded border dark:border-slate-700 shadow-sm">
+                      Lei 4.090/1962 (Criação do 13º) <ExternalLink size={10}/>
+                  </a>
+                  <a href="https://www.planalto.gov.br/ccivil_03/decreto-lei/del5452.htm" target="_blank" rel="nofollow noopener noreferrer" className="hover:underline flex items-center gap-1 bg-white dark:bg-slate-900 px-3 py-1 rounded border dark:border-slate-700 shadow-sm">
+                      CLT (Direitos Adicionais e Médias) <ExternalLink size={10}/>
+                  </a>
+              </div>
           </div>
 
-          <SmartCrossLinker currentHref="/trabalhista/decimo-terceiro" category="trabalhista" />
+          <ExpertSignature updatedAt="Junho de 2026" author="Rodrigo Costa (Analista de Sistemas)" />
+        </div>
 
-        {/* --- ANÚNCIO BOTTOM (ESTRATÉGICO) --- */}
+        <SmartGlossaryLinker currentHref="/trabalhista/decimo-terceiro" category="trabalhista" />
+        <SmartCrossLinker currentHref="/trabalhista/decimo-terceiro" category="trabalhista" />
+
+        {/* --- ANÚNCIO BOTTOM --- */}
         <div className="w-full flex justify-center my-8 print:hidden min-h-[250px]">
             <LazyAdUnit slot="13_bottom" format="horizontal" variant="software" />
         </div>

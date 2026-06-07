@@ -13,21 +13,22 @@ import {
 } from "lucide-react";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
 import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
+import SmartGlossaryLinker from "@/components/layout/SmartGlossaryLinker";
+import GlossaryTerm from "@/components/ui/GlossaryTerm";
 import ExpertSignature from "@/components/ui/ExpertSignature";
 
 // --- 1. METADATA DINÂMICA (SEO) ---
 export async function generateMetadata(): Promise<Metadata> {
   const title = "Calculadora de Horas Trabalhadas 2026 (Grátis) | Somar Ponto Online";
-  const description = "Some suas horas trabalhadas no dia em segundos. Ferramenta gratuita para calcular entrada, saída, almoço e saldo de banco de horas. Simples e Online.";
+  const description = "Quer controlar a sua jornada de trabalho? Calcule o total de horas trabalhadas no mês de forma exata e simplificada. Rápido, seguro e 100% gratuito!";
 
   return {
     title,
     description,
-    keywords: ["calculadora de horas trabalhadas", "somar horas e minutos", "calculo de ponto online", "diferença de horas", "controle de ponto gratis"],
+    keywords: ["calculadora de horas trabalhadas", "somar horas and minutos", "calculo de ponto online", "diferença de horas", "controle de ponto gratis"],
     alternates: { canonical: "https://mestredascontas.com.br/trabalhista/horas-trabalhadas" },
     openGraph: {
-      title: "Calculadora de Horas Trabalhadas 2026 | Somar Ponto Online",
-      description: "Some suas horas trabalhadas no dia em segundos. Ferramenta gratuita para calcular entrada, saída, almoço e saldo de banco de horas. Simples e preciso.",
+      title,
       url: "https://mestredascontas.com.br/trabalhista/horas-trabalhadas",
       siteName: "Mestre das Contas",
       locale: "pt_BR",
@@ -44,20 +45,44 @@ export async function generateMetadata(): Promise<Metadata> {
     twitter: {
       card: "summary_large_image",
       title: "Não erre mais na soma das suas horas!",
-      description: "Calcule seu saldo de banco de horas e evite descontos indevidos no salário.",
       images: ["/opengraph-image"],
     },
     robots: { index: true, follow: true } };
 }
 
-// --- LISTA FAQ (DRY Content) ---
+// --- LISTA FAQ (7 DÚVIDAS REAIS) ---
 const faqList = [
-    { q: "Qual a tolerância de atraso no ponto?", a: "Pela CLT (Art. 58), existe uma tolerância de 5 a 10 minutos diários (para mais ou para menos) que não são descontados nem pagos como extra. Acima disso, conta-se tudo." },
-    { q: "Como calcular horas noturnas?", a: "A hora noturna (22h às 5h) é reduzida. Cada 52 minutos e 30 segundos trabalhados contam como 1 hora cheia. Nossa calculadora foca na soma simples, mas lembre-se desse fator." },
-    { q: "O intervalo de almoço conta como hora trabalhada?", a: "Não. O intervalo intrajornada (almoço) não é remunerado e não conta na soma das horas trabalhadas, apenas o tempo efetivo de serviço." }
+  { 
+    q: "Como funciona o cálculo de horas trabalhadas no sistema sexagesimal (base 60)?", 
+    a: "Diferente dos números decimais comuns, o tempo é medido em base 60. Isso significa que 1 hora tem exatamente 60 minutos, e não 100. Se você tentar somar 8 horas e 50 minutos com 8 horas e 50 minutos em uma calculadora comum, obterá 17,00. Mas o cálculo real é sexagesimal: 50 minutos mais 50 minutos somam 100 minutos (1 hora e 40 minutos), totalizando 17 horas e 40 minutos." 
+  },
+  { 
+    q: "Qual é a tolerância máxima diária para atrasos e horas extras na folha de ponto?", 
+    a: "Conforme determina o artigo 58 da CLT, existe um limite de tolerância diária de até 10 minutos no total, sendo tolerado o máximo de 5 minutos de atraso ou adiantamento no início do expediente, intervalo ou saída. Se o trabalhador extrapolar esse teto por apenas 1 minuto (totalizando 11 minutos de variação no dia), o empregador é obrigado a computar e pagar (ou descontar) todo o período de variação e não apenas os minutos sobressalentes." 
+  },
+  { 
+    q: "O intervalo de almoço ou descanso (intrajornada) conta como hora de trabalho?", 
+    a: "Não. O intervalo intrajornada, destinado ao repouso e à alimentação (almoço ou jantar), não é computado como tempo de serviço efetivo e, portanto, não é remunerado. Ele é considerado um período de suspensão do contrato diário, no qual o trabalhador tem plena liberdade para deixar o local de trabalho." 
+  },
+  { 
+    q: "Como funciona o cálculo e o pagamento do adicional noturno na jornada de trabalho?", 
+    a: "Para quem trabalha no ambiente urbano entre as 22h de um dia e as 5h do dia seguinte, a hora é computada como reduzida, correspondendo a apenas 52 minutos e 30 segundos. Adicionalmente, sobre esse tempo é acrescido o Adicional Noturno de no mínimo 20% aplicado diretamente sobre o valor da hora diurna convencional do trabalhador." 
+  },
+  { 
+    q: "O que é o intervalo interjornada e qual o seu tempo mínimo obrigatório?", 
+    a: "O intervalo interjornada é o período de repouso obrigatório que o trabalhador deve ter entre o fim de um expediente diário e o início do próximo. Por lei (Art. 66 da CLT), esse intervalo ininterrupto deve ser de no mínimo 11 horas consecutivas." 
+  },
+  { 
+    q: "Como calcular o saldo acumulado de banco de horas no fim do mês?", 
+    a: "Para apurar o saldo do seu banco de horas, você deve primeiro somar as horas trabalhadas em cada dia do mês e deduzir a jornada mensal contratual acordada. Se o resultado for positivo, são horas a compensar ou receber como folga/extra; se for negativo, são horas a repor para evitar descontos salariais." 
+  },
+  { 
+    q: "O que diz a lei sobre a obrigatoriedade do registro de ponto na empresa?", 
+    a: "De acordo com o artigo 74 da CLT, o registro do ponto (seja manual, mecânico ou eletrônico) é obrigatório para todas as empresas e estabelecimentos que possuam mais de 20 trabalhadores registrados em seu quadro de funcionários." 
+  }
 ];
 
-// --- 2. DADOS ESTRUTURADOS (JSON-LD) ---
+// --- 2. DADOS ESTRUTURADOS (JSON-LD COMPLETO COM 7 FAQ) ---
 const jsonLd = {
   "@context": "https://schema.org",
   "@graph": [
@@ -183,14 +208,14 @@ export default async function HorasPage() {
             <LazyAdUnit slot="ponto_mid" format="auto" />
         </div>
 
-        {/* --- CONTEÚDO EDUCACIONAL --- */}
+        {/* --- CONTEÚDO EDUCACIONAL (ADSENSE & AI GROUNDING RICH) --- */}
         <div className="prose prose-slate dark:prose-invert prose-sm md:prose-lg max-w-4xl mx-auto bg-white dark:bg-slate-900 p-6 md:p-12 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-xl shadow-slate-200/40 dark:shadow-none overflow-hidden w-full print:hidden">
             
             <h3 className="text-xl md:text-2xl font-bold text-slate-900 dark:text-slate-100 mt-2 mb-4 flex items-center gap-2 border-l-4 border-indigo-500 pl-4">
                 Como Usar a Calculadora de Horas Trabalhadas (Passo a Passo)
             </h3>
             <p className="text-slate-600 dark:text-slate-400">
-               Some suas horas diárias e saiba seu saldo de banco de horas em 3 passos:
+               Some suas horas diárias e saiba seu saldo de banco de horas em 3 passos rápidos:
             </p>
 
             <div className="grid sm:grid-cols-3 gap-6 my-8 not-prose">
@@ -220,92 +245,178 @@ export default async function HorasPage() {
             </div>
 
             <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2 border-l-4 border-indigo-500 pl-4">
-               Como controlar o Banco de Horas?
+               O Segredo do Controle de Horas e Ponto Eletrônico
             </h2>
-          <p className="lead text-slate-700 dark:text-slate-300 text-lg font-medium">
-            Somar horas não é como somar dinheiro. O sistema de tempo é sexagesimal (base 60), o que confunde muita gente. Se você somar 8,50 + 8,50 na calculadora comum, dá 17,00. Mas em horas, 8h50 + 8h50 são 17h40!
-          </p>
-          <p>
-            Essa confusão gera erros graves no apontamento do cartão de ponto, resultando em descontos indevidos no salário ou horas extras não pagas.
-          </p>
-
-          <div className="my-10 bg-purple-50 dark:bg-purple-900/10 p-6 rounded-xl border border-purple-100 dark:border-purple-800 not-prose">
-              <h3 className="text-xl font-bold text-purple-900 dark:text-purple-300 mb-4 flex items-center gap-2">
-                  <Moon className="text-purple-600 dark:text-purple-400" /> A Hora Noturna é Diferente
-              </h3>
-              <p className="text-purple-800 dark:text-purple-300 text-sm mb-4">
-                  Quem trabalha entre <strong>22h e 5h</strong> tem um "superpoder" legal: a hora passa mais rápido.
-              </p>
-              <ul className="space-y-3 text-sm text-purple-900 dark:text-purple-300 bg-white dark:bg-purple-900/20 p-4 rounded-lg border border-purple-200 dark:border-purple-800/50 shadow-sm">
-                  <li className="flex gap-2 font-bold"><Clock size={18}/> 1 hora relógio = 60 minutos</li>
-                  <li className="flex gap-2 font-bold"><Moon size={18}/> 1 hora noturna = 52 minutos e 30 segundos</li>
-              </ul>
-              <p className="mt-4 text-xs text-purple-700 dark:text-purple-400 font-medium">
-                  Isso significa que 7 horas de relógio trabalhadas à noite equivalem a 8 horas de pagamento + Adicional Noturno (mínimo 20%).
-              </p>
-          </div>
-
-          <h3 className="text-xl font-bold text-slate-800 dark:text-white mt-10 mb-4 flex items-center gap-2">
-              <Scale className="text-blue-600 dark:text-blue-400" /> Direitos Básicos do Ponto
-          </h3>
-          <ul className="space-y-3 not-prose mb-8">
-              <li className="flex items-start gap-3 bg-white dark:bg-slate-900 p-4 rounded-lg border border-slate-100 dark:border-slate-800 shadow-sm hover:border-indigo-100 dark:hover:border-indigo-900 transition-colors">
-                  <CheckCircle2 className="text-green-500 mt-0.5 shrink-0" size={18} />
-                  <span className="text-slate-700 dark:text-slate-300 text-sm"><strong>Intervalo Intrajornada:</strong> Quem trabalha mais de 6h tem direito a no mínimo 1h de almoço.</span>
-              </li>
-              <li className="flex items-start gap-3 bg-white dark:bg-slate-900 p-4 rounded-lg border border-slate-100 dark:border-slate-800 shadow-sm hover:border-indigo-100 dark:hover:border-indigo-900 transition-colors">
-                  <CheckCircle2 className="text-green-500 mt-0.5 shrink-0" size={18} />
-                  <span className="text-slate-700 dark:text-slate-300 text-sm"><strong>Intervalo Interjornada:</strong> Entre um dia de trabalho e outro, deve haver um descanso mínimo de 11 horas.</span>
-              </li>
-              <li className="flex items-start gap-3 bg-white dark:bg-slate-900 p-4 rounded-lg border border-slate-100 dark:border-slate-800 shadow-sm hover:border-indigo-100 dark:hover:border-indigo-900 transition-colors">
-                  <CheckCircle2 className="text-green-500 mt-0.5 shrink-0" size={18} />
-                  <span className="text-slate-700 dark:text-slate-300 text-sm"><strong>Limite de Extras:</strong> Máximo de 2 horas extras por dia (salvo regime 12x36 ou força maior).</span>
-              </li>
-          </ul>
-
-          {/* FAQ ACORDION */}
-          <div className="mt-16 not-prose">
-            <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-8 flex items-center gap-3 border-b border-slate-200 dark:border-slate-800 pb-4">
-                <HelpCircle className="text-indigo-600 dark:text-indigo-400" /> Dúvidas Frequentes
-            </h3>
             
-            <div className="space-y-4">
-              {faqList.map((item, idx) => (
-                  <details key={idx} className="group bg-white dark:bg-slate-900 p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm cursor-pointer open:ring-2 open:ring-indigo-100 dark:open:ring-indigo-900/30 transition-all">
-                      <summary className="font-semibold text-slate-800 dark:text-slate-100 list-none flex justify-between items-center select-none">
-                          <div className="flex items-start gap-3">
-                              <span className="text-indigo-500 dark:text-indigo-400 font-bold text-xs mt-1">#</span>
-                              <span className="leading-snug">{item.q}</span>
-                          </div>
-                          <span className="text-slate-400 group-open:rotate-180 transition-transform ml-2 shrink-0">▼</span>
-                      </summary>
-                      <p className="mt-3 text-slate-600 dark:text-slate-400 leading-relaxed border-t border-slate-100 dark:border-slate-800 pt-3 text-sm animate-in fade-in">
-                          {item.a}
-                      </p>
-                  </details>
-              ))}
+            <p className="lead text-slate-700 dark:text-slate-300 text-lg font-medium">
+              Você já teve a incômoda sensação de que o seu banco de horas está sumindo ou que a conta da folha de pagamento simplesmente não fecha no fim do mês?
+            </p>
+            
+            <p>
+              A verdade é que somar horas não é como somar dinheiro ou itens de uma lista convencional. 
+            </p>
+
+            <p>
+              Veja bem, o nosso tempo é metrificado no complexo <GlossaryTerm slug="sistema-sexagesimal-soma-horas">sistema sexagesimal</GlossaryTerm> (de base 60), o que costuma dar um nó na cabeça de qualquer pessoa. 
+            </p>
+
+            <p>
+              Se você somar `8,50 + 8,50` em uma calculadora matemática comum do celular, por exemplo, o visor exibirá `17,00`. 
+            </p>
+
+            <p>
+              Mas no cálculo de ponto real de trabalho, `8 horas e 50 minutos` somados a `8 horas e 50 minutos` resultam no saldo exato de **17 horas e 40 minutos**!
+            </p>
+
+            <p>
+              Essa discrepância sutil é a porta de entrada para prejuízos financeiros silenciosos, gerando descontos salariais injustos para o colaborador ou o pagamento indevido de encargos extraordinários pela empresa.
+            </p>
+
+            <h3 className="text-xl font-bold text-slate-800 dark:text-slate-200 mt-8 mb-4">
+              Entendendo os Regimes de Jornada Trabalhista no Brasil
+            </h3>
+
+            <p>
+              Nós sabemos quão desafiador pode ser ler as dezenas de cláusulas da CLT e as normas de sindicatos locais. 
+            </p>
+
+            <p>
+              Por isso, estruturamos uma tabela comparativa direta de regimes de jornada de trabalho para que você compreenda de forma transparente onde sua escala profissional se enquadra.
+            </p>
+
+            <div className="not-prose my-6 overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+              <table className="w-full min-w-[750px] text-sm text-left border-collapse bg-white dark:bg-slate-900">
+                <thead>
+                  <tr className="bg-slate-50 dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700">
+                    <th scope="col" className="px-6 py-3 font-bold text-slate-700 dark:text-slate-300">Regime de Jornada</th>
+                    <th scope="col" className="px-6 py-3 font-bold text-slate-700 dark:text-slate-300">Duração Padrão</th>
+                    <th scope="col" className="px-6 py-3 font-bold text-slate-700 dark:text-slate-300">Intervalo Mínimo</th>
+                    <th scope="col" className="px-6 py-3 font-bold text-slate-700 dark:text-slate-300 text-right">Direito Adicional</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+                  <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
+                    <td className="px-6 py-4 font-semibold text-slate-900 dark:text-slate-100">Jornada Diurna Padrão</td>
+                    <td className="px-6 py-4 text-xs text-slate-500">8h por dia / 44h semanais</td>
+                    <td className="px-6 py-4 text-xs text-slate-500">1h a 2h (para jornadas &gt; 6h)</td>
+                    <td className="px-6 py-4 text-xs text-slate-600 text-right font-medium">Hora extra de no mínimo 50%</td>
+                  </tr>
+                  <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
+                    <td className="px-6 py-4 font-semibold text-slate-900 dark:text-slate-100">Jornada Noturna Urbana</td>
+                    <td className="px-6 py-4 text-xs text-slate-500">Expediente entre 22h e 5h</td>
+                    <td className="px-6 py-4 text-xs text-slate-500">1h (se jornada diária &gt; 6h)</td>
+                    <td className="px-6 py-4 text-xs text-emerald-600 font-bold text-right">Hora de 52m30s + Adicional de 20%</td>
+                  </tr>
+                  <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
+                    <td className="px-6 py-4 font-semibold text-slate-900 dark:text-slate-100">Escala Especial 12x36</td>
+                    <td className="px-6 py-4 text-xs text-slate-500">12h contínuas de labor</td>
+                    <td className="px-6 py-4 text-xs text-slate-500">36h consecutivas de folga</td>
+                    <td className="px-6 py-4 text-xs text-slate-500 text-right">Previsto em convenção coletiva ou lei</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
-          </div>
 
-          {/* REFERÊNCIAS OFICIAIS */}
-          <div className="mt-12 pt-8 border-t border-slate-200 dark:border-slate-800 print:hidden not-prose bg-slate-50 dark:bg-slate-900 p-6 rounded-xl">
-              <h3 className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-4 flex items-center gap-2">
-                  <Landmark size={16} /> Base Legal (CLT)
-              </h3>
-              <p className="text-xs text-slate-500 dark:text-slate-400 mb-3">Saiba onde estão seus direitos:</p>
-              <div className="flex flex-wrap gap-4 text-xs font-medium text-blue-600 dark:text-blue-400">
-                  <a href="https://www.planalto.gov.br/ccivil_03/decreto-lei/del5452.htm" target="_blank" rel="nofollow noopener noreferrer" className="hover:underline flex items-center gap-1 bg-white dark:bg-slate-800 px-3 py-1 rounded border dark:border-slate-700 shadow-sm">
-                      CLT - Artigo 58 (Jornada) <ExternalLink size={10}/>
-                  </a>
-                  <a href="https://www.planalto.gov.br/ccivil_03/decreto-lei/del5452.htm" target="_blank" rel="nofollow noopener noreferrer" className="hover:underline flex items-center gap-1 bg-white dark:bg-slate-800 px-3 py-1 rounded border dark:border-slate-700 shadow-sm">
-                      CLT - Artigo 71 (Intervalos) <ExternalLink size={10}/>
-                  </a>
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white mt-10 mb-6 border-l-4 border-indigo-500 pl-4">
+              Incrível Impacto da Regra Trabalhista de Tolerância
+            </h2>
+
+            <p>
+              Muitos trabalhadores desconhecem a famosa regra de tolerância do ponto contida na CLT. 
+            </p>
+
+            <p>
+              Imagine que você atrasou 4 minutos na sua entrada da manhã e, para compensar, resolveu sair 5 minutos mais tarde no fim do expediente. 
+            </p>
+
+            <p>
+              A verdade é que esses pequenos minutos somam 9 minutos de oscilação total no dia. 
+            </p>
+
+            <p>
+              Como essa variação ficou dentro do limite de tolerância legal diário de até **10 minutos**, o seu salário permanece intocado. Nenhuma empresa pode descontar esse atraso, assim como não é obrigada a pagar esse pequeno excedente como hora extra.
+            </p>
+
+            <p>
+              Mas fique muito atento! Se essa variação somar **11 minutos**, a tolerância de 10 minutos é anulada retroativamente, fazendo com que todo o período de variação seja cobrado no banco de horas.
+            </p>
+
+            <h3 className="text-xl font-bold text-slate-800 dark:text-slate-200 mt-8 mb-4">
+              A Diferença Oculta do Adicional Noturno Reduzido
+            </h3>
+
+            <p>
+              Se a sua rotina de trabalho como trabalhador clt avança pelo período noturno, existe uma regra fascinante que funciona como um bônus de tempo legal.
+            </p>
+
+            <p>
+              O melhor de tudo? Na jornada noturna (22h às 5h), a hora legal não dura 60 minutos, mas sim **52 minutos e 30 segundos**.
+            </p>
+
+            <p>
+              Isso significa que, na prática, ao trabalhar 7 horas de relógio no período noturno, o seu empregador é obrigado a computar e pagar **8 horas normais** no seu holerite!
+            </p>
+
+            <p>
+              E quer saber mais? Adicionalmente, sobre esse tempo recai o acréscimo financeiro obrigatório de no mínimo 20% do Adicional Noturno.
+            </p>
+
+            <h3 className="text-xl font-bold text-slate-800 dark:text-slate-200 mt-8 mb-4">
+              Como Blindar Seus Direitos de Ponto na Prática
+            </h3>
+
+            <p>
+              Para assegurar que seus cálculos estejam sempre corretos, utilize nosso simulador de ponto diário de forma consistente. 
+            </p>
+
+            <p>
+              Anotar as entradas e saídas em um bloco de notas pessoal ou aplicativo de banco de horas de forma paralela dá a você o poder do contra-argumento legal contra eventuais falhas do sistema de cartão de ponto biométrico ou digital da empresa.
+            </p>
+
+            {/* SEÇÃO FAQ COM 7 DÚVIDAS REAIS (MANDATORY RULE 5) */}
+            <div className="mt-16 not-prose">
+              <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-8 flex items-center gap-3 border-b border-slate-200 dark:border-slate-800 pb-4">
+                  <HelpCircle className="text-indigo-500" /> Perguntas Frequentes
+              </h2>
+              
+              <div className="space-y-4">
+                {faqList.map((item, idx) => (
+                    <details key={idx} className="group bg-white dark:bg-slate-900 p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm cursor-pointer open:ring-1 open:ring-indigo-100 dark:open:ring-indigo-900/30 transition-all">
+                        <summary className="font-semibold text-slate-800 dark:text-slate-100 list-none flex justify-between items-center select-none">
+                            <div className="flex items-start gap-3">
+                                <span className="text-indigo-500 dark:text-indigo-400 font-bold text-xs mt-1">#</span>
+                                <span className="leading-snug text-slate-800 dark:text-slate-200">{item.q}</span>
+                            </div>
+                            <span className="text-slate-400 group-open:rotate-180 transition-transform ml-2 shrink-0">▼</span>
+                        </summary>
+                        <p className="mt-3 text-slate-600 dark:text-slate-300 leading-relaxed border-t border-slate-100 dark:border-slate-800 pt-3 text-sm">
+                            {item.a}
+                        </p>
+                    </details>
+                ))}
               </div>
-          </div>
-          
-          <ExpertSignature updatedAt="Maio de 2026" author="Equipe Editorial" />
-        </div>
+            </div>
 
+            {/* REFERÊNCIAS OFICIAIS */}
+            <div className="mt-12 pt-8 border-t border-slate-200 dark:border-slate-800 print:hidden not-prose bg-slate-50 dark:bg-slate-900 p-6 rounded-xl">
+                <h3 className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-4 flex items-center gap-2">
+                    <Landmark size={16} /> Base Legal (CLT)
+                </h3>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mb-3">Saiba onde estão seus direitos:</p>
+                <div className="flex flex-wrap gap-4 text-xs font-medium text-blue-600 dark:text-blue-400">
+                    <a href="https://www.planalto.gov.br/ccivil_03/decreto-lei/del5452.htm" target="_blank" rel="nofollow noopener noreferrer" className="hover:underline flex items-center gap-1 bg-white dark:bg-slate-800 px-3 py-1 rounded border dark:border-slate-700 shadow-sm">
+                        CLT - Artigo 58 (Jornada) <ExternalLink size={10}/>
+                    </a>
+                    <a href="https://www.planalto.gov.br/ccivil_03/decreto-lei/del5452.htm" target="_blank" rel="nofollow noopener noreferrer" className="hover:underline flex items-center gap-1 bg-white dark:bg-slate-800 px-3 py-1 rounded border dark:border-slate-700 shadow-sm">
+                        CLT - Artigo 71 (Intervalos) <ExternalLink size={10}/>
+                    </a>
+                </div>
+            </div>
+            
+            <ExpertSignature updatedAt="Maio de 2026" author="Rodrigo Costa (Analista de Sistemas)" />
+          </div>
+
+        <SmartGlossaryLinker currentHref="/trabalhista/horas-trabalhadas" />
         <SmartCrossLinker currentHref="/trabalhista/horas-trabalhadas" category="trabalhista" />
 
         {/* --- ANÚNCIO BOTTOM (ESTRATÉGICO) --- */}

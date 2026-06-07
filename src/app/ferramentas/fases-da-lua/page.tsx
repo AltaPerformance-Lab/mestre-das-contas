@@ -4,6 +4,9 @@ import ModernCalendar from "@/components/ui/ModernCalendar";
 import LazyAdUnit from "@/components/ads/LazyAdUnit";
 import PageHeader from "@/components/layout/PageHeader";
 import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
+import SmartGlossaryLinker from "@/components/layout/SmartGlossaryLinker";
+import GlossaryTerm from "@/components/ui/GlossaryTerm";
+import ExpertSignature from "@/components/ui/ExpertSignature";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
 import DisclaimerBox from "@/components/ui/DisclaimerBox";
 import { 
@@ -18,7 +21,7 @@ import { getMoonPhase, formatMoonDate } from "@/lib/calculators/moon";
 // --- 1. METADATA DINÂMICA (SEO MAXIMIZADO) ---
 export async function generateMetadata(): Promise<Metadata> {
   const title = "Calendário Lunar 2026 (Grátis) | Fases da Lua e Eclipses";
-  const description = "O guia definitivo do Calendário Lunar 2026. Acompanhe a fase da lua de hoje, eclipses, teoria solunar para pesca e agricultura biodinâmica. Grátis.";
+  const description = "Quer saber qual é a fase da lua de hoje e a influência dela no seu dia a dia? Confira o Calendário Lunar 2026 completo, eclipses e teoria solunar grátis!";
 
   return {
     title,
@@ -29,8 +32,7 @@ export async function generateMetadata(): Promise<Metadata> {
     ],
     alternates: { canonical: "https://mestredascontas.com.br/ferramentas/fases-da-lua" },
     openGraph: {
-      title: "Calendário Lunar 2026 | Fases da Lua e Eclipses",
-      description: "Confira a fase da lua de hoje, calendário completo de 2026 e datas de eclipses.",
+      title,
       url: "https://mestredascontas.com.br/ferramentas/fases-da-lua",
       siteName: "Mestre das Contas",
       locale: "pt_BR",
@@ -47,11 +49,21 @@ export async function generateMetadata(): Promise<Metadata> {
     twitter: {
       card: "summary_large_image",
       title: "Calendário Lunar 2026 Completo",
-      description: "Veja as fases da lua e eventos astronômicos de 2026.",
       images: ["/opengraph-image"],
     }
   };
 }
+
+// --- FAQ LIST (SCHEMA ROBUSTO PARA RICH SNIPPETS) ---
+const faqList = [
+  { p: "Como descobrir qual é a fase da lua de hoje?", r: "Você pode utilizar nossa ferramenta interativa no topo desta página. Nosso calendário lunar consulta um algoritmo astronômico para informar com precisão absoluta a fase, a iluminação percentual e os dias restantes para o próximo ciclo lunar, baseado no fuso horário do Brasil." },
+  { p: "O que significa 'Maré de Sizígia' e 'Maré de Quadratura'?", r: "Sizígia ocorre nas Luas Nova e Cheia. O Sol e a Lua alinham suas atrações gravitacionais sobre a Terra, causando as maiores amplitudes de maré (marés muito altas e muito baixas). A Quadratura ocorre nas fases Crescentes e Minguantes, quando o Sol e a Lua formam um ângulo de 90 graus em relação à Terra, cancelando parte da gravidade um do outro e resultando em marés brandas, conhecidas como 'marés mortas'." },
+  { p: "A gravidade da Lua afeta os seres humanos já que somos feitos de água?", r: "Embora o corpo humano seja composto por cerca de 60% de água, o volume total de líquido é minúsculo comparado aos oceanos. A força gravitacional da lua atua sobre massas, portanto, seu efeito físico direto nos líquidos do corpo humano é estatisticamente nulo. As influências da lua no comportamento humano estão mais ligadas à evolução biológica perante a luminosidade do que à atração gravitacional." },
+  { p: "Qual é a melhor fase da lua para cortar o cabelo?", r: "Tradicionalmente, a Lua Crescente é ideal para fazer o cabelo crescer mais rápido, a Cheia para dar volume e encorpar os fios, a Minguante para reduzir o volume e retardar o crescimento, e a Nova para fortalecer a raiz. Embora não haja comprovação científica biomédica, o ciclo lunar é amplamente utilizado como cronograma capilar." },
+  { p: "Como as fases da lua influenciam na agricultura?", r: "A atração gravitacional e a luminosidade afetam o comportamento da seiva das plantas. Na Crescente e Cheia, a seiva sobe para os ramos e folhas, sendo ótimo para plantar culturas que dão frutos acima do solo (tomate, milho). Na Minguante e Nova, a seiva desce para as raízes, sendo a época ideal para adubação, podas e plantio de tubérculos (cenoura, mandioca)." },
+  { p: "O que é o ciclo sinódico (lunação) e quanto tempo dura?", r: "O ciclo sinódico, ou lunação, é o período de tempo decorrido entre duas luas novas consecutivas. Esse ciclo dura exatamente 29 dias, 12 horas, 44 minutos e 2,9 segundos, sendo o período necessário para que a lua complete todas as suas 8 fases em relação ao alinhamento da Terra e do Sol." },
+  { p: "O que causa um eclipse lunar e quando ocorrem?", r: "Um eclipse lunar ocorre quando a Terra se alinha exatamente entre o Sol e a Lua, projetando sua sombra na superfície lunar. Pode ser total, parcial ou penumbral. Acontecem cerca de duas a cinco vezes por ano, apenas durante a fase da Lua Cheia, dependendo do alinhamento dos nós da órbita lunar com a eclíptica." }
+];
 
 export default async function MoonPhasesPage() {
 
@@ -75,13 +87,13 @@ export default async function MoonPhasesPage() {
         "dateModified": new Date().toISOString()
       },
       {
-      "@type": "FAQPage",
-      "mainEntity": [
-        { "@type": "Question", "name": "Como descobrir qual é a fase da lua de hoje?", "acceptedAnswer": { "@type": "Answer", "text": "Você pode utilizar nossa ferramenta interativa no topo desta página. Nosso calendário lunar consulta um algoritmo astronômico para informar com precisão absoluta a fase, a iluminação percentual e os dias restantes para o próximo ciclo lunar, baseado no fuso horário do Brasil." } },
-        { "@type": "Question", "name": "O que significa 'Maré de Sizígia' e 'Maré de Quadratura'?", "acceptedAnswer": { "@type": "Answer", "text": "Sizígia ocorre nas Luas Nova e Cheia. O Sol e a Lua alinham suas atrações gravitacionais sobre a Terra, causando as maiores amplitudes de maré (marés muito altas e muito baixas). A Quadratura ocorre nas fases Crescentes e Minguantes, quando o Sol e a Lua formam um ângulo de 90 graus em relação à Terra, cancelando parte da gravidade um do outro e resultando em marés brandas, conhecidas como 'marés mortas'." } },
-        { "@type": "Question", "name": "A gravidade da Lua afeta os seres humanos já que somos feitos de água?", "acceptedAnswer": { "@type": "Answer", "text": "Essa é uma das dúvidas mais comuns. Embora o corpo humano seja composto por cerca de 60% de água, o volume total de líquido é minúsculo comparado aos oceanos. A força gravitacional da lua atua sobre *massas*, portanto, seu efeito físico direto nos líquidos do corpo humano é estatisticamente nulo. As influências da lua no comportamento humano (como no sono) estão mais ligadas à evolução biológica perante a luminosidade do que à atração gravitacional em si." } }
-      ]
-    }
+        "@type": "FAQPage",
+        "mainEntity": faqList.map(item => ({
+          "@type": "Question",
+          "name": item.p,
+          "acceptedAnswer": { "@type": "Answer", "text": item.r }
+        }))
+      }
     ]
   };
 
@@ -225,6 +237,61 @@ export default async function MoonPhasesPage() {
                 </div>
             </div>
 
+            {/* TABELA COMPARATIVA LUNAR (OBRIGATÓRIA & RESPONSIVA) */}
+            <div className="not-prose my-12 w-full">
+              <h3 className="text-xl md:text-2xl font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
+                <Activity className="text-indigo-600" /> Tabela Comparativa de Fases e Impactos
+              </h3>
+              <div className="overflow-x-auto w-full rounded-2xl border border-slate-200 dark:border-slate-800 shadow-md">
+                <table className="w-full min-w-[750px] text-sm text-left border-collapse">
+                  <thead className="bg-slate-900 text-white dark:bg-slate-950 uppercase text-xs tracking-wider">
+                    <tr>
+                      <th className="px-6 py-4 font-bold">Fase Principal</th>
+                      <th className="px-6 py-4 font-bold">Iluminação Média</th>
+                      <th className="px-6 py-4 font-bold">Efeito nas Marés</th>
+                      <th className="px-6 py-4 font-bold">Influência Agrícola (Seiva)</th>
+                      <th className="px-6 py-4 font-bold">Corte de Cabelo (Tradição)</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-slate-700 dark:text-slate-300">
+                    <tr className="bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                      <td className="px-6 py-4 font-bold flex items-center gap-2"><Moon size={16}/> Lua Nova</td>
+                      <td className="px-6 py-4">0% (Invisível)</td>
+                      <td className="px-6 py-4 font-semibold text-rose-600 dark:text-rose-400">Sizígia (Altas Amplitudes)</td>
+                      <td className="px-6 py-4">Seiva concentrada nas raízes e no solo úmido</td>
+                      <td className="px-6 py-4">Fortalecimento e combate à queda</td>
+                    </tr>
+                    <tr className="bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700/50 transition-colors">
+                      <td className="px-6 py-4 font-bold flex items-center gap-2"><MoonStar size={16}/> Lua Crescente</td>
+                      <td className="px-6 py-4">50% (Metade Direita)</td>
+                      <td className="px-6 py-4 text-slate-500">Quadratura (Marés Mortas/Brandas)</td>
+                      <td className="px-6 py-4">Seiva subindo para caules e ramos das folhas</td>
+                      <td className="px-6 py-4 font-semibold text-emerald-600 dark:text-emerald-400">Acelera o crescimento dos fios</td>
+                    </tr>
+                    <tr className="bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                      <td className="px-6 py-4 font-bold flex items-center gap-2"><Sparkles size={16} className="text-amber-500"/> Lua Cheia</td>
+                      <td className="px-6 py-4">100% (Brilho Máximo)</td>
+                      <td className="px-6 py-4 font-semibold text-rose-600 dark:text-rose-400">Sizígia (Altas Amplitudes)</td>
+                      <td className="px-6 py-4">Seiva concentrada na copa, folhas e frutos</td>
+                      <td className="px-6 py-4 font-semibold text-indigo-600 dark:text-indigo-400">Aumenta o volume e encorpa os fios</td>
+                    </tr>
+                    <tr className="bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700/50 transition-colors">
+                      <td className="px-6 py-4 font-bold flex items-center gap-2"><Moon size={16} className="scale-x-[-1]"/> Lua Minguante</td>
+                      <td className="px-6 py-4">50% (Metade Esquerda)</td>
+                      <td className="px-6 py-4 text-slate-500">Quadratura (Marés Mortas/Brandas)</td>
+                      <td className="px-6 py-4">Seiva descendo em direção ao caule e raízes</td>
+                      <td className="px-6 py-4">Retarda crescimento, reduz volume</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div className="text-center mt-2">
+                <span className="inline-block text-xs text-slate-400 dark:text-slate-500 italic bg-slate-100 dark:bg-slate-900 px-3 py-1 rounded-full">
+                  ↔️ Role a tabela horizontalmente caso esteja em um dispositivo móvel.
+                </span>
+              </div>
+            </div>
+
             {/* APLICAÇÕES PRÁTICAS - CIÊNCIA E SABEDORIA */}
             <h3 className="text-3xl font-bold text-slate-800 dark:text-slate-100 mt-14 mb-8 border-b border-slate-200 dark:border-slate-800 pb-4">A Influência Lunar na Prática</h3>
 
@@ -287,48 +354,48 @@ export default async function MoonPhasesPage() {
                     Ouvimos muito sobre o "lado negro" ou oculto da lua, imortalizado pela cultura pop. Mas a verdade astronômica é impressionante: devido à <strong>Rotação Síncrona</strong>, o tempo que a Lua leva para girar no seu próprio eixo (seu dia) é exatamente o mesmo tempo que ela leva para orbitar a Terra (seu ano). É por isso que, olhando daqui, nós <em>sempre</em> vemos as exatas mesmas crateras. O lado oculto recebe tanta luz solar quanto o lado visível, ele apenas guarda o segredo de nunca revelar seu rosto para nós.
                 </p>
             </div>
-
-            {/* FAQ OTIMIZADO PARA PAA (People Also Ask) DO GOOGLE */}
-            <div className="mt-16 not-prose">
-                <h2 className="text-3xl font-bold text-slate-900 dark:text-slate-100 mb-8 flex items-center gap-3">
-                    <HelpCircle className="text-indigo-600 dark:text-indigo-400" /> Perguntas Frequentes
-                </h2>
-                <div className="grid gap-4">
-                    <details className="group bg-white dark:bg-slate-800/40 p-6 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm cursor-pointer open:ring-2 open:ring-indigo-100 dark:open:ring-indigo-900/30 transition-all">
-                        <summary className="text-lg font-bold text-slate-800 dark:text-slate-100 flex justify-between items-center list-none select-none">
-                            Como descobrir qual é a fase da lua de hoje?
-                            <span className="text-slate-400 group-open:rotate-180 transition-transform duration-300">▼</span>
-                        </summary>
-                        <p className="mt-4 text-slate-600 dark:text-slate-300 leading-relaxed border-t border-slate-100 dark:border-slate-700 pt-4">
-                            Você pode utilizar nossa ferramenta interativa no topo desta página. Nosso calendário lunar consulta um algoritmo astronômico para informar com precisão absoluta a fase, a iluminação percentual e os dias restantes para o próximo ciclo lunar, baseado no fuso horário do Brasil.
-                        </p>
-                    </details>
-
-                    <details className="group bg-white dark:bg-slate-800/40 p-6 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm cursor-pointer open:ring-2 open:ring-indigo-100 dark:open:ring-indigo-900/30 transition-all">
-                        <summary className="text-lg font-bold text-slate-800 dark:text-slate-100 flex justify-between items-center list-none select-none">
-                            O que significa "Maré de Sizígia" e "Maré de Quadratura"?
-                            <span className="text-slate-400 group-open:rotate-180 transition-transform duration-300">▼</span>
-                        </summary>
-                        <p className="mt-4 text-slate-600 dark:text-slate-300 leading-relaxed border-t border-slate-100 dark:border-slate-700 pt-4">
-                            <strong>Sizígia</strong> ocorre nas Luas Nova e Cheia. O Sol e a Lua alinham suas atrações gravitacionais sobre a Terra, causando as maiores amplitudes de maré (marés muito altas e muito baixas). A <strong>Quadratura</strong> ocorre nas fases Crescentes e Minguantes, quando o Sol e a Lua formam um ângulo de 90 graus em relação à Terra, cancelando parte da gravidade um do outro e resultando em marés brandas, conhecidas como "marés mortas".
-                        </p>
-                    </details>
-
-                    <details className="group bg-white dark:bg-slate-800/40 p-6 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm cursor-pointer open:ring-2 open:ring-indigo-100 dark:open:ring-indigo-900/30 transition-all">
-                        <summary className="text-lg font-bold text-slate-800 dark:text-slate-100 flex justify-between items-center list-none select-none">
-                            A gravidade da Lua afeta os seres humanos já que somos feitos de água?
-                            <span className="text-slate-400 group-open:rotate-180 transition-transform duration-300">▼</span>
-                        </summary>
-                        <p className="mt-4 text-slate-600 dark:text-slate-300 leading-relaxed border-t border-slate-100 dark:border-slate-700 pt-4">
-                            Essa é uma das dúvidas mais comuns. Embora o corpo humano seja composto por cerca de 60% de água, o volume total de líquido é minúsculo comparado aos oceanos. A força gravitacional da lua atua sobre *massas*, portanto, seu efeito físico direto nos líquidos do corpo humano é estatisticamente nulo. As influências da lua no comportamento humano (como no sono) estão mais ligadas à evolução biológica perante a luminosidade do que à atração gravitacional em si.
-                        </p>
-                    </details>
-                </div>
-            </div>
-
         </div>
 
+        <ExpertSignature author="Equipe Editorial" updatedAt="Junho de 2026" />
+
+        <SmartGlossaryLinker currentHref="/ferramentas/fases-da-lua" />
+
         <SmartCrossLinker currentHref="/ferramentas/fases-da-lua" category="ferramentas" />
+
+        {/* FAQ OTIMIZADO PARA PAA (People Also Ask) DO GOOGLE */}
+        <section className="w-full max-w-4xl mx-auto mt-8">
+          <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl p-6 md:p-12">
+            <h2 className="text-3xl font-bold text-slate-900 dark:text-slate-100 mb-2 flex items-center gap-3">
+              <HelpCircle className="text-indigo-600 dark:text-indigo-400" size={32} /> Perguntas Frequentes Resolvidas
+            </h2>
+            <p className="text-sm text-slate-500 dark:text-slate-400 mb-8">
+              Encontre respostas oficiais e suporte técnico para as suas dúvidas sobre o calendário lunar.
+            </p>
+            <div className="space-y-4 not-prose">
+              {faqList.map((item, idx) => (
+                <details 
+                  key={idx} 
+                  className="group border border-slate-200 dark:border-slate-800 rounded-2xl bg-white dark:bg-slate-900/50 transition-all duration-300 overflow-hidden"
+                >
+                  <summary className="flex items-center justify-between p-5 text-base font-bold text-slate-800 dark:text-slate-200 cursor-pointer list-none select-none hover:bg-slate-50 dark:hover:bg-slate-800/30">
+                    <div className="flex items-start gap-3">
+                      <span className="text-indigo-600 dark:text-indigo-400 font-black text-sm mt-0.5">#{idx + 1}</span>
+                      <span className="leading-snug">{item.p}</span>
+                    </div>
+                    <span className="transition-transform duration-300 group-open:rotate-180 text-indigo-500">
+                      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </span>
+                  </summary>
+                  <div className="p-5 border-t border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/20 text-sm leading-relaxed text-slate-600 dark:text-slate-400">
+                    {item.r}
+                  </div>
+                </details>
+              ))}
+            </div>
+          </div>
+        </section>
 
         {/* ANÚNCIO FINAL */}
         <div className="w-full flex justify-center my-8 print:hidden min-h-[250px]">

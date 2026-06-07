@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getMarcas, createSlugWithId } from "@/lib/fipeApi";
 import PageHeader from "@/components/layout/PageHeader";
-import { Search, ShieldCheck, HelpCircle, FileText, ArrowRight } from "lucide-react";
+import { Search, ShieldCheck, HelpCircle, FileText, ArrowRight, TrendingUp } from "lucide-react";
 import LazyAdUnit from "@/components/ads/LazyAdUnit";
 import SmartCrossLinker from "@/components/layout/SmartCrossLinker";
 import ExpertSignature from "@/components/ui/ExpertSignature";
@@ -51,6 +51,37 @@ export default async function FipeMarcasPage({ params }: PageProps) {
   // Sort alphabetically by name
   marcas.sort((a, b) => a.nome.localeCompare(b.nome));
 
+  const faqList = [
+    {
+      q: "Como as marcas influenciam no valor de revenda da FIPE?",
+      a: "Marcas consolidadas com alto volume de vendas (como Fiat, Chevrolet e Volkswagen) possuem ampla rede de concessionárias e peças baratas, o que garante excelente liquidez de mercado e menor desvalorização na FIPE."
+    },
+    {
+      q: "Marcas importadas possuem maior depreciação do que as nacionais?",
+      a: "Sim, via de regra marcas importadas de menor volume de circulação sofrem depreciação nominal e real mais acentuada nos primeiros anos, devido a custos de manutenção preventiva mais elevados e peças importadas exclusivas."
+    },
+    {
+      q: "O que acontece com a cotação FIPE se uma marca deixa de fabricar no Brasil?",
+      a: "Quando uma montadora encerra suas linhas de produção nacionais, o mercado reage com receio de escassez de peças e desativação das redes autorizadas, causando depreciação acentuada e abrupta nos valores da Tabela FIPE."
+    },
+    {
+      q: "Quais são as montadoras mais vendidas e com maior liquidez?",
+      a: "No Brasil, montadoras tradicionais como Chevrolet, Volkswagen, Fiat e Toyota são consideradas as 'queridinhas' de revenda, sustentando excelente retenção de valor no mercado de seminovos e usados."
+    },
+    {
+      q: "Como a rede de concessionárias afeta a estabilidade dos preços?",
+      a: "Uma marca com dezenas de autorizadas ativas em todo o território garante facilidade de diagnóstico, mão de obra treinada e facilidade de repasse, o que atua como barreira natural contra a desvalorização excessiva."
+    },
+    {
+      q: "Carros de marcas premium sofrem maior desvalorização nominal?",
+      a: "Sim, carros de luxo (como BMW, Audi e Mercedes-Benz) desvalorizam nominalmente de forma bem mais rápida nos primeiros anos, porque o público de usados prioriza economia absoluta de aquisição e manutenção."
+    },
+    {
+      q: "Como a reputação da marca afeta a Tabela FIPE?",
+      a: "Marcas conhecidas por robustez mecânica (como Toyota e Honda) têm valorização histórica muito forte no índice, sendo comercializadas frequentemente muito próximas ou até acima do valor médio nacional FIPE."
+    }
+  ];
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
@@ -62,16 +93,11 @@ export default async function FipeMarcasPage({ params }: PageProps) {
       },
       {
         "@type": "FAQPage",
-        "mainEntity": [
-          {
-            "@type": "Question",
-            "name": `Como funciona a desvalorização entre diferentes marcas de ${tipo}?`,
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Marcas com maior volume de vendas e ampla rede de concessionárias (como Fiat, Chevrolet, Volkswagen e Toyota) costumam apresentar maior liquidez e menor desvalorização anual no mercado de seminovos."
-            }
-          }
-        ]
+        "mainEntity": faqList.map(item => ({
+          "@type": "Question",
+          "name": item.q,
+          "acceptedAnswer": { "@type": "Answer", "text": item.a }
+        }))
       }
     ]
   };
@@ -137,8 +163,8 @@ export default async function FipeMarcasPage({ params }: PageProps) {
 
         {/* DEEP SEO CONTENT */}
         <div className="prose prose-slate dark:prose-invert prose-sm md:prose-lg max-w-none bg-white dark:bg-slate-900 p-6 md:p-10 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden w-full">
-          <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6 border-l-4 border-blue-600 pl-4">
-            Como a Marca Influencia na Desvalorização de {tipoName}
+          <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6 border-l-4 border-blue-600 pl-4 flex items-center gap-2">
+            <TrendingUp className="text-blue-500" /> Como a Marca Influencia na Desvalorização de {tipoName}
           </h2>
           
           <p className="text-base text-slate-600 dark:text-slate-400 leading-relaxed mb-6">
@@ -164,6 +190,48 @@ export default async function FipeMarcasPage({ params }: PageProps) {
               </p>
             </div>
           </div>
+
+          {/* TABELA DE COMPARAÇÃO DE BRANDS (HTML PURO RESPONSIVO) */}
+          <div className="not-prose my-10 border rounded-xl overflow-hidden border-slate-200 dark:border-slate-700 shadow-sm bg-white dark:bg-slate-900">
+              <div className="bg-slate-100 dark:bg-slate-800 p-4 border-b border-slate-200 dark:border-slate-700">
+                  <h4 className="text-sm font-bold text-slate-750 dark:text-slate-250 uppercase tracking-wide flex items-center gap-2">
+                      <TrendingUp size={16} /> Índice Geral de Depreciação de Marcas Seminovo
+                  </h4>
+              </div>
+              
+              <div className="overflow-x-auto w-full">
+                  <table className="w-full text-sm text-left border-collapse min-w-[600px]">
+                      <thead className="bg-slate-50 dark:bg-slate-800/50 text-slate-600 dark:text-slate-300 text-xs uppercase tracking-wider">
+                          <tr>
+                              <th className="px-6 py-4 font-bold border-b border-slate-200 dark:border-slate-700">Grupo de Marcas</th>
+                              <th className="px-6 py-4 font-bold border-b border-slate-200 dark:border-slate-700">Depreciação Típica</th>
+                              <th className="px-6 py-4 font-bold border-b border-slate-200 dark:border-slate-700">Principais Exemplos</th>
+                              <th className="px-6 py-4 font-bold border-b border-slate-200 dark:border-slate-700">Custo de Manutenção</th>
+                          </tr>
+                      </thead>
+                      <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-slate-700 dark:text-slate-300">
+                          <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors">
+                              <td className="px-6 py-4 font-bold text-slate-800 dark:text-slate-100">Volume Geral</td>
+                              <td className="px-6 py-4 font-mono font-bold text-rose-500">9% a 12% ao ano</td>
+                              <td className="px-6 py-4">Fiat, Chevrolet, Volkswagen, Hyundai</td>
+                              <td className="px-6 py-4 text-green-600 dark:text-green-400 font-bold">Baixo</td>
+                          </tr>
+                          <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors">
+                              <td className="px-6 py-4 font-bold text-slate-800 dark:text-slate-100">Retenção Premium</td>
+                              <td className="px-6 py-4 font-mono font-bold text-green-600 dark:text-green-400">6% a 8% ao ano</td>
+                              <td className="px-6 py-4">Toyota, Honda</td>
+                              <td className="px-6 py-4 text-yellow-600 dark:text-yellow-500 font-bold">Médio</td>
+                          </tr>
+                          <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors">
+                              <td className="px-6 py-4 font-bold text-slate-800 dark:text-slate-100">Luxo Importado</td>
+                              <td className="px-6 py-4 font-mono font-bold text-rose-600">14% a 18% ao ano</td>
+                              <td className="px-6 py-4">BMW, Mercedes-Benz, Audi, Volvo</td>
+                              <td className="px-6 py-4 text-red-500 dark:text-red-400 font-bold">Alto</td>
+                          </tr>
+                      </tbody>
+                  </table>
+              </div>
+          </div>
         </div>
 
         {/* ACCORDION FAQ */}
@@ -173,27 +241,21 @@ export default async function FipeMarcasPage({ params }: PageProps) {
           </h3>
           
           <Accordion type="single" collapsible className="w-full">
-            <AccordionItem value="brand-faq-1">
-              <AccordionTrigger className="text-left font-semibold text-slate-800 dark:text-slate-200 hover:text-blue-600">
-                O que acontece se uma montadora encerra operações no Brasil?
-              </AccordionTrigger>
-              <AccordionContent className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-                Quando uma montadora deixa de fabricar localmente e passa a atuar apenas como importadora (ou encerra atividades totalmente), seus veículos costumam sofrer uma desvalorização abrupta na Tabela FIPE nos meses seguintes. O mercado reage com medo da escassez de peças de reposição e da desativação das redes autorizadas.
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="brand-faq-2">
-              <AccordionTrigger className="text-left font-semibold text-slate-800 dark:text-slate-200 hover:text-blue-600">
-                Quais marcas de motocicletas seguram melhor o preço?
-              </AccordionTrigger>
-              <AccordionContent className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-                No segmento de duas rodas, montadoras como Honda e Yamaha detêm mais de 80% de participação do mercado. Essa altíssima circulação garante uma liquidez imbatível, fazendo com que suas motocicletas mantenham valores de revenda consistentes no índice FIPE por muitos anos.
-              </AccordionContent>
-            </AccordionItem>
+            {faqList.map((item, idx) => (
+              <AccordionItem key={idx} value={`brand-faq-${idx}`}>
+                <AccordionTrigger className="text-left font-semibold text-slate-800 dark:text-slate-200 hover:text-blue-600">
+                  {item.q}
+                </AccordionTrigger>
+                <AccordionContent className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                  {item.a}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
           </Accordion>
         </div>
 
         {/* EXPERT SIGNATURE */}
-        <ExpertSignature updatedAt="Maio de 2026" author="Equipe Editorial" />
+        <ExpertSignature updatedAt="Junho de 2026" author="Equipe Editorial" />
 
         <SmartCrossLinker currentHref={`/veiculos/tabela-fipe/${tipo}`} category="destaques" maxItems={3} />
 
