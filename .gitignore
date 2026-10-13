@@ -48,3 +48,7 @@ next-env.d.ts
 # templates and guides
 /MODELO_PAGINA_PADRAO.tsx
 /DIRETRIZES_PAGINAS.md
+# SST
+.sst
+.open-next
+sst-env.d.ts

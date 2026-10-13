@@ -1,7 +1,7 @@
 import OgTemplate from "@/components/og/OgTemplate";
 import { receiptCases } from "@/data/receipt-cases";
 
-export const runtime = 'edge';
+// export const runtime = 'edge';
 
 export default async function Image({ params }: { params: { slug: string } }) {
     const slug = params.slug;

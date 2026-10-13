@@ -90,7 +90,7 @@ export const metadata: Metadata = {
     statusBarStyle: "default",
   },
   other: {
-    ...(process.env.NEXT_PUBLIC_ADSENSE_ID ? { "google-adsense-account": `ca-pub-${process.env.NEXT_PUBLIC_ADSENSE_ID}` } : {}),
+    ...(process.env.NEXT_PUBLIC_ADSENSE_ID ? { "google-adsense-account": `ca-pub-${process.env.NEXT_PUBLIC_ADSENSE_ID.replace(/^(ca-)?pub-/, "")}` } : {}),
     "facebook-domain-verification": "seuvinculoaqui", // Opcional para anúncios no FB
   }
 };

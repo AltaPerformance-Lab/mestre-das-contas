@@ -131,7 +131,7 @@ export default function GoogleAd({
         ref={adRef}
         className="adsbygoogle"
         style={{ display: "block", width: "100%" }}
-        data-ad-client={`ca-pub-${process.env.NEXT_PUBLIC_ADSENSE_ID}`}
+        data-ad-client={`ca-pub-${(process.env.NEXT_PUBLIC_ADSENSE_ID || "").replace(/^(ca-)?pub-/, "")}`}
         data-ad-slot={slot}
         data-ad-format={format}
         data-full-width-responsive={responsive ? "true" : "false"}

@@ -1,7 +1,7 @@
 import OgTemplate from "@/components/og/OgTemplate";
 import { rentPSeoCases } from "@/data/rent-pseo";
 
-export const runtime = 'edge';
+// export const runtime = 'edge';
 
 export default async function Image({ params }: { params: { slug: string } }) {
     const slug = params.slug;

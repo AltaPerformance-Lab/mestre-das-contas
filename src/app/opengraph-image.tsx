@@ -1,7 +1,7 @@
 import { ImageResponse } from 'next/og'
 
 // Configurações da Imagem Social (Padrão OG)
-export const runtime = 'edge'
+// export const runtime = 'edge'
 export const alt = 'Mestre das Contas - Calculadoras Financeiras e Trabalhistas'
 export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'
